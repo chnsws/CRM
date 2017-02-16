@@ -1,1 +1,41 @@
-八点开会，别迟到
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 拖动（Draggable） - 默认功能</title>
+  <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+ <script src='http://libs.useso.com/js/jquery/1.11.0/jquery.min.js'></script>
+<script src='http://libs.useso.com/js/jqueryui/1.10.4/jquery-ui.min.js'></script>
+<link rel="stylesheet" href="jqueryui/style.css">
+  <style>
+  #draggable { width:150px; height: 150px; padding: 0.5em; }
+  #draggable1 { width:150px; height: 150px; padding: 0.5em; }
+  </style>
+  <script>
+  $(function() {
+    $( "#draggable" ).draggable();
+  });
+  </script>
+  <script>
+  $(function() {
+    $( "#draggable1" ).draggable();
+  });
+  </script>
+</head>
+<body>
+ 
+<div id="draggable" class="ui-widget-content">
+  <p>
+  <li>请拖动我！</li>
+  </p>
+
+</div>
+<div id="draggable1" class="ui-widget-content">
+  <p>
+  <li>别打击我！</li>
+  </p>
+</div>
+ 
+ 
+</body>
+</html>
