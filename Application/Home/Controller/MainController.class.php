@@ -3,8 +3,8 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class IndexController extends Controller {
-    public function index(){
+class MainController extends Controller {
+    public function main(){
         $this->display();
     }
 }
