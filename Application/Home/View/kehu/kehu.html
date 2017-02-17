@@ -25,8 +25,10 @@
 		  $(function() {
    				 $( "#tabs" ).tabs();
  		 });
-  		</script>
+  		</script><!-- 标签-->
 	
+		<link rel="stylesheet" href="{$_GET['public_dir']}/kehucss/xinzeng.css"><!--客户新增CSS-->
+		<script src="{$_GET['public_dir']}/kehujs/xinzeng.js"></script>          <!--客户JS-->
 	</head>
 
 	<body>
@@ -39,6 +41,8 @@
     <li><a href="#tabs-3">我下属的客户</a></li>
      <li><a href="#tabs-4">客户公海</a></li>
   
+<li style="margin-left:65%"><a href="javascript:void(0)" onclick="show('light')" >+新增客户</a></li>
+
   </ul>
   <div id="tabs-1">
    第一个
@@ -55,6 +59,26 @@
 </div>
  
  
+
+<a href="javascript:void(0)" onclick="show('light2')">打开2</a>
+<div id="light" class="white_content">
+      <div class="close"><a href="javascript:void(0)" onclick="hide('light')"> 关闭</a></div>
+      <div class="con"> 
+      		姓名：<input type="text" name="">
+      </div>
+</div>
+<div id="light2" class="white_content">
+      <div class="close"><a href="javascript:void(0)" onclick="hide('light2')"> 关闭</a></div>
+      <div class="con"> 
+      内容2 
+      </div>
+</div>
+<div id="fade" class="black_overlay"></div>
+
+
+
+
+
 	</body>
 
 </html>
