@@ -12,7 +12,7 @@ var navs = [{
 }, {
 	"title": "客户",
 	"icon": "fa-group",
-	"href": "https://www.baidu.com",
+	"href": "__URL__/../../Home/Kehu/kehu",
 	"spread": false,
 	
 }, {
