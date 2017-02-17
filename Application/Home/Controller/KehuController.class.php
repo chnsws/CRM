@@ -3,15 +3,12 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class IndexController extends Controller {
-    public function index(){
-    	$now_dir='aaa';
+class KehuController extends Controller {
+    public function kehu(){
+  
         $this->display();
     }
 
 
-    public function kehu(){//客户页面
-
-        $this->display();
-    }
+    
 }

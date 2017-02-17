@@ -12,7 +12,7 @@ var navs = [{
 }, {
 	"title": "客户",
 	"icon": "fa-group",
-	"href": "__URL__/../../Home/Kehu/kehu",
+	"href": "index.php/Home/Kehu/kehu",
 	"spread": false,
 	
 }, {
