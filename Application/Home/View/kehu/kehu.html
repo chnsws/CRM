@@ -25,10 +25,106 @@
 		  $(function() {
    				 $( "#tabs" ).tabs();
  		 });
+
   		</script><!-- 标签-->
-	
+			  <style>
+    			 body { font-size: 62.5%; }
+    			 li{overflow:hidden;}
+   				 label, input { float:left; }
+   				 label{ margin-bottom:12px; width:25%; padding: .8em 0em; text-align:right;}
+   				 input.text { margin-bottom:12px; width:55%; padding: .8em .4em; }
+    			 fieldset { padding:0; border:0; margin-top:25px; }
+  				 div#users-contain { width: 350px; margin: 20px 0; }
+   				 div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+   				 div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left;}
+    			.ui-dialog .ui-state-error { padding: .3em;}
+    			.validateTips { border: 1px solid transparent; padding: 0.3em;}
+    			.ui-dialog .ui-dialog-content {position: relative;border: 0;padding: 0em 0em;background: none;overflow: auto;margin-left:3em;}
+  			 </style>
+  			  <script>
+  $(function() {
+    var name = $( "#name" ),
+      email = $( "#email" ),
+      password = $( "#password" ),
+      allFields = $( [] ).add( name ).add( email ).add( password ),
+      tips = $( ".validateTips" );
+ 
+    function updateTips( t ) {
+      tips
+        .text( t )
+        .addClass( "ui-state-highlight" );
+      setTimeout(function() {
+        tips.removeClass( "ui-state-highlight", 1500 );
+      }, 500 );
+    }
+ 
+    function checkLength( o, n, min, max ) {
+      if ( o.val().length > max || o.val().length < min ) {
+        o.addClass( "ui-state-error" );
+        updateTips( "" + n + " 的长度必须在 " +
+          min + " 和 " + max + " 之间。" );
+        return false;
+      } else {
+        return true;
+      }
+    }
+ 
+    function checkRegexp( o, regexp, n ) {
+      if ( !( regexp.test( o.val() ) ) ) {
+        o.addClass( "ui-state-error" );
+        updateTips( n );
+        return false;
+      } else {
+        return true;
+      }
+    }
+ 
+    $( "#dialog-form" ).dialog({
+      autoOpen: false,
+      height: 600,
+      width: 450,
+      modal: true,
+      buttons: {
+        "确认添加": function() {
+          var bValid = true;
+          allFields.removeClass( "ui-state-error" );
+ 
+          bValid = bValid && checkLength( name, "username", 3, 16 );
+          bValid = bValid && checkLength( email, "email", 6, 80 );
+          bValid = bValid && checkLength( password, "password", 5, 16 );
+ 
+          bValid = bValid && checkRegexp( name, /^[a-z]([0-9a-z_])+$/i, "用户名必须由 a-z、0-9、下划线组成，且必须以字母开头。" );
+          // From jquery.validate.js (by joern), contributed by Scott Gonzalez: http://projects.scottsplayground.com/email_address_validation/
+          bValid = bValid && checkRegexp( email, /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i, "eg. ui@jquery.com" );
+          bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "密码字段只允许： a-z 0-9" );
+ 
+          if ( bValid ) {
+            $( "#users tbody" ).append( "<tr>" +
+              "<td>" + name.val() + "</td>" +
+              "<td>" + email.val() + "</td>" +
+              "<td>" + password.val() + "</td>" +
+            "</tr>" );
+            $( this ).dialog( "close" );
+          }
+        },
+        取消: function() {
+          $( this ).dialog( "close" );
+        }
+      },
+      close: function() {
+        allFields.val( "" ).removeClass( "ui-state-error" );
+      }
+    });
+ 
+    $( "#create-user" )
+      .button()
+      .click(function() {
+        $( "#dialog-form" ).dialog( "open" );
+      });
+  });
+  </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/kehucss/xinzeng.css"><!--客户新增CSS-->
-		<script src="{$_GET['public_dir']}/kehujs/xinzeng.js"></script>          <!--客户JS-->
+		
 	</head>
 
 	<body>
@@ -41,7 +137,7 @@
     <li><a href="#tabs-3">我下属的客户</a></li>
      <li><a href="#tabs-4">客户公海</a></li>
   
-<li style="margin-left:65%"><a href="javascript:void(0)" onclick="show('light')" >+新增客户</a></li>
+
 
   </ul>
   <div id="tabs-1">
@@ -57,25 +153,38 @@
    第四个
   </div>
 </div>
- 
- 
-
-<a href="javascript:void(0)" onclick="show('light2')">打开2</a>
-<div id="light" class="white_content">
-      <div class="close"><a href="javascript:void(0)" onclick="hide('light')"> 关闭</a></div>
-      <div class="con"> 
-      		姓名：<input type="text" name="">
-      </div>
+ <div id="dialog-form" title="新增客户">
+  <p class="validateTips">所有带*字段都是必填的。</p>
+  <form >
+  <fieldset>
+    <li><label for="name">名字:</label>
+    <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all"></li>
+    <li><label for="email">邮箱邮箱:</label>
+    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
+    <li><label for="email">邮箱邮:</label>
+    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
+    <li><label for="email">邮箱邮箱邮:</label>
+    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
+    <li><label for="email">邮箱:</label>
+    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
+    <li><label for="email">邮箱邮箱邮箱:</label>
+    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
+    <li><label for="email">邮箱:</label>
+    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
+    <li><label for="email">邮箱</label>
+    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
+    <li><label for="email">邮箱</label>
+    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
+    <li><label for="email">邮箱</label>
+    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
+    <li><label for="password">密码</label>
+    <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all"></li>
+  </fieldset>
+  </form>
 </div>
-<div id="light2" class="white_content">
-      <div class="close"><a href="javascript:void(0)" onclick="hide('light2')"> 关闭</a></div>
-      <div class="con"> 
-      内容2 
-      </div>
-</div>
-<div id="fade" class="black_overlay"></div>
+ 
 
-
+<li style="margin-top:-74px;margin-left:85%"><button id="create-user">新增用户</button></li>
 
 
 
