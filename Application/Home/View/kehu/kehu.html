@@ -157,28 +157,13 @@
   <p class="validateTips">所有带*字段都是必填的。</p>
   <form >
   <fieldset>
-    <li><label for="name">名字:</label>
-    <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all"></li>
-    <li><label for="email">邮箱邮箱:</label>
-    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
-    <li><label for="email">邮箱邮:</label>
-    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
-    <li><label for="email">邮箱邮箱邮:</label>
-    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
-    <li><label for="email">邮箱:</label>
-    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
-    <li><label for="email">邮箱邮箱邮箱:</label>
-    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
-    <li><label for="email">邮箱:</label>
-    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
-    <li><label for="email">邮箱</label>
-    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
-    <li><label for="email">邮箱</label>
-    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
-    <li><label for="email">邮箱</label>
-    <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all"></li>
-    <li><label for="password">密码</label>
-    <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all"></li>
+  	<foreach name="kehu" item="vo">
+             <li>
+             	<label for="name">{$vo.name}:</label>
+                <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
+             </li>
+    </foreach>
+    
   </fieldset>
   </form>
 </div>
