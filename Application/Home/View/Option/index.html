@@ -4,7 +4,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>智子科技CRM系统</title>
+		<title>中软远景CRM系统—设置中心</title>
 		<meta name="renderer" content="webkit">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -17,14 +17,17 @@
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
 
 	</head>
-
+	<script>
+	//定义一个全局变量，在nav-option.js中调用
+	window.rootdir='{$_GET[root_dir]}';
+	</script>
 	<body>
 		<div class="layui-layout layui-layout-admin">
 			<div class="layui-header header header-demo">
 				<div class="layui-main">
 					<div class="admin-login-box">
 						<a class="logo" style="left: 0;" href="http://beginner.zhengjinfan.cn/demo/beginner_admin/">
-							<span style="font-size: 22px;">智子科技CRM系统</span>
+							<span style="font-size: 22px;">中软远景—设置</span>
 						</a>
 						<div class="admin-side-toggle">
 							<i class="fa fa-bars" aria-hidden="true"></i>
@@ -32,6 +35,10 @@
 					</div>
 					<ul class="layui-nav admin-header-item">
 			
+						<li class="layui-nav-item">
+							<a href="{$_GET['root_dir']}">返回主页</a>
+		
+						</li>
 						<li class="layui-nav-item">
 							<a href="javascript:;">消息</a>
 		
@@ -62,14 +69,8 @@
 							</a>
 							<dl class="layui-nav-child">
 								
-								<dd>
-									<a href="{$_GET['root_dir']}/index.php/Home/Option/"><i class="fa fa-gear" aria-hidden="true"></i> 设置</a>
-								</dd>
-								<dd id="lock">
-									<a href="javascript:;">
-										<i class="fa fa-lock" aria-hidden="true" style="padding-right: 3px;padding-left: 1px;"></i> 锁屏 (Alt+L)
-									</a>
-								</dd>
+					
+								
 								<dd>
 									<a href="login.html"><i class="fa fa-sign-out" aria-hidden="true"></i> 安全退出</a>
 								</dd>
@@ -91,20 +92,23 @@
 					<ul class="layui-tab-title">
 						<li class="layui-this">
 							<i class="fa fa-dashboard" aria-hidden="true"></i>
-							<cite>工作台</cite>
+							<cite>设置中心</cite>
 						</li>
 					</ul>
 					<div class="layui-tab-content" style="min-height: 150px; padding: 5px 0 0 0;">
 						<div class="layui-tab-item layui-show">
-							<iframe src="{$_GET['root_dir']}/index.php/Home/Main"></iframe>
+							<iframe src="{$_GET['root_dir']}/index.php/Home/Option/optioncenter"></iframe>
 						</div>
 					</div>
+					
 				</div>
 			</div>
+			
+			
 			<div class="layui-footer footer footer-demo" id="admin-footer">
 				<div class="layui-main">
 					<p>2017 &copy;
-						<a >智子科技</a> 版权所有
+						<a >中软远景</a> 版权所有
 					</p>
 				</div>
 			</div>
@@ -127,7 +131,7 @@
 			<!--锁屏模板 end -->
 			<script type="text/javascript" src="{$_GET['public_dir']}/jquery/jquery.js"></script>
 			<script type="text/javascript" src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"></script>
-			<script type="text/javascript" src="{$_GET['public_dir']}/index_js_css/datas/nav.js"></script>
+			<script type="text/javascript" src="{$_GET['public_dir']}/index_js_css/datas/nav-option.js"></script>
 			<script>
 				layui.config({
 	base: "{$_GET[public_dir]}/index_js_css/js/"
