@@ -9,18 +9,6 @@ class IndexController extends Controller {
         $this->display();
     }
 
- public function add(){
-    	$data['data']=$_GET['id'];
-$shi=M('kh');
-$sql=$shi->add($data);
-if($sql){
-	echo "1";
-
-}else{
-	echo "2";
-}
-        $this->display();
-    }
-
+ 
   
 }
