@@ -11,7 +11,7 @@ var navs = [{
 	"children": [{
 		"title": "部门和用户设置",
 		"icon": "&#xe641;",
-		"href": rootdir+"/index.php/Home/Option/optioncenter"
+		"href": rootdir+"/index.php/Home/Option/bumenyonghu"
 	}, {
 		"title": "角色和权限设置",
 		"icon": "&#xe63c;",

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>中软远景CRM系统—设置中心</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/css/global.css" media="all">
+		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+		<!--datatable引用文件-->
+		
+		<link href="{$_GET['public_dir']}/datatable/css/dataTables.bootstrap.css" rel="stylesheet">
+		<link href="{$_GET['public_dir']}/bootstrap/css/bootstrap.css" rel="stylesheet">
+		<script src="{$_GET['public_dir']}/datatable/js/jquery.dataTables.min.js"></script>
+		<script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js" ></script>
+		<script src="{$_GET['public_dir']}/datatable/js/dataTables.bootstrap.js"></script>
+		<!--主题绿色      1AA094-->
+		<style>
+			*{margin:0;padding:0;}
+			div{border:0px solid #f00;overflow:hidden;}
+			a{text-decoration:none;cursor:pointer;}
+			ul{list-style:none;}
+			#box{margin-left:10px;margin-right:10px;}
+			#mod-head{height:100px;font-size:22px;line-height:100px;color:#1AA094;font-weight:bold;}
+			#mod1{background-color:#DFF0D8;height:78px;color:#255B56;padding-left:15px;padding-top:10px;padding-bottom:0px;border-radius:0px;}
+			#mod1 div{height:22px;font-size:12px;}
+			#hidden-div{float:right;font-weight:bold;margin-right:15px;font-size:20px;color:#656565;}
+			#mod2-left{width:25%;font-size:14px;float:left;}
+			#left-top{height:40px;line-height:40px;font-weight:bold;color:#676767;border-bottom:1px solid #ccc;margin-bottom:20px;}
+			#left-bottom div{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-top:5px;margin-bottom:5px;padding-left:5px;}
+			#left-bottom li{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-top:5px;margin-bottom:5px;padding-left:5px;}
+			.lv1{margin-left:20px;}
+			.lv2{margin-left:40px;}
+			.lv3{margin-left:60px;}
+			.lv4{margin-left:80px;}
+			.lv5{margin-left:100px;}
+			.left-li{margin-left:5px;}
+			.right-span{float:right;margin-right:5px;}
+			#mod2-right{float:right;width:73%;height:600px;font-size:14px;}
+			#right-head{height:40px;line-height:40px;font-weight:bold;color:#676767;border-bottom:1px solid #ccc;margin-bottom:20px;}
+			#right-head button{float:right;margin-top:4px;background-color:#1AA094;border:1px solid #1AA094;height:32px;line-height:32px;color:#fff;width:100px;}
+			#right-head button i{margin-right:5px;}
+			#pagenum{height:30px;}
+			#pagefont{font-weight:bold;font-size:16px;}
+		</style>
+		
+	</head>
+	<script type="text/javascript">
+        $(function () {
+            $("#table_local").dataTable({
+                //lengthMenu: [5, 10, 20, 30],//这里也可以设置分页，但是不能设置具体内容，只能是一维或二维数组的方式，所以推荐下面language里面的写法。
+   
+                ordering: true,//是否启用排序
+                searching: true,//搜索
+                language: {
+                    lengthMenu: '<span id="pagefont">每页显示：</span><select class="form-control input-xsmall" id="pagenum">' + '<option value="5">5</option>' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">40</option>' + '<option value="50">50</option>' + '</select>',//左上角的分页大小显示。
+                    search: '',//右上角的搜索文本，可以写html标签
+
+                    paginate: {
+                        previous: "首页",
+                        next: "下一页",
+                        first: "第一页",
+                        last: "末页"
+                    },
+
+                    zeroRecords: "没有内容",//table tbody内容为空时，tbody的内容。
+                    //下面三者构成了总体的左下角的内容。
+                    info: "总共_PAGES_ 页",//左下角的信息显示，大写的词为关键字。
+                    infoEmpty: "",//筛选为空时左下角的显示。
+                    infoFiltered: "搜索到 _TOTAL_条记录"//筛选之后的左下角筛选提示，
+                },
+                paging: true,
+                pagingType: "first_last_numbers",//分页样式的类型
+
+            });
+            $("#table_local_filter input[type=search]").css({ width: "auto" });//右上角的默认搜索文本框，不写这个就超出去了。
+        });
+
+    </script>
+	<body>
+	<div id="box">
+		<!--头部文字-->
+		<div id="mod-head">
+		部门和用户设置
+		</div>
+		<!--头部结束-->
+		<!--中部提示-->
+		<div id="mod1">
+			<div>提示:<span id="hidden-div"><a onclick="hidden_div()">×</a></span></div>
+			<div>1、公司组织架构非常重要，部分管理功能以及数据权限是依赖于公司组织架构的，因此建议在正式使用产品前，进行相关配置</div>
+			<div>2、部门组织架构支持多级、最多支持5级；</div>
+		</div>
+		<!--中部结束-->
+		<!--下部数据-->
+		<div id="mod2">
+			<!--下部左边列表-->
+			<div id="mod2-left">
+				<div id="left-top">公司组织架构</div>
+				<div id="left-bottom">
+					<div id="user_company_name" class="lv-on" value="">
+						<i class="fa fa-folder-open" aria-hidden="true"></i>
+						<span class="left-li">中华科技有限公司</span>
+						
+						<span class="right-span">
+							<a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+							<a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a>
+							<a href=""><i class="fa fa-plus" aria-hidden="true"></i></a>
+							<a href=""><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+						</span>
+					</div>
+					<ul>
+						<li class="lv1 lv-on" value='1' name="1">
+							<i class="fa fa-folder-open" aria-hidden="true"></i>
+							<span class="left-li">总裁办</span>
+							<span class="right-span">
+								<a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-plus" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+							</span>
+						</li>
+						<li class="lv2 lv-on" value='1' name="2">
+							<i class="fa fa-folder-open" aria-hidden="true"></i>
+							<span class="left-li">总裁办1</span>
+							<span class="right-span">
+								<a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-plus" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+							</span>
+						</li>
+						<li class="lv3 lv-on" value='1' name="3">
+							<i class="fa fa-folder-open" aria-hidden="true"></i>
+							<span class="left-li">总裁办2</span>
+							<span class="right-span">
+								<a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-plus" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+							</span>
+						</li>
+						<li class="lv4 lv-on" value='1' name="4">
+							<i class="fa fa-folder-open" aria-hidden="true"></i>
+							<span class="left-li">总裁办3</span>
+							<span class="right-span">
+								<a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-plus" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+							</span>
+						</li>
+						<li class="lv5 lv-on" value='1' name="5">
+							<i class="fa fa-folder-open" aria-hidden="true"></i>
+							<span class="left-li">总裁办4</span>
+							<span class="right-span">
+								<a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-plus" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+							</span>
+						</li>
+					</ul>
+					
+					<ul>
+						<li class="lv1 lv-on" value='1' name="1">
+							<i class="fa fa-folder-open" aria-hidden="true"></i>
+							<span class="left-li">销售部</span>
+							<span class="right-span">
+								<a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-plus" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+							</span>
+						</li>
+						<li class="lv2 lv-on" value='1' name="2">
+							<i class="fa fa-folder-open" aria-hidden="true"></i>
+							<span class="left-li">销售部1</span>
+							<span class="right-span">
+								<a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-plus" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+							</span>
+						</li>
+						<li class="lv3 lv-on" value='1' name="3">
+							<i class="fa fa-folder-open" aria-hidden="true"></i>
+							<span class="left-li">销售部2</span>
+							<span class="right-span">
+								<a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-plus" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+							</span>
+						</li>
+						<li class="lv4 lv-on" value='1' name="4">
+							<i class="fa fa-folder-open" aria-hidden="true"></i>
+							<span class="left-li">销售部3</span>
+							<span class="right-span">
+								<a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-plus" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+							</span>
+						</li>
+						<li class="lv5 lv-on" value='1' name="5">
+							<i class="fa fa-folder-open" aria-hidden="true"></i>
+							<span class="left-li">销售部4</span>
+							<span class="right-span">
+								<a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-plus" aria-hidden="true"></i></a>
+								<a href=""><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+							</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--左边列表结束-->
+			<!--下部右边表格-->
+			<div id="mod2-right" >
+				<div id="right-head">用户列表<button onclick="openwindow()"><i class="fa fa-plus" aria-hidden="true"></i>新增用户</button></div>
+				<div id="right-list">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<div class="panel-title">
+								中华科技有限公司
+							</div>
+						</div>
+						<div class="panel-body">
+							<table id="table_local" class="table table-bordered table-striped table-hover">
+								<thead>
+									<tr>
+										<th>姓名</th>
+										<th>性别</th>
+										<th>手机号</th>
+										<th>角色</th>
+										<th>主管</th>
+										<th>主部门</th>
+										<th>辅部门</th>
+										<th>上次登录时间</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>李冬</td>
+										<td>男</td>
+										<td>13020019239</td>
+										<td>超级管理员</td>
+										<td></td>
+										<td>总裁办</td>
+										<td>总裁办4</td>
+										<td>2017-02-21 09:40</td>
+									</tr>
+									<tr>
+										<td>41654</td>
+										<td>男</td>
+										<td>18373501733</td>
+										<td>普通用户</td>
+										<td>李冬</td>
+										<td>总裁办</td>
+										<td>销售部</td>
+										<td>2017-02-21 09:57</td>
+									</tr>
+									<tr>
+										<td>32423</td>
+										<td>男</td>
+										<td>19999999999</td>
+										<td>产品经理</td>
+										<td>李冬</td>
+										<td>总裁办1</td>
+										<td></td>
+										<td>2017-02-20 10:39</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--右边表格结束-->
+		</div>
+		<!--下部结束-->
+	</div>
+	</body>
+	<script>
+		//上方绿色提示框的关闭效果
+		function hidden_div(){
+			$("#mod1").hide();
+		}
+		$(".right-span").hide();
+		//部门列表点击事件
+		$(".lv-on").click(function(){
+			if($(this).is("div"))//如果点击了DIV
+			{
+				if(!$(this).val())
+				{
+					$(this).children("i").removeClass("fa-folder-open");
+					$(this).children("i").addClass("fa-folder");
+					$(this).val('1');
+					$("ul").hide("fast")
+				}
+				else
+				{
+					$(this).children("i").removeClass("fa-folder");
+					$(this).children("i").addClass("fa-folder-open");
+					$(this).val('');
+					$("ul").show("fast");
+				}
+			}
+			else
+			{
+				if($(this).val()=='1')
+				{
+					$(this).children("i").removeClass("fa-folder-open");
+					$(this).children("i").addClass("fa-folder");
+					$(this).css('border-left','4px solid #B7B7B7');
+					$(this).val('0');
+					var thislv=$(this).attr("name");
+					thislv=parseInt(thislv)+1;
+					for(var ina=thislv;ina<=5;ina++)
+					{
+						$(this).parent().children(".lv"+ina).hide("fast");
+						$(this).parent().children(".lv"+ina).val('0');
+						$(this).parent().children(".lv"+ina).children("i").removeClass("fa-folder-open");
+						$(this).parent().children(".lv"+ina).children("i").addClass("fa-folder");
+						$(this).parent().children(".lv"+ina).css('border-left','4px solid #B7B7B7');	
+					}
+				}
+				else
+				{
+					$(this).children("i").removeClass("fa-folder");
+					$(this).children("i").addClass("fa-folder-open");
+					$(this).css('border-left','4px solid #828282');
+					$(this).val('1');
+					var thislv=$(this).attr("name");
+					thislv=parseInt(thislv)+1;
+					for(var ina=thislv;ina<=5;ina++)
+					{
+						$(this).parent().children(".lv"+ina).show("fast");
+						$(this).parent().children(".lv"+ina).val('1');
+						$(this).parent().children(".lv"+ina).children("i").removeClass("fa-folder");
+						$(this).parent().children(".lv"+ina).children("i").addClass("fa-folder-open");
+						$(this).parent().children(".lv"+ina).css('border-left','4px solid #828282');
+					}
+				}
+			}
+		});
+		//部门标签右边小图标的显示和隐藏
+		$(".lv-on").mouseover(function(){
+			$(this).children(".right-span").show();
+		});
+		$(".lv-on").mouseout(function(){
+			$(this).children(".right-span").hide();
+		});
+		//添加用户时弹窗
+		function openwindow()
+		{
+			
+		}
+	</script>
+</html>
+
