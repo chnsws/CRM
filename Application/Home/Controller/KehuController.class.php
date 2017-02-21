@@ -31,10 +31,15 @@ class KehuController extends Controller {
 
 		public function add(){
 		    	$data['kh_data']=$_GET['id'];
+		    	
 		$shi=M('kh');
 		$sql=$shi->add($data);
 		if($sql){
 			echo "ok";
+			
+
+
+			
 
 		}else{
 			echo "no";
