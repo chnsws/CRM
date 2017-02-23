@@ -402,14 +402,14 @@
 					$(this).children("i").removeClass("fa-folder-open");
 					$(this).children("i").addClass("fa-folder");
 					$(this).val('1');
-					$("ul").hide("fast")
+					$(this).parent().children("ul").hide("fast");
 				}
 				else
 				{
 					$(this).children("i").removeClass("fa-folder");
 					$(this).children("i").addClass("fa-folder-open");
 					$(this).val('');
-					$("ul").show("fast");
+					$(this).parent().children("ul").show("fast");
 				}
 			}
 			else
