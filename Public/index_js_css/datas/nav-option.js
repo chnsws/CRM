@@ -15,11 +15,11 @@ var navs = [{
 	}, {
 		"title": "角色和权限设置",
 		"icon": "&#xe63c;",
-		"href": "form.html"
+		"href": rootdir+"/index.php/Home/Option/juesequanxian"
 	}, {
 		"title": "公司信息",
 		"icon": "&#xe63c;",
-		"href": "table.html"
+		"href": rootdir+"/index.php/Home/Option/companyinfo"
 	}, {
 		"title": "公告管理",
 		"icon": "&#xe609;",

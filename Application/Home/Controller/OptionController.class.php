@@ -16,6 +16,14 @@ class OptionController extends Controller {
 	public function bumenyonghu(){
 		$this->display();
 	}
+	//角色和权限设置
+	public function juesequanxian(){
+		$this->display();
+	}
+	//公司信息设置
+	public function companyinfo(){
+		$this->display();
+	}
 }
 
 

@@ -4,7 +4,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>中软远景CRM系统—设置中心</title>
+		<title>部门和用户设置</title>
 		<meta name="renderer" content="webkit">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -15,19 +15,21 @@
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
 		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
 		<!--datatable引用文件-->
-		
 		<link href="{$_GET['public_dir']}/datatable/css/dataTables.bootstrap.css" rel="stylesheet">
 		<link href="{$_GET['public_dir']}/bootstrap/css/bootstrap.css" rel="stylesheet">
 		<script src="{$_GET['public_dir']}/datatable/js/jquery.dataTables.min.js"></script>
 		<script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js" ></script>
 		<script src="{$_GET['public_dir']}/datatable/js/dataTables.bootstrap.js"></script>
-		<!--主题绿色      1AA094-->
+		<!--layUI 插件 --弹窗设计 form表单样式 -->
+		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
 		<style>
 			*{margin:0;padding:0;}
-			div{border:0px solid #f00;overflow:hidden;}
+			#box div{overflow:hidden;}
 			a{text-decoration:none;cursor:pointer;}
 			ul{list-style:none;}
 			#box{margin-left:10px;margin-right:10px;}
+			
 			#mod-head{height:100px;font-size:22px;line-height:100px;color:#1AA094;font-weight:bold;}
 			#mod1{background-color:#DFF0D8;height:78px;color:#255B56;padding-left:15px;padding-top:10px;padding-bottom:0px;border-radius:0px;}
 			#mod1 div{height:22px;font-size:12px;}
@@ -49,16 +51,27 @@
 			#right-head button i{margin-right:5px;}
 			#pagenum{height:30px;}
 			#pagefont{font-weight:bold;font-size:16px;}
+			
+			#formtable{width:500px;}
+			#formtable tr{height:50px;line-height:50px;}
+			#formdiv{width:600px;}
+			#formtishi{width:600px;height:80px;background-color:#DFF0D8;color:#255B56;}
+			#tishi-left,#tishi-right{float:left;margin-top:20px;margin-left:10px;}
+			.redstar{text-align:center;color:#f00;}
 		</style>
-		
 	</head>
 	<script type="text/javascript">
-        $(function () {
+	
+
+        $(function() {
             $("#table_local").dataTable({
                 //lengthMenu: [5, 10, 20, 30],//这里也可以设置分页，但是不能设置具体内容，只能是一维或二维数组的方式，所以推荐下面language里面的写法。
    
                 ordering: true,//是否启用排序
                 searching: true,//搜索
+				"sScrollX": "100%",
+				"sScrollXInner": "120%",
+				"bScrollCollapse": true,
                 language: {
                     lengthMenu: '<span id="pagefont">每页显示：</span><select class="form-control input-xsmall" id="pagenum">' + '<option value="5">5</option>' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">40</option>' + '<option value="50">50</option>' + '</select>',//左上角的分页大小显示。
                     search: '',//右上角的搜索文本，可以写html标签
@@ -82,6 +95,7 @@
             });
             $("#table_local_filter input[type=search]").css({ width: "auto" });//右上角的默认搜索文本框，不写这个就超出去了。
         });
+
 
     </script>
 	<body>
@@ -289,7 +303,94 @@
 		<!--下部结束-->
 	</div>
 	</body>
+	<div  id="formdiv">
+		<div id="formtishi">
+			<div id="tishi-left">提示：</div>
+			<div id="tishi-right">
+				1、新增用户保存后，系统将自动给此用户发送短信通知，告知帐户的初始密码。<br>
+				2、如通知短信未收到时，建议此用户通过找回密码功能自己设置。
+			</div>
+		</div>
+	<center>
+	<form id="addform" style="padding:10px;" class="layui-form">
+		<table id="formtable">
+			<tr>
+				<td class="redstar">*</td>
+				<td>姓名</td>
+				<td><input type="text" name="xingming" required lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input" /></td>
+			</tr>
+			<tr>
+				<td class="redstar"></td>
+				<td>性别</td>
+				<td><input type="radio" name="xingbie" title="男" value="1"/><input type="radio" name="xingbie" title="女" value="2"/></td>
+			</tr>
+			<tr>
+				<td class="redstar">*</td>
+				<td>手机号</td>
+				<td><input type="text" name="shoujihao" required lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input"/></td>
+			</tr>
+			<tr>
+				<td class="redstar">*</td>
+				<td>邮箱</td>
+				<td><input type="text" name="youxiang" required lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input"/></td>
+			</tr>
+			<tr>
+				<td class="redstar">*</td>
+				<td>角色</td>
+				<td >
+					<select name="juese" lay-verify="required" class="layui-select">
+						<option value="">请选择角色</option>
+						<option value="010">北京</option>
+						<option value="021">上海</option>
+						<option value="0571">杭州</option>
+					</select>    
+				</td>
+			</tr>
+			<tr>
+				<td class="redstar">*</td>
+				<td>主管</td>
+				<td>
+					<select name="zhuguan" lay-verify="">
+						<option value="">请选择主管</option>
+						<option value="010">北京</option>
+						<option value="021">上海</option>
+						<option value="0571">杭州</option>
+					</select>   
+				</td>
+			</tr>
+			<tr>
+				<td class="redstar">*</td>
+				<td>主部门</td>
+				<td>
+					<select name="zhubumen" lay-verify="">
+						<option value="">请选择部门</option>
+						<option value="010">北京</option>
+						<option value="021">上海</option>
+						<option value="0571">杭州</option>
+					</select>   
+				</td>
+			</tr>
+			<tr>
+				<td class="redstar"></td>
+				<td>辅部门</td>
+				<td>
+					<select name="fubumen"  class="layui-form-label">
+						<option value="">请选择部门</option>
+						<option value="010">北京</option>
+						<option value="021">上海</option>
+						<option value="0571">杭州</option>
+					</select>   
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3"><center><button class="layui-btn" lay-submit lay-filter="formDemo">保存</button></center></td>
+			</tr>
+		</table>
+	</form>
+	</center>
+	</div>
 	<script>
+		$("#formdiv").hide();
 		//上方绿色提示框的关闭效果
 		function hidden_div(){
 			$("#mod1").hide();
@@ -359,11 +460,23 @@
 		$(".lv-on").mouseout(function(){
 			$(this).children(".right-span").hide();
 		});
-		//添加用户时弹窗
-		function openwindow()
-		{
-			
-		}
+		
+layui.use('form', function(){
+  var form = layui.form();
+  
+  //各种基于事件的操作，下面会有进一步介绍
+});
+function openwindow(){
+	layui.use('layer', function(){
+		var layer = layui.layer;
+		layer.open({
+			type:1,
+			area:'600px',
+			title: '新增用户',
+			content:$('#formdiv')
+		}); 
+	});  
+}
 	</script>
 </html>
 
