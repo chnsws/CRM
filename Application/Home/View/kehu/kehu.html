@@ -12,9 +12,7 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="format-detection" content="telephone=no">
 
-		<link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
 		<link rel="stylesheet" href="css/global.css" media="all">
-		<link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
 		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
 		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/jquery-ui/jquery-ui.css">
@@ -26,7 +24,8 @@
 		<script src="{$_GET['public_dir']}/dataTable/js/jquery.dataTables.min.js" ></script>
 
 		<script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js"'" ></script>
-		<script src="{$_GET['public_dir']}/dataTable/js/dataTables.bootstrap.js" ></script>
+		<script src="{$_GET['public_dir']}/dataTable/js/dataTables.
+		.js" ></script>
 		 <script>
 		  $(function() {
    				 $( "#tabs" ).tabs();
@@ -48,6 +47,9 @@
     			.ui-dialog .ui-state-error { padding: .3em;}
     			.validateTips { border: 1px solid transparent; padding: 0em;}
     			.ui-dialog .ui-dialog-content {position: relative;border: 0;padding: 0em 0em;background: none;overflow: auto;}
+    			#table_local_filter{width:300px;margin-top:-32px; float:right;}
+    			#table_local_length{width:100px;}
+    			.label-success{ height:28px;line-height:16px;width:60px; text-align: center;font-size:14px }
   			 </style>
   			  <script>
 							  $(function() {
@@ -104,7 +106,7 @@
 							     		var zhi=$("#caonm").val();
 							     		var rooturl="{$_GET['root_dir']}";
 
-							        	$.get(rooturl+'/index.php/Home/Kehu/add',{"id":'['+JSON.stringify(d)+']'},
+							        	$.get(rooturl+'/index.php/Home/Kehu/add',{"id": JSON.stringify(d)},
 							        		 function(html){
 							        		 		if(html=='ok'){
 							        		 			alert('添加成功');
@@ -142,6 +144,8 @@
 		.kehu{width:auto;height:auto;border:1px solid #ccc;margin-left:-17px;} 
 		tr{line-height:28px}
 		.anniudw{  position: relative;top: 14px;}
+		.left{  position: relative;left: 13px;}
+		.anniudw a{  position: relative; margin-left: 30px;}
 		</style>
 
 
@@ -149,6 +153,10 @@
         $(function () {
             $("#table_local").dataTable({
                 //lengthMenu: [5, 10, 20, 30],//这里也可以设置分页，但是不能设置具体内容，只能是一维或二维数组的方式，所以推荐下面language里面的写法。
+                //"
+               "sScrollX": "100%",
+"sScrollXInner": "250%",
+"bScrollCollapse": true,
                 paging: true,//分页
                 ordering: true,//是否启用排序
                 searching: true,//搜索
@@ -181,186 +189,317 @@
 
 	</head>
 
-	<body>
+	<body style="position:relative">
 	
 		 
-<div id="tabs">
-  <ul>
-    <li><a href="#tabs-1">全部客户</a></li>
-    <li><a href="#tabs-2">我的客户</a></li>
-    <li><a href="#tabs-3">我下属的客户</a></li>
-     <li><a href="#tabs-4">客户公海</a></li>
-  
+		<div id="tabs">
+			  <ul>
+			    <li><a href="#tabs-1">全部客户</a></li>
+			    <li><a href="#tabs-2">我的客户</a></li>
+			    <li><a href="#tabs-3">我下属的客户</a></li>
+			     <li><a href="#tabs-4">客户公海</a></li>
+			  </ul>
+  			<div id="tabs-1">
+  					<li style="margin-top:-36px;margin-left:85%"><button id="create-user">新增用户</button></li>
+			   	<div class="peizhi">
+				   	<div class="left">
+					   	 <table>
+								<tr >
+								<td>跟进状态：</td>
 
+								</tr>
+								<tr >
+								<td>客户类型：</td>
 
-  </ul>
-  <div id="tabs-1">
-  <li style="margin-top:-36px;margin-left:85%"><button id="create-user">新增用户</button></li>
-   	<div class="peizhi">
-   	 <table>
-			<tr >
-			<td>跟进状态：</td>
+								</tr>
+								<tr>
+								<td >所属部门：</td>
 
-			</tr>
-			<tr >
-			<td>客户类型：</td>
+								</tr>
+								<tr>
+								<td >负责人：</td>
 
-			</tr>
-			<tr>
-			<td >所属部门：</td>
+								</tr>
+								<tr>
+								<td >跟进状态：</td>
 
-			</tr>
-			<tr>
-			<td >负责人：</td>
+								</tr>
+						</table>
+					</div>
+			   	</div>
+   				<div class="anniu">		
+					<span style="margin-top:-8px;margin-left:1%"  class="anniudw">
+							已选0位客户
+					   		<a href="#">批量转移</a>
+					   		
+					   		<a href="#">批量编辑</a>
+					   		<a href="#">删除所选</a>
+					   		<a href="#">转移至客户公海</a>
+					</span>
+   				</div>
+		   		<div class="kehu">   	
+		   			<div class="panel panel-default">
+			   			 <div class="panel-heading">
+				        	<div class="panel-title">
+				            		客户信息
+				       		 </div>
+			    		</div>
+						<div class="panel-body" >
+								 <table id="table_local" class="table table-bordered table-striped table-hover">
+						            <thead>
+						                <tr>	<th>ID</th>
+						                <foreach name="kehu" item="vo">
+						               	
+						                    <th>{$vo.name}</th>
 
-			</tr>
-	</table>
+						                    </foreach>
+						                   <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th> 
+						                    <th>ID</th> 
+						                </tr>
+						            </thead>
+						           
+						                <tbody>
+						               
+									<volist name="kh_xinxi" id="vo">
+									 <tr>
+									
+										<volist name="list" id="voo">
+											<td>
+											{$vo.$voo}
+											</td>		
+										</volist>
+																
+									</tr>		
+									</volist>
+   
+											
+										
+						                </tbody>
+						       
+						  			</table>
+						</div>
+					</div>
+				</div>
+				<div id="dialog-form" title="新增客户">
+		  			<p class="validateTips">所有带*字段都是必填的。</p>
+						  <form id="form1"  method="post">
+						 		<fieldset>
+								  	<foreach name="kehu" item="vo">
+								             <li>
+								         		<if condition="$vo.bt eq 1">
+								             		<label for="name">{$vo.name}<span style="color:red">*</span>:</label>
+								                	<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all" >
+								                <else />
+								                	<label for="name">{$vo.name}:</label>
+								                	<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all" >
+								                </if>
+								             </li>
+								    </foreach>
+								    		 <li>
+								             	<label for="name">负责人:</label>
+								                <input type="text" name="name" id="caonm" class="text ui-widget-content ui-corner-all">
+								             </li>
+								              <li>
+								             	<label for="name">部门:</label>
+								                <input type="text" name="bumen" id="caonm" class="text ui-widget-content ui-corner-all">
+								             </li>
+							    
+							  </fieldset>
+						  </form>
+				</div>
+  		</div>
+	    <div id="tabs-2">
+			   	<li style="margin-top:-36px;margin-left:85%"><button id="create-user">新增用户</button></li>
+			   	<div class="peizhi">
+				   	<div class="left">
+					   	 <table>
+								<tr >
+								<td>跟进状态：</td>
 
-   	</div>
-   		<div class="anniu">
-   		
-   		
-<span style="margin-top:-8px;margin-left:1%"  class="anniudw">
-		已选0位客户
-   		<a href="#">批量转移</a>
-   		<a href="#">转移至客户公海</a>
-   		<a href="#">批量编辑</a>
-   		<a href="#">删除所选</a>
-</span>
-   	</div>
-   		<div class="kehu">   	
-   			<div class="panel panel-default">
-   			 <div class="panel-heading">
-        	<div class="panel-title">
-            		客户信息
-       				 </div>
-    					</div>
-    						<div class="panel-body">
-       							 <table id="table_local" class="table table-bordered table-striped table-hover">
-							            <thead>
-							                <tr>
-							                    <th>ID</th>
-							                    <th>FirstName</th>
-							                    <th>LastName</th>
-							                    <th>EnrollmentDate</th>
-							                    <th>Discriminator</th>
-							                </tr>
-							            </thead>
-							           
-							                <tbody>
-							                 
-							                        <tr>
-							                            <td>3</td>
-							                            <td>3</td>
-							                            <td>3</td>
-							                            <td>3</td>
-							                            <td>3</td>
-							                        </tr>
+								</tr>
+								<tr >
+								<td>客户类型：</td>
 
-							                        
-							                        <tr>
-							                            <td>3</td>
-							                            <td>3</td>
-							                            <td>3</td>
-							                            <td>3</td>
-							                            <td>3</td>
-							                        </tr>
-							                        
-							                        <tr>
-							                            <td>3</td>
-							                            <td>3</td>
-							                            <td>3</td>
-							                            <td>3</td>
-							                            <td>3</td>
-							                        </tr>
-							                        
-							                        <tr>
-							                            <td>3</td>
-							                            <td>3</td>
-							                            <td>3</td>
-							                            <td>3</td>
-							                            <td>3</td>
-							                        </tr>
-							                        
-							             			 <tr>
-							                            <td>1</td>
-							                            <td>1</td>
-							                            <td>1</td>
-							                            <td>1</td>
-							                            <td>1</td>
-							                        </tr>
-							                        <tr>
-							                            <td>2</td>
-							                            <td>2</td>
-							                            <td>2</td>
-							                            <td>2</td>
-							                            <td>2</td>
-							                        </tr>
-							               
-							                </tbody>
-							       
-							  </table>
-    					</div>
-			</div>
+								</tr>
+								<tr>
+								<td >所属部门：</td>
 
-   	</div>
-<div id="dialog-form" title="新增客户">
-  <p class="validateTips">所有带*字段都是必填的。</p>
-  <form id="form1"  method="post">
-  <fieldset>
-  	<foreach name="kehu" item="vo">
-             <li>
-         		<if condition="$vo.bt eq 1">
-             		<label for="name">{$vo.name}<span style="color:red">*</span>:</label>
-                	<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all" >
-                <else />
-                	<label for="name">{$vo.name}:</label>
-                	<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all" >
-                </if>
-             </li>
-             <script>aa=aa+"{$vo.id}"+',';</script>
-           
-    </foreach>
-    		 <li>
-             	<label for="name">负责人:</label>
-                <input type="text" name="name" id="caonm" class="text ui-widget-content ui-corner-all">
-             </li>
-              <li>
-             	<label for="name">部门:</label>
-                <input type="text" name="name" id="caonm" class="text ui-widget-content ui-corner-all">
-             </li>
-    
-  </fieldset>
-  </form>
-</div>
+								</tr>
+								<tr>
+								<td >负责人：</td>
 
+								</tr>
+						</table>
+					</div>
+			   	</div>
+   				<div class="anniu">		
+					<span style="margin-top:-8px;margin-left:1%"  class="anniudw">
+							已选0位客户
+					   		<a href="#">批量转移</a>
+					   		<a href="#">转移至客户公海</a>
+					   		<a href="#">批量编辑</a>
+					   		<a href="#">删除所选</a>
+					</span>
+   				</div>
+		   		<div class="kehu">   	
+		   			<div class="panel panel-default">
+			   			 <div class="panel-heading">
+				        	<div class="panel-title">
+				            		客户信息
+				       		 </div>
+			    		</div>
+						<div class="panel-body" >
+								 <table id="table_local" class="table table-bordered table-striped table-hover">
+						            <thead>
+						                <tr>	<th>ID</th>
+						                <foreach name="kehu" item="vo">
+						               	
+						                    <th>{$vo.name}</th>
 
-
-
-
-
-
-  </div>
-  <div id="tabs-2">
-  <div class="peizhi">
- 
-   	</div>
-   		<div class="anniu">删除、编辑
-
-   	</div>
-   		<div class="kehu">客户显示
-
-   	</div>
-  </div>
+						                    </foreach>
+						                   <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th> 
+						                    <th>ID</th> 
+						                </tr>
+						            </thead>
+						           
+						                <tbody>
+						               
+									<volist name="kh_xinxi" id="vo">
+									 <tr>
+									
+										<volist name="list" id="voo">
+											<td>
+											{$vo.$voo}
+											</td>		
+										</volist>
+																
+									</tr>		
+									</volist>
+   
+											
+										
+						                </tbody>
+						       
+						  			</table>
+						</div>
+					</div>
+				</div>
+				
+	    </div>
   <div id="tabs-3">
-   <div class="peizhi">第一个
+   <div class="peizhi"><li style="margin-top:-36px;margin-left:85%"><button id="create-user">新增用户</button></li>
+			   	<div class="peizhi">
+				   	<div class="left">
+					   	 <table>
+								<tr >
+								<td>跟进状态：</td>
 
-   	</div>
-   		<div class="anniu">删除、编辑
+								</tr>
+								<tr >
+								<td>客户类型：</td>
 
-   	</div>
-   		<div class="kehu">客户显示
+								</tr>
+								<tr>
+								<td >所属部门：</td>
 
+								</tr>
+								<tr>
+								<td >负责人：</td>
+
+								</tr>
+								<tr>
+								<td >负责人：</td>
+
+								</tr>
+						</table>
+					</div>
+			   	</div>
+   				<div class="anniu">		
+					<span style="margin-top:-8px;margin-left:1%"  class="anniudw">
+							已选0位客户
+					   		<a href="#">批量转移</a>
+					   		<a href="#">转移至客户公海</a>
+					   		<a href="#">批量编辑</a>
+					   		<a href="#">删除所选</a>
+					</span>
+   				</div>
+		   		<div class="kehu">   	
+		   			<div class="panel panel-default">
+			   			 <div class="panel-heading">
+				        	<div class="panel-title">
+				            		客户信息
+				       		 </div>
+			    		</div>
+						<div class="panel-body" >
+								 <table id="table_local" class="table table-bordered table-striped table-hover">
+						            <thead>
+						                <tr>	<th>ID</th>
+						                <foreach name="kehu" item="vo">
+						               	
+						                    <th>{$vo.name}</th>
+
+						                    </foreach>
+						                   <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th>
+						                    <th>ID</th> 
+						                    <th>ID</th> 
+						                </tr>
+						            </thead>
+						           
+						                <tbody>
+						               
+									<volist name="kh_xinxi" id="vo">
+									 <tr>
+									
+										<volist name="list" id="voo">
+											<td>
+											{$vo.$voo}
+											</td>		
+										</volist>
+																
+									</tr>		
+									</volist>
+   
+											
+										
+						                </tbody>
+						       
+						  			</table>
+						</div>
+					</div>
+				</div>
+				
    	</div>
   </div>
  <div id="tabs-4">
