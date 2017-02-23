@@ -68,6 +68,7 @@
                     <td class="listname listlogo">公司LOGO</td>
                     <td rowspan="5"><span><img id="headimg" src="{$_GET['public_dir']}/head-img/headimg2.jpg"></span><input type="file" name="headimg" class="layui-upload-file" id="imm"></td>
                 </tr>
+                <!--合并后的空单元格-->
                 <tr>
                     <td class="listname listlogo"></td>
                 </tr>
@@ -80,6 +81,7 @@
                 <tr>
                     <td class="listname listlogo"></td>
                 </tr>
+                <!--——————————————-->
                 <tr>
                     <td class="listname">公司名称</td>
                     <td id="gs_name">中华科技有限公司</td>
@@ -136,10 +138,7 @@
                 console.log(res); //上传成功返回值，必须为json格式
             }
         });
-        for(var a=1;a<100000;a++)
-        {
-alert(111);
-        }
+ 
         
        //将编辑按钮改为保存按钮
         $("#info-head").html("公司信息<button id='bianji' onclick='baocun()'>保存</button>");
