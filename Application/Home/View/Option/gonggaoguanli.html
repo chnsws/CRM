@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>公告管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!--加载jQuery-->
+    <script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+    <!--datatable引用文件-->
+    <link href="{$_GET['public_dir']}/datatable/css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="{$_GET['public_dir']}/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="{$_GET['public_dir']}/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js" ></script>
+    <script src="{$_GET['public_dir']}/datatable/js/dataTables.bootstrap.js"></script>
+    <!--layUI 插件  弹窗设计 form表单样式 -->
+    <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <!--图标样式-->
+    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+    <style>
+    *{margin:0;padding:0}
+    a{text-decoration:none;cursor:pointer;color:#1AA094;margin-right:10px;}
+    a:hover{color:#2F6F69;text-decoration:none;}
+    #box{margin-left: 10px;margin-right: 10px;overflow:hidden;}
+    /*头部页面名称*/
+    #mod-head{height:100px;font-size:22px;line-height:100px;color:#1AA094;font-weight:bold;}
+    /*按钮样式*/ 
+    #add-gonggao{height:30px;width:90px;background-color:#1AA094;border:1px solid #1AA094;color:#fff;border-radius:3px;margin-right:10px;margin-bottom:10px;}
+    #del-gonggao{height:30px;width:90px;background-color:#fff;border:1px solid #ccc;color:#666;border-radius:3px;margin-right:10px;margin-bottom:10px;}
+    i{margin-right:5px;}
+    /*表格样式*/
+    .checkbox_row{width:10px;}
+    /*新增公告时的表单*/
+    #box-form{border:1px solid #ccc;height:600px;border-radius:5px;}
+    #bfhead{background-color:#F5F5F5;height:40px;border-radius:5px;line-height:40px;padding-left:10px;}
+    #formtable{width:1200px;height:400px;margin-top:20px;}
+    #ggname{height:40px;width:100px;}
+    #fabu_button{height:40px;}
+    #fabu_button button{margin-top:10px;}
+    .redstar{color:#f00;}
+    .ggkejian{padding-top:10px;padding-bottom:10px;}
+    
+    </style>
+<body>
+    <div id="box">
+        <!--页面名称-->
+        <div id="mod-head">公告管理</div>
+        <!--按钮-->
+        <div id="box-button">
+            <button id="add-gonggao" onclick="to_xinzeng()"><i class="fa fa-edit" aria-hidden="true" ></i>新增公告</button><button id="del-gonggao" onclick="tishi('删除成功')"><i class="fa fa-trash-o" aria-hidden="true" ></i>删除所选</button>
+        </div>
+        <!--表格-->
+        <div id="box-table">
+            <table id="table_local" class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="checkbox_row"><input type="checkbox" title="全选" id="checkall" ></th>
+                        <th>标题</th>
+                        <th>阅读次数</th>
+                        <th>发布人</th>
+                        <th>发布时间</th>
+                        <th>操作</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="checkbox_row"><input type="checkbox"></td>
+                        <td>公告1</td>
+                        <td>0</td>
+                        <td>李冬</td>
+                        <td>2017-02-27 11:35</td>
+                        <td><a href="">编辑</a><a href="">置顶</a><a href="">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox_row"><input type="checkbox"></td>
+                        <td>公告2</td>
+                        <td>1</td>
+                        <td>李冬</td>
+                        <td>2017-02-27 11:25</td>
+                        <td><a href="">编辑</a><a href="">置顶</a><a href="">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox_row"><input type="checkbox"></td>
+                        <td>公告3</td>
+                        <td>2</td>
+                        <td>李冬</td>
+                        <td>2017-02-27 11:32</td>
+                        <td><a href="">编辑</a><a href="">置顶</a><a href="">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox_row"><input type="checkbox" class="sss"></td>
+                        <td>公告4</td>
+                        <td>3</td>
+                        <td>李冬</td>
+                        <td>2017-02-27 11:30</td>
+                        <td><a href="">编辑</a><a href="">置顶</a><a href="">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox_row"><input type="checkbox" class="sss"></td>
+                        <td>公告4</td>
+                        <td>3</td>
+                        <td>李冬</td>
+                        <td>2017-02-27 11:30</td>
+                        <td><a href="">编辑</a><a href="">置顶</a><a href="">删除</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="box-form">
+            <div id="bfhead">公告信息</div>
+            <div id="bfbody">
+                <center>
+                <form >
+                <table id="formtable" >
+                    <tr>
+                        <td id="ggname" >公告名称<span class="redstar">*</span></td>
+                        <td><input type='text' name='xingming' required lay-verify='required' placeholder='公告名称' autocomplete='off' class='layui-input'  /></td>
+                    </tr>
+                    <tr>
+                        <td class="ggkejian" valign="top">可见范围<span class="redstar">*</span></td>
+                        <td class="ggkejian">
+                            <input type="radio" name="sex" value="1" title="" checked>全公司（系统中所有人可见）<br /><br />
+                            <input type="radio" name="sex" value="2" title="">指定部门（指定哪几个部门可见）<br /><br />
+                            <input type="radio" name="sex" value="3" title="" onclick="zhiding()" >指定角色（指定角色可见）
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="ggcontent" valign="top">公告内容<span class="redstar">*</span></td>
+                        <td><textarea id="demo" style="display: none;"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="fabu_button" align="center">
+                            <button id="add-gonggao" onclick="tishi('发布成功');fabu_end('1')">发布</button>
+                            <button id="del-gonggao" onclick="tishi('取消发布');fabu_end('0')">取消</button>
+                        </td>
+                    </tr>
+                </table>
+                </form>
+                </center>
+            </div>
+        </div>
+    </div>
+</body>
+<div id="jusexuanze" class="layui-form">
+    <center>
+    <input type="checkbox" title="超级管理员" /><br />
+    <input type="checkbox" title="管理员" /><br />
+    <input type="checkbox" title="普通用户" /><br />
+    <input type="checkbox" title="超级管理员" /><br />
+    <input type="checkbox" title="管理员" /><br />
+    <input type="checkbox" title="普通用户" /><br />
+    <input type="checkbox" title="超级管理员" /><br />
+    <input type="checkbox" title="管理员" /><br />
+    <input type="checkbox" title="普通用户" /><br />
+    <input type="checkbox" title="超级管理员" /><br />
+    <input type="checkbox" title="管理员" /><br />
+    <input type="checkbox" title="普通用户" /><br />
+    <input type="checkbox" title="超级管理员" /><br />
+    <input type="checkbox" title="管理员" /><br />
+    <input type="checkbox" title="普通用户" /><br />
+    
+    <br><button class="layui-btn" onclick="quedingxuanze()">确定</button>
+    </center>
+</div>
+<script>
+    $("#jusexuanze").hide();
+    $("#box-form").hide();
+    $(function() {
+    $("#table_local").dataTable({
+        //lengthMenu: [5, 10, 20, 30],//这里也可以设置分页，但是不能设置具体内容，只能是一维或二维数组的方式，所以推荐下面language里面的写法。
+
+        ordering: true,//是否启用排序
+        searching: true,//搜索
+        language: {
+            lengthMenu: '<span id="pagefont">每页显示：</span><select class="form-control input-xsmall" id="pagenum">' + '<option value="5">5</option>' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">40</option>' + '<option value="50">50</option>' + '</select>',//左上角的分页大小显示。
+            search: '',//右上角的搜索文本，可以写html标签
+
+            paginate: {
+                previous: "首页",
+                next: "下一页",
+                first: "第一页",
+                last: "末页"
+            },
+
+            zeroRecords: "没有内容",//table tbody内容为空时，tbody的内容。
+            //下面三者构成了总体的左下角的内容。
+            info: "",//左下角的信息显示，大写的词为关键字。
+            infoEmpty: "",//筛选为空时左下角的显示。
+            infoFiltered: "搜索到 _TOTAL_条记录"//筛选之后的左下角筛选提示，
+        },
+        paging: false,
+        pagingType: "first_last_numbers",//分页样式的类型
+
+        });
+        $("#table_local_filter input[type=search]").css({ width: "auto" });//右上角的默认搜索文本框，不写这个就超出去了。
+    });
+
+    //加载layui表单样式
+    layui.use('form', function(){
+        var form = layui.form();
+    });
+  
+    //全选
+    $("#checkall").click(function(){
+        var nowstatus=$("input[type=checkbox]").prop("checked");
+
+        if(nowstatus)
+        {
+            $("input[type=checkbox]").prop("checked",true);
+            $(this).val("1");
+        }
+        else
+        {
+            $("input[type=checkbox]").prop("checked",false);
+            $(this).val("0");
+        }
+    });
+    //黑色半透明提示
+    function tishi(neirong)
+    {
+        layer.msg(neirong, {
+            time: 1000, 
+        });
+    }
+    //layUI富文本编辑器初始化
+    layui.use('layedit', function(){
+        var layedit = layui.layedit;
+        layedit.build('demo'); //建立编辑器
+    });
+    //跳转到发布页面
+    function to_xinzeng()
+    {
+        $("#box-table").hide();
+        $("#box-form").show();
+    }
+    //发布结束
+    function fabu_end(isval)
+    {
+        if(isval)
+        {
+
+        }
+        $("#box-table").show();
+        $("#box-form").hide();
+    }
+    //指定角色
+    function zhiding()
+    {
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            window.tanchu=layer.open({
+                type:1,
+                area:'200px',
+                title: '选择角色',
+                content:$('#jusexuanze')
+            }); 
+        });  
+
+    }
+    //选择完成指定的角色
+    function quedingxuanze()
+    {
+       layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.close(tanchu);
+        });  
+    }
+</script>
+</html>

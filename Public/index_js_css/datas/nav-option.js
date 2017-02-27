@@ -23,7 +23,7 @@ var navs = [{
 	}, {
 		"title": "公告管理",
 		"icon": "&#xe609;",
-		"href": "nav.html"
+		"href": rootdir+"/index.php/Home/Option/gonggaoguanli"
 	}]
 }, {
 	"title": "业务设置",

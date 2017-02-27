@@ -24,6 +24,10 @@ class OptionController extends Controller {
 	public function companyinfo(){
 		$this->display();
 	}
+	//公告管理
+	public function gonggaoguanli(){
+		$this->display();
+	}
 }
 
 
