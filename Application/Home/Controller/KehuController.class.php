@@ -12,19 +12,9 @@ class KehuController extends Controller {
   		$sql=$a->where($map)->field('zd_data')->find();
 		$a_arr=json_decode($sql['zd_data'],true);
 
-  		$need=array($a_arr);
+  		//$need=array($a_arr);
   		//echo"<pre>";
-  		//var_dump($need);exit;
-		foreach($a_arr as $k=>$v)
-		{
-			if($v['qy']==1)
-			{
-			$need[$k]['id']=$v['id'];
-			$need[$k]['name']=$v['name'];
-			$need[$k]['bt']=$v['bt'];
-			}
-	
-		}
+  	//	var_dump($need);exit;
 
 		$kehu=M('kh');                             //显示客户所需字段
 		$kehu=$kehu->select();
@@ -36,7 +26,8 @@ class KehuController extends Controller {
 				array_splice($val,1,1,$nachu[$k]);
 				$ronghe[]=$val;	 	
 		}
-	
+	//echo "<pre>";
+		//var_dump($ronghe);exit;
 		foreach($ronghe as $k=>$v ){               //获取键值用于循环客户信息
 			foreach($v as $key=>$val){
 				$jianzhi[]=$key;
@@ -54,7 +45,7 @@ class KehuController extends Controller {
  		$yw_cs['ywcs_yh']=1;
  		$ywcs_sql=$ywcs->where($yw_cs)->field('ywcs_data')->find();
  		$ywcs_sql_json=json_decode($ywcs_sql['ywcs_data'],true);
- 
+
  		foreach($ywcs_sql_json as $ywcs_k=>$ywcs_v){
  			
  			foreach($ywcs_v as $k=>$v){
@@ -73,7 +64,8 @@ class KehuController extends Controller {
 	   			}	
 	   		}
 	 } 
-
+//echo "<pre>";
+//var_dump($ywcs_sql_json);exit;
 		$this->assign("ywcs_biao",$ywcs_sql_json);
     	$this->assign('left_conf',$sql_peizhi);
 		$this->assign('list',$jianzhi);

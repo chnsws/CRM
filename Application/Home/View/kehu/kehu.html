@@ -101,10 +101,12 @@
 							    			var t = $('form').serializeArray();
 							   				 $.each(t, function() {
 							     			 d[this.name] = this.value;
-							   				 });
-							   				
-							     		var zhi=$("#caonm").val();
-							     		var rooturl="{$_GET['root_dir']}";
+							   				 });	
+							     			var zhi=$("#caonm").val();
+							     			var rooturl="{$_GET['root_dir']}";
+							     		
+alert(JSON.stringify(d));
+
 
 							        	$.get(rooturl+'/index.php/Home/Kehu/add',{"id": JSON.stringify(d)},
 							        		 function(html){
@@ -304,10 +306,18 @@
 								         		<if condition="$vo.bt eq 1">
 								             		<label for="name">{$vo.name}<span style="color:red">*</span>:</label>
 								             		<if condition="$vo.type eq 3">
-								                		<select >
-								                			<option>123</option>
-								                			<option>456</option>
-								                			<option>789</option>
+								                		<select id="caonm" name="{$vo.id}">
+									                		<foreach name="ywcs_biao" item="vow">	
+									                			<if condition="$vow.id eq $vo['id']">
+									                			 	<foreach name="vow"  item="voow" key="sq" >
+									                			 		<if condition ="$sq eq 'id'">
+																			<option >---请选择---</option>
+									                			 		<else />
+									                						<option value="{$sq}" id="caonm">{$voow}</option>
+									                					</if>
+									                				</foreach>
+									                			</if>
+									                		</foreach>
 								                		</select>
 								                	<else />
 								                	<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all" >
@@ -315,10 +325,18 @@
 								                <else />
 								                	<label for="name">{$vo.name}:</label>
 								                	<if condition="$vo.type eq 3">
-								                		<select >
-								                			<option>123</option>
-								                			<option>456</option>
-								                			<option>789</option>
+								                		<select id="caonm" name="{$vo.id}">
+									                		<foreach name="ywcs_biao" item="vow">	
+									                			<if condition="$vow.id eq $vo['id']">
+									                			 	<foreach name="vow"  item="voow" key="sq" >
+									                			 		<if condition ="$sq eq 'id'">
+																			<option >---请选择---</option>
+									                			 		<else />
+									                						<option value="{$sq}" id="caonm">{$voow}</option>
+									                					</if>
+									                				</foreach>
+									                			</if>
+									                		</foreach>
 								                		</select>
 								                	<else />
 								                	<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all" >
@@ -326,14 +344,7 @@
 								                </if>
 								             </li>
 								    </foreach>
-								    		 <li>
-								             	<label for="name">负责人:</label>
-								                <input type="text" name="name" id="caonm" class="text ui-widget-content ui-corner-all">
-								             </li>
-								              <li>
-								             	<label for="name">部门:</label>
-								                <input type="text" name="bumen" id="caonm" class="text ui-widget-content ui-corner-all">
-								             </li>
+								    		
 							    
 							  </fieldset>
 						  </form>
