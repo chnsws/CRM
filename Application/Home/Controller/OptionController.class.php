@@ -28,6 +28,10 @@ class OptionController extends Controller {
 	public function gonggaoguanli(){
 		$this->display();
 	}
+	//业绩目标
+	public function yejimubiao(){
+		$this->display();
+	}
 }
 
 

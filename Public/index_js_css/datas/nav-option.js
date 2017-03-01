@@ -33,7 +33,7 @@ var navs = [{
 	"children": [{
 		"title": "业绩目标",
 		"icon": "&#xe641;",
-		"href": "button.html"
+		"href": rootdir+"/index.php/Home/Option/yejimubiao"
 	}, {
 		"title": "客户公海",
 		"icon": "&#xe63c;",
