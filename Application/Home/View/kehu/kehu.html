@@ -204,26 +204,31 @@
 			   	<div class="peizhi">
 				   	<div class="left">
 					   	 <table>
+					   	 	<volist name="left_conf" id="vo">
 								<tr >
-								<td>跟进状态：</td>
+									<td>{$vo.name}{$vo.id}{$vo.type}
+										<if condition="$vo.type eq 3">：
+											<volist name="ywcs_biao" id="voo" >
+												  <if condition="$vo.id eq $voo.id ">
+												     <foreach name="voo" item="vooo" key="sq">
+												     	 <if condition="$vo.id eq $voo.id ">
 
+														
+																
+																<a>{$sq}---{$vooo}</a>
+																
+															
+														</if>
+													</foreach>
+													
+													</if>
+											 </volist>
+										<else />
+												：<input type="text" name="{$vo.id}" value="{$vo.id}">
+										</if>
+									</td>
 								</tr>
-								<tr >
-								<td>客户类型：</td>
-
-								</tr>
-								<tr>
-								<td >所属部门：</td>
-
-								</tr>
-								<tr>
-								<td >负责人：</td>
-
-								</tr>
-								<tr>
-								<td >跟进状态：</td>
-
-								</tr>
+							</volist>
 						</table>
 					</div>
 			   	</div>
@@ -264,8 +269,7 @@
 						                    <th>ID</th>
 						                    <th>ID</th>
 						                    <th>ID</th>
-						                    <th>ID</th> 
-						                    <th>ID</th> 
+						                   
 						                </tr>
 						            </thead>
 						           
@@ -299,10 +303,26 @@
 								             <li>
 								         		<if condition="$vo.bt eq 1">
 								             		<label for="name">{$vo.name}<span style="color:red">*</span>:</label>
+								             		<if condition="$vo.type eq 3">
+								                		<select >
+								                			<option>123</option>
+								                			<option>456</option>
+								                			<option>789</option>
+								                		</select>
+								                	<else />
 								                	<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all" >
+								                	</if>
 								                <else />
 								                	<label for="name">{$vo.name}:</label>
+								                	<if condition="$vo.type eq 3">
+								                		<select >
+								                			<option>123</option>
+								                			<option>456</option>
+								                			<option>789</option>
+								                		</select>
+								                	<else />
 								                	<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all" >
+								                	</if>
 								                </if>
 								             </li>
 								    </foreach>
@@ -320,200 +340,15 @@
 				</div>
   		</div>
 	    <div id="tabs-2">
-			   	<li style="margin-top:-36px;margin-left:85%"><button id="create-user">新增用户</button></li>
-			   	<div class="peizhi">
-				   	<div class="left">
-					   	 <table>
-								<tr >
-								<td>跟进状态：</td>
-
-								</tr>
-								<tr >
-								<td>客户类型：</td>
-
-								</tr>
-								<tr>
-								<td >所属部门：</td>
-
-								</tr>
-								<tr>
-								<td >负责人：</td>
-
-								</tr>
-						</table>
-					</div>
-			   	</div>
-   				<div class="anniu">		
-					<span style="margin-top:-8px;margin-left:1%"  class="anniudw">
-							已选0位客户
-					   		<a href="#">批量转移</a>
-					   		<a href="#">转移至客户公海</a>
-					   		<a href="#">批量编辑</a>
-					   		<a href="#">删除所选</a>
-					</span>
-   				</div>
-		   		<div class="kehu">   	
-		   			<div class="panel panel-default">
-			   			 <div class="panel-heading">
-				        	<div class="panel-title">
-				            		客户信息
-				       		 </div>
-			    		</div>
-						<div class="panel-body" >
-								 <table id="table_local" class="table table-bordered table-striped table-hover">
-						            <thead>
-						                <tr>	<th>ID</th>
-						                <foreach name="kehu" item="vo">
-						               	
-						                    <th>{$vo.name}</th>
-
-						                    </foreach>
-						                   <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th> 
-						                    <th>ID</th> 
-						                </tr>
-						            </thead>
-						           
-						                <tbody>
-						               
-									<volist name="kh_xinxi" id="vo">
-									 <tr>
-									
-										<volist name="list" id="voo">
-											<td>
-											{$vo.$voo}
-											</td>		
-										</volist>
-																
-									</tr>		
-									</volist>
-   
-											
-										
-						                </tbody>
-						       
-						  			</table>
-						</div>
-					</div>
-				</div>
-				
-	    </div>
+			   
   <div id="tabs-3">
-   <div class="peizhi"><li style="margin-top:-36px;margin-left:85%"><button id="create-user">新增用户</button></li>
-			   	<div class="peizhi">
-				   	<div class="left">
-					   	 <table>
-								<tr >
-								<td>跟进状态：</td>
-
-								</tr>
-								<tr >
-								<td>客户类型：</td>
-
-								</tr>
-								<tr>
-								<td >所属部门：</td>
-
-								</tr>
-								<tr>
-								<td >负责人：</td>
-
-								</tr>
-								<tr>
-								<td >负责人：</td>
-
-								</tr>
-						</table>
-					</div>
-			   	</div>
-   				<div class="anniu">		
-					<span style="margin-top:-8px;margin-left:1%"  class="anniudw">
-							已选0位客户
-					   		<a href="#">批量转移</a>
-					   		<a href="#">转移至客户公海</a>
-					   		<a href="#">批量编辑</a>
-					   		<a href="#">删除所选</a>
-					</span>
-   				</div>
-		   		<div class="kehu">   	
-		   			<div class="panel panel-default">
-			   			 <div class="panel-heading">
-				        	<div class="panel-title">
-				            		客户信息
-				       		 </div>
-			    		</div>
-						<div class="panel-body" >
-								 <table id="table_local" class="table table-bordered table-striped table-hover">
-						            <thead>
-						                <tr>	<th>ID</th>
-						                <foreach name="kehu" item="vo">
-						               	
-						                    <th>{$vo.name}</th>
-
-						                    </foreach>
-						                   <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th>
-						                    <th>ID</th> 
-						                    <th>ID</th> 
-						                </tr>
-						            </thead>
-						           
-						                <tbody>
-						               
-									<volist name="kh_xinxi" id="vo">
-									 <tr>
-									
-										<volist name="list" id="voo">
-											<td>
-											{$vo.$voo}
-											</td>		
-										</volist>
-																
-									</tr>		
-									</volist>
-   
-											
-										
-						                </tbody>
-						       
-						  			</table>
-						</div>
-					</div>
-				</div>
-				
-   	</div>
+  
   </div>
  <div id="tabs-4">
    第四个
   </div>
 </div>
  
- 
-
-
-
-
-
 	</body>
-	
 
 </html>
