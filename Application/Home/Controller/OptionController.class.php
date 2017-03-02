@@ -32,6 +32,18 @@ class OptionController extends Controller {
 	public function yejimubiao(){
 		$this->display();
 	}
+	//工作报告
+	public function gongzuobaogao(){
+		$this->display();
+	}
+	//自定义业务字段
+	public function zdyyw_ziduan(){
+		$this->display();
+	}
+	//自定义业务参数
+	public function zdyyw_canshu(){
+		$this->display();
+	}
 }
 
 

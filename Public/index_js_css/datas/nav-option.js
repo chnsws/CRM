@@ -41,7 +41,7 @@ var navs = [{
 	}, {
 		"title": "工作报告",
 		"icon": "&#xe63c;",
-		"href": "table.html"
+		"href": rootdir+"/index.php/Home/Option/gongzuobaogao"
 	}]
 	
 }, {
@@ -52,11 +52,11 @@ var navs = [{
 	"children": [{
 		"title": "自定义业务字段",
 		"icon": "&#xe641;",
-		"href": "button.html"
+		"href": rootdir+"/index.php/Home/Option/zdyyw_ziduan"
 	}, {
 		"title": "自定义业务参数",
 		"icon": "&#xe63c;",
-		"href": "form.html"
+		"href": rootdir+"/index.php/Home/Option/zdyyw_canshu"
 	}, {
 		"title": "自定义审批",
 		"icon": "&#xe63c;",
