@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>部门和用户设置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/css/global.css" media="all">
+    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+    <script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+    <!--jqueryUI插件 折叠面板-->
+    <link rel="stylesheet" href="{$_GET['public_dir']}/jquery-ui/option-quanxian-css/jquery-ui.css">
+    <script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.min.js"></script>
+    <!--layUI 插件 --弹窗设计 form表单样式 -->
+    <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <style>
+        *{margin:0;padding:0;}
+        #box div{overflow:hidden;}
+        a{text-decoration:none;cursor:pointer;}
+        ul{list-style:none;}
+        #box{margin-left:10px;margin-right:10px;}
+        
+        #mod-head{height:100px;font-size:22px;line-height:100px;color:#1AA094;font-weight:bold;}
+        #mod1{background-color:#DFF0D8;height:56px;color:#255B56;padding-left:15px;padding-top:10px;padding-bottom:0px;border-radius:0px;}
+        #mod1 div{height:22px;font-size:12px;}
+        #hidden-div{float:right;font-weight:bold;margin-right:15px;font-size:20px;color:#656565;}
+        .left-mar{padding-left:37px;}
+     
+        /*折叠标签css*/
+		.accordion h3{border-radius:0px;height:30px;color:#636363;margin-top:10px;line-height:30px;background-color:#F2F2F2;}
+		.accordion div{border-radius:0px;}
+        /*折叠标签中的表格宽度*/
+        .tuozhuaiwidth{width:100px;}
+        .qiyongwidth{width:100px;}
+        .canshuwidth{width:200px;}
+        /*折叠标签高度*/
+        .layui-table tr{height:50px;}
+        /*修改铅笔样式*/
+        .fa{margin-left:10px;}
+    </style>
+</head>
+
+<body>
+<div id="box">
+    <!--头部文字-->
+    <div id="mod-head">
+    自定义业务字段
+    </div>
+    <!--头部结束-->
+    <!--中部提示-->
+    <div id="mod1">
+        <div>
+            提示：1、所有数据系统都设置了默认值，如需修改相关默认值，建议在使用系统前修改
+            <span id="hidden-div"><a onclick="hidden_div()">×</a></span>
+        </div>
+        <div class="left-mar">
+            2、所有数据是无法删除的，如需调整，可以通过字段左侧的勾选框来设定是否启用。
+        </div>
+    </div>
+    <!--中部结束-->
+    <!--下部数据展示模块-->
+    <div id="mod2">
+        <div class="layui-tab layui-tab-card"><!--选项卡开始-->
+            <ul class="layui-tab-title">
+                <li class="layui-this">线索</li>
+                <li>客户</li>
+                <li>联系人</li>
+                <li>商机</li>
+                <li>合同</li>
+                <li>其他</li>
+            </ul>
+            <div class="layui-tab-content" ><!--选项卡内容-->
+                <!--线索-->
+                <div class="layui-tab-item layui-show">
+                    <!--折叠开始-->
+                    <div class="accordion">
+                        <h3>线索来源</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_xiansuo1">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">广告<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">社交推广<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">研讨会<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">搜索引擎<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">客户介绍<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">独立开发<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">代理商<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">其他<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                        <h3>跟进状态</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_xiansuo2">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">未处理<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">联系方式有效<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">联系方式无效<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">关闭<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                    </div><!--折叠结束-->
+                </div><!--线索结束-->
+                <!--客户开始-->
+                <div class="layui-tab-item">
+                    <!--折叠开始-->
+                    <div class="accordion">
+                        <h3>人员规模</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_kehu1">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth"> <10人 <a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">10-20人<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">20-50人<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">50-100人<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">100-500人<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">500人以上<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                        <h3>跟进状态</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_kehu2">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">初访<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">意向<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">报价<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">成交<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">暂时搁置<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                        <h3>客户类型</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_kehu3">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">A（重要客户）<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">B（普通客户）<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">C（低价值客户）<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                        <h3>客户来源</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_kehu4">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">广告<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">社交推广<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">研讨会<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">搜索引擎<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">客户介绍<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">独立开发<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">代理商<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">其他<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                        <h3>所属行业</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_kehu5">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">服务<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">金融<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">电信<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">教育<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">高科技<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">政府<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">制造<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">能源<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">零售<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">媒体<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">娱乐<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">咨询<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">非营利事业<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">公用事业<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                    </div><!--折叠结束-->
+                </div><!--客户结束-->
+                <!--联系人开始-->
+                <div class="layui-tab-item">
+                    <!--折叠开始-->
+                    <div class="accordion">
+                        <h3>联系人角色</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_lianxiren1">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">决策者<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">审批者<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">采购者<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">评估者<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">用户<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">其他<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                    </div><!--折叠结束-->
+                </div><!--联系人结束-->
+                <!--商机开始-->
+                <div class="layui-tab-item">
+                    <!--折叠开始-->
+                    <div class="accordion">
+                        <h3>商机来源</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_shangji1">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">广告<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">社交推广<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">研讨会<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">搜索引擎<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">客户介绍<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">独立开发<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">代理商<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">其他<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                        <h3>销售阶段</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_shangji2">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">初步接洽<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                    <td class="canshuwidth">签单可能性：10%<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">需求确定<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                    <td class="canshuwidth">签单可能性：10%<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">方案/报价<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                    <td class="canshuwidth">签单可能性：10%<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">谈判/合同<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                    <td class="canshuwidth">签单可能性：10%<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">赢单<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                    <td class="canshuwidth">签单可能性：10%<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">输单<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                    <td class="canshuwidth">签单可能性：10%<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                        <h3>商机类型</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_shangji3">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">普通商机<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">重要商机<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">特殊商机<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                    </div><!--折叠结束-->
+                </div><!--商机结束-->
+                <!--合同开始-->
+                <div class="layui-tab-item">
+                    <!--折叠开始-->
+                    <div class="accordion">
+                        <h3>合同类型</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_hetong1">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">直销合同<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">代理合同<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">采购合同<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">服务合同<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">其他<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                        <h3>付款方式</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_hetong2">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">支票<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">现金<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">银行转账<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">其他<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                        <h3>合同状态</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_hetong3">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">未开始<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">执行中<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">成功结束<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">意外终止<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                        <h3>回款类型</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_hetong4">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">正常回款<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">退款<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">定金<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">其他<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                        <h3>票据类型</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_hetong5">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">增值税普通发票<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">增值税专用发票<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">国税通用机打发票<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">地税通用机打发票<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                    </div><!--折叠结束-->
+                </div><!--合同结束-->
+                <!--其他开始-->
+                <div class="layui-tab-item">
+                     <!--折叠开始-->
+                    <div class="accordion">
+                        <h3>跟进类型</h3>
+                        <div>
+                            <table class="layui-table" lay-skin="line" id="paixu_qita1">
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">电话<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">QQ<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">微信<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">拜访<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">邮件<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">短信<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="tuozhuaiclass tuozhuaiwidth" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
+                                    <td class="qiyongwidth">&nbsp;&nbsp;<input type="checkbox"><span class="teshu">启用</span></td>
+                                    <td class="canshuwidth">其他<a class="xiugai"><i class="fa fa-pencil" aria-hidden="true"></a></td>
+                                </tr>
+                            </table>
+                            <button class="layui-btn" onclick="addnewcanshu()">添加</button>
+                        </div>
+                    </div><!--折叠结束-->
+                </div><!--其他结束-->
+            </div><!--选项卡内容结束-->
+        </div><!--选项卡结束-->
+    </div>
+</div>
+</body>
+
+<script src="{$_GET['public_dir']}/paixu/build-zdycs.js"></script>
+<script>
+    //修改小铅笔的隐藏显示效果
+    $(".canshuwidth").children("a").children(".fa").hide();
+    $(".canshuwidth").mouseover(function(){
+        $(this).children("a").children(".fa").show();
+    })
+    $(".canshuwidth").mouseout(function(){
+        $(this).children("a").children(".fa").hide();
+    })
+    //小铅笔点击效果
+    $(".xiugai").click(function(){
+       var thistext=$(this).parent().text();
+       $(this).parent().html("<input type='text' id='changeinput' onblur='inputblur()' value='"+thistext+"' style='height:25px;'>");
+       $("#changeinput").focus();
+       $("#changeinput").select();
+    });
+    //小铅笔出现的文本框失去焦点后的事件
+    function inputblur(){
+        //alert(1);
+        var newval=$("#changeinput").val();
+        $("#changeinput").parent().html(newval+"<a class='xiugai'><i class='fa fa-pencil' aria-hidden='true'></a>");
+        $(".canshuwidth").children("a").children(".fa").hide();
+        //重新监听class='xiugai'的点击事件
+        $(".xiugai").click(function(){
+            var thistext=$(this).parent().text();
+            $(this).parent().html("<input type='text' id='changeinput' onblur='inputblur()' value='"+thistext+"' style='height:25px;'>");
+            $("#changeinput").focus();
+            $("#changeinput").select();
+        }); 
+    }
+    //上方绿色提示框的关闭效果
+    function hidden_div(){
+        $("#mod1").hide();
+    }
+    //初始化layui的基础组件
+    layui.use('element', function(){
+         var element = layui.element();
+    });
+    //黑色半透明提示
+    function tishi(neirong)
+    {
+        layer.msg(neirong, {
+            time: 1000, 
+        });
+    }
+    //jqueryUI初始化折叠面板
+    $(function() {
+        $( ".accordion" ).accordion({
+            heightStyle: "content"
+        });
+    });
+    //添加新参数
+    $(".layui-btn").click(function(){
+        var oldtable=$(this).parent().children("table").html();
+        var newtable=oldtable+"<tr><td class='tuozhuaiclass tuozhuaiwidth' onmousedown='tuozhuai()'><i class='fa fa-reorder' aria-hidden='true'></i></td><td class='qiyongwidth'>&nbsp;&nbsp;<input type='checkbox'><span class='teshu'>启用</span></td><td class='canshuwidth'><input type='text' id='changeinput' onblur='inputblur()' style='height:25px;'></td></tr>";
+        $(this).parent().children("table").html(newtable);
+        $("#changeinput").focus();
+        $("#changeinput").select();
+        //重新加载小铅笔的js效果
+        $(".canshuwidth").children("a").children(".fa").hide();
+        $(".canshuwidth").mouseover(function(){
+            $(this).children("a").children(".fa").show();
+        })
+        $(".canshuwidth").mouseout(function(){
+            $(this).children("a").children(".fa").hide();
+        })
+        jQuery.getScript("{$_GET['public_dir']}/paixu/build-zdycs.js");
+    })
+    //拖拽监听事件
+    var mouseval='0';
+    $(".tuozhuaiclass").on({
+        //当鼠标按下时，将鼠标值改为1（标记鼠标已经按下）
+        mousedown:function(){
+            mouseval='1';
+            $(".tuozhuaiclass").on({
+                mousemove:function(){
+                    //当鼠标为按下状态时（鼠标值为1时），然后再拖动时，将鼠标值改为2（标记鼠标按下并拖动）
+                    if(mouseval=='1')
+                    {
+                        mouseval='2';
+                        $("body").on({
+                            mouseup:function(){
+                                if(mouseval=='2')
+                                {
+                                    //当鼠标按下并拖动后，然后再松开鼠标时，完成整个拖动事件
+                                    //alert('触发鼠标拖动事件');
+                                    mouseval='0';//还原鼠标值，用来进行下一次拖动判断
+                                }
+                            }
+                        })
+                    }
+                }
+            })
+        }
+    })
+</script>
+</html>
+
