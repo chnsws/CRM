@@ -105,7 +105,6 @@
 							     			var zhi=$("#caonm").val();
 							     			var rooturl="{$_GET['root_dir']}";
 							     		
-alert(JSON.stringify(d));
 
 
 							        	$.get(rooturl+'/index.php/Home/Kehu/add',{"id": JSON.stringify(d)},
@@ -137,6 +136,18 @@ alert(JSON.stringify(d));
 							  });
 							  var aa="";
 							  var zhi="";
+ 		 </script>
+
+ 		 <script>
+				jquery("#shaixuan").click(function(){
+					alert('qqqqq')
+						var strIds="";
+						$("input ['checkbox']").each(function(){
+							if(this.checked){
+								$strIds+=this.value+",";
+							}
+						});
+				})			     
  		 </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/kehucss/xinzeng.css"><!--客户新增CSS-->
 		<style>
@@ -199,7 +210,7 @@ alert(JSON.stringify(d));
 			    <li><a href="#tabs-1">全部客户</a></li>
 			    <li><a href="#tabs-2">我的客户</a></li>
 			    <li><a href="#tabs-3">我下属的客户</a></li>
-			     <li><a href="#tabs-4">客户公海</a></li>
+			    
 			  </ul>
   			<div id="tabs-1">
   					<li style="margin-top:-36px;margin-left:85%"><button id="create-user">新增用户</button></li>
@@ -208,7 +219,7 @@ alert(JSON.stringify(d));
 					   	 <table>
 					   	 	<volist name="left_conf" id="vo">
 								<tr >
-									<td>{$vo.name}{$vo.id}{$vo.type}
+									<td>{$vo.name}{$vo.id}
 										<if condition="$vo.type eq 3">：
 											<volist name="ywcs_biao" id="voo" >
 												  <if condition="$vo.id eq $voo.id ">
@@ -217,7 +228,7 @@ alert(JSON.stringify(d));
 
 														
 																
-																<a>{$sq}---{$vooo}</a>
+																<a href="Kehu/id/{$sq}/id1/{$vooo}/id2/{$vo.id}" id="shaixuan"> {$sq}---{$vooo}</a>
 																
 															
 														</if>
@@ -271,7 +282,8 @@ alert(JSON.stringify(d));
 						                    <th>ID</th>
 						                    <th>ID</th>
 						                    <th>ID</th>
-						                   
+						                   <th>ID</th>
+						                    <th>ID</th>
 						                </tr>
 						            </thead>
 						           
@@ -304,7 +316,7 @@ alert(JSON.stringify(d));
 								  	<foreach name="kehu" item="vo">
 								             <li>
 								         		<if condition="$vo.bt eq 1">
-								             		<label for="name">{$vo.name}<span style="color:red">*</span>:</label>
+								             		<label for="name"><span style="color:red">*</span>{$vo.name}:</label>
 								             		<if condition="$vo.type eq 3">
 								                		<select id="caonm" name="{$vo.id}">
 									                		<foreach name="ywcs_biao" item="vow">	
@@ -342,22 +354,32 @@ alert(JSON.stringify(d));
 								                	<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all" >
 								                	</if>
 								                </if>
+								                	
 								             </li>
+													
 								    </foreach>
 								    		
-							    
+							  		<li><label for="name"><span style="color:red">*</span>负责人：</label> 
+							  				 <select id="caonm" name="fuzeren">
+							  				 	<option>---请选择---</option>
+							  				 <foreach name="fuzeren" item="vo"> 
+							  				 	<option value="{$vo.user_id}">{$vo.user_name}</option>
+							  				  </foreach>   
+							  				 </select>
+							  		</li>
+								   <li><label for="name"><span style="color:red">* </span>部门：
+								   <input type="text" name="department" id="caonm" class="text ui-widget-content ui-corner-all" >
+								  </label> 
 							  </fieldset>
 						  </form>
 				</div>
   		</div>
 	    <div id="tabs-2">
-			   
+			</div>   
   <div id="tabs-3">
   
   </div>
- <div id="tabs-4">
-   第四个
-  </div>
+
 </div>
  
 	</body>

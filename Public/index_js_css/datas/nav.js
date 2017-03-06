@@ -15,7 +15,15 @@ var navs = [{
 	"href": "index.php/Home/Kehu/kehu",
 	"spread": false,
 	
-}, {
+},
+{
+	"title": "客户公海",
+	"icon": "fa-group",
+	"href": "index.php/Home/Kehu/kehu",
+	"spread": false,
+	
+}, 
+{
 	"title": "联系人",
 	"icon": "fa-address-book",
 	"href": "",
