@@ -44,6 +44,10 @@ class OptionController extends Controller {
 	public function zdyyw_canshu(){
 		$this->display();
 	}
+	//自定审批
+	public function shenpi(){
+		$this->display();
+	}
 }
 
 

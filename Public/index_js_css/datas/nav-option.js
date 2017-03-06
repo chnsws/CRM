@@ -60,7 +60,7 @@ var navs = [{
 	}, {
 		"title": "自定义审批",
 		"icon": "&#xe63c;",
-		"href": "table.html"
+		"href": rootdir+"/index.php/Home/Option/shenpi"
 	}]
 	
 }, {
