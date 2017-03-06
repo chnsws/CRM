@@ -75,11 +75,23 @@ class KehuController extends Controller {
 	 } 
 
 
-	 	if($_GET['id']=='canshu1'){
-	 		$get_id=$_GET['id'];
-			$get_id1=$_GET['id1'];
-			$get_id2=$_GET['id2'];
-	 		var_dump($get_id,$get_id1,$get_id2);exit;
+	 	if($_GET['id3']=='0128'){//配置进来的筛选
+	 		$get_id=$_GET['id']; //canshu1
+			$get_id1=$_GET['id1'];//重要客户	
+			$get_id2=$_GET['id2'];//zdy1
+			$get_id3=$_GET['id3'];//0128
+
+			foreach( $ronghe as $k=>$v){
+				foreach ($v as $key=>$val ){
+					if ($key==$get_id2&&$val==$get_id1){
+							$shaixuan1[]=$v;//获取到新的筛选的单条信息
+
+					}
+	 		
+				}
+				
+			}
+			$ronghe1[]=$shaixuan1;//筛选最终信息
 	 	}
 
 	 	$fuzeren=M('user');

@@ -22,7 +22,7 @@
   		<link href="{$_GET['public_dir']}/bootstrap/css/bootstrap.css" rel="stylesheet">
 
 		<script src="{$_GET['public_dir']}/dataTable/js/jquery.dataTables.min.js" ></script>
-
+<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"'" ></script>
 		<script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js"'" ></script>
 		<script src="{$_GET['public_dir']}/dataTable/js/dataTables.
 		.js" ></script>
@@ -138,17 +138,17 @@
 							  var zhi="";
  		 </script>
 
- 		 <script>
-				jquery("#shaixuan").click(function(){
-					alert('qqqqq')
-						var strIds="";
-						$("input ['checkbox']").each(function(){
-							if(this.checked){
-								$strIds+=this.value+",";
-							}
-						});
-				})			     
- 		 </script>
+ 	
+ 		 		<script>
+ 		 			function test(){  
+ 		 				//id/{$sq}/id1/{$vooo}/id2/{$vo.id}/id3/0128
+ 		 				
+ 		 				var id=ev.target.id;
+
+ 		 			alert('123');	
+	}
+ 		 		</script>
+ 	
 		<link rel="stylesheet" href="{$_GET['public_dir']}/kehucss/xinzeng.css"><!--客户新增CSS-->
 		<style>
 		body,ul,li,table,tr{margin:0;padding:0;}
@@ -228,7 +228,7 @@
 
 														
 																
-																<a href="Kehu/id/{$sq}/id1/{$vooo}/id2/{$vo.id}" id="shaixuan"> {$sq}---{$vooo}</a>
+																<!--<a href="Kehu/id/{$sq}/id1/{$vooo}/id2/{$vo.id}/id3/0128" id="shaixuan">--><a onclick="test()"  name ="123" id="sq" value="11"> {$sq}---{$vooo}</a>
 																
 															
 														</if>
@@ -331,6 +331,9 @@
 									                			</if>
 									                		</foreach>
 								                		</select>
+								                		<elseif condition="$vo.type eq 2" />
+								                		<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" >
+								                			
 								                	<else />
 								                	<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all" >
 								                	</if>
@@ -344,14 +347,16 @@
 									                			 		<if condition ="$sq eq 'id'">
 																			<option >---请选择---</option>
 									                			 		<else />
-									                						<option value="{$sq}" id="caonm">{$voow}</option>
+									                						<option value="{$sq}"  id="datepicker"id="caonm">{$voow}</option>
 									                					</if>
 									                				</foreach>
 									                			</if>
 									                		</foreach>
 								                		</select>
+
+								                	
 								                	<else />
-								                	<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all" >
+								                	<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all canimei" >
 								                	</if>
 								                </if>
 								                	
