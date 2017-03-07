@@ -74,9 +74,9 @@
                     search: '',//右上角的搜索文本，可以写html标签
 
                     paginate: {
-                        previous: "首页",
+                        previous: "上一页",
                         next: "下一页",
-                        first: "第一页",
+                        first: "首页",
                         last: "末页"
                     },
 
@@ -87,7 +87,7 @@
                     infoFiltered: "搜索到 _TOTAL_条记录"//筛选之后的左下角筛选提示，
                 },
                 paging: true,
-                pagingType: "first_last_numbers",//分页样式的类型
+                pagingType: "full_numbers",//分页样式的类型
 
             });
             $("#table_local_filter input[type=search]").css({ width: "auto" });//右上角的默认搜索文本框，不写这个就超出去了。
