@@ -26,7 +26,21 @@
 		<script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js"'" ></script>
 		<script src="{$_GET['public_dir']}/dataTable/js/dataTables.
 		.js" ></script>
+
+<!--下面   地区插件-->
+	
+		<link href="{$_GET['public_dir']}/diqu/css/main.css" rel="stylesheet">
+		<link href="{$_GET['public_dir']}/diqu/css/css/demo.css" rel="stylesheet">
+
+		<script>window.jQuery || document.write('<script src="{$_GET['public_dir']}/diqu/js/jquery-1.11.0.min.js"><\/script>')</script>
+		<script src="{$_GET['public_dir']}/diqu/js/distpicker.data.js"></script>
+	    <script src="{$_GET['public_dir']}/diqu/js/distpicker.js"></script>
+	    <script src="{$_GET['public_dir']}/diqu/js/main.js"></script>
+
+<!--end!!-->
+
 		 <script>
+
 		  $(function() {
    				 $( "#tabs" ).tabs();
  		 });
@@ -38,8 +52,8 @@
    				#dialog-form label{ float:left; }
    				  #dialog-form input { float:left; }
 
-   				#dialog-form label{ margin-bottom:12px; width:25%; padding: .8em 0em; text-align:right;}
-   				 #dialog-form input.text { margin-bottom:12px; width:55%; padding: .8em .4em; }
+   				#dialog-form label{ margin-bottom:12px; width:25%;text-align:left;margin-left:18px;padding:.8em;}
+   				 #dialog-form input.text { margin-bottom:12px; width:65%; padding: .8em 0em; }
     			 fieldset { padding:0; border:0; margin-top:25px; }
   				 div#users-contain { width: 350px; margin: 20px 0; }
    				 div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
@@ -92,21 +106,37 @@
 							    $( "#dialog-form" ).dialog({
 							      autoOpen: false,
 							      height: 600,
-							      width: 450,
+							      width: 520,
 							      modal: true,
 							      buttons: {
 							        "确认添加": function() {
-
 							        		var d = {};
 							    			var t = $('form').serializeArray();
 							   				 $.each(t, function() {
-							     			 d[this.name] = this.value;
+							   				 	if(this.name.substr(-1,1)==']')
+							   				 	{
+							   				 		alert(this.name)
+							   				 		var linshikey=this.name.replace('[]','');
+							   				 		if(d[linshikey]!=undefined)
+							   				 		{
+							   				 			d[linshikey]=d[linshikey]+'/'+this.value;
+							   				 		}
+							   				 		else
+							   				 		{
+							   				 			d[linshikey]=this.value;
+							   				 		}
+							   				 		
+							   				 	}
+							   				 	else
+							   				 	{
+							   				 		d[this.name] = this.value;
+							   				 	}
+							     			 
 							   				 });	
-							     			var zhi=$("#caonm").val();
+							     			//var zhi=$("#caonm").val();
 							     			var rooturl="{$_GET['root_dir']}";
+							     		alert(JSON.stringify(d));
 							     		
-
-
 							        	$.get(rooturl+'/index.php/Home/Kehu/add',{"id": JSON.stringify(d)},
 							        		 function(html){
 							        		 		if(html=='ok'){
@@ -310,7 +340,7 @@
 					</div>
 				</div>
 				<div id="dialog-form" title="新增客户">
-		  			<p class="validateTips">所有带*字段都是必填的。</p>
+		  			<p class="validateTips" style="margin:15px 0 0 13px;">所有带*字段都是必填的。</p>
 						  <form id="form1"  method="post">
 						 		<fieldset>
 								  	<foreach name="kehu" item="vo">
@@ -318,36 +348,55 @@
 								         		<if condition="$vo.bt eq 1">
 								             		<label for="name"><span style="color:red">*</span>{$vo.name}:</label>
 								             		<if condition="$vo.type eq 3">
-								                		<select id="caonm" name="{$vo.id}">
+								                		<select   name="{$vo.id}">
 									                		<foreach name="ywcs_biao" item="vow">	
 									                			<if condition="$vow.id eq $vo['id']">
 									                			 	<foreach name="vow"  item="voow" key="sq" >
 									                			 		<if condition ="$sq eq 'id'">
-																			<option >---请选择---</option>
+																			<option style=" padding: .5em 0em;">---请选择---</option>
 									                			 		<else />
-									                						<option value="{$sq}" id="caonm">{$voow}</option>
+									                						<option value="{$sq}"  >{$voow}</option>
 									                					</if>
 									                				</foreach>
 									                			</if>
 									                		</foreach>
 								                		</select>
-								                		<elseif condition="$vo.type eq 2" />
-								                		<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" >
-								                			
+								                	<elseif condition="$vo.type eq 2" />
+								                		<input type="text" name="{$vo.id}"   class="text ui-widget-content ui-corner-all" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" >
+
+													<elseif condition="$vo.type eq 1" />
+								                	<form class="form-inline">
+     													 <div data-toggle="distpicker" style=" overflow:hidden">
+       														
+       														 <div class="form-group" style="width:33.3%; float:left">
+          															<select name="{$vo.id}[]" class="form-control"   ></select>
+        													</div>
+
+													        <div class="form-group" style="width:33.3%; float:left">
+													          		<select name="{$vo.id}[]" class="form-control"   ></select>
+													        </div>
+
+													        <div class="form-group" style="width:33.3%; float:left">
+													         	 <select name="{$vo.id}[]" class="form-control"   ></select>
+													        </div>
+
+													      </div>
+													 </form>
+		
 								                	<else />
-								                	<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all" >
+								                	<input type="text" name="{$vo.id}"  class="text ui-widget-content ui-corner-all" >
 								                	</if>
 								                <else />
 								                	<label for="name">{$vo.name}:</label>
 								                	<if condition="$vo.type eq 3">
-								                		<select id="caonm" name="{$vo.id}">
+								                		<select   name="{$vo.id}">
 									                		<foreach name="ywcs_biao" item="vow">	
 									                			<if condition="$vow.id eq $vo['id']">
 									                			 	<foreach name="vow"  item="voow" key="sq" >
 									                			 		<if condition ="$sq eq 'id'">
 																			<option >---请选择---</option>
 									                			 		<else />
-									                						<option value="{$sq}"  id="datepicker"id="caonm">{$voow}</option>
+									                						<option value="{$sq}"  id="datepicker" >{$voow}</option>
 									                					</if>
 									                				</foreach>
 									                			</if>
@@ -356,7 +405,7 @@
 
 								                	
 								                	<else />
-								                	<input type="text" name="{$vo.id}" id="caonm" class="text ui-widget-content ui-corner-all canimei" >
+								                	<input type="text" name="{$vo.id}"   class="text ui-widget-content ui-corner-all canimei" >
 								                	</if>
 								                </if>
 								                	
@@ -365,7 +414,7 @@
 								    </foreach>
 								    		
 							  		<li><label for="name"><span style="color:red">*</span>负责人：</label> 
-							  				 <select id="caonm" name="fuzeren">
+							  				 <select   name="fuzeren">
 							  				 	<option>---请选择---</option>
 							  				 <foreach name="fuzeren" item="vo"> 
 							  				 	<option value="{$vo.user_id}">{$vo.user_name}</option>
@@ -373,7 +422,7 @@
 							  				 </select>
 							  		</li>
 								   <li><label for="name"><span style="color:red">* </span>部门：
-								   <input type="text" name="department" id="caonm" class="text ui-widget-content ui-corner-all" >
+								   <input type="text" name="department"   class="text ui-widget-content ui-corner-all" >
 								  </label> 
 							  </fieldset>
 						  </form>

@@ -14,7 +14,6 @@ class KehuController extends Controller {
 		$kehu=M('kh');                             //显示客户所需字段data
 		$kehu=$kehu->select();
 
-
 		$conf=M('config');
 		$conf_sql=$conf->field("config_kh_data")->find();
 		$conf_sql_json=json_decode($conf_sql['config_kh_data'],true);
@@ -23,6 +22,7 @@ class KehuController extends Controller {
  		$yw_cs['ywcs_yh']=1;
  		$ywcs_sql=$ywcs->where($yw_cs)->field('ywcs_data')->find();
  		$ywcs_sql_json=json_decode($ywcs_sql['ywcs_data'],true);
+
 
 		$nachu=array();
 		foreach($kehu as $k=>$v){
@@ -91,7 +91,8 @@ class KehuController extends Controller {
 				}
 				
 			}
-			$ronghe1[]=$shaixuan1;//筛选最终信息
+			$ronghe1[]=$shaixuan1;
+			//筛选最终信息
 	 	}
 
 	 	$fuzeren=M('user');
@@ -118,6 +119,8 @@ class KehuController extends Controller {
 		}
 		       
 		    }
-
+		public function index(){//测试
+			$this->display();
+		}
     
 }
