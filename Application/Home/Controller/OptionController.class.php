@@ -48,6 +48,10 @@ class OptionController extends Controller {
 	public function shenpi(){
 		$this->display();
 	}
+	//日志
+	public function rizhi(){
+		$this->display();
+	}
 }
 
 

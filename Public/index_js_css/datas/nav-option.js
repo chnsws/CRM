@@ -71,7 +71,7 @@ var navs = [{
 	"children": [{
 		"title": "日志查询",
 		"icon": "&#xe641;",
-		"href": "button.html"
+		"href": rootdir+"/index.php/Home/Option/rizhi"
 	}]
 }
 
