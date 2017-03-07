@@ -8,10 +8,12 @@ html, body {
  width: 99.5%;
  font-size:12px
 }
+a{ text-decoration:none; }
+li{list-style:none;}
 .white_content {
  display: none;
  position: absolute;
- top: 25%;
+ top: 3%;
  left: 25%;
  width: 50%;
  padding: 6px 16px;
@@ -48,6 +50,6 @@ html, body {
 }
 .con {
  text-indent:1.5pc;
- line-height:21px
+ line-height:30px
 }
 </style>
