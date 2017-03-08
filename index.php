@@ -23,6 +23,46 @@ define('APP_PATH','./Application/');
 $a=$_SERVER['SERVER_NAME'];
 $_GET['public_dir']='http://'.$a.'/Public';//public的路径
 $_GET['root_dir']='http://'.$a;//根目录路径
+//获取浏览器信息函数
+function getSysBro(){  
+    $agent = $_SERVER['HTTP_USER_AGENT'];  
+    $brower = array(  
+        'MSIE' => 1,  
+        'Firefox' => 2,  
+        'QQBrowser' => 3,  
+        'QQ/' => 3,  
+        'UCBrowser' => 4,  
+        'MicroMessenger' => 9,  
+        'Edge' => 5,  
+        'Chrome' => 6,  
+        'Opera' => 7,  
+        'OPR' => 7,  
+        'Safari' => 8,  
+        'Trident/' => 1  
+    );  
+    $system = array(  
+        'Windows Phone' => 4,  
+        'Windows' => 1,  
+        'Android' => 2,  
+        'iPhone' => 3,  
+        'iPad' => 5  
+    );  
+    $browser_num = 0;//未知  
+    $system_num = 0;//未知  
+    foreach($brower as $bro => $val){  
+        if(stripos($agent, $bro) !== false){  
+            $browser_num = $bro;  
+            break;  
+        }  
+    }  
+    foreach($system as $sys => $val){  
+        if(stripos($agent, $sys) !== false){  
+            $system_num = $sys;  
+            break;  
+        }  
+    }  
+    return array('sys' => $system_num, 'bro' => $browser_num);  
+} 
 
 // 引入ThinkPHP入口文件
 require './ThinkPHP/ThinkPHP.php';
