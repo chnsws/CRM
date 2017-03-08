@@ -52,7 +52,7 @@ class LoginController extends Controller {
                 $logtime=time();
                 $addressArr=getCity($nowip);
                 $address=$addressArr["country"].$addressArr["region"].$addressArr["city"];
-                $userbase->query("insert into crm_rz values('','2','0','".$baseuser[user_id]."','0','0','0','0','0','0','$nowip','$address','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','".$fid."','".$logtime."')");
+                $userbase->query("insert into crm_rz values('','2','0','".$baseuser[0][user_id]."','0','0','0','0','0','0','$nowip','$address','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','".$fid."','".$logtime."')");
                 //查询该用户权限
                 $userQuanxian=$userbase->query("select * from crm_quanxian where qx_id='".$baseuser[0]['user_quanxian']."' limit 1");
                 //将权限遍历存到cookie中
