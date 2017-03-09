@@ -13,7 +13,8 @@ class KehuController extends Controller {
 		$a_arr=json_decode($sql['zd_data'],true);
 		$kehu=M('kh');                             //显示客户所需字段data
 		$kehu=$kehu->select();
-
+		//echo"<pre>";
+//var_dump($kehu);exit;
 		$conf=M('config');
 		$conf_sql=$conf->field("config_kh_data")->find();
 		$conf_sql_json=json_decode($conf_sql['config_kh_data'],true);
@@ -23,11 +24,22 @@ class KehuController extends Controller {
  		$ywcs_sql=$ywcs->where($yw_cs)->field('ywcs_data')->find();
  		$ywcs_sql_json=json_decode($ywcs_sql['ywcs_data'],true);
 
-
 		$nachu=array();
+
+		
+			
+			
+			
+		
+
+
+
+
 		foreach($kehu as $k=>$v){
 			$nachu[$k]=json_decode($v['kh_data'],true);
 		}
+		//echo "<pre>";
+//var_dump($nachu);exit;
 		foreach($nachu as $k=>$v){
 		 			foreach($v as $k1=>$v1){
 		 				foreach ($ywcs_sql_json as $key=>$val){		 				
@@ -38,7 +50,8 @@ class KehuController extends Controller {
 		 			}
 		 			$guanlianw[]=$v;
 		 		}
- 		
+ 					
+
 		foreach($kehu as $k=>$val){
 			$valav=array_merge($guanlianw[$k],$val);
 			$dantiao=$valav['kh_id'];//获取到id
@@ -48,7 +61,20 @@ class KehuController extends Controller {
 			
 				$ronghe[]=$valav;	 //多条融合	
 		}
+
+
+		foreach ($ronghe as $key1 => $val1){
+			foreach($val1 as $key2 =>$val2){  
+
+				$ceshi2[]=$val1[$key2];
+			}
+			
+			$adddd[]=$ceshi2;
+			unset($ceshi2);
+		}
 		
+		//echo "<pre>";
+		//var_dump($adddd);exit;
 		foreach($ronghe as $k=>$v ){               //获取键值用于循环客户信息
 			foreach($v as $key=>$val){
 				$jianzhi[]=$key;	
@@ -56,7 +82,7 @@ class KehuController extends Controller {
 				break;
 		}
 
-
+		
  		foreach($ywcs_sql_json as $ywcs_k=>$ywcs_v){
  			foreach($ywcs_v as $k=>$v){
  				$ywcs_jianzhi[]=$k;
@@ -93,8 +119,8 @@ class KehuController extends Controller {
 			}
 			$ronghe1[]=$shaixuan1;
 			//筛选最终信息
-	 	}
-
+	 	}//echo "<pre>";
+	 //	var_dump($ronghe);exit;
 	 	$fuzeren=M('user');
 	 	$fuzeren_sql=$fuzeren->select();//缺少条件
 	 	$this->assign('fuzeren',$fuzeren_sql);
@@ -109,18 +135,65 @@ class KehuController extends Controller {
 
 		public function add(){
 		    $data['kh_data']=$_GET['id'];  	
-		$shi=M('kh');
-		$sql=$shi->add($data);
-		if($sql){
-			echo "ok";
+			$shi=M('kh');
+			$sql=$shi->add($data);
+			if($sql){
+				echo "ok";
 		
-		}else{
-			echo "no";
+			}else{
+				echo "no";
 		}
 		       
 		    }
 		public function index(){//测试
-			$this->display();
+			$bianji_id= $_GET['bianji_id'];//81
+			$bianji_name= $_GET['bianji_name'];//zdy2  fuzeren
+			$bianji_val= $_GET['bianji_val'];//修改内容
+			$sql=substr($bianji_name,0,3);
+
+			$kehus=M('kh'); 
+			$map['kh_id']= $bianji_id; 
+			
+
+
+
+		if($sql=='zdy'){
+			$sql=$kehus->where($bianji_id)->find(); 
+			$sql['kh_data'];
+			$sql_json=json_decode($sql['kh_data'],true);
+			foreach($sql_json as $kt=>$vt){
+				if($kt==$bianji_name){
+					
+					 $sql_json[$kt]=$bianji_val;
+					//echo $sql_json[$kt];
+				}
+			}
+			$save_data=$sql_json;
+			$a_arr['kh_data']=json_encode($save_data,true);
+
+
+			$save=$kehus->where($map)->save($a_arr);
+			if($save){
+				echo "ok";
+			}else{
+				echo "no";
+			}
+			
+
+
+		}else{ 					
+				$kehus=M('kh'); 
+				$map['kh_id']= $bianji_id;  
+				$data[$bianji_name] = $_GET['bianji_val'];                      //显示客户所需字段data
+				$kehu=$kehus->where($map)->save($data);
+				if($kehu){
+					echo "ok";
+				}else{
+					echo "no";
+				}
+		}
+
+	 	
 		}
     
 }

@@ -40,7 +40,7 @@
 <!--end!!-->
 
 		 <script>
-
+			window.rooturl="{$_GET['root_dir']}";
 		  $(function() {
    				 $( "#tabs" ).tabs();
  		 });
@@ -53,6 +53,7 @@
    				  #dialog-form input { float:left; }
 
    				#dialog-form label{ margin-bottom:12px; width:25%;text-align:left;margin-left:18px;padding:.8em;}
+   				#sel{width:120px;}
    				 #dialog-form input.text { margin-bottom:12px; width:65%; padding: .8em 0em; }
     			 fieldset { padding:0; border:0; margin-top:25px; }
   				 div#users-contain { width: 350px; margin: 20px 0; }
@@ -134,7 +135,7 @@
 							     			 
 							   				 });	
 							     			//var zhi=$("#caonm").val();
-							     			var rooturl="{$_GET['root_dir']}";
+							     			
 							     		alert(JSON.stringify(d));
 							     		
 							        	$.get(rooturl+'/index.php/Home/Kehu/add',{"id": JSON.stringify(d)},
@@ -228,7 +229,22 @@
         });
 
     	</script>
+    	<script>
+    		$(document).ready(function(){
 
+    			$(".bianji").blur(function(){
+    				
+    				$.get(rooturl+'/index.php/Home/Kehu/index',{"bianji_id":$(this).attr("id"),"bianji_name":$(this).attr("name"),"bianji_val":$(this).val()},
+							        		 function(html){
+							        		
+													if(html=='ok'){
+							        		 			
+							        		 		}
+							                   });
+							        		
+    			})
+    		})
+    	</script>
 
 	</head>
 
@@ -267,7 +283,12 @@
 													</if>
 											 </volist>
 										<else />
-												：<input type="text" name="{$vo.id}" value="{$vo.id}">
+
+											<select id="sel" name="{$vo.id}">
+												<option>{$vo.id}</option>
+												<option>{$vo.id}</option>
+											</select>
+												<!--：<input type="text" name="{$vo.id}" value="{$vo.id}">-->
 										</if>
 									</td>
 								</tr>
@@ -318,20 +339,21 @@
 						            </thead>
 						           
 						                <tbody>
-						               
-									<volist name="kh_xinxi" id="vo">
-									 <tr>
-									
-										<volist name="list" id="voo">
-											<td>
-											{$vo.$voo}
-											</td>		
+						            
+										<volist name="kh_xinxi" id="vo">
+										 <tr>
+										
+											<volist name="list" id="voo">
+
+												<td>
+												<input type="text" name="{$voo}" id="{$vo['0']}" class="bianji" value="{$vo.$voo}" onblur="">
+												</td>		
+											</volist>
+																	
+										</tr>		
 										</volist>
-																
-									</tr>		
-									</volist>
-   
-											
+	   
+								
 										
 						                </tbody>
 						       
