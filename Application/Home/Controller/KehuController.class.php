@@ -126,8 +126,37 @@ class KehuController extends Controller {
 	 	$this->assign('fuzeren',$fuzeren_sql);
 	 	$this->assign("ywcs_biao",$ywcs_sql_json);
     	$this->assign('left_conf',$sql_peizhi);
-		$this->assign('list',$jianzhi);  
-		$this->assign('kh_xinxi',$ronghe);
+		$this->assign('list',$jianzhi); 
+		//echo "<pre>";
+		//print_r($ronghe);exit;
+		
+
+		
+		foreach($ronghe as $r_k=>$r_v)
+		{
+			$table.="<tr>";
+			foreach($r_v as $k=>$v)
+			{
+		$id=$r_v['0'];
+				
+				$table.="<td name='$k'>
+
+
+
+					<input type='text' width='20px' name='{$k}' id='{$id}' class='bianji' value='{$v}' onblur=''  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
+					<i class='fa fa-pencil' aria-hidden='true'>	</i>
+
+						
+				</td>";
+			}
+			$table.="</tr>";
+			
+		}
+
+
+		$this->assign('table',$table);
+
+
 		$this->assign('kehu',$a_arr);
         $this->display();
     }
@@ -145,32 +174,41 @@ class KehuController extends Controller {
 		}
 		       
 		    }
+
+
+
+
+
 		public function index(){//测试
-			$bianji_id= $_GET['bianji_id'];//81
+			$bianji_id['kh_id']= $_GET['bianji_id'];//81
+
 			$bianji_name= $_GET['bianji_name'];//zdy2  fuzeren
 			$bianji_val= $_GET['bianji_val'];//修改内容
 			$sql=substr($bianji_name,0,3);
 
-			$kehus=M('kh'); 
-			$map['kh_id']= $bianji_id; 
 			
-
+			
+		$kehus=M('kh'); 
 
 
 		if($sql=='zdy'){
-			$sql=$kehus->where($bianji_id)->find(); 
-			$sql['kh_data'];
-			$sql_json=json_decode($sql['kh_data'],true);
-			foreach($sql_json as $kt=>$vt){
-				if($kt==$bianji_name){
-					
-					 $sql_json[$kt]=$bianji_val;
-					//echo $sql_json[$kt];
-				}
-			}
-			$save_data=$sql_json;
-			$a_arr['kh_data']=json_encode($save_data,true);
+			$sql_bianji=$kehus->where($bianji_id)->find();
 
+			$sql_json=json_decode($sql_bianji['kh_data'],true);
+
+			foreach($sql_json as $kt=>$vt){
+				
+
+				if($kt==$bianji_name){
+					$sql_json[$kt]=$bianji_val;
+					
+				}
+					 
+			}
+			$map['kh_id']= $bianji_id['kh_id']; 
+			$save_data=$sql_json;
+
+			$a_arr['kh_data']=json_encode($save_data,true);
 
 			$save=$kehus->where($map)->save($a_arr);
 			if($save){
@@ -181,9 +219,10 @@ class KehuController extends Controller {
 			
 
 
-		}else{ 					
+		}else{ 		
+
 				$kehus=M('kh'); 
-				$map['kh_id']= $bianji_id;  
+				$map['kh_id']= $bianji_id['kh_id'];  
 				$data[$bianji_name] = $_GET['bianji_val'];                      //显示客户所需字段data
 				$kehu=$kehus->where($map)->save($data);
 				if($kehu){
@@ -195,5 +234,71 @@ class KehuController extends Controller {
 
 	 	
 		}
+
+
+
+
+
+
+
+		public function jb_bianji(){//测试
+			$kehu=M('kh');                             //显示客户所需字段data
+			$kehu=$kehu->select();
+			//echo"<pre>";
+
+			foreach($kehu as $k=>$v){
+				$nachu[$k]=json_decode($v['kh_data'],true);
+			}
+		
+			foreach($nachu as $k=>$v){
+			 			foreach($v as $k1=>$v1){
+			 				foreach ($ywcs_sql_json as $key=>$val){		 				
+			 					if($k1==$val['id']){
+			 						$v[$k1]=$val[$v1];						
+			 					} 		 					
+			 				}
+			 			}
+			 			$guanlianw[]=$v;
+			 		}
+	 				
+
+		foreach($kehu as $k=>$val){
+			$valav=array_merge($guanlianw[$k],$val);
+			$dantiao=$valav['kh_id'];//获取到id
+			unset($valav['kh_id']); 
+			unset($valav['kh_data']); 
+			array_unshift($valav,$dantiao); //整理好的单条信息
+			
+				$ronghe[]=$valav;	 //多条融合	
+		}
+	
+			foreach($ronghe as $r_k=>$r_v)
+				{
+					$table.="<tr>";
+					foreach($r_v as $k=>$v)
+					{
+				$id=$r_v['0'];
+						
+						$table.="<td name='$k'>
+
+
+
+							<input type='text' width='20px' name='{$k}' id='{$id}' class='bianji' value='{$v}' onblur=''  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
+							<i class='fa fa-pencil' aria-hidden='true'>	</i>
+
+								
+						</td>";
+					}
+					$table.="</tr>";
+					
+				}
+
+					echo $table;
+		
+
+
+
+		}
+
     
 }

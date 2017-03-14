@@ -16,7 +16,7 @@
 		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
 		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/jquery-ui/jquery-ui.css">
-
+		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
 
 		<link href="{$_GET['public_dir']}/dataTable/css/dataTables.bootstrap.css" rel="stylesheet">
   		<link href="{$_GET['public_dir']}/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -49,6 +49,7 @@
 			  <style>
     			 body { font-size: 62.5%; }
     			 li{overflow:hidden;}
+
    				#dialog-form label{ float:left; }
    				  #dialog-form input { float:left; }
 
@@ -229,22 +230,7 @@
         });
 
     	</script>
-    	<script>
-    		$(document).ready(function(){
-
-    			$(".bianji").blur(function(){
-    				
-    				$.get(rooturl+'/index.php/Home/Kehu/index',{"bianji_id":$(this).attr("id"),"bianji_name":$(this).attr("name"),"bianji_val":$(this).val()},
-							        		 function(html){
-							        		
-													if(html=='ok'){
-							        		 			
-							        		 		}
-							                   });
-							        		
-    			})
-    		})
-    	</script>
+    	
 
 	</head>
 
@@ -338,22 +324,25 @@
 						                </tr>
 						            </thead>
 						           
-						                <tbody>
-						            
-										<volist name="kh_xinxi" id="vo">
+						                <tbody id="jb_bianji">
+						   
+									<!--	<volist name="kh_xinxi" id="vo">
 										 <tr>
 										
 											<volist name="list" id="voo">
 
 												<td>
-												<input type="text" name="{$voo}" id="{$vo['0']}" class="bianji" value="{$vo.$voo}" onblur="">
+
+											
+											<input type="text" width="20px" name="{$voo}" id="{$vo['0']}" class="bianji" value="{$vo.$voo}" onblur=""  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
+											<i class="fa fa-pencil" aria-hidden="true">	</i>
 												</td>		
 											</volist>
 																	
 										</tr>		
 										</volist>
-	   
-								
+	   -->
+					{$table}
 										
 						                </tbody>
 						       
@@ -461,3 +450,33 @@
 	</body>
 
 </html>
+<script>
+    		function blurfun(){
+
+    			$(".bianji").blur(function(){
+    				if($(this).val()==$(this).attr("value")){
+    				alert("没有修改信息");
+    				}else{
+    					$.get(rooturl+'/index.php/Home/Kehu/index',{"bianji_id":$(this).attr("id"),"bianji_name":$(this).attr("name"),"bianji_val":$(this).val()},
+							        		 function(html){
+							        		//alert(html)
+													if(html=='ok'){
+							        		 		
+							        		 			$.get(rooturl+'/index.php/Home/Kehu/jb_bianji',{"jb_id)":'1'},
+							        		 				function(html){
+							        		 					alert("老子已经刷新了！")
+															$("#jb_bianji").html(html);
+															blurfun();
+
+															});
+
+							        		 		}
+							                   });
+
+    					
+    				}
+							        		
+    			})
+    		}
+$(document).ready(blurfun());
+    	</script>
