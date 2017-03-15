@@ -63,7 +63,26 @@ function getSysBro(){
     }  
     return array('sys' => $system_num, 'bro' => $browser_num);  
 } 
+//获取登录地点方法
+function getCity($ip = '')
+{
+    if($ip=='::1')
+        $ip="127.0.0.1";
+    if($ip == ''){
+        $url = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json";
+        $ip=json_decode(file_get_contents($url),true);
+        $data = $ip;
+    }else{
+        $url="http://ip.taobao.com/service/getIpInfo.php?ip=".$ip;
+        $ip=json_decode(file_get_contents($url));   
+        if((string)$ip->code=='1'){
+            return false;
+        }
+        $data = (array)$ip->data;
+    }
 
+    return $data;   
+}
 // 引入ThinkPHP入口文件
 require './ThinkPHP/ThinkPHP.php';
 
