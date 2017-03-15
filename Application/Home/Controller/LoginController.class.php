@@ -11,26 +11,7 @@ class LoginController extends Controller {
         $getname=$_POST['name'];//前端页面传过来的用户名
         $getpwd =$_POST['pwd'];//前端页面传过来的md5加密后的密码
         $jizhu  =$_POST['jizhu'];//是否记住账号
-        //获取登录地点方法
-        function getCity($ip = '')
-        {
-            if($ip=='::1')
-                $ip="127.0.0.1";
-            if($ip == ''){
-                $url = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json";
-                $ip=json_decode(file_get_contents($url),true);
-                $data = $ip;
-            }else{
-                $url="http://ip.taobao.com/service/getIpInfo.php?ip=".$ip;
-                $ip=json_decode(file_get_contents($url));   
-                if((string)$ip->code=='1'){
-                    return false;
-                }
-                $data = (array)$ip->data;
-            }
-
-            return $data;   
-        }
+        
         
         $userbase=M("user");
         $baseuser=$userbase->query("select * from `crm_user` where user_phone='$getname' and user_pwd_md5='$getpwd' and user_del='0' ");
@@ -39,6 +20,12 @@ class LoginController extends Controller {
             //判断该用户的身份是否到期
             if($baseuser[0]['user_youxiaoqi']>=date("Y-m-d",time()))
             {
+                //判断该用户是否被冻结
+                if($baseuser[0]['user_act']=='0')
+                {
+                    echo '4';
+                    die;
+                }
                 //修改该用户的最后登录时间，浏览器，IP
                 $sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
                 $nowtime=date("Y-m-d H:i:s",time());//当前时间

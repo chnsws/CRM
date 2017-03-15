@@ -64,7 +64,7 @@
 		function tishi(neirong)
 		{
 			layer.msg(neirong, {
-				time: 1000, 
+				time: 2000, 
 			});
 		}
 		root_dir="{$_GET['root_dir']}";
@@ -101,6 +101,10 @@
 				else if(is_success=='3')
 				{
 					tishi("您的账户已过期，请联系网站管理员进行续费。");
+				}
+				else if(is_success=='4')
+				{
+					tishi("您的账户已被冻结，请联系公司管理员进行解冻。");
 				}
 				else
 				{
