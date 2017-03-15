@@ -507,6 +507,13 @@
 										});
 										onshijian();
 									});
+									$.get(root_dir+'/index.php/Home/OptionDo/usershuaxin',{},function(searcharr){
+										var fhArr=searcharr.split("@@&&");
+										//更新用户表格
+										$("#table_local").children("tbody").html(fhArr[1]);
+										//更新添加用户时的主管下拉框
+										$("#zhuguan").html(fhArr[0]);
+									});
 									tishi("修改成功");
 									layer.close(index);
 									nowclick='b';
@@ -566,6 +573,13 @@
 								});
 								onshijian();
 							});
+							$.get(root_dir+'/index.php/Home/OptionDo/usershuaxin',{},function(searcharr){
+								var fhArr=searcharr.split("@@&&");
+								//更新用户表格
+								$("#table_local").children("tbody").html(fhArr[1]);
+								//更新添加用户时的主管下拉框
+								$("#zhuguan").html(fhArr[0]);
+							});
 							tishi("删除成功");
 						}
 						else
@@ -622,7 +636,7 @@
 					tishi("手机号不能为空");
 					return false;
 				}
-				if (!adduserphone.match(/^(((13[0-9]{1})|159|153)+\d{8})$/)) 
+				if (!adduserphone.match(/^1[0-9]{10}$/)) 
 				{
 					tishi("手机号格式不正确");
 					return false;
@@ -891,7 +905,7 @@
 							tishi("手机号不能为空");
 							return false;
 						}
-						if (!adduserphone.match(/^(((13[0-9]{1})|159|153)+\d{8})$/)) 
+						if (!adduserphone.match(/^1[0-9]{10}$/)) 
 						{
 							tishi("手机号格式不正确");
 							return false;
