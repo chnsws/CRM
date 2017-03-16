@@ -211,6 +211,22 @@ class OptionController extends Controller {
 	}
 	//角色和权限设置
 	public function juesequanxian(){
+		$loginuserid=cookie("user_id");
+		$qxbase=M("quanxian");
+		$qxArr=$qxbase->query("select * from crm_quanxian where qx_company='$loginuserid' or qx_company='0' ");
+		$juesestr='';
+		foreach($qxArr as $qxk=>$qxv)
+		{
+			if($qxv['qx_company']=='0')
+			{
+				$juesestr.="<div class='left-juese is-selected' onclick='morenJsClick()' id='qx".$qxv['qx_id']."'>".$qxv['qx_name']."<span>系统默认</span></div>";
+			}
+			else
+			{
+				$juesestr.="<div class='left-juese' onclick='jsClick($qxv[qx_id])' id='qx".$qxv['qx_id']."'>".$qxv['qx_name']."<i class='fa fa-trash-o' aria-hidden='true' onclick='jsdel(".$qxv['qx_id'].")' ></i><i class='fa fa-pencil' aria-hidden='true' onclick='jsedit(".$qxv['qx_id'].")'></i></div>";
+			}
+		}
+		$this->assign("jueselist",$juesestr);
 		$this->display();
 	}
 	//公司信息设置
