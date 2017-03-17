@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>客户</title>
+		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+
+		<!--jq ui-->
+		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="{$_GET['public_dir']}/jquery-ui/jquery-ui.css">
+  		<!--jqui 结束-->
+   		<style>
+		body,ul,li,table,tr{margin:0;padding:0;font-family:宋体; color:#333;}
+		.top{ width:100%;height:50px ;} 
+		.top1{  position: relative; left: 10px; top :16px;}
+		.name{font-size:24px; color:black;}
+		.fuzeren{ position: relative; left: 15px;font-size:14px;}
+		.fuzename{color:blue;}
+		.anniu{ position: relative; top :30px;}
+		.quanjing_left{ height:100%;border: 1px solid #eee;}
+		.quanjing_right{ height:600px;border: 1px solid #eee;}
+		.ziliao{height:40px;width:100%; background-color:#eee;}
+		#tabs-1{position: relative; right :18px;}
+.jiben{position: relative; left :20px;top:10px;}
+.phone{position: relative; left :20px;top:20px;}
+.xiaoshou{position: relative; left :20px;top:10px;width:107%;}
+.phone1{line-height:80px;position: relative; left :20px;}
+
+#shangc_top{padding-top: 30px}
+
+		</style>
+
+	</head>
+
+	<body >
+		<div class="top">
+			<div class="top1" >
+				
+				<span class="name" >{$a_id}</span> <span class="fuzeren">负责人:<span class="fuzename">{$fuzeren}</span></span>
+				
+			</div>
+			<div class="top1 anniu">		
+					
+							<select >
+								<option>意向</option>
+								<option>出访</option>
+								<option>跟进</option>
+								<option>不错</option>
+							</select>
+							<select >
+								<option>添加</option>
+								<option>联系人</option>
+								<option>商机</option>
+								<option>合同</option>
+							</select>
+							<input type="button" name="" value="转移给他人">
+							 <input type="button" name="" value="转移至公海"> 
+					   		
+					   		 <input type="button" name="" value="编辑"> 
+					   		 <input type="button" name="" value="删除"> 
+					
+   			</div>
+   		
+		</div>		 
+		<div id="tabs">
+			  <ul>
+			    <li><a href="#tabs-1">客户全景</a></li>
+			    <li><a href="#tabs-2">客户资料</a></li>
+			    <li><a href="#tabs-3">下级客户</a></li>
+			    <li><a href="#tabs-4">联系人</a></li>
+			    <li><a href="#tabs-5">商机</a></li>
+			    <li><a href="#tabs-6">合同</a></li>
+			    <li><a href="#tabs-7">提醒</a></li>
+			    <li><a href="#tabs-8">附件</a></li>
+			    <li><a href="#tabs-9">操作日志</a></li>
+
+			  </ul>
+	  		<div id="tabs-1" style="overflow:hidden;width:100%">
+	  			<div class="quanjing_left" style="width:50%; float:left">
+	  				<div class="dan">
+	  				<div class="ziliao">
+	  					<span class="jiben">基本资料</span>
+	  				</div>
+	  				<div >
+	  					<span class="phone">客户类型：A（重要客户）</span><br />
+	  					<span class="phone1">电话：15101574324</span>
+	  				</div>
+	  				</div>
+	  				<div class="dan">
+	  				<div class="ziliao">
+	  					<span class="jiben">联系人</span>
+	  				</div>
+	  				<div >
+	  					
+	  					<span class="phone1">暂无任何记录</span>
+	  				</div>
+	  				</div>
+	  				<div class="dan">
+	  				<div class="ziliao">
+	  					<span class="jiben">商机</span>
+	  				</div>
+	  				<div >
+	  					
+	  					<span class="phone1">暂无任何记录</span>
+	  				</div>
+	  				</div>
+	  				<div class="dan">
+	  				<div class="ziliao">
+	  					<span class="jiben">合同</span>
+	  				</div>
+	  				<div >
+	  					
+	  					<span class="phone1">暂无任何记录</span>
+	  				</div>
+	  				</div>
+	  				<div class="dan">
+	  				<div class="ziliao">
+	  					<span class="jiben">交易数据</span>
+	  				</div>
+	  				<div >
+	  				
+	  					<span class="phone1">暂无任何记录</span>
+	  				</div>
+	  				</div>
+	  			</div>
+	  			<div class="quanjing_right" style="width:45%;float:left;position: relative; left :50px;">
+					<div class="dan">
+	  				<div class="ziliao">
+	  					<span class="xiaoshou">销售动态</span>
+	  				</div>
+	  				<div >
+	  					<span class="phone">客户类型：A（重要客户）</span><br />
+	  					<span class="phone1">电话：15101574324</span>
+	  				</div>
+	  				</div>
+
+	  			</div>
+	  		</div>
+	  		<div id="tabs-2">
+	  			客户资料
+	  		</div>
+	  		<div id="tabs-3">
+	  			下级客户
+	  		</div>
+	  		<div id="tabs-4">
+	  			联系人
+	  		</div>
+	  		<div id="tabs-5">
+	  			商机
+	  		</div>
+	  		<div id="tabs-6">
+	  			合同
+	  		</div>
+	  		<div id="tabs-7">
+	  			提醒
+	  		</div>
+	  		<div id="tabs-8">
+	  		
+
+	  		<div >
+	  		<input type="button" id="dialog-form" onclick="openwindow()" value="+文件上传">
+	  		<table class="layui-table" lay-skin="line">
+	  	<thead>
+	  				<th >ID</th>
+	  				<th >上传时间</th>
+	  				<th >附件名称</th>
+	  				<th >大小</td>
+	  				<th >备注</th>
+	  				<th  colspan='2'>操作</th>
+	  			
+		</thead>
+		<tbody class="fujian_del">
+		<foreach name="sql" item="vo">
+	  			<tr>
+	  		<td >{$vo.id}</td>
+	  				<td >{$vo.sc_data}</td>
+	  				<td >{$vo.fujian_name}</td>
+	  				<td >{$vo.big}</td>
+	  				<td >{$vo.beizhu}</td>
+	  				<td  ><a href="http://127.0.0.1/{$vo.lujing}">预览</a>|<a href="{$_GET['root_dir']}/{$vo.lujing}">下载</a>|<span class="del" id="{$vo.id}">删除</span></td>
+	  			</tr> 
+		</foreach>
+		</tbody>
+	  		</table>  
+
+
+				
+		  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Kehu/upload" enctype="multipart/form-data" method="post" style="margin:20px;">
+	  					<input type="file" name="wenjian"  >
+	  					<div id="shangc_top">备&nbsp;&nbsp;&nbsp;&nbsp;注：<!-- 第一个是普通textarea -->
+					<textarea name="wenbenyu" class="comments" rows="5" cols="30"> </textarea>  </div>
+	  					<div id="shangc_top" ><input type="submit" value="上传附件"  class="layui-btn layui-btn-small"></div>
+	  				</form>
+						
+			
+
+
+	  		</div>
+	  		</div>
+	  		<div id="tabs-9">
+	  			操作日志
+	  		</div>
+
+  		</div>
+	</body>
+ 		
+ 		<script>
+ 		$("#uploadform").hide();
+			window.rooturl="{$_GET['root_dir']}";
+		  $(function() {
+   				 $( "#tabs" ).tabs();
+ 		 });
+
+
+		  function openwindow()
+		  {
+		  	layui.use('layer', function(){
+				var layer = layui.layer;
+				layer.open({
+					type:1,
+					area:'300px',
+					title: '文件上传',
+					content:$('#uploadform')
+				}); 
+			});              
+		  }
+
+
+	
+  		</script>
+</html>
+	<script>
+    		function blurfun(){
+    			$(".del").click(function(){
+
+					
+					alert($(this).attr("id"))
+    				$.get(rooturl+'/index.php/Home/Kehu/delete',{"id":$(this).attr("id")},
+							        		 				function(html){
+							        		 					alert(html)
+															$(".fujian_del").html(html);
+															blurfun();
+
+															});
+
+    			});
+    		};
+    		blurfun();
+    	</script>
