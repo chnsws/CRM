@@ -171,16 +171,7 @@
  		 </script>
 
  	
- 		 		<script>
- 		 			function test(){  
- 		 				//id/{$sq}/id1/{$vooo}/id2/{$vo.id}/id3/0128
- 		 				
- 		 				var id=ev.target.id;
-
- 		 			alert('123');	
-	}
- 		 		</script>
- 	
+ 		 		
 		<link rel="stylesheet" href="{$_GET['public_dir']}/kehucss/xinzeng.css"><!--客户新增CSS-->
 		<style>
 		body,ul,li,table,tr{margin:0;padding:0;}
@@ -251,7 +242,7 @@
 					   	 <table>
 					   	 	<volist name="left_conf" id="vo">
 								<tr >
-									<td>{$vo.name}{$vo.id}
+									<td>{$vo.name}
 										<if condition="$vo.type eq 3">：
 											<volist name="ywcs_biao" id="voo" >
 												  <if condition="$vo.id eq $voo.id ">
@@ -259,8 +250,8 @@
 												     	 <if condition="$vo.id eq $voo.id ">
 
 														
-																
-																<!--<a href="Kehu/id/{$sq}/id1/{$vooo}/id2/{$vo.id}/id3/0128" id="shaixuan">--><a onclick="test()"  name ="123" id="sq" value="11"> {$sq}---{$vooo}</a>
+														
+															<input type='text' width='20px' name="{$vo.id}" id='{$sq}' class='shaixuan' value="{$vooo}" style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px ' />
 																
 															
 														</if>
@@ -323,7 +314,7 @@
 						                    <th>ID</th>
 						                </tr>
 						            </thead>
-						           
+						  
 						                <tbody id="jb_bianji">
 						   
 									<!--	<volist name="kh_xinxi" id="vo">
@@ -342,10 +333,11 @@
 										</tr>		
 										</volist>
 	   -->
+	
 					{$table}
 										
 						                </tbody>
-						       
+			</if>			       
 						  			</table>
 						</div>
 					</div>
@@ -479,4 +471,21 @@
     			})
     		}
 $(document).ready(blurfun());
+    	</script>
+	    <script>
+    		$(document).ready(function(){
+    			$(".shaixuan").click(function(){
+
+alert($(this).attr("name"))
+alert($(this).attr("id"))
+    				$.get(rooturl+'/index.php/Home/Kehu/shaixuan',{"title":$(this).attr("name"),"val":$(this).attr("id")},
+							        		 				function(html){
+							        		 					alert(html)
+															$("#jb_bianji").html(html);
+															blurfun();
+
+															});
+
+    			});
+    		});
     	</script>
