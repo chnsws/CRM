@@ -136,13 +136,17 @@ class KehuController extends Controller {
 		{
 			$table.="<tr id='tr".$r_v['0']."'>";
 			foreach($r_v as $k=>$v)
-			{
+			{//echo "<pre>";
+			//	var_dump($r_v);exit;
+
+				$a_fuzeren=$r_v['fuzeren'];
+
 		$id=$r_v['0'];
 		//var_dump($k);exit;
 		//echo "<pre>";
 		//	var_dump($r_v['0']);exit;
 				if($k=='zdy0')
-					$xs123="<a href='kehumingcheng'><input type='text' width='20px' name='{$k}' id='{$id}' value='{$v}' readonly='true' style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
+					$xs123="<a href='kehumingcheng/id/$v/fuzeren/$a_fuzeren'><input type='text' width='20px' name='{$k}' id='{$id}' value='{$v}' readonly='true' style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
 					</a>";
 				
 				else
@@ -344,20 +348,53 @@ class KehuController extends Controller {
 
 		}
 		public function kehumingcheng(){
+			$a_id=$_GET['id'];
+			
+			$fuzeren=$_GET['fuzeren'];
 			$sql=M('file');
 			$sql_select=$sql->select();
 			$this->assign('sql',$sql_select);
+			$this->assign('a_id',$a_id);
+			$this->assign('fuzeren',$fuzeren);
 			$this->display();
 		}
 		public function delete(){
+
 			$sql['id']=$_GET['id'];
 			 $sql_delete=M('file');
        		$sql_file_select=$sql_delete->where($sql)->delete();
+       		
+
        		if($sql_file_select){
-       				$this->success("删除成功",U('Kehu/kehumingcheng'));
-       		}else{
-       			 	$this->error("删除失败");
-       			 }
+				$sql=M('file');
+				$sql_select=$sql->field('id,sc_data,fujian_name,big,beizhu')->select();
+
+		foreach($sql_select as $k=>$v)
+					{
+						$id=$v['id'];
+						
+						
+			$table.="<tr>";
+					foreach($v as $k_a=>$v_a)
+						
+					{
+						
+						$table.="<td name='$k'>
+
+
+						{$v_a}
+
+								
+						</td>";
+					}
+					$table.="<td>预览|<span class='del' id=$id>删除</span></td></tr>";
+					
+				}
+					
+
+					echo $table;
+
+			}
 		}
 		public function upload(){
 			    $upload = new \Think\Upload();// 实例化上传类
