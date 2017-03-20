@@ -1,4 +1,4 @@
-var Area = [
+window.Area = [
     {
         "provinceCode": "110000",
         "provinceName": "北京市",

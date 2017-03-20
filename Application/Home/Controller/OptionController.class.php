@@ -231,6 +231,28 @@ class OptionController extends Controller {
 	}
 	//公司信息设置
 	public function companyinfo(){
+		if(cookie("islogin")!='1')
+		{
+			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
+			die();
+		}
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$gsbase=M("gongsixinxi");
+		$gsxxarr=$gsbase->query("select * from crm_gongsixinxi where gsxx_yh='$fid' limit 1");
+		if($gsxxarr[0]['gsxx_img']=='0'||$gsxxarr[0]['gsxx_img']=='')
+        {
+            $gsxxarr[0]['gsxx_img']="moren.jpg";
+        }
+		else
+		{
+			$gsxxarr[0]['gsxx_img']=$gsxxarr[0]['gsxx_img'];
+		}
+		$gsguimo=array(0=>'',1=>'<10人',2=>'10-20人',3=>'20-50人',4=>'50-100人',5=>'100-500人',6=>'500人以上');
+		$hangye=array(0=>'',1=>'电信',2=>'教育',3=>'高科技',4=>'政府',5=>'制造业',6=>'服务业',7=>'能源',8=>'零售',9=>'媒体',10=>'娱乐',11=>'咨询',12=>'金融',13=>'公共事业',14=>'非营利事业',15=>'其他');
+
+		$this->assign("hangye",$hangye);
+		$this->assign("gsguimo",$gsguimo);
+		$this->assign("gsxxarr",$gsxxarr[0]);
 		$this->display();
 	}
 	//公告管理
