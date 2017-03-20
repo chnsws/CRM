@@ -378,18 +378,27 @@
 				var changejuese=nowClcikJueseId;
 				var changefiledvalue=data.elem.checked;
 				var changefiledname=$("#qx"+changejuese).text();
+				layui.use('layer', function(){
+					var layer = layui.layer;
+					window.jiazai=layer.open({
+						type:3,
+					}); 
+				}); 
 				//改变数据库的该权限的值
 				$.get(root_dir+"/index.php/Home/QuanxianDo/changeqxval",{"changefiled":changefiled,"changejuese":changejuese,"changefiledvalue":changefiledvalue,"changefiledname":changefiledname},function(cqvres){
 					if(cqvres=='1')
 					{
+						layer.close(jiazai);
 						tishi("修改成功");
 					}
 					else if(cqvres=='2')
 					{
+						layer.close(jiazai);
 						tishi("修改失败");
 					}
 					else
 					{
+						layer.close(jiazai);
 						tishi("修改失败，请刷新后重试");
 					}
 				});
@@ -617,12 +626,21 @@
 		}
 		//数据权限改变
 		$("input[type='radio']").change(function(){
+
+			layui.use('layer', function(){
+				var layer = layui.layer;
+				window.jiazai=layer.open({
+					type:3,
+				}); 
+			}); 
+
 			var changeid=nowClcikJueseId;
 			var changeradioval=$(this).val();
 			var thisjsName=$("#qx"+changeid).text();
 			$.get(root_dir+"/index.php/Home/QuanxianDo/dataqxedit",{"changeid":changeid,"changeradioval":changeradioval,"thisjsName":thisjsName},function(dataqxres){
 				if(dataqxres=='1')
 				{
+					layer.close(jiazai);
 					tishi("修改成功");
 				}
 				else if(dataqxres=='2')
