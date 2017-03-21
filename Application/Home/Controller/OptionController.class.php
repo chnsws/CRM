@@ -257,6 +257,47 @@ class OptionController extends Controller {
 	}
 	//公告管理
 	public function gonggaoguanli(){
+		if(cookie("islogin")!='1')
+		{
+			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
+			die();
+		}
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$ggbase=M("ggshezhi");
+		$ggarr=$ggbase->query("select ggsz_id,ggsz_name,ggsz_ydcs,ggsz_fbsj,ggsz_zd,user_name from crm_ggshezhi left join crm_user on ggsz_yh=user_id where ggsz_yh='$fid' order by ggsz_zd_sj desc,ggsz_fbsj desc");
+		$ggzdliststr='';
+		$ggliststr='';
+		foreach($ggarr as $v)
+		{
+			if($v['ggsz_zd']=='1')
+			{
+				$ggzdliststr.="<tr><td class='checkbox_row'><input type='checkbox' value='".$v['ggsz_id']."' name='ggcheckbox'></td><td><a href='".$_GET['root_dir']."/index.php/Home/Option/gonggaomore?ggid=".$v['ggsz_id']."'>".$v['ggsz_name']."</a></td><td>".$v['ggsz_ydcs']."</td><td>".$v['user_name']."</td><td>".$v['ggsz_fbsj']."</td><td><a onclick='ggbianji(".$v['ggsz_id'].")'>编辑</a><a onclick='ggzhiding(".$v['ggsz_id'].",0)'>取消置顶</a><a onclick=ggshanchu('".$v['ggsz_id']."','".$v['ggsz_name']."')>删除</a></td></tr>";
+			}
+			else
+			{
+				$ggliststr.="<tr><td class='checkbox_row'><input type='checkbox' value='".$v['ggsz_id']."' name='ggcheckbox'></td><td><a href='".$_GET['root_dir']."/index.php/Home/Option/gonggaomore?ggid=".$v['ggsz_id']."'>".$v['ggsz_name']."</a></td><td>".$v['ggsz_ydcs']."</td><td>".$v['user_name']."</td><td>".$v['ggsz_fbsj']."</td><td><a onclick='ggbianji(".$v['ggsz_id'].")'>编辑</a><a onclick='ggzhiding(".$v['ggsz_id'].",1)'>置顶</a><a onclick=ggshanchu('".$v['ggsz_id']."','".$v['ggsz_name']."')>删除</a></td></tr>";
+			}
+			
+		}
+		$this->assign("gglist",$ggzdliststr.$ggliststr);
+		$this->display();
+	}
+	//公告详情页
+	public function gonggaomore()
+	{
+		$ggid=addslashes($_GET['ggid']);
+		if($ggid=='')
+		{
+			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Option/gonggaoguanli'</script>";
+			die();
+		}
+		$ggbase=M("ggshezhi");
+		$gginfoarr=$ggbase->query("select * from crm_ggshezhi where ggsz_id='$ggid'");
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$userbase=M("user");
+		$userbasearr=$userbase->query("select user_name from crm_user where user_id='".$gginfoarr[0]['ggsz_fbr']."' limit 1");
+		$this->assign("username",$userbasearr[0]['user_name']);
+		$this->assign("gginfo",$gginfoarr[0]);
 		$this->display();
 	}
 	//业绩目标

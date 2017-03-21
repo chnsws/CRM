@@ -39,7 +39,7 @@ class CompanyinfoDoController extends Controller {
 		$loginDidianStr=$addressArr["country"].$addressArr["region"].$addressArr["city"];
 		$sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
 		//进行插入操作
-		$xitongrizhibase->query("insert into crm_rz values('','3','2','".cookie("user_id")."','0','0','0','0','0','修改了公司logo图片','$loginIp','$loginDidianStr','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','$fid','".time()."')");
+		$xitongrizhibase->query("insert into crm_rz values('','3','3','".cookie("user_id")."','0','0','0','0','0','修改了公司logo图片','$loginIp','$loginDidianStr','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','$fid','".time()."')");
 
         echo '{"res":1,"newpath":"'.$newname.'"}';
         //echo json_encode($_FILES['headimg']);
@@ -74,7 +74,7 @@ class CompanyinfoDoController extends Controller {
 		$loginDidianStr=$addressArr["country"].$addressArr["region"].$addressArr["city"];
 		$sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
 		//进行插入操作
-		$xitongrizhibase->query("insert into crm_rz values('','3','2','".cookie("user_id")."','0','0','0','0','0','修改了公司信息','$loginIp','$loginDidianStr','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','$fid','".time()."')");
+		$xitongrizhibase->query("insert into crm_rz values('','3','3','".cookie("user_id")."','0','0','0','0','0','修改了公司信息','$loginIp','$loginDidianStr','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','$fid','".time()."')");
 
         echo '1';
     }

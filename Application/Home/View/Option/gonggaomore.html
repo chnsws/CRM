@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>公告管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!--加载jQuery-->
+    <script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+  
+    <!--layUI 插件  弹窗设计 form表单样式 -->
+    <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <!--图标样式-->
+    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+    <style>
+    *{margin:0;padding:0}
+    a{text-decoration:none;cursor:pointer;color:#1AA094;margin-right:10px;}
+    a:hover{color:#2F6F69;text-decoration:none;}
+    #box{margin-left: 10px;margin-right: 10px;overflow:hidden;}
+    /*头部页面名称*/
+    #mod-head{height:100px;font-size:22px;line-height:100px;color:#1AA094;font-weight:bold;}
+    </style>
+<body>
+    <div id="box">
+        <!--页面名称-->
+        <div id="mod-head">公告详情</div>
+        <button class='layui-btn' style="height:30px;line-height: 30px;" onclick="fanhui()"><i class="fa fa-reply" aria-hidden="true" style="margin-right:10px;"></i>返回公告列表</button>
+        <button class='layui-btn layui-btn-primary' style="height:30px;line-height: 30px;" onclick="ggshanchu({$gginfo.ggsz_id})"><i class="fa fa-trash" aria-hidden="true" style="margin-right:10px;"></i>删除本条公告</button>
+        <button class='layui-btn layui-btn-primary' style="height:30px;line-height: 30px;" onclick="ggzhiding({$gginfo.ggsz_id},1)"><i class="fa fa-upload" aria-hidden="true" style="margin-right:10px;"></i>置顶本条公告</button>
+        <div id="contentdiv">
+            <hr />
+            <div id='ggname' style="font-size:26px;font-weight:bold;color:#333;">{$gginfo['ggsz_name']}</div>
+            <div style="color:#999; margin-top:10px;">发布人：{$username}</div>
+            <div style="color:#999; margin-top:10px;">{$gginfo['ggsz_fbsj']}</div>
+            <hr style="background-color:#009688;height:5px;"  />
+            <div id="ggcontent" style="width: 100%;display:block;word-break: break-all;word-wrap: break-word;">
+                {$gginfo['ggsz_ggnr']}
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    window.root_dir="{$_GET['root_dir']}";
+    layui.use('layer', function(){
+        window.layer = layui.layer;
+    }); 
+    //黑色半透明提示
+    function tishi(neirong)
+    {
+        layer.msg(neirong, {
+            time: 1000, 
+        });
+    }
+    //返回公告列表
+    function fanhui()
+    {
+        window.location=root_dir+"/index.php/Home/Option/gonggaoguanli";
+    }
+    //单条删除
+    function ggshanchu(delggid)
+    {
+        var delggname=$("#ggname").text();
+        layer.msg('是否确认删除本公告？', {
+				time: 2000000, //20000s后自动关闭
+				btn: ['确认删除', '取消'],
+				btn1: function(index, layero){
+                    $.get(root_dir+"/index.php/Home/GonggaoDo/ggdel",{"delstr":delggid,"deltype":'1',"delggname":delggname},function(res){
+                        if(res=='1')
+                        {
+                            window.location=root_dir+"/index.php/Home/Option/gonggaoguanli";
+                        }
+                        else if(res=='2')
+                        {
+                            tishi("删除失败");
+                        }
+                        else
+                        {
+                            tishi("删除失败，请刷新后重试");
+                        }
+                    });
+                },
+                btn2:function(index, layero){
+                    layer.close(index);
+                }
+            }); 
+    }
+    //公告置顶操作
+    function ggzhiding(zdid,zdval)
+    {
+        $.get(root_dir+"/index.php/Home/GonggaoDo/ggzd",{"zdid":zdid,"zdval":zdval},function(res){
+            if(res=='1')
+            {
+                tishi("置顶成功");
+            }
+            else if(res=='2')
+            {
+                tishi("置顶失败");
+            }
+            else
+            {
+                tishi("置顶失败，请刷新后重试");
+            }
+        });
+    }
+</script>
+</html>
