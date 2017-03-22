@@ -23,32 +23,6 @@ class OptionController extends Controller {
         {
             echo "<script>window.location='$_GET[root_dir]/index.php/Home/Login'</script>";
         }
-		$hangyeArr=array(
-			1=>"电信",
-			2=>"教育",
-			3=>"高科技",
-			4=>"政府",
-			5=>"制造业",
-			6=>"服务业",
-			7=>"能源",
-			8=>"零售",
-			9=>"媒体",
-			10=>"娱乐",
-			11=>"咨询",
-			12=>"金融",
-			13=>"公共事业",
-			14=>"非盈利事业",
-			15=>"其他"
-		);
-		//echo "<pre>";
-		$gongsiSize=array(
-			1=>"<10人",
-			2=>"10-20人",
-			3=>"20-50人",
-			4=>"50-100人",
-			5=>"100-500人",
-			6=>"500人以上"
-		);
 		//获取当前登录用户的信息（在cookie中）
 		$nowUserId=cookie("user_id");
 		//所属用户
@@ -160,7 +134,7 @@ class OptionController extends Controller {
 		}
 		//实例化用户表
 		$userbase=M("user");
-		$userAllArr=$userbase->query("select * from crm_user where (user_id='$nowUserId' or user_fid='$nowUserId') and user_del='0'");
+		$userAllArr=$userbase->query("select * from crm_user where (user_id='$nowUserFid' or user_fid='$nowUserFid') and user_del='0'");
 		$userSex=array('1'=>'男','2'=>'女');
 		foreach($userAllArr as $userk=>$userv)
 		{
@@ -213,7 +187,8 @@ class OptionController extends Controller {
 	public function juesequanxian(){
 		$loginuserid=cookie("user_id");
 		$qxbase=M("quanxian");
-		$qxArr=$qxbase->query("select * from crm_quanxian where qx_company='$loginuserid' or qx_company='0' ");
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$qxArr=$qxbase->query("select * from crm_quanxian where qx_company='$fid' or qx_company='0' ");
 		$juesestr='';
 		foreach($qxArr as $qxk=>$qxv)
 		{
@@ -322,6 +297,86 @@ class OptionController extends Controller {
 	}
 	//日志
 	public function rizhi(){
+		if(cookie("islogin")!='1')
+		{
+			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
+			die();
+		}
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$rzbase=M("rz");
+		$czrzarr=$rzbase->query("select rz_id,rz_time,rz_user,rz_mode,rz_cz_type,rz_bz from crm_rz where rz_yh='$fid' and rz_type='1' order by rz_time desc");
+		$userbase=M("user");
+		$userarr=$userbase->query("select user_name,user_id from crm_user where user_id='$fid' or user_fid='$fid'");
+		foreach($userarr as $v)
+		{
+			$usersel.="<option value='".$v['user_id']."'>".$v['user_name']."</option>";
+			$usernamearr[$v['user_id']]=$v['user_name'];
+		}
+		$lsstr='1000000000';
+		$caozuoarr=array(
+			"1"=>"新建",
+			"2"=>"编辑",
+			"3"=>"删除",
+			"4"=>"处理",
+			"5"=>"提交",
+			"6"=>"通过",
+			"7"=>"否决",
+			"8"=>"导入",
+			"9"=>"导出",
+			"10"=>"转移给他人",
+			"11"=>"转成客户",
+			"12"=>"导入至客户公海",
+			"13"=>"转入客户公海",
+			"14"=>"抢公海客户",
+			"15"=>"客户公海删除",
+			"16"=>"导入跟进记录",
+			"17"=>"添加回款记录",
+			"18"=>"编辑回款记录",
+			"19"=>"删除回款记录",
+			"20"=>"提交回款记录审批",
+			"21"=>"否决回款记录审批",
+			"22"=>"驳回回款记录审批",
+			"23"=>"通过回款记录审批",
+			"24"=>"添加回款计划",
+			"25"=>"编辑回款计划",
+			"26"=>"删除回款计划",
+			"27"=>"添加开票记录",
+			"28"=>"编辑开票记录",
+			"29"=>"删除开票记录",
+			"30"=>"添加附件",
+			"31"=>"删除附件",
+			"32"=>"删除跟进记录",
+			"33"=>"添加关联产品",
+			"34"=>"编辑关联产品",
+			"35"=>"删除关联产品",
+			"36"=>"添加关联联系人",
+			"37"=>"编辑关联联系人",
+			"38"=>"删除关联联系人",
+			"39"=>"转成合同",
+			"40"=>"批阅",
+			"41"=>"交接",
+			"42"=>"启用",
+			"43"=>"关闭"
+		);
+		$mokuaiarr=array(
+			"1"=>"线索",
+			"2"=>"客户",
+			"3"=>"客户公海",
+			"4"=>"联系人",
+			"5"=>"商机",
+			"6"=>"合同",
+			"7"=>"产品",
+			"8"=>"报表中心",
+			"9"=>"工作报告",
+			"10"=>"跟进记录",
+			"11"=>"知识库"
+		);
+		foreach($czrzarr as $v)
+		{
+			$caozuostr.="<tr><td>".substr($lsstr.$v['rz_id'],-10)."</td><td>".date("Y-m-d H:i:s",$v['rz_time'])."</td><td>".$usernamearr[$v["rz_user"]]."</td><td>".$mokuaiarr[$v['rz_mode']]."</td><td>".$caozuoarr[$v['rz_cz_type']]."</td><td>".$v['rz_bz']."</td></tr>";
+		}
+		$this->assign("caozuostr",$caozuostr);
+		$this->assign("usersel",$usersel);
 		$this->display();
 	}
 }

@@ -213,12 +213,9 @@
         $("#sz_diqu").html("<select name='dqsel1' id='dqsel1' lay-verify='required' class='layui-select'style='width:30%;margin-right:5%'></select><select name='dqsel2' id='dqsel2' lay-verify='required' class='layui-select'style='width:30%'></select><select name='dqsel3' id='dqsel3' lay-verify='required' class='layui-select'style='width:30%;margin-left:5%'></select>");
         //添加表单元素--规模
         $("#gs_guimo").html("<select id='gsgmsel' name='gsgmsel' lay-verify='required' class='layui-select'style='width:100%'><option value=''>请选择公司规模</option><option value='1'>&lt;10人</option><option value='2'>10-20人</option><option value='3'>20-50人</option><option value='4'>50-100人</option><option value='5'>100-500人</option><option value='6'>500人以上</option></select>");
-        
         if("{$gsxxarr['gsxx_dq_bm']}"=='')//如果数据库中没有存地区，则显示默认的北京地区
         {
-            dqbmarr[0]='110000';
-            dqbmarr[1]='110100';
-            dqbmarr[2]='110101';
+            dqbmarr=['110000','110100','110001'];
         }
         else//如果数据库中有地区数据，就显示数据库中存的数据
         {
