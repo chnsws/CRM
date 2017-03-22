@@ -141,6 +141,8 @@
 							     		
 							        	$.get(rooturl+'/index.php/Home/Kehu/add',{"id": JSON.stringify(d)},
 							        		 function(html){
+
+							        		 	alert(html)
 							        		 		if(html=='ok'){
 							        		 			alert('添加成功');
 							        		 			 $( this ).dialog( "close" );

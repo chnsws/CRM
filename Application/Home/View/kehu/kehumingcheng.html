@@ -29,18 +29,27 @@
 .phone{position: relative; left :20px;top:20px;}
 .xiaoshou{position: relative; left :20px;top:10px;width:107%;}
 .phone1{line-height:80px;position: relative; left :20px;}
-
-#shangc_top{padding-top: 30px}
+.jiase{color:blue;position: relative; left :20px;top:5px;}
+#shangc_top{height:40px}
+.left_color{position: relative; left :20px;color:#333;}
+td{padding-top: 13px;position: relative; left :20px;}
+#ccc table{ position: relative; top :3px;background-color:#F8F8FF; width:300px;}
+.add_null{position: relative; left :17px;}
+.shangji{width:200px; height:30px;}
+.shangji1{color:blue;position: relative;}
+.genjinjilu{background-color:#1AA094;width:70px;height:24px;float:right;}
+.genjinjilu{position: relative; right:8px;top:6px;color:white;}
+.only1{position: relative; left:560px;top:6px;}
+.genjin_back{background-color:#F7FBFE;width:90%;position: relative; top:10px;margin:20px auto;}
 
 		</style>
 
 	</head>
-
 	<body >
 		<div class="top">
-			<div class="top1" >
+			<div class="top1">
 				
-				<span class="name" >{$a_id}</span> <span class="fuzeren">负责人:<span class="fuzename">{$fuzeren}</span></span>
+				<span class="name" >{$a_id}</span> <span class="fuzeren">负责人:<span class="fuzename">{$fuzeren.user_name}</span></span>
 				
 			</div>
 			<div class="top1 anniu">		
@@ -86,26 +95,52 @@
 	  					<span class="jiben">基本资料</span>
 	  				</div>
 	  				<div >
-	  					<span class="phone">客户类型：A（重要客户）</span><br />
-	  					<span class="phone1">电话：15101574324</span>
+	  					<span class="phone">客户类型：{$kh_type2}</span><br />
+	  					<span class="phone1">电话：{$kh_phone}</span>
 	  				</div>
 	  				</div>
 	  				<div class="dan">
 	  				<div class="ziliao">
 	  					<span class="jiben">联系人</span>
 	  				</div>
-	  				<div >
+	  				<div class="ccc">
 	  					
-	  					<span class="phone1">暂无任何记录</span>
+	  					<table  class="left_color">
+
+	  					<span class="jiase">王玉帅（跳到联系人详细信息）</span>
+	  					<tr>
+	  						<td>部门: <span class="add_null">暂无数据</span></td>
+	  					</tr>
+	  					<tr>
+	  						<td>职务：<span class="add_null">暂无数据</span></td>
+	  					</tr>
+	  					<tr>
+	  						<td>电话：<span class="add_null">暂无数据</span></td>
+	  					</tr>
+	  					<tr>
+	  						<td>手机：<span class="add_null">暂无数据</span></td>
+	  					</tr>
+	  					<tr>
+	  						<td>邮箱：<span class="add_null">暂无数据</span></td>
+	  					</tr>
+	  					
+	  					</table>
 	  				</div>
 	  				</div>
+	  			
 	  				<div class="dan">
 	  				<div class="ziliao">
 	  					<span class="jiben">商机</span>
 	  				</div>
 	  				<div >
 	  					
-	  					<span class="phone1">暂无任何记录</span>
+	  					<table>
+	  						<tr>
+	  							<td class="shangji"><span class="shangji1">商机标题(跳到商机)</span></td>
+	  							<td class="shangji">商机金额</td>
+	  							<td class="shangji">商机状态</td>
+	  						</tr>
+	  					</table>
 	  				</div>
 	  				</div>
 	  				<div class="dan">
@@ -130,30 +165,136 @@
 	  			<div class="quanjing_right" style="width:45%;float:left;position: relative; left :50px;">
 					<div class="dan">
 	  				<div class="ziliao">
-	  					<span class="xiaoshou">销售动态</span>
+	  					<span class="xiaoshou">销售动态</span><span class="only1">只看跟进</span><span class="genjinjilu">+写跟进</span>
 	  				</div>
-	  				<div >
-	  					<span class="phone">客户类型：A（重要客户）</span><br />
-	  					<span class="phone1">电话：15101574324</span>
-	  				</div>
-	  				</div>
+	  				
+<foreach name="genjin" item="vo">
+	  				<div  class="genjin_back">
+	  				<table>
 
+		  				<tr>
+		  				
+		  					<td>操作人：<span class="fuzename">{$vo.rz_user}</span></td>
+		  				</tr>
+		  				<tr>
+		  					<td>{$vo.rz_bz}</td>
+		  				</tr>
+		  				<tr>
+		  					<td>来自客户<span class="fuzename">  {$a_id}</span></td>
+		  				</tr>
+		  				<tr>
+		  					<td><span class="dataa">时间:{$vo.rz_time}</span></td>
+		  				</tr>
+  				
+	  			</table>
+	  				</div>
+	  	</foreach>	
+	  				</div>
+	  				
 	  			</div>
 	  		</div>
 	  		<div id="tabs-2">
 	  			客户资料
 	  		</div>
 	  		<div id="tabs-3">
-	  			下级客户
+	  			<table class="layui-table" lay-skin="line">
+	  	<thead>
+	  				<th >合同标题</th>
+	  				<th >合同总金额</th>
+	  				<th >合同时间</th>
+	  				<th >合同状态</td>
+	  				<th >备注</th>
+	  				
+	  			
+		</thead>
+		<tbody class="fujian_del">
+		<foreach name="sql" item="vo">
+	  			<tr>
+	  		<td >{$vo.id}</td>
+	  				<td >{$vo.sc_data}</td>
+	  				<td >{$vo.fujian_name}</td>
+	  				<td >{$vo.big}</td>
+	  				<td >{$vo.beizhu}</td>
+	  				
+	  			</tr> 
+		</foreach>
+		</tbody>
+	  		</table>  
 	  		</div>
 	  		<div id="tabs-4">
-	  			联系人
+	  			<table class="layui-table" lay-skin="line">
+	  	<thead>
+	  				<th >合同标题</th>
+	  				<th >合同总金额</th>
+	  				<th >合同时间</th>
+	  				<th >合同状态</td>
+	  				<th >备注</th>
+	  				
+	  			
+		</thead>
+		<tbody class="fujian_del">
+		<foreach name="sql" item="vo">
+	  			<tr>
+	  		<td >{$vo.id}</td>
+	  				<td >{$vo.sc_data}</td>
+	  				<td >{$vo.fujian_name}</td>
+	  				<td >{$vo.big}</td>
+	  				<td >{$vo.beizhu}</td>
+	  				
+	  			</tr> 
+		</foreach>
+		</tbody>
+	  		</table>  
 	  		</div>
 	  		<div id="tabs-5">
-	  			商机
+	  			<table class="layui-table" lay-skin="line">
+	  	<thead>
+	  				<th >合同标题</th>
+	  				<th >合同总金额</th>
+	  				<th >合同时间</th>
+	  				<th >合同状态</td>
+	  				<th >备注</th>
+	  				
+	  			
+		</thead>
+		<tbody class="fujian_del">
+		<foreach name="sql" item="vo">
+	  			<tr>
+	  		<td >{$vo.id}</td>
+	  				<td >{$vo.sc_data}</td>
+	  				<td >{$vo.fujian_name}</td>
+	  				<td >{$vo.big}</td>
+	  				<td >{$vo.beizhu}</td>
+	  				
+	  			</tr> 
+		</foreach>
+		</tbody>
+	  		</table>  
 	  		</div>
 	  		<div id="tabs-6">
-	  			合同
+	  			<table class="layui-table" lay-skin="line">
+	  	<thead>
+	  				<th >合同标题</th>
+	  				<th >合同总金额</th>
+	  				<th >合同时间</th>
+	  				<th >合同状态</td>
+	  				<th >备注</th>
+	  				
+	  			
+		</thead>
+		<tbody class="fujian_del">
+		<foreach name="sql" item="vo">
+	  			<tr>
+	  		<td >{$vo.id}</td>
+	  				<td >{$vo.sc_data}</td>
+	  				<td >{$vo.fujian_name}</td>
+	  				<td >{$vo.big}</td>
+	  				<td >{$vo.beizhu}</td>
+	  				
+	  			</tr> 
+		</foreach>
+		</tbody>
+	  		</table>  
 	  		</div>
 	  		<div id="tabs-7">
 	  			提醒
@@ -187,8 +328,6 @@
 		</tbody>
 	  		</table>  
 
-
-				
 		  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Kehu/upload" enctype="multipart/form-data" method="post" style="margin:20px;">
 	  					<input type="file" name="wenjian"  >
 	  					<div id="shangc_top">备&nbsp;&nbsp;&nbsp;&nbsp;注：<!-- 第一个是普通textarea -->
@@ -196,18 +335,13 @@
 	  					<div id="shangc_top" ><input type="submit" value="上传附件"  class="layui-btn layui-btn-small"></div>
 	  				</form>
 						
-			
-
-
 	  		</div>
 	  		</div>
 	  		<div id="tabs-9">
 	  			操作日志
 	  		</div>
-
   		</div>
 	</body>
- 		
  		<script>
  		$("#uploadform").hide();
 			window.rooturl="{$_GET['root_dir']}";
