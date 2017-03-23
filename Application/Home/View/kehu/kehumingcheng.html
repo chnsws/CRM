@@ -22,7 +22,7 @@
 		.fuzename{color:blue;}
 		.anniu{ position: relative; top :30px;}
 		.quanjing_left{ height:100%;border: 1px solid #eee;}
-		.quanjing_right{ height:600px;border: 1px solid #eee;}
+		.quanjing_right{ border: 1px solid #eee;}
 		.ziliao{height:40px;width:100%; background-color:#eee;}
 		#tabs-1{position: relative; right :18px;}
 .jiben{position: relative; left :20px;top:10px;}
@@ -171,9 +171,7 @@ td{padding-top: 13px;position: relative; left :20px;}
 <foreach name="genjin" item="vo">
 	  				<div  class="genjin_back">
 	  				<table>
-
 		  				<tr>
-		  				
 		  					<td>操作人：<span class="fuzename">{$vo.rz_user}</span></td>
 		  				</tr>
 		  				<tr>
@@ -185,8 +183,7 @@ td{padding-top: 13px;position: relative; left :20px;}
 		  				<tr>
 		  					<td><span class="dataa">时间:{$vo.rz_time}</span></td>
 		  				</tr>
-  				
-	  			</table>
+	  				</table>
 	  				</div>
 	  	</foreach>	
 	  				</div>

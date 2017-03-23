@@ -189,6 +189,7 @@ class KehuController extends Controller {
 		 		$rz_map['rz_type']=1;//这个1是操作日志类型  死的
 		 		$rz_map['rz_mode']=2;
 		 		$rz_map['rz_object']=$id['kh_id'];//客户名称ID
+		 		$rz_map['rz_cz_type']=1;//1代表新建
 				$rz_map['rz_bz']="新增了客户".$a_arr['zdy0'];
 				$rz_map['rz_time']=time();
 				$rz_map['rz_user']=cookie('user_id');
@@ -219,11 +220,7 @@ class KehuController extends Controller {
 			$sql=substr($bianji_name,0,3);
 			$kehus=M('kh'); 
 
-		
 		if($sql=='zdy'){
-
-
-
 			$ywzd=M('yewuziduan');              //只是为了获取  zd0   的中文名字放备注中
 				$yw_cs['zd_yewu']="客户";
  				$yw_cs['zd_yh']=1;
@@ -234,8 +231,6 @@ class KehuController extends Controller {
 						$name_rz=$v['name'];
 					}
 				}                                    //获取完了
-
-				
 				$map_rz['kh_id']=$bianji_id['kh_id'];  //这里获取修改之前的值 日志记录用
 				$kh_old_val=$kehus->where(array($map_rz))->field('kh_data')->find();
 				$sql_json_rz=json_decode($kh_old_val['kh_data'],true);
@@ -256,6 +251,7 @@ class KehuController extends Controller {
 		 		$rz_map['rz_object']=$id;//客户名称ID
 				$rz_map['rz_bz']="把".$name_rz.'的'.$b_rz."改为".$bianji_val;
 				$rz_map['rz_user']=cookie('user_id');
+				$rz_map['rz_cz_type']=2;//2代表编辑
 				$rz_map['rz_time']=time();
 				$rz_map['rz_ip']=$loginIp;//ip
 				$rz_map['rz_place']=$loginDidianStr;//登录地点
@@ -263,9 +259,6 @@ class KehuController extends Controller {
 				$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 				$rz_map['rz_yh']=$fid;
 				$rz_sql=$rz->add($rz_map);//查'
-
-
-
 
 			$sql_bianji=$kehus->where($bianji_id)->find();
 
@@ -298,7 +291,56 @@ class KehuController extends Controller {
 
 				$kehus=M('kh'); 
 				$map['kh_id']= $bianji_id['kh_id'];  
-				$data[$bianji_name] = $_GET['bianji_val'];                      //显示客户所需字段data
+				$data[$bianji_name] = $_GET['bianji_val']; 
+
+				$yw_cs['zd_yewu']="客户";       //只是为了获取  zd0   的中文名字放备注中
+ 				$yw_cs['zd_yh']=1;
+				$ywzd_sql=$ywzd->where($yw_cs)->find();
+				$sql_json=json_decode($ywzd_sql['zd_data'],true);
+				foreach($sql_json as $k=>$v){
+					if($v['id']==$bianji_name){
+						$name_rz=$v['name'];
+					}
+				}                                    //获取完了
+				$map_rz['kh_id']=$bianji_id['kh_id'];  //这里获取修改之前的值 日志记录用
+				$kh_old_val=$kehus->where(array($map_rz))->field('kh_data')->find();
+				$sql_json_rz=json_decode($kh_old_val['kh_data'],true);
+				foreach($sql_json_rz as $krz=>$vrz){
+					if($krz==$bianji_name){
+						$b_rz=$vrz;
+					}
+				}
+				$loginIp=$_SERVER['REMOTE_ADDR'];//IP 
+           	 	$sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
+            	$addressArr=getCity($nowip);//登录地点
+            	$loginDidianStr=$addressArr["country"].$addressArr["region"].$addressArr["city"];
+
+		   		$id=$bianji_id['kh_id'];	
+		   		$rz=M('rz');
+		 		$rz_map['rz_type']=1;//这个1是操作日志类型  死的
+		 		$rz_map['rz_mode']=2;
+		 		$rz_map['rz_object']=$id;//客户名称ID
+				$rz_map['rz_bz']="把".$name_rz.'的'.$b_rz."改为".$bianji_val;
+				$rz_map['rz_user']=cookie('user_id');
+				$rz_map['rz_cz_type']=2;//2代表编辑
+				$rz_map['rz_time']=time();
+				$rz_map['rz_ip']=$loginIp;//ip
+				$rz_map['rz_place']=$loginDidianStr;//登录地点
+				$rz_map['rz_sb']=$sysbroinfo['sys'].'/'.$sysbroinfo['bro'];//ip
+				$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+				$rz_map['rz_yh']=$fid;
+				$rz_sql=$rz->add($rz_map);//查'
+
+
+
+
+
+
+
+
+
+
+				                     //显示客户所需字段data
 				$kehu=$kehus->where($map)->save($data);
 				if($kehu){
 					echo "ok";
@@ -415,7 +457,7 @@ class KehuController extends Controller {
 		public function kehumingcheng(){
 			$a_id=$_GET['id'];//客户名称
 			$kh_id=$_GET['kh_id'];//客户ID=$_GET['kh_id'];//客户ID
-	$fuzeren=$_GET['fuzeren'];
+			$fuzeren=$_GET['fuzeren'];
 			$id=$_GET['id1'];//客户名称ID
 			$kh=M('kh');
 			$kh_map['kh_id']=$kh_id;
@@ -463,6 +505,8 @@ class KehuController extends Controller {
 				}
 				$ko[]=$v;
 			}
+			//echo "<pre>";
+			//print_r($ko);exit;
 			$this->assign('genjin',$ko);
 			
 		
