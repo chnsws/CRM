@@ -27,11 +27,11 @@
 		#tabs-1{position: relative; right :18px;}
 .jiben{position: relative; left :20px;top:10px;}
 .phone{position: relative; left :20px;top:20px;}
+.jiase{color:blue;position: relative; left :20px;top:5px;}
+
+.left_color{position: relative; left :20px;color:#333;}
 .xiaoshou{position: relative; left :20px;top:10px;width:107%;}
 .phone1{line-height:80px;position: relative; left :20px;}
-.jiase{color:blue;position: relative; left :20px;top:5px;}
-#shangc_top{height:40px}
-.left_color{position: relative; left :20px;color:#333;}
 td{padding-top: 13px;position: relative; left :20px;}
 #ccc table{ position: relative; top :3px;background-color:#F8F8FF; width:300px;}
 .add_null{position: relative; left :17px;}
@@ -41,7 +41,15 @@ td{padding-top: 13px;position: relative; left :20px;}
 .genjinjilu{position: relative; right:8px;top:6px;color:white;}
 .only1{position: relative; left:560px;top:6px;}
 .genjin_back{background-color:#F7FBFE;width:90%;position: relative; top:10px;margin:20px auto;}
-
+.sele{position: relative; left:18px;top:5px;}
+.shiji{float:right;position: relative; right:18px;top:5px;}
+.wenbenyu{position: relative; left:15px;top:10px;}
+.kehu_genjin{position: relative; left:18px;top:20px;}
+.genjinzhuangtai{float:right;position: relative; right:86px;top:-5px;}
+.legt_genjin{position: relative; left:50px;}
+.left_genjin1{position: relative; left:50px;}
+.lianxiren_genjin{position: relative; left:18px;top:30px;}
+.left_lianxiren{position: relative; left:33px;}
 		</style>
 
 	</head>
@@ -165,10 +173,56 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  			<div class="quanjing_right" style="width:45%;float:left;position: relative; left :50px;">
 					<div class="dan">
 	  				<div class="ziliao">
-	  					<span class="xiaoshou">销售动态</span><span class="only1">只看跟进</span><span class="genjinjilu">+写跟进</span>
+	  					<span class="xiaoshou">销售动态</span><span class="only1">只看跟进</span><span id="dialog-form" onclick="xiegenjin()" class="genjinjilu">+写跟进</span>
+	  				</div>
+
+
+	  				<div id="uploadfrm" style="height:400px;width:590px;padding:0;margin:0;">
+	  				<form id="uploadform2" action="{$_GET['root_dir']}/index.php/Home/Kehu/upload/id/{$kh_id}" method="post">
+	  					<select name="fangshi" class="sele" style="width:150px;height:30px">
+	  						<option value="电话">电话</option>
+	  						<option value="QQ">QQ</option>
+	  						<option value="拜访">微信</option>
+	  						<option value="拜访">拜访</option>
+	  						<option value="邮件">邮件</option>
+	  						<option value="短信">短信</option>
+	  						<option value="其他">其他</option>
+	  					</select>
+	  					<input type="text" name="shiji" class="shiji"  style="width:150px;height:30px">
+	  					<textarea name="wenbenyu" rows="10" cols="77" class="wenbenyu"> 
+	  						勤跟进，多签单........
+	  					</textarea>
+	  				<div class="kehu_genjin">客户<span class="legt_genjin"><input type="text" name="kh_name" value="" style="width:150px;height:20px"></span></div>  
+
+	  				<div class="genjinzhuangtai"> 
+	  					跟进状态 <span class="left_genjin1">
+	  								<select name="genjinzhuantai"  style="width:150px;height:25px">
+		  							<option value="QQ">出访</option>
+			  						<option value="拜访">意向</option>
+			  						<option value="拜访">报价</option>
+			  						<option value="邮件">成交</option>
+			  						<option value="邮件">暂时搁置</option>
+	  							</select></span>
+	  							</div>
+
+	  				<div class="lianxiren_genjin">联系人
+	  					<span class="left_lianxiren">
+	  								<select name="lianxiren"  style="width:150px;height:25px">
+		  							<option value="QQ">出访</option>
+			  						<option value="拜访">意向</option>
+			  						<option value="拜访">报价</option>
+			  						<option value="邮件">成交</option>
+			  						<option value="邮件">暂时搁置</option>
+	  							</select>
+	  					</span>
+	  				</div>  
+
+	  				</form>
 	  				</div>
 	  				
-<foreach name="genjin" item="vo">
+
+
+		<foreach name="genjin" item="vo">
 	  				<div  class="genjin_back">
 	  				<table>
 		  				<tr>
@@ -325,7 +379,7 @@ td{padding-top: 13px;position: relative; left :20px;}
 		</tbody>
 	  		</table>  
 
-		  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Kehu/upload" enctype="multipart/form-data" method="post" style="margin:20px;">
+		  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Kehu/upload/id/{$kh_id}" enctype="multipart/form-data" method="post" style="margin:20px;">
 	  					<input type="file" name="wenjian"  >
 	  					<div id="shangc_top">备&nbsp;&nbsp;&nbsp;&nbsp;注：<!-- 第一个是普通textarea -->
 					<textarea name="wenbenyu" class="comments" rows="5" cols="30"> </textarea>  </div>
@@ -335,7 +389,33 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  		</div>
 	  		</div>
 	  		<div id="tabs-9">
-	  			操作日志
+	  			<table class="layui-table" lay-skin="line">
+	  	<thead>
+	  				<th >ID</th>
+	  				<th >操作时间</th>
+	  				<th >操作人员</th>
+	  				<th >操作模块</th>
+	  				<th >操作对象</th>
+	  				<th >备注</th>
+	  				
+
+	  				
+	  			
+		</thead>
+		<tbody class="fujian_del">
+		<foreach name="rz_caozuo" item="vo">
+	  			<tr>
+	  				<td >{$vo.rz_id}</td>
+	  				<td >{$vo.rz_time}</td>
+	  				<td >{$vo.rz_user}</td>
+	  				<td >客户模块</td>
+	  				<td >{$a_id}</td>
+	  				<td >{$vo.rz_bz}</td>
+	  				
+	  			</tr> 
+		</foreach>
+		</tbody>
+	  		</table>  
 	  		</div>
   		</div>
 	</body>
@@ -356,6 +436,31 @@ td{padding-top: 13px;position: relative; left :20px;}
 					area:'300px',
 					title: '文件上传',
 					content:$('#uploadform')
+				}); 
+			});              
+		  }
+
+
+	
+  		</script>
+  		<script>
+ 		$("#uploadform").hide();
+ 		$('#uploadfrm').hide();
+			window.rooturl="{$_GET['root_dir']}";
+		  $(function() {
+   				 $( "#tabs" ).tabs();
+ 		 });
+
+
+		  function xiegenjin()
+		  {
+		  	layui.use('layer', function(){
+				var layer = layui.layer;
+				layer.open({
+					type:1,
+					area:'610px',
+					title: '写跟进',
+					content:$('#uploadfrm')
 				}); 
 			});              
 		  }

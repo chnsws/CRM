@@ -293,23 +293,22 @@ class KehuController extends Controller {
 				$map['kh_id']= $bianji_id['kh_id'];  
 				$data[$bianji_name] = $_GET['bianji_val']; 
 
-				$yw_cs['zd_yewu']="客户";       //只是为了获取  zd0   的中文名字放备注中
- 				$yw_cs['zd_yh']=1;
-				$ywzd_sql=$ywzd->where($yw_cs)->find();
-				$sql_json=json_decode($ywzd_sql['zd_data'],true);
-				foreach($sql_json as $k=>$v){
-					if($v['id']==$bianji_name){
-						$name_rz=$v['name'];
-					}
-				}                                    //获取完了
-				$map_rz['kh_id']=$bianji_id['kh_id'];  //这里获取修改之前的值 日志记录用
-				$kh_old_val=$kehus->where(array($map_rz))->field('kh_data')->find();
-				$sql_json_rz=json_decode($kh_old_val['kh_data'],true);
-				foreach($sql_json_rz as $krz=>$vrz){
-					if($krz==$bianji_name){
-						$b_rz=$vrz;
+	     //只是为了获取 不能自定义   的中文名字放备注中
+
+				$array_jiansuo=array('fuzeren'=>"负责人",'department'=>"部门",'kh_lx'=>"联系人",'kh_cj_cp'=>"已经成交产品",'kh_new_gj'=>"最新跟进记录",'kh_sj_gj_date'=>"实际跟进时间",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间",'kh_yh'=>"所属公司");
+				foreach($array_jiansuo as $k=>$v){
+					if($bianji_name==$k){
+						$name_rz=$v;
 					}
 				}
+
+				//结束
+ 				                               //获取完了
+				$map_rz['kh_id']=$bianji_id['kh_id'];  //这里获取修改之前的值 日志记录用
+				$kh_old_val=$kehus->where(array($map_rz))->field($bianji_name)->find();
+				
+						$b_rz=$kh_old_val[$bianji_name];
+				
 				$loginIp=$_SERVER['REMOTE_ADDR'];//IP 
            	 	$sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
             	$addressArr=getCity($nowip);//登录地点
@@ -459,6 +458,7 @@ class KehuController extends Controller {
 			$kh_id=$_GET['kh_id'];//客户ID=$_GET['kh_id'];//客户ID
 			$fuzeren=$_GET['fuzeren'];
 			$id=$_GET['id1'];//客户名称ID
+			$this->assign('kh_id',$kh_id);//这里是添加附件的ID渲染到模板
 			$kh=M('kh');
 			$kh_map['kh_id']=$kh_id;
 			$sql_kh=$kh->where($kh_map)->field('kh_data')->find();
@@ -490,6 +490,10 @@ class KehuController extends Controller {
 //echo "<pre>";
 //var_dump($rz_sql);exit;
 
+			$rz_caozuo=$rz->where(array($rz_map))->field('rz_id,rz_type,rz_mode,rz_user,rz_object,rz_bz,rz_time')->order("rz_time desc")->select();//操作日志
+
+
+			
 			$rz_user=M('user');
 			$user_sql=$rz_user->field('user_id,user_name')->select();
 			$kh_map1['user_id']=$fuzeren;
@@ -505,6 +509,20 @@ class KehuController extends Controller {
 				}
 				$ko[]=$v;
 			}
+
+
+			foreach($rz_caozuo as $k=>$v){//跟进循环的数据
+				foreach($user_sql as $k1 =>$v1){
+					if($v['rz_user']==$v1['user_id'])
+					{
+						$v['rz_user']= $v1['user_name'];
+						$v['rz_time']=date("Y-m-d H:i:s",$v['rz_time']);
+						
+					}
+				}
+				$koo[]=$v;//操作日志
+			}
+			$this->assign('rz_caozuo',$koo);
 			//echo "<pre>";
 			//print_r($ko);exit;
 			$this->assign('genjin',$ko);
@@ -516,6 +534,9 @@ class KehuController extends Controller {
 			$this->assign('a_id',$a_id);
 			$this->assign('fuzeren',$kh_name);//上面是 客户全景  和附件
 
+
+			//操作日志
+			
 			$hetong=M('hetong');
 				$tiaojian='"zdy1":"'.$id.'"';
 				
@@ -526,9 +547,34 @@ class KehuController extends Controller {
 		public function delete(){
 
 			$sql['id']=$_GET['id'];
+			
 			 $sql_delete=M('file');
-       		$sql_file_select=$sql_delete->where($sql)->delete();
        		
+       		
+
+       			//删除增加日志
+       		 $loginIp=$_SERVER['REMOTE_ADDR'];//IP 
+           	 	$sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
+            	$addressArr=getCity($nowip);//登录地点
+            	$loginDidianStr=$addressArr["country"].$addressArr["region"].$addressArr["city"];
+            	$fujian=$sql_delete->where($sql)->field('name_id,fujian_name')->find();	
+		   		$rz=M('rz');
+		 		$rz_map['rz_type']=1;//这个1是操作日志类型  死的
+		 		$rz_map['rz_mode']=2;
+		 		$rz_map['rz_object']=$fujian['name_id'];//客户名称ID
+		 		$rz_map['rz_cz_type']=1;//1代表新建
+				$rz_map['rz_bz']="删除了附件:".$fujian['fujian_name'];
+				$rz_map['rz_time']=time();
+				$rz_map['rz_user']=cookie('user_id');
+				$rz_map['rz_ip']=$loginIp;//ip
+				$rz_map['rz_place']=$loginDidianStr;//登录地点
+				$rz_map['rz_sb']=$sysbroinfo['sys'].'/'.$sysbroinfo['bro'];//ip
+				$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+				$rz_map['rz_yh']=$fid;
+				$rz_sql=$rz->add($rz_map);//查'
+
+
+				$sql_file_select=$sql_delete->where($sql)->delete();
 
        		if($sql_file_select){
 				$sql=M('file');
@@ -562,6 +608,9 @@ class KehuController extends Controller {
 			}
 		}
 		public function upload(){
+
+
+				$kh_id=$_GET['id'];
 			    $upload = new \Think\Upload();// 实例化上传类
     			$upload->maxSize   =     3145728 ;// 设置附件上传大小
    				$upload->exts      =     array('jpg', 'gif', 'png', 'jpeg','txt','pptx','xls');// 设置附件上传类型
@@ -578,14 +627,39 @@ class KehuController extends Controller {
        						$save_oldname=$file['name'];//原始吗，
        						$save_size=$file['size'] *'0.0009766';//大小
        						$sql=substr($save_size,0,3).'kb';//换算
-    							}
-    			 $data['name_id']=12;
+ 
+    			 $data['name_id']=$kh_id;
     			 $data['sc_data']= date("Y-m-d h:i:s");
     			 $data['fujian_name']=$save_oldname;
     			 $data['lujing']=$save_name;
     			 $data['big']=$sql;
        			 $data['beizhu']=$_POST['wenbenyu'];
-       			 
+ 
+
+
+       			 		//x新增附件时记录日志
+       			 $loginIp=$_SERVER['REMOTE_ADDR'];//IP 
+           	 	$sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
+            	$addressArr=getCity($nowip);//登录地点
+            	$loginDidianStr=$addressArr["country"].$addressArr["region"].$addressArr["city"];	
+		   		$rz=M('rz');
+		 		$rz_map['rz_type']=1;//这个1是操作日志类型  死的
+		 		$rz_map['rz_mode']=2;
+		 		$rz_map['rz_object']=$kh_id;//客户名称ID
+		 		$rz_map['rz_cz_type']=1;//1代表新建
+				$rz_map['rz_bz']="新增了附件:".$data['fujian_name'];
+				$rz_map['rz_time']=time();
+				$rz_map['rz_user']=cookie('user_id');
+				$rz_map['rz_ip']=$loginIp;//ip
+				$rz_map['rz_place']=$loginDidianStr;//登录地点
+				$rz_map['rz_sb']=$sysbroinfo['sys'].'/'.$sysbroinfo['bro'];//ip
+				$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+				$rz_map['rz_yh']=$fid;
+				$rz_sql=$rz->add($rz_map);//查'
+
+
+
+
        			 $sql_file=M('file');
        			 $sql_file_select=$sql_file->add($data);
        			 if($sql_file_select)
@@ -599,6 +673,6 @@ class KehuController extends Controller {
 	
 
 
-
+}
     
 }
