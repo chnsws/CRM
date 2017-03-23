@@ -11,8 +11,8 @@ class RizhiDoController extends Controller {
         $rz_mode=addslashes($_GET['rz_mode']);
         $rz_cz_type=addslashes($_GET['rz_cz_type']);
         $rz_user=addslashes($_GET['rz_user']);
-        $stime=strtotime(addslashes($_GET['stime']).' 00:00:00');
-        $etime=strtotime(addslashes($_GET['etime']).'23:59:59');
+        $stime=strtotime(addslashes($_GET['stime']));
+        $etime=strtotime(addslashes($_GET['etime']));
         if($rz_type=='')
         {
             echo 2;
@@ -32,6 +32,8 @@ class RizhiDoController extends Controller {
         {
             $wherestr.="rz_user='$rz_user' and ";
         }
+		$stime==''?'':$stime.' 00:00:00';
+		$etime==''?'':$etime.'23:59:59';
         if($stime!=''&&$etime=='')//只填了开始时间就查询开始时间到当前时间的数据
         {
             $wherestr.="rz_time>='$stime'";
