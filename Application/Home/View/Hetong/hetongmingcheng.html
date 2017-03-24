@@ -4,7 +4,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>客户</title>
+		<title>合同</title>
 		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
 
@@ -25,12 +25,24 @@
 		.quanjing_right{ height:600px;border: 1px solid #eee;}
 		.ziliao{height:40px;width:100%; background-color:#eee;}
 		#tabs-1{position: relative; right :18px;}
-.jiben{position: relative; left :20px;top:10px;}
-.phone{position: relative; left :20px;top:20px;}
-.xiaoshou{position: relative; left :20px;top:10px;width:107%;}
-.phone1{line-height:80px;position: relative; left :20px;}
-
-#shangc_top{padding-top: 30px}
+        .jiben{position: relative; left :20px;top:10px;}
+        .phone{line-height:40px;position: relative; left :20px;}
+        .xiaoshou{position: relative; left :20px;top:10px;width:107%;}
+        .phone1{line-height:40px;position: relative; left :20px;}
+        .phone2{line-height:40px;position: relative; left :20px;}
+        .phone3{line-height:40px;position: relative; left :20px;}
+        .phone4{line-height:40px;position: relative; left :20px;}
+        .phone5{line-height:40px;position: relative; left :20px;}
+        .phone6{line-height:40px;position: relative; left :20px;}
+        .phone7{line-height:40px;position: relative; left :20px;}
+        .phone8{line-height:40px;position: relative; left :20px;}
+        .phone9{line-height:40px;position: relative; left :20px;}
+        .phone10{line-height:40px;position: relative; left :20px;}
+        .ht_rz{line-height:24px; background-color:#F7FBFE; position: relative; left :20px;top:10px;width:90%;margin-bottom:20px;
+}
+        .genjinjilu{background-color:#1AA094;width:70px;height:24px;float:right;}
+        .genjinjilu{position: relative; right:8px;top:6px;color:white;}
+        #shangc_top{padding-top: 30px}
 
 		</style>
 
@@ -40,7 +52,7 @@
 		<div class="top">
 			<div class="top1" >
 				
-				<span class="name" >{$a_id}</span> <span class="fuzeren">负责人:<span class="fuzename">{$fuzeren}</span></span>
+				<span class="name" >{$a_id}</span> <span class="fuzeren">负责人:<span class="fuzename">{$fuzeren.user_name}</span></span>
 				
 			</div>
 			<div class="top1 anniu">		
@@ -68,100 +80,110 @@
 		</div>		 
 		<div id="tabs">
 			  <ul>
-			    <li><a href="#tabs-1">客户全景</a></li>
-			    <li><a href="#tabs-2">客户资料</a></li>
-			    <li><a href="#tabs-3">下级客户</a></li>
-			    <li><a href="#tabs-4">联系人</a></li>
-			    <li><a href="#tabs-5">商机</a></li>
-			    <li><a href="#tabs-6">合同</a></li>
-			    <li><a href="#tabs-7">提醒</a></li>
-			    <li><a href="#tabs-8">附件</a></li>
-			    <li><a href="#tabs-9">操作日志</a></li>
+			    <li><a href="#tabs-1">基本信息</a></li>
+			    <li><a href="#tabs-2">回    款</a></li>
+			    <li><a href="#tabs-3">产    品</a></li>
+			    <li><a href="#tabs-4">提    醒</a></li>
+			    <li><a href="#tabs-5">合同附件</a></li>
+			    <li><a href="#tabs-6">操作日志</a></li>
 
 			  </ul>
 	  		<div id="tabs-1" style="overflow:hidden;width:100%">
 	  			<div class="quanjing_left" style="width:50%; float:left">
 	  				<div class="dan">
 	  				<div class="ziliao">
-	  					<span class="jiben">基本资料</span>
+	  					<span class="jiben">基本信息</span>
 	  				</div>
 	  				<div >
-	  					<span class="phone">客户类型：A（重要客户）</span><br />
-	  					<span class="phone1">电话：15101574324</span>
+	  					<span class="phone">合同标题:{$d_id.zdy0}</span><br />
+	  					<span class="phone1">对应客户:{$d_id.zdy1}</span><br />
+	  					<span class="phone2">对应商机:{$d_id.zdy2}</span><br />
+	  					<span class="phone3">合同总金额:{$d_id.zdy3}</span><br />
+	  					<span class="phone4">合同开始时间:{$d_id.zdy5}</span><br />
+	  					<span class="phone5">合同结束时间:{$d_id.zdy6}</span><br />
 	  				</div>
 	  				</div>
 	  				<div class="dan">
 	  				<div class="ziliao">
-	  					<span class="jiben">联系人</span>
+	  					<span class="jiben">回款信息</span>
 	  				</div>
 	  				<div >
-	  					
-	  					<span class="phone1">暂无任何记录</span>
+	  					<span class="phone1">已开票金额:</span><br />
+	  					<span class="phone2">已回款金额:</span><br />
+	  					<span class="phone3">未回款金额:</span><br />
+	  					<span class="phone4">未开票金额:</span><br />
 	  				</div>
 	  				</div>
 	  				<div class="dan">
 	  				<div class="ziliao">
-	  					<span class="jiben">商机</span>
+	  					<span class="jiben">其他信息</span>
 	  				</div>
 	  				<div >
-	  					
-	  					<span class="phone1">暂无任何记录</span>
+	  					<span class="phone1">合同状态:{$zdy7}</span><br />
+	  					<span class="phone2">合同编号:{$d_id.zdy8}</span><br />
+	  					<span class="phone3">合同类型:{$zdy10}</span><br />
+	  					<span class="phone4">付款方式:{$zdy11}</span><br />
+	  					<span class="phone5">客户方签约人:{$d_id.zdy12}</span><br />
+	  					<span class="phone6">我方签约人:{$d_id.zdy13}</span><br />	
+	  					<span class="phone7">签约日期:{$d_id.zdy4}</span><br />	
+	  					<span class="phone8">合同附件:</span><br />
+	  					<span class="phone9">下次跟进时间:{$d_id.zdy15}</span><br />
+	  					<span class="phone10">备注:{$d_id.zdy17}</span><br />
 	  				</div>
 	  				</div>
 	  				<div class="dan">
 	  				<div class="ziliao">
-	  					<span class="jiben">合同</span>
+	  					<span class="jiben">系统信息</span>
 	  				</div>
 	  				<div >
-	  					
-	  					<span class="phone1">暂无任何记录</span>
-	  				</div>
-	  				</div>
-	  				<div class="dan">
-	  				<div class="ziliao">
-	  					<span class="jiben">交易数据</span>
-	  				</div>
-	  				<div >
-	  				
-	  					<span class="phone1">暂无任何记录</span>
+	  					<span class="phone1">负责人:</span><br />
+	  					<span class="phone2">创建人:</span><br />
+	  					<span class="phone3">前负责人:</span><br />
+	  					<span class="phone4">所属部门:</span><br />
+	  					<span class="phone5">前所属部门:</span><br />
+	  					<span class="phone6">创建时间:</span><br />
+	  					<span class="phone7">更新于:</span><br />
 	  				</div>
 	  				</div>
 	  			</div>
 	  			<div class="quanjing_right" style="width:45%;float:left;position: relative; left :50px;">
 					<div class="dan">
 	  				<div class="ziliao">
-	  					<span class="xiaoshou">销售动态</span>
+	  					<span class="xiaoshou">销售动态</span><span class="genjinjilu">+写跟进</span>
 	  				</div>
-	  				<div >
-	  					<span class="phone">客户类型：A（重要客户）</span><br />
-	  					<span class="phone1">电话：15101574324</span>
+	  				<foreach name="genjin" item="vo">
+	  				<div class='ht_rz'>
+	  				<table>
+	  				    <tr>
+	  					<td>更新时间:{$vo.rz_time}</td>
+	  					</tr>
+	  					<tr>
+		  					<td>{$vo.rz_bz}</td>
+		  				</tr>
+	  					<tr>
+	  					<td>操作人:<span class="fuzename">{$vo.rz_user}</td>
+	  					</tr>
+	  					<tr>
+	  					<td>来自合同:<span class="fuzename">{$a_id}</td>
+	  					</tr>
+	  				</table>	
 	  				</div>
+	  				</foreach>	
 	  				</div>
 
 	  			</div>
 	  		</div>
 	  		<div id="tabs-2">
-	  			客户资料
+	  			回款
 	  		</div>
 	  		<div id="tabs-3">
-	  			下级客户
+	  			产品
 	  		</div>
 	  		<div id="tabs-4">
-	  			联系人
-	  		</div>
-	  		<div id="tabs-5">
-	  			商机
-	  		</div>
-	  		<div id="tabs-6">
-	  			合同
-	  		</div>
-	  		<div id="tabs-7">
 	  			提醒
 	  		</div>
-	  		<div id="tabs-8">
+	  		<div id="tabs-5">
 	  		
-
-	  		<div >
 	  		<input type="button" id="dialog-form" onclick="openwindow()" value="+文件上传">
 	  		<table class="layui-table" lay-skin="line">
 	  	<thead>
@@ -176,7 +198,7 @@
 		<tbody class="fujian_del">
 		<foreach name="sql" item="vo">
 	  			<tr>
-	  		<td >{$vo.id}</td>
+	  		        <td >{$vo.id}</td>
 	  				<td >{$vo.sc_data}</td>
 	  				<td >{$vo.fujian_name}</td>
 	  				<td >{$vo.big}</td>
@@ -189,7 +211,7 @@
 
 
 				
-		  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Kehu/upload" enctype="multipart/form-data" method="post" style="margin:20px;">
+		  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/hetong/upload/id/{$kh_id}" enctype="multipart/form-data" method="post" style="margin:20px;">
 	  					<input type="file" name="wenjian"  >
 	  					<div id="shangc_top">备&nbsp;&nbsp;&nbsp;&nbsp;注：<!-- 第一个是普通textarea -->
 					<textarea name="wenbenyu" class="comments" rows="5" cols="30"> </textarea>  </div>
@@ -200,10 +222,38 @@
 
 
 	  		</div>
+	  		
+
+	  	<div id="tabs-6">
+	  			<table class="layui-table" lay-skin="line">
+	  	<thead>
+	  				<th >ID</th>
+	  				<th >操作时间</th>
+	  				<th >操作人员</th>
+	  				<th >操作模块</th>
+	  				<th >操作对象</th>
+	  				<th >备注</th>
+	  				
+
+	  				
+	  			
+		</thead>
+		<tbody class="fujian_del">
+		<foreach name="rz_caozuo" item="vo">
+	  			<tr>
+	  				<td >{$vo.rz_id}</td>
+	  				<td >{$vo.rz_time}</td>
+	  				<td >{$vo.rz_user}</td>
+	  				<td >合同模块</td>
+	  				<td >{$a_id}</td>
+	  				<td >{$vo.rz_bz}</td>
+	  				
+	  			</tr> 
+		</foreach>
+		</tbody>
+	  		</table>  
 	  		</div>
-	  		<div id="tabs-9">
-	  			操作日志
-	  		</div>
+
 
   		</div>
 	</body>
@@ -239,7 +289,7 @@
 
 					
 					alert($(this).attr("id"))
-    				$.get(rooturl+'/index.php/Home/Kehu/delete',{"id":$(this).attr("id")},
+    				$.get(rooturl+'/index.php/Home/hetong/delete',{"id":$(this).attr("id")},
 							        		 				function(html){
 							        		 					alert(html)
 															$(".fujian_del").html(html);
