@@ -46,6 +46,18 @@
  		 });
 
   		</script><!-- 标签-->
+
+  		<link rel="stylesheet" href="{$_GET['public_dir']}/kehucss/xinzeng.css"><!--客户新增CSS-->
+		<style>
+		body,ul,li,table,tr{margin:0;padding:0;}
+		.peizhi{width:auto;height:auto ;border:1px solid #ccc;margin-left:-17px;border-top:0;} 
+		.anniu{width:auto;height:50px;border:1px solid #ccc;margin-left:-17px;} 
+		.kehu{width:auto;height:auto;border:1px solid #ccc;margin-left:-17px;} 
+		tr{line-height:28px}
+		.anniudw{  position: relative;top: 14px;}
+		.left{  position: relative;left: 13px;}
+		.anniudw a{  position: relative; margin-left: 30px;}
+		</style>
 			  <style>
     			 body { font-size: 62.5%; }
     			 li{overflow:hidden;}
@@ -174,17 +186,7 @@
 
  	
  		 		
-		<link rel="stylesheet" href="{$_GET['public_dir']}/kehucss/xinzeng.css"><!--客户新增CSS-->
-		<style>
-		body,ul,li,table,tr{margin:0;padding:0;}
-		.peizhi{width:auto;height:auto ;border:1px solid #ccc;margin-left:-17px;border-top:0;} 
-		.anniu{width:auto;height:50px;border:1px solid #ccc;margin-left:-17px;} 
-		.kehu{width:auto;height:auto;border:1px solid #ccc;margin-left:-17px;} 
-		tr{line-height:28px}
-		.anniudw{  position: relative;top: 14px;}
-		.left{  position: relative;left: 13px;}
-		.anniudw a{  position: relative; margin-left: 30px;}
-		</style>
+		
 
 
 		<script type="text/javascript">
@@ -224,6 +226,23 @@
 
     	</script>
     	
+ <script>
+    		$(document).ready(function(){
+    			$(".shaixuan").click(function(){
+
+		alert($(this).attr("name"))
+		alert($(this).attr("id"))
+    				$.get(rooturl+'/index.php/Home/Kehu/shaixuan',{"title":$(this).attr("name"),"val":$(this).attr("id")},
+							        		 				function(html){
+							        		 					alert(html)
+															$("#jb_bianji").html(html);
+															blurfun();
+
+															});
+
+    			});
+    		});
+    	</script>
 
 	</head>
 
@@ -475,20 +494,4 @@
     		}
 $(document).ready(blurfun());
     	</script>
-	    <script>
-    		$(document).ready(function(){
-    			$(".shaixuan").click(function(){
-
-alert($(this).attr("name"))
-alert($(this).attr("id"))
-    				$.get(rooturl+'/index.php/Home/Kehu/shaixuan',{"title":$(this).attr("name"),"val":$(this).attr("id")},
-							        		 				function(html){
-							        		 					alert(html)
-															$("#jb_bianji").html(html);
-															blurfun();
-
-															});
-
-    			});
-    		});
-    	</script>
+	   

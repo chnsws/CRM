@@ -388,26 +388,37 @@ class KehuController extends Controller {
 				$ronghe[]=$valav;	 //多条融合	
 		}
 	
-			foreach($ronghe as $r_k=>$r_v)
-				{
-					$table.="<tr id='tr".$k."'>";
-					foreach($r_v as $k=>$v)
-					{
-				$id=$r_v['0'];
-						
-						$table.="<td name='$k'>
+		foreach($ronghe as $r_k=>$r_v)
+		{
+			$table.="<tr id='tr".$r_v['0']."'>";
+			foreach($r_v as $k=>$v)
+			{//echo "<pre>";
+			//	var_dump($r_v);exit;
 
+				$a_fuzeren=$r_v['fuzeren'];
 
+		$id=$r_v['0'];
+		//var_dump($k);exit;
+		//echo "<pre>";
+		//	var_dump($r_v['0']);exit;
+				if($k=='zdy0')
+					$xs123="<a href='kehumingcheng/id/$v/fuzeren/$a_fuzeren/id1/$id/kh_id/$id'><input type='text' width='20px' name='{$k}' id='{$id}' value='{$v}' readonly='true' style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
+					</a>";
+				
+				else
+					$xs123="<input type='text' width='20px' name='{$k}' id='{$id}' class='bianji' value='{$v}' onblur=''  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
+					<i class='fa fa-pencil' aria-hidden='true'>	</i>";
+				$table.="<td name='$k'>
+					$xs123
+				
+		
+				</td>";
+			}
+			$table.="</tr>";
+			
+			
+		}
 
-							<input type='text' width='20px' name='$k' id='$id' class='bianji' value='{$v}' onblur=''  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
-							<i class='fa fa-pencil' aria-hidden='true'>	</i>
-
-								
-						</td>";
-					}
-					$table.="</tr>";
-					
-				}
 					$hidden=json_encode($ronghe,true);
 					
 
@@ -535,13 +546,42 @@ class KehuController extends Controller {
 			$this->assign('fuzeren',$kh_name);//上面是 客户全景  和附件
 
 
-			//操作日志
 			
+			$hetong=M('ywcs');
+			$map_ywcs_ht['ywcs_yw']="合同";
+			$ht_ywcs=$hetong->where($map_ywcs_ht)->field('ywcs_data')->find();
+			$ht_json_ywcs=json_decode($ht_ywcs['ywcs_data'],true);
+			//echo "<pre>";
+		//var_dump($ht_json_ywcs);exit;
+
 			$hetong=M('hetong');
 				$tiaojian='"zdy1":"'.$id.'"';
 				
 			$sql_hetong=$hetong->query("select * from crm_hetong where ht_data like '%$tiaojian%'");
+			//echo "<pre>";
+		//var_dump($sql_hetong);exit;
+		$number=0;
+			foreach($sql_hetong as $k=>$v){
 
+					$sql_json_htong=json_decode($v['ht_data'],true);
+					
+					$number=$number+$sql_json_htong['zdy3'];
+					$ht_end[]=$sql_json_htong;
+			}
+			$this->assign('number',$number);//合同总金额
+			foreach($ht_end as $k1=>$v1){
+				foreach($ht_json_ywcs as $k2=>$v2){
+					if('zdy7'==$v2['id']){
+						$v1['zdy7']=$v2[$v1['zdy7']];
+
+					}
+				}
+				$hetong_end1[]=$v1;
+			}
+			
+			$this->assign('ht_end',$hetong_end1);
+			//echo "<pre>";0,3,5,6,7,17
+			//var_dump($ht_end);exit;
 			$this->display();
 		}
 		public function delete(){

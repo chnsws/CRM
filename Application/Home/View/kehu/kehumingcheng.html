@@ -39,7 +39,7 @@ td{padding-top: 13px;position: relative; left :20px;}
 .shangji1{color:blue;position: relative;}
 .genjinjilu{background-color:#1AA094;width:70px;height:24px;float:right;}
 .genjinjilu{position: relative; right:8px;top:6px;color:white;}
-.only1{position: relative; left:560px;top:6px;}
+.only1{position: relative; left:475px;top:6px;}
 .genjin_back{background-color:#F7FBFE;width:90%;position: relative; top:10px;margin:20px auto;}
 .sele{position: relative; left:18px;top:5px;}
 .shiji{float:right;position: relative; right:18px;top:5px;}
@@ -50,6 +50,12 @@ td{padding-top: 13px;position: relative; left :20px;}
 .left_genjin1{position: relative; left:50px;}
 .lianxiren_genjin{position: relative; left:18px;top:30px;}
 .left_lianxiren{position: relative; left:33px;}
+.next_time{float:right;position: relative; right:86px;top:5px;}
+.tijiao{float:right;position: relative; left:200px;top:90px;}
+.baocun{float:right;position: relative; right:30px;}
+.hetong_name{position: relative; left:20px; height:30px;top:15px;}
+.ht_name_width{width:160px;}
+.ht_name_float{position: relative; left:190px;top:-15px;}
 		</style>
 
 	</head>
@@ -156,8 +162,17 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  					<span class="jiben">合同</span>
 	  				</div>
 	  				<div >
+	  					<foreach name="ht_end" item="vo">
+	  					<div class="hetong_name">
+				  			<tr>
+				  
+				  				<td ><div class="ht_name_width">{$vo.zdy0}</div></td>
+				  				<td ><div class="ht_name_float">{$vo.zdy3}</div></td>
+				  				
+				  			</tr>
+				  		</div> 
+						</foreach>
 	  					
-	  					<span class="phone1">暂无任何记录</span>
 	  				</div>
 	  				</div>
 	  				<div class="dan">
@@ -166,7 +181,7 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  				</div>
 	  				<div >
 	  				
-	  					<span class="phone1">暂无任何记录</span>
+	  					<span class="phone1">已成交：￥{$number}</span>
 	  				</div>
 	  				</div>
 	  			</div>
@@ -192,7 +207,7 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  					<textarea name="wenbenyu" rows="10" cols="77" class="wenbenyu"> 
 	  						勤跟进，多签单........
 	  					</textarea>
-	  				<div class="kehu_genjin">客户<span class="legt_genjin"><input type="text" name="kh_name" value="" style="width:150px;height:20px"></span></div>  
+	  				<div class="kehu_genjin">客户<span class="legt_genjin"><input type="text" name="kh_name" value="{$a_id}" style="width:150px;height:20px" readonly="true"></span></div>  
 
 	  				<div class="genjinzhuangtai"> 
 	  					跟进状态 <span class="left_genjin1">
@@ -216,7 +231,10 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  							</select>
 	  					</span>
 	  				</div>  
+					<div class="next_time">下次跟进时间<span class="left_genjin1"><input type="text" name="kh_name" value="" style="width:150px;height:20px"></span></div> 
 
+					<div class="tijiao"><input type="submit" value="保存"  style="width:80px">
+					<input type="button" value="取消"  style="width:80px"></div>
 	  				</form>
 	  				</div>
 	  				
@@ -327,21 +345,23 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  	<thead>
 	  				<th >合同标题</th>
 	  				<th >合同总金额</th>
-	  				<th >合同时间</th>
+	  				<th >合同开始时间</th>
+	  				<th >合同到期时间</th>
 	  				<th >合同状态</td>
 	  				<th >备注</th>
 	  				
 	  			
 		</thead>
 		<tbody class="fujian_del">
-		<foreach name="sql" item="vo">
+		<foreach name="ht_end" item="vo">
 	  			<tr>
-	  		<td >{$vo.id}</td>
-	  				<td >{$vo.sc_data}</td>
-	  				<td >{$vo.fujian_name}</td>
-	  				<td >{$vo.big}</td>
-	  				<td >{$vo.beizhu}</td>
-	  				
+	  
+	  				<td >{$vo.zdy0}</td>
+	  				<td >{$vo.zdy3}</td>
+	  				<td >{$vo.zdy5}</td>
+	  				<td >{$vo.zdy6}</td>
+	  				<td >{$vo.zdy7}</td>
+	  				<td >{$vo.zdy17}</td>
 	  			</tr> 
 		</foreach>
 		</tbody>
@@ -377,8 +397,7 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  			</tr> 
 		</foreach>
 		</tbody>
-	  		</table>  
-
+	  		</table>       
 		  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Kehu/upload/id/{$kh_id}" enctype="multipart/form-data" method="post" style="margin:20px;">
 	  					<input type="file" name="wenjian"  >
 	  					<div id="shangc_top">备&nbsp;&nbsp;&nbsp;&nbsp;注：<!-- 第一个是普通textarea -->
