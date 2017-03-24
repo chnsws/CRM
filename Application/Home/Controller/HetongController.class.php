@@ -478,7 +478,7 @@ class HetongController extends Controller {
 			$rz_sql=$rz->where(array($rz_map))->field('rz_bz,rz_time,rz_user')->order("rz_time desc")->select();//查询出日志记录、
 
 			$rz_caozuo=$rz->where(array($rz_map))->field('rz_id,rz_type,rz_mode,rz_user,rz_object,rz_bz,rz_time')->order("rz_time desc")->select();//操作日志
-            $this->assign('rz_caozuo',$rz_caozuo);
+          
 //echo "<pre>";
 //var_dump($rz_sql);exit;
 
@@ -497,9 +497,20 @@ class HetongController extends Controller {
 				}
 				$ko[]=$v;
 			}
+			foreach($rz_caozuo as $k=>$v){//跟进循环的数据
+				foreach($user_sql as $k1 =>$v1){
+					if($v['rz_user']==$v1['user_id'])
+					{
+						$v['rz_user']= $v1['user_name'];
+						$v['rz_time']=date("Y-m-d H:i:s",$v['rz_time']);
+						
+					}
+				}
+				$koo[]=$v;//操作日志
+			}
 			//echo "<pre>";
 			//print_r($ko);exit;
-			
+			$this->assign('rz_caozuo',$koo);
 			$this->assign('genjin',$ko);
 			$this->assign('sql',$sql_select);
             $this->assign('fuzeren',$kh_name);
