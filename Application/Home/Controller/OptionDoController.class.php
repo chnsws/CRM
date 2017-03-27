@@ -257,6 +257,21 @@ class OptionDoController extends Controller {
 			$companyyouxiaoqi=$userbase->query("select user_youxiaoqi from crm_user where user_id='$fid' limit 1");//使用超级管理员的身份有效期
 			//进行插入操作
 			$userbase->query("insert into crm_user values('','$addusername','$md5password','$suijipassword','$adduserjuese','$fid','$adduserzhuguan','$adduserzhubm','$adduserfubm','$addusersex','$adduserphone','".date("Y-m-d H:i:s",time())."','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','','$adduseremail','".date("Y-m-d H:i:s",time())."','".$companyyouxiaoqi[0]['user_youxiaoqi']."','0','1')");
+			//与业绩目标模块进行关联，增加新用户的业绩目标数据
+			$yjbase=M("yjmb_user");
+			$yjarr=$yjbase->query("select distinct yjm_yid from crm_yjmb_user where yjm_fid='$fid'");
+			if(count($yjarr)>0)
+			{
+				$lastinsertuser=$userbase->query("select user_id from crm_user where user_fid='$fid' order by user_id desc limit 1");
+				$yj_insert_str='';
+				foreach($yjarr as $v)
+				{
+					$yj_insert_str.="('','".$lastinsertuser[0]['user_id']."','".$v['yjm_yid']."','$fid','0','0','0','0','0','0','0','0','0','0','0','0'),";
+				}
+				$yj_insert_str=substr($yj_insert_str,0,-1);
+				//插入操作
+				$yjbase->query("insert into crm_yjmb_user values $yj_insert_str ");
+			}
 			//更新系统日志 	操作时间	操作人员	模块	操作内容	操作设备	操作设备IP
 			$xitongrizhibase=M("rz");
 			$loginIp=$_SERVER['REMOTE_ADDR'];//IP 
@@ -411,7 +426,9 @@ class OptionDoController extends Controller {
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$userbase=M("user");
 		$userbase->query("update crm_user set user_del='1' where user_id='$deluserid' and user_fid='$fid' limit 1");
-
+		//删除业绩目标中的用户业绩
+		$yjbase=M("yjmb_user");
+		$yjbase->query("delete from crm_yjmb_user where yjm_uid='$deluserid' and yjm_fid='$fid'");
 
 		//更新系统日志 	操作时间	操作人员	模块	操作内容	操作设备	操作设备IP
 		$xitongrizhibase=M("rz");
