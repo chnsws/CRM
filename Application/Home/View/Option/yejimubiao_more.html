@@ -305,6 +305,12 @@
         $("#txtinput").parent("td").html(thisval);
         window.isclick='0';
     }
+    //按下回车事件
+    $(document).keydown(function(event){ 
+        if(event.keyCode==13){ 
+            inputblur()
+        }    
+    });
     //刷新部门列表
     function bmshuaxin()
     {
