@@ -260,6 +260,11 @@ class OptionController extends Controller {
 	//公告详情页
 	public function gonggaomore()
 	{
+		if(cookie("islogin")!='1')
+		{
+			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
+			die();
+		}
 		$ggid=addslashes($_GET['ggid']);
 		if($ggid=='')
 		{
@@ -592,7 +597,45 @@ class OptionController extends Controller {
 	}
 	//工作报告
 	public function gongzuobaogao(){
+		if(cookie("islogin")!='1')
+		{
+			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
+			die();
+		}
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$baogaobase=M("gzbg");
+		$bgval=$baogaobase->query("select * from crm_gzbg where gzbg_yh='$fid' limit 1");
+		$this->assign("bgvalue",$bgval[0]['gzbg_val']);
 		$this->display();
+	}
+	//工作报告
+	public function gzbgdo()
+	{
+		if(cookie("islogin")!='1')
+		{
+			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
+			die();
+		}
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$bgstr=addslashes($_GET['bgstr']);
+		if($bgstr=='')
+		{
+			echo 2;
+			die;
+		}
+		$baogaobase=M("gzbg");
+		$baogaobase->query("update crm_gzbg set gzbg_val='$bgstr' where gzbg_yh='$fid' limit 1");
+
+		//更新系统日志 	操作时间	操作人员	模块	操作内容	操作设备	操作设备IP
+		$xitongrizhibase=M("rz");
+		$loginIp=$_SERVER['REMOTE_ADDR'];//IP 
+		//登录地点
+		$addressArr=getCity($nowip);
+		$loginDidianStr=$addressArr["country"].$addressArr["region"].$addressArr["city"];
+		$sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
+		//进行插入操作
+		$xitongrizhibase->query("insert into crm_rz values('','3','7','".cookie("user_id")."','0','0','0','0','0','修改了工作报告设置','$loginIp','$loginDidianStr','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','$fid','".time()."')");
+        echo '1';
 	}
 	//自定义业务字段
 	public function zdyyw_ziduan(){
