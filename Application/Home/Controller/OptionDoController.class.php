@@ -24,7 +24,7 @@ class OptionDoController extends Controller {
 			{
 				echo 2;die;
 			}
-            $addsuccess=$bumenbase->query("insert into crm_department values('','$ajaxName','$ajaxFid','$nowloguser')");
+            $addsuccess=$bumenbase->query("insert into crm_department values('','$ajaxName','$ajaxFid','$fid')");
 
 
             //更新系统日志 	操作时间	操作人员	模块	操作内容	操作设备	操作设备IP
@@ -299,7 +299,7 @@ class OptionDoController extends Controller {
 		}
 		//实例化用户表
 		$userbase=M("user");
-		$userAllArr=$userbase->query("select * from crm_user where (user_id='$nowUserId' or user_fid='$nowUserId') and user_del='0'");
+		$userAllArr=$userbase->query("select * from crm_user where (user_id='$nowUserFid' or user_fid='$nowUserFid') and user_del='0'");
 		$userSex=array('1'=>'男','2'=>'女');
 		foreach($userAllArr as $userk=>$userv)
 		{

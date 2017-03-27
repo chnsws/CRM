@@ -528,7 +528,6 @@
 								}
 								else
 								{
-									alert(is_ok)
 									tishi("修改失败，请重试");
 								}
 							});
@@ -755,10 +754,6 @@
 							tishi("密码不能为空");
 							return false;
 						}
-
-						var zzyhm=/[0-9a-zA-Z\u4e00-\u9fa5]*/;
-
-
 						var zzobj=/^(\w){6,20}$/;
 						if(!zzobj.exec(newpwd))
 						{
@@ -965,7 +960,6 @@
 						{
 							updatestr=updatestr+"user_fu_bid:"+adduserfubm+',';
 						}
-						alert(updatestr);
 						//如果有修改，就和服务器进行交互
 						if(updatestr!='')
 						{
