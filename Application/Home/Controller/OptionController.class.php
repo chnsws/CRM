@@ -639,6 +639,86 @@ class OptionController extends Controller {
 	}
 	//自定义业务字段
 	public function zdyyw_ziduan(){
+		if(cookie("islogin")!='1')
+		{
+			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
+			die();
+		}
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$pxbase=M("paixu");
+		$pxarr=$pxbase->query("select px_px from crm_paixu where px_yh='$fid' and px_mod='1'");
+		$zdbase=M("yewuziduan");
+		$xiansuoarr=$zdbase->query("select * from crm_yewuziduan where zd_yh='$fid' and zd_yewu='1' ");
+		$xiansuoarr=$xiansuoarr[0];
+		$json2arr=json_decode($xiansuoarr['zd_data'],true);
+		if(count($pxarr)>0)
+		{
+			$pxarr=explode(",",$pxarr[0]['px_px']);
+			foreach($pxarr as $pxv)
+			{
+				foreach($json2arr as $v)
+				{
+					if($v['id']==$pxv)
+					{
+						$qy=$v['qy']=='0'?'':'checked';
+						$bt=$v['bt']=='0'?'':'checked';
+						$cy=$v['cy']=='0'?'':'checked';
+						if($v['bj']=='0')
+						{
+							$instyle1="<input type='checkbox' checked  disabled='disabled'><span class='teshu'>(特殊字段，不能修改)</span>";
+							$instyle2="<input type='checkbox' checked  disabled='disabled'><span class='teshu'>(特殊字段，不能修改)</span>";
+							$instyle3="<input type='checkbox' checked  disabled='disabled'><span class='teshu'>(特殊字段，不能修改)</span>";
+						}
+						else
+						{
+							$instyle1="<input type='checkbox' $qy name='qy".$v['id']."'>";
+							$instyle2="<input type='checkbox' $bt name='bt".$v['id']."'>";
+							$instyle3="<input type='checkbox' $cy name='cy".$v['id']."'>";
+						}
+						$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' onmousedown='tuozhuai()'><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."')>编辑</a></td></tr>";
+						continue 2; 
+					}
+				}
+			}
+		}
+		else
+		{
+			foreach($json2arr as $v)
+			{
+				$qy=$v['qy']=='0'?'':'checked';
+				$bt=$v['bt']=='0'?'':'checked';
+				$cy=$v['cy']=='0'?'':'checked';
+				if($v['bj']=='0')
+				{
+					$instyle1="<input type='checkbox' checked  disabled='disabled'><span class='teshu'>(特殊字段，不能修改)</span>";
+					$instyle2="<input type='checkbox' checked  disabled='disabled'><span class='teshu'>(特殊字段，不能修改)</span>";
+					$instyle3="<input type='checkbox' checked  disabled='disabled'><span class='teshu'>(特殊字段，不能修改)</span>";
+				}
+				else
+				{
+					$instyle1="<input type='checkbox' $qy name='qy".$v['id']."'>";
+					$instyle2="<input type='checkbox' $bt name='bt".$v['id']."'>";
+					$instyle3="<input type='checkbox' $cy name='cy".$v['id']."'>";
+				}
+				$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' onmousedown='tuozhuai()'><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."')>编辑</a></td></tr>";
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		$this->assign("tablestr",$tablestr);
 		$this->display();
 	}
 	//自定义业务参数
