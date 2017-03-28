@@ -210,7 +210,7 @@ class YewuziduanDoController extends Controller {
 							$instyle2="<input type='checkbox' $bt name='bt".$v['id']."'>";
 							$instyle3="<input type='checkbox' $cy name='cy".$v['id']."'>";
 						}
-						$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' onmousedown='tuozhuai()'><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."')>编辑</a></td></tr>";
+						$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' onmousedown='tuozhuai()'><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."','".$v['sc']."')>编辑</a></td></tr>";
 						continue 2; 
 					}
 				}
@@ -235,10 +235,43 @@ class YewuziduanDoController extends Controller {
 					$instyle2="<input type='checkbox' $bt name='bt".$v['id']."'>";
 					$instyle3="<input type='checkbox' $cy name='cy".$v['id']."'>";
 				}
-				$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' onmousedown='tuozhuai()'><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."')>编辑</a></td></tr>";
+				$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' onmousedown='tuozhuai()'><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."','".$v['sc']."')>编辑</a></td></tr>";
 			}
 		}
         echo $tablestr;
+
+    }
+    //删除字段方法
+    public function delzd()
+    {
+        $nowpage=addslashes($_GET['nowpage']);
+        $changeid=addslashes($_GET['changeid']);
+        if($nowpage==''||$changeid=='')
+        {
+            echo 2;
+            die;
+        }
+        $pageidarr=$this->pageidarr;
+        $pageval=$pageidarr[$nowpage];
+        $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+        $zdbase=M("yewuziduan");
+        $zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='$pageval' limit 1");
+        $dataarr=json_decode($zdarr[0]['zd_data'],true);
+        foreach($dataarr as $k=>$v)
+        {
+            if($v['id']==$changeid)
+            {
+                $delname=$v['name'];
+                unset($dataarr[$k]);
+                break;
+            }
+        }
+        $newjsonstr=json_encode($dataarr);
+        $newjsonstr=str_replace('\\','\\\\',$newjsonstr);
+        $zdbase->query("update crm_yewuziduan set zd_data='$newjsonstr' where zd_yh='$fid' and zd_yewu='$pageval' limit 1");
+        $pagenamearr=$this->pagenamearr;
+        $pagename=$pagenamearr[$nowpage];
+        echo $this->insertrizhi("删除了".$pagename."的".$delname.'字段');
 
     }
     //插入日志方法

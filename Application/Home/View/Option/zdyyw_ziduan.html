@@ -205,7 +205,8 @@
         $("#li"+pageinfo).attr("class","layui-this");
         $("#paixu_xiansuo").parent().removeClass("layui-show");
         $("#"+pageinfo).parent().addClass("layui-show");
-        $("#li"+pageinfo).trigger("click")
+        window.nowpage=pageinfo;
+        loadpage(pageinfo);
     }
 
     //ajax同步
@@ -230,6 +231,7 @@
     //修改当前页面的参数
     function changepage(pageid)
     {
+        window.nowpage=pageid;
         if(pageid=='paixu_xiansuo')
         {
             if(load_xiansuo=='1')
@@ -262,7 +264,6 @@
         }
         //加载层
         window.jiazai= layer.load(2);
-        window.nowpage=pageid;
         loadpage(pageid);
     }
     //新增字段按钮
@@ -317,11 +318,18 @@
         });
     }
     //点击编辑事件
-    function bianji(thisid)
+    function bianji(thisid,candel)
     {
         var oldname=$("#"+nowpage).find("#"+thisid).children("td").eq(1).text();
         $("#newzdname").val(oldname);
-        
+        if(candel=='1')
+        {
+            var btnarr=['保存','删除'];
+        }
+        else
+        {
+            var btnarr='保存';
+        }
         layui.use('layer', function(){
             var layer = layui.layer;
             layer.open({
@@ -329,18 +337,43 @@
                 area:"600px",
                 title:"编辑字段",
                 content: $("#hid_table"),
-                btn: '保存',
+                btn: btnarr,
                 btn1: function(index, layero){
                         var newname=$("#newzdname").val();
+                        if(newname==oldname)
+                        {
+                            tishi("修改成功")
+                            layer.close(index); 
+                            return false;
+                        }
                         $.get(root_dir+"/index.php/Home/YewuziduanDo/changename",{"nowpage":nowpage,"newname":newname,"changeid":thisid},function(res){
                         });
                         $("#"+nowpage).find("#"+thisid).children("td").eq(1).text(newname);
                         tishi("修改成功")
-                       layer.close(index);   
-                    }
+                        layer.close(index);   
+                    },
+                btn2:function(index,layero){
+                    var delts=layer.msg('确认删除字段‘'+oldname+'’？删除后将无法恢复。', {
+                        time: 2000000, //20s后自动关闭
+                        btn: ['确认删除', '取消'],
+                        btn1: function(){
+                            //加载层
+                            window.jiazai= layer.load(2);
+                            $.get(root_dir+"/index.php/Home/YewuziduanDo/delzd",{"nowpage":nowpage,"changeid":thisid},function(res){
+                                $("tr[id='"+thisid+"']").hide();
+                                layer.close(jiazai);
+                            });
+                            layer.close(delts);
+                        },
+                        btn2: function(){
+                            layer.close(delts);
+                        }
+                    });
+                }
             });
         });
     }
+    
     //拖拽监听事件
     function tuozhuai()
     {
