@@ -66,36 +66,7 @@
                 <th>操作</th>
             </thead>
             <tbody>
-                <tr>
-                    <td>2017</td>
-                    <td><a href="{$_GET['root_dir']}/index.php/Home/Option/yejimubiao_more">赢单商机数</a></td>
-                    <td>1232</td>
-                    <td><a href="{$_GET['root_dir']}/index.php/Home/Option/yejimubiao_more">查看</a><a onclick="copy()">复制</a><a href="">删除</a></td>
-                </tr>
-                <tr>
-                    <td>2017</td>
-                    <td><a href="{$_GET['root_dir']}/index.php/Home/Option/yejimubiao_more">赢单商机数</a></td>
-                    <td>1232</td>
-                    <td><a href="{$_GET['root_dir']}/index.php/Home/Option/yejimubiao_more">查看</a><a onclick="copy()">复制</a><a href="">删除</a></td>
-                </tr>
-                <tr>
-                    <td>2017</td>
-                    <td><a href="{$_GET['root_dir']}/index.php/Home/Option/yejimubiao_more">赢单商机数</a></td>
-                    <td>1232</td>
-                    <td><a href="{$_GET['root_dir']}/index.php/Home/Option/yejimubiao_more">查看</a><a onclick="copy()">复制</a><a href="">删除</a></td>
-                </tr>
-                <tr>
-                    <td>2017</td>
-                    <td><a href="{$_GET['root_dir']}/index.php/Home/Option/yejimubiao_more">赢单商机数</a></td>
-                    <td>1232</td>
-                    <td><a href="{$_GET['root_dir']}/index.php/Home/Option/yejimubiao_more">查看</a><a onclick="copy()">复制</a><a href="">删除</a></td>
-                </tr>
-                <tr>
-                    <td>2017</td>
-                    <td><a href="{$_GET['root_dir']}/index.php/Home/Option/yejimubiao_more">赢单商机数</a></td>
-                    <td>1232</td>
-                    <td><a href="{$_GET['root_dir']}/index.php/Home/Option/yejimubiao_more">查看</a><a onclick="copy()">复制</a><a href="">删除</a></td>
-                </tr>
+                {$yjtable}
             </tbody>
         </table>
     </div>
@@ -107,29 +78,29 @@
             <i class="redstar">*</i>对应年度
         </td>
         <td>
-            <select>
-                <option>请选择对应年度</option>
-                <option>2005</option>
-                <option>2006</option>
-                <option>2007</option>
-                <option>2008</option>
-                <option>2009</option>
-                <option>2010</option>
-                <option>2011</option>
-                <option>2012</option>
-                <option>2013</option>
-                <option>2014</option>
-                <option>2015</option>
-                <option>2016</option>
-                <option>2017</option>
-                <option>2018</option>
-                <option>2019</option>
-                <option>2020</option>
-                <option>2021</option>
-                <option>2022</option>
-                <option>2023</option>
-                <option>2024</option>
-                <option>2025</option>
+            <select id="niandu">
+                <option value=''>请选择对应年度</option>
+                <option value="2005">2005</option>
+                <option value="2006">2006</option>
+                <option value="2007">2007</option>
+                <option value="2008">2008</option>
+                <option value="2009">2009</option>
+                <option value="2010">2010</option>
+                <option value="2011">2011</option>
+                <option value="2012">2012</option>
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
             </select>
         </td>
     </tr>
@@ -139,24 +110,55 @@
         </td>
         <td>
             <select id="yeji_type">
-                <option>请选择业绩类型</option>
-                <option>赢单商机金额</option>
-                <option>赢单商机数</option>
-                <option>合同回款金额</option>
-                <option>合同金额</option>
-                <option>合同数</option>
-                <option>产品销量</option>
-                <option>产品销售额</option>
+                <option value="">请选择业绩类型</option>
+                <option value="1">赢单商机金额</option>
+                <option value="2">赢单商机数</option>
+                <option value="3">合同回款金额</option>
+                <option value="4">合同金额</option>
+                <option value="5">合同数</option>
+                <option value="6">产品销量</option>
+                <option value="7">产品销售额</option>
+                <option value="8">产品分类销量</option>
+                <option value="9">产品分类销售额</option>
+            </select>
+        </td>
+    </tr>
+    <tr id="chanpintr">
+        <td width="150px" height="40px" align="center"  >
+            <i class="redstar">*</i>产品
+        </td>
+        <td>
+            <select id="chanpinsel">
+            </select>
+        </td>
+    </tr>
+    <tr id="chanpinfenleitr">
+        <td width="150px" height="40px" align="center"  >
+            <i class="redstar">*</i>产品分类
+        </td>
+        <td>
+            <select id="chanpinfenleisel">
             </select>
         </td>
     </tr>
 </table>
 <script>
     $("#xinzeng").hide();
+    $("#chanpintr").hide();
+    $("#chanpinfenleitr").hide();
+    window.root_dir="{$_GET['root_dir']}";
+    window.chanpinload='0';
+    window.chanpintypeload='0';
+    window.selchanpin='0';
     //上方绿色提示框的关闭效果
     function hidden_div(){
         $("#mod1").hide();
-    } 
+    }
+    //初始化
+    layui.use('layer', function(){
+        window.layer = layui.layer;
+    });
+      //  alert($.inArray('1',abc));
     //黑色半透明提示
     function tishi(neirong)
     {
@@ -178,14 +180,117 @@
                 content: $("#xinzeng"),
                 btn: '确认',
                 btn1: function(index, layero){
-                        tishi("新增成功")
-                       layer.close(index);   
+                        var addniandu=$("#niandu").val();
+                        var addyejitype=$("#yeji_type").val();
+                        var addchanpin=$("#chanpinsel").val();
+                        var addchanpinfenlei=$("#chanpinfenleisel").val();
+                        if(addniandu==''){tishi("请选择对应年度");return false;}
+                        if(addyejitype==''){tishi("请选择业绩类型");return false;}
+                        if(selchanpin!='0')
+                        {
+                            if(selchanpin=='1')
+                            {
+                                if(addchanpin==''){tishi("请选择产品");return false;}
+                                else{var yjmbtypemore=addchanpin;}
+                            }
+                            else
+                            {
+                                if(addchanpinfenlei==''){tishi("请选择产品分类");return false;}
+                                else{var yjmbtypemore=addchanpinfenlei;}
+                            }
+                        }
+                         $.get(root_dir+"/index.php/Home/YejimubiaoDo/yjmbadd",{"addniandu":addniandu,"addyejitype":addyejitype,"yjmbtypemore":yjmbtypemore},function(res){
+                            if(res=='1')
+                            {
+                                location.reload();
+                            }
+                            else if(res=='2')
+                            {
+                                tishi("添加失败");
+                            }
+                            else if(res=='3')
+                            {
+                                tishi("该目标已存在，请勿重复添加");
+                            }
+                            else
+                            {
+                                tishi("添加失败，请刷新后重试");
+                            }
+                         });
                     }
             });
         });
     }
+
+    //加载产品分类
+    $("#yeji_type").change(function(){
+        var needshow=['6','7','8','9'];
+        var thisval=$(this).val();
+        var thiscp=$.inArray(thisval,needshow);
+        if(thiscp>=0)
+        {
+            if(thiscp=='0'||thiscp=='1')//加载产品
+            {
+                selchanpin='1';
+                $.get(root_dir+"/index.php/Home/YejimubiaoDo/chanpinload",{"cploadtype":'1'},function(res){
+                    $("#chanpinsel").html(res);
+                });
+                chanpinload='1';
+                $("#chanpintr").show();
+                $("#chanpinfenleitr").hide();
+            }
+            else//加载产品类别
+            {
+                selchanpin='2';
+                $.get(root_dir+"/index.php/Home/YejimubiaoDo/chanpinload",{"cploadtype":'2'},function(res){
+                    $("#chanpinfenleisel").html(res);
+                });
+                chanpinfenleiload='1';
+                $("#chanpinfenleitr").show();
+                $("#chanpintr").hide();
+            }
+            
+        }
+        else
+        {
+            selchanpin='0';
+            $("#chanpintr").hide();
+            $("#chanpinfenleitr").hide();
+        }
+    });
     //复制业绩目标
-    function copy(){
+    function yjcopy(yjnd,yjid,yjtype,yjmore)
+    {
+        $("#yeji_type").val(yjtype);
+        $("#niandu").val(yjnd);
+        $.ajaxSetup({
+            async : false
+        });
+        if(yjtype=='6'||yjtype=='7')
+        {
+            selchanpin='1';
+            $.get(root_dir+"/index.php/Home/YejimubiaoDo/chanpinload",{"cploadtype":'1'},function(res){
+                $("#chanpinsel").html(res);
+            });
+            $("#chanpinsel").val(yjmore);
+            $("#chanpintr").show();
+            $("#chanpinfenleitr").hide();
+        }
+        else if(yjtype=='8'||yjtype=='9')
+        {
+            selchanpin='2';
+            $.get(root_dir+"/index.php/Home/YejimubiaoDo/chanpinload",{"cploadtype":'2'},function(res){
+                $("#chanpinfenleisel").html(res);
+            });
+            $("#chanpinfenleisel").val(yjmore);
+            $("#chanpinfenleitr").show();
+            $("#chanpintr").hide();
+        }
+        else
+        {
+            $("#chanpinfenleitr").hide();
+            $("#chanpintr").hide();
+        }
         //将业绩类型改变为不可选
         $("#yeji_type").prop("disabled",true);
         //打开弹出层
@@ -198,11 +303,65 @@
                 content: $("#xinzeng"),
                 btn: '确认复制',
                 btn1: function(index, layero){
-                        tishi("复制成功")
-                       layer.close(index);   
+                        var addniandu=$("#niandu").val();
+                        var addyejitype=$("#yeji_type").val();
+                        var addchanpin=$("#chanpinsel").val();
+                        var addchanpinfenlei=$("#chanpinfenleisel").val();
+                        if(addniandu==''){tishi("请选择对应年度");return false;}
+                        if(addyejitype==''){tishi("请选择业绩类型");return false;}
+                        if(selchanpin!='0')
+                        {
+                            if(selchanpin=='1')
+                            {
+                                if(addchanpin==''){tishi("请选择产品");return false;}
+                                else{var yjmbtypemore=addchanpin;}
+                            }
+                            else
+                            {
+                                if(addchanpinfenlei==''){tishi("请选择产品分类");return false;}
+                                else{var yjmbtypemore=addchanpinfenlei;}
+                            }
+                        }
+                         $.get(root_dir+"/index.php/Home/YejimubiaoDo/yjmbcopy",{"yjid":yjid,"addniandu":addniandu,"addyejitype":addyejitype,"yjmbtypemore":yjmbtypemore},function(res){
+                            if(res=='1')
+                            {
+                                location.reload();
+                            }
+                            else if(res=='2')
+                            {
+                                tishi("复制失败");
+                            }
+                            else if(res=='3')
+                            {
+                                tishi("该目标已存在，请勿重复复制");
+                            }
+                            else
+                            {
+                                tishi("复制失败，请刷新后重试");
+                            }
+                         });
                     }
             });
         });
+    }
+    //删除业绩目标
+    function yjdel(thisid)
+    {
+        layer.msg("是否确认删除该条业绩目标？", {
+            time: 2000000, //20s后自动关闭
+            btn: ['确认删除', '取消'],
+            btn1: function(index, layero){
+                $.get(root_dir+"/index.php/Home/YejimubiaoDo/yjmbdel",{"yjid":thisid},function(res){
+                    if(res=='1')
+                    {
+                        location.reload(true);
+                    }
+                });
+            },
+            btn2: function(index, layero){
+                layer.close(index);
+            }
+        })
     }
 </script>
 </html>

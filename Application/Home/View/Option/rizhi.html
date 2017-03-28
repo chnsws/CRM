@@ -261,6 +261,7 @@
     function datatablefun(tableid)
     {
         $(tableid).dataTable({
+            "order": [[ 1, "desc" ]],
             autoWidth: true,
             ordering: true,//是否启用排序
             searching: true,//搜索
