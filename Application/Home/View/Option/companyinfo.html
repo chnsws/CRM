@@ -172,11 +172,7 @@
             title:"选择图片",
             before: function(input){
                 //返回的参数item，即为当前的input DOM对象
-                layui.use('layer', function(){
-				var layer = layui.layer;
-				window.jiazai=layer.open({
-					type:3,
-				}); 
+                window.jiazai= layer.load(2);
 			}); 
                //tishi('文件上传中');
             },

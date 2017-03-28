@@ -278,12 +278,7 @@
         if(thisval!=oldval)
         {
             //加载层
-            layui.use('layer', function(){
-                var layer = layui.layer;
-                window.jiazai=layer.open({
-                    type:3,
-                }); 
-            }); 
+            window.jiazai= layer.load(2);
             var cha=parseFloat(parseFloat(thisval)*1000)-parseFloat(parseFloat(oldval)*1000);
             var zong=$("#zong").text();
             zong=parseFloat(zong)*1000;

@@ -108,12 +108,7 @@
     function editbase()
     {
         //加载层
-        layui.use('layer', function(){
-            var layer = layui.layer;
-            window.jiazai=layer.open({
-                type:3,
-            }); 
-        }); 
+        window.jiazai= layer.load(2);
         var chaoji=$("input[name='chaoji']").prop("checked");
         var zhuguan=$("input[name='zhuguan']").prop("checked");
         if(chaoji)

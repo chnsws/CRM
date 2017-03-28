@@ -378,12 +378,7 @@
 				var changejuese=nowClcikJueseId;
 				var changefiledvalue=data.elem.checked;
 				var changefiledname=$("#qx"+changejuese).text();
-				layui.use('layer', function(){
-					var layer = layui.layer;
-					window.jiazai=layer.open({
-						type:3,
-					}); 
-				}); 
+				window.jiazai= layer.load(2);
 				//改变数据库的该权限的值
 				$.get(root_dir+"/index.php/Home/QuanxianDo/changeqxval",{"changefiled":changefiled,"changejuese":changejuese,"changefiledvalue":changefiledvalue,"changefiledname":changefiledname},function(cqvres){
 					if(cqvres=='1')
@@ -627,12 +622,7 @@
 		//数据权限改变
 		$("input[type='radio']").change(function(){
 
-			layui.use('layer', function(){
-				var layer = layui.layer;
-				window.jiazai=layer.open({
-					type:3,
-				}); 
-			}); 
+			window.jiazai= layer.load(2);
 
 			var changeid=nowClcikJueseId;
 			var changeradioval=$(this).val();

@@ -124,7 +124,7 @@ class OptionController extends Controller {
 		$nowCompanyArr=$companybase->query("select `gsxx_name` from crm_gongsixinxi where gsxx_yh='$nowUserId' or gsxx_yh='".cookie("user_fid")."' limit 1");
 		//查询角色名称
 		$quanxianbase=M("quanxian");
-		$qxNameArr=$quanxianbase->query("select qx_id,qx_name from crm_quanxian where qx_company='".$nowUserId."' or qx_company='0' ");
+		$qxNameArr=$quanxianbase->query("select qx_id,qx_name from crm_quanxian where qx_company='".$nowUserFid."' or qx_company='0' ");
 		$jueseoption="<option value=''>请选择角色</option>";
 		$zhuguanoption="<option value=''>请选择主管</option>";
 		foreach($qxNameArr as $qxk=>$qxv)
