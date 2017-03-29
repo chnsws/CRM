@@ -7,7 +7,7 @@ class KehuController extends Controller {
     public function kehu(){
 
   		$a=M('yewuziduan');                      //新增客户所需字段     
-  		$map['zd_yewu']="客户";
+  		$map['zd_yewu']="2";
   		$map['zd_yh']="1";//这里通过查询获得
   		$sql=$a->where($map)->field('zd_data')->find();
 		$a_arr=json_decode($sql['zd_data'],true);
@@ -19,22 +19,12 @@ class KehuController extends Controller {
 		$conf_sql=$conf->field("config_kh_data")->find();
 		$conf_sql_json=json_decode($conf_sql['config_kh_data'],true);
         $ywcs=M('ywcs');                 //获取ywcs表中的 数据
- 		$yw_cs['ywcs_yw']="客户";
+ 		$yw_cs['ywcs_yw']="2";
  		$yw_cs['ywcs_yh']=1;
  		$ywcs_sql=$ywcs->where($yw_cs)->field('ywcs_data')->find();
  		$ywcs_sql_json=json_decode($ywcs_sql['ywcs_data'],true);
 
 		$nachu=array();
-
-		
-			
-			
-			
-		
-
-
-
-
 		foreach($kehu as $k=>$v){
 			$nachu[$k]=json_decode($v['kh_data'],true);
 		}
@@ -51,7 +41,7 @@ class KehuController extends Controller {
 		 			$guanlianw[]=$v;
 		 		}
  					
-
+//var_dump();exit;
 		foreach($kehu as $k=>$val){
 			$valav=array_merge($guanlianw[$k],$val);
 			$dantiao=$valav['kh_id'];//获取到id
@@ -222,7 +212,7 @@ class KehuController extends Controller {
 
 		if($sql=='zdy'){
 			$ywzd=M('yewuziduan');              //只是为了获取  zd0   的中文名字放备注中
-				$yw_cs['zd_yewu']="客户";
+				$yw_cs['zd_yewu']="2";
  				$yw_cs['zd_yh']=1;
 				$ywzd_sql=$ywzd->where($yw_cs)->find();
 				$sql_json=json_decode($ywzd_sql['zd_data'],true);
@@ -479,7 +469,7 @@ class KehuController extends Controller {
 
 			
 			$ywcs=M('ywcs');                 //获取ywcs表中的 数据
-	 		$yw_cs['ywcs_yw']="客户";
+	 		$yw_cs['ywcs_yw']="2";
 	 		$yw_cs['ywcs_yh']=1;
 	 		$ywcs_sql=$ywcs->where($yw_cs)->field('ywcs_data')->find();
 	 		$ywcs_sql_json=json_decode($ywcs_sql['ywcs_data'],true);
@@ -533,9 +523,131 @@ class KehuController extends Controller {
 				}
 				$koo[]=$v;//操作日志
 			}
+
+		//客户资料标题开始
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kehuziliao=M('yewuziduan');
+		$yewuziduan['zd_yewu']="2";
+		$yewuziduan['zd_yh']=$fid;
+		$sql_ywzd=$kehuziliao->where($yewuziduan)->find();
+		$ywzd_json=json_decode($sql_ywzd['zd_data'],true);
+
+		$array_jiansuo=array('fuzeren'=>"负责人",'department'=>"部门",'kh_lx'=>"联系人",'kh_cj_cp'=>"已经成交产品",'kh_new_gj'=>"最新跟进记录",'kh_sj_gj_date'=>"实际跟进时间",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间",'kh_yh'=>"所属公司");
+
+		foreach($array_jiansuo as $k3=>$v3){
+			$guiding['id']=$k3;
+			$guiding['name']=$v3;
+			$guiding['type']=9;
+			$guidingend[]=$guiding;//自定义 的键值
+		}
+		//echo "<pre>";
+		//var_dump($guidingend);exit;
+		//$ywzd_json=array_marge($ywzd_json,$guidingend);
+		foreach($ywzd_json as $k=>$v){
+			
+				
+				if ($v['qy']==1){
+					$ywcs_get['id']=$v['id'];
+					$ywcs_get['name']=$v['name'];
+					$ywcs_get['type']=$v['type'];
+				}
+				$end_ywcs[]=$ywcs_get;
+				
+			unset($ywcs_get); 
+			
+		}
+		foreach($guidingend as $k=>$v){
+			$end_ywcs[]=$v;
+		}
+		
+		//客户信息
+		$kh_ziliao=M('kh');
+		$map_kh['kh_id']=$id;
+		$sql_kh=$kh_ziliao->where($map_kh)->find();
+		$sql_kh_json=json_decode($sql_kh['kh_data'],true);
+		$valav=array_merge($sql_kh_json,$sql_kh);
+		$kh_id=$valav['kh_id'];
+		unset($valav['kh_id']); 
+		unset($valav['kh_data']); 
+		array_unshift($valav,$kh_id);//单挑查询完
+
+		//查询关联字段
+		$ywcs_base=M('ywcs');
+		$ywcs_map['ywcs_yw']=2;
+		$ywcs_map['ywcs_yh']=1;
+		$ywcs_sql=$ywcs_base->where($ywcs_map)->field('ywcs_data')->find();
+		$ywcs_sql_json=json_decode($ywcs_sql['ywcs_data'],true);
+		
+		foreach($valav as $k => $v){
+
+			foreach($ywcs_sql_json as $k1=>$v1){
+				//echo $k;
+				//echo $k1;exit;
+				if($k==$v1['id']){
+					$valav[$k]=$v1[$v];
+				}
+			}
+
+		}//把关联信息替换
+		//echo"<pre>";
+		
+		//var_dump($valav);exit;
+			$tabl='';
+			
+			//echo"<pre>";
+			//var_dump($end_ywcs);exit;
+			foreach($end_ywcs as $k=>$v)
+			{
+				if($v['type']==0)
+				$tabl.='<tr><td>'.$v['name'].':</td><td>1<input type="text" id="'.$kh_id.'" name="'.$v['id'].'" class="ziliao_right" value="'.$valav[$v["id"]].'"   onblur=""><i class="fa fa-pencil" aria-hidden="true"></i></td></tr>';
+				else if($v['type']==1){
+					$tabl.='<tr><td>'.$v['name'].':</td><td>2<input type="text" id="'.$v['id'].'" class="ziliao_right" value="'.$valav[$v['id']].'"><i class="fa fa-pencil" aria-hidden="true"></i></td></tr>';
+				}else if($v['type']==2){
+					$tabl.='<tr><td>'.$v['name'].':</td><td>3<input type="text" id="'.$v['id'].'"  value="'.$valav[$v['id']].'" class="text ui-widget-content ui-corner-all ziliao_right" onfocus="WdatePicker({dateFmt:\'yyyy-M-d H:mm:ss\'})"><i class="fa fa-pencil" aria-hidden="true"></i></td></tr>';
+				}else if($v['type']==3){
+						foreach ($ywcs_sql_json as $k3 =>$v3)
+						{
+							if($v["id"]==$v3['id'])
+							{
+								foreach($v3 as $k4=>$v4)
+								{
+									
+									if($valav[$v["id"]]==$v4)
+									{
+
+										$ss="selected";
+									}
+									else
+									{
+										$ss="";
+									}
+									if(substr($v4,0,3)!='zdy'&& $k4 != 'qy')
+									{
+										$aaa.='<option value="" '.$ss.' >'.$v4.'</option>';
+									}
+								}
+							}			
+						}
+					$tabl.='<tr><td>'.$v['name'].':</td><td>4 <select id="'.$v['id'].'" class="ziliao_right1">
+														
+																
+																'.$aaa.'
+																
+																
+																
+															 </select>
+					<i class="fa fa-pencil" aria-hidden="true"></i></td></tr>';
+					unset($aaa);
+				}else if($v['type']==9){
+					$tabl.='<tr><td>'.$v['name'].':</td><td><input type="text" id="'.$v['id'].'" readonly="readonly" class="ziliao_right" value="'.$valav[$v['id']].'"></td></tr>';
+				}
+			}
+		$this->assign("data_kh",$table1);
+	
+		$this->assign("biaoti_ywzd",$tabl);
+	
 			$this->assign('rz_caozuo',$koo);
-			//echo "<pre>";
-			//print_r($ko);exit;
+			
 			$this->assign('genjin',$ko);
 			
 		
@@ -548,7 +660,7 @@ class KehuController extends Controller {
 
 			
 			$hetong=M('ywcs');
-			$map_ywcs_ht['ywcs_yw']="合同";
+			$map_ywcs_ht['ywcs_yw']="6";
 			$ht_ywcs=$hetong->where($map_ywcs_ht)->field('ywcs_data')->find();
 			$ht_json_ywcs=json_decode($ht_ywcs['ywcs_data'],true);
 			//echo "<pre>";
@@ -714,5 +826,78 @@ class KehuController extends Controller {
 
 
 }
+		public function bianji_ziliao(){
+			$bianji_id['kh_id']= $_GET['aid'];//81
+			$bianji_name= $_GET['name'];//zdy2  fuzeren
+			$bianji_val= $_GET['val'];//修改内容
+			$sql=substr($bianji_name,0,3);
+			$kehus=M('kh'); 
+			if($sql=='zdy')
+			{
+				$ywzd=M('yewuziduan');              //只是为了获取  zd0   的中文名字放备注中
+				$yw_cs['zd_yewu']="2";
+ 				$yw_cs['zd_yh']=1;
+				$ywzd_sql=$ywzd->where($yw_cs)->find();
+				$sql_json=json_decode($ywzd_sql['zd_data'],true);
+					foreach($sql_json as $k=>$v)
+					{
+						if($v['id']==$bianji_name)
+						{
+							$name_rz=$v['name'];
+						}
+					}                                    //获取完了
+					$map_rz['kh_id']=$bianji_id['kh_id'];  //这里获取修改之前的值 日志记录用
+					$kh_old_val=$kehus->where(array($map_rz))->field('kh_data')->find();
+					$sql_json_rz=json_decode($kh_old_val['kh_data'],true);
+					foreach($sql_json_rz as $krz=>$vrz)
+					{
+						if($krz==$bianji_name)
+						{
+							$b_rz=$vrz;
+						}
+					}
+					$loginIp=$_SERVER['REMOTE_ADDR'];//IP 
+	           	 	$sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
+	            	$addressArr=getCity($nowip);//登录地点
+	            	$loginDidianStr=$addressArr["country"].$addressArr["region"].$addressArr["city"];
+			   		$id=$bianji_id['kh_id'];	
+			   		$rz=M('rz');
+			 		$rz_map['rz_type']=1;//这个1是操作日志类型  死的
+			 		$rz_map['rz_mode']=2;
+			 		$rz_map['rz_object']=$id;//客户名称ID
+					$rz_map['rz_bz']="把".$name_rz.'的'.$b_rz."改为".$bianji_val;
+					$rz_map['rz_user']=cookie('user_id');
+					$rz_map['rz_cz_type']=2;//2代表编辑
+					$rz_map['rz_time']=time();
+					$rz_map['rz_ip']=$loginIp;//ip
+					$rz_map['rz_place']=$loginDidianStr;//登录地点
+					$rz_map['rz_sb']=$sysbroinfo['sys'].'/'.$sysbroinfo['bro'];//ip
+					$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+					$rz_map['rz_yh']=$fid;
+					$rz_sql=$rz->add($rz_map);//查'
+					$sql_bianji=$kehus->where($bianji_id)->find();
+					$sql_json=json_decode($sql_bianji['kh_data'],true);
+					foreach($sql_json as $kt=>$vt)
+					{
+						if($kt==$bianji_name)
+						{
+							$sql_json[$kt]=$bianji_val;	
+						}
+					 
+					}
+					$map['kh_id']= $bianji_id['kh_id']; 
+					$save_data=$sql_json;
+					$a_arr['kh_data']=json_encode($save_data,true);
+					$save=$kehus->where($map)->save($a_arr);
+					if($save)
+					{
+						echo "ok";
+					}else
+					{
+						echo "no";
+					}
+			}
     
+		}
+
 }

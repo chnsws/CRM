@@ -13,6 +13,10 @@
 		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/jquery-ui/jquery-ui.css">
   		<!--jqui 结束-->
+  		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"'" ></script><!- 时间插件-->
+<script>
+	window.rooturl="{$_GET['root_dir']}";
+</script>
    		<style>
 		body,ul,li,table,tr{margin:0;padding:0;font-family:宋体; color:#333;}
 		.top{ width:100%;height:50px ;} 
@@ -56,6 +60,10 @@ td{padding-top: 13px;position: relative; left :20px;}
 .hetong_name{position: relative; left:20px; height:30px;top:15px;}
 .ht_name_width{width:160px;}
 .ht_name_float{position: relative; left:190px;top:-15px;}
+.kehuziliao_show{height:50px;}
+.ziliao_right{position: relative; left:50px;border:none;width:200px}
+.ziliao_right1{position: relative; left:38px;border:none;width:185px}
+.fa-pencil{position: relative; left:50px;}
 		</style>
 
 	</head>
@@ -263,33 +271,35 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  			</div>
 	  		</div>
 	  		<div id="tabs-2">
-	  			客户资料
+	  			<form action="" method="">
+				  <table>
+				  	{$biaoti_ywzd}	
+					</table>
+				</form>
+		
+			  
 	  		</div>
 	  		<div id="tabs-3">
 	  			<table class="layui-table" lay-skin="line">
-	  	<thead>
-	  				<th >合同标题</th>
-	  				<th >合同总金额</th>
-	  				<th >合同时间</th>
-	  				<th >合同状态</td>
-	  				<th >备注</th>
-	  				
-	  			
-		</thead>
-		<tbody class="fujian_del">
-		<foreach name="sql" item="vo">
-	  			<tr>
-	  		<td >{$vo.id}</td>
-	  				<td >{$vo.sc_data}</td>
-	  				<td >{$vo.fujian_name}</td>
-	  				<td >{$vo.big}</td>
-	  				<td >{$vo.beizhu}</td>
-	  				
-	  			</tr> 
-		</foreach>
-		</tbody>
-	  		</table>  
-	  		</div>
+				  	<thead>
+				  	<foreach name="biaoti_ywzd" item="vo">
+				  				<p class="kehuziliao_show">{$vo.name}</p>
+				  	</foreach>		
+					</thead>
+					<tbody class="fujian_del">
+					<foreach name="sql" item="vo">
+				  			<tr>
+				  		<td >{$vo.id}</td>
+				  				<td >{$vo.sc_data}</td>
+				  				<td >{$vo.fujian_name}</td>
+				  				<td >{$vo.big}</td>
+				  				<td >{$vo.beizhu}</td>
+				  				
+				  			</tr> 
+					</foreach>
+					</tbody>
+				 </table>  
+		</div>
 	  		<div id="tabs-4">
 	  			<table class="layui-table" lay-skin="line">
 	  	<thead>
@@ -438,6 +448,7 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  		</div>
   		</div>
 	</body>
+	<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
  		<script>
  		$("#uploadform").hide();
 			window.rooturl="{$_GET['root_dir']}";
@@ -506,3 +517,31 @@ td{padding-top: 13px;position: relative; left :20px;}
     		};
     		blurfun();
     	</script>
+
+    	<script><!--编辑-->
+    		function bianji_ziliao(){
+
+    			$(".ziliao_right").blur(function(){
+    				
+    				if($(this).val()==$(this).attr("value")){
+    				alert("没有修改信息");
+    				}else{
+						
+    					$.get(rooturl+'/index.php/Home/Kehu/bianji_ziliao',{"aid":$(this).attr("id"),"name":$(this).attr("name"),"val":$(this).val()},
+							        		 function(html){
+													if(html=='ok'){
+															alert(修改成功);
+							        		 		}else{
+							        		 			alert(修改失败);
+							        		 		}
+							                   });
+
+    					
+    				}
+							        		
+    			})
+    		}
+    			bianji_ziliao();
+				$(document).ready(blurfun());
+    	</script>
+	   
