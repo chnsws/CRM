@@ -56,14 +56,14 @@
 				<td id="table-head">设置工作报告查看范围</td>
 			</tr>
 			<tr>
-				<td><span class="chspan"><input type="checkbox"></span>超级管理员查看全公司的工作报告</td>
+				<td><span class="chspan"><input name="chaoji" type="checkbox" ></span>超级管理员查看全公司的工作报告</td>
 			</tr>
 			<tr>
-				<td><span class="chspan"><input type="checkbox"></span>主管查看下属的工作报告(包括下属的下属)</td>
+				<td><span class="chspan"><input name="zhuguan" type="checkbox" ></span>主管查看下属的工作报告(包括下属的下属)</td>
 			</tr>
 		</table>
 		
-		<button class="layui-btn">保存</button>
+		<button class="layui-btn" onclick="editbase()">保存</button>
 	</div>
 </div>
 </body>
@@ -74,13 +74,86 @@
     function hidden_div(){
         $("#mod1").hide();
     } 
+    //初始化
+    layui.use('layer', function(){
+        window.layer = layui.layer;
+    });
     //黑色半透明提示
     function tishi(neirong)
     {
         layer.msg(neirong, {
             time: 1000, 
         });
-    }     
-    
+    }
+    var bgval="{$bgvalue}";
+    window.root_dir="{$_GET['root_dir']}";
+    var bgarr=bgval.split(",");
+    if(bgarr[0]=='1')
+    {
+        $("input[name='chaoji']").prop("checked",true);
+    }
+    else
+    {
+        $("input[name='chaoji']").prop("checked",false);
+    }
+    if(bgarr[1]=='1')
+    {
+        $("input[name='zhuguan']").prop("checked",true);
+    }
+    else
+    {
+        $("input[name='zhuguan']").prop("checked",false);
+    }
+
+    function editbase()
+    {
+        //加载层
+        window.jiazai= layer.load(2);
+        var chaoji=$("input[name='chaoji']").prop("checked");
+        var zhuguan=$("input[name='zhuguan']").prop("checked");
+        if(chaoji)
+        {
+            var chaojival='1';
+        }
+        else
+        {
+            var chaojival='0';
+        }
+        if(zhuguan)
+        {
+            var zhuguanval='1';
+        }
+        else
+        {
+            var zhuguanval='0';
+        }
+        if((chaojival+','+zhuguanval)!=bgval)
+        {
+            $.get(root_dir+"/index.php/Home/Option/gzbgdo",{"bgstr":chaojival+','+zhuguanval},function(res){
+                if(res=='1')
+                {
+                    layer.close(jiazai);
+                    tishi("保存成功");
+                }
+                else if(res=='2')
+                {
+                    layer.close(jiazai);
+                    tishi("保存失败");
+                }
+                else
+                {
+                    layer.close(jiazai);
+                    tishi("保存失败，请稍后重试");
+                }
+            });
+            bgval=chaojival+','+zhuguanval;
+            
+        }
+        else
+        {
+            layer.close(jiazai);
+            tishi("保存成功");
+        }
+    }
 </script>
 </html>

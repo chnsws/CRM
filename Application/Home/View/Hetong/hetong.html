@@ -159,16 +159,7 @@
      </script>
 
   
-        <script>
-          function test(){  
-            //id/{$sq}/id1/{$vooo}/id2/{$vo.id}/id3/0128
-            
-            var id=ev.target.id;
-
-          alert('123'); 
-  }
-        </script>
-  
+        
     <link rel="stylesheet" href="{$_GET['public_dir']}/kehucss/xinzeng.css"><!--客户新增CSS-->
     <style>
     body,ul,li,table,tr{margin:0;padding:0;}
@@ -230,7 +221,7 @@
           <li><a href="#tabs-1">全部合同</a></li>
           <li><a href="#tabs-2">我的合同</a></li>
           <li><a href="#tabs-3">我协作的合同</a></li>
-           <li><a href="#tabs-2">待审批的合同</a></li>
+          <li><a href="#tabs-4">待审批的合同</a></li>
         </ul>
         <div id="tabs-1">
             <li style="margin-top:-36px;margin-left:85%"><button id="create-user">新增合同</button></li>
@@ -239,7 +230,7 @@
                <table>
                 <volist name="left_conf" id="vo">
                 <tr >
-                  <td>{$vo.name}{$vo.id}
+                  <td>{$vo.name}
                     <if condition="$vo.type eq 3">：
                       <volist name="ywcs_biao" id="voo" >
                           <if condition="$vo.id eq $voo.id ">
@@ -247,8 +238,8 @@
                                <if condition="$vo.id eq $voo.id ">
 
                             
-                                
-                                <!--<a href="Kehu/id/{$sq}/id1/{$vooo}/id2/{$vo.id}/id3/0128" id="shaixuan">--><a onclick="test()"  name ="123" id="sq" value="11"> {$sq}---{$vooo}</a>
+                            
+                              <input type='text' width='20px' name="{$vo.id}" id='{$sq}' class='shaixuan' value="{$vooo}" style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px ' />
                                 
                               
                             </if>
@@ -274,10 +265,8 @@
           <span style="margin-top:-8px;margin-left:1%"  class="anniudw">
               已选0位客户
                 <a href="#">批量转移</a>
-                
                 <a href="#">批量编辑</a>
                 <a href="#">删除所选</a>
-               
           </span>
           </div>
           <div class="kehu">    
@@ -309,9 +298,10 @@
                                 <th>ID</th>
                                <th>ID</th>
                                 <th>ID</th>
+                                 
                             </tr>
                         </thead>
-                       
+              
                             <tbody id="jb_bianji">
                
                   <!--  <volist name="kh_xinxi" id="vo">
@@ -330,10 +320,11 @@
                     </tr>   
                     </volist>
      -->
+  
           {$table}
                     
                             </tbody>
-                   
+      </if>            
                     </table>
             </div>
           </div>
@@ -363,7 +354,6 @@
                                   <elseif condition="$vo.type eq 2" />
                                     <input type="text" name="{$vo.id}"   class="text ui-widget-content ui-corner-all" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" >
 
-                                 
     
                                   <else />
                                   <input type="text" name="{$vo.id}"  class="text ui-widget-content ui-corner-all" >
@@ -426,7 +416,7 @@
 
           $(".bianji").blur(function(){
             if($(this).val()==$(this).attr("value")){
-            alert("没有修改信息");
+            //alert("没有修改信息");
             }else{
               $.get(rooturl+'/index.php/Home/hetong/index',{"bianji_id":$(this).attr("id"),"bianji_name":$(this).attr("name"),"bianji_val":$(this).val()},
                            function(html){
@@ -450,4 +440,21 @@
           })
         }
 $(document).ready(blurfun());
+      </script>
+      <script>
+        $(document).ready(function(){
+          $(".shaixuan").click(function(){
+
+alert($(this).attr("name"))
+alert($(this).attr("id"))
+            $.get(rooturl+'/index.php/Home/hetong/shaixuan',{"title":$(this).attr("name"),"val":$(this).attr("id")},
+                                  function(html){
+                                    alert(html)
+                              $("#jb_bianji").html(html);
+                              blurfun();
+
+                              });
+
+          });
+        });
       </script>

@@ -58,12 +58,12 @@
     <div id="mod2">
         <div class="layui-tab layui-tab-card">
             <ul class="layui-tab-title">
-                <li class="layui-this">线索</li>
-                <li>客户</li>
-                <li>联系人</li>
-                <li>商机</li>
-                <li>合同</li>
-                <li>产品</li>
+                <li class="layui-this"  onclick="changepage('paixu_xiansuo')" id="lipaixu_xiansuo">线索</li>
+                <li id="lipaixu_kehu" onclick="changepage('paixu_kehu')">客户</li>
+                <li id="lipaixu_lianxiren" onclick="changepage('paixu_lianxiren')">联系人</li>
+                <li id="lipaixu_shangji" onclick="changepage('paixu_shangji')">商机</li>
+                <li id="lipaixu_hetong" onclick="changepage('paixu_hetong')">合同</li>
+                <li id="lipaixu_chanpin" onclick="changepage('paixu_chanpin')">产品</li>
             </ul>
             <div class="layui-tab-content" >
                 <!--线索-->
@@ -78,54 +78,7 @@
                             <th width="200px">常用</th>
                             <th>操作</th>
                         </thead>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名1</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"><span class="teshu">(特殊字段，不能修改)</span></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"><span class="teshu">(特殊字段，不能修改)</span></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名2</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名3</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名3</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名4</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名5</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
+                        {$tablestr}
                     </table>
                 </div>
                 <!--客户-->
@@ -140,54 +93,8 @@
                             <th width="200px">常用</th>
                             <th>操作</th>
                         </thead>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名1</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名2</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名3</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名3</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名4</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名5</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
+                        <tbody class="paixu_tbody">
+                        </tbody>
                     </table>
                 </div>
                 <!--联系人-->
@@ -202,54 +109,8 @@
                             <th width="200px">常用</th>
                             <th>操作</th>
                         </thead>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名1</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名2</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名3</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名3</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名4</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名5</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
+                        <tbody class="paixu_tbody">
+                        </tbody>
                     </table>
                 </div>
                 <!--商机-->
@@ -264,54 +125,8 @@
                             <th width="200px">常用</th>
                             <th>操作</th>
                         </thead>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名1</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名2</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名3</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名3</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名4</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名5</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
+                        <tbody class="paixu_tbody">
+                        </tbody>
                     </table>
                 </div>
                 <!--合同-->
@@ -326,54 +141,8 @@
                             <th width="200px">常用</th>
                             <th>操作</th>
                         </thead>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名1</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名2</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名3</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名3</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名4</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名5</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
+                        <tbody class="paixu_tbody">
+                        </tbody>
                     </table>
                 </div>
                 <!--产品-->
@@ -388,54 +157,8 @@
                             <th width="200px">常用</th>
                             <th>操作</th>
                         </thead>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名1</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名2</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名3</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名3</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名4</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
-                        <tr>
-                            <td class="tuozhuaiclass" onmousedown="tuozhuai()"><i class="fa fa-reorder" aria-hidden="true"></i></td>
-                            <td>姓名5</td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td>&nbsp;&nbsp;<input type="checkbox"></td>
-                            <td><a onclick="bianji()">编辑</a></td>
-                        </tr>
+                        <tbody class="paixu_tbody">
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -446,20 +169,54 @@
 <table id="hid_table">
     <tr>
         <td class="hid_tab_left">显示名称</td>
-        <td><input type="text" placeholder="请填写显示名称，最长12个字符" class="layui-input"/></td>
+        <td><input type="text" placeholder="请填写显示名称，最长12个字符" id="newzdname" class="layui-input"/></td>
     </tr>
+    <!--
     <tr>
         <td valign="top" class="hid_tab_left">输入提示</td>
-        <td ><input type="text" placeholder="输入提示，不超过25个字符" class="layui-input"/><br>显示在输入框里面的提示用户输入的灰色文字，如： 请输入客户名称</td>
+        <td ><input type="text" placeholder="输入提示，不超过25个字符" id="" class="layui-input"/><br>显示在输入框里面的提示用户输入的灰色文字，如： 请输入客户名称</td>
     </tr>
+    -->
 </table>
 <script src="{$_GET['public_dir']}/paixu/build.js"></script>
 <script>
+    window.nowpage='paixu_xiansuo';
+    window.root_dir="{$_GET['root_dir']}";
+    window.public_dir="{$_GET['public_dir']}";
+    window.pageinfo="{$_GET['page']}";
+
+    window.load_xiansuo='1';
+    window.load_kehu='0';
+    window.load_lianxiren='0';
+    window.load_shangji='0';
+    window.load_hetong='0';
+    window.load_chanpin='0';
+
     $("#hid_table").hide();
     //上方绿色提示框的关闭效果
     function hidden_div(){
         $("#mod1").hide();
     }
+
+
+    if(pageinfo!='')
+    {
+        $("#lipaixu_xiansuo").attr("class",'');
+        $("#li"+pageinfo).attr("class","layui-this");
+        $("#paixu_xiansuo").parent().removeClass("layui-show");
+        $("#"+pageinfo).parent().addClass("layui-show");
+        window.nowpage=pageinfo;
+        loadpage(pageinfo);
+    }
+
+    //ajax同步
+    $.ajaxSetup({
+        async : false
+    });
+    //初始化
+    layui.use('layer', function(){
+        window.layer = layui.layer;
+    });
     //初始化layui的基础组件
     layui.use('element', function(){
          var element = layui.element();
@@ -471,9 +228,48 @@
             time: 1000, 
         });
     }
+    //修改当前页面的参数
+    function changepage(pageid)
+    {
+        window.nowpage=pageid;
+        if(pageid=='paixu_xiansuo')
+        {
+            if(load_xiansuo=='1')
+            return false;
+        }
+        if(pageid=='paixu_kehu')
+        {
+            if(load_kehu=='1')
+            return false;
+        }
+        if(pageid=='paixu_lianxiren')
+        {
+            if(load_lianxiren=='1')
+            return false;
+        }
+        if(pageid=='paixu_shangji')
+        {
+            if(load_shangji=='1')
+            return false;
+        }
+        if(pageid=='paixu_hetong')
+        {
+            if(load_hetong=='1')
+            return false;
+        }
+        if(pageid=='paixu_chanpin')
+        {
+            if(load_chanpin=='1')
+            return false;
+        }
+        //加载层
+        window.jiazai= layer.load(2);
+        loadpage(pageid);
+    }
     //新增字段按钮
     function xinzeng(mod)
     {
+        $("#newzdname").val('');
         layui.use('layer', function(){
             var layer = layui.layer;
             layer.open({
@@ -483,15 +279,57 @@
                 content: $("#hid_table"),
                 btn: '保存',
                 btn1: function(index, layero){
-                        tishi("添加成功")
-                       layer.close(index);   
+                        var newzdname=$("#newzdname").val();
+                        if(newzdname=='')
+                        {
+                            tishi("字段名不能为空");
+                            return false;
+                        }
+                        if(newzdname.length>12)
+                        {
+                            tishi("字段名不能超过12个字符");
+                            return false;
+                        }
+                        if(!newzdname.match(/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/))
+                        {
+                            tishi("字段名只能由中文、字母、数字和下划线组成");
+                            return false;
+                        }
+                        $.get(root_dir+"/index.php/Home/YewuziduanDo/addziduan",{"thispage":nowpage,"ziduanname":newzdname},function(res){
+                            if(res=='1')
+                            {
+                                window.location=root_dir+"/index.php/Home/Option/zdyyw_ziduan?page="+nowpage;
+                            }
+                            else if(res=='2')
+                            {
+                                tishi("添加失败");
+                            }
+                            else if(res=='3')
+                            {
+                                tishi("该字段已存在，请重新输入");
+                            }
+                            else
+                            {
+                                tishi("添加失败，请刷新后重试");
+                            }
+                        });  
                     }
             });
         });
     }
     //点击编辑事件
-    function bianji()
+    function bianji(thisid,candel)
     {
+        var oldname=$("#"+nowpage).find("#"+thisid).children("td").eq(1).text();
+        $("#newzdname").val(oldname);
+        if(candel=='1')
+        {
+            var btnarr=['保存','删除'];
+        }
+        else
+        {
+            var btnarr='保存';
+        }
         layui.use('layer', function(){
             var layer = layui.layer;
             layer.open({
@@ -499,41 +337,171 @@
                 area:"600px",
                 title:"编辑字段",
                 content: $("#hid_table"),
-                btn: '保存',
+                btn: btnarr,
                 btn1: function(index, layero){
+                        var newname=$("#newzdname").val();
+                        if(newname==oldname)
+                        {
+                            tishi("修改成功")
+                            layer.close(index); 
+                            return false;
+                        }
+                        $.get(root_dir+"/index.php/Home/YewuziduanDo/changename",{"nowpage":nowpage,"newname":newname,"changeid":thisid},function(res){
+                        });
+                        $("#"+nowpage).find("#"+thisid).children("td").eq(1).text(newname);
                         tishi("修改成功")
-                       layer.close(index);   
-                    }
+                        layer.close(index);   
+                    },
+                btn2:function(index,layero){
+                    var delts=layer.msg('确认删除字段‘'+oldname+'’？删除后将无法恢复。', {
+                        time: 2000000, //20s后自动关闭
+                        btn: ['确认删除', '取消'],
+                        btn1: function(){
+                            //加载层
+                            window.jiazai= layer.load(2);
+                            $.get(root_dir+"/index.php/Home/YewuziduanDo/delzd",{"nowpage":nowpage,"changeid":thisid},function(res){
+                                $("tr[id='"+thisid+"']").hide();
+                                layer.close(jiazai);
+                            });
+                            layer.close(delts);
+                        },
+                        btn2: function(){
+                            layer.close(delts);
+                        }
+                    });
+                }
             });
         });
     }
+    
     //拖拽监听事件
-    var mouseval='0';
-    $(".tuozhuaiclass").on({
-        //当鼠标按下时，将鼠标值改为1（标记鼠标已经按下）
-        mousedown:function(){
-            mouseval='1';
-            $(".tuozhuaiclass").on({
-                mousemove:function(){
-                    //当鼠标为按下状态时（鼠标值为1时），然后再拖动时，将鼠标值改为2（标记鼠标按下并拖动）
-                    if(mouseval=='1')
-                    {
-                        mouseval='2';
-                        $("body").on({
-                            mouseup:function(){
-                                if(mouseval=='2')
-                                {
-                                    //当鼠标按下并拖动后，然后再松开鼠标时，完成整个拖动事件
-                                    alert('触发鼠标拖动事件');
-                                    mouseval='0';//还原鼠标值，用来进行下一次拖动判断
+    function tuozhuai()
+    {
+        var mouseval='0';
+        $(".tuozhuaiclass").on({
+            //当鼠标按下时，将鼠标值改为1（标记鼠标已经按下）
+            mousedown:function(){
+                mouseval='1';
+                $(".tuozhuaiclass").on({
+                    mousemove:function(){
+                        //当鼠标为按下状态时（鼠标值为1时），然后再拖动时，将鼠标值改为2（标记鼠标按下并拖动）
+                        if(mouseval=='1')
+                        {
+                            mouseval='2';
+                            $("body").on({
+                                mouseup:function(){
+                                    if(mouseval=='2')
+                                    {
+                                        //加载层
+                                        window.jiazai= layer.load(2);
+                                        setTimeout("getshunxu()",100);
+                                        //当鼠标按下并拖动后，然后再松开鼠标时，完成整个拖动事件
+                                        mouseval='0';//还原鼠标值，用来进行下一次拖动判断
+                                    }
                                 }
-                            }
-                        })
+                            })
+                        }
                     }
+                })
+            }
+        })
+    }
+    tuozhuai();
+    //获取顺序并进行数据库更新
+    function getshunxu()
+    {
+        var shunxu='';
+         $("#"+nowpage).find("tr").each(function(){
+             if($(this).attr("id")!=undefined)
+             {
+                shunxu+=$(this).attr("id")+',';  
+             }
+        });
+        $.post(root_dir+"/index.php/Home/YewuziduanDo/paixu",{"thispage":nowpage,"shunxu":shunxu},function(res){
+            if(res=='1')
+            {
+                
+            }
+            else if(res=='2')
+            {
+                tishi("排序失败");
+            }
+            else
+            {
+                tishi("修改排序失败，请刷新后重试");
+            }
+        });
+        layer.close(jiazai);
+    }
+    //改变复选框中的值
+    function changecheckboxfun()
+    {
+        //改变复选框中的值触发事件
+        $("input[type='checkbox']").change(function(){
+            //加载层
+            window.jiazai= layer.load(2);
+            var changeval=$(this).prop('checked');
+            var changename=$(this).attr("name");
+            $.get(root_dir+"/index.php/Home/YewuziduanDo/changecheckbox",{"nowpage":nowpage,"changeval":changeval,"changename":changename},function(res){
+                if(res=='1')
+                {
+                    
                 }
-            })
+                else if(res=='2')
+                {
+                    tishi("修改失败");
+                }
+                else
+                {
+                    tishi("修改失败，请刷新后重试");
+                }
+            });
+            layer.close(jiazai);
+        });
+    }
+    changecheckboxfun();
+    //动态加载页面
+    function loadpage(pageid)
+    {
+        $.get(root_dir+"/index.php/Home/YewuziduanDo/loadpage",{"thispage":pageid},function(res){
+            $("#"+pageid).children(".paixu_tbody").html(res);
+            loadScript();
+            tuozhuai();
+            changecheckboxfun();
+            layer.close(jiazai);
+        });
+        if(pageid=='paixu_xiansuo')
+        {
+            load_xiansuo='1';
         }
-    })
+        if(pageid=='paixu_kehu')
+        {
+            load_kehu='1';
+        }
+        if(pageid=='paixu_lianxiren')
+        {
+            load_lianxiren='1';
+        }
+        if(pageid=='paixu_shangji')
+        {
+            load_shangji='1';
+        }
+        if(pageid=='paixu_hetong')
+        {
+            load_hetong='1';
+        }
+        if(pageid=='paixu_chanpin')
+        {
+            load_chanpin='1';
+        }
+    }
+    // 动态加载js脚本文件
+    function loadScript() {
+        var script = document.createElement("script");
+            script.type = "text/javascript";
+        script.src = public_dir+"/paixu/build.js";
+        document.body.appendChild(script);
+    }
 </script>
 </html>
 

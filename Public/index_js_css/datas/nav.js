@@ -37,7 +37,7 @@ var navs = [{
 }, {
 	"title": "合同",
 	"icon": "fa-file",
-	"href": "https://www.baidu.com",
+	"href": "index.php/Home/hetong/hetong",
 	"spread": false
 }, {
 	"title": "产品",
