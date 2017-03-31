@@ -506,11 +506,45 @@ class KehuController extends Controller {
 					{
 						$v['rz_user']= $v1['user_name'];
 						$v['rz_time']=date("Y-m-d H:i:s",$v['rz_time']);
+
 					}
 				}
-				$ko[]=$v;
+				$ko[]=$v;  //显示跟进记录  操作数据的
 			}
+				$xiegenjin_base=M('xiegenjin');//查询写跟进记录
+				$map_xiegenjin['genjin_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+				$map_xiegenjin['mode_id']=2;
+				$map_xiegenjin['kh_id']=$id;
+				$sql_xiegenjin=$xiegenjin_base->where($map_xiegenjin)->field('user_id,type,content,date')->select();
+				foreach($sql_xiegenjin as $k=>$v)
+				{
+					foreach($user_sql as $k1 =>$v1)
+					{
+						if($v['user_id']==$v1['user_id'])
+						{
+							$v['user_id']= $v1['user_name'];
+							$v['date']=date("Y-m-d H:i:s",$v['date']);
+						}
+					}
+					$ko[]=$v;         //表操作的和写的跟进融合在一起 
+				}
+				
 
+
+
+foreach($ko as $k=>$v)
+{
+	if($v['date']!='')
+	{
+		$ko[$k]['rz_time']=$v['date'];
+		unset($ko[$k]["date"]);
+	}
+	$ko[$ko[$k]['rz_time']]=$ko[$k];
+	unset($ko[$k]);
+}
+//echo "<pre>";
+//var_dump($ko);exit;
+krsort($ko);
 
 			foreach($rz_caozuo as $k=>$v){//跟进循环的数据
 				foreach($user_sql as $k1 =>$v1){
@@ -577,20 +611,41 @@ class KehuController extends Controller {
 		$ywcs_map['ywcs_yh']=1;
 		$ywcs_sql=$ywcs_base->where($ywcs_map)->field('ywcs_data')->find();
 		$ywcs_sql_json=json_decode($ywcs_sql['ywcs_data'],true);
-		
+		foreach($ywcs_sql_json as $k6 =>$v6)
+		{
+			if($v6['id']=="zdy9")
+			{
+				$dan_ywcs=$v6;
+			}
+		}
+
+		foreach($dan_ywcs['qy'] as $k7 =>$v7){
+			foreach($dan_ywcs as $k8=>$v8){
+				if($k8=='id'){
+					$xin_dan['id']=$v8;
+				}
+				if($v7==1&& $k7==$k8)
+				{	
+
+					$xin_dan[$k7]=$v8;
+				} 
+
+			}
+		}
 		foreach($valav as $k => $v){
 
 			foreach($ywcs_sql_json as $k1=>$v1){
 				//echo $k;
 				//echo $k1;exit;
 				if($k==$v1['id']){
+
 					$valav[$k]=$v1[$v];
 				}
 			}
 
 		}//把关联信息替换
-		//echo"<pre>";
-		
+		$this->assign('dan_ywcs',$xin_dan);//弹窗 弹跳的跟进状态
+		$this->assign('valav',$valav);//写跟进弹出框
 		//var_dump($valav);exit;
 			$tabl='';
 			
@@ -643,7 +698,7 @@ class KehuController extends Controller {
 				}
 			}
 		$this->assign("data_kh",$table1);
-	
+	//echo $tabl;exit;
 		$this->assign("biaoti_ywzd",$tabl);
 	
 			$this->assign('rz_caozuo',$koo);
@@ -816,7 +871,8 @@ class KehuController extends Controller {
        			 $sql_file_select=$sql_file->add($data);
        			 if($sql_file_select)
        			 {
-       			 	$this->success("上传成功",U('Kehu/kehumingcheng'));
+       			 	//$this->success("上传成功");
+       			 	echo '<script>alert("上传成功");window.location="'.$_GET['root_dir'].'/index.php/Home/Kehu/kehumingcheng/id/'.$_GET['pageid'].'/fuzeren/'.$_GET['fuzeren'].'/id1/'.$_GET['id1'].'/kh_id/'.$_GET['kh_id'].'"</script>';
        			 	
        			 }else{
        			 	$this->error("上传失败");
@@ -898,6 +954,26 @@ class KehuController extends Controller {
 					}
 			}
     
+		}
+
+		public function genjin_bianji(){
+			$genjin['mode_id']=2;
+			$genjin['kh_id']=$_POST['kh_id'];
+			$genjin['user_id']=cookie('user_id');
+			$genjin['type']=$_POST['fangshi'];
+			$genjin['content']=$_POST['wenbenyu'];
+			$genjin['date']=time();
+			$genjin['genjin_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');;
+			$genjin_base=M('xiegenjin');
+			$sql_add=$genjin_base->add($genjin);
+			if($sql_add){
+
+				echo '<script>alert("添加成功");window.location="'.$_GET['root_dir'].'/index.php/Home/Kehu/kehumingcheng/id/'.$_GET['pageid'].'/fuzeren/'.$_GET['fuzeren'].'/id1/'.$_GET['id1'].'/kh_id/'.$_GET['kh_id'].'"</script>';
+				
+			}else{
+echo "添加失败";
+			}
+		
 		}
 
 }

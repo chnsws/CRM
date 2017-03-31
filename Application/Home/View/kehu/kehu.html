@@ -324,7 +324,6 @@
 						                    <th>创建人</th>
 						                    <th>前负责人</th>
 						                    <th>前所属部门</th>
-						                    
 						                    <th>创建时间</th>
 						                   <th>更新于</th>
 						                    <th>划入公海时间</th>
@@ -374,8 +373,10 @@
 									                			 	<foreach name="vow"  item="voow" key="sq" >
 									                			 		<if condition ="$sq eq 'id'">
 																			<option style=" padding: .5em 0em;">---请选择---</option>
-									                			 		<else />
+									                			 		
+									                			 		<elseif condition ="$sq neq 'qy'" />
 									                						<option value="{$sq}"  >{$voow}</option>
+									                					<else>
 									                					</if>
 									                				</foreach>
 									                			</if>

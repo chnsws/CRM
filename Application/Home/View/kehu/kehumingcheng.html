@@ -198,10 +198,11 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  				<div class="ziliao">
 	  					<span class="xiaoshou">销售动态</span><span class="only1">只看跟进</span><span id="dialog-form" onclick="xiegenjin()" class="genjinjilu">+写跟进</span>
 	  				</div>
-
-
 	  				<div id="uploadfrm" style="height:400px;width:590px;padding:0;margin:0;">
-	  				<form id="uploadform2" action="{$_GET['root_dir']}/index.php/Home/Kehu/upload/id/{$kh_id}" method="post">
+	  				<form id="uploadform2" action="{$_GET['root_dir']}/index.php/Home/Kehu/genjin_bianji/id/{$kh_id}/pageid/{$_GET['id']}/fuzeren/{$_GET['fuzeren']}/id1/{$_GET['id1']}/kh_id/{$_GET['kh_id']}
+
+
+	  				" method="post">
 	  					<select name="fangshi" class="sele" style="width:150px;height:30px">
 	  						<option value="电话">电话</option>
 	  						<option value="QQ">QQ</option>
@@ -211,35 +212,43 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  						<option value="短信">短信</option>
 	  						<option value="其他">其他</option>
 	  					</select>
-	  					<input type="text" name="shiji" class="shiji"  style="width:150px;height:30px">
+	  					<input type="text" name="shiji"  class="text ui-widget-content ui-corner-all shiji" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" value="{$valav['kh_sj_gj_date']}" style="width:150px;height:30px">
+	  					<input type="hidden" name="kh_id" value="{$kh_id}">
+	  					
 	  					<textarea name="wenbenyu" rows="10" cols="77" class="wenbenyu"> 
 	  						勤跟进，多签单........
 	  					</textarea>
-	  				<div class="kehu_genjin">客户<span class="legt_genjin"><input type="text" name="kh_name" value="{$a_id}" style="width:150px;height:20px" readonly="true"></span></div>  
+	  				<div class="kehu_genjin">客户<span class="legt_genjin"><input type="text" name="shiji_date" value="{$a_id}" style="width:150px;height:20px" readonly="true"></span></div>  
 
 	  				<div class="genjinzhuangtai"> 
 	  					跟进状态 <span class="left_genjin1">
 	  								<select name="genjinzhuantai"  style="width:150px;height:25px">
-		  							<option value="QQ">出访</option>
-			  						<option value="拜访">意向</option>
-			  						<option value="拜访">报价</option>
-			  						<option value="邮件">成交</option>
-			  						<option value="邮件">暂时搁置</option>
+		  							
+			  							<foreach name="dan_ywcs" item="ywcs" key="sq">
+			  										<?php 
+			  											if($ywcs == $valav['zdy9']){ ?>
+			  												<option selected="slected" value="{$sq}"> {$ywcs}</option>
+
+			  										<?php	}else{
+			  										?>
+			  												<option value=" {$sq}">{$ywcs}</option>
+			  										<?php	}?>
+		  							</foreach>
 	  							</select></span>
 	  							</div>
-
+ 
 	  				<div class="lianxiren_genjin">联系人
-	  					<span class="left_lianxiren">
+	  				<span class="left_lianxiren">
 	  								<select name="lianxiren"  style="width:150px;height:25px">
-		  							<option value="QQ">出访</option>
-			  						<option value="拜访">意向</option>
-			  						<option value="拜访">报价</option>
-			  						<option value="邮件">成交</option>
-			  						<option value="邮件">暂时搁置</option>
+		  							<option value="王玉帅">王玉帅</option>
+			  						<option value="小明">小明</option>
+			  						<option value="小刚">小刚</option>
+			  						<option value="皮皮虾">皮皮虾</option>
+			  						<option value="biubiubiu">biubiubiu</option>
 	  							</select>
 	  					</span>
 	  				</div>  
-					<div class="next_time">下次跟进时间<span class="left_genjin1"><input type="text" name="kh_name" value="" style="width:150px;height:20px"></span></div> 
+					<div class="next_time">下次跟进时间<span ><input type="text" name="next_date" value="" style="width:150px;height:20px" class="text ui-widget-content ui-corner-all left_genjin1" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})"></span></div> 
 
 					<div class="tijiao"><input type="submit" value="保存"  style="width:80px">
 					<input type="button" value="取消"  style="width:80px"></div>
@@ -249,6 +258,25 @@ td{padding-top: 13px;position: relative; left :20px;}
 
 
 		<foreach name="genjin" item="vo">
+
+			<if condition ="$vo.rz_bz eq ''">
+			<div  class="genjin_back">
+	  				<table>
+		  				<tr>
+		  					<td><span class="fuzename">{$vo.user_id}：{$vo.type}</span></td>
+		  				</tr>
+		  				<tr>
+		  					<td>{$vo.content}</td>
+		  				</tr>
+		  				<tr>
+		  					<td>来自客户<span class="fuzename">  {$a_id}</span></td>
+		  				</tr>
+		  				<tr>
+		  					<td><span class="dataa">时间:{$vo.rz_time}</span></td>
+		  				</tr>
+	  				</table>
+	  				</div>
+			<else />
 	  				<div  class="genjin_back">
 	  				<table>
 		  				<tr>
@@ -265,6 +293,7 @@ td{padding-top: 13px;position: relative; left :20px;}
 		  				</tr>
 	  				</table>
 	  				</div>
+	  		</if>
 	  	</foreach>	
 	  				</div>
 	  				
@@ -408,7 +437,7 @@ td{padding-top: 13px;position: relative; left :20px;}
 		</foreach>
 		</tbody>
 	  		</table>       
-		  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Kehu/upload/id/{$kh_id}" enctype="multipart/form-data" method="post" style="margin:20px;">
+		  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Kehu/upload/id/{$kh_id}/pageid/{$_GET['id']}/fuzeren/{$_GET['fuzeren']}/id1/{$_GET['id1']}/kh_id/{$_GET['kh_id']}" enctype="multipart/form-data" method="post" style="margin:20px;">
 	  					<input type="file" name="wenjian"  >
 	  					<div id="shangc_top">备&nbsp;&nbsp;&nbsp;&nbsp;注：<!-- 第一个是普通textarea -->
 					<textarea name="wenbenyu" class="comments" rows="5" cols="30"> </textarea>  </div>
