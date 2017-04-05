@@ -675,7 +675,7 @@ class OptionController extends Controller {
 							$instyle2="<input type='checkbox' $bt name='bt".$v['id']."'>";
 							$instyle3="<input type='checkbox' $cy name='cy".$v['id']."'>";
 						}
-						$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' onmousedown='tuozhuai()'><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."','".$v['sc']."')>编辑</a></td></tr>";
+						$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' ><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."','".$v['sc']."')>编辑</a></td></tr>";
 						continue 2; 
 					}
 				}
@@ -700,33 +700,203 @@ class OptionController extends Controller {
 					$instyle2="<input type='checkbox' $bt name='bt".$v['id']."'>";
 					$instyle3="<input type='checkbox' $cy name='cy".$v['id']."'>";
 				}
-				$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' onmousedown='tuozhuai()'><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."','".$v['sc']."')>编辑</a></td></tr>";
+				$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' ><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."','".$v['sc']."')>编辑</a></td></tr>";
 			}
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		$this->assign("tablestr",$tablestr);
 		$this->display();
 	}
 	//自定义业务参数
 	public function zdyyw_canshu(){
+		if(cookie("islogin")!='1')
+		{
+			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
+			die();
+		}
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$zdbase=M("yewuziduan");
+		$zdarr=$zdbase->query("select * from crm_yewuziduan where zd_yh='$fid' and zd_yewu!='7' ");
+		$yw_key=array("1"=>"paixu_xiansuo","2"=>"paixu_kehu","4"=>"paixu_lianxiren","5"=>"paixu_shangji","6"=>"paixu_hetong");
+		foreach($zdarr as $v1)
+		{
+			$zddataarr=json_decode($v1['zd_data'],true);
+			foreach($zddataarr as $k=>$v)
+			{
+				$zdnamearr[$yw_key[$v1['zd_yewu']]][$v['id']]=$v['name'];
+			}
+		}
+		$zdnamearr['paixu_qita']['gjtype']='其他';
+		$zdnamearr['paixu_hetong']['hktype']='回款类型';
+		$zdnamearr['paixu_hetong']['pjtype']='票据类型';
+		$zdnamearr['paixu_lianxiren']['juese']='联系人角色';
+		$pageidarr=array(
+            "paixu_xiansuo"=>"1",
+            "paixu_kehu"=>"2",
+            "paixu_lianxiren"=>"4",
+            "paixu_shangji"=>"5",
+            "paixu_hetong"=>"6",
+            "paixu_qita"=>"7",
+            );
+		$pxbase=M("paixu");
+		$pxbasearr=$pxbase->query("select * from crm_paixu where px_yh='$fid' and px_mod>'10' ");
+		foreach($pxbasearr as $v)
+		{
+			$pxarr[$v['px_mod']]=explode(',',$v['px_px']);
+		}
+		$csbase=M("ywcs");
+		$csarr=$csbase->query("select * from crm_ywcs where ywcs_yh='$fid' order by ywcs_yw asc");
+		//echo "<pre>";
+		//print_r($pxarr);
+		$csdataarr=json_decode($csarr[0]['ywcs_data'],true);
+		$tableid=array("paixu_xiansuo1","paixu_xiansuo2","paixu_kehu1","paixu_kehu2","paixu_kehu3","paixu_kehu4","paixu_kehu5","paixu_lianxiren1","paixu_shangji1","paixu_shangji2","paixu_shangji3","paixu_hetong1","paixu_hetong2","paixu_hetong3","paixu_hetong4","paixu_hetong5","paixu_qita1");
+		$tableidnum='0';
+		$xshtmlstr="<div class='layui-tab-item layui-show'><div class='accordion'>";
+		foreach($csarr as $row)
+		{
+			if($tableidnum!='0')
+			{
+				$xshtmlstr.="<div class='layui-tab-item'><div class='accordion'>";
+			}
+			$csdataarr=json_decode($row['ywcs_data'],true);
+			foreach($csdataarr as $v)
+			{	
+				$xshtmlstr.="<h3>".$zdnamearr[substr($tableid[$tableidnum],0,-1)][$v['id']]."</h3><div><table class='layui-table' lay-skin='line' id='".$tableid[$tableidnum]."'>";
+				$headstr=substr($tableid[$tableidnum],0,-1);
+				$lastnum=substr($tableid[$tableidnum],-1,1);
+				$pxkey=$pageidarr[$headstr].$lastnum;
+				if(isset($pxarr[$pxkey]))
+				{
+					foreach($pxarr[$pxkey] as $k=>$val)
+					{
+						$knxstr='';
+						if($tableid[$tableidnum]=='paixu_shangji2')
+						{
+							$knxstr="<td class='canshuwidth'>签单可能性：".$v['knx'][$val]."%<a class='xiugai'><i class='fa fa-pencil' aria-hidden='true'></a></td>";
+						}
+						$checkstr=$v['qy'][$val]=='1'?'checked':'';
+						$xshtmlstr.="<tr id='$val'><td class='tuozhuaiclass tuozhuaiwidth' ><i class='fa fa-reorder' aria-hidden='true'></i></td><td class='qiyongwidth'>&nbsp;&nbsp;<input type='checkbox' $checkstr ><span class='teshu'>启用</span></td><td class='canshuwidth'>".$v[$val]."<a class='xiugai'><i class='fa fa-pencil' aria-hidden='true'></a></td>".$knxstr."</tr>";
+					}
+				}
+				else
+				{
+					foreach($v['qy'] as $k=>$val)
+					{
+						if($k=='id'||$k=='qy'||$k=='knx')
+						{
+							continue;
+						}
+						$knxstr='';
+						if($tableid[$tableidnum]=='paixu_shangji2')
+						{
+							$knxstr="<td class='canshuwidth'>签单可能性：".$v['knx'][$k]."%<a class='xiugai'><i class='fa fa-pencil' aria-hidden='true'></a></td>";
+						}
+						$checkstr=$val=='1'?'checked':'';
+						$xshtmlstr.="<tr id='$k'><td class='tuozhuaiclass tuozhuaiwidth'><i class='fa fa-reorder' aria-hidden='true'></i></td><td class='qiyongwidth'>&nbsp;&nbsp;<input type='checkbox' $checkstr ><span class='teshu'>启用</span></td><td class='canshuwidth'>".$v[$k]."<a class='xiugai'><i class='fa fa-pencil' aria-hidden='true'></a></td>".$knxstr."</tr>";
+					}
+				}
+				$xshtmlstr.="</table><button class='layui-btn' onclick='addnewcanshu()'>添加</button></div>";
+				$tableidnum++;
+			}
+			$xshtmlstr.="</div></div>";
+		}
+		$this->assign("xshtmlstr",$xshtmlstr);
 		$this->display();
 	}
 	//自定审批
 	public function shenpi(){
+		if(cookie("islogin")!='1')
+		{
+			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
+			die();
+		}
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$userbase=M("user");
+		$userarr=$userbase->query("select user_name,user_id from crm_user where user_fid='$fid' or user_id='$fid'");
+		foreach($userarr as $v)
+		{
+			$useroption.="<option value='".$v['user_id']."' class='class".$v['user_id']."'>".$v['user_name']."</option>";
+			$usernamearr[$v['user_id']]=$v['user_name'];
+		}
+		$spbase=M("shenpi");
+		$sparr1=$spbase->query("select * from crm_shenpi where sp_yh='$fid' and sp_type in ('1','2')");
+		$sparr[$sparr1[0]['sp_type']]=$sparr1[0];
+		$sparr[$sparr1[1]['sp_type']]=$sparr1[1];
+		
+		
+		//合同审批页--开启或关闭1/2/3级审批人按钮
+		for($a=1;$a<=3;$a++)
+		{
+			$ischeck='';
+			if($sparr[1]['sp_qy_'.$a]=='1')
+			{
+				$ischeck='checked';
+			}
+			$checkboxarr[$a]="<input type='checkbox' lay-filter='sp_qy_".$a."' id='sp_qy_".$a."' title='".$a."级审批人' $ischeck />";
+			
+		}
+		//审批同步按钮
+		foreach($sparr as $k=>$v)
+		{
+			$tb=$sparr[$k]['sp_tb']==0?'':"checked";
+			$tbbtn[$k]="<input type='checkbox' id='sptb".$k."' lay-filter='sp_tb".$k."' title='&nbsp;审批同步&nbsp;' $tb>";
+		}
+		//合同审批页--审批人下拉框
+		$optionarr=array("合同提交人上级","固定审批人","超级管理员");
+		for($key=1;$key<=3;$key++)
+		{
+			for($a=0;$a<3;$a++)
+			{
+				$isselected='';
+				
+				if($sparr[1]['sp_type_'.$key]==($a+1))
+				{
+					$isselected='selected';
+					if($sparr[1]['sp_type_'.$key]=='2')
+					{
+						$spuserarr=explode(',',$sparr[1]['sp_value_'.$key]);
+						$spanstr='';
+						foreach($spuserarr as $v)
+						{
+							$spanstr.="<span style='display:inline-block;border-radius:5px;background-color:#33AB9F;height:20px;margin-bottom:5px;padding:5px;color:#fff;margin-right:10px;' class='span".$v."'>".$usernamearr[$v]."<a onclick=guanbi(this)  style='color:#fff;margin-left:10px;'>×</a></span>";
+						}
+						$btnstr[$key]="<button class='layui-btn' style='height:30px;line-height:30px;margin-right:30px;' onclick='spxuanze(this)'>选择审批人</button>".$spanstr;
+					}
+				}
+				$spsel[$key].="<option value='".($a+1)."' $isselected >$optionarr[$a]</option>";
+			}
+		}
+
+		//合同回款审批--审批人复选框
+		$hkuserarr=array("","超级管理员","提交人上级","固定审批人");
+		for($a=1;$a<=3;$a++)
+		{
+			$hkchecked='';
+			if($sparr[2]['sp_qy_'.$a]=='1')
+			{
+				$hkchecked='checked';
+			}
+			$hkboxarr[$a]="<input type='checkbox' lay-filter='hksp_qy_".$a."' id='hksp_qy_".$a."' $hkchecked title='".$hkuserarr[$a]."' />";
+		}
+		if($sparr[2]['sp_value_3']!='')
+		{
+			$hkspanstr='';
+			$hkuserarr=explode(",",$sparr[2]['sp_value_3']);
+			foreach($hkuserarr as $v)
+			{
+				$hkspanstr.="<span style='display:inline-block;border-radius:5px;background-color:#33AB9F;height:20px;margin-bottom:5px;padding:5px;color:#fff;margin-right:10px;' class='span".$v."'>".$usernamearr[$v]."<a onclick=huikuanguanbi(this)  style='color:#fff;margin-left:10px;'>×</a></span>";
+			}
+		}
+
+
+		$this->assign("tbbtn",$tbbtn);
+		$this->assign("hkspanstr",$hkspanstr);
+		$this->assign("hkboxarr",$hkboxarr);
+		$this->assign("btnstr",$btnstr);
+		$this->assign("spsel",$spsel);
+		$this->assign("checkboxarr",$checkboxarr);
+		$this->assign("sparr",$sparr[1]);
+		$this->assign("hksparr",$sparr[2]);
+		$this->assign("useroption",$useroption);
 		$this->display();
 	}
 	//日志
@@ -824,6 +994,74 @@ class OptionController extends Controller {
 			$returnstr=number_format($str,2);
 		}
 		return $returnstr;
+	}
+
+	
+	public function get_xiashu_id()
+	{
+		$nowloginid=cookie("user_id");
+		$nowloginfid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		$userbase=M("user");
+		$qxbase=M("quanxian");
+		$bmbase=M("department");
+		$userarr=$userbase->query("select * from crm_user where (user_fid='$nowloginfid' or user_id='$nowloginfid') and user_del='0'");
+		foreach($userarr as $v)
+		{
+			$userkeyid[$v['user_id']]=$v;
+		}
+		$nowloginqx=$userkeyid[$nowloginid]['user_quanxian'];
+		$nowloginbid=$userkeyid[$nowloginid]['user_zhu_bid'];
+
+		$qxarr=$qxbase->query("select qx_data_qx from crm_quanxian where qx_company='$nowloginfid' and qx_id='$nowloginqx'");
+		$dataqx=$qxarr[0]['qx_data_qx'];
+		$bmbasearr=$bmbase->query("select * from crm_department where bm_company='$nowloginfid'");
+		for($a=0;$a<10;$a++)
+		{
+			foreach($bmbasearr as $v)
+			{
+				if($v['bm_id']==$nowloginbid||in_array($v['bm_fid'],$bmid))
+					$bmid[$v['bm_id']]=$v['bm_id'];
+			}
+		}
+		if($dataqx=='1')
+		{
+			return "'".$nowloginid."'";
+		}
+		$foreachnum=0;
+		foreach($userkeyid as $v)
+		{
+			if($v['user_zhuguan_id']=='0')
+			{
+				continue;
+			}
+			foreach($userkeyid as $kk=>$vv)
+			{
+				if($vv['user_zhuguan_id']==$nowloginid||in_array($vv['user_zhuguan_id'],$nowzgid))
+				{
+					$nowzgid[$vv['user_id']]=$vv['user_id'];
+				}
+			}
+			if($foreachnum=='50')
+			{
+				break;
+			}
+			$foreachnum++;
+		}
+		$nowzgid[$nowloginid]=$nowloginid;
+		foreach($nowzgid as $k=>$v)
+		{
+			if($dataqx=='2')
+			{
+				if($userkeyid[$v]['user_zhu_bid']!=$nowloginbid)
+					unset($nowzgid[$k]);
+			}
+			if($dataqx=='3')
+			{
+				if(!in_array($userkeyid[$v]['user_zhu_bid'],$bmid))
+					unset($nowzgid[$k]);
+			}
+		}
+		return "'".implode("','",$nowzgid)."'";
 	}
 }
 

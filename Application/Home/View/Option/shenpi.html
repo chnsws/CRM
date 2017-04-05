@@ -43,7 +43,7 @@
         .thead{background-color:#F5F5F5;height:40px;padding-left:10px;color:#656565;}
         .selectbox{height:30px;color:#656565;}
         .layui-form{width:120px;}
-        .sel-td{width:160px;padding-top:5px;}
+        .sel-td{width:130px;padding-top:5px;}
         /*表格下方说明*/
         .shuoming{display:block;height:30px;color:#656565;}
         .redcolor{color:#f00;}
@@ -79,38 +79,37 @@
                             <tr>
                                 <td colspan="3" class="thead">审批设置</td>
                             </tr>
+                            
                             <tr>
-                                <td class="layui-form"><input type="checkbox" title="1级审批人"></td>
+                                <td class="layui-form">{$checkboxarr[1]}</td>
                                 <td class="sel-td">
                                     <select class="selectbox" id="sel1">
-                                        <option value='1'>合同提交人上级</option>
-                                        <option value='2'>固定审批人</option>
-                                        <option value='3'>超级管理员</option>
+                                        {$spsel[1]}
                                     </select>
                                 </td>
-                                <td id="lv1"></td>
+                                <td id="lv1" style="padding-top:5px;">{$btnstr[1]}</td>
                             </tr>
                             <tr>
-                                <td class="layui-form"><input type="checkbox" title="2级审批人"></td>
+                                <td class="layui-form">{$checkboxarr[2]}</td>
                                 <td class="sel-td">
                                     <select class="selectbox" id="sel2">
-                                        <option value='1'>合同提交人上级</option>
-                                        <option value='2'>固定审批人</option>
-                                        <option value='3'>超级管理员</option>
+                                        {$spsel[2]}
                                     </select>
                                 </td>
-                                <td id="lv2"></td>
+                                <td id="lv2" style="padding-top:5px;">{$btnstr[2]}</td>
                             </tr>
                             <tr>
-                                <td class="layui-form"><input type="checkbox" title="3级审批人"></td>
+                                <td class="layui-form">{$checkboxarr[3]}</td>
                                 <td class="sel-td">
                                     <select class="selectbox" id="sel3">
-                                        <option value='1'>合同提交人上级</option>
-                                        <option value='2'>固定审批人</option>
-                                        <option value='3'>超级管理员</option>
+                                        {$spsel[3]}
                                     </select>
                                 </td>
-                                <td id="lv3"></td>
+                                <td id="lv3" style="padding-top:5px;">{$btnstr[3]}</td>
+                            </tr>
+                            <tr>
+                                <td class="layui-form">{$tbbtn[1]}</td>
+                                <td style="color:#656565" colspan="2"><span class="redcolor">*</span>如果开启审批同步，只有当前等级审批人全部通过后才进行下一级的审批。</td>
                             </tr>
                         </table>
                         <span class="shuoming"><span class="redcolor">*</span>超级管理员自动可以审批所有合同。</span>
@@ -119,7 +118,7 @@
                         <span class="shuoming"><span class="redcolor">*</span>固定审批人，最多可选择7人。</span>
                         <span class="shuoming"><span class="redcolor">*</span>如合同提交后，没有对应的审批人时，会自动通过合同审批</span>
                         <span class="shuoming redcolor">（例如，审批人仅设置了“合同提交人上级”，而提交人没有上级，则提交合同审批后，此合同自动通过审批。）</span>
-                        <button class="layui-btn">保存</button>
+                        <button class="layui-btn" onclick="shenpibc()" style="height:30px;line-height:30px">保存</button>
                     </div>
                 </div>
                 <!--回款审批-->
@@ -132,29 +131,33 @@
                                 <td colspan="3" class="thead">合同回款审批设置</td>
                             </tr>
                             <tr>
-                                <td class="layui-form"><input type="checkbox" title="超级管理员"></td>
+                                <td class="layui-form">{$hkboxarr[1]}</td>
                                 <td class="sel-td">
                                 </td>
-                                <td id="lv1"></td>
+                                <td id="lv1" style="padding-top:11px;"></td>
                             </tr>
                             <tr>
-                                <td class="layui-form"><input type="checkbox" title="提交人上级"></td>
+                                <td class="layui-form">{$hkboxarr[2]}</td>
                                 <td class="sel-td">
                                 </td>
-                                <td id="lv2"></td>
+                                <td id="lv2" style="padding-top:11px;"></td>
                             </tr>
                             <tr>
-                                <td class="layui-form"><input type="checkbox" title="固定审批人"></td>
+                                <td class="layui-form">{$hkboxarr[3]}</td>
                                 <td class="sel-td">
                                     <button class="layui-btn" style="height:30px;line-height:30px;" onclick="hkxuanze()">选择审批人</button>
                                 </td>
-                                <td id="huikuanmainshow"></td>
+                                <td id="huikuanmainshow" style="padding-top:11px;">{$hkspanstr}</td>
+                            </tr>
+                            <tr>
+                                <td class="layui-form">{$tbbtn[2]}</td>
+                                <td style="color:#656565" colspan="2"><span class="redcolor">*</span>如果开启审批同步，只有当前等级审批人全部通过后才进行下一级的审批。</td>
                             </tr>
                         </table>
                         <span class="shuoming"><span class="redcolor">*</span>勾选后，上述人既可以审批合同回款，还可以将已审批的合同回款驳回。</span>
                         <span class="shuoming"><span class="redcolor">*</span>最多选择7个固定审批人。</span>
                         <span class="shuoming"><span class="redcolor">*</span>如果固定审批人对回款的合同没有查看权限，提交该合同审批时，系统将不会通知其审批。</span>
-                        <button class="layui-btn">保存</button>
+                        <button class="layui-btn" onclick="baocun2()">保存</button>
                     </div>
                 </div>
             </div>
@@ -166,44 +169,36 @@
 <div id="shenpiren1" style="padding:10px;">
     <select id="tanchuangsel1" style="height:30px;float:left;">
         <option value='0'>请选择审批人</option>
-        <option value='李东' class="李东">李东</option>
-        <option value='王玉帅' class="王玉帅">王玉帅</option>
-        <option value='阴文策' class="阴文策">阴文策</option>
+        {$useroption}
     </select>  
-    <div id="showshenpidiv1" style="margin-bottom:10px;float:left;height:40px;padding-top:5px;margin-left:10px;">
+    <div id="showshenpidiv1" style="margin-bottom:10px;float:left;margin-left:10px;width:400px;">
     </div>
 </div>
 <!--2级审批人选择框-->
 <div id="shenpiren2" style="padding:10px;">
     <select id="tanchuangsel2" style="height:30px;float:left;">
         <option value='0'>请选择审批人</option>
-        <option value='李东' class="李东">李东</option>
-        <option value='王玉帅' class="王玉帅">王玉帅</option>
-        <option value='阴文策' class="阴文策">阴文策</option>
+        {$useroption}
     </select>  
-    <div id="showshenpidiv2" style="margin-bottom:10px;float:left;height:40px;padding-top:5px;margin-left:10px;">
+    <div id="showshenpidiv2" style="margin-bottom:10px;float:left;margin-left:10px;width:400px;">
     </div>
 </div>
 <!--3级审批人选择框-->
 <div id="shenpiren3" style="padding:10px;">
     <select id="tanchuangsel3" style="height:30px;float:left;">
         <option value='0'>请选择审批人</option>
-        <option value='李东' class="李东">李东</option>
-        <option value='王玉帅' class="王玉帅">王玉帅</option>
-        <option value='阴文策' class="阴文策">阴文策</option>
+        {$useroption}
     </select>  
-    <div id="showshenpidiv3" style="margin-bottom:10px;float:left;height:40px;padding-top:5px;margin-left:10px;">
+    <div id="showshenpidiv3" style="margin-bottom:10px;float:left;margin-left:10px;width:400px;">
     </div>
 </div>
 <!--回款审批人选择框-->
 <div id="huikuandiv" style="padding:10px;">
     <select id="huikuansel" style="height:30px;float:left;">
         <option value='0'>请选择审批人</option>
-        <option value='李东' class="李东">李东</option>
-        <option value='王玉帅' class="王玉帅">王玉帅</option>
-        <option value='阴文策' class="阴文策">阴文策</option>
+        {$useroption}
     </select>  
-    <div id="huikuanshow" style="margin-bottom:10px;float:left;height:40px;padding-top:5px;margin-left:10px;">
+    <div id="huikuanshow" style="margin-bottom:10px;float:left;margin-left:10px;width:400px;">
     </div>
 </div>
 <script>
@@ -211,13 +206,53 @@
     $("#shenpiren2").hide();
     $("#shenpiren3").hide();
     $("#huikuandiv").hide();
+    window.root_dir="{$_GET['root_dir']}";
+    window.windowlvid='';
+    window.xzbtn="<button class='layui-btn' style='height:30px;line-height:30px;margin-right:30px;' onclick='spxuanze(this)'>选择审批人</button>";
+    window.spqy1='2';
+    window.spqy2='2';
+    window.spqy3='2';
+    window.hkspqy1='2';
+    window.hkspqy2='2';
+    window.hkspqy3='2';
+    window.sptb='2';
+    window.hksptb='2';
     //上方绿色提示框的关闭效果
     function hidden_div(){
         $("#mod1").hide();
     }
+    //ajax同步
+    $.ajaxSetup({
+        async : false
+    });
     //加载layui表单样式
     layui.use('form', function(){
         var form = layui.form();
+        form.on('checkbox(sp_qy_1)', function(data){
+            window.spqy1=data.elem.checked;
+        });
+        form.on('checkbox(sp_qy_2)', function(data){
+            window.spqy2=data.elem.checked;
+        });
+        form.on('checkbox(sp_qy_3)', function(data){
+            window.spqy3=data.elem.checked;
+        });
+
+        form.on('checkbox(hksp_qy_1)', function(data){
+            window.hkspqy1=data.elem.checked;
+        });
+        form.on('checkbox(hksp_qy_2)', function(data){
+            window.hkspqy2=data.elem.checked;
+        });
+        form.on('checkbox(hksp_qy_3)', function(data){
+            window.hkspqy3=data.elem.checked;
+        });
+        form.on('checkbox(sp_tb1)', function(data){
+            window.sptb=data.elem.checked;
+        });
+        form.on('checkbox(sp_tb2)', function(data){
+            window.hksptb=data.elem.checked;
+        });
     });
     //初始化layui的基础组件
     layui.use('element', function(){
@@ -227,7 +262,7 @@
     function tishi(neirong)
     {
         layer.msg(neirong, {
-            time: 1000, 
+            time: 1500, 
         });
     }
     //下拉框监听事件
@@ -238,59 +273,67 @@
         var thisshowtd='lv'+thisid;//当前审批人的级别--显示表格
         if(selval=="2")//如果选择了固定审批人
         {
-            $("#lv"+windowlvid).children("span").show();
-          
-            layui.use('layer', function(){
-                var layer = layui.layer;
-                window.tanchu=layer.open({
-                    type:1,
-                    area:'600px',
-                    title: '选择审批人',
-                    content:$('#shenpiren'+thisid),
-                    btn: '保存',
-                    btn1: function(index, layero){
-                            var newtd=$("#showshenpidiv"+thisid).html();
-                            $("#lv"+thisid).html(newtd);
-                        layer.close(index);   
-                    }
-                }); 
-            });  
+            $("#lv"+windowlvid).show();
+            $("#lv"+thisid).html(xzbtn);
         }
         else
         {
-            $("#lv"+windowlvid).children("span").hide();
+            $("#lv"+windowlvid).hide();
         }
     });
+    function spxuanze(thisid='')
+    {
+        window.windowlvid=$(thisid).parent().parent().find("td").eq(1).children("select").prop("id").substr(3,1);
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            window.tanchu=layer.open({
+                type:1,
+                area:'600px',
+                title: '选择审批人',
+                content:$('#shenpiren'+windowlvid),
+                btn: '保存',
+                btn1: function(index, layero){
+                    
+                        var newtd=$("#showshenpidiv"+windowlvid).html();
+                        $("#lv"+windowlvid).html(xzbtn+newtd);
+                    layer.close(index);   
+                }
+            }); 
+        });  
+    }
     //弹窗下拉框
     $("#tanchuangsel1").change(function(){
         var thisid=$(this).val();
+        var thistext=$(this).children("option[value='"+thisid+"']").text();
         if(thisid!='0')
         {
-            $("#tanchuangsel1").children("."+thisid+"").hide();
+            $("#tanchuangsel1").children(".class"+thisid+"").hide();
             var oldhtml=$("#showshenpidiv1").html();
-            var newhtml=oldhtml+"<span style='border-radius:5px;background-color:#1E9FFF;height:30px;padding:5px;color:#fff;margin-right:10px;' class='span"+thisid+"'>"+thisid+"<a onclick=guanbi(this)  style='color:#fff;margin-left:10px;'>×</a></span>";
+            var newhtml=oldhtml+"<span style='display:inline-block;border-radius:5px;background-color:#33AB9F;height:20px;margin-bottom:5px;padding:5px;color:#fff;margin-right:10px;' class='span"+thisid+"'>"+thistext+"<a onclick=guanbi(this)  style='color:#fff;margin-left:10px;'>×</a></span>";
             $("#showshenpidiv1").html(newhtml);
             $(this).val(0);
         }
     });
     $("#tanchuangsel2").change(function(){
         var thisid=$(this).val();
+        var thistext=$(this).children("option[value='"+thisid+"']").text();
         if(thisid!='0')
         {
-            $("#tanchuangsel2").children("."+thisid+"").hide();
+            $("#tanchuangsel2").children(".class"+thisid+"").hide();
             var oldhtml=$("#showshenpidiv2").html();
-            var newhtml=oldhtml+"<span style='border-radius:5px;background-color:#1E9FFF;height:30px;padding:5px;color:#fff;margin-right:10px;' class='span"+thisid+"'>"+thisid+"<a onclick=guanbi(this)  style='color:#fff;margin-left:10px;'>×</a></span>";
+            var newhtml=oldhtml+"<span style='display:inline-block;border-radius:5px;background-color:#33AB9F;height:20px;margin-bottom:5px;padding:5px;color:#fff;margin-right:10px;' class='span"+thisid+"'>"+thistext+"<a onclick=guanbi(this)  style='color:#fff;margin-left:10px;'>×</a></span>";
             $("#showshenpidiv2").html(newhtml);
             $(this).val(0);
         }
     });
     $("#tanchuangsel3").change(function(){
         var thisid=$(this).val();
+        var thistext=$(this).children("option[value='"+thisid+"']").text();
         if(thisid!='0')
         {
-            $("#tanchuangsel3").children("."+thisid+"").hide();
+            $("#tanchuangsel3").children(".class"+thisid+"").hide();
             var oldhtml=$("#showshenpidiv3").html();
-            var newhtml=oldhtml+"<span style='border-radius:5px;background-color:#1E9FFF;height:30px;padding:5px;color:#fff;margin-right:10px;' class='span"+thisid+"'>"+thisid+"<a onclick=guanbi(this)  style='color:#fff;margin-left:10px;'>×</a></span>";
+            var newhtml=oldhtml+"<span style='display:inline-block;border-radius:5px;background-color:#33AB9F;height:20px;margin-bottom:5px;padding:5px;color:#fff;margin-right:10px;' class='span"+thisid+"'>"+thistext+"<a onclick=guanbi(this)  style='color:#fff;margin-left:10px;'>×</a></span>";
             $("#showshenpidiv3").html(newhtml);
             $(this).val(0);
         }
@@ -308,54 +351,74 @@
             $("#lv"+guanbilv).children(".span"+nowclass).remove();
         }
         $("#showshenpidiv"+guanbilv).children(".span"+nowclass).remove();
-        $("#tanchuangsel"+guanbilv).children("."+nowclass).show();
+        $("#tanchuangsel"+guanbilv).children(".class"+nowclass).show();
     }
     //开启或关闭合同审批
-    var shenpistatus='1';//开启状态，需要在数据库中查询
+    var shenpistatus="{$sparr['sp_kq']}";//开启状态，需要在数据库中查询
     if(shenpistatus=='1')
     {
+        $("#shenpi-body").show();
         $('.tab-top').html("<button class='layui-btn' onclick='kaiqiguanbi(0)'>关闭合同审批</button>合同审批功能已经开启,如需要关闭，请先审批完成待审批合同。");
     }
     else
     {
+        $("#shenpi-body").hide();
         $('.tab-top').html("<button class='layui-btn' onclick='kaiqiguanbi(1)'>开启合同审批</button>企业尚未开启合同审批功能。");
     }
     function kaiqiguanbi(val)
     {
+        window.jiazai= layer.load(2);
         if(val=='0')
         {
+            $.get(root_dir+"/index.php/Home/ShenpiDo/change_on_off",{"kqval":'0',"kqtype":'1'},function(res){
+                layer.close(jiazai);
+                tishi("合同审批已关闭");
+            });
             $("#shenpi-body").hide();
             $('.tab-top').html("<button class='layui-btn' onclick='kaiqiguanbi(1)'>开启合同审批</button>企业尚未开启合同审批功能。");
-            shenpistatus='0';
         }
         else
         {
+            $.get(root_dir+"/index.php/Home/ShenpiDo/change_on_off",{"kqval":'1',"kqtype":'1'},function(res){
+                layer.close(jiazai);
+                tishi("合同审批已开启");
+            });
             $("#shenpi-body").show();
             $('.tab-top').html("<button class='layui-btn' onclick='kaiqiguanbi(0)'>关闭合同审批</button>合同审批功能已经开启,如需要关闭，请先审批完成待审批合同。");
-            shenpistatus='1';
         }
     }
     //合同回款审批
-    var huikuanstatus='1';
+    var huikuanstatus="{$hksparr['sp_kq']}";
     if(huikuanstatus=='1')
     {
+        $("#huikuan-body").show();
         $('.tab-top2').html("<button class='layui-btn' onclick='huikuankaiqiguanbi(0)'>关闭合同回款审批</button>");
     }
     else
     {
+        $("#huikuan-body").hide();
         $('.tab-top2').html("<button class='layui-btn' onclick='huikuankaiqiguanbi(1)'>开启合同回款审批</button>企业尚未开启合同回款审批功能。");
     }
     function huikuankaiqiguanbi(hkval)
     {
+        window.jiazai= layer.load(2);
         if(hkval=='0')
         {
             $("#huikuan-body").hide();
+            $.get(root_dir+"/index.php/Home/ShenpiDo/change_on_off",{"kqval":'0',"kqtype":'2'},function(res){
+                layer.close(jiazai);
+                tishi("合同回款审批已关闭");
+            });
             $('.tab-top2').html("<button class='layui-btn' onclick='huikuankaiqiguanbi(1)'>开启合同回款审批</button>企业尚未开启合同回款审批功能。");
             huikuanstatus='0';
         }
         else
         {
             $("#huikuan-body").show();
+            $.get(root_dir+"/index.php/Home/ShenpiDo/change_on_off",{"kqval":'1',"kqtype":'2'},function(res){
+                layer.close(jiazai);
+                tishi("合同回款审批已开启");
+            });
             $('.tab-top2').html("<button class='layui-btn' onclick='huikuankaiqiguanbi(0)'>关闭合同回款审批</button>");
             huikuanstatus='1';
         }
@@ -382,11 +445,12 @@
     //回款弹窗下拉框
     $("#huikuansel").change(function(){
         var thisid=$(this).val();
+        var thistext=$(this).children("option[value='"+thisid+"']").text();
         if(thisid!='0')
         {
-            $("#huikuansel").children("."+thisid+"").hide();
+            $("#huikuansel").children(".class"+thisid+"").hide();
             var oldhtml=$("#huikuanshow").html();
-            var newhtml=oldhtml+"<span style='border-radius:5px;background-color:#1E9FFF;height:30px;padding:5px;color:#fff;margin-right:10px;' class='span"+thisid+"'>"+thisid+"<a onclick=huikuanguanbi(this)  style='color:#fff;margin-left:10px;'>×</a></span>";
+            var newhtml=oldhtml+"<span style='display:inline-block;border-radius:5px;background-color:#33AB9F;height:20px;margin-bottom:5px;padding:5px;color:#fff;margin-right:10px;' class='span"+thisid+"'>"+thistext+"<a onclick=huikuanguanbi(this)  style='color:#fff;margin-left:10px;'>×</a></span>";
             $("#huikuanshow").html(newhtml);
             $(this).val(0);
         }
@@ -405,7 +469,156 @@
             $("#huikuanmainshow").children(".span"+nowclass).remove();
         }
         $("#huikuanshow").children(".span"+nowclass).remove();
-        $("#huikuansel").children("."+nowclass).show();
+        $("#huikuansel").children(".class"+nowclass).show();
+    }
+    //保存合同审批
+    function shenpibc()
+    {
+        window.jiazai= layer.load(2);
+        var sel1=$("#sel1").val();
+        var sel2=$("#sel2").val();
+        var sel3=$("#sel3").val();
+        var ajaxstr="sp_tb:"+sptb+",sp_qy_1:"+spqy1+",sp_qy_2:"+spqy2+",sp_qy_3:"+spqy3+",sp_type_1:"+sel1+',sp_type_2:'+sel2+',sp_type_3:'+sel3;
+        if(sel1=='2')
+        {
+            var spanid='';
+            var havespan='0';
+            
+            $("#sel1").parent().parent().find("td").eq(2).find("span").each(function(){
+                spanid+=$(this).attr("class").substr(4)+'.';
+                havespan='1';
+            });
+            if(havespan=='1')
+            {
+                ajaxstr=ajaxstr+',sp_value_1:'+spanid;
+                ajaxstr=ajaxstr.substr(0,ajaxstr.length-1);
+            }
+            else
+            {
+                tishi("请选择1级审批人");
+                return false;
+            }
+        }
+        if(sel2=='2')
+        {
+            var spanid='';
+            var havespan='0';
+            $("#sel2").parent().parent().find("td").eq(2).find("span").each(function(){
+                spanid+=$(this).attr("class").substr(4)+'.';
+                havespan='1';
+            });
+            if(havespan=='1')
+            {
+                ajaxstr=ajaxstr+',sp_value_2:'+spanid;
+                ajaxstr=ajaxstr.substr(0,ajaxstr.length-1);
+            }
+            else
+            {
+                tishi("请选择2级审批人");
+                return false;
+            }
+        }
+        if(sel3=='2')
+        {
+            var spanid='';
+            var havespan='0';
+            $("#sel3").parent().parent().find("td").eq(2).find("span").each(function(){
+                spanid+=$(this).attr("class").substr(4)+'.';
+                havespan='1';
+            });
+            if(havespan=='1')
+            {
+                ajaxstr=ajaxstr+',sp_value_3:'+spanid;
+                ajaxstr=ajaxstr.substr(0,ajaxstr.length-1);
+            }
+            else
+            {
+                tishi("请选择3级审批人");
+                return false;
+            }
+        }
+        $.post(root_dir+"/index.php/Home/ShenpiDo/baocun",{"ajaxstr":ajaxstr,"sptype":'1'},function(res){
+            if(res=='1')
+            {
+                tishi("保存成功");
+            }
+            else if(res=='2')
+            {
+                tishi("保存失败");
+            }
+            else
+            {
+                tishi("保存失败，请刷新后重试");
+            }
+            layer.close(jiazai);
+        });
+    }
+    //保存合同回款审批设置
+    function baocun2()
+    {
+        window.jiazai= layer.load(2);
+        var ajaxstr='';
+        if(hkspqy1!='2')
+        {
+            ajaxstr+='sp_qy_1:'+hkspqy1+',';
+        }
+        if(hkspqy2!='2')
+        {
+            ajaxstr+='sp_qy_2:'+hkspqy2+',';
+        }
+        var spanid='';
+        var havespan='0';
+        $("#hksp_qy_3").parent().parent().children("td").find("span").each(function(){
+            if($(this).attr("class")!=undefined)
+            {
+                spanid+=$(this).attr("class").substr(4)+'.';
+                havespan='1';
+            }
+        });
+        
+        if(hkspqy3!='2')
+        {
+            ajaxstr+='sp_qy_3:'+hkspqy3+',';
+        }
+        if(havespan=='1')
+        {
+            spanid=spanid.substr(0,spanid.length-1);
+                ajaxstr+='sp_value_3:'+spanid+',';
+        }
+        else
+        {
+            var hkgdsp=$("#hksp_qy_3").prop("checked");
+            if(hkgdsp==true)
+            {
+                tishi("请选择审批人");
+                return false;
+            }
+            else
+            {
+                ajaxstr+='sp_value_3:,';
+            }
+        }
+        
+        if(hksptb!='2')
+        {
+            ajaxstr+='sp_tb:'+hksptb+',';
+        }
+        ajaxstr=ajaxstr.substr(0,ajaxstr.length-1);
+        $.post(root_dir+"/index.php/Home/ShenpiDo/baocun",{"ajaxstr":ajaxstr,"sptype":'2'},function(res){
+            if(res=='1')
+            {
+                tishi("保存成功");
+            }
+            else if(res=='2')
+            {
+                tishi("保存失败");
+            }
+            else
+            {
+                tishi("保存失败，请刷新后重试");
+            }
+            layer.close(jiazai);
+        });
     }
 </script>
 </html>
