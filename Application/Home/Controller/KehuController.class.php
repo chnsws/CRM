@@ -4,6 +4,7 @@ use Think\Controller;
 
 
 class KehuController extends Controller {
+//	public $quanju=
     public function kehu(){
 
   		$a=M('yewuziduan');                      //新增客户所需字段     
@@ -11,10 +12,34 @@ class KehuController extends Controller {
   		$map['zd_yh']="1";//这里通过查询获得
   		$sql=$a->where($map)->field('zd_data')->find();
 		$a_arr=json_decode($sql['zd_data'],true);
+		//echo "<pre>";
+		//var_dump($a_arr);exit;
 		$kehu=M('kh');                             //显示客户所需字段data
 		$kehu=$kehu->select();
-		//echo"<pre>";
-//var_dump($kehu);exit;
+
+		foreach($a_arr as $k2=>$v2){
+			if($v2['qy']=="1"){
+
+				$qy_arr=$v2;
+				$new_qy[]=$qy_arr;
+			}
+			
+
+		}
+		$a_arr=$new_qy;
+		//echo "<pre>";
+		//var_dump($new_qy);exit;
+		$array_jiansuo=array('fuzeren'=>"负责人",'department'=>"部门",'kh_lx'=>"联系人",'kh_cj_cp'=>"已经成交产品",'kh_new_gj'=>"最新跟进记录",'kh_sj_gj_date'=>"实际跟进时间",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间",'kh_yh'=>"所属公司");
+				foreach($array_jiansuo as $k=>$v){
+						$new_str1['id']=$k;
+						$new_str1['name']=$v;
+						$new_str1['qy']=1;
+						$new_str1['type']=0;
+						$new_array[]=$new_str1;
+					}
+
+		$kh_biaoti1=array_merge_recursive($a_arr,$new_array);//客户标题名字
+		
 		$conf=M('config');
 		$conf_sql=$conf->field("config_kh_data")->find();
 		$conf_sql_json=json_decode($conf_sql['config_kh_data'],true);
@@ -28,6 +53,8 @@ class KehuController extends Controller {
 		foreach($kehu as $k=>$v){
 			$nachu[$k]=json_decode($v['kh_data'],true);
 		}
+
+
 		//echo "<pre>";
 //var_dump($nachu);exit;
 		foreach($nachu as $k=>$v){
@@ -63,15 +90,7 @@ class KehuController extends Controller {
 			unset($ceshi2);
 		}
 		
-		//echo "<pre>";
-		//var_dump($adddd);exit;
-		foreach($ronghe as $k=>$v ){               //获取键值用于循环客户信息
-			foreach($v as $key=>$val){
-				$jianzhi[]=$key;	
-			}
-				break;
-		}
-
+		
 		
  		foreach($ywcs_sql_json as $ywcs_k=>$ywcs_v){
  			foreach($ywcs_v as $k=>$v){
@@ -118,46 +137,54 @@ class KehuController extends Controller {
     	$this->assign('left_conf',$sql_peizhi);
 		$this->assign('list',$jianzhi); 
 		//echo "<pre>";
-		//print_r($ronghe);exit;
+	//print_r($ronghe);exit;
 		
 
-		
-		foreach($ronghe as $r_k=>$r_v)
-		{
-			$table.="<tr id='tr".$r_v['0']."'>";
-			foreach($r_v as $k=>$v)
-			{//echo "<pre>";
-			//	var_dump($r_v);exit;
-
-				$a_fuzeren=$r_v['fuzeren'];
-
-		$id=$r_v['0'];
-		//var_dump($k);exit;
-		//echo "<pre>";
-		//	var_dump($r_v['0']);exit;
-				if($k=='zdy0')
-					$xs123="<a href='kehumingcheng/id/$v/fuzeren/$a_fuzeren/id1/$id/kh_id/$id'><input type='text' width='20px' name='{$k}' id='{$id}' value='{$v}' readonly='true' style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
-					</a>";
 				
-				else
-					$xs123="<input type='text' width='20px' name='{$k}' id='{$id}' class='bianji' value='{$v}' onblur=''  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
-					<i class='fa fa-pencil' aria-hidden='true'>	</i>";
-				$table.="<td name='$k'>
-					$xs123
+					foreach($ronghe as $r_k=>$r_v)
+					{	
+
+						$table.="<tr id='tr".$r_v['0']."'>";
+						foreach($r_v as $k=>$v)
+						{
+								
+							if($k!='0')
+							{
+								foreach($kh_biaoti1 as $k_biaoti=>$v_biaoti)
+								{	//echo "<pre>";
+									if($v_biaoti['id']==$k)	
+									{
+										
+											$a_fuzeren=$r_v['fuzeren'];
+											$id=$r_v['0'];
+											if($k=='zdy0')
+												$xs123="<a href='kehumingcheng/id/$v/fuzeren/$a_fuzeren/id1/$id/kh_id/$id'><input type='text' width='20px' name='{$k}' id='{$id}' value='{$v}' readonly='true' style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
+												</a>";
+										
+											else
+												$xs123="<input type='text' width='20px' name='{$k}' id='{$id}' class='bianji' value='{$v}' onblur=''  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
+												<i class='fa fa-pencil' aria-hidden='true'>	</i>";
+												$table.="<td name='$k'>
+												$xs123
+										
+								
+											</td>";
+									
+									}
+								}
+							}
+						}
+						$table.="</tr>";
 				
-		
-				</td>";
-			}
-			$table.="</tr>";
-			
-			
+					
 		}
 
-
+//echo $table;exit;
 		$this->assign('table',$table);
 
 
-		$this->assign('kehu',$a_arr);
+		$this->assign('kehu1',$kh_biaoti1);//显示客户标题
+		$this->assign('kehu',$a_arr);//新增客户标题
         $this->display();
     }
 
@@ -406,7 +433,6 @@ class KehuController extends Controller {
 			}
 			$table.="</tr>";
 			
-			
 		}
 
 					$hidden=json_encode($ronghe,true);
@@ -454,6 +480,75 @@ class KehuController extends Controller {
 				//print_r($ronghe);exit;
 
 		}
+
+		public function get_xiashu_id()
+	{
+		$nowloginid=cookie("user_id");
+		$nowloginfid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		$userbase=M("user");
+		$qxbase=M("quanxian");
+		$bmbase=M("department");
+		$userarr=$userbase->query("select * from crm_user where (user_fid='$nowloginfid' or user_id='$nowloginfid') and user_del='0'");
+		foreach($userarr as $v)
+		{
+			$userkeyid[$v['user_id']]=$v;
+		}
+		$nowloginqx=$userkeyid[$nowloginid]['user_quanxian'];
+		$nowloginbid=$userkeyid[$nowloginid]['user_zhu_bid'];
+
+		$qxarr=$qxbase->query("select qx_data_qx from crm_quanxian where qx_company='$nowloginfid' and qx_id='$nowloginqx'");
+		$dataqx=$qxarr[0]['qx_data_qx'];
+		$bmbasearr=$bmbase->query("select * from crm_department where bm_company='$nowloginfid'");
+		for($a=0;$a<10;$a++)
+		{
+			foreach($bmbasearr as $v)
+			{
+				if($v['bm_id']==$nowloginbid||in_array($v['bm_fid'],$bmid))
+					$bmid[$v['bm_id']]=$v['bm_id'];
+			}
+		}
+		if($dataqx=='1')
+		{
+			return "'".$nowloginid."'";
+		}
+		$foreachnum=0;
+		foreach($userkeyid as $v)
+		{
+			if($v['user_zhuguan_id']=='0')
+			{
+				continue;
+			}
+			foreach($userkeyid as $kk=>$vv)
+			{
+				if($vv['user_zhuguan_id']==$nowloginid||in_array($vv['user_zhuguan_id'],$nowzgid))
+				{
+					$nowzgid[$vv['user_id']]=$vv['user_id'];
+				}
+			}
+			if($foreachnum=='50')
+			{
+				break;
+			}
+			$foreachnum++;
+		}
+		$nowzgid[$nowloginid]=$nowloginid;
+		foreach($nowzgid as $k=>$v)
+		{
+			if($dataqx=='2')
+			{
+				if($userkeyid[$v]['user_zhu_bid']!=$nowloginbid)
+					unset($nowzgid[$k]);
+			}
+			if($dataqx=='3')
+			{
+				if(!in_array($userkeyid[$v]['user_zhu_bid'],$bmid))
+					unset($nowzgid[$k]);
+			}
+		}
+		return implode(",",$nowzgid);
+	}
+
+
 		public function kehumingcheng(){
 			$a_id=$_GET['id'];//客户名称
 			$kh_id=$_GET['kh_id'];//客户ID=$_GET['kh_id'];//客户ID
@@ -493,8 +588,53 @@ class KehuController extends Controller {
 
 			$rz_caozuo=$rz->where(array($rz_map))->field('rz_id,rz_type,rz_mode,rz_user,rz_object,rz_bz,rz_time')->order("rz_time desc")->select();//操作日志
 
+			$xiaji= $this->get_xiashu_id();
+			$new_xiaji=substr($xiaji,0,strlen($xiaji)-2); 
+			$xiaji_base=M('kh');
+			$new_array=explode(',',$new_xiaji);
+			foreach($new_array as $k=>$v){
+				//$where.="fuzeren like '. ' %'.$v.'% ' .'or";
+				$where.='kh_data like   \'%"fuzeren":"'.$v.'"%\' or ';
+			}
+			$zhixing_xiaji=substr($where,0,strlen($where)-3); 
+			$sql_xiaji=$xiaji_base->query("select * from crm_kh where $zhixing_xiaji");//下级数据
+			$nachu=array();
+				foreach($sql_xiaji as $k=>$v){
+					$nachu[$k]=json_decode($v['kh_data'],true);
+				}
+				//echo "<pre>";
+//var_dump($nachu);exit;
+				foreach($nachu as $k=>$v){
+				 			foreach($v as $k1=>$v1){
+				 				foreach ($ywcs_sql_json as $key=>$val){		 				
+				 					if($k1==$val['id']){
+				 						$v[$k1]=$val[$v1];						
+				 					} 		 					
+				 				}
+				 			}
+				 			$guanlianw[]=$v;
+				 		}
 
+			foreach($sql_xiaji as $k=>$val){
+			$valav=array_merge($guanlianw[$k],$val);
+			$dantiao=$valav['kh_id'];//获取到id
+			unset($valav['kh_id']); 
+			unset($valav['kh_data']); 
+			array_unshift($valav,$dantiao); //整理好的单条信息
 			
+				$ronghe_xiaji[]=$valav;	 //多条融合	
+				}
+
+
+			$this->assign('xiaji_kh',$ronghe_xiaji);//下级客户信息
+			//查询提醒消息
+			$tixing_base=M('tixing');
+			$tixing_map['tx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			$tixing_map['tx_mk']=$kh_id;
+			$tixing_map['tx_people']=$fuzeren;
+			$sql_tixing=$tixing_base->where($tixing_map)->order("tx_bijiao desc")->select();
+			$this->assign('tixing_tx',$sql_tixing);
+			//var_dump($sql_tixing);exit;
 			$rz_user=M('user');
 			$user_sql=$rz_user->field('user_id,user_name')->select();
 			$kh_map1['user_id']=$fuzeren;
@@ -810,7 +950,7 @@ krsort($ko);
 				}
 					
 
-					echo $table;
+					echo $table ;
 
 			}
 		}
@@ -971,9 +1111,27 @@ krsort($ko);
 				echo '<script>alert("添加成功");window.location="'.$_GET['root_dir'].'/index.php/Home/Kehu/kehumingcheng/id/'.$_GET['pageid'].'/fuzeren/'.$_GET['fuzeren'].'/id1/'.$_GET['id1'].'/kh_id/'.$_GET['kh_id'].'"</script>';
 				
 			}else{
-echo "添加失败";
+
 			}
 		
+		}
+		public function tixing_add(){
+			$data=$_POST;
+			$rizhi=substr($data['tx_bijiao'],0,strlen($data['tx_bijiao'])-8);//日期
+			$shijian=substr($data['tx_bijiao'], -8); 
+			$data['tx_date']=$rizhi;
+			$data['tx_time']=$shijian;
+
+			$data['tx_bijiao']=strtotime($data['tx_bijiao']);
+			$data['tx_kh_name']=2;
+			$data["tx_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			$tixing=M('tixing');
+			$sql=$tixing->add($data);
+			if($sql){
+				echo '<script>alert("添加成功");window.location="'.$_GET['root_dir'].'/index.php/Home/Kehu/kehumingcheng/id/'.$_GET['pageid'].'/fuzeren/'.$_GET['fuzeren'].'/id1/'.$_GET['id1'].'/kh_id/'.$_GET['kh_id'].'"</script>';
+			}else{
+				echo "添加失败";
+			}
 		}
 
 }

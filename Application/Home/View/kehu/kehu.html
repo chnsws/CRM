@@ -264,15 +264,9 @@
 												  <if condition="$vo.id eq $voo.id ">
 												     <foreach name="voo" item="vooo" key="sq">
 												     	 <if condition="$vo.id eq $voo.id ">
-
-														
-														
 															<input type='text' width='20px' name="{$vo.id}" id='{$sq}' class='shaixuan' value="{$vooo}" style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px ' />
-																
-															
 														</if>
 													</foreach>
-													
 													</if>
 											 </volist>
 										<else />
@@ -293,7 +287,6 @@
 					<span style="margin-top:-8px;margin-left:1%"  class="anniudw">
 							已选0位客户
 					   		<a href="#">批量转移</a>
-					   		
 					   		<a href="#">批量编辑</a>
 					   		<a href="#">删除所选</a>
 					   		<a href="#">转移至客户公海</a>
@@ -302,58 +295,22 @@
 		   		<div class="kehu">   	
 		   			<div class="panel panel-default">
 			   			 <div class="panel-heading">
-				        	<div class="panel-title">
+				        	 <div class="panel-title">
 				            		客户信息
 				       		 </div>
 			    		</div>
 						<div class="panel-body" >
 								 <table id="table_local" class="table table-bordered table-striped table-hover">
 						            <thead>
-						                <tr>	<th>ID</th>
-						                <foreach name="kehu" item="vo">
-						               	
-						                    <th>{$vo.name}</th>
-
-						                    </foreach>
-						                   <th>负责人</th>
-						                    <th>部门</th>
-						                    <th>联系人</th>
-						                    <th>已成交产品</th>
-						                    <th>最新跟进记录</th>
-						                    <th>实际跟进时间</th>
-						                    <th>创建人</th>
-						                    <th>前负责人</th>
-						                    <th>前所属部门</th>
-						                    <th>创建时间</th>
-						                   <th>更新于</th>
-						                    <th>划入公海时间</th>
-						                    <th>所属公司</th>
+						                <tr>	
+							                <foreach name="kehu1" item="vo">
+							                    <th>{$vo.name}</th> <!--客户标题-->
+							                 </foreach>
 						                </tr>
 						            </thead>
-						  
 						                <tbody id="jb_bianji">
-						   
-									<!--	<volist name="kh_xinxi" id="vo">
-										 <tr>
-										
-											<volist name="list" id="voo">
-
-												<td>
-
-											
-											<input type="text" width="20px" name="{$voo}" id="{$vo['0']}" class="bianji" value="{$vo.$voo}" onblur=""  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
-											<i class="fa fa-pencil" aria-hidden="true">	</i>
-												</td>		
-											</volist>
-																	
-										</tr>		
-										</volist>
-	   -->
-	
-					{$table}
-										
-						                </tbody>
-			</if>			       
+													{$table}    <!--客户显示信息-->
+						                </tbody>			       
 						  			</table>
 						</div>
 					</div>
@@ -384,26 +341,20 @@
 								                		</select>
 								                	<elseif condition="$vo.type eq 2" />
 								                		<input type="text" name="{$vo.id}"   class="text ui-widget-content ui-corner-all" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" >
-
 													<elseif condition="$vo.type eq 1" />
 								                	<form class="form-inline">
      													 <div data-toggle="distpicker" style=" overflow:hidden">
-       														
        														 <div class="form-group" style="width:33.3%; float:left">
           															<select name="{$vo.id}[]" class="form-control"   ></select>
         													</div>
-
 													        <div class="form-group" style="width:33.3%; float:left">
 													          		<select name="{$vo.id}[]" class="form-control"   ></select>
 													        </div>
-
 													        <div class="form-group" style="width:33.3%; float:left">
 													         	 <select name="{$vo.id}[]" class="form-control"   ></select>
 													        </div>
-
 													      </div>
 													 </form>
-		
 								                	<else />
 								                	<input type="text" name="{$vo.id}"  class="text ui-widget-content ui-corner-all" >
 								                	</if>

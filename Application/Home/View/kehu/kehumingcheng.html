@@ -14,6 +14,7 @@
 		<link rel="stylesheet" href="{$_GET['public_dir']}/jquery-ui/jquery-ui.css">
   		<!--jqui 结束-->
   		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"'" ></script><!- 时间插件-->
+  		
 <script>
 	window.rooturl="{$_GET['root_dir']}";
 </script>
@@ -64,6 +65,17 @@ td{padding-top: 13px;position: relative; left :20px;}
 .ziliao_right{position: relative; left:50px;border:none;width:200px}
 .ziliao_right1{position: relative; left:38px;border:none;width:185px}
 .fa-pencil{position: relative; left:50px;}
+.xinzengtixing{background-color:#1AA094;margin-bottom:30px;}
+.tixingkuang{width:55%;height:130px;border-left: 1px solid #555;}
+
+
+.tixingkuang{position: relative; left:74px;}
+.write{color:white;}
+.time_tx{margin-left:10px;color:#1AA094;}
+.xiala_tx{width:130px;float:right;}
+.yiwancheng{border-radius: 1em; background-color:#1AA094;float:right;position: relative; left:112px;}
+.tx_nei{background-color:#eee;height:70px; width:85%; margin-left:8%;margin-top:15px;}
+.baocun4{margin-bottom:30px;}
 		</style>
 
 	</head>
@@ -200,8 +212,6 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  				</div>
 	  				<div id="uploadfrm" style="height:400px;width:590px;padding:0;margin:0;">
 	  				<form id="uploadform2" action="{$_GET['root_dir']}/index.php/Home/Kehu/genjin_bianji/id/{$kh_id}/pageid/{$_GET['id']}/fuzeren/{$_GET['fuzeren']}/id1/{$_GET['id1']}/kh_id/{$_GET['kh_id']}
-
-
 	  				" method="post">
 	  					<select name="fangshi" class="sele" style="width:150px;height:30px">
 	  						<option value="电话">电话</option>
@@ -221,7 +231,8 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  				<div class="kehu_genjin">客户<span class="legt_genjin"><input type="text" name="shiji_date" value="{$a_id}" style="width:150px;height:20px" readonly="true"></span></div>  
 
 	  				<div class="genjinzhuangtai"> 
-	  					跟进状态 <span class="left_genjin1">
+	  					跟进状态 <span class="left_
+	  					genjin1">
 	  								<select name="genjinzhuantai"  style="width:150px;height:25px">
 		  							
 			  							<foreach name="dan_ywcs" item="ywcs" key="sq">
@@ -260,7 +271,9 @@ td{padding-top: 13px;position: relative; left :20px;}
 		<foreach name="genjin" item="vo">
 
 			<if condition ="$vo.rz_bz eq ''">
+
 			<div  class="genjin_back">
+
 	  				<table>
 		  				<tr>
 		  					<td><span class="fuzename">{$vo.user_id}：{$vo.type}</span></td>
@@ -305,31 +318,42 @@ td{padding-top: 13px;position: relative; left :20px;}
 				  	{$biaoti_ywzd}	
 					</table>
 				</form>
-		
-			  
 	  		</div>
 	  		<div id="tabs-3">
+
 	  			<table class="layui-table" lay-skin="line">
 				  	<thead>
-				  	<foreach name="biaoti_ywzd" item="vo">
-				  				<p class="kehuziliao_show">{$vo.name}</p>
-				  	</foreach>		
+				  		<th >客户名称</th>
+		  				<th >客户类型</th>
+		  				<th >电话</th>
+		  				<th >地区</td>
+		  				<th >所属行业</th>
+		  				<th >负责人</th>
+		  				<th >备注</th>
+
 					</thead>
 					<tbody class="fujian_del">
-					<foreach name="sql" item="vo">
+
+						<foreach name="xiaji_kh" item="vo">
 				  			<tr>
-				  		<td >{$vo.id}</td>
-				  				<td >{$vo.sc_data}</td>
-				  				<td >{$vo.fujian_name}</td>
-				  				<td >{$vo.big}</td>
-				  				<td >{$vo.beizhu}</td>
+
+				  				<td >{$vo.zdy0}</td>
+				  				<td >{$vo.zdy1}</td>
+				  				<td >{$vo.zdy2}</td>
+				  				<td >{$vo.zdy6}</td>
+				  				<td >{$vo.zdy11}</td>
+				  				<td >{$vo.fuzeren}</td>
+				  				<td >{$vo.zdy14}</td>
 				  				
 				  			</tr> 
-					</foreach>
+						</foreach>
+						
 					</tbody>
-				 </table>  
+			 </table> 
+			
 		</div>
 	  		<div id="tabs-4">
+	  		
 	  			<table class="layui-table" lay-skin="line">
 	  	<thead>
 	  				<th >合同标题</th>
@@ -407,7 +431,44 @@ td{padding-top: 13px;position: relative; left :20px;}
 	  		</table>  
 	  		</div>
 	  		<div id="tabs-7">
-	  			提醒
+	  				
+	  				<div class="xinzengtixing" style="width:72px;height:25px"><span class="write" id="dialog-form" onclick="xinzeng()" class="genjinjilu">+新增提醒</span></div>
+	  				<foreach name="tixing_tx" item="vo">
+		  				<div class="tx_date"><span style="color:#1AA094;" >{$vo.tx_date}</span>
+		  					<div class="tixingkuang" >
+		  						<div>
+									<i class="fa fa-clock-o" aria-hidden="true"></i><span class="time_tx">{$vo.tx_time}</span>
+
+									<select  class="xiala_tx" style="border:0px">
+										<option selected="selected"></option>
+										<option >编辑</option>
+										<option >删除</option>
+									</select>
+
+									<span class="yiwancheng" style="color:white">设为已完成</span>
+								</div>
+								<div class="tx_nei">
+									{$vo.tx_nr}
+								</div>
+		  					</div>
+		  				</div>
+
+		  		</foreach>
+		  				
+		  				
+	  				<form  method="post" action="{$_GET['root_dir']}/index.php/Home/Kehu/tixing_add/id/{$kh_id}/pageid/{$_GET['id']}/fuzeren/{$_GET['fuzeren']}/id1/{$_GET['id1']}/kh_id/{$_GET['kh_id']}
+	  				" id="xinzengtixing1">
+	  					<table>
+	  						
+	  					<tr><td><input type="hidden" name="tx_mk" value="{$_GET['id1']}" ></td></tr>
+	  					<tr><td>提醒内容：<input type="text" name="tx_nr"></td></tr> 
+	  					<tr><td><input type="hidden" name="tx_people" value="{$_GET['fuzeren']}"></td></tr>
+	  					<tr><td>提醒时间：<input type="text" name="tx_bijiao" class="text ui-widget-content ui-corner-all " onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" name=""></td></tr>
+	  						<tr><td><input type="submit" value="保存" class="baocun4" style="width:90px"></td></tr> 
+	  					</table>
+	  				</form>
+	  				
+	  		
 	  		</div>
 	  		<div id="tabs-8">
 	  		
@@ -527,13 +588,35 @@ td{padding-top: 13px;position: relative; left :20px;}
 
 	
   		</script>
+
+  		<script>
+			$("#xinzengtixing1").hide();
+			 $(function() {
+			   				 $( "#tabs" ).tabs();
+			 		 });
+					  function xinzeng()
+					  {
+					  	layui.use('layer', function(){
+							var layer = layui.layer;
+							layer.open({
+								type:1,
+								area:'330px',
+								title: '新增提醒',
+								content:$('#xinzengtixing1')
+							}); 
+						});              
+					  }
+
+
+				
+  		</script>
 </html>
 	<script>
     		function blurfun(){
     			$(".del").click(function(){
 
 					
-					alert($(this).attr("id"))
+					//alert($(this).attr("id"))
     				$.get(rooturl+'/index.php/Home/Kehu/delete',{"id":$(this).attr("id")},
 							        		 				function(html){
 							        		 					alert(html)
@@ -543,8 +626,9 @@ td{padding-top: 13px;position: relative; left :20px;}
 															});
 
     			});
+
     		};
-    		blurfun();
+    		
     	</script>
 
     	<script><!--编辑-->
