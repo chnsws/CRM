@@ -18,6 +18,8 @@
 		<link rel="stylesheet" href="{$_GET['public_dir']}/jquery-ui/jquery-ui.css">
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
 
+
+
 		<link href="{$_GET['public_dir']}/dataTable/css/dataTables.bootstrap.css" rel="stylesheet">
   		<link href="{$_GET['public_dir']}/bootstrap/css/bootstrap.css" rel="stylesheet">
 
@@ -37,7 +39,8 @@
 	    <script src="{$_GET['public_dir']}/diqu/js/distpicker.js"></script>
 	    <script src="{$_GET['public_dir']}/diqu/js/main.js"></script>
 
-<!--end!!-->
+<!--end!!--><script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
 
 		 <script>
 			window.rooturl="{$_GET['root_dir']}";
@@ -78,6 +81,11 @@
     			#table_local_filter{width:300px;margin-top:-32px; float:right;}
     			#table_local_length{width:100px;}
     			.label-success{ height:28px;line-height:16px;width:60px; text-align: center;font-size:14px }
+    			.shaixuan{margin-left:30px;}
+    			.pl_bj{margin:0px auto;}
+
+
+    			
   			 </style>
   			  <script>
 							  $(function() {
@@ -157,7 +165,7 @@
 							        		 	alert(html)
 							        		 		if(html=='ok'){
 							        		 			alert('添加成功');
-							        		 			 $( this ).dialog( "close" );
+							        		 			location.reload();
 							        		 		}else{
 							        		 			alert('添加失败');
 							        		 		}
@@ -189,9 +197,9 @@
             $("#table_local").dataTable({
                 //lengthMenu: [5, 10, 20, 30],//这里也可以设置分页，但是不能设置具体内容，只能是一维或二维数组的方式，所以推荐下面language里面的写法。
                 //"
-               "sScrollX": "100%",
-"sScrollXInner": "250%",
-"bScrollCollapse": true,
+                "sScrollX": "100%",
+				"sScrollXInner": "250%",
+				"bScrollCollapse": true,
                 paging: true,//分页
                 ordering: true,//是否启用排序
                 searching: true,//搜索
@@ -255,42 +263,41 @@
   					<li style="margin-top:-36px;margin-left:85%"><button id="create-user">新增用户</button></li>
 			   	<div class="peizhi">
 				   	<div class="left">
-					   	 <table>
-					   	 	<volist name="left_conf" id="vo">
-								<tr >
-									<td>{$vo.name}
-										<if condition="$vo.type eq 3">：
-											<volist name="ywcs_biao" id="voo" >
-												  <if condition="$vo.id eq $voo.id ">
-												     <foreach name="voo" item="vooo" key="sq">
-												     	 <if condition="$vo.id eq $voo.id ">
-															<input type='text' width='20px' name="{$vo.id}" id='{$sq}' class='shaixuan' value="{$vooo}" style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px ' />
-														</if>
-													</foreach>
-													</if>
-											 </volist>
-										<else />
+				  
+					   	 <div style="margin-top:13px;margin-bottom:13px;line-height:30px" >
+					   	 	 	{$new_html}
+														
+						</div>
 
-											<select id="sel" name="{$vo.id}">
-												<option>{$vo.id}</option>
-												<option>{$vo.id}</option>
-											</select>
-												<!--：<input type="text" name="{$vo.id}" value="{$vo.id}">-->
-										</if>
-									</td>
-								</tr>
-							</volist>
-						</table>
 					</div>
 			   	</div>
    				<div class="anniu">		
 					<span style="margin-top:-8px;margin-left:1%"  class="anniudw">
 							已选0位客户
-					   		<a href="#">批量转移</a>
-					   		<a href="#">批量编辑</a>
-					   		<a href="#">删除所选</a>
+					   		<a href="#"  >批量转移</a>
+					   		<a href="#"  onclick="bianji_kehu1()">批量编辑</a>
+					   		<a href="#" onclick="del_check()">删除所选</a>
 					   		<a href="#">转移至客户公海</a>
 					</span>
+					<div id="bj_kehu" style="margin-top:10px;padding-top:20px;" >
+					<form name="pl_bjform" method="post" >
+						<table class="pl_bj">
+							<tr  style='line-height:70px'>
+								<td >选择字段:</td><td><select  style="width:260px;height:26px;" id="show_yc">
+												<option>请选择编辑字段</option>
+												<foreach name="pl_bj" item="pl_bj">
+												<option  value="{$pl_bj.id}">{$pl_bj.name}</option>
+												</foreach>
+												
+											  </select>
+												</td>
+							</tr>
+										{$bj_tab}
+							
+							
+						</table>
+					</form>
+					</div>
    				</div>
 		   		<div class="kehu">   	
 		   			<div class="panel panel-default">
@@ -303,7 +310,9 @@
 								 <table id="table_local" class="table table-bordered table-striped table-hover">
 						            <thead>
 						                <tr>	
+						                		<th>ID</th>
 							                <foreach name="kehu1" item="vo">
+
 							                    <th>{$vo.name}</th> <!--客户标题-->
 							                 </foreach>
 						                </tr>
@@ -412,18 +421,22 @@
 
 </html>
 <script>
+$('#bj_kehu').hide();
+$('#yincang_bj').hide();
+$('.yincang').hide();
     		function blurfun(){
 
     			$(".bianji").blur(function(){
     				if($(this).val()==$(this).attr("value")){
     				alert("没有修改信息");
+					return false
     				}else{
     					$.get(rooturl+'/index.php/Home/Kehu/index',{"bianji_id":$(this).attr("id"),"bianji_name":$(this).attr("name"),"bianji_val":$(this).val()},
 							        		 function(html){
 							        		//alert(html)
 													if(html=='ok'){
 							        		 		
-							        		 			$.get(rooturl+'/index.php/Home/Kehu/jb_bianji',{"jb_id)":'1'},
+							        		 			$.get(rooturl+'/index.php/Home/Kehu/jb_bianji',{"jb_id":'1'},
 							        		 				function(html){
 							        		 					alert("老子已经刷新了！")
 															$("#jb_bianji").html(html);
@@ -440,5 +453,94 @@
     			})
     		}
 $(document).ready(blurfun());
-    	</script>
+
+
+function del_check()
+{
+	var checked_str='';
+	var asasd=new Array();
+	var as_key=0;
+	$(".chbox_duoxuan").each(function(){
+		if($(this).prop("checked")==true)
+		{
+			checked_str+=$(this).prop("id")+',';
+			asasd[as_key]=$(this).prop("id");
+			as_key++;
+		}
+	});
+
+	checked_str=checked_str.substr(0,checked_str.length-1);
+
+	$.get(rooturl+'/index.php/Home/Kehu/del_kehu',{"id":checked_str},
+							        		 function(html){
+							        			alert('删除成功')
+							        			for(a=0;a<asasd.length;a++)
+							        			{
+												
+												$("#tr"+asasd[a]).hide();	
+							                   	}
+							                   });
+}
+
+</script>
+<script>
+function bianji_kehu1()
+{
+	
+	var bianji_str='';
+	var bianji=new Array();
+	var as_key=0;
+	$(".chbox_duoxuan").each(function(){
+		if($(this).prop("checked")==true)
+		{
+			bianji_str+=$(this).prop("id")+',';
+		
+			as_key++;
+
+				
+		}
+	});
+	
+	if(bianji_str=="")
+		{
+			alert("没有选择客户");
+			return false}
+	layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'630px',
+								title: '批量编辑客户',
+								content:$('#bj_kehu'),
+								btn:['确认修改','取消'],
+								btn1:function(){
+									var xgzd=$("#show_yc").val();
+									var content=$("#"+xgzd).val();
+								
+									var xgzd2=$("#show_yc").children("option[value='"+xgzd+"']").text();//客户名称汉字
+									var content2=$("#"+xgzd).children("option[value='"+content+"']").text();//参数汉字
+
+									$.get(rooturl+'/index.php/Home/Kehu/pl_bianji',{"id":bianji_str,"ziduan":xgzd,"content":content,"xgzd2":xgzd2,"content2":content2},
+		        		 				function(html){
+		        		 					alert("批量修改成功")
+												location.reload();
+										});
+
+
+								},
+								btn2:function(){
+									layer.close(win)
+								}
+							}); 
+						});   
+}
+$("#show_yc").change(function(){
+	
+	var show_va=$(this).val();
+	$(".yincang").hide()
+	$("#wc"+show_va).show();
+})
+</script>
 	   
