@@ -261,6 +261,19 @@
 			  </ul>
   			<div id="tabs-1">
   					<li style="margin-top:-36px;margin-left:85%"><button id="create-user">新增用户</button></li>
+  					<li style="margin-top:-20px;margin-left:90%"><button onclick="daoru()">导入客户</button></li>
+  					<div id="kh_daoru" style="margin-top:40px">
+  						<div class="dr_q" style="width:80%;margin:0px auto";>
+  							<li style="height:30px;position: relative; left:-8px;">一、下载导入数据模板 ,将导入的数据填充到导入模板文件中。</li>
+  							<li  style="height:40px">注意事项：</li>
+  							<li  style="height:40px">1）模板中的表头不可更改，表头行不可删除；</li>
+  							<li  style="height:40px">2）除必填的列以外不需要的列可以删除；</li>
+  							<li  style="height:40px">3）单次导入的数据不超过4000条</li>
+  							<li  style="height:40px;position: relative; left:-8px;">二、选择要导入的数据文件</li>
+  							<li  style="height:40px"><span dr_sc>+选择文件</span></li>
+  							<li  style="height:40px">名字 大小  完成   x</li>
+  						</div>
+  					</div>
 			   	<div class="peizhi">
 				   	<div class="left">
 				  
@@ -274,7 +287,7 @@
    				<div class="anniu">		
 					<span style="margin-top:-8px;margin-left:1%"  class="anniudw">
 							已选0位客户
-					   		<a href="#"  >批量转移</a>
+					   		<a href="#" onclick="piliangzhuanyi()" >批量转移</a>
 					   		<a href="#"  onclick="bianji_kehu1()">批量编辑</a>
 					   		<a href="#" onclick="del_check()">删除所选</a>
 					   		<a href="#">转移至客户公海</a>
@@ -295,6 +308,26 @@
 										{$bj_tab}
 							
 							
+						</table>
+					</form>
+					</div>
+					<div id="piliangzy" style="margin-top:10px;padding-top:20px;" >
+					<form name="pl_bjform" method="post" >
+						<table class="pl_bj">
+							<tr  style='line-height:70px'>
+								<td >新负责人:</td><td><select  style="width:260px;height:26px;" id="zhuanyifzr">
+												<option>请选择新负责人</option>
+												 <foreach name="fuzeren" item="vo"> 
+							  				 	<option value="{$vo.user_id}">{$vo.user_name}</option>
+							  				  </foreach>   
+												
+											  </select>
+											 
+												</td>
+							</tr>
+							 <tr style='line-height:70px'><td><input type="checkbox" name="ched" value="1">同时转移客户下的商机</td></tr>
+											  <tr style='line-height:70px'><td><input type="checkbox" name="ched" value="2">同时转移客户下的合同</td></tr>
+
 						</table>
 					</form>
 					</div>
@@ -484,6 +517,7 @@ function del_check()
 
 </script>
 <script>
+
 function bianji_kehu1()
 {
 	
@@ -505,7 +539,7 @@ function bianji_kehu1()
 		{
 			alert("没有选择客户");
 			return false}
-	layui.use('layer', function(){
+		layui.use('layer', function(){
 							var layer = layui.layer;
 							var win=layer.open({
 
@@ -542,5 +576,120 @@ $("#show_yc").change(function(){
 	$(".yincang").hide()
 	$("#wc"+show_va).show();
 })
+
 </script>
-	   
+<script>
+$('#piliangzy').hide();
+	function piliangzhuanyi()
+	{
+ 	
+ 	var piliang_str='';
+ 	$(".chbox_duoxuan").each(function(){
+ 		if($(this).prop("checked")==true)
+ 		{
+ 			piliang_str+=$(this).prop("id")+',';
+ 		}
+ 		
+ 	})
+ 	if(piliang_str=="")
+ 	{
+ 		alert("没有选择客户");
+			return false;
+ 	}
+ 	layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'630px',
+								title: '批量转移客户',
+								content:$('#piliangzy'),
+								btn:['确认转移','取消'],
+								btn1:function(){
+									var fuzeren=$("#zhuanyifzr").val();
+									//var content=$("#"+xgzd).val();
+								
+									var fuzeren1=$("#zhuanyifzr").children("option[value='"+fuzeren+"']").text();//客户名称汉字
+									//alert(fuzeren)
+									//alert(fuzeren1)
+
+									var shangji_hetong='';//不确定
+ 								
+									//var content2=$("#"+xgzd).children("option[value='"+content+"']").text();//参数汉字
+
+									$.get(rooturl+'/index.php/Home/Kehu/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"kh_id":piliang_str},
+		        		 				function(html){
+		        		 					
+		        		 					alert("批量转移成功")
+												location.reload();
+										});
+
+
+								},
+								btn2:function(){
+									layer.close(win)
+								}
+							}); 
+						});   
+ 	
+ }
+
+</script>
+<script>
+$('#kh_daoru').hide();
+	function daoru()
+		{
+			layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'630px',
+								title: '客户导入',
+								content:$('#kh_daoru'),
+								btn:['下载模板','开始导入','取消'],
+								btn1:function(){
+									
+				
+
+										window.location=rooturl+'/index.php/Home/Kehu/xiazaimuban';
+		        		 				
+								},
+								btn2:function(){
+									var fuzeren=$("#zhuanyifzr").val();
+									//var content=$("#"+xgzd).val();
+								
+									var fuzeren1=$("#zhuanyifzr").children("option[value='"+fuzeren+"']").text();//客户名称汉字
+									//alert(fuzeren)
+									//alert(fuzeren1)
+
+									var shangji_hetong='';//不确定
+ 								
+									//var content2=$("#"+xgzd).children("option[value='"+content+"']").text();//参数汉字
+
+									$.get(rooturl+'/index.php/Home/Kehu/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"kh_id":piliang_str},
+		        		 				function(html){
+		        		 					
+		        		 					alert("批量转移成功")
+												location.reload();
+										});
+
+
+								},
+								btn3:function(){
+									layer.close(win)
+								}
+							}); 
+						});   
+ 	
+		}
+		
+</script>
+<script>
+function xiazaimuban()
+		{
+			alert(13);
+		}
+</script>

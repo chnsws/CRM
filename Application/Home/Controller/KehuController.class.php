@@ -17,6 +17,9 @@ class KehuController extends Controller {
 		$kehu=M('kh');                             //显示客户所需字段data
 		$kehu=$kehu->select();
 
+		//查询所有用户
+
+
 		foreach($a_arr as $k2=>$v2){
 			if($v2['qy']=="1"){
 
@@ -190,7 +193,28 @@ class KehuController extends Controller {
 	 	//var_dump($ywcs_sql_json);exit;
 	 	$fuzeren=M('user');
 	 	$fuzeren_sql=$fuzeren->select();//缺少条件
-	 	$this->assign('fuzeren',$fuzeren_sql);
+	 		$xiaji= $this->get_xiashu_id();//  查询下级ID
+			$new_xiaji=substr($xiaji,0,strlen($xiaji)-2); 
+			$new_array=explode(',',$new_xiaji);
+			foreach ($fuzeren_sql as $k=>$v)
+			{
+				foreach ($new_array as $k1=>$v1)
+				{
+					//var_dump($v);
+				//	var_dump($v1);exit;
+					if($v['user_id']==$v1)
+					{
+						$new_fuzeren=$v;
+						$fzr_only[]=$new_fuzeren;
+					}
+						
+				}
+			}
+			
+			
+	 //echo "<pre>";
+	// var_dump($fzr_only);exit;
+	 	$this->assign('fuzeren',$fzr_only);
 	 	$this->assign("ywcs_biao",$ywcs_sql_json);
     	$this->assign('left_conf',$sql_peizhi);
 		$this->assign('list',$jianzhi); 
@@ -227,7 +251,24 @@ class KehuController extends Controller {
 											if($k=='zdy0')
 												$xs123="<a href='kehumingcheng/id/$v/fuzeren/$a_fuzeren/id1/$id/kh_id/$id'><input type='text' width='20px' name='{$k}' id='{$id}' value='$v' readonly='true' style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
 												</a>";
-										
+											elseif($k=="fuzeren")
+												foreach($fzr_only as $k44=>$v44 )
+												{
+													//echo $v;
+												//	var_dump($v44);exit;
+													if($v==$v44['user_id'])
+													$xs123="<input type='text' width='20px' name='{$k}' id='{$id}' class='bianji' value='".$v44['user_name']."' onblur=''  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
+													<i class='fa fa-pencil' aria-hidden='true'>	</i>";
+												}
+											elseif($k=="kh_old_fz")
+												foreach($fzr_only as $k44=>$v44 )
+												{
+													//echo $v;
+												//	var_dump($v44);exit;
+													if($v==$v44['user_id'])
+													$xs123="<input type='text' width='20px' name='{$k}' id='{$id}' class='bianji' value='".$v44['user_name']."' onblur=''  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
+													<i class='fa fa-pencil' aria-hidden='true'>	</i>";
+												}
 											else
 												$xs123="<input type='text' width='20px' name='{$k}' id='{$id}' class='bianji' value='$v' onblur=''  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
 												<i class='fa fa-pencil' aria-hidden='true'>	</i>";
@@ -661,12 +702,16 @@ class KehuController extends Controller {
 			$new_xiaji=substr($xiaji,0,strlen($xiaji)-2); 
 			$xiaji_base=M('kh');
 			$new_array=explode(',',$new_xiaji);
+			//echo"<pre>";
+			//var_dump($new_array);exit;
 			foreach($new_array as $k=>$v){
 				//$where.="fuzeren like '. ' %'.$v.'% ' .'or";
 				$where.='kh_data like   \'%"fuzeren":"'.$v.'"%\' or ';
 			}
 			$zhixing_xiaji=substr($where,0,strlen($where)-3); 
 			$sql_xiaji=$xiaji_base->query("select * from crm_kh where $zhixing_xiaji");//下级数据
+		//	echo "<pre>";
+			//var_dump($where);exit;
 			$nachu=array();
 				foreach($sql_xiaji as $k=>$v){
 					$nachu[$k]=json_decode($v['kh_data'],true);
@@ -1023,7 +1068,7 @@ krsort($ko);
 
 			}
 		}
-		public function upload(){
+		public function upload(){//http://www.jb51.net/article/74353.htm   筛选第二天要看的
 
 
 				$kh_id=$_GET['id'];
@@ -1261,11 +1306,6 @@ krsort($ko);
 			       		 
 						}
 
-
-
-
-
-					
 					}
 				}
 			
@@ -1274,5 +1314,99 @@ krsort($ko);
 
 	
 		}
+		public function pl_zhuanyi(){
+			$fuzeren=$_GET['id'];
+			$rz_fuzeren=$_GET['ziduan'];
+			$ziduan="fuzeren";
+			$kh_id=$_GET['kh_id'];
+			$id=substr($kh_id,0,strlen($kh_id)-1); //id
+			$kehu_base=M('kh');
+			$sql=$kehu_base->query("select * from `crm_kh` where `kh_id` in ($id)");
+			foreach($sql as $k => $v)
+			{
+				$json=json_decode($v['kh_data'],true);
+				$data['kh_old_fz']=$json['fuzeren'];
+				foreach($json as $k1=>$v2)
+					{
+						if($ziduan == $k1 )
+						{
+						
+							$json[$k1]=$fuzeren;
+							$da=$json;//data替换完成
+							$map['kh_id']=$v['kh_id'];//条件
 
+							$data['kh_data']=json_encode($da,true);//修改内容
+							
+							
+							//$sql_sel=$kehu_base->where($map)->save($old);
+							$save=$kehu_base->where($map)->save($data);
+							
+							if($save)
+							{
+								$loginIp=$_SERVER['REMOTE_ADDR'];//IP 
+				           	 	$sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
+				            	$addressArr=getCity($nowip);//登录地点
+				            	$loginDidianStr=$addressArr["country"].$addressArr["region"].$addressArr["city"];
+						   	
+						   		$rz=M('rz');
+						 		$rz_map['rz_type']=1;//这个1是操作日志类型  死的
+						 		$rz_map['rz_mode']=2;
+						 		$rz_map['rz_object']=$v['kh_id'];//客户名称ID
+								$rz_map['rz_bz']="把客户的转移给了".$rz_fuzeren;
+								$rz_map['rz_user']=cookie('user_id');
+								$rz_map['rz_cz_type']=2;//2代表编辑
+								$rz_map['rz_time']=time();
+								$rz_map['rz_ip']=$loginIp;//ip
+								$rz_map['rz_place']=$loginDidianStr;//登录地点
+								$rz_map['rz_sb']=$sysbroinfo['sys'].'/'.$sysbroinfo['bro'];//ip
+								$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+								$rz_map['rz_yh']=$fid;
+								$rz_sql=$rz->add($rz_map);//查'			//删除增加日志
+							}
+						}
+					}
+			}
+		}
+
+		//导入模板下载
+	public function xiazaimuban()
+	{
+		$name="客户数据导入模板";
+		//$name=iconv("utf-8","gbk//IGNORE",$name);
+		
+		$head=array(
+			"1"=>"产品名称(必填)",
+			"2"=>"产品编号(必填)",
+			"5"=>"销售单位(必填)",
+			"3"=>"标准单价(必填)",
+			"6"=>"单位成本",
+			"7"=>"产品分类ID(根据分类id表填写)",
+			"8"=>"产品介绍"
+			);
+		//连接标题
+		$r = implode(',',$head);
+		$r .="\n";
+		//$r = iconv("utf-8","gbk//IGNORE",$r);
+		$body[0]=array(
+			0=>"小米note2",
+			1=>"10086",
+			3=>"部",
+			2=>"3600",
+			4=>"1000",
+			5=>"3",
+			6=>"双曲面手机",
+			);
+		foreach($body as $arr)
+		{
+			$line=implode(',',$arr);
+			$r.=$line;
+			//$r .= iconv("utf-8","gbk//IGNORE",$line);
+			$r.="\n";
+		}
+		$name = $name.'.csv';
+		header('Content-type: application/csv');
+		header("Content-Disposition: attachment; filename=\"$name\""); 
+		echo $r;
+		die;
+	}
 }
