@@ -42,7 +42,7 @@ var navs = [{
 }, {
 	"title": "产品",
 	"icon": "fa-book",
-	"href": "https://www.baidu.com",
+	"href": "index.php/Home/Chanpin",
 	"spread": false
 }, {
 	"title": "报表中心",

@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>部门和用户设置</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+<!--layUI 插件 弹窗设计 form表单样式 -->
+<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+<!--UIkit-->
+<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+<style>
+div ul{margin:0;padding:0;}
+th i{color:#ccc;}
+html{height:100%;}
+a{text-decoration:none;cursor:pointer;}
+a:link {color: #1AA094}		
+a:visited {color: #1AA094}
+ul{list-style:none;}
+body{height:100%;margin:0;background-color:#F7F7F7;}
+/*div{border:1px solid #f00;}*/
+#box{height:100%;}
+#left-div{float:left;width:20%;height:100%;background-color:#fff;}
+#left-top{height:40px;line-height:40px;color:#1AA094;padding-left:10px;font-weight:bold;background-color:#f2f2f2}
+
+#left-body div{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-top:5px;margin-bottom:5px;padding-left:5px;}
+#fllist li{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-bottom:5px;padding-left:5px;}
+.lv1{margin-left:15px;}
+.lv2{margin-left:30px;}
+.lv3{margin-left:45px;}
+.lv4{margin-left:60px;}
+.lv5{margin-left:75px;}
+.left-li{margin-left:5px;}
+.right-span i{color:#1AA094}
+.right-span{float:right;margin-right:5px;}
+
+#right-div{float:left;width:80%;height:100%;}
+#right-top{margin-left:10px;height:60px;line-height:60px;border-bottom:1px solid #ccc;}
+#right-body{margin:10px 10px 0 10px;}
+
+#right-top span{color:#1AA094;font-weight:bold;font-size:22px;}
+#right-top button{height:30px;line-height:30px;float:right;margin-right:10px;margin-top:20px;}
+#rb-left{display: inline}
+#rb-left button i{margin-right:5px;}
+#rb-right{float:right;margin-top:10px;}
+#rb-right button{height:30px;line-height: 30px;}
+
+.cp_name_td{cursor:pointer;color:#1AA094;}
+
+#daorudiv{width:600px;margin-bottom:25px;}
+.daoruhead{color:#60ADA5;background-color:#F7F7F7;padding:10px 0 10px 20px;}
+
+#fenleisel{height:40px;width:500px;margin:10px 0 10px 0;}
+
+#addcpdiv{width:400px;padding:20px 50px 20px 50px;font-weight:bold;font-size:14px;}
+#addcpdiv tr{height:50px;line-height:50px;}
+#add_yc_div{color:#1AA094;}
+#cpimg{width:120px;height:120px;}
+
+#addcpdiv table{width:100%;}
+#addcpdiv input{width:100%;}
+#cp_jieshao{width:100%;height:90px;resize:none;line-height:20px;}
+#addflsel{width:100%;}
+.redstart{color:#f00;}
+.add_left{width:100px;}
+
+#cpfladddiv{width:100%;margin-top:20px;}
+#cpfladddiv input{width:60%;}
+#cpfltitle{font-weight:bold;margin-right:10px;}
+</style>
+</head>
+<body>
+<div id="box">
+    <div id="left-div">
+        <div id="left-top">产品分类</div>
+        <div id="left-body">
+            <div id="user_company_name" class="lv-on" value="" onselectstart="return false">
+                <i class="fa fa-folder-open" aria-hidden="true"></i>
+                <span class="left-li">产品分类</span>
+                <span class="right-span">
+                    <a onclick='cpfladd(0)'><i class="fa fa-plus" aria-hidden="true"></i></a>
+                    <a style='margin-right:5px;' onclick='cpflshowlist(0)'><i class='fa fa-reorder' aria-hidden='true'></i></a>
+                </span>
+            </div>
+            <ul id="fllist">
+				{$bmlist}
+            </ul>
+        </div>
+    </div>
+    <div id="right-div">
+        <div id="right-top">
+            <span>产品列表</span>
+            <button class="layui-btn layui-btn-primary" onclick="daochu()">导出</button>
+            <button class="layui-btn layui-btn-primary" onclick="daoru()">导入</button>
+            <button class="layui-btn" onclick="cp_add()"><i class='fa fa-plus' aria-hidden='true'></i>新增产品</button>
+        </div>
+        <div id="right-body">
+            <div id="right-body-top" class="uk-form">
+                <div id="rb-left">
+                    <button class="layui-btn layui-btn-primary" onclick="pl_zhuanyi()"><i class='fa fa-edit' aria-hidden='true'></i>批量转移</button>
+                    <button class="layui-btn layui-btn-primary" onclick="pl_qiyong()"><i class='fa fa-unlock' aria-hidden='true'></i>批量启用</button>
+                    <button class="layui-btn layui-btn-primary" onclick="pl_jinyong()"><i class='fa fa-lock' aria-hidden='true'></i>批量禁用</button>
+                    <button class="layui-btn layui-btn-primary" onclick="sel_del()"><i class='fa fa-trash' aria-hidden='true'></i>删除所选</button>
+                </div>
+                <div id="rb-right" >
+                    <select id="search_sel">
+                        <option value='1'>产品名称</option>
+                        <option value='2'>产品编号</option>
+                        <option value='3'>销售单位</option>
+                        <option value='4'>产品介绍</option>
+                    </select>
+                    <input type="text" id="search_ipt">
+                    <button class="layui-btn" onclick="searchfun()">搜索</button>
+                </div>
+            </div>
+            <div id="right-body-body" style="overflow-X:auto;height:77;width:100%" >
+                <table class="layui-table" style="width:1500px;" >
+                    <thead>
+                        <th style="width:12px;"><input type='checkbox' id="checkall"></th>
+                        <th>产品名称<i class='fa fa-sort-down' aria-hidden='true'></i></th>
+                        <th>产品编号<i class='fa fa-sort-down' aria-hidden='true'></i></th>
+                        <th>标准单价<i class='fa fa-sort-down' aria-hidden='true'></i></th>
+                        <th>销售单位<i class='fa fa-sort-down' aria-hidden='true'></i></th>
+                        <th>单位成本<i class='fa fa-sort-down' aria-hidden='true'></i></th>
+                        <th>毛利率<i class='fa fa-sort-down' aria-hidden='true'></i></th>
+                        <th>产品分类<i class='fa fa-sort-down' aria-hidden='true'></i></th>
+                        <th>产品介绍<i class='fa fa-sort-down' aria-hidden='true'></i></th>
+                        <th>创建时间<i class='fa fa-sort-down' aria-hidden='true'></i></th>
+                        <th>更新于<i class='fa fa-sort-down' aria-hidden='true'></i></th>
+                    </thead>
+                    <tbody>
+                        {$cplist}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!--导入弹出层-->
+<div id="daorudiv">
+    <div class="daoruhead">
+        1.下载数据模板后，将要导入的数据填充到数据导入模板文件中，再进行上传导入。<br>
+        2.模板中的表头不可更改，表头行不可删除。<br>
+        3.单次导入的数据不超过4000条。
+    </div>
+    <div id="daorubody" class='layui-form' style="margin-left:10px;margin-top:10px;">
+        <center><input type="file" name="csv_up" lay-type="file" class="layui-upload-file" id="imm"  /></center>
+    </div>
+    <div id="filebody" class="uk-alert" style="margin:10px;height:40px;line-height:40px;">
+        <span id="filename" >12333333.txt</span>
+        <span id="fileclose" style="cursor:pointer;float:right;" onclick="delnowfile(this)"><i class="layui-icon" style="font-size: 20px; color: #1E9FFF;">&#x1006;</i></span>
+        <span id="filesize" style="float:right;margin-right:40px;">223.0K</span>
+    </div>
+    <span style="color:#828282;cursor:pointer;position:absolute;bottom:0px;right:15px;" onclick="open_dr_history()">查看导入记录</span>
+</div>
+<!--导入历史弹出层-->
+<div id="daoru_history" style="width:580px;margin:0 10px 0 10px;padding:0;">
+    <table  class="layui-table" style="margin:0;padding:0;">
+        <thead>
+            <th>导入时间</th>
+            <th>导入结果</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2017-04-04 11:11:12</td>
+                <td>成功1条，失败0条</td>
+            </tr>
+            <tr>
+                <td>2017-04-04 11:11:11</td>
+                <td>成功1条，失败0条</td>
+            </tr>
+            <tr>
+                <td>2017-04-04 11:11:10</td>
+                <td>成功1条，失败0条</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!--转移弹出层-->
+<div id="zhuanyidiv" class="uk-form">
+    <center>
+    <select id="fenleisel">
+        {$cpfloption}
+    </select>
+    </center>
+</div>
+<!--新增产品-->
+<div id="addcpdiv" class="uk-form">
+    <div id="add_cy_div">
+        <table>
+            <tr>
+                <td class="add_left"><span class="redstart">*</span>产品名称</td>
+                <td><input type="text" name="cp_name"></td>
+            </tr>
+            <tr>
+                <td class="add_left"><span class="redstart">*</span>产品编号</td>
+                <td><input type="text" name="cp_num"></td>
+            </tr>
+            <tr>
+                <td class="add_left"><span class="redstart">*</span>标准单价</td>
+                <td><input type="text" name="cp_danjia"></td>
+            </tr>
+            <tr>
+                <td class="add_left"><span class="redstart">*</span>销售单位</td>
+                <td><input type="text" name="cp_danwei"></td>
+            </tr>
+            <tr>
+                <td class="add_left">&nbsp;单位成本</td>
+                <td><input type="text" name="cp_chengben"></td>
+            </tr>
+        </table>
+    </div>
+    <div id="add_yc_div"><span onclick="more_info()" style="cursor:pointer;">展开更多信息<i class='fa fa-chevron-down' aria-hidden='true'></i></span></div>
+    <div id="add_yc_body">
+        <table>
+            
+            <tr>
+                <td class="add_left">&nbsp;产品分类</td>
+                <td>
+                    <select id="addflsel" name="cp_fenlei">
+                        {$cpfloption}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="add_left">&nbsp;产品图片</td>
+                <td><input type="file" name="cpimage" lay-type="images" class="layui-upload-file" id="imm"  /></td>
+            </tr>
+            <tr>
+                <td class="add_left"></td>
+                <td id="cpimg_show"><img id="cpimg" src="{$_GET['public_dir']}/head-img/headimg2.jpg" style="margin-bottom: 10px;"></td>
+            </tr> 
+            <tr>
+                <td class="add_left" valign="top" style="line-height: 20px;">&nbsp;产品介绍</td>
+                <td><textarea id="cp_jieshao" name="cp_jieshao"></textarea></td>
+            </tr>   
+        </table>     
+    </div>
+</div>
+<!--添加产品分类弹出层-->
+<div id="cpfladddiv" class="uk-form">
+    <center>
+        <span id="cpfltitle">分类名称：</span><input type="text" id="newflname">
+    </center>
+</div>
+<div id="flidlist" style="margin-left:10px;margin-right:10px;">
+    <table class='layui-table' id="fllisttable">
+        <thead>
+            <th>分类名称</th>
+            <th>ID</th>
+        </thead>
+        <tbody>
+            {$flidlist}
+        </tbody>
+    </table>
+</div>
+<script>
+$(".right-span").hide();
+$("#daorudiv").hide();
+$("#daoru_history").hide();
+$("#zhuanyidiv").hide();
+$("#add_yc_body").hide();
+$("#cpimg").hide();
+$("#addcpdiv").hide();
+$("#cpfladddiv").hide();
+$("#flidlist").hide();
+$("#filebody").hide();
+window.root_dir="{$_GET['root_dir']}";
+$("li").attr("onselectstart","return false");//屏蔽双击选中
+//初始化
+layui.use('layer', function(){
+    window.layer = layui.layer;
+});
+//上传控件初始化
+layui.use('upload', function(){
+  layui.upload(options);
+});
+//黑色半透明提示
+function tishi(neirong)
+{
+    layer.msg(neirong, {
+        time: 1000, 
+    });
+}
+
+
+//部门列表上方公司名称点击事件
+$(".lv-on").on("click",function(){
+    var clicktext=$(this).text();
+    if($(this).is("div"))//如果点击了DIV
+    {
+        if(!$(this).val())
+        {
+            $(this).children("i").removeClass("fa-folder-open");
+            $(this).children("i").addClass("fa-folder");
+            $(this).val('1');
+            $(this).parent().children("ul").hide("fast");
+        }
+        else
+        {
+            $(this).children("i").removeClass("fa-folder");
+            $(this).children("i").addClass("fa-folder-open");
+            $(this).val('');
+            $(this).parent().children("ul").show("fast");
+        }
+    }
+});
+//部门列表点击事件
+function onshijian()
+{
+    $(".lv-on").on("click",function(){
+        var clicktext=$(this).text();
+        if(!$(this).is("div"))
+        {
+            var thisid=$(this).attr("id").substr(2);
+            var hideFid='fid'+thisid;
+            if($(this).val()=='1')
+            {
+                $(this).children("i").removeClass("fa-folder-open");
+                $(this).children("i").addClass("fa-folder");
+                $(this).css('border-left','4px solid #B7B7B7');
+                $(this).val('0');
+                var thislv=$(this).attr("name");
+                $(".lv"+thislv+thisid).hide("fast");
+                $(".lv"+thislv+thisid).val('0');
+                $(".lv"+thislv+thisid).children("i").removeClass("fa-folder-open");
+                $(".lv"+thislv+thisid).children("i").addClass("fa-folder");
+                $(".lv"+thislv+thisid).css('border-left','4px solid #B7B7B7');	
+            }
+            else
+            {
+                $(this).children("i").removeClass("fa-folder");
+                $(this).children("i").addClass("fa-folder-open");
+                $(this).css('border-left','4px solid #828282');
+                $(this).val('1');
+                var thislv=$(this).attr("name");
+                $(".lv"+thislv+thisid).show("fast");
+                $(".lv"+thislv+thisid).val('1');
+                $(".lv"+thislv+thisid).children("i").removeClass("fa-folder");
+                $(".lv"+thislv+thisid).children("i").addClass("fa-folder-open");
+                $(".lv"+thislv+thisid).css('border-left','4px solid #828282');
+            
+            }
+        }
+    });
+    return '22';
+}
+onshijian();
+//部门标签右边小图标的显示和隐藏
+$(".lv-on").mouseover(function(){
+    $(this).children(".right-span").show();
+});
+$(".lv-on").mouseout(function(){
+    $(this).children(".right-span").hide();
+});
+
+//显示该分类的产品
+function cpflshowlist(flid)
+{
+    $.get(root_dir+"/index.php/Home/Chanpin/get_fl_cplist",{"clickflid":flid},function(res){
+        $("#right-body-body").children("table").find("tbody").html(res);
+    });
+}
+
+//全选/反选
+$("#checkall").click(function(e){
+    e.stopPropagation();
+    if($(this).prop("checked")==true)
+    {
+        $(".tbbox").prop("checked",true);
+    }
+    else
+    {
+        $(".tbbox").prop("checked",false);
+    }
+});
+//导出
+function daochu()
+{
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        layer.open({
+            type:0,
+            title: '全部导出',
+            content:"是否导出全部产品数据？",
+            yes:function(index,layero){
+                window.location=root_dir+"/index.php/Home/Chanpin/daochu_data";
+                layer.close(index);
+            }
+        }); 
+    });  
+}
+
+//导入
+function daoru()
+{
+    $("#filebody").hide();    
+    var is_upload='';
+    window.clickdelnowfile='0';
+    get_dr_history();
+    //显示文件上传按钮
+    layui.upload({
+        url: root_dir+"/index.php/Home/Chanpin/chanpin_csv_upload",
+        title:"选择文件",
+        before: function(input){
+            //返回的参数item，即为当前的input DOM对象
+            window.jiazai= layer.load(2);
+            //tishi('文件上传中');
+        },
+        success: function(res){
+            if(res['res']=='1')
+            {
+                $("#filename").text(res['oldname']);
+                $("#filesize").text(res['newsize']);
+                $("#filebody").show();
+                $("#fileclose").prop("name",res['newname']);
+                if(is_upload!='')
+                {
+                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload});
+                }
+                is_upload=res['newname'];
+                layer.close(jiazai);
+            }
+            else if(res['res']=='2')
+            {
+                layer.close(jiazai);
+                tishi("只支持CSV文件导入");
+                return false;
+            }
+            else
+            {
+                layer.close(jiazai);
+                tishi("文件上传失败，请刷新后重试");
+            }
+        },
+    });
+
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        var daoruopen=layer.open({
+            type:1,
+            area:"600px",
+            title: '产品导入',
+            content:$("#daorudiv"),
+            btn:["下载模板","产品分类id表","开始导入","取消"],
+            btn1:function(index,layero){
+                window.location=root_dir+"/index.php/Home/Chanpin/get_muban";
+            },
+            btn2:function(index,layero){
+                var fenlei=layer.open({
+                    type:1,
+                    area:"300px",
+                    title: '产品分类id表',
+                    content:$("#flidlist"),
+                    btn:"关闭",
+                    btn1:function(){
+                        layer.close(fenlei);
+                    }
+                }); 
+            },
+            btn3:function(index,layero){
+                if(is_upload=='')
+                {
+                    tishi("请先选择需要导入的文件");
+                    return false;
+                }
+                $.get(root_dir+"/index.php/Home/Chanpin/daoru_chanpin",{"csvfilename":is_upload},function(res){
+                    if(res=='1')
+                    {
+                        $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload});
+                        location.reload();
+                    }
+                    else
+                    {
+                        tishi("导入失败，请刷新后重试");
+                        return false;
+                    }
+                });
+                layer.close(index);
+            },
+            btn4:function(index,layero){
+                if(is_upload!=''&&clickdelnowfile=='0')
+                {
+                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload});
+                }
+                layer.close(index);
+            },
+             cancel: function(index, layero){ 
+                if(is_upload!=''&&clickdelnowfile=='0')
+                {
+                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload});
+                }
+                layer.close(index);                
+            }
+        }); 
+    });  
+}
+
+//取消当前选择的文件
+function delnowfile(thisdom)
+{
+    clickdelnowfile='1';
+    var thisdelname=$(thisdom).prop("name");
+    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+thisdelname});
+    $(thisdom).parent().hide();
+}
+
+//导入历史
+function open_dr_history()
+{
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        var hisopen=layer.open({
+            type:1,
+            area:"600px",
+            title: '导入记录',
+            content:$("#daoru_history"),
+            btn:"关闭",
+            btn1:function(){
+                layer.close(hisopen);
+            }
+        }); 
+    });  
+}
+
+//删除所选
+function sel_del()
+{
+    var sel_del_num=0;
+    var sel_id='';
+    $(".tbbox").each(function(){
+        if($(this).prop("checked"))
+        {
+            sel_id+=$(this).prop("id")+',';
+            sel_del_num++;
+        }
+    });
+    if(sel_id=='')  return false;
+    sel_id=sel_id.substr(0,sel_id.length-1);
+    //var sel_del_num='20';
+    layer.msg("是否删除所选的"+sel_del_num+"条记录<br>该操作成功后，将无法恢复", {
+        time: 9999999,
+        btn: ['确认删除', '取消'],
+        btn1: function(index, layero){
+            $.get(root_dir+"/index.php/Home/Chanpin/del_more",{"sel_id":sel_id},function(res){
+                if(res=='1')
+                {
+                    location.reload();
+                }
+                else if(res=='2')
+                {
+                    tishi("删除失败");
+                    return false;
+                }
+                else
+                {
+                    tishi("删除失败,请稍后重试");
+                    return false;
+                }
+            });
+            layer.close(index);
+        },
+        btn2: function(index, layero){
+            layer.close(index);
+        }
+    });
+}
+
+//批量禁用
+function pl_jinyong()
+{
+    var sel_del_num=0;
+    var sel_id='';
+    $(".tbbox").each(function(){
+        if($(this).prop("checked"))
+        {
+            sel_id+=$(this).prop("id")+',';
+            sel_del_num++;
+        }
+    });
+    if(sel_id=='')  return false;
+    sel_id=sel_id.substr(0,sel_id.length-1);
+    //var sel_del_num='20';
+    layer.msg("是否禁用所选的"+sel_del_num+"条记录？", {
+        time: 9999999,
+        btn: ['禁用', '取消'],
+        btn1: function(index, layero){
+            $.get(root_dir+"/index.php/Home/Chanpin/qy_jy",{"qyjy":0,"sel_id":sel_id},function(res){
+                if(res=='1')
+                {
+                    location.reload();
+                }
+                else if(res=='2')
+                {
+                    tishi("修改失败");
+                    return false;
+                }
+                else
+                {
+                    tishi("修改失败,请稍后重试");
+                    return false;
+                }
+            });
+            layer.close(index);
+        },
+        btn2: function(index, layero){
+            layer.close(index);
+        }
+    });
+}
+//批量启用
+function pl_qiyong()
+{
+    var sel_del_num=0;
+    var sel_id='';
+    $(".tbbox").each(function(){
+        if($(this).prop("checked"))
+        {
+            sel_id+=$(this).prop("id")+',';
+            sel_del_num++;
+        }
+    });
+    if(sel_id=='')  return false;
+    sel_id=sel_id.substr(0,sel_id.length-1);
+    //var sel_del_num='20';
+    layer.msg("是否启用所选的"+sel_del_num+"条记录？", {
+        time: 9999999,
+        btn: ['启用', '取消'],
+        btn1: function(index, layero){
+            $.get(root_dir+"/index.php/Home/Chanpin/qy_jy",{"qyjy":1,"sel_id":sel_id},function(res){
+                if(res=='1')
+                {
+                    location.reload();
+                }
+                else if(res=='2')
+                {
+                    tishi("修改失败");
+                    return false;
+                }
+                else
+                {
+                    tishi("修改失败,请稍后重试");
+                    return false;
+                }
+            });
+            layer.close(index);
+        },
+        btn2: function(index, layero){
+            layer.close(index);
+        }
+    });
+}
+//批量转移
+function pl_zhuanyi()
+{
+    var sel_del_num=0;
+    var sel_id='';
+    $(".tbbox").each(function(){
+        if($(this).prop("checked"))
+        {
+            sel_id+=$(this).prop("id")+',';
+            sel_del_num++;
+        }
+    });
+    if(sel_id=='')  return false;
+    sel_id=sel_id.substr(0,sel_id.length-1);
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        var hisopen=layer.open({
+            type:1,
+            area:"600px",
+            title: '批量转移',
+            content:$("#zhuanyidiv"),
+            btn:["确认转移","取消"],
+            btn1:function(){
+                var newflid=$("#fenleisel").val();
+                $.get(root_dir+"/index.php/Home/Chanpin/zhuanyi",{"newflid":newflid,"sel_id":sel_id},function(res){
+                    if(res=='1')
+                    {
+                        location.reload();
+                    }
+                    else if(res=='2')
+                    {
+                        tishi("修改失败");
+                        return false;
+                    }
+                    else
+                    {
+                        tishi("修改失败,请稍后重试");
+                        return false;
+                    }
+                });
+                layer.close(hisopen);
+            },
+            btn2:function(){
+                layer.close(hisopen);
+            }
+        }); 
+    });  
+}
+
+//添加产品
+function cp_add()
+{
+    var has_old_img='';
+    $("#add_yc_div").show();
+    $("#add_yc_body").hide();
+    $("#addcpdiv").find("input").val('');
+    $("#addcpdiv").find("textarea").val('');
+    $("#addcpdiv").find("select").val('0');
+    $("#cpimg").hide();
+     //显示文件上传按钮
+    layui.upload({
+        url: root_dir+"/index.php/Home/Chanpin/cp_img_add",
+        title:"选择图片",
+        before: function(input){
+            //返回的参数item，即为当前的input DOM对象
+            window.jiazai= layer.load(2);
+            //tishi('文件上传中');
+        },
+        success: function(res){
+            if(res['res']=='1')
+            {
+                //tishi('更换成功');
+                $("#cpimg").attr("src",root_dir+'/Public/chanpinfile/cpimg/'+res['newname']);
+                $("#cpimg").show();
+                if(has_old_img!='')
+                {
+                    //删除上次上传的图片
+                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_img",{"oldname":has_old_img});
+                }
+                has_old_img=res['newname'];
+                layer.close(jiazai);
+            }
+            else
+            {
+                layer.close(jiazai);
+                tishi("图片上传失败");
+            }
+        },
+    });
+
+
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        var hisopen=layer.open({
+            type:1,
+            offset: 't',
+            area:"500px",
+            title: '新增产品',
+            content:$("#addcpdiv"),
+            btn:["保存","取消"],
+            btn1:function(){
+                var cp_name=$("input[name='cp_name']").val();//必填
+                var cp_num=$("input[name='cp_num']").val();//必填
+                var cp_danjia=$("input[name='cp_danjia']").val();//必填
+                var cp_danwei=$("input[name='cp_danwei']").val();//必填
+                var cp_chengben=$("input[name='cp_chengben']").val();
+                var cp_fenlei=$("select[name='cp_fenlei']").val();
+                var cp_img=has_old_img;
+                var cp_jieshao=$("textarea[name='cp_jieshao']").val();
+                if(cp_name==''||cp_num==''||cp_danjia==''||cp_danwei=='')
+                {
+                    tishi("必填项不能为空");
+                    return false;
+                }
+                if(cp_name.length>16)
+                {
+                    tishi("产品名称不能超过16个字符");
+                    return false;
+                }
+                if(cp_num.length>16)
+                {
+                    tishi("产品编号不能超过16个字符");
+                    return false;
+                }
+                if(cp_danwei.length>10)
+                {
+                    tishi("销售单位不能超过10个字符");
+                    return false;
+                }
+                if(cp_jieshao.length>500)
+                {
+                    tishi("产品介绍不能超过500个字符");
+                    return false;
+                }
+                var zzobj=/^([1-9]\d*|0)(\.\d{1,2})?$/;
+                if(cp_danjia!='')
+                {
+                    if(!zzobj.exec(cp_danjia))
+                    {
+                        tishi("标准单价最高只支持两位小数");
+                        return false;
+                    }
+                    if(cp_danjia.length>20)
+                    {
+                        tishi("标准单价长度不能超过20个字符");
+                        return false;
+                    }
+                }
+                if(cp_chengben!='')
+                {
+                    if(!zzobj.exec(cp_chengben))
+                    {
+                        tishi("单位成本最高只支持两位小数");
+                        return false;
+                    }
+                    if(cp_chengben.length>20)
+                    {
+                        tishi("单位成本长度不能超过20个字符");
+                        return false;
+                    }
+                }
+                $.post(root_dir+"/index.php/Home/Chanpin/cp_add",{"cp_name":cp_name,"cp_num":cp_num,"cp_danjia":cp_danjia,"cp_danwei":cp_danwei,"cp_chengben":cp_chengben,"cp_fenlei":cp_fenlei,"cp_img":cp_img,"cp_jieshao":cp_jieshao},function(res){
+                    if(res=='1')
+                    {
+                        location.reload();
+                    }
+                    else if(res=='2')
+                    {
+                        tishi("添加失败");
+                        return false;
+                    }
+                    else if(res=='3')
+                    {
+                        tishi("添加失败，产品:"+cp_name+"已存在");
+                        return false;
+                    }
+                    else if(res=='4')
+                    {
+                        tishi("添加失败，产品编号:"+cp_num+"已存在");
+                        return false;
+                    }
+                    else
+                    {
+                        tishi("添加失败，请刷新后重试");
+                        return false;
+                    }
+                });
+            },
+            btn2:function(){
+                if(has_old_img!='')
+                {
+                    //删除上次上传的图片
+                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_img",{"oldname":has_old_img});
+                }
+                layer.close(hisopen);
+            },
+            cancel: function(index, layero){ 
+                if(has_old_img!='')
+                {
+                    //删除上次上传的图片
+                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_img",{"oldname":has_old_img});
+                }
+            }
+        }); 
+    }); 
+}
+//搜索
+function searchfun()
+{
+    var sea_type=$("#search_sel").val();
+    var sea_text=$("#search_ipt").val();
+    if(sea_text=='')
+    {
+        sea_type='0';
+    }
+    $.post(root_dir+"/index.php/Home/Chanpin/searchfun",{"sea_type":sea_type,"sea_text":sea_text},function(res){
+        $("#right-body-body").children("table").find("tbody").html(res);
+    });
+}
+
+$("a").click(function(e){
+    e.stopPropagation();
+});
+//点击展开更多时
+function more_info()
+{
+    $("#add_yc_div").hide();
+    $("#add_yc_body").show();
+}
+//点击产品名称时
+function link_info(thisid)
+{
+    window.location=root_dir+"/index.php/Home/Chanpin/chanpininfo?cpid="+thisid;
+}
+//添加产品分类
+function cpfladd(addfid)
+{
+    $("#newflname").val('');
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        var hisopen=layer.open({
+            type:1,
+            area:"500px",
+            title: '添加产品分类',
+            content:$("#cpfladddiv"),
+            btn:["保存","取消"],
+            btn1:function(){
+                var newname=$("#newflname").val();
+                if(newname=='')
+                {
+                    tishi("名称不能为空");
+                    return false;
+                }
+                $.get(root_dir+"/index.php/Home/Chanpin/addfl",{"addfid":addfid,"newname":newname},function(res){
+                    if(res=='1')
+                    {
+                        location.reload();
+                    }
+                    else if(res=='2')
+                    {
+                        tishi("添加失败");
+                        return false;
+                    }
+                    else if(res=='3')
+                    {
+                        tishi("该分类已存在，请重新输入");
+                        return false;
+                    }
+                    else
+                    {
+                        tishi("添加失败，请刷新后重试");
+                        return false;
+                    }
+                });
+            },
+            btn2:function(){
+                layer.close(hisopen);
+            }
+        }); 
+    });  
+}
+//修改产品分类
+function cpfledit(thisid)
+{
+    var thistext=$("#id"+thisid).text();
+    $("#newflname").val(thistext);
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        var hisopen=layer.open({
+            type:1,
+            area:"500px",
+            title: '修改产品分类',
+            content:$("#cpfladddiv"),
+            btn:["保存","取消"],
+            btn1:function(){
+                var newname=$("#newflname").val();
+                if(newname==thistext)
+                {
+                    layer.close(hisopen);
+                    return false;
+                }
+                if(newname=='')
+                {
+                    tishi("名称不能为空");
+                    return false;
+                }
+                $.get(root_dir+"/index.php/Home/Chanpin/editfl",{"editid":thisid,"newname":newname},function(res){
+                    if(res=='1')
+                    {
+                        location.reload();
+                    }
+                    else if(res=='2')
+                    {
+                        tishi("修改失败");
+                        return false;
+                    }
+                    else if(res=='3')
+                    {
+                        tishi("该分类已存在，请重新输入");
+                        return false;
+                    }
+                    else
+                    {
+                        tishi("修改失败，请刷新后重试");
+                        return false;
+                    }
+                });
+            },
+            btn2:function(){
+                layer.close(hisopen);
+            }
+        }); 
+    });  
+}
+//产品分类删除
+function cpfldel(thisid)
+{
+    var thistext=$("#id"+thisid).text();
+    layer.msg("删除该分类将同时删除该分类的下级分类，是否继续删除", {
+        time: 9999999,
+        btn: ['删除', '取消'],
+        btn1: function(index, layero){
+            $.get(root_dir+"/index.php/Home/Chanpin/delfl",{"delid":thisid,"delname":thistext},function(res){
+                alert(res);return false;
+                if(res=='1')
+                {
+                    location.reload();
+                }
+                else if(res=='2')
+                {
+                    tishi("删除失败");
+                    return false;
+                }
+                else
+                {
+                    tishi("删除失败,请稍后重试");
+                    return false;
+                }
+            });
+            layer.close(index);
+        },
+        btn2: function(index, layero){
+            layer.close(index);
+        }
+    });
+}
+//获得导入记录
+function get_dr_history()
+{
+    $.get(root_dir+"/index.php/Home/Chanpin/get_dr_history",function(res){
+        $("#daoru_history").children("table").find("tbody").html(res);
+    });
+}
+//表格排序
+function table_px()
+{
+    $("th").css("cursor","pointer");//添加小手指针
+    $("th").attr("onselectstart","return false");//屏蔽双击选中
+    window.tdeq='';
+    window.sorj='';
+    $("th").click(function(){
+        var thnum=$(this).index();
+        if($(this).parent().parent().parent().parent().attr("id")!='daoru_history')
+        {
+            if(thnum=='0') return false;
+            $("#checkall").prop("checked",false);
+        }
+        if($(this).parent().parent().parent().attr("id")=='fllisttable')
+        {
+            return false;
+        }
+        if(tdeq==''&&tdeq!=0)
+        {
+            tdeq=thnum;
+            sorj='s';
+        }
+        else
+        {
+            if(tdeq==thnum)
+            {
+                if(sorj=='s')
+                    sorj='j';
+                else
+                    sorj='s';
+            }
+            else
+            {
+                tdeq=thnum;
+                sorj='s';
+            }
+        }
+        $(this).parent().parent().parent().find("i").css("color","#ccc");
+        $(this).children("i").css("color","#000");
+        //修改表头箭头图标
+        if(sorj=='s')
+        {
+            $(this).children("i").removeClass("fa-sort-down");
+            $(this).children("i").addClass("fa-sort-up");
+        }
+        else
+        {
+            $(this).children("i").removeClass("fa-sort-up");
+            $(this).children("i").addClass("fa-sort-down");
+        }
+        var tdarr=new Array();
+        var trarr=new Array();
+        var a=0;
+        var arrnum=0;
+        $(this).parent().parent().parent().children("tbody").find("tr").each(function(){
+            var thiscolstdtext=$(this).find("td").eq(thnum).html();
+            if(trarr[thiscolstdtext]!=undefined)
+            {
+                trarr[thiscolstdtext]+='<tr>'+$(this).html()+'</tr>';
+            }
+            else
+            {
+                trarr[thiscolstdtext]='<tr>'+$(this).html()+'</tr>';
+                arrnum++;
+                tdarr[a]=thiscolstdtext;
+                a++;
+            }
+        });
+        tdarr.sort();
+        if(sorj=='j')
+        {
+            tdarr.reverse();
+        }
+        var newtable='';
+        for(aa=0;aa<arrnum;aa++)
+        {
+            newtable+=trarr[tdarr[aa]];
+        }
+        $(this).parent().parent().parent().children("tbody").html(newtable);
+    });
+}
+table_px();
+</script>
+</html>
+
