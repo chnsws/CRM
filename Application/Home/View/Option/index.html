@@ -154,7 +154,6 @@
 
 	//设置navbar
 	navbar.set({
-		spreadOne: true,
 		elem: '#admin-navbar-side',
 		cached: true,
 		data: navs
@@ -193,17 +192,7 @@
 		}
 	});
 
-	//锁屏
-	$(document).on('keydown', function() {
-		var e = window.event;
-		if(e.keyCode === 76 && e.altKey) {
-			//alert("你按下了alt+l");
-			lock($, layer);
-		}
-	});
-	$('#lock').on('click', function() {
-		lock($, layer);
-	});
+
 
 	//手机设备的简单适配
 	var treeMobile = $('.site-tree-mobile'),
