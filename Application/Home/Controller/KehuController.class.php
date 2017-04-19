@@ -4,16 +4,17 @@ use Think\Controller;
 
 
 class KehuController extends Controller {
-//	public $quanju=
+
     public function kehu(){
+    	//print_r(cookie());
+    //	die;
 
   		$a=M('yewuziduan');                      //新增客户所需字段     
   		$map['zd_yewu']="2";
   		$map['zd_yh']="1";//这里通过查询获得
   		$sql=$a->where($map)->field('zd_data')->find();
 		$a_arr=json_decode($sql['zd_data'],true);
-		//echo "<pre>";
-		//var_dump($a_arr);exit;
+		
 		$kehu=M('kh');                             //显示客户所需字段data
 		$kehu=$kehu->select();
 
@@ -38,7 +39,6 @@ class KehuController extends Controller {
 				$pl_bj_arr[]=$pl_bj;
 			}
 		}
-		$this->assign("pl_bj",$pl_bj_arr);//批量编辑下拉框内容
 
 		$array_jiansuo=array('fuzeren'=>"负责人",'department'=>"部门",'kh_lx'=>"联系人",'kh_cj_cp'=>"已经成交产品",'kh_new_gj'=>"最新跟进记录",'kh_sj_gj_date'=>"实际跟进时间",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间",'kh_yh'=>"所属公司");
 				foreach($array_jiansuo as $k=>$v){
@@ -50,7 +50,7 @@ class KehuController extends Controller {
 					}
 
 		$kh_biaoti1=array_merge_recursive($a_arr,$new_array);//客户标题名字
-		
+
 		$conf=M('config');
 		$conf_sql=$conf->field("config_kh_data")->find();
 		$conf_sql_json=json_decode($conf_sql['config_kh_data'],true);
@@ -59,38 +59,45 @@ class KehuController extends Controller {
  		$yw_cs['ywcs_yh']=1;
  		$ywcs_sql=$ywcs->where($yw_cs)->field('ywcs_data')->find();
  		$ywcs_sql_json=json_decode($ywcs_sql['ywcs_data'],true);
+ 		foreach($ywcs_sql_json as $kywcs=>$vywcs)
+			{
+				$ywcs_new[$vywcs['id']]=$vywcs;
+			}
 
-		$nachu=array();
-		foreach($kehu as $k=>$v){
-			$nachu[$k]=json_decode($v['kh_data'],true);
-		}
+		foreach($kehu as $k=>$v)
+		{
+			foreach($v as $kk=>$vv)
+			{
+				if($kk!='kh_data')
+					$ronghe[$k][$kk]=$vv;
+				else
+				{
+					$rowjson=json_decode($vv,true);
+					foreach($rowjson as $kkk=>$vvv)
+					{	
+						if($kkk=='zdy1' || $kkk=='zdy9' ||$kkk=='zdy10' ||$kkk=='zdy11' ||$kkk=='zdy12')
+						{
+							//echo $kkk;
+							foreach($ywcs_new as $kcs=>$vcs)
+							{
+								if($kkk==$kcs)
+								{
+									$ronghe[$k][$kkk]=$vcs[$vvv];
+								}
+									
+							}
+					}else{
+						$ronghe[$k][$kkk]=$vvv;
 
+					}
+						
 
-		//echo "<pre>";
-//var_dump($nachu);exit;
-		foreach($nachu as $k=>$v){
-		 			foreach($v as $k1=>$v1){
-		 				foreach ($ywcs_sql_json as $key=>$val){		 				
-		 					if($k1==$val['id']){
-		 						$v[$k1]=$val[$v1];						
-		 					} 		 					
-		 				}
-		 			}
-		 			$guanlianw[]=$v;
-		 		}
- 					
-//var_dump();exit;
-		foreach($kehu as $k=>$val){
-			$valav=array_merge($guanlianw[$k],$val);
-			$dantiao=$valav['kh_id'];//获取到id
-			unset($valav['kh_id']); 
-			unset($valav['kh_data']); 
-			array_unshift($valav,$dantiao); //整理好的单条信息
-			
-				$ronghe[]=$valav;	 //多条融合	
-		}
+						
 
-
+					}
+				}
+			}
+		}//融合整条信息
 		foreach ($ronghe as $key1 => $val1){
 			foreach($val1 as $key2 =>$val2){  
 
@@ -100,9 +107,7 @@ class KehuController extends Controller {
 			$adddd[]=$ceshi2;
 			unset($ceshi2);
 		}
-		
-		
-		
+
  		foreach($ywcs_sql_json as $ywcs_k=>$ywcs_v){
  			foreach($ywcs_v as $k=>$v){
  				$ywcs_jianzhi[]=$k;
@@ -119,13 +124,12 @@ class KehuController extends Controller {
 	   			}	
 	   		}
 	 } 
-
 		foreach($ywcs_sql_json as $k=>$v)
 		{
+
 			$ywcs_sql_json[$v['id']]=$v;
 			unset($ywcs_sql_json[$k]);
 		}
-
 		foreach ($pl_bj_arr as $k=>$v){ //多条编辑 弹出框对应数据
 			$bj_tab.="<tr class='yincang top_pl_bj' style='line-height:70px' id='wc".$v['id']."'><td>".$v['name'].":</td>";
 			
@@ -146,14 +150,10 @@ class KehuController extends Controller {
 			
 		}
 		$this->assign('bj_tab',$bj_tab);
-		//echo $bj_tab;exit;
 		foreach($sql_peizhi as $v)      //筛选对应数据
 		{
 			$new_html.=$v['name'].":";
-			if($v['type']=='0')
-			{
-				$new_html.="<input type='text'>";
-			}
+			
 			if($v['type']=='3')
 			{
 				
@@ -165,11 +165,8 @@ class KehuController extends Controller {
 			}
 			$new_html.="<br>";
 		}
-		// echo "<pre>";
-///	 var_dump($new_html);exit;
 		$this->assign('new_html',$new_html);
-		
-	
+
 	 	if($_GET['id3']=='0128'){//配置进来的筛选
 	 		$get_id=$_GET['id']; //canshu1
 			$get_id1=$_GET['id1'];//重要客户	
@@ -189,8 +186,6 @@ class KehuController extends Controller {
 			$ronghe1[]=$shaixuan1;
 			//筛选最终信息
 	 	}
-	 	//echo "<pre>";
-	 	//var_dump($ywcs_sql_json);exit;
 	 	$fuzeren=M('user');
 	 	$fuzeren_sql=$fuzeren->select();//缺少条件
 	 		$xiaji= $this->get_xiashu_id();//  查询下级ID
@@ -200,8 +195,6 @@ class KehuController extends Controller {
 			{
 				foreach ($new_array as $k1=>$v1)
 				{
-					//var_dump($v);
-				//	var_dump($v1);exit;
 					if($v['user_id']==$v1)
 					{
 						$new_fuzeren=$v;
@@ -210,87 +203,96 @@ class KehuController extends Controller {
 						
 				}
 			}
-			
-			
-	 //echo "<pre>";
-	// var_dump($fzr_only);exit;
 	 	$this->assign('fuzeren',$fzr_only);
 	 	$this->assign("ywcs_biao",$ywcs_sql_json);
     	$this->assign('left_conf',$sql_peizhi);
 		$this->assign('list',$jianzhi); 
-		//echo "<pre>";
-	//print_r($ronghe);exit;
 		
+		
+		foreach($ywcs_sql_json as $k=>$v)
+		{
 
-				
+			$ywcs_sql_json[$v['id']]=$v;
+			unset($ywcs_sql_json[$k]);
+		}
+		
 					foreach($ronghe as $r_k=>$r_v)
 					{	
 
-						$id=$r_v['0'];
-						$table.="<tr id='tr".$r_v['0']."'>";
-
-								$xs123=$r_v['0'];
+						$a_fuzeren=$r_v['fuzeren'];
+						$v=$r_v['zdy0'];
+						//echo"<pre>";
+						//var_dump($ronghe);
+			
+						$id=$r_v['kh_id'];
+						$table.="<tr id='tr".$r_v['kh_id']."'>";
+								$xs123=$r_v['kh_id'];
 								$table.="
-								<td >
+										<td >
 											<input type='checkbox' class='chbox_duoxuan' id='$xs123'>$xs123
 										</td>";
-						foreach($r_v as $k=>$v)
-						{
-	
-							if($k!='0')
-							{
-								
 								foreach($kh_biaoti1 as $k_biaoti=>$v_biaoti)
-								{	//echo "<pre>";
-									if($v_biaoti['id']==$k)	
+
+								{	
+									
+									if($r_v[$v_biaoti['id']]!="")	
 									{
-										
 											$a_fuzeren=$r_v['fuzeren'];
-											
-											
-											if($k=='zdy0')
-												$xs123="<a href='kehumingcheng/id/$v/fuzeren/$a_fuzeren/id1/$id/kh_id/$id'><input type='text' width='20px' name='{$k}' id='{$id}' value='$v' readonly='true' style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
+											if($v_biaoti['id']=='zdy0')
+												$xs123="<a href='kehumingcheng/id/$v/fuzeren/$a_fuzeren/id1/$id/kh_id/$id'><input type='text' width='20px' name='".$v_biaoti['id']."' id='{$id}' value='".$r_v[$v_biaoti['id']]."' readonly='true' style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
 												</a>";
-											elseif($k=="fuzeren")
+											elseif($v_biaoti['id']=="fuzeren")
 												foreach($fzr_only as $k44=>$v44 )
-												{
-													//echo $v;
-												//	var_dump($v44);exit;
-													if($v==$v44['user_id'])
-													$xs123="<input type='text' width='20px' name='{$k}' id='{$id}' class='bianji' value='".$v44['user_name']."' onblur=''  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
-													<i class='fa fa-pencil' aria-hidden='true'>	</i>";
+												{	
+													foreach($v44 as $k=>$v)
+													{
+														if($v44['user_id']==$r_v['fuzeren'])
+															$xs123="<span id='wys{$id}'>".$v44['user_name']."</span>";
+
+													}
+													
 												}
-											elseif($k=="kh_old_fz")
+											elseif($v_biaoti['id']=="kh_old_fz")
 												foreach($fzr_only as $k44=>$v44 )
-												{
-													//echo $v;
-												//	var_dump($v44);exit;
-													if($v==$v44['user_id'])
-													$xs123="<input type='text' width='20px' name='{$k}' id='{$id}' class='bianji' value='".$v44['user_name']."' onblur=''  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
-													<i class='fa fa-pencil' aria-hidden='true'>	</i>";
+												{	
+													foreach($v44 as $k=>$v)
+													{
+														if($v44['user_id']==$r_v['kh_old_fz'])
+															$xs123="<span id='wys{$id}'>".$v44['user_name']."</span>";
+
+													}
+													
 												}
 											else
-												$xs123="<input type='text' width='20px' name='{$k}' id='{$id}' class='bianji' value='$v' onblur=''  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
-												<i class='fa fa-pencil' aria-hidden='true'>	</i>";
+												$xs123="
+												<span id='wys{$id}'>".$r_v[$v_biaoti['id']]."</span>
+												<i class='fa fa-pencil' aria-hidden='true' >	</i>
+												<input type='text'  name='".$v_biaoti['id']."'  id='{$id}' class='bianji bianji_hide' value='".$r_v[$v_biaoti['id']]."' onblur=''  >";
 
 									
 												$table.="<td name='$k'>
 													$xs123
 												</td>";
-									
+									}else{
+
+												$xs123="
+												<span id='wys{$id}'>未填写</span>
+												<i class='fa fa-pencil' aria-hidden='true' >	</i>
+												<input type='text' name='".$v_biaoti['id']."' id='{$id}' class='bianji bianji_hide' value='' onblur=''  >";
+												$table.="<td name='$k'>
+													$xs123
+												</td>";
+
 									}
+									
+									
 								}
-							}
-						}
-						$table.="</tr>";
-				
-					
+						//	}
+						//}
+						$table.="</tr>";	
+						//echo $table;exit;
 		}
-
-//echo $table;exit;
 		$this->assign('table',$table);
-
-
 		$this->assign('kehu1',$kh_biaoti1);//显示客户标题
 		$this->assign('kehu',$a_arr);//新增客户标题
         $this->display();
@@ -484,76 +486,7 @@ class KehuController extends Controller {
 
 
 
-		public function jb_bianji(){//测试
-			$kehu=M('kh');                             //显示客户所需字段data
-			$kehu=$kehu->select();
-			//echo"<pre>";
-
-			foreach($kehu as $k=>$v){
-				$nachu[$k]=json_decode($v['kh_data'],true);
-			}
-		
-			foreach($nachu as $k=>$v){
-			 			foreach($v as $k1=>$v1){
-			 				foreach ($ywcs_sql_json as $key=>$val){		 				
-			 					if($k1==$val['id']){
-			 						$v[$k1]=$val[$v1];						
-			 					} 		 					
-			 				}
-			 			}
-			 			$guanlianw[]=$v;
-			 		}
-	 				
-
-		foreach($kehu as $k=>$val){
-			$valav=array_merge($guanlianw[$k],$val);
-			$dantiao=$valav['kh_id'];//获取到id
-			unset($valav['kh_id']); 
-			unset($valav['kh_data']); 
-			array_unshift($valav,$dantiao); //整理好的单条信息
-			
-				$ronghe[]=$valav;	 //多条融合	
-		}
 	
-		foreach($ronghe as $r_k=>$r_v)
-		{
-			$table.="<tr id='tr".$r_v['0']."'>";
-			foreach($r_v as $k=>$v)
-			{//echo "<pre>";
-			//	var_dump($r_v);exit;
-
-				$a_fuzeren=$r_v['fuzeren'];
-
-		$id=$r_v['0'];
-		//var_dump($k);exit;
-		//echo "<pre>";
-		//	var_dump($r_v['0']);exit;
-				if($k=='zdy0')
-					$xs123="<a href='kehumingcheng/id/$v/fuzeren/$a_fuzeren/id1/$id/kh_id/$id'><input type='text' width='20px' name='{$k}' id='{$id}' value='{$v}' readonly='true' style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
-					</a>";
-				
-				else
-					$xs123="<input type='text' width='20px' name='{$k}' id='{$id}' class='bianji' value='{$v}' onblur=''  style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px '>
-					<i class='fa fa-pencil' aria-hidden='true'>	</i>";
-				$table.="<td name='$k'>
-					$xs123
-				
-		
-				</td>";
-			}
-			$table.="</tr>";
-			
-		}
-
-					$hidden=json_encode($ronghe,true);
-					
-
-					echo $table;
-					
-
-
-
-		}
 		public function shaixuan(){
 
 				$kehu=M('kh');                             //显示客户所需字段data
@@ -710,8 +643,8 @@ class KehuController extends Controller {
 			}
 			$zhixing_xiaji=substr($where,0,strlen($where)-3); 
 			$sql_xiaji=$xiaji_base->query("select * from crm_kh where $zhixing_xiaji");//下级数据
-		//	echo "<pre>";
-			//var_dump($where);exit;
+		//echo "<pre>";
+		///	var_dump($where);exit;
 			$nachu=array();
 				foreach($sql_xiaji as $k=>$v){
 					$nachu[$k]=json_decode($v['kh_data'],true);
@@ -1330,7 +1263,6 @@ krsort($ko);
 					{
 						if($ziduan == $k1 )
 						{
-						
 							$json[$k1]=$fuzeren;
 							$da=$json;//data替换完成
 							$map['kh_id']=$v['kh_id'];//条件
@@ -1371,31 +1303,57 @@ krsort($ko);
 		//导入模板下载
 	public function xiazaimuban()
 	{
+
+  		$a=M('yewuziduan');                    
+  		$map['zd_yewu']="2";
+  		$map['zd_yh']="1";//这里通过查询获得
+  		$sql=$a->where($map)->field('zd_data')->find();
+		$a_arr=json_decode($sql['zd_data'],true);
+		$kehu=M('kh');
+		$kh_map['kh_yh']="19950228";                            
+		$kehu2=$kehu->where($kh_map)->find();
+		$kh_data_json=json_decode($kehu2['kh_data'],true);
+
+		foreach($a_arr as $k2=>$v2){
+			if($v2['qy']=="1"){
+				$qy_arr=$v2;
+				$new_qy[]=$qy_arr;
+			}
+		}
+		$a_arr=$new_qy;   //模板标题
+		foreach($a_arr as $k=>$v)
+		{
+			if($v['bt']=="1")
+			{
+				if($v['type']=="3")
+				{
+					$array[]=$v["name"]."(必填请对照参数填写)";
+				}else{
+					$array[]=$v["name"]."(必填)";
+				}
+				
+			}else{
+				$array[]=$v["name"];     //标题
+			}
+			foreach($kh_data_json as $k3=>$v3)
+			{
+				if($v['id']==$k3)
+					$arr_new[]=$v3;   //值
+			}
+			
+		}
+
+		//r_dump($array);exit;
 		$name="客户数据导入模板";
 		//$name=iconv("utf-8","gbk//IGNORE",$name);
 		
-		$head=array(
-			"1"=>"产品名称(必填)",
-			"2"=>"产品编号(必填)",
-			"5"=>"销售单位(必填)",
-			"3"=>"标准单价(必填)",
-			"6"=>"单位成本",
-			"7"=>"产品分类ID(根据分类id表填写)",
-			"8"=>"产品介绍"
-			);
+		$head=$array;
+
 		//连接标题
 		$r = implode(',',$head);
 		$r .="\n";
 		//$r = iconv("utf-8","gbk//IGNORE",$r);
-		$body[0]=array(
-			0=>"小米note2",
-			1=>"10086",
-			3=>"部",
-			2=>"3600",
-			4=>"1000",
-			5=>"3",
-			6=>"双曲面手机",
-			);
+		$body[0]=$arr_new;
 		foreach($body as $arr)
 		{
 			$line=implode(',',$arr);
@@ -1409,4 +1367,284 @@ krsort($ko);
 		echo $r;
 		die;
 	}
+	public function xiazaimubancanshu()
+	{
+	    $ywcs=M('ywcs');                 //获取ywcs表中的 数据
+ 		$yw_cs['ywcs_yw']="2";
+ 		$yw_cs['ywcs_yh']=1;
+ 		$ywcs_sql=$ywcs->where($yw_cs)->field('ywcs_data')->find();
+ 		$ywcs_sql_json=json_decode($ywcs_sql['ywcs_data'],true);
+ 	
+ 		$a=M('yewuziduan');                    
+  		$map['zd_yewu']="2";
+  		$map['zd_yh']="1";//这里通过查询获得
+  		$sql=$a->where($map)->field('zd_data')->find();
+		$a_arr=json_decode($sql['zd_data'],true);
+
+		
+
+//echo "<pre>";
+//	var_dump($ywcs_sql_json);exit;
+
+		foreach($ywcs_sql_json as $kzd => $vzd)
+		{
+			
+			foreach($a_arr as $kzd1=>$vzd1)
+			{
+				//var_dump($vzd1);exit;
+				if($vzd1['id']==$vzd['id'])
+				{
+					
+					foreach($vzd as $k2=>$v2)
+					{
+						//var_dump($vzd);exit;
+						if($k2=="id")
+						{
+							$vzd3['id']=$vzd1['name'];
+						}elseif($k2=="qy"){
+							
+						}else{
+							$vzd3[$k2]=$k2."=>".$v2;
+						}
+						
+						
+						
+					}
+
+					$name2[]=$vzd3;
+				}	
+				
+			}
+		}
+	//	echo "<pre>";
+	//	var_dump($name2);exit;
+	
+	//	echo "<pre>";
+ 		//var_dump($ywcs_sql_json);exit;
+		$a_arr=$new_qy;   //模板标题
+		
+		//r_dump($array);exit;
+		$name="客户参数导入模板";
+		//$name=iconv("utf-8","gbk//IGNORE",$name);
+		
+		$head="";
+		//连接标题
+		$r = implode(',',$head);
+		$r .="\n";
+		//$r = iconv("utf-8","gbk//IGNORE",$r);
+		$body=$name2;
+		foreach($body as $arr)
+		{
+			$line=implode(',',$arr);
+			$r.=$line;
+			//$r .= iconv("utf-8","gbk//IGNORE",$line);
+			$r.="\n";
+		}
+		$name = $name.'.csv';
+		header('Content-type: application/csv');
+		header("Content-Disposition: attachment; filename=\"$name\""); 
+		echo $r;
+		die;
+	}
+	 
+		public function wjsc_dr()
+	{
+		//文件保存
+        if(count($_FILES['csv_up'])<1)
+        {
+            echo '{"res":0}';
+            die();
+        }
+		$getFileArr=$_FILES['csv_up'];
+        $oldnamehz=substr(strrchr($getFileArr['name'], '.'), 1);
+		if(strtolower($oldnamehz)!='csv')
+		{
+			echo '{"res":2}';
+			die();
+		}
+        $newname=time().$getFileArr['name'];
+        $ss=move_uploaded_file($getFileArr['tmp_name'],'./Public/chanpinfile/cpfile/linshi/'.$newname);
+        if(!file_exists('./Public/chanpinfile/cpfile/linshi/'.$newname))//验证上传是否成功
+        {
+            echo '{"res":0}';
+            die();
+        }
+        
+		$sizestr=$getFileArr['size']>=1048576?round(($getFileArr['size']/1048576),2).'M':round(($getFileArr['size']/1024),2).'K';
+       
+
+        echo '{"res":1,"newname":"'.$newname.'","newsize":"'.$sizestr.'","oldname":"'.$getFileArr['name'].'"}';
+	}
+	//删除旧附件
+	public function del_old_file()
+	{
+		$oldname=addslashes($_GET['oldname']);
+		if($oldname=='')die;
+		unlink('./Public/chanpinfile/cpfile/'.$oldname);
+	}
+	//开始导入产品信息
+	public function daoru_chanpin()
+	{
+
+		$a=M('yewuziduan');                    
+  		$map['zd_yewu']="2";
+  		$map['zd_yh']="1";//这里通过查询获得
+  		$sql=$a->where($map)->field('zd_data')->find();
+		$a_arr=json_decode($sql['zd_data'],true);
+	//	$kehu=M('kh');
+	//	$kh_map['kh_yh']="19950228";                            
+		//$kehu2=$kehu->where($kh_map)->find();
+		//$kh_data_json=json_decode($kehu2['kh_data'],true);
+
+		foreach($a_arr as $k2=>$v2){//
+			if($v2['qy']=="1"){
+				//$key[]=$v2['id'];
+				$qy_arr=$v2;
+				$new_qy[]=$qy_arr;
+			}
+		}
+		$a_arr=$new_qy;   //模板标题
+	
+		foreach($a_arr as $k=>$v)
+		{
+			if($v['bt']=="1")
+			{	$key[]=$v['id'];
+				if($v['type']=="3")
+				{
+					$array[]=$v["name"]."(必填请对照参数填写)";
+				}else{
+					$array[]=$v["name"]."(必填)";
+				}
+
+				
+			}else{
+				$key[]=$v['id'];
+				$array[]=$v["name"];     //标题
+			}
+
+			foreach($kh_data_json as $k3=>$v3)
+			{
+				if($v['id']==$k3)
+					$arr_new[]=$v3;   //值
+			}
+			
+		}
+//var_dump($key);exit;
+	$num=count($array);
+
+
+		$csvfilename=addslashes($_GET['csvfilename']);
+		if($csvfilename=='')
+		{
+			echo '2';
+			die;
+		}
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$file_path="./Public/chanpinfile/cpfile/linshi/".$csvfilename;
+		$bs=fopen($file_path,"r");
+		$str = fread($bs,filesize($file_path));
+		$str=iconv("gbk","utf-8//IGNORE",$str);
+		$filearr=explode("\n",$str);
+		$first='0';
+		$insertstr='';
+		$filerowsnum=0;
+		$nowdatetime=date("Y-m-d H:i:s",time());
+		foreach($filearr as $v)
+		{
+			if($first=='0')
+			{
+				$first='1';
+				continue;
+			}
+			if($v=='')	continue;
+			$varr='';
+			$varr=explode(',',$v);
+	
+			if(count($varr)!=$num){
+				echo "8";//提示模板不对
+				die;
+			}	
+			if($varr[0]==''||$varr[1]==''||$varr[2]==''||$varr[3]=='') continue;
+			
+			//构造数据表数组
+			
+			foreach($key as $k=>$v)
+			{	
+				$basearr[$filerowsnum][$v]=$varr[$k];
+				
+				//echo $varr[$k]."......";
+			}
+			$basearr[$filerowsnum]['fuzeren']="";
+				$basearr[$filerowsnum]['department']="";
+			$filerowsnum++;
+	
+		}
+
+		if(count($basearr)<1)
+		{
+			echo '2';die;
+		}
+		foreach($basearr as $k=>$v)
+		{	
+
+			$data['kh_data']=json_encode($v);
+			//echo $data['kh_data'];
+			
+			$kh_add=M("kh");
+			$sql=$kh_add->add($data);
+			unset($data);
+		
+		}
+		if($sql){
+			echo "1";
+			
+		}
+		
+		//echo $this->insertrizhi("导入了".count($basearr)."条产品数据");
+	}
+	public function kh()
+	{
+		$zdbase=M("yewuziduan");
+		$zdarr=$zdbase->query("select * from crm_yewuziduan where zd_yh='1' and zd_yewu='2' limit 1 ");
+		$zdarr=json_decode($zdarr[0]['zd_data'],true);
+		//客户表
+		$khbase=M("kh");
+		$kharr=$khbase->query("select * from crm_kh where 1");
+		foreach($kharr as $k=>$v)
+		{
+			foreach($v as $kk=>$vv)
+			{
+				if($kk!='kh_data')
+					$nkh[$k][$kk]=$vv;
+				else
+				{
+					$rowjson=json_decode($vv,true);
+					foreach($rowjson as $kkk=>$vvv)
+					{
+						$nkh[$k][$kkk]=$vvv;
+					}
+				}
+			}
+		}//融合整条信息
+	//	echo "<pre>";
+		//var_dump();exit;
+		$table="";
+		foreach($nkh as $v)
+		{
+			$td='';
+			$th='';
+			foreach($zdarr as $vv)
+			{
+				if($vv['qy']!='1')
+					continue;
+				$thistd=$v[$vv['id']]==''?'-':$v[$vv['id']];
+				$td.="<td>".$thistd."</td>";
+			}
+			$tr.="<tr>".$td."</tr>";
+		}
+		echo "<table border='1'>".$tr."</table>";
+		echo "<pre>";
+		print_r($nkh);
+	}
+
 }

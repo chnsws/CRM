@@ -53,12 +53,12 @@
   		<link rel="stylesheet" href="{$_GET['public_dir']}/kehucss/xinzeng.css"><!--客户新增CSS-->
 		<style>
 		body,ul,li,table,tr{margin:0;padding:0;}
-		.peizhi{width:auto;height:auto ;border:1px solid #ccc;margin-left:-17px;border-top:0;} 
+
 		.anniu{width:auto;height:50px;border:1px solid #ccc;margin-left:-17px;} 
 		.kehu{width:auto;height:auto;border:1px solid #ccc;margin-left:-17px;} 
 		tr{line-height:28px}
 		.anniudw{  position: relative;top: 14px;}
-		.left{  position: relative;left: 13px;}
+		
 		.anniudw a{  position: relative; margin-left: 30px;}
 		</style>
 			  <style>
@@ -83,10 +83,19 @@
     			.label-success{ height:28px;line-height:16px;width:60px; text-align: center;font-size:14px }
     			.shaixuan{margin-left:30px;}
     			.pl_bj{margin:0px auto;}
-
-
-    			
-  			 </style>
+    			.xzwj_bl{background-color:#1AA094;}
+    			#yc_xs{background-color:#FFF;padding-top:10px;padding-bottom:10px;}
+    		
+			div,span{overflow:hidden;}
+			#sxdiv{background-color:#fff;margin:10px 10px 0px 10px;padding:10px 5px 10px 5px;}
+			#sxshowbtn{background-color:#fff;width:40px;text-align:center;margin:0 auto;cursor:pointer;}
+			.sxzddiv{width:100%;height:auto;word-break: break-all;word-wrap: break-word;}
+			.sx_title{float:left;width:80px;height:25px;margin:5px 5px 5px 5px;line-height:25px;}
+			.sx_yes,.sx_no{width:auto;margin:5px 5px 5px 5px;cursor:pointer;padding:0 5px 0 5px;float:left;height:25px;line-height:25px;}
+			.sx_yes{background-color:#1AA094;border-radius:3px;color:#fff;}
+			.xinzeng2{float:right;position: relative;top:10px;}
+			.fa-pencil{float:right;}
+   			 </style>
   			  <script>
 							  $(function() {
 							    var name = $( "#name" ),
@@ -260,8 +269,7 @@
 			    
 			  </ul>
   			<div id="tabs-1">
-  					<li style="margin-top:-36px;margin-left:85%"><button id="create-user">新增用户</button></li>
-  					<li style="margin-top:-20px;margin-left:90%"><button onclick="daoru()">导入客户</button></li>
+  			
   					<div id="kh_daoru" style="margin-top:40px">
   						<div class="dr_q" style="width:80%;margin:0px auto";>
   							<li style="height:30px;position: relative; left:-8px;">一、下载导入数据模板 ,将导入的数据填充到导入模板文件中。</li>
@@ -270,20 +278,46 @@
   							<li  style="height:40px">2）除必填的列以外不需要的列可以删除；</li>
   							<li  style="height:40px">3）单次导入的数据不超过4000条</li>
   							<li  style="height:40px;position: relative; left:-8px;">二、选择要导入的数据文件</li>
-  							<li  style="height:40px"><span dr_sc>+选择文件</span></li>
-  							<li  style="height:40px">名字 大小  完成   x</li>
+  							<li  style="height:40px"><input type="file" lay-type="file" class="layui-upload-file" name="csv_up"></li>
+  							<li   id="yc_xs" ><span id="name_sc" style="margin-left:10px;margin-top:19px;" >名字</span><span   style="margin-left:60px" id="size_sc">大小</span><span   style="margin-left:60px"> 完成</span > <span style="margin-left:60px" onclick="yc_file(this)"  id="fileclose">删除</span></li>
+  							
   						</div>
   					</div>
-			   	<div class="peizhi">
+
+
+			  <!--	<div class="peizhi">
 				   	<div class="left">
 				  
-					   	 <div style="margin-top:13px;margin-bottom:13px;line-height:30px" >
-					   	 	 	{$new_html}
-														
+					   	 <div  class="left1" style="margin-top:13px;margin-bottom:13px;line-height:30px" >
+					   	 	 	{$new_html}					
 						</div>
 
 					</div>
-			   	</div>
+			   	</div>--> 
+			   	  <div id="sxdiv">
+            <div id="sxhidestr" >筛选条件：全部、123、123</div>
+
+            <div id="sxzddiv" style="display: none;border:1px" >
+                <div class="sxzddiv" id="wang">
+                    <div class="sx_title" >产品编号：</div>
+                    <span class="sx_yes">全部</span><span class="sx_no">123</span><span class="sx_no">456</span><span class="sx_no">789</span>
+                </div>
+           		<div class="sxzddiv" id="yu">
+           			<div class="sx_title">CPU型号：</div>
+           			<span class="sx_yes">全部</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span>
+           		</div>
+                <div class="sxzddiv" id="shuai">
+                	<div class="sx_title">销售单位：</div>
+                	<span class="sx_yes">全部</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span>
+                </div>
+                <div class="sxzddiv" id="wangyushuai">
+                	<div class="sx_title">单位成本：</div>
+                	<span class="sx_yes">全部</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span>
+                </div>
+            </div>
+
+        </div>
+        <div id="sxshowbtn" onselectstart='return false'><i class='fa fa-chevron-down' aria-hidden='true'></i></div>
    				<div class="anniu">		
 					<span style="margin-top:-8px;margin-left:1%"  class="anniudw">
 							已选0位客户
@@ -292,6 +326,10 @@
 					   		<a href="#" onclick="del_check()">删除所选</a>
 					   		<a href="#">转移至客户公海</a>
 					</span>
+					<div class="xinzeng2">
+  					<li ><button id="create-user">新增用户</button><span><button onclick="daoru()" style="margin-left:20px">导入客户</button></span></li>
+  				
+  			</div>
 					<div id="bj_kehu" style="margin-top:10px;padding-top:20px;" >
 					<form name="pl_bjform" method="post" >
 						<table class="pl_bj">
@@ -363,66 +401,67 @@
 						 		<fieldset>
 								  	<foreach name="kehu" item="vo">
 								             <li>
-								         		<if condition="$vo.bt eq 1">
-								             		<label for="name"><span style="color:red">*</span>{$vo.name}:</label>
-								             		<if condition="$vo.type eq 3">
-								                		<select   name="{$vo.id}">
-									                		<foreach name="ywcs_biao" item="vow">	
-									                			<if condition="$vow.id eq $vo['id']">
-									                			 	<foreach name="vow"  item="voow" key="sq" >
-									                			 		<if condition ="$sq eq 'id'">
-																			<option style=" padding: .5em 0em;">---请选择---</option>
+								             
+								         			<if condition="$vo.bt eq 1">
+								             			<label for="name"><span style="color:red">*</span>{$vo.name}:</label>
+								             			<if condition="$vo.type eq 3">
+								                			<select   name="{$vo.id}">
+									                			<foreach name="ywcs_biao" item="vow">	
+									                				<if condition="$vow.id eq $vo['id']">
+									                			 		<foreach name="vow"  item="voow" key="sq" >
+									                			 			<if condition ="$sq eq 'id'">
+																				<option style=" padding: .5em 0em;">---请选择---</option>
 									                			 		
-									                			 		<elseif condition ="$sq neq 'qy'" />
-									                						<option value="{$sq}"  >{$voow}</option>
-									                					<else>
-									                					</if>
-									                				</foreach>
-									                			</if>
-									                		</foreach>
-								                		</select>
-								                	<elseif condition="$vo.type eq 2" />
-								                		<input type="text" name="{$vo.id}"   class="text ui-widget-content ui-corner-all" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" >
-													<elseif condition="$vo.type eq 1" />
-								                	<form class="form-inline">
-     													 <div data-toggle="distpicker" style=" overflow:hidden">
-       														 <div class="form-group" style="width:33.3%; float:left">
-          															<select name="{$vo.id}[]" class="form-control"   ></select>
-        													</div>
-													        <div class="form-group" style="width:33.3%; float:left">
-													          		<select name="{$vo.id}[]" class="form-control"   ></select>
-													        </div>
-													        <div class="form-group" style="width:33.3%; float:left">
-													         	 <select name="{$vo.id}[]" class="form-control"   ></select>
-													        </div>
-													      </div>
-													 </form>
+									                			 			<elseif condition ="$sq neq 'qy'" />
+									                							<option value="{$sq}"  >{$voow}</option>
+									                						<else>
+									                						</if>
+									                					</foreach>
+									                				</if>
+									                			</foreach>
+								                			</select>
+								                		<elseif condition="$vo.type eq 2" />
+								                			<input type="text" name="{$vo.id}"   class="text ui-widget-content ui-corner-all" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" >
+														<elseif condition="$vo.type eq 1" />
+								                		<form class="form-inline">
+     														 <div data-toggle="distpicker" style=" overflow:hidden">
+	       														 <div class="form-group" style="width:33.3%; float:left">
+	          															<select name="{$vo.id}[]" class="form-control"   ></select>
+	        													</div>
+														        <div class="form-group" style="width:33.3%; float:left">
+														          		<select name="{$vo.id}[]" class="form-control"   ></select>
+														        </div>
+														        <div class="form-group" style="width:33.3%; float:left">
+														         	 <select name="{$vo.id}[]" class="form-control"   ></select>
+														        </div>
+													     	</div>
+							 							</form>
+								                		<else />
+								                		<input type="text" name="{$vo.id}"  class="text ui-widget-content ui-corner-all" >
+								                		</if>
 								                	<else />
-								                	<input type="text" name="{$vo.id}"  class="text ui-widget-content ui-corner-all" >
-								                	</if>
-								                <else />
 								                	<label for="name">{$vo.name}:</label>
-								                	<if condition="$vo.type eq 3">
-								                		<select   name="{$vo.id}">
-									                		<foreach name="ywcs_biao" item="vow">	
-									                			<if condition="$vow.id eq $vo['id']">
-									                			 	<foreach name="vow"  item="voow" key="sq" >
-									                			 		<if condition ="$sq eq 'id'">
-																			<option >---请选择---</option>
-									                			 		<else />
-									                						<option value="{$sq}"  id="datepicker" >{$voow}</option>
-									                					</if>
-									                				</foreach>
-									                			</if>
-									                		</foreach>
-								                		</select>
+									                	<if condition="$vo.type eq 3">
+									                		<select   name="{$vo.id}">
+										                		<foreach name="ywcs_biao" item="vow">	
+										                			<if condition="$vow.id eq $vo['id']">
+										                			 	<foreach name="vow"  item="voow" key="sq" >
+										                			 		<if condition ="$sq eq 'id'">
+																				<option >---请选择---</option>
+										                			 		<else />
+										                						<option value="{$sq}"  id="datepicker" >{$voow}</option>
+										                					</if>
+										                				</foreach>
+										                			</if>
+										                		</foreach>
+									                		</select>
 
 								                	
-								                	<else />
-								                	<input type="text" name="{$vo.id}"   class="text ui-widget-content ui-corner-all canimei" >
-								                	</if>
-								                </if>
-								                	
+								                		<else />
+								                			<input type="text" name="{$vo.id}"   class="text ui-widget-content ui-corner-all canimei" >
+								                		</if>
+								               		 </if>
+
 								             </li>
 													
 								    </foreach>
@@ -456,27 +495,27 @@
 <script>
 $('#bj_kehu').hide();
 $('#yincang_bj').hide();
+$('.bianji_hide').hide();
 $('.yincang').hide();
+
+layui.use('upload', function(){
+  layui.upload(options);
+});
     		function blurfun(){
 
     			$(".bianji").blur(function(){
     				if($(this).val()==$(this).attr("value")){
     				alert("没有修改信息");
+    				$(this).parent().children("input").hide();
+					$(this).parent().children("span,i").show();
 					return false
     				}else{
     					$.get(rooturl+'/index.php/Home/Kehu/index',{"bianji_id":$(this).attr("id"),"bianji_name":$(this).attr("name"),"bianji_val":$(this).val()},
 							        		 function(html){
 							        		//alert(html)
 													if(html=='ok'){
-							        		 		
-							        		 			$.get(rooturl+'/index.php/Home/Kehu/jb_bianji',{"jb_id":'1'},
-							        		 				function(html){
-							        		 					alert("老子已经刷新了！")
-															$("#jb_bianji").html(html);
-															blurfun();
 
-															});
-
+location.reload();
 							        		 		}
 							                   });
 
@@ -518,6 +557,16 @@ function del_check()
 </script>
 <script>
 
+
+  								
+function yc_file(thisdom){
+	clickdelnowfile='1';
+    var thisdelname=$(thisdom).prop("name");
+   
+    $.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+thisdelname});
+    $(thisdom).parent().hide();
+}
+  			
 function bianji_kehu1()
 {
 	
@@ -638,8 +687,44 @@ $('#piliangzy').hide();
 </script>
 <script>
 $('#kh_daoru').hide();
+$('#yc_xs').hide();
+var is_upload='';
 	function daoru()
 		{
+					layui.upload({
+					        url: rooturl+"/index.php/Home/kehu/wjsc_dr",
+					        title:"选择文件",
+					        success: function(res){
+					            if(res['res']=='1')
+					            {
+					            	// alert( eval (res['newname']));
+					            	  $("#name_sc").text(res['oldname']);
+						              $("#size_sc").text(res['newsize']);
+						              $("#yc_xs").show();
+						              $("#fileclose").prop("name",res['newname']);
+						              if(is_upload!='')
+						               {
+						                    $.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+is_upload});
+						               }
+               						 is_upload=res['newname'];
+               						// alert(is_upload)
+						  
+					            }
+					            else if(res['res']=='2')
+					            {
+					                alert("上传文件格式仅支持csv");
+					            }
+					            else
+					            {
+					           		 alert("文件上传失败");
+					            }
+
+					        },
+					    });
+
+
+
+
 			layui.use('layer', function(){
 							var layer = layui.layer;
 							var win=layer.open({
@@ -649,7 +734,7 @@ $('#kh_daoru').hide();
 								area:'630px',
 								title: '客户导入',
 								content:$('#kh_daoru'),
-								btn:['下载模板','开始导入','取消'],
+								btn:['下载模板','下载客户参数','开始导入','取消'],
 								btn1:function(){
 									
 				
@@ -658,38 +743,75 @@ $('#kh_daoru').hide();
 		        		 				
 								},
 								btn2:function(){
-									var fuzeren=$("#zhuanyifzr").val();
-									//var content=$("#"+xgzd).val();
-								
-									var fuzeren1=$("#zhuanyifzr").children("option[value='"+fuzeren+"']").text();//客户名称汉字
-									//alert(fuzeren)
-									//alert(fuzeren1)
-
-									var shangji_hetong='';//不确定
- 								
-									//var content2=$("#"+xgzd).children("option[value='"+content+"']").text();//参数汉字
-
-									$.get(rooturl+'/index.php/Home/Kehu/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"kh_id":piliang_str},
-		        		 				function(html){
-		        		 					
-		        		 					alert("批量转移成功")
-												location.reload();
-										});
-
-
+									window.location=rooturl+'/index.php/Home/Kehu/xiazaimubancanshu';
 								},
 								btn3:function(){
+
+									 if(is_upload=='')
+					                {
+					                    tishi("请先选择需要导入的文件");
+					                    return false;
+					                }
+					                $.get(rooturl+"/index.php/Home/Kehu/daoru_chanpin",{"csvfilename":is_upload},function(res){
+					                	alert(res)
+					                    if(res=='1')
+					                    {	
+					                    	alert("导入成功")
+					                       location.reload();
+					                    }
+					                    else if(res=='8')
+					                    {
+					                    	alert("亲~请下载最新模板")
+					                    	 return false;
+					                    }
+					                    {
+					                        alert("导入失败，请刷新后重试");
+					                        return false;
+					                    }
+					                });
+					                layer.close(index);
+					               
+								},
+								btn4:function(){
 									layer.close(win)
 								}
 							}); 
 						});   
- 	
+
+
 		}
-		
-</script>
-<script>
-function xiazaimuban()
-		{
-			alert(13);
-		}
+		$("#sxshowbtn").click(function(){
+    if($(this).prop("name")=='0'||$(this).prop("name")==undefined)
+    {
+        $("#sxhidestr").hide("fast");
+        $("#sxzddiv").show("fast");
+        $(this).html("<i class='fa fa-chevron-up' aria-hidden='true'></i>");
+        $(this).prop("name",'1');
+    }
+    else
+    {
+        $("#sxzddiv").hide("fast");
+        $("#sxhidestr").show("fast");
+        $(this).html("<i class='fa fa-chevron-down' aria-hidden='true'></i>");
+        $(this).prop("name",'0');
+    }
+});
+//筛选的选项
+window.id='';
+$(".sxzddiv").children("span").click(function(){
+	    var title=$(this).parent().prop('id');
+    $(this).parent().children("span").prop("class","sx_no");
+    $(this).prop("class","sx_yes");
+    var s=$(this).index();
+
+	id+=title+","+s+"|";
+
+    alert(id)
+ 
+});
+$(".fa-pencil").click(function(){
+	$(this).parent().children("input").show();
+	  $(this).parent().children("input").select();
+	$(this).parent().children("span,i").hide();
+});
 </script>
