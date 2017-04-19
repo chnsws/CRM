@@ -1,0 +1,198 @@
+<?php
+namespace Home\Controller;
+use Think\Controller;
+
+
+class ShaixuanDoController extends Controller {
+    public $ywarr=array(
+            '7'=>"客户"
+        );
+    //启用禁用
+    public function sxqy(){
+        $cval=addslashes($_GET['cval']);
+        $thisyewu=addslashes($_GET['thisyewu']);
+        if($cval==''||$thisyewu=='')
+        {
+            echo '2';
+            die;
+        }
+        $ywarr=$this->ywarr;
+        $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+        $sxbase=M("shaixuan");
+        $sxbase->query("update crm_shaixuan set sx_qy='$cval' where sx_yh='$fid' and sx_yewu='$thisyewu'");
+        $kq=$cval=='1'?'开启':'关闭';
+        echo $this->insertrizhi($kq."了".$ywarr[$thisyewu]."筛选");
+    }
+    //保存设置
+    public function bcsz()
+    {
+        $qyid=addslashes($_GET['qyid']);
+        $selectval=addslashes($_GET['selectval']);
+        $qjnum=addslashes($_GET['qjnum']);
+        $yewu=addslashes($_GET['yewu']);
+        if($yewu=='')
+        {
+            echo '2';
+        }
+        $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+        $injson='';
+        if($qyid!=''&&$selectval!='')
+        {
+            $qyarr=explode(",",$qyid);
+            $selarr=explode(",",$selectval);
+            $qjarr=explode(",",$qjnum);
+            foreach($qyarr as $k=>$v)
+            {
+                $sqlarr[$v]["qy"]=1;
+                $sqlarr[$v]["xx"]=$selarr[$k];
+                $sqlarr[$v]["qj"]=$qjarr[$k];
+            }
+            $injson=json_encode($sqlarr);
+        }
+        $sxbase=M("shaixuan");
+        $sxbase->query("update crm_shaixuan set sx_data ='$injson' where sx_yh='$fid' and sx_yewu='$yewu' limit 1");
+        $ywarr=$this->ywarr;
+
+        echo $this->insertrizhi("更新了".$ywarr[$yewu]."筛选设置");
+    }
+    //生成模板
+    public function createmb()
+    {
+        $yewu=addslashes($_GET['thisyewu']);
+        $yewu=7;
+        if($yewu == '') die;
+        $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+        //查询筛选设置表
+        $sxbase=M("shaixuan");
+        $sxbasearr=$sxbase->query("select * from crm_shaixuan where sx_yh='$fid' and sx_yewu='$yewu' limit 1");
+        $sxarr=$sxbasearr[0];
+        if($sxarr['sx_qy']!='1') die;
+        $sxjsonarr=json_decode($sxarr['sx_data'],true);
+        foreach($sxjsonarr as $k=>$v)
+        {
+            if($v['qy']!='1')   continue;
+            if($v['xx']=='1'||$v['xx']=='2'||$v['xx']=='5') $needselbase[$yewu]=1;//需不需要查询数据库
+            $needsx[$k]=$k;
+            $sxtj[$k]=$v['xx'];
+            $qj[$k]=$v['qj'];
+        }
+        if($yewu=='7')//产品筛选判断
+        {
+            if($needselbase[$yewu]=='1')
+            {
+                $cpbase=M("chanpin");
+                $cpbasearr=$cpbase->query("select * from crm_chanpin where cp_yh='$fid' and cp_del='0' ");
+                $cpflbase=M("chanpinfenlei");
+                $cpflbasearr=$cpflbase->query("select cpfl_id,cpfl_name from crm_chanpinfenlei where cpfl_company='$fid' ");
+                foreach($cpflbasearr as $v)
+                {
+                    $cpfl[$v['cpfl_id']]=$v['cpfl_name'];
+                }
+                foreach($cpbasearr as $cprow)
+                {
+                    $rowjsonarr=json_decode($cprow['cp_data'],true);
+                    foreach($needsx as $k)
+                    {
+                        $thisstr=$k=='zdy6'?$cpfl[$rowjsonarr[$k]]:$rowjsonarr[$k];
+                        if($thisstr!='')
+                        $cpsxarr[$k][$thisstr]=$thisstr;//去重
+                    }
+                }
+            }
+
+            foreach($needsx as $k)//k=zdy1
+            {
+                if($sxtj[$k]=='1'||$sxtj[$k]=='2'||$sxtj[$k]=='5')//125都是要取唯一值的
+                {
+                    if($sxtj[$k]=='5')//5是自动判断区间
+                    {
+                        foreach($cpsxarr[$k] as $v)
+                        {
+                            $intarr[$v]=(int)$v;
+                        }
+                        ksort($intarr);
+                        $minval=reset($intarr);//最小值
+                        $maxval=end($intarr);//最大值
+                        if($qj[$k]=='') $injson[$k]['data']='';
+                        else $injson[$k]['data']=$this->qujian($maxval,$qj[$k]);
+                    }
+                    else
+                    {
+                        $newarr12=$cpsxarr[$k];
+                        ksort($newarr12);
+                        $injson[$k]['data']=$newarr12;
+                    }
+                }
+                $injson[$k]['tj']=$sxtj[$k];
+            }
+        }
+        $injsonstr=json_encode($injson);
+        $injsonstr=str_replace('\\','\\\\',$injsonstr);
+        $sxcbase=M("sx_cache");
+        $iscc=$sxcbase->query("select * from crm_sx_cache where sxc_yewu='$yewu' and sxc_yh='$fid' limit 1 ");
+        if(count($iscc)<1)
+        {
+            $sxcbase->query("insert into crm_sx_cache values ('','".$injsonstr."','$yewu','$fid')");
+        }
+        else
+        {
+            $sxcbase->query("update crm_sx_cache set sxc_data='".$injsonstr."' where sxc_yewu='$yewu' and sxc_yh='$fid' limit 1 ");
+        }
+        $nowtime=date("Y-m-d H:i:s",time());
+        $sxbase->query("update crm_shaixuan set sx_time='$nowtime' where sx_yewu='$yewu' and sx_yh='$fid' limit 1");
+        $ywarr=$this->ywarr;
+        $rzr=$this->insertrizhi("更新了".$ywarr[$yewu]."筛选模块");
+        echo $rzr.'#'.$nowtime;
+    }
+
+    //自动生成区间
+    public function qujian($a,$qjnum)
+    {
+        $a=$a>1?number_format($a,0,'',''):ceil($a);
+        $c=strlen($a);
+        $aaa='1';
+        for($aa=0;$aa<$c-1;$aa++)
+        {
+            $aaa=$aaa*10;
+        }
+        $zzz=ceil($a/$aaa)*$aaa;
+
+        $z1=floor($zzz/$qjnum);
+        $lastnum=$z1;
+        for($cc=1;$cc<=$qjnum;$cc++)
+        {
+            if($cc==1)
+            {
+                $nownum=($cc*$z1);
+                $tjarr[]='小于'.$nownum;
+            }
+            else if($cc==$qjnum)
+            {
+                $tjarr[]='大于'.$lastnum;
+            }
+            else
+            {
+                $nownum=$z1>1?(($cc*$z1)-1):(($cc*$z1)-0.1);
+                $tjarr[]=$lastnum.'-'.$nownum;
+            }
+            $lastnum=$cc*$z1;
+        }
+        return $tjarr;
+    }
+    //插入日志方法
+    public function insertrizhi($con)
+    {
+        //更新系统日志 	操作时间	操作人员	模块	操作内容	操作设备	操作设备IP
+		$xitongrizhibase=M("rz");
+		$loginIp=$_SERVER['REMOTE_ADDR'];//IP 
+        $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		//登录地点
+		$addressArr=getCity($nowip);
+		$loginDidianStr=$addressArr["country"].$addressArr["region"].$addressArr["city"];
+		$sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
+		//进行插入操作
+		$xitongrizhibase->query("insert into crm_rz values('','3','11','".cookie("user_id")."','0','0','0','0','0','$con','$loginIp','$loginDidianStr','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','$fid','".time()."')");
+
+        return '1';
+    }
+}

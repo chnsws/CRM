@@ -899,6 +899,57 @@ class OptionController extends Controller {
 		$this->assign("useroption",$useroption);
 		$this->display();
 	}
+	//自定义筛选
+	public function shaixuan()
+	{
+		if(cookie("islogin")!='1')
+		{
+			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
+			die();
+		}
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		//筛选条件html结构
+		$sxtjoption="<select><option value='1'>单条件筛选</option><option value='2'>多条件筛选</option><option value='3'>文本筛选</option><option value='4'>文本区间</option><option value='5'>自动区间</option></select>";
+		//筛选表操作
+		$sxbase=M("shaixuan");
+		$sxbasearr=$sxbase->query("select * from crm_shaixuan where sx_yh='$fid' ");
+		foreach($sxbasearr as $sxrow)
+		{
+			$sxarr[$sxrow['sx_yewu']]=json_decode($sxrow['sx_data'],true);
+			$sxarr[$sxrow['sx_yewu']]["qy"]=$sxrow['sx_qy'];
+			$sxarr[$sxrow['sx_yewu']]["sctime"]=$sxrow['sx_time'];
+		}
+		//字段表操作,生成html表结构
+		$zdbase=M("yewuziduan");
+		$zdbasearr=$zdbase->query("select * from crm_yewuziduan where zd_yh='$fid'");
+		foreach($zdbasearr as $zdrow)
+		{
+			$yewu=$zdrow['zd_yewu'];
+			$zdjsonarr=json_decode($zdrow['zd_data'],true);
+			foreach($zdjsonarr as $jsonrow)
+			{
+				if($jsonrow['qy']!='1')	continue;
+				$thisid=$jsonrow['id'];
+				if($yewu=='7')
+				{
+					if($thisid=='zdy7')	continue;//这个是产品图片
+				}
+				$checkedstr=$sxarr[$yewu][$thisid]['qy']=='1'?'checked':'';
+				$thisoption=$sxarr[$yewu][$thisid]['xx']>0?str_replace("value='".$sxarr[$yewu][$thisid]['xx']."'","value='".$sxarr[$yewu][$thisid]['xx']."' selected",$sxtjoption):$sxtjoption;
+				$thisoption=str_replace("<select>","<select class='ys".$yewu."' name='".$thisid."'>",$thisoption);
+				$displaynone=$sxarr[$yewu][$thisid]['xx']=='5'?'':"display:none;";
+				$qjzhi=$sxarr[$yewu][$thisid]['xx']=='5'?$sxarr[$yewu][$thisid]['qj']:'';
+				$sxtable[$yewu].="<tr><td>".$jsonrow['name']."</td><td><input type='checkbox' $checkedstr name='".$thisid."' class='y".$yewu."' /></td><td>".$thisoption."<span class='qjspan' style='margin-left:10px;".$displaynone."'>区间数：<input class='qj".$yewu."' type='number' name='qjnum".$thisid."' style='width:60px' value='".$qjzhi."'></span></td></tr>";
+			}
+			$ntime='0000-00-00 00:00:00';
+			$sctime[$yewu]=$sxarr[$yewu]['sctime']==''?$ntime:$sxarr[$yewu]['sctime'];
+			$qy[$yewu]=$sxarr[$yewu]['qy'];
+		}
+		$this->assign("qy",json_encode($qy));
+		$this->assign("sxtable",$sxtable);
+		$this->assign("sctime",$sctime);
+		$this->display();
+	}
 	//日志
 	public function rizhi(){
 		if(cookie("islogin")!='1')

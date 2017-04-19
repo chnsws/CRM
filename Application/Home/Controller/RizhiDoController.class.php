@@ -128,7 +128,8 @@ class RizhiDoController extends Controller {
 			"7"=>"工作报告",
 			"8"=>"自定义业务字段",
 			"9"=>"自定义业务参数",
-			"10"=>"自定义审批"
+			"10"=>"自定义审批",
+			"11"=>"自定义筛选"
         );
 		foreach($czrzarr as $v)
 		{

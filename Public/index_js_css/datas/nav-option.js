@@ -61,6 +61,10 @@ var navs = [{
 		"title": "自定义审批",
 		"icon": "&#xe63c;",
 		"href": rootdir+"/index.php/Home/Option/shenpi"
+	}, {
+		"title": "自定义筛选",
+		"icon": "&#xe63c;",
+		"href": rootdir+"/index.php/Home/Option/shaixuan"
 	}]
 	
 }, {
