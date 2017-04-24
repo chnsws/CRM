@@ -44,11 +44,8 @@
 
 		 <script>
 			window.rooturl="{$_GET['root_dir']}";
-		  $(function() {
-   				 $( "#tabs" ).tabs();
- 		 });
 
-  		</script><!-- 标签-->
+  		</script>
 
   		<link rel="stylesheet" href="{$_GET['public_dir']}/kehucss/xinzeng.css"><!--客户新增CSS-->
 		<style>
@@ -71,13 +68,7 @@
    				#dialog-form label{ margin-bottom:12px; width:25%;text-align:left;margin-left:18px;padding:.8em;}
    				#sel{width:120px;}
    				 #dialog-form input.text { margin-bottom:12px; width:65%; padding: .8em 0em; }
-    			 fieldset { padding:0; border:0; margin-top:25px; }
-  				 div#users-contain { width: 350px; margin: 20px 0; }
-   				 div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
-   				 div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left;}
-    			.ui-dialog .ui-state-error { padding: .3em;}
-    			.validateTips { border: 1px solid transparent; padding: 0em;}
-    			.ui-dialog .ui-dialog-content {position: relative;border: 0;padding: 0em 0em;background: none;overflow: auto;}
+    			
     			#table_local_filter{width:300px;margin-top:-32px; float:right;}
     			#table_local_length{width:100px;}
     			.label-success{ height:28px;line-height:16px;width:60px; text-align: center;font-size:14px }
@@ -93,8 +84,10 @@
 			.sx_title{float:left;width:80px;height:25px;margin:5px 5px 5px 5px;line-height:25px;}
 			.sx_yes,.sx_no{width:auto;margin:5px 5px 5px 5px;cursor:pointer;padding:0 5px 0 5px;float:left;height:25px;line-height:25px;}
 			.sx_yes{background-color:#1AA094;border-radius:3px;color:#fff;}
-			.xinzeng2{float:right;position: relative;top:10px;}
+			.xinzeng2{float:right;}
 			.fa-pencil{float:right;}
+			.sx_tj_margain{margin-left:12px;}
+          
    			 </style>
   			  <script>
 							  $(function() {
@@ -146,7 +139,7 @@
 							   				 $.each(t, function() {
 							   				 	if(this.name.substr(-1,1)==']')
 							   				 	{
-							   				 		alert(this.name)
+							   				 		//alert(this.name)
 							   				 		var linshikey=this.name.replace('[]','');
 							   				 		if(d[linshikey]!=undefined)
 							   				 		{
@@ -166,12 +159,12 @@
 							   				 });	
 							     			//var zhi=$("#caonm").val();
 							     			
-							     		alert(JSON.stringify(d));
+							     		//alert(JSON.stringify(d));
 							     		
 							        	$.get(rooturl+'/index.php/Home/Kehu/add',{"id": JSON.stringify(d)},
 							        		 function(html){
 
-							        		 	alert(html)
+							        		// 	alert(html)
 							        		 		if(html=='ok'){
 							        		 			alert('添加成功');
 							        		 			location.reload();
@@ -238,7 +231,7 @@
 
     	</script>
     	
- <script>
+ <!--<script>
     		$(document).ready(function(){
     			$(".shaixuan").click(function(){
 
@@ -254,7 +247,7 @@
 
     			});
     		});
-    	</script>
+    	</script>-->
 
 	</head>
 
@@ -262,12 +255,12 @@
 	
 		 
 		<div id="tabs">
+		<div>
 			  <ul>
-			    <li><a href="#tabs-1">全部客户</a></li>
-			    <li><a href="#tabs-2">我的客户</a></li>
-			    <li><a href="#tabs-3">我下属的客户</a></li>
+			    <li class="panel-heading"><span class="panel-title">客户信息</span><span class="xinzeng2"><button  id="create-user">新增用户</button><span><button onclick="daoru()" style="margin-left:20px">导入客户</button></span></li>
 			    
 			  </ul>
+		</div>
   			<div id="tabs-1">
   			
   					<div id="kh_daoru" style="margin-top:40px">
@@ -295,25 +288,13 @@
 					</div>
 			   	</div>--> 
 			   	  <div id="sxdiv">
-            <div id="sxhidestr" >筛选条件：全部、123、123</div>
+            <div id="sxhidestr" >筛选条件：
+            <foreach name="sx_tj" item="bo">
+            <span class="sx_tj_margain">{$bo.name}</span>
+            </foreach></div>
 
             <div id="sxzddiv" style="display: none;border:1px" >
-                <div class="sxzddiv" id="wang">
-                    <div class="sx_title" >产品编号：</div>
-                    <span class="sx_yes">全部</span><span class="sx_no">123</span><span class="sx_no">456</span><span class="sx_no">789</span>
-                </div>
-           		<div class="sxzddiv" id="yu">
-           			<div class="sx_title">CPU型号：</div>
-           			<span class="sx_yes">全部</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span>
-           		</div>
-                <div class="sxzddiv" id="shuai">
-                	<div class="sx_title">销售单位：</div>
-                	<span class="sx_yes">全部</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span>
-                </div>
-                <div class="sxzddiv" id="wangyushuai">
-                	<div class="sx_title">单位成本：</div>
-                	<span class="sx_yes">全部</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span><span class="sx_no">123</span>
-                </div>
+                {$new_html}				
             </div>
 
         </div>
@@ -323,13 +304,10 @@
 							已选0位客户
 					   		<a href="#" onclick="piliangzhuanyi()" >批量转移</a>
 					   		<a href="#"  onclick="bianji_kehu1()">批量编辑</a>
-					   		<a href="#" onclick="del_check()">删除所选</a>
+					   		<a href="#" onclick="del_check()" >删除所选</a>
 					   		<a href="#">转移至客户公海</a>
 					</span>
-					<div class="xinzeng2">
-  					<li ><button id="create-user">新增用户</button><span><button onclick="daoru()" style="margin-left:20px">导入客户</button></span></li>
-  				
-  			</div>
+					
 					<div id="bj_kehu" style="margin-top:10px;padding-top:20px;" >
 					<form name="pl_bjform" method="post" >
 						<table class="pl_bj">
@@ -372,11 +350,7 @@
    				</div>
 		   		<div class="kehu">   	
 		   			<div class="panel panel-default">
-			   			 <div class="panel-heading">
-				        	 <div class="panel-title">
-				            		客户信息
-				       		 </div>
-			    		</div>
+			   			 
 						<div class="panel-body" >
 								 <table id="table_local" class="table table-bordered table-striped table-hover">
 						            <thead>
@@ -441,24 +415,40 @@
 								                		</if>
 								                	<else />
 								                	<label for="name">{$vo.name}:</label>
-									                	<if condition="$vo.type eq 3">
-									                		<select   name="{$vo.id}">
-										                		<foreach name="ywcs_biao" item="vow">	
-										                			<if condition="$vow.id eq $vo['id']">
-										                			 	<foreach name="vow"  item="voow" key="sq" >
-										                			 		<if condition ="$sq eq 'id'">
-																				<option >---请选择---</option>
-										                			 		<else />
-										                						<option value="{$sq}"  id="datepicker" >{$voow}</option>
-										                					</if>
-										                				</foreach>
-										                			</if>
-										                		</foreach>
-									                		</select>
-
-								                	
+								                		<if condition="$vo.type eq 3">
+								                			<select   name="{$vo.id}">
+									                			<foreach name="ywcs_biao" item="vow">	
+									                				<if condition="$vow.id eq $vo['id']">
+									                			 		<foreach name="vow"  item="voow" key="sq" >
+									                			 			<if condition ="$sq eq 'id'">
+																				<option style=" padding: .5em 0em;">---请选择---</option>
+									                			 		
+									                			 			<elseif condition ="$sq neq 'qy'" />
+									                							<option value="{$sq}"  >{$voow}</option>
+									                						<else>
+									                						</if>
+									                					</foreach>
+									                				</if>
+									                			</foreach>
+								                			</select>
+								                		<elseif condition="$vo.type eq 2" />
+								                			<input type="text" name="{$vo.id}"   class="text ui-widget-content ui-corner-all" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" >
+														<elseif condition="$vo.type eq 1" />
+								                		<form class="form-inline">
+     														 <div data-toggle="distpicker" style=" overflow:hidden">
+	       														 <div class="form-group" style="width:33.3%; float:left">
+	          															<select name="{$vo.id}[]" class="form-control"   ></select>
+	        													</div>
+														        <div class="form-group" style="width:33.3%; float:left">
+														          		<select name="{$vo.id}[]" class="form-control"   ></select>
+														        </div>
+														        <div class="form-group" style="width:33.3%; float:left">
+														         	 <select name="{$vo.id}[]" class="form-control"   ></select>
+														        </div>
+													     	</div>
+							 							</form>
 								                		<else />
-								                			<input type="text" name="{$vo.id}"   class="text ui-widget-content ui-corner-all canimei" >
+								                		<input type="text" name="{$vo.id}"  class="text ui-widget-content ui-corner-all" >
 								                		</if>
 								               		 </if>
 
@@ -481,11 +471,7 @@
 						  </form>
 				</div>
   		</div>
-	    <div id="tabs-2">
-			</div>   
-  <div id="tabs-3">
-  
-  </div>
+	    
 
 </div>
  
@@ -502,7 +488,7 @@ layui.use('upload', function(){
   layui.upload(options);
 });
     		function blurfun(){
-
+    		
     			$(".bianji").blur(function(){
     				if($(this).val()==$(this).attr("value")){
     				alert("没有修改信息");
@@ -515,7 +501,7 @@ layui.use('upload', function(){
 							        		//alert(html)
 													if(html=='ok'){
 
-location.reload();
+														location.reload();
 							        		 		}
 							                   });
 
@@ -540,7 +526,11 @@ function del_check()
 			as_key++;
 		}
 	});
-
+if(checked_str=="")
+ 	{
+ 		alert("没有选择客户");
+			return false;
+ 	}
 	checked_str=checked_str.substr(0,checked_str.length-1);
 
 	$.get(rooturl+'/index.php/Home/Kehu/del_kehu',{"id":checked_str},
@@ -566,7 +556,21 @@ function yc_file(thisdom){
     $.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+thisdelname});
     $(thisdom).parent().hide();
 }
-  			
+  	
+  function kehujibie(thisa){
+  	var kehu=$(thisa).prop('id');
+  	alert(kehu);
+  		$.get(rooturl+'/index.php/Home/Kehu/shaixuan',{"kehu":"mykehu"},
+							        		 function(html){
+							        		 		alert(html)
+							        			$("#jb_bianji").html(html);
+							        			$('.bianji_hide').hide();
+							        			pencil();
+							        			blurfun();
+							        			
+							                   });
+  }
+ 
 function bianji_kehu1()
 {
 	
@@ -583,11 +587,13 @@ function bianji_kehu1()
 				
 		}
 	});
-	
+
 	if(bianji_str=="")
 		{
 			alert("没有选择客户");
-			return false}
+			return false
+		}
+
 		layui.use('layer', function(){
 							var layer = layui.layer;
 							var win=layer.open({
@@ -600,11 +606,14 @@ function bianji_kehu1()
 								btn:['确认修改','取消'],
 								btn1:function(){
 									var xgzd=$("#show_yc").val();
-									var content=$("#"+xgzd).val();
+									var content=$("#"+xgzd+"wys").val();
 								
 									var xgzd2=$("#show_yc").children("option[value='"+xgzd+"']").text();//客户名称汉字
-									var content2=$("#"+xgzd).children("option[value='"+content+"']").text();//参数汉字
-
+									var content2=$("#"+xgzd+"wys").children("option[value='"+content+"']").text();//参数汉字
+									//alert(xgzd)
+									//alert(content)
+									//alert(xgzd2)
+									//alert(content2)
 									$.get(rooturl+'/index.php/Home/Kehu/pl_bianji',{"id":bianji_str,"ziduan":xgzd,"content":content,"xgzd2":xgzd2,"content2":content2},
 		        		 				function(html){
 		        		 					alert("批量修改成功")
@@ -753,7 +762,7 @@ var is_upload='';
 					                    return false;
 					                }
 					                $.get(rooturl+"/index.php/Home/Kehu/daoru_chanpin",{"csvfilename":is_upload},function(res){
-					                	alert(res)
+					                	//alert(res)
 					                    if(res=='1')
 					                    {	
 					                    	alert("导入成功")
@@ -763,7 +772,7 @@ var is_upload='';
 					                    {
 					                    	alert("亲~请下载最新模板")
 					                    	 return false;
-					                    }
+					                    }else
 					                    {
 					                        alert("导入失败，请刷新后重试");
 					                        return false;
@@ -796,6 +805,7 @@ var is_upload='';
         $(this).prop("name",'0');
     }
 });
+
 //筛选的选项
 window.id='';
 $(".sxzddiv").children("span").click(function(){
@@ -806,12 +816,23 @@ $(".sxzddiv").children("span").click(function(){
 
 	id+=title+","+s+"|";
 
-    alert(id)
+   //alert(id);
+	$.get(rooturl+'/index.php/Home/Kehu/shaixuan',{"id":id},
+							        		 function(html){
+							        		 	//alert(html)
+							        			$("#jb_bianji").html(html);
+							        			$('.bianji_hide').hide();
+							        			pencil();
+							        			blurfun();
+							                   });
  
 });
-$(".fa-pencil").click(function(){
-	$(this).parent().children("input").show();
-	  $(this).parent().children("input").select();
-	$(this).parent().children("span,i").hide();
-});
+function pencil(){
+	$(".fa-pencil").click(function(){
+		$(this).parent().children("input").show();
+		  $(this).parent().children("input").select();
+		$(this).parent().children("span,i").hide();
+	});
+}
+pencil();
 </script>
