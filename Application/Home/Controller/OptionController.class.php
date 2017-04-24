@@ -179,7 +179,8 @@ class OptionController extends Controller {
 		$this->assign("bumenFname",$bumenFname);
 
 		$this->assign("userList",$userList);
-		$this->assign("companyName",$nowCompanyArr[0]['gsxx_name']);
+		$companyname=$nowCompanyArr[0]['gsxx_name']==''?'（暂无公司名称）':$nowCompanyArr[0]['gsxx_name'];
+		$this->assign("companyName",$companyname);
 		$this->assign("bmList",$bmList);
 		$this->display();
 	}

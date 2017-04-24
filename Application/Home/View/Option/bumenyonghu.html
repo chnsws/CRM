@@ -755,9 +755,9 @@
 							return false;
 						}
 						var zzobj=/^(\w){6,20}$/;
-						if(!zzobj.exec(newpwd))
+						if(newpwd.length>20||newpwd.length<4)
 						{
-							tishi("密码只能由6-20位的数字、字母、下划线组成");
+							tishi("密码长度必须为4-20位");
 							return false;
 						}
 						if(newpwd!=querenpwd)
