@@ -19,22 +19,24 @@
 <!--UIkit-->
 <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
 <script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+
+<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/sortable.css" />
+<script src="{$_GET['public_dir']}/uikit/js/components/sortable.js"></script>
 <style>
 div ul{margin:0;padding:0;}
 th i{color:#ccc;}
-html{height:100%;}
 a{text-decoration:none;cursor:pointer;}
 a:link {color: #1AA094}		
 a:visited {color: #1AA094}
 ul{list-style:none;}
-body{height:100%;margin:0;background-color:#F7F7F7;}
+body{height:auto;margin:0;background-color:#F7F7F7;}
 /*div{border:1px solid #f00;}*/
-#box{height:100%;}
-#left-div{float:left;width:20%;height:100%;background-color:#fff;}
+#box{height:auto;}
+#left-div{float:left;width:20%;height:auto;background-color:#fff;}
 #left-top{height:40px;line-height:40px;color:#1AA094;padding-left:10px;font-weight:bold;background-color:#f2f2f2}
 
 #left-body div{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-top:5px;margin-bottom:5px;padding-left:5px;}
-#fllist li{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-bottom:5px;padding-left:5px;}
+#fllist li{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-bottom:5px;padding-left:5px;background-color:#fff;}
 .lv1{margin-left:15px;}
 .lv2{margin-left:30px;}
 .lv3{margin-left:45px;}
@@ -44,7 +46,7 @@ body{height:100%;margin:0;background-color:#F7F7F7;}
 .right-span i{color:#1AA094}
 .right-span{float:right;margin-right:5px;}
 
-#right-div{float:left;width:80%;height:100%;}
+#right-div{float:left;width:100%;}
 #right-top{margin-left:10px;height:60px;line-height:60px;border-bottom:1px solid #ccc;}
 #right-body{margin:10px 10px 0 10px;}
 
@@ -57,11 +59,14 @@ body{height:100%;margin:0;background-color:#F7F7F7;}
 
 .cp_name_td{cursor:pointer;color:#1AA094;}
 
+.link_span{cursor:pointer;color:#1AA094;margin-left:3px;margin-right:3px;}
+
 #daorudiv{width:600px;margin-bottom:25px;}
 .daoruhead{color:#60ADA5;background-color:#F7F7F7;padding:10px 0 10px 20px;}
 
 #fenleisel{height:40px;width:500px;margin:10px 0 10px 0;}
 
+#tabletishi{color:#828282;}
 #addcpdiv{width:400px;padding:20px 50px 20px 50px;font-weight:bold;font-size:14px;}
 #addcpdiv tr{height:50px;line-height:50px;}
 #add_yc_div{color:#1AA094;}
@@ -77,26 +82,59 @@ body{height:100%;margin:0;background-color:#F7F7F7;}
 #cpfladddiv{width:100%;margin-top:20px;}
 #cpfladddiv input{width:60%;}
 #cpfltitle{font-weight:bold;margin-right:10px;}
+
+.left_t{position:absolute;background-color:#fff;margin-left:40px;width:160px;}
+.left_t_th{position:absolute;background-color:#F2F2F2;margin-left:40px;width:160px;}
+#checkboxcss1{position:absolute;background-color:#F2F2F2;}
+#checkboxcss2{position:absolute;background-color:#fff;}
+
+.pxthcss{float:left;width:150px;text-align:center;background-color:#1AA094;cursor:pointer;margin:5px 5px 5px 5px;height:30px;line-height:30px;color:#fff;font-weight:bold;}
+.pxdiv{margin:10px 50px 10px 50px;width:500px;}
+.showoptiondiv{padding-left:58px;}
+
+/*筛选*/
+div,span{overflow:hidden;}
+#sxdiv{background-color:#fff;margin:10px 10px 0px 10px;padding:10px 5px 10px 5px;}
+#sxshowbtn{background-color:#fff;width:40px;text-align:center;margin:0 auto;cursor:pointer;}
+.sxzddiv{width:100%;height:auto;word-break: break-all;word-wrap: break-word;}
+.sx_title{float:left;width:80px;height:25px;margin:5px 5px 5px 5px;line-height:25px;}
+.sx_yes,.sx_no{width:auto;margin:5px 5px 5px 5px;cursor:pointer;padding:0 5px 0 5px;float:left;height:25px;line-height:25px;}
+.sx_yes{background-color:#1AA094;border-radius:3px;color:#fff;}
+
+.sxdbtn{height:26px;line-height:26px;padding-left:10px;padding-right:10px;margin-left:10px;}
+.sxzddiv_d .sxdbtn{margin-top:4px;}
+.sxsea{height:26px;margin-top:5px;border-radius:3px;border:1px solid #ccc;}
+.sxzddiv_w .sxdbtn{margin-bottom:2px;}
+.sxzddiv_q .sxsea{width:60px;}
+.sxzddiv_q .sxdbtn{height:28px;margin-bottom:2px;}
 </style>
 </head>
 <body>
 <div id="box">
-    <div id="left-div">
-        <div id="left-top">产品分类</div>
-        <div id="left-body">
-            <div id="user_company_name" class="lv-on" value="" onselectstart="return false">
-                <i class="fa fa-folder-open" aria-hidden="true"></i>
-                <span class="left-li">产品分类</span>
-                <span class="right-span">
-                    <a onclick='cpfladd(0)'><i class="fa fa-plus" aria-hidden="true"></i></a>
-                    <a style='margin-right:5px;' onclick='cpflshowlist(0)'><i class='fa fa-reorder' aria-hidden='true'></i></a>
-                </span>
+
+    <!-- 抽屉式边栏 -->
+    <div id="my-id" class="uk-offcanvas">
+        <div class="uk-offcanvas-bar" style="background-color:#fff;">
+            <div>
+                <div id="left-top">产品分类</div>
+                <div id="left-body">
+                    <div id="user_company_name" class="lv-on" value="" onselectstart="return false">
+                        <i class="fa fa-folder-open" aria-hidden="true"></i>
+                        <span class="left-li">产品分类</span>
+                        <span class="right-span">
+                            <a onclick='cpfladd(0)'><i class="fa fa-plus" aria-hidden="true"></i></a>
+                            <a style='margin-right:5px;' onclick='cpflshowlist(0)'><i class='fa fa-reorder' aria-hidden='true'></i></a>
+                        </span>
+                    </div>
+                    <ul id="fllist">
+                        {$bmlist}
+                    </ul>
+                </div>
             </div>
-            <ul id="fllist">
-				{$bmlist}
-            </ul>
         </div>
     </div>
+    
+    <!--产品列表-->
     <div id="right-div">
         <div id="right-top">
             <span>产品列表</span>
@@ -104,39 +142,41 @@ body{height:100%;margin:0;background-color:#F7F7F7;}
             <button class="layui-btn layui-btn-primary" onclick="daoru()">导入</button>
             <button class="layui-btn" onclick="cp_add()"><i class='fa fa-plus' aria-hidden='true'></i>新增产品</button>
         </div>
+        <!--筛选区域-->
+        <div id="sxdiv" >
+            <div id="sxhidestr">筛选条件：全部</div>
+            <!--<div id="sxzddiv" style="display: none">-->
+            <div id="sxzddiv" style="display: none">
+                {$sxhtml}
+            <a style='margin-left:5px;color:#6B6B6B' onclick="sxqk()">清除筛选条件</a>
+            </div>
+        </div>
+        <div id="sxshowbtn" onselectstart='return false' ><i class='fa fa-chevron-down' aria-hidden='true'></i></div>
+        <!--筛选结束-->
         <div id="right-body">
             <div id="right-body-top" class="uk-form">
                 <div id="rb-left">
+                    <button class="layui-btn layui-btn-primary" data-uk-offcanvas="{target:'#my-id'}"><i class='fa fa-arrow-left' aria-hidden='true'></i>分类列表</button>
                     <button class="layui-btn layui-btn-primary" onclick="pl_zhuanyi()"><i class='fa fa-edit' aria-hidden='true'></i>批量转移</button>
                     <button class="layui-btn layui-btn-primary" onclick="pl_qiyong()"><i class='fa fa-unlock' aria-hidden='true'></i>批量启用</button>
                     <button class="layui-btn layui-btn-primary" onclick="pl_jinyong()"><i class='fa fa-lock' aria-hidden='true'></i>批量禁用</button>
                     <button class="layui-btn layui-btn-primary" onclick="sel_del()"><i class='fa fa-trash' aria-hidden='true'></i>删除所选</button>
+                    <button class="layui-btn layui-btn-primary" onclick="show_option()"><i class='fa fa-list-ul' aria-hidden='true'></i>视图设置</button>
                 </div>
+                
                 <div id="rb-right" >
                     <select id="search_sel">
-                        <option value='1'>产品名称</option>
-                        <option value='2'>产品编号</option>
-                        <option value='3'>销售单位</option>
-                        <option value='4'>产品介绍</option>
+                        {$searchoption}
                     </select>
-                    <input type="text" id="search_ipt">
+                    <input type="search" id="search_ipt" placeholder="请输入搜索内容">
                     <button class="layui-btn" onclick="searchfun()">搜索</button>
                 </div>
             </div>
-            <div id="right-body-body" style="overflow-X:auto;height:77;width:100%" >
-                <table class="layui-table" style="width:1500px;" >
+            <span id="tabletishi">提示：可以按住键盘Shift键并滑动鼠标滑轮来横向滑动列表</span>
+            <div id="right-body-body" style="overflow-X:auto;height:77;width:100%;" >
+                <table class="layui-table" style="width:2000px;" >
                     <thead>
-                        <th style="width:12px;"><input type='checkbox' id="checkall"></th>
-                        <th>产品名称<i class='fa fa-sort-down' aria-hidden='true'></i></th>
-                        <th>产品编号<i class='fa fa-sort-down' aria-hidden='true'></i></th>
-                        <th>标准单价<i class='fa fa-sort-down' aria-hidden='true'></i></th>
-                        <th>销售单位<i class='fa fa-sort-down' aria-hidden='true'></i></th>
-                        <th>单位成本<i class='fa fa-sort-down' aria-hidden='true'></i></th>
-                        <th>毛利率<i class='fa fa-sort-down' aria-hidden='true'></i></th>
-                        <th>产品分类<i class='fa fa-sort-down' aria-hidden='true'></i></th>
-                        <th>产品介绍<i class='fa fa-sort-down' aria-hidden='true'></i></th>
-                        <th>创建时间<i class='fa fa-sort-down' aria-hidden='true'></i></th>
-                        <th>更新于<i class='fa fa-sort-down' aria-hidden='true'></i></th>
+                        {$thstr}
                     </thead>
                     <tbody>
                         {$cplist}
@@ -148,7 +188,7 @@ body{height:100%;margin:0;background-color:#F7F7F7;}
 </div>
 </body>
 <!--导入弹出层-->
-<div id="daorudiv">
+<div id="daorudiv" style="display: none">
     <div class="daoruhead">
         1.下载数据模板后，将要导入的数据填充到数据导入模板文件中，再进行上传导入。<br>
         2.模板中的表头不可更改，表头行不可删除。<br>
@@ -165,30 +205,19 @@ body{height:100%;margin:0;background-color:#F7F7F7;}
     <span style="color:#828282;cursor:pointer;position:absolute;bottom:0px;right:15px;" onclick="open_dr_history()">查看导入记录</span>
 </div>
 <!--导入历史弹出层-->
-<div id="daoru_history" style="width:580px;margin:0 10px 0 10px;padding:0;">
+<div id="daoru_history" style="width:580px;margin:0 10px 0 10px;padding:0;display:none">
     <table  class="layui-table" style="margin:0;padding:0;">
         <thead>
             <th>导入时间</th>
             <th>导入结果</th>
         </thead>
         <tbody>
-            <tr>
-                <td>2017-04-04 11:11:12</td>
-                <td>成功1条，失败0条</td>
-            </tr>
-            <tr>
-                <td>2017-04-04 11:11:11</td>
-                <td>成功1条，失败0条</td>
-            </tr>
-            <tr>
-                <td>2017-04-04 11:11:10</td>
-                <td>成功1条，失败0条</td>
-            </tr>
+    
         </tbody>
     </table>
 </div>
 <!--转移弹出层-->
-<div id="zhuanyidiv" class="uk-form">
+<div id="zhuanyidiv" class="uk-form" style="display: none"> 
     <center>
     <select id="fenleisel">
         {$cpfloption}
@@ -196,65 +225,16 @@ body{height:100%;margin:0;background-color:#F7F7F7;}
     </center>
 </div>
 <!--新增产品-->
-<div id="addcpdiv" class="uk-form">
-    <div id="add_cy_div">
-        <table>
-            <tr>
-                <td class="add_left"><span class="redstart">*</span>产品名称</td>
-                <td><input type="text" name="cp_name"></td>
-            </tr>
-            <tr>
-                <td class="add_left"><span class="redstart">*</span>产品编号</td>
-                <td><input type="text" name="cp_num"></td>
-            </tr>
-            <tr>
-                <td class="add_left"><span class="redstart">*</span>标准单价</td>
-                <td><input type="text" name="cp_danjia"></td>
-            </tr>
-            <tr>
-                <td class="add_left"><span class="redstart">*</span>销售单位</td>
-                <td><input type="text" name="cp_danwei"></td>
-            </tr>
-            <tr>
-                <td class="add_left">&nbsp;单位成本</td>
-                <td><input type="text" name="cp_chengben"></td>
-            </tr>
-        </table>
-    </div>
-    <div id="add_yc_div"><span onclick="more_info()" style="cursor:pointer;">展开更多信息<i class='fa fa-chevron-down' aria-hidden='true'></i></span></div>
-    <div id="add_yc_body">
-        <table>
-            
-            <tr>
-                <td class="add_left">&nbsp;产品分类</td>
-                <td>
-                    <select id="addflsel" name="cp_fenlei">
-                        {$cpfloption}
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td class="add_left">&nbsp;产品图片</td>
-                <td><input type="file" name="cpimage" lay-type="images" class="layui-upload-file" id="imm"  /></td>
-            </tr>
-            <tr>
-                <td class="add_left"></td>
-                <td id="cpimg_show"><img id="cpimg" src="{$_GET['public_dir']}/head-img/headimg2.jpg" style="margin-bottom: 10px;"></td>
-            </tr> 
-            <tr>
-                <td class="add_left" valign="top" style="line-height: 20px;">&nbsp;产品介绍</td>
-                <td><textarea id="cp_jieshao" name="cp_jieshao"></textarea></td>
-            </tr>   
-        </table>     
-    </div>
+<div id="addcpdiv" class="uk-form" style="display: none">
+    {$addlist}
 </div>
 <!--添加产品分类弹出层-->
-<div id="cpfladddiv" class="uk-form">
+<div id="cpfladddiv" class="uk-form" style="display: none">
     <center>
         <span id="cpfltitle">分类名称：</span><input type="text" id="newflname">
     </center>
 </div>
-<div id="flidlist" style="margin-left:10px;margin-right:10px;">
+<div id="flidlist" style="margin-left:10px;margin-right:10px;display:none;">
     <table class='layui-table' id="fllisttable">
         <thead>
             <th>分类名称</th>
@@ -264,6 +244,15 @@ body{height:100%;margin:0;background-color:#F7F7F7;}
             {$flidlist}
         </tbody>
     </table>
+</div>
+<!--显示设置-->
+<div id="show_option_div" style="width:600px;display:none;" class='layui-form'>
+    <div class='daoruhead showoptiondiv'>
+        可以在这里设置列表中需要显示或隐藏的字段
+    </div>
+    <div class="pxdiv">
+        {$pxdiv}
+    </div>
 </div>
 <script>
 $(".right-span").hide();
@@ -276,7 +265,13 @@ $("#addcpdiv").hide();
 $("#cpfladddiv").hide();
 $("#flidlist").hide();
 $("#filebody").hide();
+$("#show_option_div").hide();
+$("#sxzddiv").hide();
 window.root_dir="{$_GET['root_dir']}";
+window.nowpagepz={$pzjson};
+window.nowpagepx={$pxzdjson};
+
+
 $("li").attr("onselectstart","return false");//屏蔽双击选中
 //初始化
 layui.use('layer', function(){
@@ -290,11 +285,218 @@ layui.use('upload', function(){
 function tishi(neirong)
 {
     layer.msg(neirong, {
-        time: 1000, 
+        time: 2000, 
     });
 }
+//筛选模块-------------------
+$("#sxdiv").attr("onselectstart",'return false');
+//是否开启
+var kqsx="{$kqsx}";
+if(kqsx=='1')
+{
+    $("#sxdiv").show();
+    $("#sxshowbtn").show();
+}
+else
+{
+    $("#sxdiv").css("display","none");
+    $("#sxshowbtn").css("display","none");
+}
+//筛选
+$("#sxshowbtn").click(function(){
+    if($(this).prop("name")=='0'||$(this).prop("name")==undefined)
+    {
+        $("#sxhidestr").hide("fast");
+        $("#sxzddiv").show("fast");
+        $(this).html("<i class='fa fa-chevron-up' aria-hidden='true'></i>");
+        $(this).prop("name",'1');
+    }
+    else//隐藏筛选区域时更新筛选信息到筛选提示中
+    {
+        var sxdom=$("#sxzddiv").children("div");
+        var fornum=sxdom.length;
+        var tishi='';
+        for(a=0;a<fornum;a++)
+        {
+            var thiseachclass=sxdom.eq(a).prop("class");
+            var fdomindex=sxdom.eq(a).index();
+            if(thiseachclass=='sxzddiv')
+            {
+                var thistitle1=sxdom.eq(a).find("div").eq(0).text();
+                var thistext1=sxdom.eq(a).find("span[class='sx_yes']").text();
+                tishi+=thistitle1+thistext1+'、'
+            }
+            
+            if(thiseachclass=='sxzddiv_d')
+            {
+                var spandom2=sxdom.eq(a).find("span");
+                var fornum2=spandom2.length;
+                var indexstr2='';
+                for(a2=0;a2<fornum2;a2++)
+                {
+                    if(spandom2.eq(a2).prop("class")=='sx_yes'&&spandom2.eq(a2).index()!='1')
+                    {
+                        indexstr2+=spandom2.eq(a2).text()+',';
+                    }
+                }
+                indexstr2=indexstr2.substr(0,indexstr2.length-1);
+                indexstr2=indexstr2==''?'全部':indexstr2;
+                var thistitle2=sxdom.eq(a).find("div").eq(0).text();
+                tishi+=thistitle2+indexstr2+'、'
+            }
+            if(thiseachclass=='sxzddiv_w')
+            {
+                var thistitle3=sxdom.eq(a).find("div").eq(0).text();
+                var text3=sxdom.eq(a).find("input[type='search']").val();
+                text3=text3==''?'全部':text3;
+                tishi+=thistitle3+text3+'、'
+            }
+            if(thiseachclass=='sxzddiv_q')
+            {
+                var text1=sxdom.eq(a).find("input[type='number']").eq(0).val();
+                var text2=sxdom.eq(a).find("input[type='number']").eq(1).val();
+                if(text1==''||text2=='')
+                {
+                    sxdom.eq(a).find("span").eq(0).prop("class",'sx_yes');
+                }
+                var thistitle4=sxdom.eq(a).find("div").eq(0).text();
+                var indexstr4=sxdom.eq(a).find("span").eq(0).prop("class")=='sx_yes'?sxdom.eq(a).find("span").eq(0).text():text1+"-"+text2;
+                tishi+=thistitle4+indexstr4+'、'
+            }
+            
+        }
+        $("#sxhidestr").text("筛选条件："+tishi);
+        $("#sxzddiv").hide("fast");
+        $("#sxhidestr").show("fast");
+        $(this).html("<i class='fa fa-chevron-down' aria-hidden='true'></i>");
+        $(this).prop("name",'0');
+    }
+});
+//筛选的选项（单选）
+$(".sxzddiv").children("span").click(function(){
+    $(this).parent().children("span").prop("class","sx_no");
+    $(this).prop("class","sx_yes");
+});
 
-
+//筛选的选项（多选）
+$(".sxzddiv_d").children("span").click(function(){
+    if($(this).index()!=1)
+    {
+        $(this).parent().children("span").eq(0).prop("class","sx_no");
+    }
+    var thisclass=$(this).prop("class");
+    //$(this).parent().children("span").prop("class","sx_no");
+    if(thisclass=='sx_yes')
+    {
+        $(this).prop("class","sx_no");
+    
+    }
+    else
+    {
+        $(this).prop("class","sx_yes");
+    }
+    var thisspandom=$(this).parent().find("span");
+    var ssa=0;
+    for(a=0;a<thisspandom.length;a++)
+    {
+        if(thisspandom.eq(a).index()!=1&&thisspandom.eq(a).prop("class")=='sx_yes')
+        {
+            ssa=1;
+        }
+    }
+    if(ssa!=1)
+    {
+        $(this).parent().find("span").eq(0).prop("class",'sx_yes');
+    }
+});
+$(".sxsea").change(function(){
+    if($(this).val()!='')
+    {
+        $(this).parent().children("span").prop("class","sx_no");
+    }
+    else
+    {
+        $(this).parent().children("span").prop("class","sx_yes");
+    }
+});
+$("#sxzddiv").find("span").click(function(){
+    if($(this).parent().prop("class")!='sxzddiv') return false;
+    sxfun();
+});
+$(".sxdbtn").click(function(){
+    sxfun();
+});
+//获取筛选的所有元素
+function sxfun()
+{
+    window.jiazai= layer.load(2);
+    var sxdom=$("#sxzddiv").children("div");
+    var fornum=sxdom.length;
+    var ajaxstr='';
+    for(a=0;a<fornum;a++)
+    {
+        var thiseachclass=sxdom.eq(a).prop("class");
+        var fdomindex=sxdom.eq(a).index();
+        
+        if(thiseachclass=='sxzddiv')
+        {
+            var thisindex1=sxdom.eq(a).find("span[class='sx_yes']").index();
+            var indexstr=thisindex1=='1'?'[1]':thisindex1;
+            ajaxstr+="["+fdomindex+"]:["+indexstr+"],";
+        }
+        
+        if(thiseachclass=='sxzddiv_d')
+        {
+            var spandom2=sxdom.eq(a).find("span");
+            var fornum2=spandom2.length;
+            var indexstr2='';
+            for(a2=0;a2<fornum2;a2++)
+            {
+                if(spandom2.eq(a2).prop("class")=='sx_yes'&&spandom2.eq(a2).index()!='1')
+                {
+                    indexstr2+=spandom2.eq(a2).index()+',';
+                }
+            }
+            indexstr2=indexstr2.substr(0,indexstr2.length-1);
+            indexstr2=indexstr2==''?'[1]':indexstr2;
+            ajaxstr+="["+fdomindex+"]:["+indexstr2+"],";
+        }
+        if(thiseachclass=='sxzddiv_w')
+        {
+            var text3=sxdom.eq(a).find("input[type='search']").val();
+            var indexstr3=sxdom.eq(a).find("span").eq(0).prop("class")=='sx_yes'?'[1]':text3;
+            ajaxstr+="["+fdomindex+"]:["+indexstr3+"],";
+        }
+        if(thiseachclass=='sxzddiv_q')
+        {
+            var text1=sxdom.eq(a).find("input[type='number']").eq(0).val();
+            var text2=sxdom.eq(a).find("input[type='number']").eq(1).val();
+            if(text1==''||text2=='')
+            {
+                sxdom.eq(a).find("span").eq(0).prop("class",'sx_yes');
+            }
+            var indexstr3=sxdom.eq(a).find("span").eq(0).prop("class")=='sx_yes'?'[1]':"["+text1+"]["+text2+"]";
+            ajaxstr+="["+fdomindex+"]:["+indexstr3+"],";
+        }
+        
+    }
+    ajaxstr=ajaxstr.substr(0,ajaxstr.length-1);
+    
+    //alert(ajaxstr);return false;
+    var px=JSON.stringify(nowpagepx);
+    var pz=JSON.stringify(nowpagepz);
+    $.post(root_dir+"/index.php/Home/Chanpin/shaixuan",{"ajaxstr":ajaxstr,"px":px,"pz":pz},function(res){
+        //alert(res);
+        $("#right-body-body").children("table").find("tbody").html(res);
+        layer.close(jiazai);
+    });
+}
+//清除筛选条件
+function sxqk()
+{
+    window.location.reload();
+}
+//筛选模块结束------------
 //部门列表上方公司名称点击事件
 $(".lv-on").on("click",function(){
     var clicktext=$(this).text();
@@ -350,7 +552,6 @@ function onshijian()
                 $(".lv"+thislv+thisid).children("i").removeClass("fa-folder");
                 $(".lv"+thislv+thisid).children("i").addClass("fa-folder-open");
                 $(".lv"+thislv+thisid).css('border-left','4px solid #828282');
-            
             }
         }
     });
@@ -368,8 +569,10 @@ $(".lv-on").mouseout(function(){
 //显示该分类的产品
 function cpflshowlist(flid)
 {
-    $.get(root_dir+"/index.php/Home/Chanpin/get_fl_cplist",{"clickflid":flid},function(res){
-        $("#right-body-body").children("table").find("tbody").html(res);
+    var px=JSON.stringify(nowpagepx);
+    var pz=JSON.stringify(nowpagepz);
+    $.post(root_dir+"/index.php/Home/Chanpin/get_fl_cplist",{"clickflid":flid,"px":px,"pz":pz},function(res){
+       $("#right-body-body").children("table").find("tbody").html(res);
     });
 }
 
@@ -480,6 +683,11 @@ function daoru()
                     {
                         $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload});
                         location.reload();
+                    }
+                    else if(res=='4')
+                    {
+                        tishi("当前模板已失效，请下载最新模板再进行导入。");
+                        return false;
                     }
                     else
                     {
@@ -762,67 +970,52 @@ function cp_add()
             content:$("#addcpdiv"),
             btn:["保存","取消"],
             btn1:function(){
-                var cp_name=$("input[name='cp_name']").val();//必填
-                var cp_num=$("input[name='cp_num']").val();//必填
-                var cp_danjia=$("input[name='cp_danjia']").val();//必填
-                var cp_danwei=$("input[name='cp_danwei']").val();//必填
-                var cp_chengben=$("input[name='cp_chengben']").val();
-                var cp_fenlei=$("select[name='cp_fenlei']").val();
-                var cp_img=has_old_img;
-                var cp_jieshao=$("textarea[name='cp_jieshao']").val();
-                if(cp_name==''||cp_num==''||cp_danjia==''||cp_danwei=='')
+                var addstr='';
+                var trdom=$("#addcpdiv").find("tr");
+                fornum=trdom.length;
+
+                for(a=0;a<fornum;a++)
                 {
-                    tishi("必填项不能为空");
-                    return false;
-                }
-                if(cp_name.length>16)
-                {
-                    tishi("产品名称不能超过16个字符");
-                    return false;
-                }
-                if(cp_num.length>16)
-                {
-                    tishi("产品编号不能超过16个字符");
-                    return false;
-                }
-                if(cp_danwei.length>10)
-                {
-                    tishi("销售单位不能超过10个字符");
-                    return false;
-                }
-                if(cp_jieshao.length>500)
-                {
-                    tishi("产品介绍不能超过500个字符");
-                    return false;
-                }
-                var zzobj=/^([1-9]\d*|0)(\.\d{1,2})?$/;
-                if(cp_danjia!='')
-                {
-                    if(!zzobj.exec(cp_danjia))
+                    var thisdom=$("#addcpdiv").find("tr").eq(a);
+                    var thistagname=thisdom.find("td").eq(1).children().prop("tagName");//标签名
+                    var thiszdyname=thisdom.find("td").eq(1).children().prop("name");//控件name
+                    var thiszdyvalue=thisdom.find("td").eq(1).children().val();//控件值
+
+                    //必填项
+                    if(thisdom.find("td").eq(0).children("span").attr("class")=="redstart")
                     {
-                        tishi("标准单价最高只支持两位小数");
-                        return false;
+                        if(thistagname=="DIV")//图片上传
+                        {
+                            if(has_old_img=='')
+                            {
+                                tishi("必须上传一个产品图片");
+                                return false;
+                            }
+                        }
+                        else//text select textarea
+                        {
+                            if(thiszdyvalue=='')
+                            {
+                                tishi("必填项不能为空");
+                                return false;
+                            }
+                        }
+                    }//必填验证结束
+                    if(thistagname=="DIV")//图片上传
+                    {
+                        addstr+="[zdy7]:["+has_old_img+"],";
                     }
-                    if(cp_danjia.length>20)
+                    else if(thistagname=='IMG')
                     {
-                        tishi("标准单价长度不能超过20个字符");
-                        return false;
+                        continue;
+                    }
+                    else//text select textarea
+                    {
+                        addstr+="["+thiszdyname+"]:["+thiszdyvalue+"],"
                     }
                 }
-                if(cp_chengben!='')
-                {
-                    if(!zzobj.exec(cp_chengben))
-                    {
-                        tishi("单位成本最高只支持两位小数");
-                        return false;
-                    }
-                    if(cp_chengben.length>20)
-                    {
-                        tishi("单位成本长度不能超过20个字符");
-                        return false;
-                    }
-                }
-                $.post(root_dir+"/index.php/Home/Chanpin/cp_add",{"cp_name":cp_name,"cp_num":cp_num,"cp_danjia":cp_danjia,"cp_danwei":cp_danwei,"cp_chengben":cp_chengben,"cp_fenlei":cp_fenlei,"cp_img":cp_img,"cp_jieshao":cp_jieshao},function(res){
+                addstr=addstr.substr(0,addstr.length-1);
+                $.post(root_dir+"/index.php/Home/Chanpin/cp_add",{"addstr":addstr},function(res){
                     if(res=='1')
                     {
                         location.reload();
@@ -830,16 +1023,6 @@ function cp_add()
                     else if(res=='2')
                     {
                         tishi("添加失败");
-                        return false;
-                    }
-                    else if(res=='3')
-                    {
-                        tishi("添加失败，产品:"+cp_name+"已存在");
-                        return false;
-                    }
-                    else if(res=='4')
-                    {
-                        tishi("添加失败，产品编号:"+cp_num+"已存在");
                         return false;
                     }
                     else
@@ -872,11 +1055,10 @@ function searchfun()
 {
     var sea_type=$("#search_sel").val();
     var sea_text=$("#search_ipt").val();
-    if(sea_text=='')
-    {
-        sea_type='0';
-    }
-    $.post(root_dir+"/index.php/Home/Chanpin/searchfun",{"sea_type":sea_type,"sea_text":sea_text},function(res){
+    var px=JSON.stringify(nowpagepx);
+    var pz=JSON.stringify(nowpagepz);
+    //alert(sea_text+sea_type);return false;
+    $.post(root_dir+"/index.php/Home/Chanpin/searchfun",{"sea_type":sea_type,"sea_text":sea_text,"px":px,"pz":pz},function(res){
         $("#right-body-body").children("table").find("tbody").html(res);
     });
 }
@@ -1004,7 +1186,6 @@ function cpfldel(thisid)
         btn: ['删除', '取消'],
         btn1: function(index, layero){
             $.get(root_dir+"/index.php/Home/Chanpin/delfl",{"delid":thisid,"delname":thistext},function(res){
-                alert(res);return false;
                 if(res=='1')
                 {
                     location.reload();
@@ -1033,6 +1214,64 @@ function get_dr_history()
     $.get(root_dir+"/index.php/Home/Chanpin/get_dr_history",function(res){
         $("#daoru_history").children("table").find("tbody").html(res);
     });
+}
+$(".pxthcss").click(function(){
+    var isclick=$(this).prop("lang");
+    if(isclick=='1'||isclick==undefined)
+    {
+        $(this).prop("style","background-color:#ccc;");
+        $(this).prop("lang",'0');
+    }
+    else
+    {
+        $(this).prop("style","background-color:#1AA094;");
+        $(this).prop("lang",'1');
+    }
+});
+//显示设置
+function show_option()
+{
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        var hisopen=layer.open({
+            type:1,
+            area:"600px",
+            title: '修改字段显示',
+            content:$("#show_option_div"),
+            btn:["保存","取消"],
+            btn1:function(){
+                var checkid='';
+                $(".pxthcss").each(function(){
+                    if($(this).prop("lang")=='1'||$(this).prop("lang")==undefined)
+                        checkid+=$(this).prop("id")+',';
+                });
+                if(checkid=='')
+                {
+                    tishi("尚未选择需要显示的字段，请至少选择一个字段显示。");
+                    return false;
+                }
+                $.post(root_dir+"/index.php/Home/Chanpin/show_option",{"checkid":checkid},function(res){
+                    if(res=='1')
+                    {
+                        location.reload();
+                    }
+                    else if(res=='2')
+                    {
+                        tishi("保存失败");
+                        return false;
+                    }
+                    else
+                    {
+                        tishi("保存失败，请刷新后重试");
+                        return false;
+                    }
+                });
+            },
+            btn2:function(index){
+                layer.close(index);
+            }
+        }); 
+    });  
 }
 //表格排序
 function table_px()
@@ -1087,8 +1326,27 @@ function table_px()
         }
         var tdarr=new Array();
         var trarr=new Array();
-        var a=0;
-        var arrnum=0;
+        var sxarr=new Array();
+        var sxlen=0;
+        var trdom=$(this).parent().parent().parent().children("tbody").find("tr");
+        var trdomlen=trdom.length;
+        //alert(trdomlen);
+        for(aa=0;aa<trdomlen;aa++)
+        {
+            var thiscolstdtext=trdom.eq(aa).find("td").eq(thnum).html();
+
+            if(trarr[thiscolstdtext]!=undefined)
+            {
+                trarr[thiscolstdtext]+='<tr>'+trdom.eq(aa).html()+'</tr>';
+            }
+            else
+            {
+                trarr[thiscolstdtext]='<tr>'+trdom.eq(aa).html()+'</tr>';
+                sxlen=sxarr.length;
+                sxarr[sxlen]=thiscolstdtext;
+            }
+        }
+        /*
         $(this).parent().parent().parent().children("tbody").find("tr").each(function(){
             var thiscolstdtext=$(this).find("td").eq(thnum).html();
             if(trarr[thiscolstdtext]!=undefined)
@@ -1103,15 +1361,68 @@ function table_px()
                 a++;
             }
         });
-        tdarr.sort();
+         sxarr.sort();
+        */
+
+        var lsv='';
+        var ccc='';
+        var isnum=0;
+        var bb1='';
+        var bb2='';
+        sxlen=sxarr.length;
+        for(d=1;d<sxlen;d++)
+        {
+            for(e=0;e<sxlen-d;e++)
+            {
+                ccc=parseInt(e)+1;
+                bb1=isNaN(parseInt(sxarr[e]))?sxarr[e]:parseInt(sxarr[e]);
+                bb2=isNaN(parseInt(sxarr[ccc]))?sxarr[ccc]:parseInt(sxarr[ccc]);
+                
+                bb1d=isNaN(bb1)?"0":sxarr[e].split('.').length;
+                bb2d=isNaN(bb2)?"0":sxarr[ccc].split('.').length;
+
+                bb1=bb1d=='2'?parseFloat(sxarr[e]):bb1;
+                bb2=bb2d=='2'?parseFloat(sxarr[ccc]):bb2;
+
+                if(isNaN(bb1)&&isNaN(bb2))
+                {
+                    bb1=sxarr[e].charCodeAt();
+                    bb2=sxarr[ccc].charCodeAt();
+                }
+                var tm1=sxarr[e];
+                var tm2=sxarr[ccc];
+                var tmn1=tm1.split('-');
+                var tmn2=tm2.split('-');
+                if(tm1.split('-').length==3&&tmn1[0].length==4&&tmn1[1].length==2)
+                {
+                    bb1=tm1;
+                }
+                if(tm2.split('-').length==3&&tmn2[0].length==4&&tmn2[1].length==2)
+                {
+                    bb2=tm2;
+                }
+
+                //alert(bb1=='NaN')
+                //alert(bb1+'>'+bb2);
+                //alert(bb1>bb2);
+                if(bb1>bb2)
+                {
+                    isnum=1;
+                    lsv=sxarr[parseInt(e)+1];
+                    sxarr[parseInt(e)+1]=sxarr[e];
+                    sxarr[e]=lsv;
+                }
+            }
+        }
         if(sorj=='j')
         {
-            tdarr.reverse();
+           sxarr.reverse();
         }
         var newtable='';
+        arrnum=sxarr.length;
         for(aa=0;aa<arrnum;aa++)
         {
-            newtable+=trarr[tdarr[aa]];
+            newtable+=trarr[sxarr[aa]];
         }
         $(this).parent().parent().parent().children("tbody").html(newtable);
     });

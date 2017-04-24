@@ -33,7 +33,7 @@ div,ul,li{border:0;padding:0;}
 #fujian_table tbody tr{height:50px;line-height:50px;}
 
 .info_title{font-weight:bold;width:70px;}
-.info_content{padding-left:20px;}
+.info_content{padding-left:20px;word-break: break-all;word-wrap: break-word;}
 
 .link_span{cursor:pointer;color:#1AA094;margin-right:10px;}
 
@@ -69,64 +69,25 @@ textarea{resize:none;}
     <div id="cp_page">
         <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
             <ul class="layui-tab-title">
-                <li class="layui-this">基本信息</li>
+                <li class="layui-this">产品信息</li>
                 <li>附件</li>
             </ul>
             <div class="layui-tab-content">
                 <div id="jibenpage" class="layui-tab-item layui-show">
-                    <span>基本信息</span>
+                    <span>产品信息</span>
                     <table>
-                        <tr>
-                            <td class="info_title">产品名称：</td>
-                            <td class="info_content">{$cpinfoarr['cp_name']}</td>
-                        </tr>
-                        <tr>
-                            <td class="info_title">产品编号：</td>
-                            <td class="info_content">{$cpinfoarr['cp_num']}</td>
-                        </tr>
-                        <tr>
-                            <td class="info_title">标准单价：</td>
-                            <td class="info_content">{$cpinfoarr['cp_danjia']}</td>
-                        </tr>
-                        <tr>
-                            <td class="info_title">销售单位：</td>
-                            <td class="info_content">{$cpinfoarr['cp_danwei']}</td>
-                        </tr>
-                        <tr>
-                            <td class="info_title">单位成本：</td>
-                            <td class="info_content">{$cpinfoarr['cp_chengben']}</td>
-                        </tr>
-                        <tr>
-                            <td class="info_title">毛利率：</td>
-                            <td class="info_content">{$cpinfoarr['lilv']}</td>
-                        </tr>
-                    </table>
-                    <hr />
-                    <span>其他信息</span>
-                    <table>
-                        <tr>
-                            <td class="info_title">产品分类：</td>
-                            <td class="info_content">{$cpinfoarr['cpfl']}</td>
-                        </tr>
-                        <tr>
-                            <td class="info_title">产品图片：</td>
-                            <td class="info_content" id="cptp"><a onclick="sc()">查看图片</a><span id='spanaaa' href="{$_GET['public_dir']}/chanpinfile/cpimg/{$cpinfoarr['cp_img']}" data-uk-lightbox title="<div style='float:right;'><span class='link_span' style='color:#fff;font-size:22px;font-weight:bold;padding-top:10px;' onclick='xiazai(this)'><i class='fa fa-cloud-download' aria-hidden='true'></i></span>&nbsp;&nbsp;&nbsp;<span class='link_span' style='color:#fff;font-size:22px;font-weight:bold;padding-top:10px;' onclick='shanchu(this)'><i class='fa fa-trash' aria-hidden='true'></i></span></div>" ></span></td>
-                        </tr>
-                        <tr>
-                            <td class="info_title">产品介绍：</td>
-                            <td class="info_content" style="word-break: break-all;word-wrap: break-word;">{$cpinfoarr['cp_jieshao']}</td>
-                        </tr>
+                        {$infostr}
                     </table>
                     <hr />
                     <span>系统信息</span>
                     <table>
                         <tr>
                             <td class="info_title">创建时间：</td>
-                            <td class="info_content">{$cpinfoarr['cp_add_time']}</td>
+                            <td class="info_content">{$xitonginfo['add']}</td>
                         </tr>
                         <tr>
                             <td class="info_title">更新于：</td>
-                            <td class="info_content">{$cpinfoarr['cp_edit_time']}</td>
+                            <td class="info_content">{$xitonginfo['edit']}</td>
                         </tr>
                     </table>
                 </div>
@@ -155,51 +116,13 @@ textarea{resize:none;}
 <div id="addcpdiv" class="uk-form">
     <div id="add_cy_div">
         <table>
-            <tr>
-                <td class="add_left"><span class="redstart">*</span>产品名称</td>
-                <td><input type="text" name='new_name' value="{$cpinfoarr['cp_name']}"></td>
-            </tr>
-            <tr>
-                <td class="add_left"><span class="redstart">*</span>产品编号</td>
-                <td><input type="text" name='new_num' value="{$cpinfoarr['cp_num']}"></td>
-            </tr>
-            <tr>
-                <td class="add_left"><span class="redstart">*</span>标准单价</td>
-                <td><input type="text" name='new_danjia' value="{$cpinfoarr['cp_danjia']}"></td>
-            </tr>
-            <tr>
-                <td class="add_left"><span class="redstart">*</span>销售单位</td>
-                <td><input type="text" name='new_danwei' value="{$cpinfoarr['cp_danwei']}"></td>
-            </tr>
-            <tr>
-                <td class="add_left">&nbsp;单位成本</td>
-                <td><input type="text" name='new_chengben' value="{$cpinfoarr['cp_chengben']}"></td>
-            </tr>
+            {$cydiv}
         </table>
     </div>
     <div id="add_yc_div"><span onclick="more_info()" style="cursor:pointer;">展开更多信息<i class='fa fa-chevron-down' aria-hidden='true'></i></span></div>
     <div id="add_yc_body">
         <table>
-            <tr>
-                <td class="add_left">&nbsp;产品分类</td>
-                <td>
-                    <select id="addflsel" name='new_fenlei'>
-                        {$cpfloption}
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td class="add_left">&nbsp;产品图片</td>
-                <td><input type="file" name="cpimage" lay-type="images" class="layui-upload-file" id="imm"  /></td>
-            </tr>
-            <tr>
-                <td class="add_left"></td>
-                <td id="cpimg_show"><img id="cpimg" src="{$_GET['public_dir']}/chanpinfile/cpimg/{$cpinfoarr['cp_img']}" style="margin-bottom: 10px;"></td>
-            </tr> 
-            <tr>
-                <td class="add_left" valign="top" style="line-height: 20px;">&nbsp;产品介绍</td>
-                <td><textarea id="cp_jieshao" name='new_jieshao'>{$cpinfoarr['cp_jieshao']}</textarea></td>
-            </tr>    
+            {$ncydiv}   
         </table>    
     </div>
 </div>
@@ -234,11 +157,6 @@ textarea{resize:none;}
 <script>
 $("#addcpdiv").hide();
 $("#add_yc_body").hide();
-var editimgsrc="{$cpinfoarr['cp_img']}";
-if(!editimgsrc)
-{
-    $("#cpimg").hide();
-}
 $("#fujian_div").hide();
 $("#filebody").hide();
 window.root_dir="{$_GET['root_dir']}";
@@ -257,11 +175,7 @@ layui.use('upload', function(){
   layui.upload(options);
 });
 
-var cptp="{$cpinfoarr['cp_img']}";
-if(cptp=='')
-{
-    $("#cptp").html("暂无产品图片");
-}
+
 //$.post("__URL__/demo",{"yzm":abc},function(data){alert(data)})
 //黑色半透明提示
 function tishi(neirong)
@@ -383,6 +297,12 @@ function reload_file_list()
         $("#fujian_table").find("tbody").html(res);
     });
 }
+//下载附件
+function down_fujian(fjid)
+{
+    window.location=root_dir+"/index.php/Home/Chanpin/fujian_download?fjid="+fjid;
+}
+//删除附件
 function del_fujian(thisfjid)
 {
     var fileyname=$("#fujian_table").find("tbody").find("span[onclick='del_fujian("+thisfjid+")']").parent().parent().find("td").eq("1").text();
@@ -495,133 +415,57 @@ function bj_chanpin()
             content:$("#addcpdiv"),
             btn:["保存","取消"],
             btn1:function(index,layero){
-                var old_name="{$cpinfoarr['cp_name']}"
-                var old_num="{$cpinfoarr['cp_num']}";
-                var old_danjia="{$cpinfoarr['cp_danjia']}";
-                var old_danwei="{$cpinfoarr['cp_danwei']}";
-                var old_chengben="{$cpinfoarr['cp_chengben']}";
-                var old_fenlei="{$cpinfoarr['cp_fenlei']}";
-                var old_img="{$cpinfoarr['cp_img']}";
-                var old_jieshao="{$cpinfoarr['cp_jieshao']}";
+                var oldimgname="{$oldimgname}";
+                img_is_up=img_is_up==''?oldimgname:img_is_up;
+                var addstr='';
+                var trdom=$("#addcpdiv").find("tr");
+                fornum=trdom.length;
 
-                //alert(old_name+"="+old_num+"="+old_danjia+"="+old_danwei+"="+old_chengben+"="+old_fenlei+"="+old_img+"="+old_jieshao);
-                //return false;
-
-                var new_name=$("input[name='new_name']").val();
-                var new_num=$("input[name='new_num']").val();
-                var new_danjia=$("input[name='new_danjia']").val();
-                var new_danwei=$("input[name='new_danwei']").val();
-                var new_chengben=$("input[name='new_chengben']").val();
-                var new_fenlei=$("select[name='new_fenlei']").val();
-                var new_img=img_is_up;
-                var new_jieshao=$("textarea[name='new_jieshao']").val();
-                //alert(new_name+"="+new_num+"="+new_danjia+"="+new_danwei+"="+new_chengben+"="+new_fenlei+"="+new_img+"="+new_jieshao);
-                //alert(old_fenlei+new_fenlei);return false;
-                //return false;
-                var editstr='';
-                //if(new_fenlei=='0') new_fenlei='';
-                if(old_name!=new_name)
+                for(a=0;a<fornum;a++)
                 {
-                    if(new_name=='')
+                    var thisdom=$("#addcpdiv").find("tr").eq(a);
+                    var thistagname=thisdom.find("td").eq(1).children().prop("tagName");//标签名
+                    var thiszdyname=thisdom.find("td").eq(1).children().prop("name");//控件name
+                    var thiszdyvalue=thisdom.find("td").eq(1).children().val();//控件值
+                    
+                    //必填项
+                    if(thisdom.find("td").eq(0).children("span").attr("class")=="redstart")
                     {
-                        tishi("产品名称不能为空");
-                        return false;
+                        if(thistagname=="DIV")//图片上传
+                        {
+                            if(img_is_up=='')
+                            {
+                                tishi("必须上传一个产品图片");
+                                return false;
+                            }
+                        }
+                        else//text select textarea
+                        {
+                            if(thiszdyvalue=='')
+                            {
+                                tishi("必填项不能为空");
+                                return false;
+                            }
+                        }
+                    }//必填验证结束
+                    if(thistagname=="DIV")//图片上传
+                    {
+                        addstr+="[zdy7]:["+img_is_up+"],";
                     }
-                    if(new_name.length>16)
+                    else if(thistagname=='IMG')
                     {
-                        tishi("产品名称不能超过16个字符");
-                        return false;
+                        continue;
                     }
-                    editstr+="[cp_name]:["+new_name+"],";
-                }
-                if(old_num!=new_num)
-                {
-                    if(new_num=='')
+                    else//text select textarea
                     {
-                        tishi("产品编号不能为空");
-                        return false;
-                    }
-                    if(new_num.length>16)
-                    {
-                        tishi("产品编号不能超过16个字符");
-                        return false;
-                    }
-                    editstr+="[cp_num]:["+new_num+"],";
-                }
-                var zzobj=/^([1-9]\d*|0)(\.\d{1,2})?$/;
-                if(old_danjia!=new_danjia)
-                {
-                    if(new_danjia=='')
-                    {
-                        tishi("标准单价不能为空");
-                        return false;
-                    }
-                    if(!zzobj.exec(new_danjia))
-                    {
-                        tishi("标准单价最高只支持两位小数");
-                        return false;
-                    }
-                    if(new_danjia.length>20)
-                    {
-                        tishi("标准单价长度不能超过20个字符");
-                        return false;
-                    }
-                    editstr+="[cp_danjia]:["+new_danjia+"],";
-                }
-                if(old_danwei!=new_danwei)
-                {
-                    if(new_danwei=='')
-                    {
-                        tishi("销售单位不能为空");
-                        return false;
-                    }
-                    editstr+="[cp_danwei]:["+new_danwei+"],";
-                }
-                if(old_chengben!=new_chengben)
-                {
-                    if(!zzobj.exec(new_chengben))
-                    {
-                        tishi("单位成本最高只支持两位小数");
-                        return false;
-                    }
-                    if(new_chengben.length>20)
-                    {
-                        tishi("单位成本长度不能超过20个字符");
-                        return false;
-                    }
-                    editstr+="[cp_chengben]:["+new_chengben+"],";
-                }
-                if(old_fenlei!=new_fenlei)
-                {
-                    editstr+="[cp_fenlei]:["+new_fenlei+"],";
-                }
-                if(img_is_up!='')
-                {
-                    editstr+="[cp_img]:["+img_is_up+"],";
-                    if(old_img!='')
-                    {
-                        editstr+="[del_img]:["+old_img+"],";
+                        addstr+="["+thiszdyname+"]:["+thiszdyvalue+"],"
                     }
                 }
-                if(old_jieshao!=new_jieshao)
-                {
-                    if(new_jieshao.length>500)
-                    {
-                        tishi("产品介绍不能超过500个字符");
-                        return false;
-                    }
-                    editstr+="[cp_jieshao]:["+new_jieshao+"],";
-                }
-                //如果什么都没修改，但是点了保存，就直接关闭
-                if(editstr=='')
-                {
-                    layer.close(index);
-                    return false;
-                }
-                
-                //修改
-                $.post(root_dir+"/index.php/Home/Chanpin/editcp",{"editstr":editstr,"nowpageid":nowpageid,"nowpagename":nowpagename},function(res){
-                    //alert(res);
+                addstr=addstr.substr(0,addstr.length-1);
+                //修改，获取本页面的id和名称
+                var nowpageid="{$_GET['cpid']}";
+                var nowpagename="{$cpinfoarr['cp_name']}";
+                $.post(root_dir+"/index.php/Home/Chanpin/editcp",{"editstr":addstr,"nowpageid":nowpageid,"nowpagename":nowpagename},function(res){
                     if(res=='1')
                     {
                         location.reload();
@@ -637,7 +481,6 @@ function bj_chanpin()
                         return false;
                     }
                 });
-
 
             },
             btn2:function(index,layero){

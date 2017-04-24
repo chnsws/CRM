@@ -4,6 +4,7 @@ use Think\Controller;
 
 
 class ChanpinController extends Controller {
+	//主页
     public function index(){
         if(cookie("islogin")!='1')
 		{
@@ -100,40 +101,253 @@ class ChanpinController extends Controller {
 				}
 			}
 		}
+		//查询自定义字段中的值，用于添加表单
+		$zdbase=M("yewuziduan");
+		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid'  and  zd_yewu='7' limit 1");
+		$zdjsonstr=$zdarr[0]['zd_data'];
+		$zdarr=json_decode($zdjsonstr,true);
 
-		//开始产品列表操作
-		$cpbase=M("chanpin");
-		$cparr=$cpbase->query("select * from crm_chanpin where cp_yh='$fid' and cp_del='0'");
-		//echo "<pre>";
-		//print_r($cparr);
-		foreach($cparr as $v)
+		$cydiv="<div id='add_cy_div'><table>";//常用div
+		$ncydiv="<div id='add_yc_body'><table>";//不常用div（隐藏）
+		$redstarspan="<span class='redstart'>*</span>";//红色星星（必填）
+		//系统规定的字段
+		$old_zd_arr=array(
+			"zdy6"=>"<select id='addflsel' name='zdy6'>".$cpfloption."</select>",
+			"zdy7"=>"<input type='file' name='cpimage' lay-type='images' class='layui-upload-file' id='imm'  /></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' src='' style='margin-bottom: 10px;'>",
+			"zdy8"=>"<textarea id='cp_jieshao' name='zdy8'></textarea>"
+		);
+
+		foreach($zdarr as $v)
 		{
-			$m_lilv=(($v['cp_danjia']-$v['cp_chengben'])/$v['cp_danjia'])*100;
-			$m_lilv=round($m_lilv,2).'%';
-			if($v['cp_chengben']=='')
+			$newzdarr[$v['id']]=$v;
+		}
+		//需要隐藏的表格列
+		$pzbase=M("config");
+		$pzarr=$pzbase->query("select config_cp_table_data from crm_config where config_name='".cookie("user_id")."' limit 1");
+		$pzarr=json_decode($pzarr[0]['config_cp_table_data'],true);
+		foreach($pzarr as $k=>$v)
+		{
+			$pzarr[$v]=1;
+			unset($pzarr[$k]);
+		}
+		//排序查询
+		$pxbase=M("paixu");
+		$pxarr=$pxbase->query("select px_px from crm_paixu where px_yh='$fid' and px_mod='7' limit 1");
+		//根据已存的排序重新打乱数组
+		if(count($pxarr)>0)
+		{
+			$pxarr=explode(',',$pxarr[0]['px_px']);
+			foreach($pxarr as $v)
 			{
-				$m_lilv='-';
-				$v['cp_chengben']='-';
+				$pxzdarr[$v]=$newzdarr[$v];
 			}
-			$cp_fenlei=$bumenNewArr[$v['cp_fenlei']]['cpfl_name']==''?'-':$bumenNewArr[$v['cp_fenlei']]['cpfl_name'];
-			$cp_jieshao=$v['cp_jieshao']==''?'-':$v['cp_jieshao'];
-			$cp_jieshaoall=$cp_jieshao;
-			$cp_jieshao=mb_strlen($cp_jieshao)>10?mb_substr($cp_jieshao,0,10).'...':$cp_jieshao;
-			$jy_css='';
-			if($v['cp_qy']=='0')
+		}
+		$thnum=0;
+		//echo "<pre>";print_r($pxzdarr);die;
+		//开始循环添加表单&&表头th
+		foreach($pxzdarr as $zdy_k=>$zd_data)
+		{
+			//字段显示配置窗
+			if($zd_data['qy']=='1'&&$zd_data['id']!='zdy7')
 			{
-				$jy_list.="<tr><td><input type='checkbox' class='tbbox' id='chid".$v['cp_id']."'></td><td class='cp_name_td' onclick='link_info(".$v['cp_id'].")'>".$v['cp_name']."</td><td style='color:#ccc;'>".$v['cp_num']."</td><td style='color:#ccc;'>".$v['cp_danjia']."</td><td style='color:#ccc;'>".$v['cp_danwei']."</td><td style='color:#ccc;'>".$v['cp_chengben']."</td><td style='color:#ccc;'>".$m_lilv."</td><td style='color:#ccc;'>".$cp_fenlei."</td><td style='color:#ccc;'>".$cp_jieshao."</td><td style='color:#ccc;'>".$v['cp_add_time']."</td><td style='color:#ccc;'>".$v['cp_edit_time']."</td></tr>";
+				$langval=$pzarr[$zdy_k]=='1'?"0":'1';
+				$ccc=$pzarr[$zdy_k]=='1'?"style='background-color:#ccc'":'';
+				$pxdiv.="<span class='pxthcss' $ccc lang='".$langval."' id='st_option".$zdy_k."' onselectstart='return false'>".$zd_data['name']."</span>";
+			}
+			//数据表的表头
+			if($zd_data['qy']=='1'&&$zd_data['id']!='zdy7'&&$pzarr[$zdy_k]!='1')
+			{
+				$left_t='';
+				if($thnum=='0')
+				{
+					$left_t="class='left_t_th'";
+					$a="<th style='width:200px;' id='thpxid".$zdy_k."'>".$zd_data['name']."<i class='fa fa-sort-down' aria-hidden='true'></i></th>";
+				}
+				$thstr.="<th $left_t >".$zd_data['name']."<i class='fa fa-sort-down' aria-hidden='true'></i></th>".$a;
+				$a='';
+				if($zdy_k!='zdy5'&&$zdy_k!='zdy6')
+					$searchoption.="<option value='".$zdy_k."'>".$zd_data['name']."</option>";
+				$thnum++;
+			}
+			//没启用的话就跳出去,zdy5=毛利率
+			if($zd_data['qy']!='1'||$zdy_k=='zdy5')
+			{
+				continue;
+			}
+			//项目名称
+			$titlename=$zd_data['bt']=='1'?$redstarspan.$zd_data['name']:'&nbsp'.$zd_data['name'];
+			//控件字符串
+			$rightinput=$old_zd_arr[$zdy_k]==''?"<input type='text' name='$zdy_k'>":$old_zd_arr[$zdy_k];
+			//是否常用(必填的必须在上面)
+			if($zd_data['cy']=='1'||$zd_data['bt']=='1')
+			{
+				$cydiv.="<tr><td class='add_left'>".$titlename."</td><td>".$rightinput."</td></tr>";
 			}
 			else
 			{
-				$cplist.="<tr><td><input type='checkbox' class='tbbox' id='chid".$v['cp_id']."'></td><td class='cp_name_td' onclick='link_info(".$v['cp_id'].")'>".$v['cp_name']."</td><td>".$v['cp_num']."</td><td>".$v['cp_danjia']."</td><td>".$v['cp_danwei']."</td><td>".$v['cp_chengben']."</td><td>".$m_lilv."</td><td>".$cp_fenlei."</td><td title='".$cp_jieshaoall."'>".$cp_jieshao."</td><td>".$v['cp_add_time']."</td><td>".$v['cp_edit_time']."</td></tr>";
+				$ncydiv.="<tr><td class='add_left'>".$titlename."</td><td>".$rightinput."</td></tr>";
 			}
 		}
+		$thstr="<th style='width:12px;' id='checkboxcss1'><input  type='checkbox' id='checkall'></th>".$thstr."<th>创建时间</th><th>更新于</th>";
+		$cydiv.="</table></div>";
+		$ncydiv.="</table></div>";
+		$show_more="<div id='add_yc_div'><span onclick='more_info()' style='cursor:pointer;'>展开更多信息<i class='fa fa-chevron-down' aria-hidden='true'></i></span></div>";
+		$addlist=$cydiv.$show_more.$ncydiv;//自定义添加表单
+
+		//==表单查询模块结束
+		//开始产品列表查询
+		$cpbase=M("chanpin");
+		$cparr=$cpbase->query("select * from crm_chanpin where cp_yh='$fid' and cp_del='0' order by cp_id desc");
+		if(count($cparr)>0)
+		{
+			$cpliststr='';
+			foreach($cparr as $v)
+			{
+				$rowsarr=json_decode($v['cp_data'],true);
+				$tdstr='';
+				$tdclass=$v['cp_qy']=='1'?'':"style='color:#ccc;'";
+				$tdnum=0;
+				//echo "<pre>";print_r($pxzdarr);die;
+				foreach($pxzdarr as $k=>$zdinfo)
+				{
+					if($pzarr[$zdinfo['id']]=='1')
+					{
+						continue;
+					}
+					if($zdinfo['qy']!='1')
+					{
+						continue;
+					}
+					if($k=='zdy5')//毛利率
+					{
+						//只有销售单价和成本都启用的情况下才进行计算
+						if($pxzdarr['zdy2']['qy']=='1'&&$pxzdarr['zdy4']['qy']=='1')
+						{
+							$tddata=(($rowsarr['zdy2']-$rowsarr['zdy4'])/$rowsarr['zdy2'])*100;
+							$tddata=round($tddata,2).'%';
+						}
+						else
+						{
+							$tddata='-';
+						}
+					}
+					else if($k=='zdy7')
+					{
+						continue;
+					}
+					else if($k=='zdy6')
+					{
+						$tddata=$bumenNewArr[$rowsarr[$k]]['cpfl_name'];
+					}
+					else
+					{
+						$tddata=$rowsarr[$k];
+					}
+					$tddata=$tddata==''?'-':$tddata;
+					$titledata=$tddata;
+					$tddata=mb_strlen($tddata)>15?mb_substr($tddata,0,15).'...':$tddata;
+					$left_t='';
+					if($tdnum=='0')
+					{
+						$left_t="class='left_t'";
+						$b="<td $tdclass  style='width:200px'  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' title='".$titledata."'>".$tddata."</td>";
+						
+					}
+					$tdstr.="<td $tdclass  $left_t  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' title='".$titledata."'>".$tddata."</td>".$b;
+					$b='';
+					$tdnum++;
+				}
+				$checkboxstr="<td id='checkboxcss2'><input  type='checkbox' class='tbbox' id='chid".$v['cp_id']."'></td>";
+				$add_edit_date="<td $tdclass onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' >".$v['cp_add_time']."</td><td $tdclass onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' >".$v['cp_edit_time']."</td>";
+				if($v['cp_qy']=='1')
+				{
+					$qytrstr.="<tr>".$checkboxstr.$tdstr.$add_edit_date."</tr>";
+				}
+				else
+				{
+					$jytrstr.="<tr>".$checkboxstr.$tdstr.$add_edit_date."</tr>";
+				}
+				//$cpnewarr[$v['cp_id']]=$rowsarr;
+			}
+			$cplist=$qytrstr.$jytrstr;
+		}
+		else
+		{
+			$thnum=$thnum+2;
+			$cplist="<tr><td colspan=".$thnum." style='color:#666;height:100px;'><center>暂无产品数据，现在<span class='link_span' onclick='cp_add()'>添加</span>一条试试吧</center></td></tr>";
+		}
+		//筛选模块开始
+		$sxbase=M("shaixuan");
+		$sxbasearr=$sxbase->query("select sx_qy from crm_shaixuan where sx_yh='$fid' and sx_yewu='7' limit 1");
+		$sxarr=$sxbasearr[0];
+		$kqsx=$sxarr['sx_qy'];
+		if($kqsx=='1')
+		{
+			$sxcbase=M("sx_cache");
+			$sxcbasearr=$sxcbase->query("select sxc_data from crm_sx_cache where sxc_yh='$fid' and sxc_yewu='7' limit 1 ");
+			if(count($sxcbasearr)<1)
+			{
+				$kqsx='0';
+			}
+			else
+			{
+				$sxhtmlarr[1][1]="<div class='sxzddiv'><div class='sx_title'>";
+				$sxhtmlarr[1][2]="</div><span class='sx_yes'>全部</span>";
+				$sxhtmlarr[1][3]="</div>";
+
+				$sxhtmlarr[2][1]="<div class='sxzddiv_d'><div class='sx_title'>";
+				$sxhtmlarr[2][2]="</div><span class='sx_yes'>全部</span>";
+				$sxhtmlarr[2][3]="<button class='layui-btn sxdbtn' >确定</button></div>";
+
+				$sxhtmlarr[3][1]="<div class='sxzddiv_w'><div class='sx_title'>";
+				$sxhtmlarr[3][2]="</div><span class='sx_yes'>全部</span><input type='search' class='sxsea' /><button class='layui-btn sxdbtn' >确定</button></div>";
+
+				$sxhtmlarr[4][1]="<div class='sxzddiv_q'><div class='sx_title'>";
+				$sxhtmlarr[4][2]="</div><span class='sx_yes'>全部</span><input type='number' min='0' max='50' class='sxsea'> - <input type='number' min='0' max='50' class='sxsea'><button class='layui-btn sxdbtn' >确定</button></div>";
+
+				$sxhtmlarr[5][1]="<div class='sxzddiv' id='zdqj'><div class='sx_title'>";
+				$sxhtmlarr[5][2]="</div><span class='sx_yes'>全部</span>";
+				$sxhtmlarr[5][3]="</div>";
+
+				$sxcarr=json_decode($sxcbasearr[0]['sxc_data'],true);
+				$sxhtml='';
+				foreach($sxcarr as $k=>$v)
+				{
+					if($pxzdarr[$k]['name']==''||$v['tj']=='')
+					{
+						continue;
+					}
+					$tj=$v['tj'];
+					$sxhtml2='';
+					if(in_array($tj,array("1","2","5")))
+					{
+						if($v['data']=='')
+						{
+							continue;
+						}
+						
+						foreach($v['data'] as $sxz)
+						{
+							$sxhtml2.="<span class='sx_no'>".$sxz."</span>";
+						}
+					}
+					$sxhtml.=$sxhtmlarr[$tj][1].$pxzdarr[$k]['name'].'：'.$sxhtmlarr[$tj][2].$sxhtml2.$sxhtmlarr[$tj][3];
+				}
+			}
+		}//筛选模块结束
 		
-		$this->assign("flidlist",$flidlist);
-		$this->assign("cplist",$cplist.$jy_list);
-        $this->assign("cpfloption",$cpfloption);
-        $this->assign("bmlist",$bmList);
+		$this->assign("kqsx",$kqsx);		
+		$this->assign("sxhtml",$sxhtml);		
+		$this->assign("pxzdjson",json_encode($pxzdarr));		
+		$this->assign("pzjson",json_encode($pzarr));		
+		$this->assign("pxdiv",$pxdiv);		
+		$this->assign("cplist",$cplist);		
+		$this->assign("searchoption",$searchoption);		
+		$this->assign("thstr",$thstr);		
+		$this->assign("flidlist",$flidlist);		
+		$this->assign("bmlist",$bmList);
+		$this->assign("addlist",$addlist);
+		$this->assign("cpfloption",$cpfloption);
         $this->display();
     }
     //导入时文件上传方法
@@ -155,25 +369,124 @@ class ChanpinController extends Controller {
 		$cpbase=M("chanpin");
 		$cpinfoarr=$cpbase->query("select * from crm_chanpin where cp_id='$cpid' and cp_yh='$fid' and cp_del='0' limit 1");
 		$cpinfoarr=$cpinfoarr[0];
-		if($cpinfoarr['cp_id']==''||$cpinfoarr['cp_yh']!=$fid)//如果没有接收到传参,或者没有登录
+		if($cpinfoarr['cp_id']==''||$cpinfoarr['cp_yh']!=$fid)//如果没有接收到传参,或者此用户不属于本公司
 		{
-			die("数据错误");
+			die();
 		}
-
+		$cpjsonarr=json_decode($cpinfoarr['cp_data'],true);
+		//产品分类数据查询
 		$cp_flbase=M("chanpinfenlei");
 		$cpflarr1=$cp_flbase->query("select cpfl_name,cpfl_id from crm_chanpinfenlei where cpfl_company='$fid'");
 		$cpfloption='<option value="0">未选择</option>';
 		foreach($cpflarr1 as $k=>$v)
 		{
 			$cpflarr[$v['cpfl_id']]=$v['cpfl_name'];
-			$flseled=$cpinfoarr['cp_fenlei']==$v['cpfl_id']?'selected':'';
-			$cpfloption.="<option value='".$v['cpfl_id']."' $flseled >".$v['cpfl_name']."</option>";
+			//产品分类下拉框
+			$cpfloption.="<option value='".$v['cpfl_id']."' >".$v['cpfl_name']."</option>";
 		}
+		//查询自定义字段表
+		$zdbase=M("yewuziduan");
+		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7' limit 1");
+		$zdarr=json_decode($zdarr[0]['zd_data'],true);
+		//格式化业务字段数组
+		foreach($zdarr as $k=>$v)
+		{
+			$zdarr[$v['id']]=$v;
+			unset($zdarr[$k]);
+		}
+		//查询排序表
+		$pxbase=M("paixu");
+		$pxarr=$pxbase->query("select px_px from crm_paixu where px_yh='$fid' and px_mod='7' limit 1");
+		$pxarr=explode(',',$pxarr[0]['px_px']);
+		//根据排序构造产品信息表的html字符串
+		$infostr='';
+		foreach($pxarr as $v)
+		{
+			$xxstr='';
+			$cpimgid='';
+			if($zdarr[$v]['qy']!='1')
+			{
+				continue;
+			}
+			$xxstr=$cpjsonarr[$v];
+			if($v=='zdy0')
+			{
+				$cpname['cp_name']=$cpjsonarr[$v];
+			}
+			if($v=='zdy5')//毛利率
+			{
+				if($zdarr['zdy2']['qy']=='1'||$zdarr['zdy4']['qy']=='1')
+				{
+					$xxstr=(($cpjsonarr['zdy2']-$cpjsonarr['zdy4'])/$cpjsonarr['zdy2'])*100;
+					$xxstr=round($xxstr,2).'%';
+				}
+				else
+				{
+					$xxstr="当前没有启用[".$zdarr['zdy2']['name']."](单价)和[".$zdarr['zdy4']['name']."](成本)字段，无法计算利率。";
+				}
+			}
+			if($v=='zdy6')//分类
+			{
+				$flid=$cpjsonarr[$v];
+				$xxstr=$cpflarr[$cpjsonarr[$v]];
+			}
+			if($v=='zdy7')//图片
+			{
+				if($cpjsonarr[$v]!='')
+				{
+					$titlestr='<div style="float:right;"><span class="link_span" style="color:#fff;font-size:22px;font-weight:bold;padding-top:10px;" onclick="xiazai(this)"><i class="fa fa-cloud-download" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;<span class="link_span" style="color:#fff;font-size:22px;font-weight:bold;padding-top:10px;" onclick="shanchu(this)"><i class="fa fa-trash" aria-hidden="true"></i></span></div>';
+					$xxstr="<a onclick='sc()'>查看图片</a><span id='spanaaa' href='".$_GET['public_dir']."/chanpinfile/cpimg/".$cpjsonarr[$v]."' data-uk-lightbox title='".$titlestr."' ></span>";
+				}
+				else
+				{
+					$xxstr='暂无产品图片';
+				}
+				$cpimgid="id='cptp'";
+			}
+			$infostr.="<tr><td class='info_title'>".$zdarr[$v]['name']."：</td><td class='info_content' $cpimgid >".$xxstr."</td></tr>";
+			$pxzdarr[$v]=$zdarr[$v];
+		}
+		//选中当前产品分类
+		$cpfloption=str_replace("value='".$flid."'","value='".$flid."' selected",$cpfloption);
+		//禁用、启用按钮映射
 		$jy_btn=$cpinfoarr['cp_qy']=='1'?"<button id='qyjybtn' class='layui-btn' onclick='jy_qy_chanpin(0)'><i class='fa fa-lock' aria-hidden='true'></i>禁用</button>":"<button id='qyjybtn' class='layui-btn' onclick='jy_qy_chanpin(1)'><i class='fa fa-unlock' aria-hidden='true'></i>启用</button>";
-		$cpinfoarr['cpfl']=$cpflarr[$cpinfoarr['cp_fenlei']];
-		$cpinfoarr['lilv']=((($cpinfoarr['cp_danjia']-$cpinfoarr['cp_chengben'])/$cpinfoarr['cp_danjia'])*100);
-		$cpinfoarr['lilv']=round($cpinfoarr['lilv'],2).'%';
+		//系统信息
+		$xitonginfo["add"]=$cpinfoarr['cp_add_time'];
+		$xitonginfo["edit"]=$cpinfoarr['cp_edit_time'];
 
+		//编辑表单模块
+		$cptp=$cpjsonarr['zdy7']==''?"style='display:none'":"";
+		//系统规定的字段
+		$old_zd_arr=array(
+			"zdy6"=>"<select id='addflsel' name='zdy6'>".$cpfloption."</select>",
+			"zdy7"=>"<input type='file' name='cpimage' lay-type='images' class='layui-upload-file' id='imm'  /></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' $cptp src='".$_GET['public_dir']."/chanpinfile/cpimg/".$cpjsonarr['zdy7']."' style='margin-bottom: 10px;'>",
+			"zdy8"=>"<textarea id='cp_jieshao' name='zdy8'>".$cpjsonarr['zdy8'].
+			"</textarea>"
+		);
+		$redstarspan="<span class='redstart'>*</span>";//红色星星（必填）
+		//开始循环编辑表单
+		foreach($pxzdarr as $zdy_k=>$zd_data)
+		{
+			
+			//没启用的话就跳出去,zdy5=毛利率
+			if($zd_data['qy']!='1'||$zdy_k=='zdy5')
+			{
+				continue;
+			}
+			//项目名称,判断是否必填，然后加红色星
+			$titlename=$zd_data['bt']=='1'?$redstarspan.$zd_data['name']:'&nbsp'.$zd_data['name'];
+			//控件字符串，是否属于系统字段
+			$rightinput=$old_zd_arr[$zdy_k]==''?"<input type='text' name='$zdy_k' value='".$cpjsonarr[$zdy_k]."'>":$old_zd_arr[$zdy_k];
+			//是否常用(必填的必须在上面)
+			if($zd_data['cy']=='1'||$zd_data['bt']=='1')
+			{
+				$cydiv.="<tr><td class='add_left'>".$titlename."</td><td>".$rightinput."</td></tr>";
+			}
+			else
+			{
+				$ncydiv.="<tr><td class='add_left'>".$titlename."</td><td>".$rightinput."</td></tr>";
+			}
+		}
 		//附件
 		$fjbase=M("cp_file");
 		$fjinfoarr=$fjbase->query("select * from crm_cp_file where fj_del='0' and fj_yh='$fid' and fj_cp='$cpid' ");
@@ -182,52 +495,35 @@ class ChanpinController extends Controller {
 			$fjtable.="<tr><td>".$v['fj_date']."</td><td>".substr($v['fj_name'],10)."</td><td>".$v['fj_size']."</td><td>".$v['fj_bz']."</td><td><span class='link_span' onclick='down_fujian(".$v['fj_id'].")'>下载</span><span class='link_span' onclick='del_fujian(".$v['fj_id'].")'>删除</span></td></tr>";
 		}
 		$fjtable=$fjtable==''?"<tr><td colspan='5' align='center'>没有附件</td></tr>":$fjtable;
-
 		$this->assign("jy_btn",$jy_btn);
+		$this->assign("cydiv",$cydiv);
+		$this->assign("ncydiv",$ncydiv);
+		$this->assign("infostr",$infostr);
+		$this->assign("xitonginfo",$xitonginfo);
+		$this->assign("cpinfoarr",$cpname);
 		$this->assign("cpfloption",$cpfloption);
 		$this->assign("fjtable",$fjtable);
-		$this->assign("cpinfoarr",$cpinfoarr);
+		$this->assign("oldimgname",$cpjsonarr['zdy7']);
 		$this->display();
 	}
 	//新增产品
 	public function cp_add()
 	{
-		$cp_name=addslashes($_POST['cp_name']);
-		$cp_num=addslashes($_POST['cp_num']);
-		$cp_danjia=addslashes($_POST['cp_danjia']);
-		$cp_danwei=addslashes($_POST['cp_danwei']);
-		$cp_chengben=addslashes($_POST['cp_chengben']);
-		$cp_fenlei=addslashes($_POST['cp_fenlei']);
-		$cp_img=addslashes($_POST['cp_img']);
-		$cp_jieshao=addslashes($_POST['cp_jieshao']);
-		if($cp_name==''||$cp_num==''||$cp_danjia==''||$cp_danwei=='')
+		$addstr=addslashes($_POST['addstr']);
+		if($addstr=='')
 		{
-			echo '2';
+			echo 2;
 			die;
 		}
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$adduser=cookie("user_id");
-		$nowtime=date("Y-m-d H:i:s",time());
+		//开始解析格式
+		$kvarr=$this->jiexi($addstr);
+		$jsonstr=json_encode($kvarr);
+		$jsonstr=str_replace('\\','\\\\',$jsonstr);
+		$nowdatetime=date("Y-m-d H:i:s",time());
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）		
 		$cpbase=M("chanpin");
-		$cfarr=$cpbase->query("select cp_name,cp_num from crm_chanpin where (cp_name='$cp_name' or cp_num='$cp_num') and cp_yh='$fid' and cp_fenlei='$cp_fenlei' and cp_del='0' ");
-		
-		foreach($cfarr as $v)
-		{
-			$cfnamearr[$v['cp_name']]=1;
-			$cfnumarr[$v['cp_num']]=1;
-		}
-		if($cfnamearr[$cp_name]=='1')
-		{
-			echo '3';
-			die;
-		}
-		if($cfnumarr[$cp_num]=='1')
-		{
-			echo '4';
-			die;
-		}
-		$cpbase->query("insert into crm_chanpin values('','$cp_name','$cp_num','$cp_danwei','$cp_danjia','$cp_chengben','$cp_fenlei','$cp_img','$cp_jieshao','$nowtime','$nowtime','1','0','$adduser','$fid')");
-		echo $this->insertrizhi("新增产品：".$cp_name);
+		$cpbase->query("insert into crm_chanpin values('','$jsonstr','$nowdatetime','$nowdatetime','1','0','".cookie("user_id")."','$fid')");
+		echo $this->insertrizhi("新增产品：".$kvarr['zdy0']);
 	}
 	//新增产品图片
 	public function cp_img_add()
@@ -332,49 +628,79 @@ class ChanpinController extends Controller {
 	{
 		$sea_type=addslashes($_POST['sea_type']);
 		$sea_text=addslashes($_POST['sea_text']);
-		$search_type=array("1"=>"cp_name","2"=>"cp_num","3"=>"cp_danwei","4"=>"cp_jieshao");
+		$px=$_POST['px'];
+		$pz=$_POST['pz'];
+		$old_sea_text=$sea_text;
+		$sea_text=str_replace("\\","%",substr(json_encode($sea_text),1,-1));
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		
-		$wherestr=$sea_type>0?"and ".$search_type[$sea_type]." like '%$sea_text%'":'';
-		//echo "select * from crm_chanpin where cp_yh='$fid' $wherestr  and cp_del='0'";die;
 		$cpbase=M("chanpin");
-		$seaarr=$cpbase->query("select * from crm_chanpin where cp_yh='$fid' $wherestr  and cp_del='0'");
-		if(count($seaarr)<1)
+		$fenlei_where=$old_sea_text!=''?"cp_data like '%\"".$sea_type."\":\"%".$sea_text."%\"%' and ":'';
+		$newcparr=$cpbase->query("select * from crm_chanpin where $fenlei_where cp_yh='$fid' and cp_del='0' ");
+		//解析当前页面的配置数据
+		$pxarr=json_decode($px,true);
+		$pzarr=json_decode($pz,true);
+		if(count($newcparr)<1)
 		{
-			$seatable="<tr><td colspan='11'>没有搜索结果</td></tr>";
-			echo $seatable;
+			echo "<tr><td colspan='100'><center>没有产品数据</center></td></tr>";
 			die;
 		}
+		//分类查询
 		$cpflbase=M("chanpinfenlei");
-		$cpflarr=$cpflbase->query("select cpfl_name,cpfl_id from crm_chanpinfenlei where cpfl_company='$fid'");
-		foreach($cpflarr as $v)
+		$cpflbasearr=$cpflbase->query("select cpfl_id,cpfl_name from crm_chanpinfenlei where cpfl_company='$fid' ");
+		foreach($cpflbasearr as $v)
 		{
-			$flarr[$v['cpfl_id']]=$v['cpfl_name'];
+			$cpflarr[$v['cpfl_id']]=$v['cpfl_name'];
 		}
-		foreach($seaarr as $v)
+		//分类结束
+		$newtablestr='';//新表格数据字符串
+		foreach($newcparr as $v)
 		{
-			$m_lilv=(($v['cp_danjia']-$v['cp_chengben'])/$v['cp_danjia'])*100;
-			$m_lilv=round($m_lilv,2).'%';
-			if($v['cp_chengben']=='')
+			$rowjsonarr=json_decode($v['cp_data'],true);
+			$iscz=count(explode($old_sea_text,$rowjsonarr[$sea_type]));
+			if($iscz<=1&&$old_sea_text!='')//二次匹配
 			{
-				$m_lilv='-';
-				$v['cp_chengben']='-';
+				continue;
 			}
-			$cp_fenlei=$flarr[$v['cp_fenlei']]==''?'-':$flarr[$v['cp_fenlei']];
-			$cp_jieshao=$v['cp_jieshao']==''?'-':$v['cp_jieshao'];
-			$cp_jieshaoall=$cp_jieshao;
-			$cp_jieshao=mb_strlen($cp_jieshao)>10?mb_substr($cp_jieshao,0,10).'...':$cp_jieshao;
-			$jy_css='';
-			if($v['cp_qy']=='0')
+			$isfirst='0';
+			$rowtdstr='';
+			foreach($pxarr as $k=>$vv)
 			{
-				$jy_list.="<tr><td><input type='checkbox' class='tbbox' id='chid".$v['cp_id']."'></td><td class='cp_name_td' onclick='link_info(".$v['cp_id'].")'>".$v['cp_name']."</td><td style='color:#ccc;'>".$v['cp_num']."</td><td style='color:#ccc;'>".$v['cp_danjia']."</td><td style='color:#ccc;'>".$v['cp_danwei']."</td><td style='color:#ccc;'>".$v['cp_chengben']."</td><td style='color:#ccc;'>".$m_lilv."</td><td style='color:#ccc;'>".$cp_fenlei."</td><td style='color:#ccc;'>".$cp_jieshao."</td><td style='color:#ccc;'>".$v['cp_add_time']."</td><td style='color:#ccc;'>".$v['cp_edit_time']."</td></tr>";
+				if($k=='zdy7'||$pzarr[$k]=='1'||$vv['qy']!='1')
+				{
+					continue;
+				}
+				$tdclass=$v['cp_qy']=='1'?'':"style='color:#ccc;'";
+				$rowjsonarr[$k]=$k=='zdy6'?$cpflarr[$rowjsonarr[$k]]:$rowjsonarr[$k];
+				$tdstr=mb_strlen($rowjsonarr[$k])>15?mb_substr($rowjsonarr[$k],0,15).'...':$rowjsonarr[$k];
+				$tdstr=$tdstr==''?'-':$tdstr;
+				$left_t='';
+				if($isfirst=='0')
+				{
+					$left_t="class='left_t'";
+					$firsttd="<td $tdclass style='width:200px'  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;'>".$rowjsonarr[$k]."</td>";
+				}
+				$rowtdstr.="<td $tdclass $left_t  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' title='".$rowjsonarr[$k]."'>".$tdstr."</td>".$firsttd;
+				$firsttd='';
+				$isfirst++;
+			}
+			$checkboxstr="<td id='checkboxcss2'><input  type='checkbox' class='tbbox' id='chid".$v['cp_id']."'></td>";
+			$add_edit_date="<td $tdclass onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' >".$v['cp_add_time']."</td><td $tdclass onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' >".$v['cp_edit_time']."</td>";
+			if($v['qy']=='1')
+			{
+				$qytr.="<tr>".$checkboxstr.$rowtdstr.$add_edit_date."</tr>";
 			}
 			else
 			{
-				$cplist.="<tr><td><input type='checkbox' class='tbbox' id='chid".$v['cp_id']."'></td><td class='cp_name_td' onclick='link_info(".$v['cp_id'].")'>".$v['cp_name']."</td><td>".$v['cp_num']."</td><td>".$v['cp_danjia']."</td><td>".$v['cp_danwei']."</td><td>".$v['cp_chengben']."</td><td>".$m_lilv."</td><td>".$cp_fenlei."</td><td title='".$cp_jieshaoall."'>".$cp_jieshao."</td><td>".$v['cp_add_time']."</td><td>".$v['cp_edit_time']."</td></tr>";
+				$jytr.="<tr>".$checkboxstr.$rowtdstr.$add_edit_date."</tr>";
 			}
 		}
-		echo $cplist.$jy_list;
+		$newtablestr=$qytr.$jytr;
+		if($newtablestr=='')
+		{
+			echo "<tr><td colspan='100'><center>没有产品数据</center></td></tr>";
+			die;
+		}
+		echo $newtablestr;
 	}
 	//添加产品分类
 	public function addfl()
@@ -485,7 +811,7 @@ class ChanpinController extends Controller {
 	//修改产品数据
 	public function editcp()
 	{
-		$editstr=addslashes($_POST['editstr']);
+		$editstr=$_POST['editstr'];
 		$nowpageid=addslashes($_POST['nowpageid']);
 		$nowpagename=addslashes($_POST['nowpagename']);
 		if($nowpageid==''||$editstr=='')
@@ -493,26 +819,18 @@ class ChanpinController extends Controller {
 			echo '2';
 			die;
 		}
-        $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$cpbase=M("chanpin");
-		
-		$editarr=explode("],[",substr($editstr,1,-2));
-		//print_r($editarr);
-		$setstr='';
-		foreach($editarr as $v)
+		//处理数据字符串
+		$editstr=explode('],[',substr($editstr,1,-1));
+		foreach($editstr as $v)
 		{
-			$varr=explode("]:[",$v);
-			if($varr[0]=='del_img')
-			{
-				unlink('./Public/chanpinfile/cpimg/'.$varr[1]);
-				continue;
-			}
-			$setstr.=$varr[0]."='".$varr[1]."',";
+			$row=explode(']:[',$v);
+			$insertarr[$row[0]]=$row[1];
 		}
-		$setstr.="cp_edit_time='".date("Y-m-d H:i:s",time())."'";
-		//$setstr=substr($setstr,0,-1);
-
-		$cpbase->query("update crm_chanpin set $setstr where cp_id='$nowpageid' and cp_yh='$fid' limit 1");
+		$insertstr=str_replace("\\","\\\\",json_encode($insertarr));
+        $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$nowtime=date("Y-m-d H:i:s",time());
+		$cpbase=M("chanpin");
+		$cpbase->query("update crm_chanpin set cp_data = '$insertstr',cp_edit_time='$nowtime' where cp_yh='$fid' and cp_id='$nowpageid' limit 1");
 
 		echo $this->insertrizhi("修改了产品：".$nowpagename);
 
@@ -522,7 +840,9 @@ class ChanpinController extends Controller {
 	//根据左边产品分类改变右边产品列表
 	public function get_fl_cplist()
 	{
-		$clickflid=addslashes($_GET['clickflid']);
+		$clickflid=addslashes($_POST['clickflid']);
+		$px=$_POST['px'];//排序
+		$pz=$_POST['pz'];//配置隐藏
 		if($clickflid=='')
 		{
 			echo '';
@@ -530,38 +850,63 @@ class ChanpinController extends Controller {
 		}
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$cpbase=M("chanpin");
-		$fenlei_where=$clickflid>0?"cp_fenlei='$clickflid' and ":'';
-		$newcparr=$cpbase->query("select * from crm_chanpin left join crm_chanpinfenlei on cpfl_id=cp_fenlei  where $fenlei_where cp_yh='$fid' and cp_del='0' ");
+		$fenlei_where=$clickflid>0?"cp_data like '%\"zdy6\":\"".$clickflid."\"%' and ":'';
+		$newcparr=$cpbase->query("select * from crm_chanpin where $fenlei_where cp_yh='$fid' and cp_del='0' ");
+		
+		//解析当前页面的配置数据
+		$pxarr=json_decode($px,true);
+		$pzarr=json_decode($pz,true);
 		if(count($newcparr)<1)
 		{
-			echo "<tr><td colspan='11'><center>没有产品数据</center></td></tr>";
+			echo "<tr><td colspan='100'><center>没有产品数据</center></td></tr>";
 			die;
 		}
-		$newtablestr='';
+		//分类查询
+		$cpflbase=M("chanpinfenlei");
+		$cpflbasearr=$cpflbase->query("select cpfl_id,cpfl_name from crm_chanpinfenlei where cpfl_company='$fid' ");
+		foreach($cpflbasearr as $v)
+		{
+			$cpflarr[$v['cpfl_id']]=$v['cpfl_name'];
+		}
+		//分类结束
+		$newtablestr='';//新表格数据字符串
 		foreach($newcparr as $v)
 		{
-			$m_lilv=(($v['cp_danjia']-$v['cp_chengben'])/$v['cp_danjia'])*100;
-			$m_lilv=round($m_lilv,2).'%';
-			if($v['cp_chengben']=='')
+			$rowjsonarr=json_decode($v['cp_data'],true);
+			$isfirst='0';
+			$rowtdstr='';
+			foreach($pxarr as $k=>$vv)
 			{
-				$m_lilv='-';
-				$v['cp_chengben']='-';
+				if($k=='zdy7'||$pzarr[$k]=='1'||$vv['qy']!='1')
+				{
+					continue;
+				}
+				$tdclass=$v['cp_qy']=='1'?'':"style='color:#ccc;'";
+				$rowjsonarr[$k]=$k=='zdy6'?$cpflarr[$rowjsonarr[$k]]:$rowjsonarr[$k];
+				$tdstr=mb_strlen($rowjsonarr[$k])>15?mb_substr($rowjsonarr[$k],0,15).'...':$rowjsonarr[$k];
+				$tdstr=$tdstr==''?'-':$tdstr;
+				$left_t='';
+				if($isfirst=='0')
+				{
+					$left_t="class='left_t'";
+					$firsttd="<td $tdclass style='width:200px'  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;'>".$rowjsonarr[$k]."</td>";
+				}
+				$rowtdstr.="<td $tdclass $left_t  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' title='".$rowjsonarr[$k]."'>".$tdstr."</td>".$firsttd;
+				$firsttd='';
+				$isfirst++;
 			}
-			$cp_fenlei=$v['cpfl_name']==''?'-':$v['cpfl_name'];
-			$cp_jieshao=$v['cp_jieshao']==''?'-':$v['cp_jieshao'];
-			$cp_jieshaoall=$cp_jieshao;
-			$cp_jieshao=mb_strlen($cp_jieshao)>10?mb_substr($cp_jieshao,0,10).'...':$cp_jieshao;
-			$jy_css='';
-			if($v['cp_qy']=='0')
+			$checkboxstr="<td id='checkboxcss2'><input  type='checkbox' class='tbbox' id='chid".$v['cp_id']."'></td>";
+			$add_edit_date="<td $tdclass onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' >".$v['cp_add_time']."</td><td $tdclass onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' >".$v['cp_edit_time']."</td>";
+			if($v['qy']=='1')
 			{
-				$jy_list.="<tr><td><input type='checkbox' class='tbbox' id='chid".$v['cp_id']."'></td><td class='cp_name_td' onclick='link_info(".$v['cp_id'].")'>".$v['cp_name']."</td><td style='color:#ccc;'>".$v['cp_num']."</td><td style='color:#ccc;'>".$v['cp_danjia']."</td><td style='color:#ccc;'>".$v['cp_danwei']."</td><td style='color:#ccc;'>".$v['cp_chengben']."</td><td style='color:#ccc;'>".$m_lilv."</td><td style='color:#ccc;'>".$cp_fenlei."</td><td style='color:#ccc;'>".$cp_jieshao."</td><td style='color:#ccc;'>".$v['cp_add_time']."</td><td style='color:#ccc;'>".$v['cp_edit_time']."</td></tr>";
+				$qytr.="<tr>".$checkboxstr.$rowtdstr.$add_edit_date."</tr>";
 			}
 			else
 			{
-				$cplist.="<tr><td><input type='checkbox' class='tbbox' id='chid".$v['cp_id']."'></td><td class='cp_name_td' onclick='link_info(".$v['cp_id'].")'>".$v['cp_name']."</td><td>".$v['cp_num']."</td><td>".$v['cp_danjia']."</td><td>".$v['cp_danwei']."</td><td>".$v['cp_chengben']."</td><td>".$m_lilv."</td><td>".$cp_fenlei."</td><td title='".$cp_jieshaoall."'>".$cp_jieshao."</td><td>".$v['cp_add_time']."</td><td>".$v['cp_edit_time']."</td></tr>";
+				$jytr.="<tr>".$checkboxstr.$rowtdstr.$add_edit_date."</tr>";
 			}
 		}
-		$newtablestr=$cplist.$jy_list;
+		$newtablestr=$qytr.$jytr;
 		echo $newtablestr;
 	}
 	//上传产品附件
@@ -630,6 +975,32 @@ class ChanpinController extends Controller {
 		
 		echo $newfjtable;
 	}
+	//下载附件
+	public function fujian_download()
+	{
+		$fjid=$_GET['fjid'];
+		if(cookie("islogin")!='1')
+		{
+			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
+			die();
+		}
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$cpfjbase=M("cp_file");
+		$fjname=$cpfjbase->query("select fj_name from crm_cp_file where fj_yh='$fid' and fj_id='$fjid' and fj_del='0' limit 1");
+		$file=$fjname[0]['fj_name'];
+		if($file=='')
+		{
+			die;
+		}
+		$filename=substr($file,10);
+		$filepath="./Public/chanpinfile/cpfile/".$file;
+		header("Content-type:application/octet-stream");
+		header("Content-disposition:attachment;filename=".$filename.";");
+		ob_clean();
+		@readfile($filepath);
+		die;
+
+	}
 	//根据附件id删除附件
 	public function del_fj()
 	{
@@ -649,35 +1020,25 @@ class ChanpinController extends Controller {
 	{
 		$name="产品数据导入模板";
 		//$name=iconv("utf-8","gbk//IGNORE",$name);
-		$head=array(
-			"1"=>"产品名称(必填)",
-			"2"=>"产品编号(必填)",
-			"5"=>"销售单位(必填)",
-			"3"=>"标准单价(必填)",
-			"6"=>"单位成本",
-			"7"=>"产品分类ID(根据分类id表填写)",
-			"8"=>"产品介绍"
-			);
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$zdbase=M("yewuziduan");
+		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7' limit 1");
+		$zdarr=json_decode($zdarr[0]['zd_data'],true);
+		foreach($zdarr as $v)
+		{
+			if($v['qy']!='1'||$v['id']=='zdy5'||$v['id']=='zdy7')
+			{
+				continue;
+			}
+			$btstr=$v['bt']=='1'?"(必填)":"";
+			$flstr=$v['id']=='zdy6'?"(根据分类ID表填写)":'';
+			$head[]=$v['name'].$btstr.$flstr;
+		}
 		//连接标题
 		$r = implode(',',$head);
 		$r .="\n";
 		//$r = iconv("utf-8","gbk//IGNORE",$r);
-		$body[0]=array(
-			0=>"小米note2",
-			1=>"10086",
-			3=>"部",
-			2=>"3600",
-			4=>"1000",
-			5=>"3",
-			6=>"双曲面手机",
-			);
-		foreach($body as $arr)
-		{
-			$line=implode(',',$arr);
-			$r.=$line;
-			//$r .= iconv("utf-8","gbk//IGNORE",$line);
-			$r.="\n";
-		}
+		
 		$name = $name.'.csv';
 		header('Content-type: application/csv');
 		header("Content-Disposition: attachment; filename=\"$name\""); 
@@ -723,60 +1084,80 @@ class ChanpinController extends Controller {
 			die;
 		}
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		//读取文件
 		$file_path="./Public/chanpinfile/cpfile/linshi/".$csvfilename;
 		$bs=fopen($file_path,"r");
 		$str = fread($bs,filesize($file_path));
 		$str=iconv("gbk","utf-8//IGNORE",$str);
 		$filearr=explode("\n",$str);
+		//文件读取完毕
+		$zdbase=M("yewuziduan");
+		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yewu='7' and zd_yh='$fid' limit 1");
+		$zdarr=json_decode($zdarr[0]['zd_data'],true);
 		$first='0';
 		$insertstr='';
 		$filerowsnum=0;
 		$nowdatetime=date("Y-m-d H:i:s",time());
 		foreach($filearr as $v)
 		{
+			if($v=='')	continue;
 			if($first=='0')
 			{
+				//判断是否符合数据库中的字段
+				$newzdarr='';
+				$newzdarrk=0;
+				foreach($zdarr as $vv)
+				{
+					
+					if($vv['qy']!='1'||$vv['id']=='zdy5'||$vv['id']=='zdy7')
+						continue;
+					$newzdarr[$newzdarrk]['bt']=$vv['bt'];
+					$newzdarr[$newzdarrk]['id']=$vv['id'];
+					$btstr=$vv['bt']=='1'?"(必填)":"";
+					$flstr=$vv['id']=='zdy6'?"(根据分类ID表填写)":'';
+					$zdstr.=$vv['name'].$btstr.$flstr.',';
+					$newzdarrk++;
+				}
+				$a=str_replace("\r",'',$v);
+				$a=str_replace("\n",'',$a);
+				if($zdstr!=($a.','))
+				{
+					echo '4';die;
+				}//判断结束
 				$first='1';
 				continue;
 			}
-			if($v=='')	continue;
 			$varr='';
-			$varr=explode(',',$v);
-			if(count($varr)!=7)	continue;
-			if($varr[0]==''||$varr[1]==''||$varr[2]==''||$varr[3]=='') continue;
-			//构造数据表数组
-			$basearr[$filerowsnum]['id']='';
-			$basearr[$filerowsnum]['name']=$varr[0];
-			$basearr[$filerowsnum]['num']=$varr[1];
-			$basearr[$filerowsnum]['danwei']=$varr[2];
-			$basearr[$filerowsnum]['danjia']=$varr[3];
-			$basearr[$filerowsnum]['chengben']=$varr[4];
-			$basearr[$filerowsnum]['fenlei']=$varr[5];
-			$basearr[$filerowsnum]['img']='';
-			$basearr[$filerowsnum]['jieshao']=$varr[6];
-			$basearr[$filerowsnum]['addtime']=$nowdatetime;
-			$basearr[$filerowsnum]['edittime']=$nowdatetime;
-			$basearr[$filerowsnum]['qy']='1';
-			$basearr[$filerowsnum]['del']='0';
-			$basearr[$filerowsnum]['user']=cookie("user_id");
-			$basearr[$filerowsnum]['yh']=$fid;
+			$drarr='';
+			$varr=explode(',',str_replace("\n",'',str_replace("\r",'',$v)));
+			foreach($varr as $k=>$v)
+			{
+				if($v==''&&$newzdarr[$k]['bt']=='1')//如果这一条中有一个必填字段没有填，这一条就导入不进去
+				{
+					continue 2;
+				}
+				$drarr[$newzdarr[$k]['id']]=$v;
+			}
+			//完善json数据
+			foreach($zdarr as $vv)
+			{
+				$insertarr[$filerowsnum][$vv['id']]=$drarr[$vv['id']];
+			}
 			$filerowsnum++;
-	
 		}
-		if(count($basearr)<1)
+		if(count($insertarr)<1)
 		{
 			echo '2';die;
 		}
-		foreach($basearr as $v)
+		foreach($insertarr as $v)
 		{
-			$insertstr.="('','".$v['name']."','".$v['num']."','".$v['danwei']."','".$v['danjia']."','".$v['chengben']."','".$v['fenlei']."','".$v['img']."','".$v['jieshao']."','".$v['addtime']."','".$v['edittime']."','".$v['qy']."','".$v['del']."','".$v['user']."','".$v['yh']."'),";
+			$injsonstr=str_replace('\\','\\\\',json_encode($v));
+			$insertstr.="('','".$injsonstr."','".$nowdatetime."','".$nowdatetime."','1','0','".cookie("user_id")."','$fid'),";
 		}
 		$insertstr=substr($insertstr,0,-1);
-		$insertstr=str_replace("\r",'',$insertstr);
-		$insertstr=str_replace("\n",'',$insertstr);
 		$cpbase=M("chanpin");
 		$cpbase->query("insert into crm_chanpin values $insertstr ");
-		echo $this->insertrizhi("导入了".count($basearr)."条产品数据");
+		echo $this->insertrizhi("导入了".count($insertarr)."条产品数据");
 	}
 	//获取导入记录
 	public function get_dr_history()
@@ -799,36 +1180,70 @@ class ChanpinController extends Controller {
 			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
 			die();
 		}
-		$name="产品数据";
-		//$name=iconv("utf-8","gbk//IGNORE",$name);
-		$head=array(
-			"1"=>"产品名称",
-			"2"=>"产品编号",
-			"3"=>"标准单价",
-			"5"=>"销售单位",
-			"6"=>"单位成本",
-			"11"=>"毛利率",
-			"7"=>"产品分类",
-			"8"=>"产品介绍",
-			"9"=>"创建时间",
-			"10"=>"更新于"
-			);
-		//连接标题
-		$line = implode(',',$head);
-		$line .="\n";
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）		
+		$name="产品数据";
+		//字段表
+		$zdbase=M("yewuziduan");
+		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7' limit 1");
+		$zdarr=json_decode($zdarr[0]['zd_data'],true);
+		foreach($zdarr as $k=>$v)
+		{
+			$zdarr[$v['id']]=$v;
+			if($v['id']!='zdy7'&&$v['qy']=='1')
+				$head[]=$v['name'];
+			unset($zdarr[$k]);
+		}
+		$head[]="创建时间";
+		$head[]="更新于";
+		//分类表
+		$cpflbase=M("chanpinfenlei");
+		$cpflarr=$cpflbase->query("select cpfl_id,cpfl_name from crm_chanpinfenlei where cpfl_company='$fid' ");
+		foreach($cpflarr as $v)
+		{
+			$flarr[$v['cpfl_id']]=$v['cpfl_name'];
+		}
+		//产品表
 		$cpbase=M("chanpin");
-		$cparr=$cpbase->query("select * from crm_chanpin left join crm_chanpinfenlei on cp_fenlei=cpfl_id where cp_yh='$fid' and cp_del='0'");
+		$cparr=$cpbase->query("select * from crm_chanpin where cp_yh='$fid' and cp_del='0' ");
+		$body='';
 		foreach($cparr as $v)
 		{
-			$m_lilv=(($v['cp_danjia']-$v['cp_chengben'])/$v['cp_danjia'])*100;
-			$m_lilv=round($m_lilv,2).'%';
-			$row=$v['cp_name'].','.$v['cp_num'].','.$v['cp_danjia'].','.$v['cp_danwei'].','.$v['cp_chengben'].','.$m_lilv.','.$v['cpfl_name'].','.$v['cp_jieshao'].','.$v['cp_add_time'].','.$v['cp_edit_time'];
-			$row=str_replace("\r",'',$row);
-			$row=str_replace("\n",'',$row);
-			$line.=$row;
-			$line.="\r\n";
+			$rowjsonarr=json_decode($v['cp_data'],true);
+			$line='';
+			foreach($zdarr as $zdk=>$zdv)
+			{
+				if($zdv['qy']!='1'||$zdk=='zdy7')//不启用||图片
+				{
+					continue;
+				}
+				$rowval=$rowjsonarr[$zdk];
+				if($zdk=='zdy5')//利率
+				{
+					if($zdarr['zdy2']['qy']=='1'&&$zdarr['zdy4']['qy']=='1')
+					{
+						$rowval=(($rowjsonarr['zdy2']-$rowjsonarr['zdy4'])/$rowjsonarr['zdy2'])*100;
+						$rowval=round($rowval,2).'%';
+					}
+					else
+					{
+						$rowval="-";
+					}
+				}
+				if($zdk=='zdy6')//分类
+				{
+					$rowval=$flarr[$rowjsonarr[$zdk]];
+				}
+				$rowval=str_replace('
+','',str_replace('\n','',str_replace('\r','',$rowval)));
+				$line.=$rowval.',';
+			}
+			$body.=$line."".$v['cp_add_time'].",".$v['cp_edit_time'].""."\r\n";
 		}
+		//连接标题
+		$line = implode(',',$head);
+		$line .="\r\n";
+		$line.=$body;
+		
 		$name = $name.'.csv';
 		header('Content-type: application/csv');
 		header("Content-Disposition: attachment; filename=\"$name\""); 
@@ -856,9 +1271,361 @@ class ChanpinController extends Controller {
 	{
 		$cpid=$_GET['delcpid'];
 		$cpname=$_GET['cpname'];
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$cpbase=M("chanpin");
-		$cpbase->query("update crm_chanpin set cp_img='' where cp_id='$cpid' limit 1");
+		$oldcparr=$cpbase->query("select cp_data from crm_chanpin where cp_id='$cpid' and cp_yh='$fid' limit 1");
+		$oldcparr=json_decode($oldcparr[0]['cp_data'],true);
+		$oldcparr['zdy7']='';
+		$newjson=str_replace("\\","\\\\",json_encode($oldcparr));
+
+		$cpbase->query("update crm_chanpin set cp_data='$newjson' where cp_id='$cpid' and cp_yh='$fid' limit 1");
 		echo $this->insertrizhi("删除了产品：".$cpname."的产品图片");
+	}
+	//修改表格的隐藏与显示（存的是隐藏的）
+	public function show_option()
+	{
+		$checkid=addslashes($_POST['checkid']);
+		if($checkid=='')
+		{
+			echo 2;
+			die;
+		}
+		$checkid=substr($checkid,0,-1);
+		$checkarr=explode(",",$checkid);
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+
+		foreach($checkarr as $k=>$v)
+		{
+			$row=substr($v,9);
+			$checkarr[$row]=1;
+			unset($checkarr[$k]);
+		}
+
+		$zdbase=M("yewuziduan");
+		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7' limit 1");
+		$zdarr=json_decode($zdarr[0]['zd_data'],true);
+		foreach($zdarr as $k=>$v)
+		{
+			if($checkarr[$v['id']]!=1&&$v['id']!='zdy7')
+			{
+				$jsondata[]=$v['id'];
+			}
+		}
+		$jsonstr=json_encode($jsondata);
+		$pzbase=M("config");
+		$pzbase->query("update crm_config set config_cp_table_data='$jsonstr' where config_name='".cookie("user_id")."'");
+		echo 1;
+	}
+	//筛选
+	public function shaixuan()
+	{
+		$ajaxstr=addslashes($_POST['ajaxstr']);
+		$px=$_POST['px'];
+		$pz=$_POST['pz'];
+		//$ajaxstr="[0]:[4],[1]:[2,6,7,8],[2]:[1000],[3]:[[0][1000]],[4]:[7]";
+		//$ajaxstr="[0]:[3],[1]:[2],[2]:[9],[3]:[[0]],[4]:[10]";
+		if($ajaxstr=='')
+		{
+			echo '2';
+			die;
+		}
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$cpflbase=M("chanpinfeilei");
+		$cpflbasearr=$cpflbase->query("select cpfl_name,cpfl_id from crm_chanpinfenlei where cpfl_company='$fid'");
+		foreach($cpflbasearr as $v)
+		{
+			$cpflarr[$v['cpfl_name']]=$v['cpfl_id'];
+		}
+
+		
+		$sxcbase=M("sx_cache");
+		$sxcbasearr=$sxcbase->query("select * from crm_sx_cache where sxc_yh='$fid' and sxc_yewu='7' limit 1");
+		$sxcarr=json_decode($sxcbasearr[0]['sxc_data'],true);
+		
+		$autok=0;
+		foreach($sxcarr as $k=>$v)
+		{
+			$sxcarr[$autok]['id']=$k;
+			$newdata='';
+			if($v['data']!='')
+			{
+				$vnum=0;
+				foreach($v['data'] as $vv)
+				{
+					$dda=$k=='zdy6'?$cpflarr[$vv]:$vv;
+					$newdata[$vnum]=$dda;
+					$vnum++;
+				}
+			}
+			$sxcarr[$k]['ndata']=$newdata;
+			$sxcarr[$autok]['data']=$newdata;
+			//$ttj=$k=='zdy6'?$cpflarr[$v['tj']]:$v['tj'];
+			$sxcarr[$autok]['tj']=$v['tj'];
+			//unset($sxcarr[$k]);
+			$autok++;
+		}
+		//echo "<pre>";print_r($sxcarr);die;
+		$ajaxarr=$this->jiexi($ajaxstr);
+		foreach($ajaxarr as $ak=>$av)
+		{
+			$tj=$sxcarr[$ak]['tj'];
+			$zdy=$sxcarr[$ak]['id'];
+			if($av=='[1]')
+			{
+				continue;
+			}
+			$wherearr[$zdy]['tj']=$tj;
+			$wherearr[$zdy]['val']=$av;
+		}
+		$cpbase=M("chanpin");
+		$cpbasearr=$cpbase->query("select * from crm_chanpin where cp_yh='$fid' and cp_del='0' ");
+		foreach($cpbasearr as $cpbk=>$v)
+		{
+			$cpdata=json_decode($v['cp_data'],true);
+			//$cpdata['qy']=$v['qy'];
+			//$cparr[]=$cpdata;
+			foreach($wherearr as $cpdk=>$fw)
+			{
+				$cpdv=$cpdata[$cpdk];
+				if($fw!='')
+				{
+					if($fw['tj']=='1')
+					{
+						if($cpdv!=$sxcarr[$cpdk]['ndata'][$fw['val']-2])
+						{
+							continue 2;
+						}
+					}
+					if($fw['tj']=='2')
+					{
+						$thisvalarr=explode(',',$fw['val']);
+						foreach($thisvalarr as $thisk1=>$thisv1)
+						{
+							$thisvalarr[$thisk1]=$sxcarr[$cpdk]['ndata'][$thisv1-2];
+						}
+						if(!in_array($cpdv,$thisvalarr))
+						{
+							continue 2;
+						}
+					}
+					
+					if($fw['tj']=='3')
+					{
+						$iscz=explode($fw['val'],$cpdv);
+						if(count($iscz)=='1')
+						{
+							continue 2;
+						}
+					}
+					
+					if($fw['tj']=='4')
+					{
+						$thisval4=explode('][',substr($fw['val'],1,-1));
+						$val1=$thisval4[0];
+						$val2=$thisval4[1];
+						if($cpdv<$val1||$cpdv>$val2)
+						{
+							
+							continue 2;
+						}
+					}
+					if($fw['tj']=='5')
+					{
+						//echo $cpdk;
+						$thisqj=$sxcarr[$cpdk]['ndata'][$fw['val']-2];
+						//echo $thisqj;
+						if(count(explode('大于',$thisqj))!=1)
+						{
+							$dayu=explode('大于',$thisqj);
+							if($cpdv<$dayu[1])
+							{
+								continue 2;
+							}
+						}
+						else if(count(explode('小于',$thisqj))!=1)
+						{
+							$xiaoyu=explode('小于',$thisqj);
+							if($cpdv>$xiaoyu[1])
+							{
+								continue 2;
+							}
+						}
+						else
+						{
+							$qjarr=explode('-',$thisqj);
+							if($cpdv<$qjarr[0]||$cpdv>$qjarr[1])
+							{
+								continue 2;
+							}
+						}
+					}
+				}
+			}
+			/*
+			foreach($cpdata as $cpdk=>$cpdv)
+			{
+				$fw=$wherearr[$cpdk];
+				if($fw!='')
+				{
+					if($fw['tj']=='1')
+					{
+						if($cpdv!=$sxcarr[$cpdk]['ndata'][$fw['val']-2])
+						{
+							continue 2;
+						}
+					}
+					if($fw['tj']=='2')
+					{
+						$thisvalarr=explode(',',$fw['val']);
+						foreach($thisvalarr as $thisk1=>$thisv1)
+						{
+							$thisvalarr[$thisk1]=$sxcarr[$cpdk]['ndata'][$thisv1-2];
+						}
+						if(!in_array($cpdv,$thisvalarr))
+						{
+							continue 2;
+						}
+					}
+					
+					if($fw['tj']=='3')
+					{
+						$iscz=explode($fw['val'],$cpdv);
+						if(count($iscz)=='1')
+						{
+							continue 2;
+						}
+					}
+					
+					if($fw['tj']=='4')
+					{
+						$thisval4=explode('][',substr($fw['val'],1,-1));
+						$val1=$thisval4[0];
+						$val2=$thisval4[1];
+						if($cpdv<$val1||$cpdv>$val2)
+						{
+							
+							continue 2;
+						}
+					}
+					if($fw['tj']=='5')
+					{
+						//echo $cpdk;
+						$thisqj=$sxcarr[$cpdk]['ndata'][$fw['val']-2];
+						//echo $thisqj;
+						if(count(explode('大于',$thisqj))!=1)
+						{
+							$dayu=explode('大于',$thisqj);
+							if($cpdv<$dayu[1])
+							{
+								continue 2;
+							}
+						}
+						else if(count(explode('小于',$thisqj))!=1)
+						{
+							$xiaoyu=explode('小于',$thisqj);
+							if($cpdv>$xiaoyu[1])
+							{
+								continue 2;
+							}
+						}
+						else
+						{
+							$qjarr=explode('-',$thisqj);
+							if($cpdv<$qjarr[0]||$cpdv>$qjarr[1])
+							{
+								continue 2;
+							}
+						}
+					}
+				}
+			}
+			*/
+			$sxcp[$cpbk]=$v;
+		}
+		if(count($sxcp)<1)
+		{
+			echo "<tr><td colspan='100'><center>没有产品数据</center></td></tr>";
+			die;
+		}
+		//分类查询
+		$cpflbase=M("chanpinfenlei");
+		$cpflbasearr=$cpflbase->query("select cpfl_id,cpfl_name from crm_chanpinfenlei where cpfl_company='$fid' ");
+		foreach($cpflbasearr as $v)
+		{
+			$cpflarr[$v['cpfl_id']]=$v['cpfl_name'];
+		}
+		//分类结束
+		//解析当前页面的配置数据
+		$pxarr=json_decode($px,true);
+		$pzarr=json_decode($pz,true);
+
+
+		$newtablestr='';//新表格数据字符串
+		foreach($sxcp as $v)
+		{
+			$rowjsonarr=json_decode($v['cp_data'],true);
+			$isfirst='0';
+			$rowtdstr='';
+			foreach($pxarr as $k=>$vv)
+			{
+				if($k=='zdy7'||$pzarr[$k]=='1'||$vv['qy']!='1')
+				{
+					continue;
+				}
+				$tdclass=$v['cp_qy']=='1'?'':"style='color:#ccc;'";
+				$rowjsonarr[$k]=$k=='zdy6'?$cpflarr[$rowjsonarr[$k]]:$rowjsonarr[$k];
+				$tdstr=mb_strlen($rowjsonarr[$k])>15?mb_substr($rowjsonarr[$k],0,15).'...':$rowjsonarr[$k];
+				$tdstr=$tdstr==''?'-':$tdstr;
+				$left_t='';
+				if($isfirst=='0')
+				{
+					$left_t="class='left_t'";
+					$firsttd="<td $tdclass style='width:200px'  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;'>".$rowjsonarr[$k]."</td>";
+				}
+				$rowtdstr.="<td $tdclass $left_t  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' title='".$rowjsonarr[$k]."'>".$tdstr."</td>".$firsttd;
+				$firsttd='';
+				$isfirst++;
+			}
+			$checkboxstr="<td id='checkboxcss2'><input  type='checkbox' class='tbbox' id='chid".$v['cp_id']."'></td>";
+			$add_edit_date="<td $tdclass onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' >".$v['cp_add_time']."</td><td $tdclass onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' >".$v['cp_edit_time']."</td>";
+			if($v['qy']=='1')
+			{
+				$qytr.="<tr>".$checkboxstr.$rowtdstr.$add_edit_date."</tr>";
+			}
+			else
+			{
+				$jytr.="<tr>".$checkboxstr.$rowtdstr.$add_edit_date."</tr>";
+			}
+		}
+		$newtablestr=$qytr.$jytr;
+		if($newtablestr=='')
+		{
+			echo "<tr><td colspan='100'><center>没有产品数据</center></td></tr>";
+			die;
+		}
+		echo $newtablestr;
+
+		//==========================================
+		/*
+		
+
+
+		
+		
+		
+		*/
+	}
+	//自用解析字符串传值方法
+	public function jiexi($str)
+	{
+		$str=substr($str,1,-1);
+		$strarr=explode("],[",$str);
+		foreach($strarr as $v)
+		{
+			$vv=explode("]:[",$v);
+			$rtnarr[$vv[0]]=$vv[1];
+		}
+		return $rtnarr;
 	}
 	//插入日志方法
     public function insertrizhi($con)
@@ -876,4 +1643,5 @@ class ChanpinController extends Controller {
 
         return '1';
     }
+	
 }

@@ -99,9 +99,9 @@ class ShaixuanDoController extends Controller {
                     }
                 }
             }
-
             foreach($needsx as $k)//k=zdy1
             {
+                $intarr='';//最大值的初始化
                 if($sxtj[$k]=='1'||$sxtj[$k]=='2'||$sxtj[$k]=='5')//125都是要取唯一值的
                 {
                     if($sxtj[$k]=='5')//5是自动判断区间
@@ -126,6 +126,11 @@ class ShaixuanDoController extends Controller {
                 $injson[$k]['tj']=$sxtj[$k];
             }
         }
+        if($yewu=='123456')//其他模块的筛选
+        {
+            echo '....';
+            die;
+        }
         $injsonstr=json_encode($injson);
         $injsonstr=str_replace('\\','\\\\',$injsonstr);
         $sxcbase=M("sx_cache");
@@ -145,8 +150,8 @@ class ShaixuanDoController extends Controller {
         echo $rzr.'#'.$nowtime;
     }
 
-    //自动生成区间
-    public function qujian($a,$qjnum)
+    //自动区间（旧）
+    public function qujian2($a,$qjnum)
     {
         $a=$a>1?number_format($a,0,'',''):ceil($a);
         $c=strlen($a);
@@ -173,6 +178,51 @@ class ShaixuanDoController extends Controller {
             else
             {
                 $nownum=$z1>1?(($cc*$z1)-1):(($cc*$z1)-0.1);
+                $tjarr[]=$lastnum.'-'.$nownum;
+            }
+            $lastnum=$cc*$z1;
+        }
+        return $tjarr;
+    }
+    //自动生成区间(新)
+    public function qujian($a,$qjnum)
+    {
+        $olda=$a;
+        $a=$a>1?number_format($a,0,'',''):ceil($a);
+        $c=strlen($a);
+        $aaa='1';
+        for($aa=0;$aa<$c-1;$aa++)
+        {
+            $aaa=$aaa*10;
+        }
+        $zzz=ceil($a/$aaa)*$aaa;
+        $roundnum=0;
+        if($olda<1)
+        {
+            $dnum=explode(".",$olda);
+            $roundnum=strlen($dnum[1]);
+        }
+        $z1=$olda>1?floor($zzz/$qjnum):round(($zzz/$qjnum),$roundnum);
+        $lastnum=$z1;
+        $jian=1;
+        for($s=0;$s<$roundnum;$s++)
+        {
+            $jian=$jian/10;
+        }
+        for($cc=1;$cc<=$qjnum;$cc++)
+        {
+            if($cc==1)
+            {
+                $nownum=($cc*$z1);
+                $tjarr[]='小于'.$nownum;
+            }
+            else if($cc==$qjnum)
+            {
+                $tjarr[]='大于'.$lastnum;
+            }
+            else
+            {
+                $nownum=$z1>1?(($cc*$z1)-1):(($cc*$z1)-$jian);
                 $tjarr[]=$lastnum.'-'.$nownum;
             }
             $lastnum=$cc*$z1;
