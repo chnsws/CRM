@@ -6,7 +6,7 @@ use Think\Controller;
 class KehuController extends Controller {
 
     public function kehu(){
-    //	echo "<pre>";
+   // echo "<pre>";
     	//print_r(cookie());
     	//die;
 
@@ -40,6 +40,8 @@ class KehuController extends Controller {
 				$pl_bj_arr[]=$pl_bj;
 			}
 		}
+		//echo "<pre>";
+		//var_dump($pl_bj_arr);exit;
 $this->assign("pl_bj",$pl_bj_arr);
 		$array_jiansuo=array('fuzeren'=>"负责人",'department'=>"部门",'kh_lx'=>"联系人",'kh_cj_cp'=>"已经成交产品",'kh_new_gj'=>"最新跟进记录",'kh_sj_gj_date'=>"实际跟进时间",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间",'kh_yh'=>"所属公司");
 				foreach($array_jiansuo as $k=>$v){
@@ -131,9 +133,10 @@ $this->assign("pl_bj",$pl_bj_arr);
 			$ywcs_sql_json[$v['id']]=$v;
 			unset($ywcs_sql_json[$k]);
 		}
+
 		foreach ($pl_bj_arr as $k=>$v){ //多条编辑 弹出框对应数据
-//	echo "<pre>";
-		//var_dump($ywcs_sql_json);exit;
+			//echo "<pre>";
+	//	var_dump($ywcs_sql_json);exit;
 			$bj_tab.="<tr class='yincang top_pl_bj' style='line-height:70px' id='wc".$v['id']."'><td>".$v['name'].":</td>";
 			
 			if($v['type']=='3')
@@ -172,7 +175,8 @@ $this->assign("pl_bj",$pl_bj_arr);
 				$new_html.="</div>";
 
 		}
-				
+		echo "<pre>";
+		var_dump($sql_peizhi);exit;
 		$this->assign('sx_tj',$sql_peizhi);    
 	$this->assign('new_html',$new_html);           //配置信息
 
