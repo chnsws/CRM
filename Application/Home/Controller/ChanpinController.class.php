@@ -142,6 +142,10 @@ class ChanpinController extends Controller {
 				$pxzdarr[$v]=$newzdarr[$v];
 			}
 		}
+		else
+		{
+			$pxzdarr=$newzdarr;
+		}
 		$thnum=0;
 		//echo "<pre>";print_r($pxzdarr);die;
 		//开始循环添加表单&&表头th
