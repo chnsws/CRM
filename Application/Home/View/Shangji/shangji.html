@@ -39,8 +39,11 @@
 
 			.fa-pencil{float:right;}
 			.sx_tj_margain{margin-left:12px;}
+	#table_local_filter{width:300px;margin-top:-32px; float:right;}
 
-
+    			#table_local_length{width:100px;}
+    			.label-success{ height:28px;line-height:16px;width:60px; text-align: center;font-size:14px; }
+#table_local_filter label{width:300px;}
 			div,span{overflow:hidden;}
 			#sxdiv{background-color:#fff;margin:10px 10px 0px 10px;padding:10px 5px 10px 5px;}
 			#sxshowbtn{background-color:#fff;width:40px;text-align:center;margin:0 auto;cursor:pointer;}
@@ -61,7 +64,18 @@
 			span a{margin-left:20px;}
 			.pl_bj{margin:0px auto;}
 
-		</style>      
+		</style>   
+		  <script>
+  $(function() {
+    $( document ).tooltip();
+  });
+  </script>
+  <style>
+  label {
+    display: inline-block;
+    width: 5em;
+  }
+  </style>   
 	</head>
 	<body style="position:relative">
 	<div class="beijing">
@@ -75,10 +89,11 @@
 				  </ul>
 			</div>
 			       
-			<div class="sxdiv">
+			<div class="sxdiv" >
 					
 
 			        <div id="sxhidestr" >筛选条件：
+			        	 <span class="sx_tj_margain">商机范围</span>
           				  <foreach name="biaoti1" item="bo">
            					 <span class="sx_tj_margain">{$bo.name}</span>
            				 </foreach>
@@ -93,14 +108,19 @@
 		   <div id="sxshowbtn" onselectstart='return false'><i class='fa fa-chevron-down' aria-hidden='true'></i></div>
 		   	<div class="anniu">		
 					<span style="margin-top:-8px;margin-left:1%"  class="anniudw">
-							已选0位客户
-					   		<a href="#" onclick="piliangzhuanyi()" >批量转移</a>
-					   		<a href="#"  onclick="bianji_kehu1()">批量编辑</a>
-					   		<a href="#" onclick="del_check()" >删除所选</a>
-					   		<a href="#">转移至客户公海</a>
+
+					   		
+					   	<button onclick="piliangzhuanyi()"  class="layui-btn layui-btn-primary layui-btn-small">
+   			 			<i class="layui-icon">&#xe642;</i>批量转移</button>	
+					   	<button onclick="bianji_kehu1()"  class="layui-btn layui-btn-primary layui-btn-small">
+   			 			<i class="layui-icon">&#xe642;</i>批量编辑</button>
+					   	<button onclick="del_check()"  class="layui-btn layui-btn-primary layui-btn-small">
+   			 			<i class="layui-icon">&#xe642;</i>删除所选</button>
+   			 			<button onclick="piliangzhuanyi()"  class="layui-btn layui-btn-primary layui-btn-small">
+   			 			<i class="layui-icon">&#xe642;</i>转移至客户公海</button>	
 					</span>
 					
-					<div id="bj_kehu" style="margin-top:10px;padding-top:20px;" >
+					<div id="bj_kehu" style="margin-top:10px;padding-top:20px;" style="display: none;border:1px" >
 					<form name="pl_bjform" method="post" >
 						<table class="pl_bj">
 							<tr  style='line-height:70px'>
@@ -118,25 +138,7 @@
 						</table>
 					</form>
 					</div>
-					<!--
-					<div id="piliangzy" style="margin-top:10px;padding-top:20px;" >
-					<form name="pl_bjform" method="post" >
-						<table class="pl_bj">
-							<tr  style='line-height:70px'>
-								<td >新负责人:</td><td><select  style="width:260px;height:26px;" id="zhuanyifzr">
-												<option>请选择新负责人</option>
-												 <foreach name="fuzeren" item="vo"> 
-							  				 	<option value="{$vo.user_id}">{$vo.user_name}</option>
-							  				  </foreach>   
-											  </select>
-												</td>
-							</tr>
-							 <tr style='line-height:70px'><td><input type="checkbox" name="ched" value="1">同时转移客户下的商机</td></tr>
-											  <tr style='line-height:70px'><td><input type="checkbox" name="ched" value="2">同时转移客户下的合同</td></tr>
-
-						</table>
-					</form>
-					</div>-->
+				
    				</div>
 
 						<div class="kehu">   	
@@ -165,7 +167,7 @@
 		</div>
 	</div>
 <div id="results"></div>
-	<div id="add_shangji"> <!--新增商机 弹出框-->
+	<div id="add_shangji" style="display: none;border:1px"> <!--新增商机 弹出框-->
 					<form name="" id="myform" method="post" >
 						<table class="addshangji_weizhi">
 							{$add}
@@ -195,7 +197,7 @@
 						</table>
 					</form>
 	</div>
-	<div id="daoru" style="margin-top:40px"><!--导入-->
+	<div id="daoru" style="display: none;border:1px;margin-top:40px"><!--导入-->
   						<div class="dr_q" style="width:80%;margin:0px auto";>
   							<li style="height:30px;position: relative; left:-8px;">一、下载导入数据模板 ,将导入的数据填充到导入模板文件中。</li>
   							<li  style="height:40px">注意事项：</li>
@@ -209,7 +211,7 @@
   						</div>
   					</div>
 
-  	<div id="addcp">
+  	<div id="addcp" style="display: none;border:1px">
   		<form name="" method="post" >
 						<table class="addshangji_weizhi">
 						<tr  class="addtr">
@@ -261,7 +263,7 @@
 						</table>
 					</form>
   	</div>
-  	<div id="piliangzy" style="margin-top:10px;padding-top:20px;" >
+  	<div id="piliangzy"   style="display: none;border:1px;margin-top:10px;padding-top:20px;">
 					<form name="pl_bjform" method="post" >
 						<table class="pl_bj">
 							<tr  style='line-height:70px'>
@@ -291,10 +293,12 @@
 	$("#add_shangji").hide();
 	$("#daoru").hide();
 	layui.use('upload', function(){
+		
   		layui.upload(options);
 		});
 
 
+		
 	$("#sxshowbtn").click(function(){         //控制 、筛选的隐藏与显示
 	    if($(this).prop("name")=='0'||$(this).prop("name")==undefined)
 	    {
@@ -320,15 +324,13 @@
     var s=$(this).index();
 
 	id+=title+","+s+"|";
-	alert(id);
-   //alert(id);
-	$.get(rooturl+'/index.php/Home/Kehu/shaixuan',{"id":id},
+	//alert(id);
+  //alert(id);
+	$.get(rooturl+'/index.php/Home/Shangji/shaixuan',{"id":id},
 							        		 function(html){
-							        		 	//alert(html)
 							        			$("#jb_bianji").html(html);
 							        			$('.bianji_hide').hide();
-							        			pencil();
-							        			blurfun();
+							      
 							                   });
  
 });
@@ -356,7 +358,7 @@
 									}
 									$.get(rooturl+'/index.php/Home/Shangji/add',{"id":ajaxstr},
 							        		 function(html){
-									        		 alert("添加成功")
+									        	
 									        		$("#jb_bianji").html(html);
 									        		layer.close(win)
 							                   });
@@ -526,8 +528,8 @@
 					if($(this).prop("checked")==true)
 					{
 						checked_str+=$(this).prop("id")+',';
-
 						as_key++;
+						
 					}
 				});
 				//alert(checked_str)
@@ -557,7 +559,7 @@
 						bianji_str+=$(this).prop("id")+',';
 					
 						as_key++;
-
+						$("#num").text(as_key);
 							
 					}
 				});
@@ -623,7 +625,7 @@
 	 		alert("没有选择客户");
 				return false;
 	 	}
-	 //	alert(piliang_str)
+
 	 	layui.use('layer', function(){
 								var layer = layui.layer;
 								var win=layer.open({
@@ -638,7 +640,8 @@
 										var fuzeren=$("#zhuanyifzr").val();
 										var fuzeren1=$("#zhuanyifzr").children("option[value='"+fuzeren+"']").text();//客户名称汉字
 										var shangji_hetong='';//不确定
-										alert(fuzeren)
+										//alert(fuzeren)
+
 										$.get(rooturl+'/index.php/Home/Shangji/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"sj_id":piliang_str},
 			        		 				function(html){
 			        		 					alert("批量转移成功")
@@ -653,5 +656,16 @@
 							});   
 	 	
 	 }
+    	</script>
+    	<script>
+    		function get_lx(e){
+    			var kh_id= $(e).val();
+    			$.get(rooturl+'/index.php/Home/Shangji/lxr_get',{"id":kh_id},
+			        		 				function(html){
+			        		 	
+															$(".lxr").html(html);
+															layer.close(win)
+											});
+    		}
     	</script>
 </html>

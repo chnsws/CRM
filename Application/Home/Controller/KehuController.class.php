@@ -133,10 +133,9 @@ $this->assign("pl_bj",$pl_bj_arr);
 			$ywcs_sql_json[$v['id']]=$v;
 			unset($ywcs_sql_json[$k]);
 		}
-
 		foreach ($pl_bj_arr as $k=>$v){ //多条编辑 弹出框对应数据
 			//echo "<pre>";
-	//	var_dump($ywcs_sql_json);exit;
+		//var_dump($ywcs_sql_json);exit;
 			$bj_tab.="<tr class='yincang top_pl_bj' style='line-height:70px' id='wc".$v['id']."'><td>".$v['name'].":</td>";
 			
 			if($v['type']=='3')
@@ -175,8 +174,7 @@ $this->assign("pl_bj",$pl_bj_arr);
 				$new_html.="</div>";
 
 		}
-		echo "<pre>";
-		var_dump($sql_peizhi);exit;
+				
 		$this->assign('sx_tj',$sql_peizhi);    
 	$this->assign('new_html',$new_html);           //配置信息
 
