@@ -302,11 +302,62 @@ return $fzr_only;
 				
 		}
 		$show2.="</table>";
-				$this->assign('show2',$show2);
+		$this->assign('show2',$show2);
 		$user_dpment[$sql_rh['sj_fz']]['user_name'];
+		$chanpin=$this->chanpin();
+		$cp_sj['sj_id']=$sj_id;
+		$cp_sj['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$cp_sj['cp_sj_cj']=cookie('user_id'); //通用条件  
+		$cp_sj_base=M('cp_sj');
+		$sql_cp_sj=$cp_sj_base->where($cp_sj)->select();
+		foreach($sql_cp_sj as $k=>$v)
+		{
+			foreach($v as $k1=>$v1)
+			{
+				$chanpin_rh[$k1]=$v1;
+			}
+			$chanpin_rh['zdy0']=$chanpin[$v['cp_id']]['zdy0'];
+			$chanpin_rh['zdy1']=$chanpin[$v['cp_id']]['zdy1'];
+			$chanpin_rh['zdy4']=$chanpin[$v['cp_id']]['zdy4'];
+			$chanpin_rh['zdy5']=$chanpin[$v['cp_id']]['zdy5'];
+			$cp_rh[]=$chanpin_rh;
+		}
+		foreach($cp_rh as $k=>$v){
+			$cp_show.="<tr class='".$v['cp_id1']."'><td >".$v['zdy0']."</td>
+					  <td >".$v['zdy1']."</td>
+					  <td >".$v['cp_yj']."</td>
+					  <td >".$v['cp_jy']."</td>
+					  <td >".$v['cp_num1']."</td>
+					  <td >".$v['cp_zk']."</td>
+					  <td >".$v['cp_zj']."</td>
+					  <td >".$v['zdy4']."</td>
+					  <td >".$v['zdy5']."</td>
+					  <td >".$v['cp_beizhu']."</td>
+					  	<td ><input type='button' name='".$v['cp_id1']."' onclick='cp_sj_del(this)' value='删除'></td>
+					 </tr> ";
+
+		}
+		$file_sj['name_id']=$sj_id;
+		$file_sj['yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		$file_sj['mk']='5';
+		$file_sj_base=M('file');
+		$sql_file_sj=$file_sj_base->where($file_sj)->select();
+		foreach($sql_file_sj as $k=>$v)
+		{
+			$file_sj_show.="<tr class='".$v['id']."'><td>".$v['id']."</td><td>".$v['sc_data']."</td><td>".$v['fujian_name']."</td><td>".$v['big']."</td><td>".$v['beizhu']."</td><td><button onclick='fujian_del(this)' name='".$v['id']."' class='layui-btn layui-btn-primary layui-btn-small'>
+    <i class='layui-icon'>&#xe642;</i>删除
+  </button></td>";
+			$file_sj_show.="</tr>";
+		}
+		$this->assign('file_sj_show',$file_sj_show);
+	//echo "<pre>";
+		//var_dump($sql_file_sj);exit;
+			$this->assign('cp_show',$cp_show);
 		$this->assign('fuzeren',$user_dpment[$sql_rh['sj_fz']]['user_name']);
 		$this->assign('show',$show);
 		$this->assign('show1',$show1);
+		$this->assign('sj_id',$sj_id);
+
 		$this->assign('sql_rh',$sql_rh);
 		$this->assign('lx_json',$lx_json);
 		$this->assign('sql_lianxi',$sql_lianxi);
@@ -494,5 +545,93 @@ return $fzr_only;
 			echo "no";
 		}
 	}
+		public function chanpin(){
+		$map['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$cp_base=M('chanpin');
+		$sql=$cp_base->where($map)->select();
+		foreach($sql as $k=>$v)
+		{
+			foreach($v as $k1=>$v1){
+				if($k1!='cp_data'){
+					$cp_sql[$k1]=$v1;
+				}else{
+					$json=json_decode($v[$k1],true);
+					foreach($json as $k2=>$v2){
+						$cp_sql[$k2]=$v2;
+					}
+				}
+			}$sql_cp[$v['cp_id']]=$cp_sql;
+			
+		}
+		//echo "<pre>";
+		//var_dump($sql_cp);exit;
+		return $sql_cp;
+	}
+	public function cp_sj_del(){
+		
+			$id['cp_id1']=$_GET['id'];
+				$cp_sj_base=M('cp_sj');
+				$sql_del=$cp_sj_base->where($id)->delete();
+				if($sql_del){
+					echo "1";
+				}else{
+					echo "2";
+				}
+	}
+			public function sj_upload(){//http://www.jb51.net/article/74353.htm   筛选第二天要看的
+
+
+				$sj_id=$_GET['id'];
+				//echo $sj_id;exit;
+			    $upload = new \Think\Upload();// 实例化上传类
+    			$upload->maxSize   =     3145728 ;// 设置附件上传大小
+   				$upload->exts      =     array('jpg', 'gif', 'png', 'jpeg','txt','pptx','xls');// 设置附件上传类型
+    			$upload->rootPath  =     './Uploads/'; // 设置附件上传根目录
+   				$upload->autoSub = false;
+   				$upload->hash = false;
+    		// 上传文件 
+   				 $info   =   $upload->upload();
+    			if(!$info) {// 上传错误提示错误信息
+        		$this->error($upload->getError());
+    				}// 上传成功
+    					    foreach($info as $file){
+       						$save_name= 'Uploads/'.$file['savename'];//获取报存路径
+       						$save_oldname=$file['name'];//原始吗，
+       						$save_size=$file['size'] *'0.0009766';//大小
+       						$sql=substr($save_size,0,3).'kb';//换算
+ 
+    			 $data['name_id']=$sj_id;
+    			 $data['sc_data']= date("Y-m-d h:i:s");
+    			 $data['fujian_name']=$save_oldname;
+    			 $data['lujing']=$save_name;
+    			 $data['big']=$sql;
+       			 $data['beizhu']=$_POST['wenbenyu'];
+       			 $data['yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+       			 $data['mk']="5";
+       			 $sql_file=M('file');
+       			 $sql_file_select=$sql_file->add($data);
+       			 if($sql_file_select)
+       			 {
+       			 	//$this->success("上传成功");
+       			 	echo '<script>
+       			 				alert("上传成功");
+       			 				window.location="'.$_GET['root_dir'].'/index.php/Home/Shangjimingcheng/shangjimingcheng/id/'.$sj_id.'";
+       			 				</script>';
+       			 	
+       			 }else{
+       			 	$this->error("上传失败");
+       			 }
+		}
 	
+
+
+}
+			public function fujian_del(){
+				$data['id']=$_GET['id'];
+				 $sql_file=M('file');
+				 $data['mk']="5";
+				 $data['yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+				 $sql_del=$sql_file->where($data)->delete();
+				 
+			}
 }

@@ -212,52 +212,44 @@
   					</div>
 
   	<div id="addcp" style="display: none;border:1px">
-  		<form name="" method="post" >
+  		<form id="cp_form" method="post" >
 						<table class="addshangji_weizhi">
-						<tr  class="addtr">
-							<td><span style="color:red">*</span>产品名称：</td>
-								 <td>
-								 	<select name="fuzeren" class ="clk_fzr" style='width:300px;height:26px;'>
-								 		<foreach name="fuzeren" item="vo">
-								 			<option value="{$vo.user_id}">{$vo.user_name}</option>
-								 		</foreach> 
-								 	</select>
-								 </td>			
-						</tr>
+						{$chanpin1}
 						<tr class="addtr">
 							<td>产品原价：</td>
 								<td>
-									<input type="text" style='width:300px;height:26px;'>		
+									<input type="text" class="cp_yj" name="cp_yj" disabled name="cp_yj" style='width:300px;height:26px;'>		
 								</td>			
 						</tr>
 						<tr class="addtr">
 							<td><span style="color:red">*</span>建议价格：</td>
 								<td>
-									<input type="text" style='width:300px;height:26px;'>		
+									<input type="number" class="cp_jy"  name="cp_jy" onkeyup='cp_jy_aj(this)'  style='width:300px;height:26px;'>		
 								</td>			
 						</tr>
 						<tr class="addtr">
 							<td><span style="color:red">*</span>数量：</td>
 								<td>
-									<input type="text" style='width:300px;height:26px;'>		
+								<input type="number" class="cp_num1" name="cp_num1" onkeyup='cp_num(this)'  style='width:300px;height:26px;'>		
 								</td>			
 						</tr>
 						<tr class="addtr">
 							<td>折扣：</td>
 								<td>
-									<input type="text" style='width:300px;height:26px;'>		
+									<input type="text" class="cp_zk"  name="cp_zk" value="-"  disabled style='width:300px;height:26px;'>		
 								</td>			
 						</tr>
 						<tr class="addtr">
 							<td>总价：</td>
 								<td>
-									<input type="text" style='width:300px;height:26px;'>		
+									<input type="text" class="cp_zj" name="cp_zj" disabled style='width:300px;height:26px;'>		
 								</td>			
 						</tr>
 						<tr class="addtr">
 							<td>备注：</td>
 								<td>
-									<input type="text" style='width:300px;height:26px;'>		
+									<textarea name="cp_beizhu" rows="4" cols="40">
+									</textarea>		
 								</td>			
 						</tr>
 						</table>
@@ -345,6 +337,7 @@
 								offset: 't',
 								area:'630px',
 								title: '新增商机',
+								fixed: false,
 								content:$('#add_shangji'),
 								btn:['确认添加','取消'],
 								btn1:function(){
@@ -356,16 +349,36 @@
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
 										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
 									}
+									//alert(ajaxstr)
 									$.get(rooturl+'/index.php/Home/Shangji/add',{"id":ajaxstr},
 							        		 function(html){
-									        	
+									        	//alert(html)
 									        		$("#jb_bianji").html(html);
+									        			$(".layui-table").hide();
 									        		layer.close(win)
 							                   });
 								},
 								btn2:function(){
+									$.get(rooturl+'/index.php/Home/Shangji/del_all',{},
+							        		 function(html){
+									        	   	$(".layui-table").hide();
+									        		
+									        		layer.close(win)
+							                   });
 									layer.close(win)
 									//addshangji()
+								},
+								cancel:function(index,layero){
+									
+										$.get(rooturl+'/index.php/Home/Shangji/del_all',{},
+							        		 function(html){
+									        	   	$(".layui-table").hide();
+									        		
+									        		layer.close(win)
+							                   });
+										layer.close(index)
+								
+
 								}
 							}); 
 						});  
@@ -507,12 +520,27 @@
 
 								type:1,
 								offset: 't',
-								area:'630px',
+								area:'750px',
 								title: '添加产品',
 								content:$('#addcp'),
 								btn:['保存'],
 
 								btn1:function(){
+									var formdom=$("#cp_form").children("table").find("tr");
+									var fornum=formdom.length;
+									var ajaxstr='';
+									for(a=0;a<fornum;a++)
+									{
+										var thisdom=formdom.eq(a).find("td").eq(1).children();
+										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+									}
+									var vstr=ajaxstr.substr(0,ajaxstr.length-1);
+									$.get(rooturl+'/index.php/Home/Shangji/add_cp',{"id":vstr},
+							        		 function(html){
+									       		 $(".tihuan").html(html);
+									        	$(".layui-table").show();
+									        		layer.close(win)
+							                   });
 									layer.close(win)
 								}
 							}); 
@@ -666,6 +694,70 @@
 															$(".lxr").html(html);
 															layer.close(win)
 											});
+    		}
+    		function cp_aj(a){
+    			var cp_id=$(a).val();
+    			if(cp_id == 's'){
+    				$(".cp_yj").val("")
+    				$(".cp_jy").val("")
+    				$(".cp_zk").val("-")	
+    				$(".cp_num1").val("")	
+    				$(".cp_zj").val("")	
+    				layer.close(win)
+    			}
+    			$.get(rooturl+'/index.php/Home/Shangji/cp_ajax',{"id":cp_id},
+    										function(html)
+    										{
+    										//	alert(html)
+    													$(".cp_yj").val(html)
+    													$(".cp_jy").val(html)
+    												$(".cp_zk").val("100.0%")	
+    												$(".cp_num1").val(1)	
+    												$(".cp_zj").val(html)	
+    												
+
+    													layer.close(win)
+    										}
+    				)
+    				
+    		}
+    		function cp_jy_aj(b){
+    			var jy = $(b).val();	
+    			var yj = $(".cp_yj").val();	
+    			/**用  100 除  原价  得出的值 乘 建议 价格**/
+    		
+    			var baifenbi=(100 /  yj *  jy );
+    			var jiequ =	baifenbi.toFixed(2);
+    		
+    			var end = jiequ +"%";
+    			var num=$('.cp_num1').val();
+    			var num1=(num * jy);
+    			$(".cp_zk").val(end);
+    			$(".cp_zj").val(num1)		
+    			//alert(yj);
+    		}
+    		
+    	</script>
+    	<script>
+    		function cp_num(w){
+    			var num2 = $(w).val();	
+    			var jy = $(".cp_jy").val();	
+    			var num1=(num2 * jy);
+    			
+    			$(".cp_zj").val(num1)		
+    		}
+    		function cp_del(f){
+    			var id = $(f).prop('name');
+    				$.get(rooturl+'/index.php/Home/Shangji/cp_del',{"id":id},
+    										function(html)
+    										{
+    											if(html==1){
+    												$("."+id).hide();
+    												layer.close(win)
+    											}
+    													
+    										}
+    				)
     		}
     	</script>
 </html>

@@ -269,11 +269,11 @@ class ShangjiController extends Controller {
 								
 							}else{
 						
-							$table1.="<td>";
+							$table.="<td>";
 
-								$table1.="<input type='button' name='xiaodan' onclick='add_cp()' value='+添加产品' >";
+								$table.="<input type='button' name='xiaodan' onclick='add_cp()' value='+添加产品' >";
 								
-								$table1.="</td>";
+								$table.="</td>";
 								
 				
 							}
@@ -282,7 +282,7 @@ class ShangjiController extends Controller {
 					$table.="</tr>";																						
 				}else{
 					$table1.="<tr class='addtr'>";
-						$table1.="<td>".$vzd['name'].":</td>";
+						$table1.="<div class='".$vzd['id']."'><td >".$vzd['name'].":</td></div>";
 						if($vzd['type']=="0") 
 							$table1.="<td><input type='text' name='".$vzd['id']."'  ></td>";   //  0文本框
 						elseif($vzd['type']=="2")
@@ -347,17 +347,37 @@ class ShangjiController extends Controller {
 								
 							$table1.="<td>";
 
-								$table1.="<input type='button' name='xiaodan' onclick='add_cp()' value='+添加产品' >";
+								$table1.="<input type='button' name='xiaodan' onclick='add_cp()' value='+添加产品'  >";
+								
+
 								
 								$table1.="</td>";
-				
+
 							}
 						}	
 																//  3下拉选择
-					$table1.="</tr>";	
+					$table1.="</tr>";
 
+					
 				}
-				
+				if($vzd['id']=="zdy6"){
+				$table1.="<tr><td colspan='2'>";
+					$table1.="<table class='layui-table' lay-skin='line' style='display: none;border:1px'>";
+								 	 $table1.="<thead>
+								  				<th >产品名称</th>
+						  						<th >产品原价</th>
+						  						<th >建议价格</td>
+						  						<th >数量</th>
+						  						<th >折扣</th>
+						  						<th >总价</th>
+						  						<th >操作</th>
+											</thead>";
+									  $table1.="<tbody class='tihuan'>";
+								
+									  $table1.="</tbody>
+										 </table>";
+					$table1.="</td></tr>";
+				}
 			}
 		}
 		//echo "<pre>";
@@ -401,10 +421,22 @@ class ShangjiController extends Controller {
 					$new_html.="</div>";
 
 			}
+			$chanpin=$this->chanpin();
+		
+
+			$chanpin1.="<tr  class='addtr'>";
+				$chanpin1.="<td><span style='color:red'>*</span>产品名称：</td>";
+					$chanpin1.="<td><select name='cp_id' onchange='cp_aj(this)' class ='clk_fzr' style='width:300px;height:26px;'>";
+							$chanpin1.="<option value='s'>请选择产品 </option>";
+					foreach ($chanpin as $k=>$v)
+					{
+							$chanpin1.="<option value='".$v['cp_id']."'>".$v['zdy0']." </option>";
+					}
+					$chanpin1.="</select> </td></tr>";
+//var_dump($chanpin1);exit;
+				$this->assign('chanpin1',$chanpin1); 
 			$this->assign('new_html',$new_html); 	
-		$this->assign('bj_tab',$bj_tab); 	
-		//echo "<pre>";
-	///	var_dump($ywcs_sql_json);exit;				
+		$this->assign('bj_tab',$bj_tab); 			
 		$add=$table;  //必填
 		$add1=$table1;//非必填
 		$this->assign('show',$show);
@@ -414,6 +446,39 @@ class ShangjiController extends Controller {
 		$this->assign('biaoti',$biaoti);	
 		$this->assign('biaoti1',$bir);	
 		$this->display();
+	}
+	public function chanpin(){
+		$map['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$cp_base=M('chanpin');
+		$sql=$cp_base->where($map)->select();
+		foreach($sql as $k=>$v)
+		{
+			foreach($v as $k1=>$v1){
+				if($k1!='cp_data'){
+					$cp_sql[$k1]=$v1;
+				}else{
+					$json=json_decode($v[$k1],true);
+					foreach($json as $k2=>$v2){
+						$cp_sql[$k2]=$v2;
+					}
+				}
+			}$sql_cp[$v['cp_id']]=$cp_sql;
+			
+		}
+		//echo "<pre>";
+		//var_dump($sql_cp);exit;
+		return $sql_cp;
+	}
+	public function cp_ajax(){
+		$chanpin =$this->chanpin();
+		$id=$_GET['id'];
+		foreach($chanpin as $k=>$v)
+		{
+			if($v['cp_id']==$id){
+				$yj=$v['zdy2'];
+			}
+		}
+		echo $yj;
 	}
 	public function gongyou(){
 						$data['zd_yh']=cookie('user_id');//本人ID                     
@@ -587,7 +652,7 @@ class ShangjiController extends Controller {
 	}
 	public function add(){
 		$a=$_GET['id'];
-echo $a;
+
 		$new_number=substr($a,0,strlen($a)-1); 
 		$new_arr=explode(',',$new_number);
 		foreach($new_arr as $k=>$v)
@@ -616,9 +681,19 @@ echo $a;
 		$sj_base=M('shangji');
 		$add_sj=$sj_base->add($data);
 		if($add_sj){
-			$xiaji= $this->gongyou();
-			echo $xiaji;
-		}else{
+					$xiaji= $this->gongyou();
+					echo $xiaji;
+					$sql_sel=$sj_base->where($data)->field('sj_id')->find();
+					$sql['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
+					$sql['sj_id']='0'; 
+					$sql['cp_sj_cj']=cookie('user_id'); //通用条件   
+					$cp_sj_base=M('cp_sj');
+					$dat['sj_id']= $sql_sel['sj_id'];
+					$sql_add=$cp_sj_base->where($sql)->save($dat);
+					//echo "<pre>";
+					//var_dump($sql);exit;
+			
+	}else{
 			$xiaji= $this->gongyou();
 			//echo $xiaji;
 			echo "no";
@@ -1093,5 +1168,63 @@ echo $a;
 		
 		echo $table;
 	}
+	public function add_cp(){
+		$id=$_GET['id'];
+		//$id= "cp_id:58,cp_yj:6666,cp_jy:6666,cp_num1:1,cp_zk:100.0%,cp_zj:6666,cp_beizhu:		7";
+		$ex=explode(',',$id);
+		foreach($ex as $v)
+		{
+			$a=explode(":",$v);
+			$sql[$a['0']]=$a['1'];
+		}
+		$sql['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
+		$sql['sj_id']='0'; 
+		$sql['cp_sj_cj']=cookie('user_id'); //通用条件   
+		$cp_sj_base=M('cp_sj');
+		$sql_add=$cp_sj_base->add($sql);
+		if($sql_add){
+			$map['cp_sj_cj']=$sql['cp_sj_cj'];
+			$map['cp_yh']=$sql['cp_yh'];
+			$map['sj_id']=$sql['sj_id'];
+			$sql_cp_cha=$cp_sj_base->where($map)->select();
+			$chanpin=$this->chanpin();
+		//	echo "<pre>";
+			//var_dump($sql_cp_cha);exit;
+			foreach($sql_cp_cha as $v)
+			{
+					 $table1.="<tr  class='".$v['cp_id1']."'>
+		  				<td >".$chanpin[$v['cp_id']]['zdy0']."</td>
+		  				<td >".$v['cp_yj']."</td>
+		  				<td >".$v['cp_jy']."</td>
+		  				<td >".$v['cp_num1']."</td>
+		  				<td >".$v['cp_zk']."</td>
+		  				<td >".$v['cp_zj']."</td>
+		  				<td ><input type='button' value='删除' onclick='cp_del(this)' name='".$v['cp_id1']."' ></td>
+					</tr> ";
+			}
+			echo $table1;
+			 						
+		} else{
+			echo "2";
+		}
+	
+		}	
+			public function cp_del(){
+				$id['cp_id1']=$_GET['id'];
+				$cp_sj_base=M('cp_sj');
+				$sql_del=$cp_sj_base->where($id)->delete();
+				if($sql_del){
+					echo "1";
+				}else{
+					echo "2";
+				}
+			}
+			public function del_all(){
+					$sql['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
+					$sql['sj_id']='0'; 
+					$sql['cp_sj_cj']=cookie('user_id'); //通用条件   
+					$cp_sj_base=M('cp_sj');
+					$sql_add=$cp_sj_base->where($sql)->delete();
+			}	
 
 }
