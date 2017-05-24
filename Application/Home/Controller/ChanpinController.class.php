@@ -1238,7 +1238,7 @@ class ChanpinController extends Controller {
 					$rowval=$flarr[$rowjsonarr[$zdk]];
 				}
 				$rowval=str_replace('
-','',str_replace('\n','',str_replace('\r','',$rowval)));
+','',str_replace("\n",'',str_replace("\r",'',$rowval)));
 				$line.=$rowval.',';
 			}
 			$body.=$line."".$v['cp_add_time'].",".$v['cp_edit_time'].""."\r\n";
