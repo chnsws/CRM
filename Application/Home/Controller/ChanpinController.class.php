@@ -1441,7 +1441,8 @@ class ChanpinController extends Controller {
 						if(count(explode('大于',$thisqj))!=1)
 						{
 							$dayu=explode('大于',$thisqj);
-							if($cpdv<$dayu[1])
+							
+							if(str_replace(' ','',$cpdv)<$dayu[1])
 							{
 								continue 2;
 							}
@@ -1449,15 +1450,18 @@ class ChanpinController extends Controller {
 						else if(count(explode('小于',$thisqj))!=1)
 						{
 							$xiaoyu=explode('小于',$thisqj);
-							if($cpdv>$xiaoyu[1])
+							
+							if(str_replace(' ','',$cpdv)>$xiaoyu[1])
 							{
+								
 								continue 2;
 							}
+							//$aa.=$cpdv.'<'.$xiaoyu[1]."\r\n";
 						}
 						else
 						{
 							$qjarr=explode('-',$thisqj);
-							if($cpdv<$qjarr[0]||$cpdv>$qjarr[1])
+							if(str_replace(' ','',$cpdv)<$qjarr[0]||str_replace(' ','',$cpdv)>$qjarr[1])
 							{
 								continue 2;
 							}
@@ -1546,6 +1550,7 @@ class ChanpinController extends Controller {
 			*/
 			$sxcp[$cpbk]=$v;
 		}
+		//echo $aa;die;
 		if(count($sxcp)<1)
 		{
 			echo "<tr><td colspan='100'><center>没有产品数据</center></td></tr>";
