@@ -249,7 +249,7 @@ class ChanpinController extends Controller {
 					}
 					$tddata=$tddata==''?'-':$tddata;
 					$titledata=$tddata;
-					$tddata=mb_strlen($tddata)>15?mb_substr($tddata,0,15).'...':$tddata;
+					$tddata=mb_strlen($tddata)>14?mb_substr($tddata,0,15).'...':$tddata;
 					$left_t='';
 					if($tdnum=='0')
 					{

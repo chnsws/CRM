@@ -107,6 +107,8 @@ div,span{overflow:hidden;}
 .sxzddiv_w .sxdbtn{margin-bottom:2px;}
 .sxzddiv_q .sxsea{width:60px;}
 .sxzddiv_q .sxdbtn{height:28px;margin-bottom:2px;}
+
+
 </style>
 </head>
 <body>
@@ -174,7 +176,7 @@ div,span{overflow:hidden;}
             </div>
             <span id="tabletishi">提示：可以按住键盘Shift键并滑动鼠标滑轮来横向滑动列表</span>
             <div id="right-body-body" style="overflow-X:auto;height:77;width:100%;" >
-                <table class="layui-table" style="width:2000px;" >
+                <table class="layui-table" id="main_table" style="display:none;" >
                     <thead>
                         {$thstr}
                     </thead>
@@ -271,6 +273,10 @@ window.root_dir="{$_GET['root_dir']}";
 window.nowpagepz={$pzjson};
 window.nowpagepx={$pxzdjson};
 
+var maintablewidth=$("#main_table").find("thead").find("th").length;
+maintablewidth=parseInt(maintablewidth)*150;
+$("#main_table").css("width",maintablewidth+'px');
+$("#main_table").show();
 
 $("li").attr("onselectstart","return false");//屏蔽双击选中
 //初始化
