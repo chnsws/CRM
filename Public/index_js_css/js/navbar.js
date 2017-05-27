@@ -1,4 +1,4 @@
-/** navbar.js By Beginner Emain:zheng_jinfan@126.com HomePage:http://www.zhengjinfan.cn */
+
 layui.define(['element', 'common'], function(exports) {
 	"use strict";
 	var $ = layui.jquery,
@@ -16,7 +16,7 @@ layui.define(['element', 'common'], function(exports) {
 			data: undefined, //数据源
 			url: undefined, //数据源地址
 			type: 'GET', //读取方式
-			cached: false, //是否使用缓存
+			cached: true, //是否使用缓存
 			spreadOne:false //设置是否只展开一个二级菜单
 		};
 		this.v = '0.0.1';
@@ -25,7 +25,7 @@ layui.define(['element', 'common'], function(exports) {
 		var _that = this;
 		var _config = _that.config;
 		if(typeof(_config.elem) !== 'string' && typeof(_config.elem) !== 'object') {
-			common.throwError('Navbar error: elem参数未定义或设置出错，具体设置格式请参考文档API.');
+			common.throwError('导航栏出错，错误码：001');
 		}
 		var $container;
 		if(typeof(_config.elem) === 'string') {
@@ -35,10 +35,10 @@ layui.define(['element', 'common'], function(exports) {
 			$container = _config.elem;
 		}
 		if($container.length === 0) {
-			common.throwError('Navbar error:找不到elem参数配置的容器，请检查.');
+			common.throwError('导航栏出错，错误码：002');
 		}
 		if(_config.data === undefined && _config.url === undefined) {
-			common.throwError('Navbar error:请为Navbar配置数据源.')
+			common.throwError('导航栏出错，错误码：003')
 		}
 		if(_config.data !== undefined && typeof(_config.data) === 'object') {
 			var html = getHtml(_config.data);
@@ -130,7 +130,7 @@ layui.define(['element', 'common'], function(exports) {
 		var that = this;
 		var _con = that.config.elem;
 		if(typeof(events) !== 'string') {
-			common.throwError('Navbar error:事件名配置出错，请参考API文档.');
+			common.throwError('导航栏出错，错误码：004');
 		}
 		var lIndex = events.indexOf('(');
 		var eventName = events.substr(0, lIndex);

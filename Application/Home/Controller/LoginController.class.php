@@ -42,6 +42,13 @@ class LoginController extends Controller {
                 $userbase->query("insert into crm_rz values('','2','0','".$baseuser[0][user_id]."','0','0','0','0','0','0','$nowip','$address','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','".$fid."','".$logtime."')");
                 //查询该用户权限
                 $userQuanxian=$userbase->query("select * from crm_quanxian where qx_id='".$baseuser[0]['user_quanxian']."' limit 1");
+                //查询公司名称
+                $companybase=M("crm_gongsixinxi");
+                $gsxxquery=$companybase->query("select gsxx_name,gsxx_img from crm_gongsixinxi where gsxx_yh='$fid' limit 1");
+                $gsname=$gsxxquery[0]['gsxx_name']?$gsxxquery[0]['gsxx_name']:"中软远景CRM系统";
+                $gsimg=$gsxxquery[0]['gsxx_img']?'<img src="'.$_GET['public_dir']."/head-img/".$gsxxquery[0]['gsxx_img'].'" />':'';
+                cookie("gsname",$gsname,3600*3);
+                cookie("gsimg",$gsimg,3600*3);
                 //将权限遍历存到cookie中
                 foreach($userQuanxian[0] as $qxName=>$qxValue)
                 {

@@ -1,4 +1,3 @@
-/** tab.js By Beginner Emain:zheng_jinfan@126.com HomePage:http://www.zhengjinfan.cn */
 layui.define(['element', 'common'], function(exports) {
 	"use strict";
 
@@ -11,7 +10,7 @@ layui.define(['element', 'common'], function(exports) {
 			this.config = {
 				elem: undefined,
 				closed: true, //是否包含删除按钮				
-				autoRefresh: false
+				autoRefresh: true
 			};
 		};
 	var ELEM = {};
@@ -31,7 +30,7 @@ layui.define(['element', 'common'], function(exports) {
 		var that = this;
 		var _config = that.config;
 		if(typeof(_config.elem) !== 'string' && typeof(_config.elem) !== 'object') {
-			common.throwError('Tab error: elem参数未定义或设置出错，具体设置格式请参考文档API.');
+			common.throwError('Tab错误，错误码：001');
 		}
 		var $container;
 		if(typeof(_config.elem) === 'string') {
@@ -41,11 +40,11 @@ layui.define(['element', 'common'], function(exports) {
 			$container = _config.elem;
 		}
 		if($container.length === 0) {
-			common.throwError('Tab error:找不到elem参数配置的容器，请检查.');
+			common.throwError('Tab错误，错误码：002');
 		}
 		var filter = $container.attr('lay-filter');
 		if(filter === undefined || filter === '') {
-			common.throwError('Tab error:请为elem容器设置一个lay-filter过滤器');
+			common.throwError('Tab错误，错误码：003');
 		}
 		_config.elem = $container;
 		ELEM.titleBox = $container.children('ul.layui-tab-title');

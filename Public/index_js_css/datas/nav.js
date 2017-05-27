@@ -2,7 +2,7 @@ var navs = [{
 	"title": "工作台",
 	"icon": "fa-table",
 	"href": "https://www.baidu.com",
-	"spread": true,
+	"spread": false,
 }, {
 	"title": "线索",
 	"icon": "fa-search",
@@ -42,7 +42,7 @@ var navs = [{
 }, {
 	"title": "产品",
 	"icon": "fa-book",
-	"href": "index.php/Home/Chanpin",
+	"href": "index.php/Home/Chanpin/cpfl_index",
 	"spread": false
 }, {
 	"title": "报表中心",
@@ -64,6 +64,11 @@ var navs = [{
 	"icon": "fa-tasks",
 	"href": "https://www.baidu.com",
 	"spread": false
+}, {
+	"title": "收起",
+	"icon": "fa-chevron-left",
+	"href": "#",
+	"spread": false,
 }
 
 ];
