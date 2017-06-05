@@ -102,6 +102,7 @@ return $fzr_only;
 				$new_arrayoo[$k]=$new_str1;
 			}
 		$sj_id=$_GET['id'];
+		//echo $sj_id;exit;
 		$sj_base=M('shangji');
 		$map_sj['sj_id']=$sj_id;
 		$sql_sj=$sj_base->where($map_sj)->find();

@@ -4,7 +4,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>商机</title>
+		<title>合同</title>
 		<meta name="renderer" content="webkit">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -19,8 +19,6 @@
   		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
 		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"'" ></script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
 
   		<style>
   			body,ul,li,tr{margin:0;padding:0;font-size:14px;}
@@ -37,7 +35,12 @@
 			.genjin_back{background-color:#F7FBFE;width:90%;position: relative; top:10px;margin:20px auto;}
 			.fuzeren{ position: relative; left: 15px;font-size:14px;}
 			.tbl{margin-left:20px;}
-
+			.addshangji_weizhi{margin:0px auto;margin-top:20px;}
+			.addtr{line-height:25px;}
+			.addtr td{padding-top:20px;}
+			.addtr td input{width:300px;}
+			.addtr td select{width:300px;}
+			.top_bz{position: relative; top: -65px;;}
 			tr{line-height:30px;}
   				  		</style>
 		<script>
@@ -48,7 +51,7 @@
 		</script>
 	</head>
 	<body>
-		<div style="margin:20px"><span style="font-size:22px;margin-right:10px">{$sql_rh.zdy0}</span>负责人：<span>{$fuzeren}</span></div>
+		<div style="margin:20px"><span style="font-size:22px;margin-right:10px">{$name}</span>负责人：<span>{$fuzeren}</span></div>
 		<div style="margin-top:20px;margin-left:8px; height:50px" >
 	   		<button onclick="history.go(-1)"  class="layui-btn layui-btn-primary layui-btn-small">
  				<i class="layui-icon">&#xe603;</i>返回</button>	
@@ -60,12 +63,11 @@
 		<div id="tabs">
 		  <ul>
 		    <li><a href="#tabs-1">基本信息</a></li>
-		    <li><a href="#tabs-2">联系人</a></li>
-		    <li><a href="#tabs-3">合同</a></li>
-		    <li><a href="#tabs-4">产品</a></li>
-		    <li><a href="#tabs-5">提醒</a></li>
-		    <li><a href="#tabs-6">附件</a></li>
-		    <li><a href="#tabs-7">操作日志</a></l00    i>
+		    <li><a href="#tabs-2">回款</a></li>
+		    <li><a href="#tabs-3">产品</a></li>
+		    <li><a href="#tabs-4">提醒</a></li>
+		    <li><a href="#tabs-5">附件</a></li>
+		    <li><a href="#tabs-6">操作日志</a></li>
 		   
 		  </ul>
 		  <div id="tabs-1">
@@ -102,9 +104,9 @@
 	  				</div>
 			   </div>
 			    <div class="clear"></div>
-			   	<div class="bianji"  style="display: none;border:1px;" >
+			   	<div class="bianji"  style="display: none;border:1px;">
 		    		<div class="bianji_nb" style="width:330px;margin:0 auto">
-		    			<form id="myform" class="uk-form">
+		    			<form id="myform">
 		    			{$show2}
 		    			</form>
 		    		</div>
@@ -131,22 +133,16 @@
 				  				<td >{$lx_json.zdy10}</td>
 				  				<td >{$lx_json.zdy16}</td>
 				  			
-				  		
-					
+				  	
 						</tr> 	
 					</tbody>
 			 </table>
 		  </div>
 		  <div id="tabs-3">
-		 <p>   合同</p>
-		  <p>   合同</p>
-		   <p>   合同</p>
-		    <p>   合同</p> <p>   合同</p> <p>   合同</p> <p>   合同</p>
-		  </div>
-		  <div id="tabs-4">
-		   	<table class="layui-table" lay-skin="line">
-				  	<thead>
-				  		<th >产品名称</th>
+		  <input type="button"  onclick="add_cpp()" class=" layui-btn layui-btn-small" value="+添加产品">
+				<table class="layui-table" lay-skin="line">
+					  	<thead>
+					  		<th >产品名称</th>
 		  				<th >产品编号</th>
 		  				<th >标准单价</th>
 		  				<th >建议价格</td>
@@ -157,54 +153,106 @@
 		  				<th >产品分类</th>
 		  				<th >备注</th>
 		  				<th >操作</th>
-
-
-					</thead>
-					<tbody class="fujian_del">
-						{$cp_show}
-					</tbody>
-			 </table>
+						</thead>
+						<tbody class="cp_showoo">
+							{$show2}	
+						</tbody>
+				 </table>
+		  </div>
+		  <div id="tabs-4">
+		  统一做
 		  </div>
 		  <div id="tabs-5">
-		   提醒
-		  </div>
-		  <div id="tabs-6">
-		    	<div >
-			  		<input type="button" id="dialog-form" onclick="fj_cp()" class="layui-btn layui-btn-small" value="+文件上传">
-			  		<table class="layui-table" lay-skin="line">
-						  	<thead>
-						  				<th >ID</th>
-						  				<th >上传时间</th>
-						  				<th >附件名称</th>
-						  				<th >大小</td>
-						  				<th >备注</th>
-						  				<th  colspan='2'>操作</th>
-						  			
-							</thead>
-							<tbody class="fujian_del">
-									{$file_sj_show}
-							</tbody>
-			  		</table>  
-			  		<div id="fj_cp"  style="display: none;border:1px;">     
-				  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Shangjimingcheng/sj_upload/id/{$sj_id}" enctype="multipart/form-data" method="post" style="margin:20px;">
+
+			  		<input type="button" id="dialog-form" onclick="fj_cp()"  class=" layui-btn layui-btn-small" value="+文件上传">
+			   <table class="layui-table" lay-skin="line">
+					  	<thead>
+					  		<th >上传时间</th>
+			  				<th >附件名称</th>
+			  				<th >大小</td>
+			  				<th >备注</th>
+			  				<th >操作</th>
+
+						</thead>
+						<tbody class="fujian_del">
+						
+							{$file_show}
+
+						</tbody>
+				 </table>
+				 	<div id="fj_cp"  style="display: none;border:1px;">     
+				  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Hetongmingcheng/fj_shangchuan/id/{$ht_id}" enctype="multipart/form-data" method="post" style="margin:20px;">
 			  					<input type="file" name="wenjian"  >
-			  					<div id="shangc_top">备&nbsp;&nbsp;&nbsp;&nbsp;注：<!-- 第一个是普通textarea -->
+			  					<div id="shangc_top" style="margin-top:20px"><span class="top_bz">备&nbsp;&nbsp;&nbsp;&nbsp;注：</span><!-- 第一个是普通textarea -->
 							<textarea name="wenbenyu" class="comments" rows="5" cols="30"> </textarea>  </div>
 			  					<div id="shangc_top" ><input type="submit" value="上传附件"  class="layui-btn layui-btn-small"></div>
 			  				</form>
 					</div>	
+		
+		  </div>
+		  <div id="tabs-6">
+		    	
+			  		
 	  		</div>
 	  		
-		  <div id="tabs-7">
-		   操作日志1
-		  </div>
+		 
 		</div>
- 
+		 <div id="addcp" style="display: none;border:1px">
+		  		<form id="cp_form" method="post" >
+								<table class="addshangji_weizhi">
+								{$chanpin1}
+								<tr class="addtr">
+									<td>产品原价：</td>
+										<td>
+											<input type="text" class="cp_yj" name="cp_yj" disabled name="cp_yj" style='width:300px;height:26px;'>		
+										</td>			
+								</tr>
+								<tr class="addtr">
+									<td><span style="color:red">*</span>建议价格：</td>
+										<td>
+											<input type="number" class="cp_jy"  name="cp_jy" onkeyup='cp_jy_aj(this)'  style='width:300px;height:26px;'>		
+										</td>			
+								</tr>
+								<tr class="addtr">
+									<td><span style="color:red">*</span>数量：</td>
+										<td>
+										<input type="number" class="cp_num1" name="cp_num1" onkeyup='cp_num(this)'  style='width:300px;height:26px;'>		
+										</td>			
+								</tr>
+								<tr class="addtr">
+									<td>折扣：</td>
+										<td>
+											<input type="text" class="cp_zk"  name="cp_zk" value="-"  disabled style='width:300px;height:26px;'>		
+										</td>			
+								</tr>
+								<tr class="addtr">
+									<td>总价：</td>
+										<td>
+											<input type="text" class="cp_zj" name="cp_zj" disabled style='width:300px;height:26px;'>		
+										</td>			
+								</tr>
+								<tr class="addtr">
+									<td>备注：</td>
+										<td>
+											<textarea name="cp_beizhu" rows="4" cols="40">
+											</textarea>		
+										</td>			
+								</tr>
+								<tr class="addtr">
+									<td></td>
+										<td>
+											<input type="hidden" name="sj_id" disabled value="{$ht_id}";'>	
+										</td>			
+								</tr>
+								</table>
+							</form>
+		  	</div>
 	</body>
 	<script>
 	layui.use('upload', function(){
  		 layui.upload(options);
 	});
+
 		function bianji(){
 			layui.use('layer', function(){
 							var layer = layui.layer;
@@ -213,7 +261,7 @@
 								type:1,
 								offset: 't',
 								area:'630px',
-								title: '编辑商机',
+								title: '编辑合同',
 								content:$('.bianji'),
 								btn:['确认编辑','取消'],
 								btn1:function(){
@@ -262,17 +310,113 @@
 				var layer = layui.layer;
 				layer.open({
 					type:1,
-					area:'300px',
+					area:'400px',
 					offset: 't',
 					title: '文件上传',
 					content:$('#fj_cp')
 				}); 
 			});              
 		  }
-		  function fujian_del(ws){
+		  
+		  function add_cpp(){
+    				layui.use('layer', function(){
+					//	alert(123)
+							var layer = layui.layer;
+							var win=layer.open({
 
-		  	var id=$(ws).prop('name');
-		  	$.get(rooturl+'/index.php/Home/Shangjimingcheng/fujian_del',{"id":id},
+								type:1,
+								offset: 't',
+								area:'750px',
+								title: '添加产品',
+								content:$('#addcp'),
+								btn:['保存'],
+
+								btn1:function(){
+									var formdom=$("#cp_form").children("table").find("tr");
+									var fornum=formdom.length;
+									var ajaxstr='';
+									for(a=0;a<fornum;a++)
+									{
+										var thisdom=formdom.eq(a).find("td").eq(1).children();
+										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+									}
+									var vstr=ajaxstr.substr(0,ajaxstr.length-1);
+									$.get(rooturl+'/index.php/Home/Hetongmingcheng/add_cp',{"id":vstr},
+							        		 function(html){
+									       		 $(".cp_showoo").html(html);
+									        		layer.close(win)
+							                   });
+									layer.close(win)
+								}
+							}); 
+						});   
+    			}
+	</script>
+	<script>
+		function cp_aj(a){
+    			var cp_id=$(a).val();
+    			if(cp_id == 's'){
+    				$(".cp_yj").val("")
+    				$(".cp_jy").val("")
+    				$(".cp_zk").val("-")	
+    				$(".cp_num1").val("")	
+    				$(".cp_zj").val("")	
+    				layer.close(win)
+    			}
+    			$.get(rooturl+'/index.php/Home/Shangji/cp_ajax',{"id":cp_id},
+    										function(html)
+    										{
+										//	alert(html)
+													$(".cp_yj").val(html)
+													$(".cp_jy").val(html)
+    												$(".cp_zk").val("100.0%")	
+    												$(".cp_num1").val(1)	
+    												$(".cp_zj").val(html)	
+    													layer.close(win)
+    										}
+    				)
+    				
+    		}
+    		function cp_jy_aj(b){
+    			var jy = $(b).val();	
+    			var yj = $(".cp_yj").val();	
+    			/**用  100 除  原价  得出的值 乘 建议 价格**/
+    		
+    			var baifenbi=(100 /  yj *  jy );
+    			var jiequ =	baifenbi.toFixed(2);
+    		
+    			var end = jiequ +"%";
+    			var num=$('.cp_num1').val();
+    			var num1=(num * jy);
+    			$(".cp_zk").val(end);
+    			$(".cp_zj").val(num1)		
+    			//alert(yj);
+    		}
+    		function cp_num(w){
+    			var num2 = $(w).val();	
+    			var jy = $(".cp_jy").val();	
+    			var num1=(num2 * jy);
+    			
+    			$(".cp_zj").val(num1)		
+    		}
+    		function cp_del(f){
+    			var id = $(f).prop('name');
+    			//alert(id)
+    				$.get(rooturl+'/index.php/Home/Hetong/cp_del',{"id":id},
+    										function(html)
+    										{
+    											if(html==1){
+    												$("."+id).hide();
+    												layer.close(win)
+    											}
+    													
+    										}
+    				)
+    		}
+    		function fujian_del(ws){
+
+		  		var id=$(ws).prop('name');
+		  		$.get(rooturl+'/index.php/Home/Hetongmingcheng/fujian_del',{"id":id},
 					 function(html){
 		        			$("."+id).hide();
                    });

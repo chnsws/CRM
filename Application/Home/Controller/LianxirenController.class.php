@@ -18,25 +18,17 @@ class LianxirenController extends Controller {
 		$new_xiaji=$xiaji;          
 		$new_array=explode(',',$new_xiaji);
 		$kh_base=M('kh');
-		$data_kh['kh_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->where($data_kh)->select();
+		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
+		
 		foreach($kh_sql as $kkh =>$vkh)
 		{
 			$kh_json=json_decode($vkh['kh_data'],true);
-			//$kh_json1=json_encode($kh_json,true);
-			//echo "<pre>";
-			///var_dump($kh_json);exit;
-			foreach($new_array as $kxj=>$vxj)
-			{
-				if($kh_json['fuzeren']==$vxj){
+			
 					$kh['id']=$vkh['kh_id'];
 					$kh['name']=$kh_json['zdy0'];
 					$kh['department']=$kh_json['department'];
 					$kh_name[$vkh['kh_id']]=$kh;
-				}
-			}
-
-
 		}
 		return $kh_name;
 	}
@@ -203,7 +195,7 @@ class LianxirenController extends Controller {
 		}
 		
 		//echo "<pre>";
-		//var_dump($lx_biaoti1);exit;
+		//var_dump($ywzd);exit;
 		foreach($ywzd as $kywzd=>$vywzd)
 		{
 			if($vywzd['qy']==1)
@@ -217,7 +209,7 @@ class LianxirenController extends Controller {
 							$add_yw.="<tr class='addtr'>";
 							$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td>";
 									$add_yw.="<td>
-							 		<select  name='".$vywzd['id']."' style='width:300px;height:26px;'>
+							 		<select  name='".$vywzd['id']."' class='required' style='width:300px;height:26px;'>
 							 			<option>--请选择--</option>";
 							 		foreach ($kh_name as $kkh => $vkh)
 							 		{
@@ -228,7 +220,7 @@ class LianxirenController extends Controller {
 						}
 					}elseif($vywzd['type']==2){
 						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  name='".$vywzd['id']."'></td>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text'  class=' required text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  name='".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
 					}elseif($vywzd['type']==1){	
 													$add_yw.="<form class='form-inline'>";
@@ -246,8 +238,43 @@ class LianxirenController extends Controller {
 							 							$add_yw.="</form>";
 					}else{
 						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' value='11' name='".$vywzd['id']."'></td>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required' name='".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
+					}
+				}elseif($vywzd['cy']==1)
+				{
+					if($vywzd['type']==3)
+					{
+						if($vywzd['id']=='zdy1')
+						{
+							$add_yw1.="<tr class='addtr'>";
+							$add_yw1.="<td>".$vywzd['name'].":</td>";
+									$add_yw1.="<td>
+							 		<select  name='' style='width:300px;height:26px;'>
+							 			<option>--请选择--</option>";
+							 		foreach ($kh_name as $kkh => $vkh)
+							 		{
+							 			 $add_yw1.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
+							 		} 
+							 $add_yw1.=	"</select> </td>";
+							$add_yw1.="</tr>";
+						}
+					}elseif($vywzd['type']==2){
+						$add_yw1.="<tr class='addtr'>";
+						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";
+						$add_yw.="</tr>";
+					}elseif($vywzd['type']==1){	
+						$add_yw1.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
+						$add_yw1.="<td>".$vywzd['name'].":</td><td class='form-group' style='width:80%;'>";
+
+						$add_yw1.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+			          	$add_yw1.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+			         	$add_yw1.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+		 				$add_yw1.="</td></tr>";
+					}else{
+						$add_yw1.="<tr class='addtr'>";
+						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'></td>";
+						$add_yw1.="</tr>";
 					}
 				}else
 				{
@@ -255,34 +282,34 @@ class LianxirenController extends Controller {
 					{
 						if($vywzd['id']=='zdy1')
 						{
-							$add_yw.="<tr class='addtr'>";
-							$add_yw.="<td>".$vywzd['name'].":</td>";
-									$add_yw.="<td>
+							$add_yw2.="<tr class='addtr ncy'>";
+							$add_yw2.="<td>".$vywzd['name'].":</td>";
+									$add_yw2.="<td>
 							 		<select  name='' style='width:300px;height:26px;'>
 							 			<option>--请选择--</option>";
 							 		foreach ($kh_name as $kkh => $vkh)
 							 		{
-							 			 $add_yw.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
+							 			 $add_yw2.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
 							 		} 
-							 $add_yw.=	"</select> </td>";
-							$add_yw.="</tr>";
+							 $add_yw2.=	"</select> </td>";
+							$add_yw2.="</tr>";
 						}
 					}elseif($vywzd['type']==2){
-						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";
+						$add_yw2.="<tr class='addtr ncy'>";
+						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";
 						$add_yw.="</tr>";
 					}elseif($vywzd['type']==1){	
-						$add_yw.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
-						$add_yw.="<td>".$vywzd['name'].":</td><td class='form-group' style='width:80%;'>";
+						$add_yw2.="<tr class='addtr ncy' data-toggle='distpicker' style='overflow:hidden'>";
+						$add_yw2.="<td>".$vywzd['name'].":</td><td class='form-group' style='width:80%;'>";
 
-						$add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
-			          	$add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
-			         	$add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
-		 				$add_yw.="</td></tr>";
+						$add_yw2.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+			          	$add_yw2.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+			         	$add_yw2.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+		 				$add_yw2.="</td></tr>";
 					}else{
-						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'></td>";
-						$add_yw.="</tr>";
+						$add_yw2.="<tr class='addtr ncy'>";
+						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'></td>";
+						$add_yw2.="</tr>";
 					}
 				}
 			}
@@ -290,6 +317,8 @@ class LianxirenController extends Controller {
 		
 		$this->assign('lx_biaoti',$lx_biaoti1);
 		$this->assign('add_yw',$add_yw);
+		$this->assign('add_yw1',$add_yw1);
+		$this->assign('add_yw2',$add_yw2);
 			$this->assign('show_bt',$show_bt);
 		$this->display();
   

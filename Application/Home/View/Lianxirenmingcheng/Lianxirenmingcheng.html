@@ -16,6 +16,8 @@
 			<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
 		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/jquery-ui/jquery-ui.css">
+		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
 			 $(function() {
@@ -24,7 +26,15 @@
 		</script>
 	</head>
 	<body style="position:relative">
-	<div style="margin:20px"><span style="font-size:22px;margin-right:10px">{$lx_json.zdy0}</span>客户：<span>{$kehu_nm}</span></div>
+	<div style="margin:20px"><span style="font-size:22px;margin-right:10px">{$lx_json.zdy0}</span>客户：<span>{$kehu_nm}</span>
+	</div>
+		<div style="margin-top:20px;margin-left:8px; height:50px" >
+	   		<button onclick="history.go(-1)"  class="layui-btn layui-btn-primary layui-btn-small">
+ 				<i class="layui-icon">&#xe603;</i>返回</button>	
+		   	<button onclick="bianji()"  class="layui-btn layui-btn-primary layui-btn-small">
+	 			<i class="layui-icon">&#xe642;</i>编辑</button>
+		  
+		</div>	
 		<div id="tabs">
 		  <ul>
 		    <li><a href="#tabs-1">基本信息</a></li>
@@ -35,9 +45,7 @@
 		  </ul>
 		  <div id="tabs-1">
 				<div class="">
-					<span style="color:blue">基本信息</span> <button onclick="bianji()"  style="margin-left:23%" class="layui-btn layui-btn-primary layui-btn-small">
-   			 			<i class="layui-icon">&#xe642;</i>编辑
-  					</button>
+					<span style="color:blue">基本信息</span> 
   					<table class="save_jb">
   						{$show}
   					</table>
@@ -50,8 +58,8 @@
 				</div>
 				<div class="bianji"  style="display: none;border:1px;">
 		    		<div class="bianji_nb" style="width:330px;margin:0 auto">
-		    			<form id="myform">
-			    			<table>
+		    			<form id="myform" >
+			    			<table class="uk-form"> 
 			    				{$show3}
 			    			</table>
 		    			</form>

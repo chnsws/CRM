@@ -23,6 +23,9 @@
 		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
 		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"'" ></script>
+		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+		
+		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
 		<style>
 
 			body,ul,li,table,tr{margin:0;padding:0;}
@@ -63,6 +66,9 @@
 			.anniudw{  position: relative;top: 14px;}
 			span a{margin-left:20px;}
 			.pl_bj{margin:0px auto;}
+				#nchangyong{margin-top:10px;margin-left:19%;}
+				.onError{color:red;}
+			.onSuccess{color:green;}
 
 		</style>   
 		  <script>
@@ -84,7 +90,7 @@
 				  <ul>
 				    <li class="panel-heading">
 				    	<span class="head_title">商机信息</span>
-				    	<span class="xinzeng"><button  id="create-sahngji" onclick="addshangji()" >新增商机</button><button onclick="daoru()" style="margin-left:20px">导入商机</button></span>
+				    	<span class="xinzeng"><button  id="create-sahngji" onclick="addshangji()" class="layui-btn layui-btn-small" >新增商机</button><button onclick="daoru()" style="margin-left:20px" class="layui-btn layui-btn-small">导入商机</button></span>
 				    </li>
 				  </ul>
 			</div>
@@ -92,20 +98,17 @@
 			<div class="sxdiv" >
 					
 
-			        <div id="sxhidestr" >筛选条件：
-			        	 <span class="sx_tj_margain">商机范围</span>
-          				  <foreach name="biaoti1" item="bo">
-           					 <span class="sx_tj_margain">{$bo.name}</span>
-           				 </foreach>
-           			</div>
+			     	<div id='sxhidestr' style=';display: none;border:1px '>
+       		<div class='sx_tj_margain'><span class='one sx_yes' style="margin-left:20px">全部商机</span><span class='two sx_yes'  style="margin-left:20px">全部</span><span class='three sx_yes'  style="margin-left:20px">全部</span><span class='four sx_yes'  style="margin-left:20px">全部</span></div>
+      		 </div>
 
 
-				         <div id="sxzddiv" style="display: none;border:1px" >
+				         <div id="sxzddiv"  >
 			              		{$new_html}
 		   				 </div>
 
 		   </div>
-		   <div id="sxshowbtn" onselectstart='return false'><i class='fa fa-chevron-down' aria-hidden='true'></i></div>
+		   <div id="sxshowbtn" onselectstart='return false'><i class='fa fa-chevron-up' aria-hidden='true'></i></div>
 		   	<div class="anniu">		
 					<span style="margin-top:-8px;margin-left:1%"  class="anniudw">
 
@@ -120,7 +123,7 @@
    			 			<i class="layui-icon">&#xe642;</i>转移至客户公海</button>	
 					</span>
 					
-					<div id="bj_kehu" style="margin-top:10px;padding-top:20px;" style="display: none;border:1px" >
+					<div id="bj_kehu" style="margin-top:10px;padding-top:20px;display: none;border:1px" >
 					<form name="pl_bjform" method="post" >
 						<table class="pl_bj">
 							<tr  style='line-height:70px'>
@@ -168,10 +171,11 @@
 	</div>
 <div id="results"></div>
 	<div id="add_shangji" style="display: none;border:1px"> <!--新增商机 弹出框-->
-					<form name="" id="myform" method="post" >
+					<form name="" id="myform" method="post" class="uk-form"  >
 						<table class="addshangji_weizhi">
 							{$add}
 							{$add1}
+							{$add2}
 						<tr  class="addtr">
 								<td>负责人：</td>
 								 <td>
@@ -196,6 +200,7 @@
 							</tr>
 						</table>
 					</form>
+					<div id="nchangyong" onselectstart='return false'><span style="color:blue">展开更多信息>></span></div>
 	</div>
 	<div id="daoru" style="display: none;border:1px;margin-top:40px"><!--导入-->
   						<div class="dr_q" style="width:80%;margin:0px auto";>
@@ -212,7 +217,7 @@
   					</div>
 
   	<div id="addcp" style="display: none;border:1px">
-  		<form id="cp_form" method="post" >
+  		<form id="cp_form" method="post" class="uk-form" >
 						<table class="addshangji_weizhi">
 						{$chanpin1}
 						<tr class="addtr">
@@ -274,12 +279,14 @@
 
 						</table>
 					</form>
+
 					</div>
 	</body>
 	<script>
 		window.rooturl="{$_GET['root_dir']}";
 		$('#piliangzy').hide();
 		$(".yincang").hide()
+		$(".ncy").hide()
 		$("#addcp").hide();
 		$(".hide_dpt").hide();
 	$("#add_shangji").hide();
@@ -295,21 +302,22 @@
 	    if($(this).prop("name")=='0'||$(this).prop("name")==undefined)
 	    {
 	    	
-	        $("#sxhidestr").hide("fast");
-	        $("#sxzddiv").show("fast");
-	        $(this).html("<i class='fa fa-chevron-up' aria-hidden='true'></i>");
+	        $("#sxhidestr").show("fast");
+	        $("#sxzddiv").hide("fast");
+	        $(this).html("<i class='fa fa-chevron-down' aria-hidden='true'></i>");
 	        $(this).prop("name",'1');
 	    }
 	    else
 	    {
-	        $("#sxzddiv").hide("fast");
-	        $("#sxhidestr").show("fast");
-	        $(this).html("<i class='fa fa-chevron-down' aria-hidden='true'></i>");
+	        $("#sxzddiv").show("fast");
+	        $("#sxhidestr").hide("fast");
+	        $(this).html("<i class='fa fa-chevron-up' aria-hidden='true'></i>");
 	        $(this).prop("name",'0');
 	    }
 	});
 	window.id='';
-	$(".sxzddiv").children("span").click(function(){          //点击筛选的 选中
+	$(".sxzddiv").children("span").click(function(){    
+	var tex =$(this).text();      //点击筛选的 选中
 	    var title=$(this).parent().prop('id');
     $(this).parent().children("span").prop("class","sx_no");
     $(this).prop("class","sx_yes");
@@ -318,6 +326,22 @@
 	id+=title+","+s+"|";
 	//alert(id);
   //alert(id);
+  if(title=="zdy9")
+	{
+		$(".four").text(tex);
+	}
+	if(title=="zdy7")
+	{
+		$(".three").text(tex);
+	}
+	if(title=="zdy5")
+	{
+		$(".two").text(tex);
+	}
+	if(title=="kehujibie")
+	{
+		$(".one").text(tex);
+	}
 	$.get(rooturl+'/index.php/Home/Shangji/shaixuan',{"id":id},
 							        		 function(html){
 							        			$("#jb_bianji").html(html);
@@ -335,12 +359,18 @@
 
 								type:1,
 								offset: 't',
-								area:'630px',
+								area: ['630px', '700px'],
 								title: '新增商机',
 								fixed: false,
 								content:$('#add_shangji'),
 								btn:['确认添加','取消'],
 								btn1:function(){
+									 $("form :input.required").trigger('blur');
+             							 var numError = $('form .onError').length;
+		              				  if(numError){
+		              				  	 tishi('必填项不能为空')
+		                   				 return false;
+              		 				 } 
 									var formdom=$("#myform").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';
@@ -520,7 +550,7 @@
 
 								type:1,
 								offset: 't',
-								area:'750px',
+								 
 								title: '添加产品',
 								content:$('#addcp'),
 								btn:['保存'],
@@ -736,9 +766,6 @@
     			$(".cp_zj").val(num1)		
     			//alert(yj);
     		}
-    		
-    	</script>
-    	<script>
     		function cp_num(w){
     			var num2 = $(w).val();	
     			var jy = $(".cp_jy").val();	
@@ -759,5 +786,39 @@
     										}
     				)
     		}
+    		$("#nchangyong").click(function(){         //控制 、筛选的隐藏与显示
+			    if($(this).prop("name")=='0'||$(this).prop("name")==undefined)
+			    {
+			        $(".ncy").show();
+			        $(this).html("<span style='color:blue'>收起>></span>");
+			        $(this).prop("name",'1');
+			    }
+			    else
+			    {
+			    	 $(".ncy").hide();
+			        $(this).html("<span style='color:blue'>展开更多信息>></span>");
+			        $(this).prop("name",'0');
+			    }
+			   })
+    		$('form table :input').blur(function(){
+			var $parent =$(this).parent();
+			$parent.find(".formtips").remove();
+			if( $(this).is('.required') ){
+				if(this.value==""){
+					var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#x1007;</i> ";
+					$parent.append('<span class="formtips onError">'+error+'</span>');
+				}else{
+					var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#xe616;</i> "
+					$parent.append('<span class="formtips onSuccess">'+error+'</span>');
+				}
+
+			}
+		
+		}).keyup(function(){
+           $(this).triggerHandler("blur");
+        }).focus(function(){
+             $(this).triggerHandler("blur");
+        });//end blur
+
     	</script>
 </html>

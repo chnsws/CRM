@@ -5,6 +5,26 @@ use Think\Controller;
 
 class ShangjiController extends Controller {
 
+	public function kehu(){
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$new_xiaji=$xiaji;          
+		$new_array=explode(',',$new_xiaji);
+		$kh_base=M('kh');
+		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
+		
+		foreach($kh_sql as $kkh =>$vkh)
+		{
+			$kh_json=json_decode($vkh['kh_data'],true);
+			
+					$kh['id']=$vkh['kh_id'];
+					$kh['name']=$kh_json['zdy0'];
+					$kh_name[$vkh['kh_id']]=$kh;
+		}
+		//echo "<pre>";
+		//var_dump($kh_name);exit;
+		return $kh_name;
+	}
 	public function shangji(){
 		$data['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件               
 		$data['zd_yewu']=5;//所属模块
@@ -15,9 +35,7 @@ class ShangjiController extends Controller {
 		$new_xiaji=$xiaji;          
 		$new_array=explode(',',$new_xiaji);
 		//var_dump($new_array);exit;
-		$kh_base=M('kh');
-		$data_kh['kh_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->where($data_kh)->select();
+		
 		$ywcs_base=M('ywcs');
 		$ywcs['ywcs_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$ywcs['ywcs_yw']=5;
@@ -49,23 +67,8 @@ class ShangjiController extends Controller {
 //ar_dump($ywcs_json );exit;
 //echo "<pre>";
 //var_dump($new_ywcs);exit;
-		foreach($kh_sql as $kkh =>$vkh)
-		{
-			$kh_json=json_decode($vkh['kh_data'],true);
-			//$kh_json1=json_encode($kh_json,true);
-			//echo "<pre>";
-		//	var_dump($kh_json1);exit;
-			foreach($new_array as $kxj=>$vxj)
-			{
-				if($kh_json['fuzeren']==$vxj){
-					$kh['id']=$vkh['kh_id'];
-					$kh['name']=$kh_json['zdy0'];
-					$kh_name[$vkh['kh_id']]=$kh;
-				}
-			}
-		}
-		//echo "<pre>";
-	//	var_dump($kh_name);exit;
+		
+		$kh_name=$this->kehu();
 		$department=M('department');
 		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 			//echo $dpmet['bm_company'];exit;
@@ -208,19 +211,19 @@ class ShangjiController extends Controller {
 			{
 				if($vzd['bt']=="1")
 				{
-					$table.="<tr class='addtr'>";
+					$table.="<tr class='addtr '>";
 						$table.="<td><span style='color:red'>*</span>".$vzd['name'].":</td>";
 						if($vzd['type']=="0") 
-							$table.="<td><input type='text' name='".$vzd['id']."' value='' ></td>";   //  0文本框
+							$table.="<td><input type='text' class='required' name='".$vzd['id']."' value='' ></td>";   //  0文本框
 						elseif($vzd['type']=="2")
-							$table.="<td><input type='text' name='".$vzd['id']."'   class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";   //  2 日期 
+							$table.="<td><input type='text' class='required' name='".$vzd['id']."'   class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";   //  2 日期 
 						elseif($vzd['type']=="3")
 						{	
 							//echo $vzd['id'];
 							if($vzd['id']=="zdy1")
 							{
 								$table.="<td>";
-								$table.="<select name='".$vzd['id']."' onchange='get_lx(this)' style='width:300px;height:26px;'>";
+								$table.="<select  class='required' name='".$vzd['id']."' onchange='get_lx(this)' style='width:300px;height:26px;'>";
 										$table.="<option value='请选择'>--请选择--</option>";
 								foreach($kh_name as $k=>$v)
 									{
@@ -231,14 +234,14 @@ class ShangjiController extends Controller {
 							}elseif($vzd['id']=="zdy2")
 							{
 								$table.="<td class='lxr'>";
-								$table.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
+								$table.="<select name='".$vzd['id']."' class='required' style='width:300px;height:26px;'>";
 										$table.="<option value='请选择'>请先选择公司</option>";
 									$table.="</select>";	
 								$table.="</td>";
 							}elseif($vzd['id']=="zdy9")
 							{
 								$table.="<td>";
-								$table.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
+								$table.="<select name='".$vzd['id']."'  class='required' style='width:300px;height:26px;'>";
 										$table.="<option value='请选择'>--请选择--</option>";
 								foreach($new_ywcs[$vzd['id']] as $k=>$v)
 									{
@@ -248,7 +251,7 @@ class ShangjiController extends Controller {
 							}elseif($vzd['id']=="zdy5")
 							{
 								$table.="<td>";
-								$table.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
+								$table.="<select name='".$vzd['id']."' class='required' style='width:300px;height:26px;'>";
 										$table.="<option value='请选择'>--请选择--</option>";
 								foreach($new_ywcs[$vzd['id']] as $k=>$v)
 									{
@@ -259,7 +262,7 @@ class ShangjiController extends Controller {
 							}elseif($vzd['id']=="zdy7")
 							{
 								$table.="<td>";
-								$table.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
+								$table.="<select name='".$vzd['id']."'  class='required' style='width:300px;height:26px;'>";
 										$table.="<option value='请选择'>--请选择--</option>";
 								foreach($new_ywcs[$vzd['id']] as $k=>$v)
 									{
@@ -280,7 +283,7 @@ class ShangjiController extends Controller {
 						}	
 																//  3下拉选择
 					$table.="</tr>";																						
-				}else{
+				}elseif($vzd['cy']=="1"){
 					$table1.="<tr class='addtr'>";
 						$table1.="<div class='".$vzd['id']."'><td >".$vzd['name'].":</td></div>";
 						if($vzd['type']=="0") 
@@ -317,7 +320,7 @@ class ShangjiController extends Controller {
 									{
 										$table1.="<option value='".$k."'>".$v."</option>";
 									}
-									$table.="</select>";	
+									$table1.="</select>";	
 								$table1.="</td>";
 							}elseif($vzd['id']=="zdy5")
 							{
@@ -359,6 +362,84 @@ class ShangjiController extends Controller {
 					$table1.="</tr>";
 
 					
+				}else{
+					$table2.="<tr class='addtr ncy'>";
+						$table2.="<div class='".$vzd['id']."'><td >".$vzd['name'].":</td></div>";
+						if($vzd['type']=="0") 
+							$table2.="<td><input type='text' name='".$vzd['id']."'  ></td>";   //  0文本框
+						elseif($vzd['type']=="2")
+							$table2.="<td><input type='text' name='".$vzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";   //  2 日期 
+						elseif($vzd['type']=="3")
+						{	
+							//echo $vzd['id'];
+							if($vzd['id']=="zdy1")
+							{
+								$table2.="<td>";
+								$table2.="<select name='".$vzd['id']."' onchange='get_lx(this)' style='width:300px;height:26px;'>";
+										$table2.="<option value='请选择'>--请选择--</option>";
+								foreach($kh_name as $k=>$v)
+									{
+										$table2.="<option value='".$v['id']."'>".$v['name']."</option>";
+									}
+										$table2.="</select>";
+								$table1.="</td>";
+							}elseif($vzd['id']=="zdy2")
+							{
+								$table2.="<td class='lxr'>";
+								$table2.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
+										$table2.="<option value='请选择'>请先选择公司</option>";
+								$table2.="</select>";	
+								$table2.="</td>";
+							}elseif($vzd['id']=="zdy9")
+							{
+								$table2.="<td>";
+								$table2.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
+										$table2.="<option value='请选择'>--请选择--</option>";
+								foreach($new_ywcs[$vzd['id']] as $k=>$v)
+									{
+										$table2.="<option value='".$k."'>".$v."</option>";
+									}
+									$table2.="</select>";	
+								$table2.="</td>";
+							}elseif($vzd['id']=="zdy5")
+							{
+								$table2.="<td>";
+								$table2.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
+										$table2.="<option value='请选择'>--请选择--</option>";
+								foreach($new_ywcs[$vzd['id']] as $k=>$v)
+									{
+										$table2.="<option value='".$k."'>".$v."</option>";
+									}
+								$table1.="</td>";
+								
+							}elseif($vzd['id']=="zdy7")
+							{
+								$table2.="<td>";
+								$table2.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
+										$table2.="<option value='请选择'>--请选择--</option>";
+								foreach($new_ywcs[$vzd['id']] as $k=>$v)
+									{
+										$table2.="<option value='".$k."'>".$v."</option>";
+									}
+								$table2.="</td>";
+								
+							
+							}else{
+					
+								
+							$table2.="<td>";
+
+								$table2.="<input type='button' name='xiaodan' onclick='add_cp()' value='+添加产品'  >";
+								
+
+								
+								$table2.="</td>";
+
+							}
+						}	
+																//  3下拉选择
+					$table2.="</tr>";
+
 				}
 				if($vzd['id']=="zdy6"){
 				$table1.="<tr><td colspan='2'>";
@@ -442,6 +523,7 @@ class ShangjiController extends Controller {
 		$this->assign('show',$show);
 		$this->assign('add1',$add1);		
 		$this->assign('add',$add);	
+		$this->assign('add2',$table2);
 		$this->assign('fuzeren',$fzr_only);	
 		$this->assign('biaoti',$biaoti);	
 		$this->assign('biaoti1',$bir);	
@@ -528,6 +610,7 @@ class ShangjiController extends Controller {
 				}
 			}
 		}
+
 		$department=M('department');
 		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 			//echo $dpmet['bm_company'];exit;
@@ -947,7 +1030,6 @@ class ShangjiController extends Controller {
 				$new_ywcs2[]=$new_ywcs;  //实现  dom 下标 对应 canshu***
 				unset($new_ywcs);
 			}
-
 			foreach($get as $knum=>$vnum)  //匹配  筛选
 		{	
 				foreach($new_ywcs2 as $knew_cs=>$vnew_cs)

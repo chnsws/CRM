@@ -14,14 +14,19 @@
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
 		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
 		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
-		<link href="{$_GET['public_dir']}/dataTable/css/dataTables.bootstrap.css" rel="stylesheet">
+
   		<link href="{$_GET['public_dir']}/bootstrap/css/bootstrap.css" rel="stylesheet">
 		<script src="{$_GET['public_dir']}/dataTable/js/jquery.dataTables.min.js" ></script>
 		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"'" ></script>
-		<script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js"'" ></script>
-		<script src="{$_GET['public_dir']}/dataTable/js/dataTables..js" ></script>
+		<script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js" ></script>
+		<script src="{$_GET['public_dir']}/dataTable/js/dataTables.js" ></script>
+
+		<link href="{$_GET['public_dir']}/dataTable/css/dataTables.bootstrap.css" rel="stylesheet">
+		<script src="{$_GET['public_dir']}/dataTable/js/dataTables.bootstrap.js" ></script>
 		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+
+
 		<!--下面   地区插件-->
 	
 		<link href="{$_GET['public_dir']}/diqu/css/main.css" rel="stylesheet">
@@ -31,7 +36,8 @@
 		<script src="{$_GET['public_dir']}/diqu/js/distpicker.data.js"></script>
 	    <script src="{$_GET['public_dir']}/diqu/js/distpicker.js"></script>
 	    <script src="{$_GET['public_dir']}/diqu/js/main.js"></script>
-
+<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
 <!--end!!-->
 		<style>
 
@@ -71,6 +77,9 @@
 			.addtr{line-height:25px;}
 			.addtr td{padding-top:20px;}
 			.addtr td input{width:300px;}	.anniudw{  position: relative;top: 14px;}	span a{margin-left:20px;}
+			#nchangyong{margin-top:10px;margin-left:15%;}
+			.onError{color:red;}
+			.onSuccess{color:green;}
 		</style>      
 	</head>
 	<body style="position:relative">
@@ -80,7 +89,7 @@
 				  <ul>
 				    <li class="panel-heading">
 				    	<span class="head_title">联系人信息</span>
-				    	<span class="xinzeng"><button  id="create-sahngji" onclick="addshangji()" >新增联系人</button><button onclick="daoru()" style="margin-left:20px">导入联系人</button></span>
+				    	<span class="xinzeng"><button  id="create-sahngji" onclick="addshangji()" class=" layui-btn layui-btn-small" >新增联系人</button><button onclick="daoru()" style="margin-left:20px" class=" layui-btn layui-btn-small">导入联系人</button></span>
 				    </li>
 				  </ul>
 			</div>
@@ -122,6 +131,7 @@
 								            </thead>
 								                <tbody id="jb_bianji">
 														{$show_bt}
+
 								                </tbody>			       
 								  			</table>
 								</div>
@@ -132,10 +142,13 @@
 
 	<div id="add_shangji" style="display: none;border:1px"> <!--新增商机 弹出框-->
 					<form name="" method="post" id="myform" >
-						<table class="addshangji_weizhi">
+						<table class="addshangji_weizhi uk-form">
 							{$add_yw}
+							{$add_yw1}
+							{$add_yw2}
 						</table>
 					</form>
+					<div id="nchangyong"  onselectstart='return false'><span style="color:blue">展开更多信息>></span></div>
 	</div>
 	<div id="daoru" style="margin-top:40px;display: none;border:1px"><!--导入-->
   						<div class="dr_q" style="width:80%;margin:0px auto";>
@@ -154,6 +167,7 @@
 	<script>
 		window.rooturl="{$_GET['root_dir']}";
 	$("#add_shangji").hide();
+	$(".ncy").hide();
 	$("#daoru").hide();
 	layui.use('upload', function(){
   		layui.upload(options);
@@ -183,8 +197,8 @@
     var s=$(this).index();
 
 	id+=title+","+s+"|";
-	//alert(id);
-   //alert(id);
+	//tishi(id);
+   //tishi(id);
 	$.get(rooturl+'/index.php/Home/Lianxiren/shaixuan',{"id":id},
 							        		 function(html){
 							        		 
@@ -203,11 +217,17 @@
 							var win=layer.open({
 								type:1,
 								offset: 't',
-								area:'630px',
+								area: ['630px', '600px'],
 								title: '新增联系人',
 								content:$('#add_shangji'),
 								btn:['确认添加','取消'],
 								btn1:function(){
+									 $("form :input.required").trigger('blur');
+			             				  var numError = $('form .onError').length;
+			              				  if(numError){
+			              				  	tishi('必填项不能为空')
+					                   			 return false;
+					              		 	 } 
 									var formdom=$("#myform").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';
@@ -215,7 +235,7 @@
 									{
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
 										if(thisdom.prop("name")=='zdy12[]')
-										{	//alert(thisdom.prop("name"))
+										{	//tishi(thisdom.prop("name"))
 											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
 										}else{
 											
@@ -223,10 +243,10 @@
 										}
 										
 									}
-									//alert(ajaxstr)
+									//tishi(ajaxstr)
 									$.get(rooturl+'/index.php/Home/Lianxiren/add',{"id":ajaxstr},
 							        		 function(html){
-									        		 alert("添加成功")
+									        		 tishi("添加成功")
 									        		$("#jb_bianji").html(html);
 									        		layer.close(win)
 							                   });
@@ -240,6 +260,26 @@
 						});  
 
 	}
+		$('form table :input').blur(function(){
+			var $parent =$(this).parent();
+			$parent.find(".formtips").remove();
+			if( $(this).is('.required') ){
+				if(this.value==""){
+					var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#x1007;</i> ";
+					$parent.append('<span class="formtips onError">'+error+'</span>');
+				}else{
+					var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#xe616;</i> "
+					$parent.append('<span class="formtips onSuccess">'+error+'</span>');
+				}
+
+			}
+		
+		}).keyup(function(){
+           $(this).triggerHandler("blur");
+        }).focus(function(){
+             $(this).triggerHandler("blur");
+        });//end blur
+
 	var is_upload='';
 	function daoru()
 		{
@@ -265,18 +305,18 @@
 					            }
 					            else if(res['res']=='2')
 					            {
-					                alert("上传文件格式仅支持csv");
+					                tishi("上传文件格式仅支持csv");
 					            }
 					            else
 					            {
-					           		 alert("文件上传失败");
+					           		 tishi("文件上传失败");
 					            }
 
 					        },
 					    });
 					
 					layui.use('layer', function(){
-						//alert(123)
+						//tishi(123)
 							var layer = layui.layer;
 							var win=layer.open({
 
@@ -304,19 +344,19 @@
 					                    return false;
 					                }
 					                $.get(rooturl+"/index.php/Home/Kehu/daoru_chanpin",{"csvfilename":is_upload},function(res){
-					                	//alert(res)
+					                	//tishi(res)
 					                    if(res=='1')
 					                    {	
-					                    	alert("导入成功")
+					                    	tishi("导入成功")
 					                       location.reload();
 					                    }
 					                    else if(res=='8')
 					                    {
-					                    	alert("亲~请下载最新模板")
+					                    	tishi("亲~请下载最新模板")
 					                    	 return false;
 					                    }else
 					                    {
-					                        alert("导入失败，请刷新后重试");
+					                        tishi("导入失败，请刷新后重试");
 					                        return false;
 					                    }
 					                });
@@ -378,18 +418,39 @@
     					as_key++;
     				}
     			})
-    		//	alert(checked_str)
+    		//	tishi(checked_str)
     			if(checked_str=="")
     			{
-    				alert("没有选择商机");
+    				tishi("没有选择商机");
     				return flase;
     			}
     			checked_str=checked_str.substr(0,checked_str.length-1);
     			$.get(rooturl+'/index.php/Home/Lianxiren/del',{"id":checked_str},
 		        		 function(html){
+		        		 	tishi("删除成功");
 		        				$("#jb_bianji").html(html);
 		                   });
 
     		}
+    		$("#nchangyong").click(function(){         //控制 、筛选的隐藏与显示
+		    if($(this).prop("name")=='0'||$(this).prop("name")==undefined)
+		    {
+		        $(".ncy").show();
+		        $(this).html("<span style='color:blue'>收起>></span>");
+		        $(this).prop("name",'1');
+		    }
+		    else
+		    {
+		    	 $(".ncy").hide();
+		        $(this).html("<span style='color:blue'>展开更多信息>></span>");
+		        $(this).prop("name",'0');
+		    }
+		});
+		  function tishi(neirong)
+			{
+			    layer.msg(neirong, {
+			        time: 1000, 
+			    });
+			}
     	</script>
 </html>

@@ -2,7 +2,77 @@
 namespace Home\Controller;
 use Think\Controller;
 
-
+/**
+ *
+ * ━━━━━━神兽出没━━━━━━
+ * 　　　┏┓　　　┏┓
+ * 　　┏┛┻━━━┛┻┓
+ * 　　┃　　　　　　　┃
+ * 　　┃　　　━　　　┃
+ * 　　┃　┳┛　┗┳　┃
+ * 　　┃　　　　　　　┃
+ * 　　┃　　　┻　　　┃
+ * 　　┃　　　　　　　┃
+ * 　　┗━┓　　　┏━┛Code is far away from bug with the animal protecting
+ * 　　　　┃　　　┃    神兽保佑,代码无bug
+ * 　　　　┃　　　┃
+ * 　　　　┃　　　┗━━━┓
+ * 　　　　┃　　　　　　　┣┓
+ * 　　　　┃　　　　　　　┏┛
+ * 　　　　┗┓┓┏━┳┓┏┛
+ * 　　　　　┃┫┫　┃┫┫
+ * 　　　　　┗┻┛　┗┻┛
+ *
+ * ━━━━━━感觉萌萌哒━━━━━━
+ */
+  
+/**
+ * 　　　　　　　　┏┓　　　┏┓
+ * 　　　　　　　┏┛┻━━━┛┻┓
+ * 　　　　　　　┃　　　　　　　┃ 　
+ * 　　　　　　　┃　　　━　　　┃
+ * 　　　　　　　┃　＞　　　＜　┃
+ * 　　　　　　　┃　　　　　　　┃
+ * 　　　　　　　┃...　⌒　...　┃
+ * 　　　　　　　┃　　　　　　　┃
+ * 　　　　　　　┗━┓　　　┏━┛
+ * 　　　　　　　　　┃　　　┃　Code is far away from bug with the animal protecting　　　　　　　　　　
+ * 　　　　　　　　　┃　　　┃   神兽保佑,代码无bug
+ * 　　　　　　　　　┃　　　┃　　　　　　　　　　　
+ * 　　　　　　　　　┃　　　┃  　　　　　　
+ * 　　　　　　　　　┃　　　┃
+ * 　　　　　　　　　┃　　　┃　　　　　　　　　　　
+ * 　　　　　　　　　┃　　　┗━━━┓
+ * 　　　　　　　　　┃　　　　　　　┣┓
+ * 　　　　　　　　　┃　　　　　　　┏┛
+ * 　　　　　　　　　┗┓┓┏━┳┓┏┛
+ * 　　　　　　　　　　┃┫┫　┃┫┫
+ * 　　　　　　　　　　┗┻┛　┗┻┛
+ */
+  
+/**
+ *　　　　　　　　┏┓　　　┏┓+ +
+ *　　　　　　　┏┛┻━━━┛┻┓ + +
+ *　　　　　　　┃　　　　　　　┃ 　
+ *　　　　　　　┃　　　━　　　┃ ++ + + +
+ *　　　　　　 ████━████       ┃+
+ *　　　　　　　┃　　　　　　　┃ +
+ *　　　　　　　┃　　　┻　　　┃
+ *　　　　　　　┃　　　　　　　┃ + +
+ *　　　　　　　┗━┓　　　┏━┛
+ *　　　　　　　　　┃　　　┃　　　　　　　　　　　
+ *　　　　　　　　　┃　　　┃ + + + +
+ *　　　　　　　　　┃　　　┃　　　　Code is far away from bug with the animal protecting　　　　　　　
+ *　　　　　　　　　┃　　　┃ + 　　　　神兽保佑,代码无bug　　
+ *　　　　　　　　　┃　　　┃
+ *　　　　　　　　　┃　　　┃　　+　　　　　　　　　
+ *　　　　　　　　　┃　 　　┗━━━┓ + +
+ *　　　　　　　　　┃ 　　　　　　　┣┓
+ *　　　　　　　　　┃ 　　　　　　　┏┛
+ *　　　　　　　　　┗┓┓┏━┳┓┏┛ + + + +
+ *　　　　　　　　　　┃┫┫　┃┫┫
+ *　　　　　　　　　　┗┻┛　┗┻┛+ + + +
+ */
 class LianxirenmingchengController extends Controller {
 
 	public function Lianxirenmingcheng(){
@@ -16,6 +86,7 @@ class LianxirenmingchengController extends Controller {
 		$ywzd=$this->ywzd();
 		$user=$this->user();
 		$kh_id=$lx_json['zdy1'];
+		//var_dump($kh_id);exit;
 		$kehu=$this->kehu();//echo "<pre>";var_dump($kehu);exit;
 		//$xg_lx['lx_data']=array('like','% \\"zdy1\\":\\"'.$kh_id.'\\" %');//var_dump($xg_lx['lx_data']);exit;
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
@@ -132,7 +203,7 @@ class LianxirenmingchengController extends Controller {
 				}
 			$show3.="</tr>";
 		}
-		$show3.="<tr><td></td><td><input type='text' name='lx_id' value='".$a."'></td></tr>";
+		$show3.="<tr><td></td><td><input type='hidden' name='lx_id' value='".$a."'></td></tr>";
 	//	echo "<pre>";
 //	var_dump($lx_json);exit;
 		$this->assign('show',$show);
@@ -177,28 +248,21 @@ public function kehu(){
 		$new_xiaji=$xiaji;          
 		$new_array=explode(',',$new_xiaji);
 		$kh_base=M('kh');
-		$data_kh['kh_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->where($data_kh)->select();
+		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
+		
 		foreach($kh_sql as $kkh =>$vkh)
 		{
 			$kh_json=json_decode($vkh['kh_data'],true);
-			//$kh_json1=json_encode($kh_json,true);
-			//echo "<pre>";
-			///var_dump($kh_json);exit;
-			foreach($new_array as $kxj=>$vxj)
-			{
-				if($kh_json['fuzeren']==$vxj){
+			
 					$kh['id']=$vkh['kh_id'];
 					$kh['name']=$kh_json['zdy0'];
 					$kh['department']=$kh_json['department'];
 					$kh_name[$vkh['kh_id']]=$kh;
-				}
-			}
-
-
 		}
 		return $kh_name;
 	}
+	
 	public function user(){                 //负责人和部门
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
 		$new_xiaji=$xiaji;          
