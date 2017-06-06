@@ -604,24 +604,29 @@ public function kehu(){
 	public function get_sj(){
 		$id=$_GET['id'];
 		$shangji=$this->shangji();
-		if($shangji!='' || $shangji!=null)
-		{
+		//echo "<pre>";
+	//	var_dump($shangji);exit;
+		$num=1;
 		$sj_th.="<select>";
 		foreach($shangji as $k => $v)
 		{	
 			if($v['zdy1']==$id)
-			{
+			{	$num=$num+1;
 				$sj_th.="<option value='".$v['sj_id']."'> ".$v['zdy0']."".$v['sj_id']."</option>";
 			}
 		}
 		$sj_th.="</select>";
+	
+		$sj_th3.="<select>";
+			$sj_th3.="<option value=''>请添加对应商机 </option>";
+			$sj_th3.="<option value='111'>暂不填写</option>";
+		$sj_th3.="</select>";
+		if($num>1){
+			echo $sj_th;
 		}else{
-			$sj_th.="<select>";
-				$sj_th.="<option value=''>请添加对应商机 </option>";
-				$sj_th.="<option value='111'>暂不填写</option>";
-			$sj_th.="</select>";
+			echo $sj_th3;
 		}
-		echo $sj_th;
+		
 
 	}
 	public function get_bm(){
