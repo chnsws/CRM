@@ -179,7 +179,7 @@
 						<tr  class="addtr">
 								<td>负责人：</td>
 								 <td>
-								 	<select name="fuzeren" class ="clk_fzr required" style='width:300px;height:26px;'>
+								 	<select name="fuzeren" onchange='get_bm(this)' class ="clk_fzr required" style='width:300px;height:30px;'>
 								 		<option value="">请选择</option>
 								 		<foreach name="fuzeren" item="vo">
 								 			<option value="{$vo.user_id}">{$vo.user_name}</option>
@@ -190,12 +190,7 @@
 							<tr class="addtr">
 								<td>部门：</td>
 								<td>
-									<select name="department"  style='width:300px;height:26px;'>
-										<option  name="zuizhong" value="">请先选择负责人</option>
-										<foreach name="fuzeren" item="voo">
-										<option  value="{$voo.user_zhu_bid}">{$voo.department}</option>
-										</foreach>
-									</select>
+									<input type="text" class='bm_th' style='width:300px;height:30px;'>
 								
 								</td>			
 							</tr>
@@ -820,6 +815,14 @@
         }).focus(function(){
              $(this).triggerHandler("blur");
         });//end blur
-
+			function get_bm(bm){
+    			var user_id=$(bm).val();
+    			$.get(rooturl+'/index.php/Home/Hetong/get_bm',{"id":user_id},
+			        		 				function(html){
+        		 								//tishi(html)
+											$(".bm_th").html(html);
+												layer.close(win)
+											});
+    		}
     	</script>
 </html>

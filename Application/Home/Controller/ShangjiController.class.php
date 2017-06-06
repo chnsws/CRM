@@ -1326,5 +1326,54 @@ class ShangjiController extends Controller {
 					$cp_sj_base=M('cp_sj');
 					$sql_add=$cp_sj_base->where($sql)->delete();
 			}	
+			public function get_bm(){
+			$id=$_GET['id'];
+			$user=$this->user();
+			//echo "<pre>";
+			//var_dump($user);exit;
+				$jw.="<input type='text' name='ht_department' disabled value='".$user[$id]['department']."' > ";
+				
+			echo $jw;
+	}
+
+	public function user(){                 //负责人和部门
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$new_xiaji=$xiaji;          
+		$new_array=explode(',',$new_xiaji);
+	 	$department=M('department');
+		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			//echo $dpmet['bm_company'];exit;
+		$sql_de=$department->where($dpt)->select();
+		foreach($sql_de as $kdpt => $vdpt)
+		{
+			
+			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
+		}
+
+		$fuzeren=M('user');
+		$map['user_act']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+	 	$fuzeren_sql=$fuzeren->where($map)->select();//缺少条件
+			foreach ($fuzeren_sql as $k=>$v)
+			{
+				foreach ($new_array as $k1=>$v1)
+				{
+					if($v['user_id']==$v1)
+					{
+						$new_fuzeren['user_id']=$v['user_id'];
+						$new_fuzeren['user_name']=$v['user_name'];
+						$new_fuzeren['user_zhu_bid']=$v['user_zhu_bid'];
+						$new_fuzeren['department']=$dpt_arr[$v['user_zhu_bid']]['bm_name'];
+						$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
+					}
+						
+				}
+			}  
+//echo "<pre>";
+//var_dump($fzr_only);exit;
+return $fzr_only;
+
+
+
+	}
 
 }
