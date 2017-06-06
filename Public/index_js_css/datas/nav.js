@@ -26,18 +26,18 @@ var navs = [{
 {
 	"title": "联系人",
 	"icon": "fa-address-book",
-	"href": "",
+	"href": "index.php/Home/Lianxiren/lianxiren",
 	"spread": false,
 	
 }, {
 	"title": "商机",
 	"icon": "fa-money",
-	"href": "https://www.baidu.com",
+	"href": "index.php/Home/Shangji/shangji",
 	"spread": false
 }, {
 	"title": "合同",
 	"icon": "fa-file",
-	"href": "index.php/Home/hetong/hetong",
+	"href": "index.php/Home/Hetong/hetong",
 	"spread": false
 }, {
 	"title": "产品",
