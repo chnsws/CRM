@@ -241,6 +241,8 @@ public function kehu(){
 			$bj_tab.="</tr>";    
 		}
 		//新增
+		echo "<pre>";
+		var_dump($ywzd);exit;
 		foreach($ywzd as $k=>$v)
 		{
 			if($v['bt']=="1")
