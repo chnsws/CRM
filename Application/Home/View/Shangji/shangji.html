@@ -189,8 +189,8 @@
 							</tr>
 							<tr class="addtr">
 								<td>部门：</td>
-								<td>
-									<input type="text" class='bm_th' style='width:300px;height:30px;'>
+								<td class='bm_th'>
+									<input type="text"  style='width:300px;height:30px;'>
 								
 								</td>			
 							</tr>
@@ -820,7 +820,7 @@
     			//alert(user_id)
     			$.get(rooturl+'/index.php/Home/Shangji/get_bm',{"id":user_id},
 			        		 				function(html){
-        		 								//tishi(html)
+        		 								alert(html)
 											$(".bm_th").html(html);
 												layer.close(win)
 											});

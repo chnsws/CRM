@@ -441,10 +441,11 @@ class ShangjiController extends Controller {
 					$table2.="</tr>";
 
 				}
-				if($vzd['id']=="zdy6"){
-				$table1.="<tr><td colspan='2'>";
-					$table1.="<table class='layui-table' lay-skin='line' style='display: none;border:1px'>";
-								 	 $table1.="<thead>
+				
+				}if($vzd['id']=="zdy6"){
+				$table2.="<tr><td colspan='2'>";
+					$table2.="<table class='layui-table' lay-skin='line' style='display: none;border:1px'>";
+								 	 $table2.="<thead>
 								  				<th >产品名称</th>
 						  						<th >产品原价</th>
 						  						<th >建议价格</td>
@@ -453,12 +454,11 @@ class ShangjiController extends Controller {
 						  						<th >总价</th>
 						  						<th >操作</th>
 											</thead>";
-									  $table1.="<tbody class='tihuan'>";
+									  $table2.="<tbody class='tihuan'>";
 								
-									  $table1.="</tbody>
+									  $table2.="</tbody>
 										 </table>";
-					$table1.="</td></tr>";
-				}
+					$table2.="</td></tr>";
 			}
 		}
 		//echo "<pre>";
