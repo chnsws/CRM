@@ -503,8 +503,8 @@ public function kehu(){
 		$user=$this->user();
 		//echo "<pre>";
 		//var_dump($user);exit;
-			$jw.="<tr class='addtr'><td>负责人:</td>";
-			$jw.="<td><select name='ht_fz'  onchange='get_bm(this)'>";
+			$jw.="<tr class='addtr'><td><span style='color:red'>*</span>负责人:</td>";
+			$jw.="<td><select name='ht_fz' class='required'  onchange='get_bm(this)'>";
 			$jw.="<option  value='".$v['user_id']."'>请选择负责人</option>";	
 				foreach($user as $k=>$v)
 				{
@@ -525,7 +525,7 @@ public function kehu(){
 					}
 
 		$ht_biaoti1=array_merge_recursive($ywzd,$new_arrayoo);//客户标题名字
-		$jw.="</tr>";
+
 		$hetong=$this->htselect();
 		
 		
@@ -744,7 +744,7 @@ public function kehu(){
 					}
 
 		$ht_biaoti1=array_merge_recursive($ywzd,$new_arrayoo);//客户标题名字
-		$jw.="</tr>";
+	
 		$hetong=$this->htselect();
 		foreach($hetong as $k=>$v)
 		{
