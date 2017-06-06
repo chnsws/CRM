@@ -1208,30 +1208,15 @@ class ShangjiController extends Controller {
 	public function lxr_get(){
 		$a=$_GET['id'];
 		
-		$map['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件     
-		$lx_base=M('lx');
-		$sql=$lx_base->where($map)->select();
-		foreach($sql as $k=>$v)
-		{
-			foreach($v as $k1=>$v1)
-			{
-				if($k1!="lx_data")
-				{
-					$new_sql[$k1]=$v1;
-				}else{
-					$json_sql=json_decode($v[$k1],true);
-							//  json_decode($ywzd_sql['zd_data'],true);
-							
-					foreach($json_sql as $kjson=>$vjson)
-					{
-						$new_sql[$kjson]=$vjson;
-					}
-				}
-				
-			}
-			$new_lx[]=$new_sql;
-		}
-		$c=1;
+			$lxr_base=M('lx');
+	 		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+	 		$tiaojian='"zdy1":"'.$a.'"';
+	 		
+			$new_lx=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and lx_data like '%$tiaojian%'");
+
+
+
+		
 		foreach($new_lx as $k=>$v)
 		{
 			if($v['zdy1']==$a)
@@ -1247,6 +1232,7 @@ class ShangjiController extends Controller {
 			$table.="<option value='".$v['id']."'>".$v['name']."</option>";
 		}
 		$table.="</select>";	
+
 		$table2.="<select name='zdy2' style='width:300px;height:26px;'>";
 		
 			$table2.="<option value=''>请添加此客户联系人</option>";
