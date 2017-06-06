@@ -1210,12 +1210,33 @@ class ShangjiController extends Controller {
 		
 			$lxr_base=M('lx');
 	 		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-	 		$tiaojian='"zdy1":"'.$a.'"';
+	 		$tiaojian='"zdy1":"'.$kh_id.'"';
 	 		
-			$new_lx=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and lx_data like '%$tiaojian%'");
+			$sql=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and lx_data like '%$tiaojian%'");
 
 
 
+		
+		foreach($sql as $k=>$v)
+		{
+			foreach($v as $k1=>$v1)
+			{
+				if($k1!="lx_data")
+				{
+					$new_sql[$k1]=$v1;
+				}else{
+					$json_sql=json_decode($v[$k1],true);
+							//  json_decode($ywzd_sql['zd_data'],true);
+							
+					foreach($json_sql as $kjson=>$vjson)
+					{
+						$new_sql[$kjson]=$vjson;
+					}
+				}
+				
+			}
+			$new_lx[]=$new_sql;
+		}
 		$c=1;
 		foreach($new_lx as $k=>$v)
 		{
@@ -1238,7 +1259,7 @@ class ShangjiController extends Controller {
 			$table2.="<option value=''>请添加此客户联系人</option>";
 		
 		$table2.="</select>";	
-		if($c>1)
+		if($c>1) //000
 		{
 			echo $table;
 		}else{
