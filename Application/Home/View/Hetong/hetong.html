@@ -388,7 +388,7 @@ $(".yincang").hide()
 		              				  if(numError){
 		              				  	 tishi('必填项不能为空')
 		                   				 return false;
-              		 				 } 
+              		 				 }  /**nnn**/
 									var formdom=$("#ht_form").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';
@@ -398,10 +398,10 @@ $(".yincang").hide()
 										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
 									}
 									var vstr=ajaxstr.substr(0,ajaxstr.length-1);
-									tishi(vstr)
+									
 									$.get(rooturl+'/index.php/Home/Hetong/add_ht',{"id":vstr},
 							        		 function(html){
-
+							        		 		tishi("添加成功")
 							        		 	$("#jb_bianji").html(html);
 							        		 		 	$(".cp").hide();
 									        		$(".yc_xs").hide();
