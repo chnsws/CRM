@@ -83,6 +83,8 @@ class KehuController extends Controller {
 			}
 		}
 	
+	//echo "<pre>";
+	//var_dump($a_arr);exit;
 		foreach($a_arr as $k=>$v)
 		{
 			if($v['bt']==1)
@@ -101,17 +103,17 @@ class KehuController extends Controller {
 				}elseif($v['id']=='zdy13'){
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
 						$show_bt.="<td><input type='text' name='".$v['id']."'  class='ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td></tr>";	
-					}elseif($v['id']=='zdy6'){
-						$show_bt.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
-						$show_bt.="<td><span style='color:red'>*</span".$v['name'].":</td><td class='form-group' style='width:80%;'>";
+				}elseif($v['id']=='zdy6'){
+					$show_bt.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
+					$show_bt.="<td><span style='color:red'>*</span".$v['name'].":</td><td class='form-group' style='width:80%;'>";
 
-						$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-			          	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-			         	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-		 				$show_bt.="</td></tr>";
-					}else{
-					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-					$show_bt.="<td><input type='text'  class='required'  name='".$v['id']."'></td></tr>";	
+					$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
+		          	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
+		         	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
+	 				$show_bt.="</td></tr>";
+				}else{
+				$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
+				$show_bt.="<td><input type='text'  class='required'  name='".$v['id']."'></td></tr>";	
 				}	
 			}else{
 				if($v['cy']==1)
@@ -2402,7 +2404,7 @@ krsort($ko);
 		echo $content;
 	}
 	public function user(){                 //负责人和部门
-		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$xiaji=45;//  查询下级ID
 		$new_xiaji=$xiaji;          
 		$new_array=explode(',',$new_xiaji);
 	 	$department=M('department');
@@ -2414,6 +2416,7 @@ krsort($ko);
 			
 			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
 		}
+
 
 		$fuzeren=M('user');
 		$map['user_act']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
@@ -2432,7 +2435,9 @@ krsort($ko);
 					}
 						
 				}
-			}  
+			} 
+		//	echo "<pre>";
+		//var_dump($fzr_only);exit; 
 //echo "<pre>";
 //var_dump($fzr_only);exit;
 return $fzr_only;
