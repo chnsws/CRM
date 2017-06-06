@@ -1210,7 +1210,7 @@ class ShangjiController extends Controller {
 		
 			$lxr_base=M('lx');
 	 		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-	 		$tiaojian='"zdy1":"'.$kh_id.'"';
+	 		$tiaojian='"zdy1":"'.$a.'"';
 	 		
 			$sql=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and lx_data like '%$tiaojian%'");
 
@@ -1247,14 +1247,14 @@ class ShangjiController extends Controller {
 				$lx_end[$v['zdy0']]=$lx_arr;
 			}
 		}
-		$table.="<select name='zdy2' style='width:300px;height:26px;'>";
+		$table.="<select name='zdy2' class='required' style='width:300px;height:30px;'>";
 		foreach($lx_end as $k=>$v)
 		{
 			$table.="<option value='".$v['id']."'>".$v['name']."</option>";
 		}
 		$table.="</select>";	
 
-		$table2.="<select name='zdy2' style='width:300px;height:26px;'>";
+		$table2.="<select name='zdy2' class= 'required' style='width:300px;height:30px;'>";
 		
 			$table2.="<option value=''>请添加此客户联系人</option>";
 		
