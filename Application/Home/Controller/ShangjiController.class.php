@@ -1231,10 +1231,11 @@ class ShangjiController extends Controller {
 			}
 			$new_lx[]=$new_sql;
 		}
+		$c=1;
 		foreach($new_lx as $k=>$v)
 		{
 			if($v['zdy1']==$a)
-			{
+			{	$c=$c+1;
 				$lx_arr['id']=$v['lx_id'];
 				$lx_arr['name']=$v['zdy0'];
 				$lx_end[$v['zdy0']]=$lx_arr;
@@ -1246,9 +1247,19 @@ class ShangjiController extends Controller {
 			$table.="<option value='".$v['id']."'>".$v['name']."</option>";
 		}
 		$table.="</select>";	
-
+		$table2.="<select name='zdy2' style='width:300px;height:26px;'>";
 		
-		echo $table;
+			$table2.="<option value=''>请添加此客户联系人</option>";
+		
+		$table2.="</select>";	
+		if($c>1)
+		{
+			echo $table;
+		}else{
+			echo $table2;
+		}
+		
+		
 	}
 	public function add_cp(){
 		$id=$_GET['id'];
