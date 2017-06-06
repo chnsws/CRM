@@ -1216,7 +1216,7 @@ class ShangjiController extends Controller {
 
 
 
-		
+		$c=1;
 		foreach($new_lx as $k=>$v)
 		{
 			if($v['zdy1']==$a)
@@ -1226,14 +1226,14 @@ class ShangjiController extends Controller {
 				$lx_end[$v['zdy0']]=$lx_arr;
 			}
 		}
-		$table.="<select name='zdy2' style='width:300px;height:26px;'>";
+		$table.="<select name='zdy2' style='width:300px;height:30px;'>";
 		foreach($lx_end as $k=>$v)
 		{
 			$table.="<option value='".$v['id']."'>".$v['name']."</option>";
 		}
 		$table.="</select>";	
 
-		$table2.="<select name='zdy2' style='width:300px;height:26px;'>";
+		$table2.="<select name='zdy2' style='width:300px;height:30px;'>";
 		
 			$table2.="<option value=''>请添加此客户联系人</option>";
 		
