@@ -179,7 +179,8 @@
 						<tr  class="addtr">
 								<td>负责人：</td>
 								 <td>
-								 	<select name="fuzeren" class ="clk_fzr" style='width:300px;height:26px;'>
+								 	<select name="fuzeren" class ="clk_fzr required" style='width:300px;height:26px;'>
+								 		<option value="">请选择</option>
 								 		<foreach name="fuzeren" item="vo">
 								 			<option value="{$vo.user_id}">{$vo.user_name}</option>
 								 		</foreach> 

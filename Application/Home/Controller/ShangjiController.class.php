@@ -224,7 +224,7 @@ class ShangjiController extends Controller {
 							{
 								$table.="<td>";
 								$table.="<select  class='required' name='".$vzd['id']."' onchange='get_lx(this)' style='width:300px;height:26px;'>";
-										$table.="<option value='请选择'>--请选择--</option>";
+										$table.="<option value=''>--请选择--</option>";
 								foreach($kh_name as $k=>$v)
 									{
 										$table.="<option value='".$v['id']."'>".$v['name']."</option>";
@@ -235,14 +235,14 @@ class ShangjiController extends Controller {
 							{
 								$table.="<td class='lxr'>";
 								$table.="<select name='".$vzd['id']."' class='required' style='width:300px;height:26px;'>";
-										$table.="<option value='请选择'>请先选择公司</option>";
+										$table.="<option value=''>请先选择公司</option>";
 									$table.="</select>";	
 								$table.="</td>";
 							}elseif($vzd['id']=="zdy9")
 							{
 								$table.="<td>";
 								$table.="<select name='".$vzd['id']."'  class='required' style='width:300px;height:26px;'>";
-										$table.="<option value='请选择'>--请选择--</option>";
+										$table.="<option value=''>--请选择--</option>";
 								foreach($new_ywcs[$vzd['id']] as $k=>$v)
 									{
 										$table.="<option value='".$k."'>".$v."</option>";
@@ -252,7 +252,7 @@ class ShangjiController extends Controller {
 							{
 								$table.="<td>";
 								$table.="<select name='".$vzd['id']."' class='required' style='width:300px;height:26px;'>";
-										$table.="<option value='请选择'>--请选择--</option>";
+										$table.="<option value=''>--请选择--</option>";
 								foreach($new_ywcs[$vzd['id']] as $k=>$v)
 									{
 										$table.="<option value='".$k."'>".$v."</option>";
@@ -263,7 +263,7 @@ class ShangjiController extends Controller {
 							{
 								$table.="<td>";
 								$table.="<select name='".$vzd['id']."'  class='required' style='width:300px;height:26px;'>";
-										$table.="<option value='请选择'>--请选择--</option>";
+										$table.="<option value=''>--请选择--</option>";
 								foreach($new_ywcs[$vzd['id']] as $k=>$v)
 									{
 										$table.="<option value='".$k."'>".$v."</option>";
@@ -297,7 +297,7 @@ class ShangjiController extends Controller {
 							{
 								$table1.="<td>";
 								$table1.="<select name='".$vzd['id']."' onchange='get_lx(this)' style='width:300px;height:26px;'>";
-										$table1.="<option value='请选择'>--请选择--</option>";
+										$table1.="<option value=''>--请选择--</option>";
 								foreach($kh_name as $k=>$v)
 									{
 										$table1.="<option value='".$v['id']."'>".$v['name']."</option>";
@@ -308,14 +308,14 @@ class ShangjiController extends Controller {
 							{
 								$table1.="<td class='lxr'>";
 								$table1.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
-										$table1.="<option value='请选择'>请先选择公司</option>";
+										$table1.="<option value=''>请先选择公司</option>";
 								$table1.="</select>";	
 								$table1.="</td>";
 							}elseif($vzd['id']=="zdy9")
 							{
 								$table1.="<td>";
 								$table1.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
-										$table1.="<option value='请选择'>--请选择--</option>";
+										$table1.="<option value=''>--请选择--</option>";
 								foreach($new_ywcs[$vzd['id']] as $k=>$v)
 									{
 										$table1.="<option value='".$k."'>".$v."</option>";
@@ -326,7 +326,7 @@ class ShangjiController extends Controller {
 							{
 								$table1.="<td>";
 								$table1.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
-										$table1.="<option value='请选择'>--请选择--</option>";
+										$table1.="<option value=''>--请选择--</option>";
 								foreach($new_ywcs[$vzd['id']] as $k=>$v)
 									{
 										$table1.="<option value='".$k."'>".$v."</option>";
@@ -337,7 +337,7 @@ class ShangjiController extends Controller {
 							{
 								$table1.="<td>";
 								$table1.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
-										$table1.="<option value='请选择'>--请选择--</option>";
+										$table1.="<option value=''>--请选择--</option>";
 								foreach($new_ywcs[$vzd['id']] as $k=>$v)
 									{
 										$table1.="<option value='".$k."'>".$v."</option>";
@@ -376,7 +376,7 @@ class ShangjiController extends Controller {
 							{
 								$table2.="<td>";
 								$table2.="<select name='".$vzd['id']."' onchange='get_lx(this)' style='width:300px;height:26px;'>";
-										$table2.="<option value='请选择'>--请选择--</option>";
+										$table2.="<option value=''>--请选择--</option>";
 								foreach($kh_name as $k=>$v)
 									{
 										$table2.="<option value='".$v['id']."'>".$v['name']."</option>";
@@ -387,14 +387,14 @@ class ShangjiController extends Controller {
 							{
 								$table2.="<td class='lxr'>";
 								$table2.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
-										$table2.="<option value='请选择'>请先选择公司</option>";
+										$table2.="<option value=''>请先选择公司</option>";
 								$table2.="</select>";	
 								$table2.="</td>";
 							}elseif($vzd['id']=="zdy9")
 							{
 								$table2.="<td>";
 								$table2.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
-										$table2.="<option value='请选择'>--请选择--</option>";
+										$table2.="<option value=''>--请选择--</option>";
 								foreach($new_ywcs[$vzd['id']] as $k=>$v)
 									{
 										$table2.="<option value='".$k."'>".$v."</option>";
@@ -405,7 +405,7 @@ class ShangjiController extends Controller {
 							{
 								$table2.="<td>";
 								$table2.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
-										$table2.="<option value='请选择'>--请选择--</option>";
+										$table2.="<option value=''>--请选择--</option>";
 								foreach($new_ywcs[$vzd['id']] as $k=>$v)
 									{
 										$table2.="<option value='".$k."'>".$v."</option>";
@@ -416,7 +416,7 @@ class ShangjiController extends Controller {
 							{
 								$table2.="<td>";
 								$table2.="<select name='".$vzd['id']."' style='width:300px;height:26px;'>";
-										$table2.="<option value='请选择'>--请选择--</option>";
+										$table2.="<option value=''>--请选择--</option>";
 								foreach($new_ywcs[$vzd['id']] as $k=>$v)
 									{
 										$table2.="<option value='".$k."'>".$v."</option>";
