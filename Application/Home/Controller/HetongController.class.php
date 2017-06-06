@@ -604,6 +604,9 @@ public function kehu(){
 	public function get_sj(){
 		$id=$_GET['id'];
 		$shangji=$this->shangji();
+		if($shangji!='' || $shangji!=null)
+		{
+		$sj_th.="<select>";
 		foreach($shangji as $k => $v)
 		{	
 			if($v['zdy1']==$id)
@@ -612,6 +615,12 @@ public function kehu(){
 			}
 		}
 		$sj_th.="</select>";
+		}else{
+			$sj_th.="<select>";
+				$sj_th.="<option value=''>请添加对应商机 </option>";
+				$sj_th.="<option value='111'>暂不填写</option>";
+			$sj_th.="</select>";
+		}
 		echo $sj_th;
 
 	}
