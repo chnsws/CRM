@@ -93,7 +93,7 @@ class KehuController extends Controller {
 				{
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
 					$show_bt.="<td><select  class='required' name='".$v['id']."'>";
-							$show_bt.="<option >--请选择--</option>";
+							$show_bt.="<option value=''>--请选择--</option>";
 						foreach($ywcs_wysend[$v['id']] as $k=>$v)
 						{
 							$show_bt.="<option value='".$k."'>".$v."</option>";
@@ -177,9 +177,9 @@ class KehuController extends Controller {
 			}
 						
 		}
-			$jw.="<tr class='addtr'><td>负责人:</td>";
-			$jw.="<td><select name='ht_fz' onchange='get_bm(this)'>";
-			$jw.="<option  value='".$v['user_id']."'>请选择负责人</option>";	
+			$jw.="<tr class='addtr'><td><span style='color:red'>*</span>负责人:</td>";
+			$jw.="<td><select name='ht_fz'  class ='required' onchange='get_bm(this)'>";
+			$jw.="<option  value=''>请选择负责人</option>";	
 				foreach($fzr_only as $k=>$v)
 				{
 					$jw.="<option  value='".$v['user_id']."'>".$v['user_name']."</option>";
