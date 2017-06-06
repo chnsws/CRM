@@ -321,8 +321,8 @@
     var s=$(this).index();
 
 	id+=title+","+s+"|";
-	//alert(id);
-  //alert(id);
+	//tishi(id);
+  //tishi(id);
   if(title=="zdy9")
 	{
 		$(".four").text(tex);
@@ -370,11 +370,11 @@
               		 				 } 
               		 				var lxr = $(".lxr_ad").val();
               		 				if(lxr=='ok'){
-              		 					
+
  											tishi('请先添加联系人~亲')
 		                   				 return false;
               		 				}
-              		 				alert(lxr);
+              		 			
 									var formdom=$("#myform").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';
@@ -383,10 +383,10 @@
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
 										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
 									}
-									//alert(ajaxstr)
+									//tishi(ajaxstr)
 									$.get(rooturl+'/index.php/Home/Shangji/add',{"id":ajaxstr},
 							        		 function(html){
-									        	//alert(html)
+									        	//tishi(html)
 									        		$("#jb_bianji").html(html);
 									        			$(".layui-table").hide();
 									        		layer.close(win)
@@ -443,18 +443,18 @@
 					            }
 					            else if(res['res']=='2')
 					            {
-					                alert("上传文件格式仅支持csv");
+					                tishi("上传文件格式仅支持csv");
 					            }
 					            else
 					            {
-					           		 alert("文件上传失败");
+					           		 tishi("文件上传失败");
 					            }
 
 					        },
 					    });
 					
 					layui.use('layer', function(){
-					//	alert(123)
+					//	tishi(123)
 							var layer = layui.layer;
 							var win=layer.open({
 
@@ -482,19 +482,19 @@
 					                    return false;
 					                }
 					                $.get(rooturl+"/index.php/Home/Kehu/daoru_chanpin",{"csvfilename":is_upload},function(res){
-					                	//alert(res)
+					                	//tishi(res)
 					                    if(res=='1')
 					                    {	
-					                    	alert("导入成功")
+					                    	tishi("导入成功")
 					                       location.reload();
 					                    }
 					                    else if(res=='8')
 					                    {
-					                    	alert("亲~请下载最新模板")
+					                    	tishi("亲~请下载最新模板")
 					                    	 return false;
 					                    }else
 					                    {
-					                        alert("导入失败，请刷新后重试");
+					                        tishi("导入失败，请刷新后重试");
 					                        return false;
 					                    }
 					                });
@@ -548,7 +548,7 @@
     		function add_cp(){
     			
 					layui.use('layer', function(){
-					//	alert(123)
+					//	tishi(123)
 							var layer = layui.layer;
 							var win=layer.open({
 
@@ -594,10 +594,10 @@
 						
 					}
 				});
-				//alert(checked_str)
+				//tishi(checked_str)
 			if(checked_str=="")
 			 	{
-			 		alert("没有选择商机");
+			 		tishi("没有选择商机");
 						return false;
 			 	}
 				checked_str=checked_str.substr(0,checked_str.length-1);
@@ -628,7 +628,7 @@
 
 				if(bianji_str=="")
 					{
-						alert("没有选择商机");
+						tishi("没有选择商机");
 						return false
 					}
 				
@@ -651,7 +651,7 @@
 
 												$.get(rooturl+'/index.php/Home/Shangji/pl_bianji',{"id":bianji_str,"ziduan":xgzd,"content":content,"xgzd2":xgzd2,"content2":content2},
 					        		 				function(html){
-					        		 					alert("批量修改成功")
+					        		 					tishi("批量修改成功")
 															$("#jb_bianji").html(html);
 															layer.close(win)
 													});
@@ -684,7 +684,7 @@
 	 	})
 	 	if(piliang_str=="")
 	 	{
-	 		alert("没有选择客户");
+	 		tishi("没有选择客户");
 				return false;
 	 	}
 
@@ -702,11 +702,11 @@
 										var fuzeren=$("#zhuanyifzr").val();
 										var fuzeren1=$("#zhuanyifzr").children("option[value='"+fuzeren+"']").text();//客户名称汉字
 										var shangji_hetong='';//不确定
-										//alert(fuzeren)
+										//tishi(fuzeren)
 
 										$.get(rooturl+'/index.php/Home/Shangji/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"sj_id":piliang_str},
 			        		 				function(html){
-			        		 					alert("批量转移成功")
+			        		 					tishi("批量转移成功")
 															$("#jb_bianji").html(html);
 															layer.close(win)
 											});
@@ -742,7 +742,7 @@
     			$.get(rooturl+'/index.php/Home/Shangji/cp_ajax',{"id":cp_id},
     										function(html)
     										{
-    										//	alert(html)
+    										//	tishi(html)
     													$(".cp_yj").val(html)
     													$(".cp_jy").val(html)
     												$(".cp_zk").val("100.0%")	
@@ -768,7 +768,7 @@
     			var num1=(num * jy);
     			$(".cp_zk").val(end);
     			$(".cp_zj").val(num1)		
-    			//alert(yj);
+    			//tishi(yj);
     		}
     		function cp_num(w){
     			var num2 = $(w).val();	
@@ -825,10 +825,10 @@
         });//end blur
 			function get_bm(bm){
     			var user_id=$(bm).val();
-    			//alert(user_id)
+    			//tishi(us
     			$.get(rooturl+'/index.php/Home/Shangji/get_bm',{"id":user_id},
 			        		 				function(html){
-        		 								alert(html)
+        		 								tishi(html)
 											$(".bm_th").html(html);
 												layer.close(win)
 											});
