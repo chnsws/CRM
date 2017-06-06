@@ -62,7 +62,7 @@ class KehuController extends Controller {
 			}
 			$ywcs_wysend[$k]=$ywcs_wys;
 		}
-		//echo "<pre>";
+
 		//var_dump($ywcs_wysend);exit;
 		foreach($a_arr as $k2=>$v2){
 			if($v2['qy']=="1"){
