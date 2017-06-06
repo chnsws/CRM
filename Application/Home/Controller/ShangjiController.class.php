@@ -233,8 +233,8 @@ class ShangjiController extends Controller {
 								$table.="</td>";
 							}elseif($vzd['id']=="zdy2")
 							{
-								$table.="<td class='lxr'>";
-								$table.="<select name='".$vzd['id']."' class='required' style='width:300px;height:30px;'>";
+								$table.="<td >";
+								$table.="<select name='".$vzd['id']."' class='required lx_th' style='width:300px;height:30px;'>";
 										$table.="<option value=''>请先选择公司</option>";
 									$table.="</select>";	
 								$table.="</td>";
