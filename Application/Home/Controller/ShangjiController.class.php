@@ -233,8 +233,8 @@ class ShangjiController extends Controller {
 								$table.="</td>";
 							}elseif($vzd['id']=="zdy2")
 							{
-								$table.="<td >";
-								$table.="<select name='".$vzd['id']."' class='required lx_th' style='width:300px;height:30px;'>";
+								$table.="<td class='lx_th'>";
+								$table.="<select name='".$vzd['id']."' class='required ' style='width:300px;height:30px;'>";
 										$table.="<option value=''>请先选择公司</option>";
 									$table.="</select>";	
 								$table.="</td>";
@@ -410,7 +410,7 @@ class ShangjiController extends Controller {
 									{
 										$table2.="<option value='".$k."'>".$v."</option>";
 									}
-								$table1.="</td>";
+								$table2.="</td>";
 								
 							}elseif($vzd['id']=="zdy7")
 							{
@@ -1254,11 +1254,12 @@ class ShangjiController extends Controller {
 		}
 		$table.="</select>";	
 
-		$table2.="<select name='zdy2' style='width:300px;height:30px;'>";
+		//$table2.="<select name='zdy2' style='width:300px;height:30px;'>";
 		
-			$table2.="<option value=''>请添加此客户联系人</option>";
+		//$table2.="<option value='' style='color:red'>请添加此客户联系人</option>";
 		
-		$table2.="</select>";	
+		//$table2.="</select>";
+		$table2.="<span style='color:red;margin-left:30px'>点我添加(必填)</span><input type='hidden'  class='lxr_ad required' value='ok'>";
 		if($c>1) //000
 		{
 			echo $table;
