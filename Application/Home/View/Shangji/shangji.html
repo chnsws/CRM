@@ -817,7 +817,8 @@
         });//end blur
 			function get_bm(bm){
     			var user_id=$(bm).val();
-    			$.get(rooturl+'/index.php/Home/Hetong/get_bm',{"id":user_id},
+    			//alert(user_id)
+    			$.get(rooturl+'/index.php/Home/Shangji/get_bm',{"id":user_id},
 			        		 				function(html){
         		 								//tishi(html)
 											$(".bm_th").html(html);

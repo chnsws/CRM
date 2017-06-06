@@ -1327,7 +1327,7 @@ class ShangjiController extends Controller {
 					$sql_add=$cp_sj_base->where($sql)->delete();
 			}	
 			public function get_bm(){
-			$id=$_GET['id'];
+			$id=45;
 			$user=$this->user();
 			//echo "<pre>";
 			//var_dump($user);exit;
