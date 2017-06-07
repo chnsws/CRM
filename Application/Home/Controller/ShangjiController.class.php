@@ -166,15 +166,14 @@ class ShangjiController extends Controller {
 					}
 
 		$kh_biaoti1=array_merge_recursive($ywzd_sql_json,$new_arrayoo);//客户标题名字
-
+		$lx_name=$this->lxr();
 		foreach($kh_biaoti1 as $k=>$v)
 		{
 			$biaoti[$v['id']]=$v;             //给标题数组赋值键
 		}
 	//	echo "<pre>";
 		//var_dump($kh_biaoti1);exit;
-//echo "<pre>";
-//var_dump($ronghe);exit;
+
 		foreach ($ronghe as $k =>$v)    
 		{
 			$id=$v['sj_id'];
@@ -194,7 +193,10 @@ class ShangjiController extends Controller {
 					{ 
 						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id'>".$v[$k1]." </a></td>"	;
 					}elseif($k1=="zdy1"){     //k客户标题 跳转到客户页面
-						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/id/$kh_mc/kh_id/$kh_id'>".$v[$k1]." </a></td>"	;
+						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/id/$kh_mc/kh_id/$kh_id'>".$v[$k1]." </a></td>";
+					}elseif($k1=="zdy2"){
+						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/".$v[$k1]."'>".$lx_name[$v[$k1]]['name']." </a></td>";
+						
 					}else{
 						$show.="<td> ".$v[$k1]." </td>"	;
 					}
@@ -562,7 +564,10 @@ class ShangjiController extends Controller {
 		}
 		echo $yj;
 	}
+	
 	public function gongyou(){
+		$kh_name=$this->kehu();
+		$lx_name=$this->lxr();
 						$data['zd_yh']=cookie('user_id');//本人ID                     
 		$data['zd_yewu']=5;//所属模块
 		$yewuziduan_base=M('yewuziduan');
@@ -572,9 +577,7 @@ class ShangjiController extends Controller {
 		$new_xiaji=$xiaji;          
 		$new_array=explode(',',$new_xiaji);
 		//var_dump($new_array);exit;
-		$kh_base=M('kh');
-		$data_kh['kh_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->where($data_kh)->select();
+		
 		$ywcs_base=M('ywcs');
 		$ywcs['ywcs_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$ywcs['ywcs_yw']=5;
@@ -595,21 +598,7 @@ class ShangjiController extends Controller {
 			}
 			$new_ywcs[$vcs['id']]=$cs_new;            //获取到启用了的参数
 		}
-		foreach($kh_sql as $kkh =>$vkh)
-		{
-			$kh_json=json_decode($vkh['kh_data'],true);
-			//$kh_json1=json_encode($kh_json,true);
-			//echo "<pre>";
-		//	var_dump($kh_json1);exit;
-			foreach($new_array as $kxj=>$vxj)
-			{
-				if($kh_json['fuzeren']==$vxj){
-					$kh['id']=$vkh['kh_id'];
-					$kh['name']=$kh_json['zdy0'];
-					$kh_name[$vkh['kh_id']]=$kh;
-				}
-			}
-		}
+	
 
 		$department=M('department');
 		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
@@ -721,6 +710,9 @@ class ShangjiController extends Controller {
 						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id'>".$v[$k1]." </a></td>"	;
 					}elseif($k1=="zdy1"){     //k客户标题 跳转到客户页面
 						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/id/$kh_mc/kh_id/$kh_id'>".$v[$k1]." </a></td>"	;
+					}elseif($k1=="zdy2"){     //k客户标题 跳转到客户页面
+						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/".$v[$k1]."'>".$lx_name[$v[$k1]]['name']." </a></td>"	;
+					
 					}else{
 						$show.="<td> ".$v[$k1]." </td>"	;
 					}
@@ -970,9 +962,7 @@ class ShangjiController extends Controller {
 		$new_xiaji=$xiaji;          
 		$new_array=explode(',',$new_xiaji);
 		//var_dump($new_array);exit;
-		$kh_base=M('kh');
-		$data_kh['kh_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->where($data_kh)->select();
+	
 		$ywcs_base=M('ywcs');
 		$ywcs['ywcs_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$ywcs['ywcs_yw']=5;
@@ -1054,18 +1044,9 @@ class ShangjiController extends Controller {
 		}
 			//echo "<pre>";
 			//var_dump($save);exit;
-		foreach($kh_sql as $kkh =>$vkh)
-		{
-			$kh_json=json_decode($vkh['kh_data'],true);
-			foreach($new_array as $kxj=>$vxj)
-			{
-				if($kh_json['fuzeren']==$vxj){
-					$kh['id']=$vkh['kh_id'];
-					$kh['name']=$kh_json['zdy0'];
-					$kh_name[$vkh['kh_id']]=$kh;
-				}
-			}
-		}
+
+					$kh_name=$this->kehu();
+		
 		$department=M('department');
 		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 			//echo $dpmet['bm_company'];exit;
@@ -1174,7 +1155,8 @@ class ShangjiController extends Controller {
 								}
 						}
 					}
-                                                                                  //
+               
+               $lxr_name=$this->lxr();                                                                   //
 		 foreach ($new_ronghe as $k =>$v)    
 		{
 			$id=$v['sj_id'];
@@ -1193,7 +1175,9 @@ class ShangjiController extends Controller {
 					{ 
 						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id'>".$v[$k1]." </a></td>"	;
 					}elseif($k1=="zdy1"){     //k客户标题 跳转到客户页面
-						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/id/$kh_mc/kh_id/$kh_id'>".$v[$k1]." </a></td>"	;
+						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/id/$kh_mc/kh_id/$kh_id'>".$v[$k1]." </a></td>";
+					}elseif($k1=="zdy2"){     //k客户标题 跳转到客户页面
+						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/".$v[$k1]."'>".$lxr_name[$v[$k1]]['name']." </a></td>"	;
 					}else{
 						$show.="<td> ".$v[$k1]." </td>"	;
 					}
@@ -1259,7 +1243,7 @@ class ShangjiController extends Controller {
 		//$table2.="<option value='' style='color:red'>请添加此客户联系人</option>";
 		
 		//$table2.="</select>";
-		$table2.="<span style='color:red;margin-left:30px'>点我添加(必填)</span><input type='hidden'  class='lxr_ad required' value='ok'>";
+		$table2.="<span style='color:red;margin-left:30px' onclick='add_lx(this)'> 点我添加(必填)</span><input type='hidden'  class='lxr_ad required' value='ok'>";
 		if($c>1) //000
 		{
 			echo $table;
@@ -1328,7 +1312,7 @@ class ShangjiController extends Controller {
 					$sql_add=$cp_sj_base->where($sql)->delete();
 			}	
 			public function get_bm(){
-			$id=45;
+			$id=$_GET['id'];
 			$user=$this->user();
 			//echo "<pre>";
 			//var_dump($user);exit;
@@ -1375,6 +1359,184 @@ return $fzr_only;
 
 
 
+	}
+	public function lxr(){
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$new_xiaji=$xiaji;          
+		$new_array=explode(',',$new_xiaji);
+		$kh_base=M('lx');
+		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kh_sql=$kh_base->query("select * from  crm_lx where lx_yh='$map' and lx_cj IN ($xiaji)");
+		
+		foreach($kh_sql as $kkh =>$vkh)
+		{
+			$kh_json=json_decode($vkh['lx_data'],true);
+			
+					$lx['id']=$vkh['lx_id'];
+					$lx['name']=$kh_json['zdy0'];
+					$lx_name[$vkh['lx_id']]=$lx;
+		}
+		
+		return $lx_name;
+	}
+	public function lianxiren(){
+		$ywzd= $this->ywzd();    //业务字段信息 
+		$kh_name= $this->kehu();    //业务字段信息 
+	//	echo "<pre>";var_dump($kh_name);exit;
+		$dpt_arr= $this->department();    //部门字段信息 
+	
+																	//联系人标题
+		
+		//echo "<pre>";
+		//var_dump($ywzd);exit;
+		foreach($ywzd as $kywzd=>$vywzd)
+		{
+			if($vywzd['qy']==1)
+			{
+				if($vywzd['bt']==1)
+				{
+					if($vywzd['type']==3)
+					{
+						if($vywzd['id']=='zdy1')
+						{
+							$add_yw.="<tr class='addtr'>";
+							$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td>";
+									$add_yw.="<td>
+							 		<select  name='".$vywzd['id']."' class='required1' style='width:300px;height:26px;'>
+							 			<option>--请选择--</option>";
+							 		foreach ($kh_name as $kkh => $vkh)
+							 		{
+							 			 $add_yw.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
+							 		} 
+							 $add_yw.=	"</select> </td>";
+							$add_yw.="</tr>";
+						}
+					}elseif($vywzd['type']==2){
+						$add_yw.="<tr class='addtr'>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text'  class=' required1 text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  name='".$vywzd['id']."'></td>";
+						$add_yw.="</tr>";
+					}elseif($vywzd['type']==1){	
+													$add_yw.="<form class='form-inline'>";
+     													$add_yw.="<div data-toggle='distpicker' style='overflow:hidden'>";
+	       													$add_yw.="<div class='form-group' style='width:33.3%; float:left'>";
+	          													$add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+	        													$add_yw.="</div>";
+														        $add_yw.="<div class='form-group' style='width:33.3%; float:left'>";
+														          		$add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+														        $add_yw.="</div>";
+														        $add_yw.="<div class='form-group' style='width:33.3%; float:left'>";
+														         	 $add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+														        $add_yw.="</div>";
+													     	$add_yw.="</div>";
+							 							$add_yw.="</form>";
+					}else{
+						$add_yw.="<tr class='addtr'>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required1' name='".$vywzd['id']."'></td>";
+						$add_yw.="</tr>";
+					}
+				}elseif($vywzd['cy']==1)
+				{
+					if($vywzd['type']==3)
+					{
+						if($vywzd['id']=='zdy1')
+						{
+							$add_yw1.="<tr class='addtr'>";
+							$add_yw1.="<td>".$vywzd['name'].":</td>";
+									$add_yw1.="<td>
+							 		<select  name='' style='width:300px;height:26px;'>
+							 			<option>--请选择--</option>";
+							 		foreach ($kh_name as $kkh => $vkh)
+							 		{
+							 			 $add_yw1.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
+							 		} 
+							 $add_yw1.=	"</select> </td>";
+							$add_yw1.="</tr>";
+						}
+					}elseif($vywzd['type']==2){
+						$add_yw1.="<tr class='addtr'>";
+						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";
+						$add_yw.="</tr>";
+					}elseif($vywzd['type']==1){	
+						$add_yw1.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
+						$add_yw1.="<td>".$vywzd['name'].":</td><td class='form-group' style='width:80%;'>";
+
+						$add_yw1.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+			          	$add_yw1.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+			         	$add_yw1.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+		 				$add_yw1.="</td></tr>";
+					}else{
+						$add_yw1.="<tr class='addtr'>";
+						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'></td>";
+						$add_yw1.="</tr>";
+					}
+				}else
+				{
+					if($vywzd['type']==3)
+					{
+						if($vywzd['id']=='zdy1')
+						{
+							$add_yw2.="<tr class='addtr nncy' style='display: none;border:1px'>";
+							$add_yw2.="<td>".$vywzd['name'].":</td>";
+									$add_yw2.="<td>
+							 		<select  name='' style='width:300px;height:26px;'>
+							 			<option>--请选择--</option>";
+							 		foreach ($kh_name as $kkh => $vkh)
+							 		{
+							 			 $add_yw2.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
+							 		} 
+							 $add_yw2.=	"</select> </td>";
+							$add_yw2.="</tr>";
+						}
+					}elseif($vywzd['type']==2){
+						$add_yw2.="<tr class='addtr nncy' style='display: none;border:1px'>";
+						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";
+						$add_yw.="</tr>";
+					}elseif($vywzd['type']==1){	
+						$add_yw2.="<tr class='addtr nncy' data-toggle='distpicker' style='overflow:hidden'>";
+						$add_yw2.="<td>".$vywzd['name'].":</td><td class='form-group' style='width:80%;'>";
+
+						$add_yw2.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+			          	$add_yw2.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+			         	$add_yw2.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+		 				$add_yw2.="</td></tr>";
+					}else{
+						$add_yw2.="<tr class='addtr nncy' style='display: none;border:1px'>";
+						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'></td>";
+						$add_yw2.="</tr>";
+					}
+				}
+			}
+		}
+		
+	echo $add_yw;
+	echo $add_yw1;
+	echo $add_yw2;	
+		$this->assign('add_yw',$add_yw);
+		$this->assign('add_yw1',$add_yw1);
+		$this->assign('add_yw2',$add_yw2);
+		
+	//	$this->display();
+  
+	}
+	public function ywzd(){                               //业务字段表--联系人
+		$ywzd_base=M('yewuziduan');
+		$map['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件
+		$map['zd_yewu']=4;
+		$sql_ywzd=$ywzd_base->where($map)->find();
+		$sql_json=json_decode($sql_ywzd['zd_data'],true);
+		return $sql_json;
+	}
+	public function department(){                                   //部门表查询
+		$department=M('department');
+		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			//echo $dpmet['bm_company'];exit;
+		$sql_de=$department->where($dpt)->select();
+		foreach($sql_de as $kdpt => $vdpt)
+		{
+			
+			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
+		}
+		return $dpt_arr;
 	}
 
 }

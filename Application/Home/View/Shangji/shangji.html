@@ -14,12 +14,14 @@
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
 		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
 		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
+
 		<link href="{$_GET['public_dir']}/dataTable/css/dataTables.bootstrap.css" rel="stylesheet">
   		<link href="{$_GET['public_dir']}/bootstrap/css/bootstrap.css" rel="stylesheet">
 		<script src="{$_GET['public_dir']}/dataTable/js/jquery.dataTables.min.js" ></script>
-		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"'" ></script>
-		<script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js"'" ></script>
-		<script src="{$_GET['public_dir']}/dataTable/js/dataTables..js" ></script>
+		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
+		<script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js"></script>
+		<script src="{$_GET['public_dir']}/dataTable/js/dataTables.bootstrap.js" ></script>
+
 		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
 		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"'" ></script>
@@ -67,8 +69,9 @@
 			.anniudw{  position: relative;top: 14px;}
 			span a{margin-left:20px;}
 			.pl_bj{margin:0px auto;}
-				#nchangyong{margin-top:10px;margin-left:19%;}
-				.onError{color:red;}
+			#nchangyong{margin-top:10px;margin-left:19%;}
+			#nnchangyong{margin-top:10px;margin-left:19%;}
+			.onError{color:red;}
 			.onSuccess{color:green;}
 
 		</style>   
@@ -170,6 +173,16 @@
 						</div>
 		</div>
 	</div>
+	<div id="lxr" style="display: none;border:1px"> <!--新增商机 弹出框-->
+					<form name="" method="post" id="myform2" >
+						<table class="th_lxr addshangji_weizhi uk-form">
+							{$add_yw}
+							{$add_yw1}
+							{$add_yw2}
+						</table>
+					</form>
+					<div id="nnchangyong"  onselectstart='return false'><span style="color:blue">展开更多信息>></span></div>
+	</div>
 <div id="results"></div>
 	<div id="add_shangji" style="display: none;border:1px"> <!--新增商机 弹出框-->
 					<form name="" id="myform" method="post" class="uk-form"  >
@@ -178,7 +191,7 @@
 							{$add1}
 							{$add2}
 						<tr  class="addtr">
-								<td>负责人：</td>
+								<td><span style="color:red">*</span>负责人：</td>
 								 <td>
 								 	<select name="fuzeren" onchange='get_bm(this)' class ="clk_fzr required" style='width:300px;height:30px;'>
 								 		<option value="">请选择</option>
@@ -278,12 +291,14 @@
 					</form>
 
 					</div>
+
 	</body>
 	<script>
 		window.rooturl="{$_GET['root_dir']}";
 		$('#piliangzy').hide();
 		$(".yincang").hide()
 		$(".ncy").hide()
+		$(".nncy").hide()
 		$("#addcp").hide();
 		$(".hide_dpt").hide();
 	$("#add_shangji").hide();
@@ -362,7 +377,7 @@
 								content:$('#add_shangji'),
 								btn:['确认添加','取消'],
 								btn1:function(){
-									 $("form :input.required").trigger('blur');
+									 $("#add_shangji :input.required").trigger('blur');
              							 var numError = $('form .onError').length;
 		              				  if(numError){
 		              				  	 tishi('必填项不能为空')
@@ -804,31 +819,49 @@
 			        $(this).prop("name",'0');
 			    }
 			   })
-    		$('form table :input').blur(function(){
-			var $parent =$(this).parent();
-			$parent.find(".formtips").remove();
-			if( $(this).is('.required') ){
-				if(this.value==""){
-					var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#x1007;</i> ";
-					$parent.append('<span class="formtips onError">'+error+'</span>');
-				}else{
-					var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#xe616;</i> "
-					$parent.append('<span class="formtips onSuccess">'+error+'</span>');
-				}
+    		$("#nnchangyong").click(function(){         //控制 、筛选的隐藏与显示
+			    if($(this).prop("name")=='0'||$(this).prop("name")==undefined)
+			    {
+			        $(".nncy").show();
+			        $(this).html("<span style='color:blue'>收起>></span>");
+			        $(this).prop("name",'1');
+			    }
+			    else
+			    {
+			    	 $(".nncy").hide();
+			        $(this).html("<span style='color:blue'>展开更多信息>></span>");
+			        $(this).prop("name",'0');
+			    }
+			   })
+    		$('#add_shangji table :input').blur(function(){
+    		
+				var $parent =$(this).parent();
+				$parent.find(".formtips").remove();
+				if( $(this).is('.required') ){
+					if(this.value==""){
+						var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#x1007;</i> ";
+						$parent.append('<span class="formtips onError">'+error+'</span>');
+					}else{
+						var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#xe616;</i> "
+						$parent.append('<span class="formtips onSuccess">'+error+'</span>');
+					}
 
-			}
-		
-		}).keyup(function(){
-           $(this).triggerHandler("blur");
-        }).focus(function(){
-             $(this).triggerHandler("blur");
-        });//end blur
+				}
+			
+			}).keyup(function(){
+	           $(this).triggerHandler("blur");
+	        }).focus(function(){
+	             $(this).triggerHandler("blur");
+	        });//end blur
+				
+				
+				
 			function get_bm(bm){
     			var user_id=$(bm).val();
     			//tishi(us
     			$.get(rooturl+'/index.php/Home/Shangji/get_bm',{"id":user_id},
 			        		 				function(html){
-        		 								tishi(html)
+        		 								//tishi(html)
 											$(".bm_th").html(html);
 												layer.close(win)
 											});
@@ -838,6 +871,82 @@
 			    layer.msg(neirong, {
 			        time: 2000, 
 			    });
+			}
+			function add_lx(){
+				$.get(rooturl+'/index.php/Home/Shangji/lianxiren',{},
+			        		 				function(html){
+        		 								
+											$(".th_lxr").html(html);
+											$('#lxr table :input').blur(function(){
+									    	
+													var $parent =$(this).parent();
+													$parent.find(".formtips").remove();
+													if( $(this).is('.required1') ){
+														if(this.value==""){
+															var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#x1007;</i> ";
+															$parent.append('<span class="formtips onError">'+error+'</span>');
+														}else{
+															var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#xe616;</i> "
+															$parent.append('<span class="formtips onSuccess">'+error+'</span>');
+														}
+
+													}
+			
+														}).keyup(function(){
+												           $(this).triggerHandler("blur");
+												        }).focus(function(){
+												             $(this).triggerHandler("blur");
+												        });//end blur
+												layer.close(win)
+											});
+					layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area: ['630px', '600px'],
+								title: '新增联系人',
+								content:$('#lxr'),
+								btn:['确认添加','取消'],
+								btn1:function(){
+									 $("#lxr :input.required1").trigger('blur');
+			             				  var numError = $('form .onError').length;
+											
+			              				  if(numError){
+			              				  	tishi('必填项不能为空')
+					                   			 return false;
+					              		 	 } 
+									var formdom=$("#myform2").children("table").find("tr");
+									var fornum=formdom.length;
+									var ajaxstr='';
+									for(a=0;a<fornum;a++)
+									{
+										var thisdom=formdom.eq(a).find("td").eq(1).children();
+										if(thisdom.prop("name")=='zdy12[]')
+										{	//tishi(thisdom.prop("name"))
+											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
+										}else{
+											
+											ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+										}
+										
+									}
+									//tishi(ajaxstr)
+									$.get(rooturl+'/index.php/Home/Lianxiren/add',{"id":ajaxstr},
+							        		 function(html){
+									        		 tishi("添加成功")
+									        		$("#jb_bianji").html(html);
+									        		layer.close(win)
+							                   });
+
+								},
+								btn2:function(){
+									layer.close(win)
+									//addshangji()
+								}
+							}); 
+						});  
+
 			}
     	</script>
 </html>
