@@ -209,7 +209,7 @@ class LianxirenController extends Controller {
 							$add_yw.="<tr class='addtr'>";
 							$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td>";
 									$add_yw.="<td>
-							 		<select  name='".$vywzd['id']."' class='required' style='width:300px;height:26px;'>
+							 		<select  name='".$vywzd['id']."' class='required' style='width:300px;height:30px;'>
 							 			<option>--请选择--</option>";
 							 		foreach ($kh_name as $kkh => $vkh)
 							 		{
@@ -250,7 +250,7 @@ class LianxirenController extends Controller {
 							$add_yw1.="<tr class='addtr'>";
 							$add_yw1.="<td>".$vywzd['name'].":</td>";
 									$add_yw1.="<td>
-							 		<select  name='' style='width:300px;height:26px;'>
+							 		<select  name='' style='width:300px;height:30px;'>
 							 			<option>--请选择--</option>";
 							 		foreach ($kh_name as $kkh => $vkh)
 							 		{
@@ -285,7 +285,7 @@ class LianxirenController extends Controller {
 							$add_yw2.="<tr class='addtr ncy'>";
 							$add_yw2.="<td>".$vywzd['name'].":</td>";
 									$add_yw2.="<td>
-							 		<select  name='' style='width:300px;height:26px;'>
+							 		<select  name='' style='width:300px;height:30px;'>
 							 			<option>--请选择--</option>";
 							 		foreach ($kh_name as $kkh => $vkh)
 							 		{
