@@ -35,7 +35,16 @@ class HetongController extends Controller {
 		}
 
 		$fuzeren=M('user');
-		$map['user_act']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		if(cookie('user_fid')=='0')
+		{
+			$map['user_id']=$fid;
+		}
+		else
+		{
+			$map['user_fid']=$fid;
+		}
+
 	 	$fuzeren_sql=$fuzeren->where($map)->select();//缺少条件
 			foreach ($fuzeren_sql as $k=>$v)
 			{
@@ -52,8 +61,8 @@ class HetongController extends Controller {
 						
 				}
 			}  
-//echo "<pre>";
-//var_dump($fzr_only);exit;
+
+
 return $fzr_only;
 
 
@@ -637,6 +646,7 @@ public function kehu(){
 		//var_dump($user);exit;
 			$jw.="<input type='text' name='ht_department' disabled value='".$user[$id]['department']."' > ";
 			
+
 		echo $jw;
 	}
 	public function add_ht(){
