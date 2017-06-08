@@ -48,6 +48,13 @@
 		</script>
 	</head>
 	<body>
+	<div class="bianji"  style="display: none;border:1px;" >
+		    		<div class="bianji_nb" style="width:330px;margin:0 auto">
+		    			<form id="myform" class="uk-form">
+		    			{$show2}
+		    			</form>
+		    		</div>
+			   	</div>
 		<div style="margin:20px"><span style="font-size:22px;margin-right:10px">{$sql_rh.zdy0}</span>负责人：<span>{$fuzeren}</span></div>
 		<div style="margin-top:20px;margin-left:8px; height:50px" >
 	   		<button onclick="history.go(-1)"  class="layui-btn layui-btn-primary layui-btn-small">
@@ -61,7 +68,7 @@
 		  <ul>
 		    <li><a href="#tabs-1">基本信息</a></li>
 		    <li><a href="#tabs-2">联系人</a></li>
-		    <li><a href="#tabs-3">合同</a></li>
+		  
 		    <li><a href="#tabs-4">产品</a></li>
 		    <li><a href="#tabs-5">提醒</a></li>
 		    <li><a href="#tabs-6">附件</a></li>
@@ -102,13 +109,7 @@
 	  				</div>
 			   </div>
 			    <div class="clear"></div>
-			   	<div class="bianji"  style="display: none;border:1px;" >
-		    		<div class="bianji_nb" style="width:330px;margin:0 auto">
-		    			<form id="myform" class="uk-form">
-		    			{$show2}
-		    			</form>
-		    		</div>
-			   	</div>
+			   	
 		   </div>
 		  <div id="tabs-2">
 		  	<table class="layui-table" lay-skin="line">
@@ -137,12 +138,7 @@
 					</tbody>
 			 </table>
 		  </div>
-		  <div id="tabs-3">
-		 <p>   合同</p>
-		  <p>   合同</p>
-		   <p>   合同</p>
-		    <p>   合同</p> <p>   合同</p> <p>   合同</p> <p>   合同</p>
-		  </div>
+		 
 		  <div id="tabs-4">
 		   	<table class="layui-table" lay-skin="line">
 				  	<thead>

@@ -212,7 +212,8 @@ public function kehu(){
 		$kehu=$this->kehu();
 		$ywcs=$this->ywcs();
 		$shangji=$this->shangji();
-
+	//	echo "<pre>";
+	//	var_dump($shangji);exit;
 		//批量编辑
 		foreach($ywzd as $k=>$v)
 		{
@@ -543,7 +544,7 @@ public function kehu(){
 						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:blue' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
 						}
 					elseif($kbt=='zdy2')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/$v[$kbt]'><span style='color:blue' >".$v[$kbt]."".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:blue' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
 					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
 							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
 					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz')

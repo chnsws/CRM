@@ -28,6 +28,15 @@
 	<body style="position:relative">
 	<div style="margin:20px"><span style="font-size:22px;margin-right:10px">{$lx_json.zdy0}</span>客户：<span>{$kehu_nm}</span>
 	</div>
+	<div class="bianji"  style="display: none;border:1px;">
+		    		<div class="bianji_nb" style="width:330px;margin:0 auto">
+		    			<form id="myform" >
+			    			<table class="uk-form"> 
+			    				{$show3}
+			    			</table>
+		    			</form>
+		    		</div>
+			   	</div>
 		<div style="margin-top:20px;margin-left:8px; height:50px" >
 	   		<button onclick="history.go(-1)"  class="layui-btn layui-btn-primary layui-btn-small">
  				<i class="layui-icon">&#xe603;</i>返回</button>	
@@ -56,15 +65,7 @@
   					{$show1}
   					</table>
 				</div>
-				<div class="bianji"  style="display: none;border:1px;">
-		    		<div class="bianji_nb" style="width:330px;margin:0 auto">
-		    			<form id="myform" >
-			    			<table class="uk-form"> 
-			    				{$show3}
-			    			</table>
-		    			</form>
-		    		</div>
-			   	</div>
+				
 		</div>	  		
 		  <div id="tabs-2">
 					<table class="layui-table" lay-skin="line">
