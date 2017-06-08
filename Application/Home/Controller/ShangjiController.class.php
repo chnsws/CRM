@@ -1403,7 +1403,7 @@ return $fzr_only;
 							$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td>";
 									$add_yw.="<td>
 							 		<select  name='".$vywzd['id']."' class='required1' style='width:300px;height:26px;'>
-							 			<option>--请选择--</option>";
+							 			<option value=''>--请选择--</option>";
 							 		foreach ($kh_name as $kkh => $vkh)
 							 		{
 							 			 $add_yw.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
