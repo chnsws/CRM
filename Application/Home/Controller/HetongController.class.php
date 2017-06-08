@@ -232,7 +232,7 @@ public function kehu(){
 			$bj_tab.="<tr class=' yincang top_pl_bj' style='line-height:70px' id='wc".$v['id']."'><td>".$v['name'].":</td>";
 		
 				$bj_tab.="<td>";
-				$bj_tab.="<select id='".$v['id'].'wys'."'  style='width:260px;height:26px;'>";
+				$bj_tab.="<select id='".$v['id'].'wys'."'  style='width:300px;height:30px;'>";
 				foreach($ywcs[$v['id']] as $k=>$vv)
 				{
 						$bj_tab.="<option value='$k'>".$vv."</option>";
@@ -580,7 +580,7 @@ public function kehu(){
         $chanpin=$this->chanpin();
 			$chanpin1.="<tr  class='addtr'>";
 				$chanpin1.="<td><span style='color:red'>*</span>产品名称：</td>";
-					$chanpin1.="<td><select name='cp_id' onchange='cp_aj(this)' class ='clk_fzr' style='width:300px;height:26px;'>";
+					$chanpin1.="<td><select name='cp_id' onchange='cp_aj(this)' class ='clk_fzr' style='width:300px;height:30px;'>";
 							$chanpin1.="<option value='s'>请选择产品 </option>";
 					foreach ($chanpin as $k=>$v)
 					{
