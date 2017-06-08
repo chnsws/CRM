@@ -105,7 +105,7 @@ class KehuController extends Controller {
 						$show_bt.="<td><input type='text' name='".$v['id']."'  class='ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td></tr>";	
 				}elseif($v['id']=='zdy6'){
 					$show_bt.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
-					$show_bt.="<td><span style='color:red'>*</span".$v['name'].":</td><td class='form-group' style='width:80%;'>";
+					$show_bt.="<td><span style='color:red'>*</span>".$v['name'].":</td><td class='form-group' style='width:80%;'>";
 
 					$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
 		          	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
