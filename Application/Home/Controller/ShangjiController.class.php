@@ -1322,7 +1322,7 @@ class ShangjiController extends Controller {
 	}
 
 	public function user(){                 //负责人和部门
-		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$xiaji= $this->get_xiashu_id();// 
 		$new_xiaji=$xiaji;          
 		$new_array=explode(',',$new_xiaji);
 	 	$department=M('department');
@@ -1336,7 +1336,15 @@ class ShangjiController extends Controller {
 		}
 
 		$fuzeren=M('user');
-		$map['user_act']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		if(cookie('user_fid')=='0')
+		{
+			$map['user_id']=$fid;
+		}
+		else
+		{
+			$map['user_fid']=$fid;
+		}
 	 	$fuzeren_sql=$fuzeren->where($map)->select();//缺少条件
 			foreach ($fuzeren_sql as $k=>$v)
 			{
@@ -1452,7 +1460,6 @@ return $fzr_only;
 					}elseif($vywzd['type']==1){	
 						$add_yw1.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
 						$add_yw1.="<td>".$vywzd['name'].":</td><td class='form-group' style='width:80%;'>";
-
 						$add_yw1.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
 			          	$add_yw1.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
 			         	$add_yw1.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
