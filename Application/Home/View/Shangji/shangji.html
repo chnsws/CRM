@@ -24,10 +24,16 @@
 
 		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
-		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"'" ></script>
+		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
 		
-		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+		<link href="{$_GET['public_dir']}/diqu/css/main.css" rel="stylesheet">
+		<link href="{$_GET['public_dir']}/diqu/css/css/demo.css" rel="stylesheet">
+		<script src="{$_GET['public_dir']}/diqu/js/distpicker.data.js"></script>
+	    <script src="{$_GET['public_dir']}/diqu/js/distpicker.js"></script>
+	    <script src="{$_GET['public_dir']}/diqu/js/main.js"></script>
+
+	    <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
 		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
 		<style>
 
@@ -875,7 +881,10 @@
 			function add_lx(){
 				$.get(rooturl+'/index.php/Home/Shangji/lianxiren',{},
 			        		 				function(html){
-        		 								
+			        		 					$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.js");
+		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/main.js");
+		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.data.js");
+		
 											$(".th_lxr").html(html);
 											$('#lxr table :input').blur(function(){
 									    	

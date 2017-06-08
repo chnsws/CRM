@@ -223,19 +223,13 @@ class LianxirenController extends Controller {
 						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text'  class=' required text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  name='".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
 					}elseif($vywzd['type']==1){	
-													$add_yw.="<form class='form-inline'>";
-     													$add_yw.="<div data-toggle='distpicker' style='overflow:hidden'>";
-	       													$add_yw.="<div class='form-group' style='width:33.3%; float:left'>";
-	          													$add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
-	        													$add_yw.="</div>";
-														        $add_yw.="<div class='form-group' style='width:33.3%; float:left'>";
-														          		$add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
-														        $add_yw.="</div>";
-														        $add_yw.="<div class='form-group' style='width:33.3%; float:left'>";
-														         	 $add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
-														        $add_yw.="</div>";
-													     	$add_yw.="</div>";
-							 							$add_yw.="</form>";
+						$add_yw.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td><td class='form-group' style='width:80%;'>";
+
+						$add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+			          	$add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+			         	$add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
+		 				$add_yw.="</td></tr>";
 					}else{
 						$add_yw.="<tr class='addtr'>";
 						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required' name='".$vywzd['id']."'></td>";
