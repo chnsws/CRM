@@ -670,7 +670,7 @@ $(".sxzddiv").children("span").click(function(){
 		}
 		if(title=="zdy12")
 		{
-			$(".six").text(tex);
+			$(".six").text(tex); //23
 		}
 	$.get(rooturl+'/index.php/Home/Kehu/shaixuan',{"id":id},
 							        		 function(html){
@@ -690,8 +690,8 @@ function add_yh()
 
 					type:1,
 					offset: 't',
-				//	area:'630px',
-					area: ['630px', '700px'],
+				area:'630px',
+				
 					title: '新增客户',
 					content:$('#dialog-form'),
 					btn:['确认添加','取消'],
