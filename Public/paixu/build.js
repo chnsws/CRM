@@ -58,7 +58,7 @@
 	(0, _index2.default)(document.querySelector('#paixu_lianxiren'), { mode: 'row', onlyBody: true });
 	(0, _index2.default)(document.querySelector('#paixu_shangji'), { mode: 'row', onlyBody: true });
 	(0, _index2.default)(document.querySelector('#paixu_hetong'), { mode: 'row', onlyBody: true });
-	(0, _index2.default)(document.querySelector('#paixu_chanpin'), { mode: 'row', onlyBody: true });
+	//(0, _index2.default)(document.querySelector('#paixu_chanpin'), { mode: 'row', onlyBody: true });
 	(0, _index2.default)(document.querySelector('#handle-table'), { dragHandler: '.handle' });
 	(0, _index2.default)(document.querySelector('#free-table'), { mode: 'free', dragHandler: '.handle', onlyBody: true });
 	(0, _index2.default)(document.querySelector('#event-table'), { mode: 'free', dragHandler: '.handle', onlyBody: true }).on('drag', function () {

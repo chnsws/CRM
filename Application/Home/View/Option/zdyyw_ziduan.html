@@ -17,10 +17,15 @@
     <!--layUI 插件 --弹窗设计 form表单样式 -->
     <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
     <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <!--UIkit-->
+    <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+    <script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+     <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/accordion.css" />
+     <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/sortable.css" />
     <style>
         *{margin:0;padding:0;}
         #box div{overflow:hidden;}
-        a{text-decoration:none;cursor:pointer;}
+        a{text-decoration:none;cursor:pointer;color:#333;}
         ul{list-style:none;}
         #box{margin-left:10px;margin-right:10px;}
         
@@ -37,6 +42,10 @@
         #hid_table tr{height:70px;}
         .hid_tab_left{font-weight:bold;width:100px;}
         .teshu{color:#656565;margin-left:10px;}
+        /*产品分类模块的独立样式*/
+        .uk-accordion-title{font-size:14px;height:40px;line-height:40px;font-weight: bold;background: #f9f9f9;border:1px solid #ccc;border-left: 5px solid #1AA094;}
+        #cpfl_list table thead{background:#F2F2F2;border:1px solid #E2E2E2;}
+        #cpfl_list table thead th{text-align: center;}
     </style>
 </head>
 
@@ -148,6 +157,12 @@
                 </div>
                 <!--产品-->
                 <div class="layui-tab-item">
+                        <div class="uk-accordion" id="cpfl_list" data-uk-accordion="{collapse: false}">
+
+                            
+
+                        </div>
+                    <!--
                     <button onclick="xinzeng('chanpin')" class="layui-btn">新增字段</button>
                     <table class="layui-table" lay-skin="line" id="paixu_chanpin">
                         <thead>
@@ -161,6 +176,7 @@
                         <tbody class="paixu_tbody">
                         </tbody>
                     </table>
+                    -->
                 </div>
             </div>
         </div>
@@ -193,19 +209,30 @@
     window.load_hetong='0';
     window.load_chanpin='0';
 
+    window.tuozhuai_fl='';
     $("#hid_table").hide();
     //上方绿色提示框的关闭效果
     function hidden_div(){
         $("#mod1").hide();
     }
 
-
+ 
     if(pageinfo!='')
     {
+        
         $("#lipaixu_xiansuo").attr("class",'');
         $("#li"+pageinfo).attr("class","layui-this");
         $("#paixu_xiansuo").parent().removeClass("layui-show");
-        $("#"+pageinfo).parent().addClass("layui-show");
+        if(pageinfo=="paixu_chanpin")
+        {
+            $("#cpfl_list").parent().addClass("layui-show");
+        }
+        else
+        {
+            $("#"+pageinfo).parent().addClass("layui-show");
+        }
+        
+        //alert(pageinfo)
         window.nowpage=pageinfo;
         loadpage(pageinfo);
     }
@@ -268,6 +295,7 @@
         loadpage(pageid);
     }
     //新增字段按钮
+    var xz_is_click=0;
     function xinzeng(mod)
     {
         $("#newzdname").val('');
@@ -280,6 +308,14 @@
                 content: $("#hid_table"),
                 btn: '保存',
                 btn1: function(index, layero){
+                        if(xz_is_click!=0)
+                        {
+                            return;
+                        }
+                        xz_is_click=1;
+                        setTimeout(function() {
+                            xz_is_click=0;
+                        }, 3000);
                         var newzdname=$("#newzdname").val();
                         if(newzdname=='')
                         {
@@ -296,7 +332,16 @@
                             tishi("字段名只能由中文、字母、数字和下划线组成");
                             return false;
                         }
-                        $.get(root_dir+"/index.php/Home/YewuziduanDo/addziduan",{"thispage":nowpage,"ziduanname":newzdname},function(res){
+                        var jsondata={"thispage":nowpage,"ziduanname":newzdname};
+                        if(nowpage=="paixu_chanpin")
+                        {
+                            var thisflid='7,'+$(mod).next().children("tbody").prop("id").substr(14);
+                            thisflname=$(mod).parent().parent().prev().text();
+                            jsondata={"thispage":thisflid,"ziduanname":newzdname,"thisflname":thisflname};
+                        }
+                        window.jiazai= layer.load(2);
+                        $.get(root_dir+"/index.php/Home/YewuziduanDo/addziduan",jsondata,function(res){
+                            layer.close(jiazai);
                             if(res=='1')
                             {
                                 window.location=root_dir+"/index.php/Home/Option/zdyyw_ziduan?page="+nowpage;
@@ -319,17 +364,19 @@
         });
     }
     //点击编辑事件
-    function bianji(thisid,candel)
+    function bianji(thisid,candel,fl_id)
     {
-        var oldname=$("#"+nowpage).find("#"+thisid).children("td").eq(1).text();
+        
+        var oldname=nowpage=='paixu_chanpin'?$("#tbody_chanpin_"+fl_id).children("#"+thisid).children("td").eq(1).text():$("#"+nowpage).find("#"+thisid).children("td").eq(1).text();
+        var flname=nowpage=='paixu_chanpin'?$("#tbody_chanpin_"+fl_id).parent().parent().parent().prev().text():'';
         $("#newzdname").val(oldname);
         if(candel=='1')
         {
-            var btnarr=['保存','删除'];
+            var btnarr=['保存','删除','取消'];
         }
         else
         {
-            var btnarr='保存';
+            var btnarr=['保存','取消'];
         }
         layui.use('layer', function(){
             var layer = layui.layer;
@@ -341,27 +388,60 @@
                 btn: btnarr,
                 btn1: function(index, layero){
                         var newname=$("#newzdname").val();
+                        if(newname=='')
+                        {
+                            tishi("字段名不能为空");
+                            return false;
+                        }
                         if(newname==oldname)
                         {
-                            tishi("修改成功")
+                            tishi("修改成功");
                             layer.close(index); 
                             return false;
                         }
-                        $.get(root_dir+"/index.php/Home/YewuziduanDo/changename",{"nowpage":nowpage,"newname":newname,"changeid":thisid},function(res){
+                        var nowpage2=nowpage;
+                        nowpage=nowpage=="paixu_chanpin"?'7,'+fl_id:nowpage;
+                        $.get(root_dir+"/index.php/Home/YewuziduanDo/changename",{"nowpage":nowpage,"newname":newname,"changeid":thisid,"flname":flname},function(res){
+                            nowpage=nowpage2;
+                            if(nowpage=="paixu_chanpin")
+                            {
+                                $("#tbody_chanpin_"+fl_id).children("#"+thisid).children("td").eq(1).text(newname);
+                            }
+                            else
+                            {
+                                $("#"+nowpage).find("#"+thisid).children("td").eq(1).text(newname);
+                            }
+                            tishi("修改成功");
                         });
-                        $("#"+nowpage).find("#"+thisid).children("td").eq(1).text(newname);
-                        tishi("修改成功")
-                        layer.close(index);   
+                        layer.close(index); 
                     },
                 btn2:function(index,layero){
+                    if(candel!='1')
+                    {
+                        layer.close(index);
+                        return false;
+                    }
                     var delts=layer.msg('确认删除字段‘'+oldname+'’？删除后将无法恢复。', {
                         time: 2000000, //20s后自动关闭
                         btn: ['确认删除', '取消'],
                         btn1: function(){
                             //加载层
                             window.jiazai= layer.load(2);
-                            $.get(root_dir+"/index.php/Home/YewuziduanDo/delzd",{"nowpage":nowpage,"changeid":thisid},function(res){
-                                $("tr[id='"+thisid+"']").hide();
+                            var nowpage2=nowpage;
+                            nowpage=nowpage=="paixu_chanpin"?'7,'+fl_id:nowpage;
+                            $.get(root_dir+"/index.php/Home/YewuziduanDo/delzd",{"nowpage":nowpage,"changeid":thisid,"flname":flname},function(res){
+                                nowpage=nowpage2;
+                                if(nowpage=="paixu_chanpin")
+                                {
+                                    $("#tbody_chanpin_"+fl_id).children("tr[id='"+thisid+"']").remove();
+                                    window.tuozhuai_fl=fl_id;
+                                    getshunxu();
+                                }
+                                else
+                                {
+                                    $("#"+nowpage).find("tr[id='"+thisid+"']").remove();
+                                }
+                                
                                 layer.close(jiazai);
                             });
                             layer.close(delts);
@@ -370,6 +450,10 @@
                             layer.close(delts);
                         }
                     });
+                },
+                btn3:function(index,layero)
+                {
+                    layer.close(index);
                 }
             });
         });
@@ -382,6 +466,8 @@
         $(".tuozhuaiclass").on({
             //当鼠标按下时，将鼠标值改为1（标记鼠标已经按下）
             mousedown:function(){
+                //alert($(this).parent().parent().prop("id"));
+                window.tuozhuai_fl=$(this).parent().parent().prop("id").substr(14);
                 mouseval='1';
                 $(".tuozhuaiclass").on({
                     mousemove:function(){
@@ -412,13 +498,42 @@
     function getshunxu()
     {
         var shunxu='';
-         $("#"+nowpage).find("tr").each(function(){
-             if($(this).attr("id")!=undefined)
-             {
-                shunxu+=$(this).attr("id")+',';  
-             }
-        });
+        var nowpage2=nowpage;
+        if(nowpage=="paixu_chanpin")
+        {
+            /*
+            $("#cpfl_list").find("table").each(function(){
+                var this_fl_id=$(this).children("tbody").prop("id").substr(14);
+                shunxu+=this_fl_id+":";
+                $(this).children("tbody").find("tr").each(function(){
+                    if($(this).attr("id")!=undefined)
+                    {
+                        shunxu+=$(this).attr("id")+',';  
+                    }
+                });
+                shunxu=shunxu.substr(0,shunxu.length-1);
+                shunxu+="|";
+            });
+            */
+            nowpage='7,'+window.tuozhuai_fl;
+            $("#tbody_chanpin_"+window.tuozhuai_fl).find("tr").each(function(){
+                if($(this).attr("id")!=undefined)
+                {
+                    shunxu+=$(this).attr("id")+',';  
+                }
+            });
+        }
+        else
+        {
+            $("#"+nowpage).find("tr").each(function(){
+                if($(this).attr("id")!=undefined)
+                {
+                    shunxu+=$(this).attr("id")+',';  
+                }
+            });
+        }
         $.post(root_dir+"/index.php/Home/YewuziduanDo/paixu",{"thispage":nowpage,"shunxu":shunxu},function(res){
+            //alert(res);
             if(res=='1')
             {
                 
@@ -431,6 +546,7 @@
             {
                 tishi("修改排序失败，请刷新后重试");
             }
+            nowpage=nowpage2;
         });
         layer.close(jiazai);
     }
@@ -443,7 +559,16 @@
             window.jiazai= layer.load(2);
             var changeval=$(this).prop('checked');
             var changename=$(this).attr("name");
-            $.get(root_dir+"/index.php/Home/YewuziduanDo/changecheckbox",{"nowpage":nowpage,"changeval":changeval,"changename":changename},function(res){
+            var thisflname='';
+            var nowpage2=nowpage;
+            if(nowpage=="paixu_chanpin")
+            {
+                //获取分类产品id
+                var thisflid=$(this).parent().parent().parent().prop("id").substr(14);
+                nowpage='7,'+thisflid;
+                thisflname=$(this).parent().parent().parent().parent().parent().parent().prev().text();
+            }
+            $.get(root_dir+"/index.php/Home/YewuziduanDo/changecheckbox",{"nowpage":nowpage,"changeval":changeval,"changename":changename,"thisflname":thisflname},function(res){
                 if(res=='1')
                 {
                     
@@ -457,6 +582,7 @@
                     tishi("修改失败，请刷新后重试");
                 }
             });
+            nowpage=nowpage2;
             layer.close(jiazai);
         });
     }
@@ -464,36 +590,66 @@
     //动态加载页面
     function loadpage(pageid)
     {
-        $.get(root_dir+"/index.php/Home/YewuziduanDo/loadpage",{"thispage":pageid},function(res){
-            $("#"+pageid).children(".paixu_tbody").html(res);
-            loadScript();
-            tuozhuai();
-            changecheckboxfun();
-            layer.close(jiazai);
-        });
-        if(pageid=='paixu_xiansuo')
-        {
-            load_xiansuo='1';
-        }
-        if(pageid=='paixu_kehu')
-        {
-            load_kehu='1';
-        }
-        if(pageid=='paixu_lianxiren')
-        {
-            load_lianxiren='1';
-        }
-        if(pageid=='paixu_shangji')
-        {
-            load_shangji='1';
-        }
-        if(pageid=='paixu_hetong')
-        {
-            load_hetong='1';
-        }
+        //对产品页面进行特殊处理
         if(pageid=='paixu_chanpin')
         {
-            load_chanpin='1';
+            $.post(root_dir+"/index.php/Home/YewuziduanDo/zd_for_chanpin",function(res){
+                setTimeout(function() {
+                    $("#cpfl_list").html(res);
+                    $.getScript("{$_GET['public_dir']}/uikit/js/components/sortable.js");
+                    $.getScript("{$_GET['public_dir']}/uikit/js/components/accordion.js");
+                    //alert($("#cpfl_list").find("tbody").length);
+                    $("#cpfl_list").find("table").each(function(){
+                        $(this).css("margin-top","20px");
+                        var thistabledom=$(this);
+                        $(this).children("thead").children("tr").children("th").each(function(){
+                            var this_th_width=$(this).css("width");
+                            var this_th_height=$(this).css("height");
+                            var this_th_index=$(this).index();
+                            thistabledom.children("tbody").find("tr").each(function(){
+                                $(this).css({"border":"1px solid #E2E2E2","border-right":"none","border-left":"none"});
+                                //alert($(this).css("width"))
+                                $(this).children("td").eq(this_th_index).css({"width":this_th_width,"height":this_th_height,"text-align":"center","background":"#fff","line-height":"50px"});
+                            });
+                        });
+                    });
+                    tuozhuai();
+                    changecheckboxfun();
+                    //alert(res)
+                    layer.close(window.jiazai);
+                    load_chanpin='1';
+                }, 100);
+            });
+        }
+        else
+        {
+            $.get(root_dir+"/index.php/Home/YewuziduanDo/loadpage",{"thispage":pageid},function(res){
+                $("#"+pageid).children(".paixu_tbody").html(res);
+                loadScript();
+                tuozhuai();
+                changecheckboxfun();
+                layer.close(jiazai);
+            });
+            if(pageid=='paixu_xiansuo')
+            {
+                load_xiansuo='1';
+            }
+            if(pageid=='paixu_kehu')
+            {
+                load_kehu='1';
+            }
+            if(pageid=='paixu_lianxiren')
+            {
+                load_lianxiren='1';
+            }
+            if(pageid=='paixu_shangji')
+            {
+                load_shangji='1';
+            }
+            if(pageid=='paixu_hetong')
+            {
+                load_hetong='1';
+            }
         }
     }
     // 动态加载js脚本文件

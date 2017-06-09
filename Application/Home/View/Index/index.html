@@ -163,8 +163,8 @@ layui.config({
 	//渲染navbar
 	navbar.render();
 	$(".layui-nav-tree").children("li").eq(-2).css("margin-bottom","45px")
-	//$(".layui-nav-tree").children("li").eq(0).addClass("layui-this");
-	$(".layui-nav-tree").children("li").last().css({"position":"fixed","bottom":"0px","width":"160px","background-color":"#393D49"});
+	$(".layui-nav-tree").children("li").last().css({"position":"fixed","bottom":"0px","width":"160px"});
+	$(".layui-nav-tree").children("li").last().children("a").css({"background":"#1AA094","color":"#fff"});
 	$(".layui-nav-tree").children("li").last().children("a").css("width","160px");
 	var lastclick=0;
 	var shouqidom;

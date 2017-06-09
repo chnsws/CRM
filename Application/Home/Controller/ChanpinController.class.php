@@ -11,14 +11,34 @@ class ChanpinController extends Controller {
 			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
 			die();
 		}
+		$get_flid=addslashes($_GET['flid']);
+		$page=addslashes($_GET['page']);
+		if($get_flid=='')
+		{
+			//不允许没有产品分类id
+			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Cpfl/cpfl_index'</script>";
+			die;
+		}
+		//分页
+		$page=$page?$page:1;//当前页
+		$page_size=10;//每页显示多少条
+		$page_limit_head=$page==1?0:($page-1)*10;//sql中的开始页
+		$page_limit=str_replace(',','',number_format($page_limit_head)).','.str_replace(',','',number_format($page_size));//sql语句中的limit值
+
+
+		//echo $page_limit;die;
+		//echo "<script>alert(".$_GET['flid'].")</script>";
         $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
         //产品分类表操作
 		$cpflbase=M("chanpinfenlei");
 		$cpflarr=$cpflbase->query("select * from crm_chanpinfenlei where cpfl_company='$fid' ");
+		$cpfloption="<option value='0'>选择产品分类</option>";//添加产品时的产品分类下拉框
 		foreach($cpflarr as $cpflarrKey=>$cpflarrVal)//格式化产品分类分级
 		{
 			$bumenNewArr[$cpflarrVal['cpfl_id']]=array("cpfl_name"=>$cpflarrVal['cpfl_name'],"cpfl_fid"=>$cpflarrVal['cpfl_fid']);
 			$flidlist.="<tr><td>".$cpflarrVal['cpfl_name']."</td><td>".$cpflarrVal['cpfl_id']."</td></tr>";
+			
+			$cpfloption.="<option value='".$cpflarrVal['cpfl_id']."'>".$cpflarrVal['cpfl_name']."</option>";
 		}
 		//产品分类遍历排序
 		foreach($bumenNewArr as $bmNewKey=>$bmNewVal)
@@ -62,36 +82,36 @@ class ChanpinController extends Controller {
 				}
 			}
 		}
-        $cpfloption="<option value='0'>选择产品分类</option>";
+        //$cpfloption="<option value='0'>选择产品分类</option>";
 		//生成部门结构HTML
 		foreach($bmLvArr as $k=>$v)
 		{
 			$bmList.="<li class='lv1 lv-on' id='id".$k."' value='1' name='1'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$v['cpfl_name']."</span><span class='right-span'><a style='margin-right:5px;'  onclick='cpfldel(".$k.")'><i class='fa fa-trash-o' aria-hidden='true'></i></a><a style='margin-right:5px;'  onclick='cpfledit(".$k.")'><i class='fa fa-pencil' aria-hidden='true'></i></a><a style='margin-right:5px;' onclick='cpfladd(".$k.")'><i class='fa fa-plus' aria-hidden='true'></i></a><a style='margin-right:5px;' onclick='cpflshowlist(".$k.")'><i class='fa fa-reorder' aria-hidden='true'></i></a></span></li>";
-            $cpfloption.="<option value='".$k."'>".$v['cpfl_name']."</option>";
+            //$cpfloption.="<option value='".$k."'>".$v['cpfl_name']."</option>";
 			if(count($v['lv2'])>0)
 			{
 				foreach($v['lv2'] as $lv2k=>$lv2v)
 				{
 					$bmList.="<li class='lv2 lv-on lv1".$k."' id='id".$lv2k."' value='1' name='2'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$lv2v['cpfl_name']."</span><span class='right-span'><a style='margin-right:5px;'  onclick='cpfldel(".$lv2k.")'><i class='fa fa-trash-o' aria-hidden='true'></i></a><a style='margin-right:5px;'  onclick='cpfledit(".$lv2k.")'><i class='fa fa-pencil' aria-hidden='true'></i></a><a style='margin-right:5px;' onclick='cpfladd(".$lv2k.")'><i class='fa fa-plus' aria-hidden='true'></i></a><a style='margin-right:5px;' onclick='cpflshowlist(".$lv2k.")'><i class='fa fa-reorder' aria-hidden='true'></i></a></span></li>";
-                    $cpfloption.="<option value='".$lv2k."'>&nbsp;&nbsp;&nbsp;".$lv2v['cpfl_name']."</option>";
+                    //$cpfloption.="<option value='".$lv2k."'>&nbsp;&nbsp;&nbsp;".$lv2v['cpfl_name']."</option>";
 					if(count($lv2v['lv3'])>0)
 					{
 						foreach($lv2v['lv3'] as $lv3k=>$lv3v)
 						{
 							$bmList.="<li class='lv3 lv-on lv2".$lv2k." lv1".$k."' id='id".$lv3k."' value='1' name='3'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$lv3v['cpfl_name']."</span><span class='right-span'><a style='margin-right:5px;'  onclick='cpfldel(".$lv3k.")'><i class='fa fa-trash-o' aria-hidden='true'></i></a><a style='margin-right:5px;'  onclick='cpfledit(".$lv3k.")'><i class='fa fa-pencil' aria-hidden='true'></i></a><a style='margin-right:5px;' onclick='cpfladd(".$lv3k.")'><i class='fa fa-plus' aria-hidden='true'></i></a><a style='margin-right:5px;' onclick='cpflshowlist(".$lv3k.")'><i class='fa fa-reorder' aria-hidden='true'></i></a></span></li>";
-                            $cpfloption.="<option value='".$lv3k."'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$lv3v['cpfl_name']."</option>";
+                            //$cpfloption.="<option value='".$lv3k."'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$lv3v['cpfl_name']."</option>";
 							if(count($lv3v['lv4'])>0)
 							{
 								foreach($lv3v['lv4'] as $lv4k=>$lv4v)
 								{
 									$bmList.="<li class='lv4 lv-on lv3".$lv3k." lv2".$lv2k." lv1".$k."' id='id".$lv4k."' value='1' name='4'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$lv4v['cpfl_name']."</span><span class='right-span'><a style='margin-right:5px;'  onclick='cpfldel(".$lv4k.")'><i class='fa fa-trash-o' aria-hidden='true'></i></a><a style='margin-right:5px;'  onclick='cpfledit(".$lv4k.")'><i class='fa fa-pencil' aria-hidden='true'></i></a><a style='margin-right:5px;' onclick='cpfladd(".$lv4k.")'><i class='fa fa-plus' aria-hidden='true'></i></a><a style='margin-right:5px;' onclick='cpflshowlist(".$lv4k.")'><i class='fa fa-reorder' aria-hidden='true'></i></a></span></li>";
-                                    $cpfloption.="<option value='".$lv4k."'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$lv4v['cpfl_name']."</option>";
+                                    //$cpfloption.="<option value='".$lv4k."'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$lv4v['cpfl_name']."</option>";
 									if(count($lv4v['lv5'])>0)
 									{
 										foreach($lv4v['lv5'] as $lv5k=>$lv5v)
 										{
 											$bmList.="<li class='lv5 lv-on lv4".$lv4k." lv3".$lv3k." lv2".$lv2k." lv1".$k."' id='id".$lv5k."' value='1' name='5'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$lv5v['cpfl_name']."</span><span class='right-span'><a style='margin-right:5px;'  onclick='cpfldel(".$lv5k.")'><i class='fa fa-trash-o' aria-hidden='true'></i></a><a style='margin-right:5px;'  onclick='cpfledit(".$lv5k.")'><i class='fa fa-pencil' aria-hidden='true'></i></a><a style='margin-right:5px;' onclick='cpflshowlist(".$lv5k.")'><i class='fa fa-reorder' aria-hidden='true'></i></a></span></li>";
-                                            $cpfloption.="<option value='".$lv5k."'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$lv5v['cpfl_name']."</option>";
+                                            //$cpfloption.="<option value='".$lv5k."'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$lv5v['cpfl_name']."</option>";
 										}
 									}
 								}
@@ -103,16 +123,19 @@ class ChanpinController extends Controller {
 		}
 		//查询自定义字段中的值，用于添加表单
 		$zdbase=M("yewuziduan");
-		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid'  and  zd_yewu='7' limit 1");
+		$get_yewu='7,'.$get_flid;
+		//echo $get_yewu;die;
+		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid'  and  zd_yewu='$get_yewu' limit 1");
 		$zdjsonstr=$zdarr[0]['zd_data'];
 		$zdarr=json_decode($zdjsonstr,true);
 
 		$cydiv="<div id='add_cy_div'><table>";//常用div
-		$ncydiv="<div id='add_yc_body'><table>";//不常用div（隐藏）
+		$ncydiv="<div id='add_yc_body' style='display:none;'><table>";//不常用div（隐藏）
 		$redstarspan="<span class='redstart'>*</span>";//红色星星（必填）
+
 		//系统规定的字段
 		$old_zd_arr=array(
-			"zdy6"=>"<select id='addflsel' name='zdy6'>".$cpfloption."</select>",
+			"zdy6"=>"<select id='addflsel'  name='zdy6'>".$cpfloption."</select>",
 			"zdy7"=>"<input type='file' name='cpimage' lay-type='images' class='layui-upload-file' id='imm'  /></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' src='' style='margin-bottom: 10px;'>",
 			"zdy8"=>"<textarea id='cp_jieshao' name='zdy8'></textarea>"
 		);
@@ -125,6 +148,7 @@ class ChanpinController extends Controller {
 		$pzbase=M("config");
 		$pzarr=$pzbase->query("select config_cp_table_data from crm_config where config_name='".cookie("user_id")."' limit 1");
 		$pzarr=json_decode($pzarr[0]['config_cp_table_data'],true);
+		$pzarr=$pzarr[$get_flid];
 		foreach($pzarr as $k=>$v)
 		{
 			$pzarr[$v]=1;
@@ -201,7 +225,20 @@ class ChanpinController extends Controller {
 		//==表单查询模块结束
 		//开始产品列表查询
 		$cpbase=M("chanpin");
-		$cparr=$cpbase->query("select * from crm_chanpin where cp_yh='$fid' and cp_del='0' order by cp_id desc");
+		//搜索内容
+		$is_search=addslashes($_GET['searchInfo']);
+		$sea_arr=explode(',',$is_search);
+		$sea_arr[1]=substr(json_encode($sea_arr[1]),1,-1);
+
+		$search_tj=$is_search==''?'':' and cp_data like \'%"'.$sea_arr[0].'":"'.$sea_arr[1].'"%\' ';//搜索内容结束
+		$getfl=$_GET['flid']?"and cp_data like '%\"zdy6\":\"".$_GET['flid']."\"%'  $search_tj ":'';
+		//echo "select * from crm_chanpin where cp_yh='$fid'  $getfl  and cp_del='0' order by cp_id desc limit $page_limit ";die;
+		//分页参数中-应该分几页
+		$page_max_page=$cpbase->query("select count(cp_id) from crm_chanpin where cp_yh='$fid'  $getfl  and cp_del='0' ");
+		$page_max_page=$page_max_page[0]['count(cp_id)'];
+		$page_max_page=$page_max_page<=10?1:ceil($page_max_page/10);
+		//开始查询产品
+		$cparr=$cpbase->query("select * from crm_chanpin where cp_yh='$fid'  $getfl  and cp_del='0' order by cp_id desc limit $page_limit ");
 		if(count($cparr)>0)
 		{
 			$cpliststr='';
@@ -277,8 +314,8 @@ class ChanpinController extends Controller {
 		}
 		else
 		{
-			$thnum=$thnum+2;
-			$cplist="<tr><td colspan=".$thnum." style='color:#666;height:100px;'><center>暂无产品数据，现在<span class='link_span' onclick='cp_add()'>添加</span>一条试试吧</center></td></tr>";
+			$thnum=$thnum+3;
+			$cplist="<tr><td colspan=".$thnum." style='color:#666;height:100px;border:none;'><center>暂无产品数据，现在<span class='link_span' onclick='cp_add()'>添加</span>一条试试吧</center></td></tr>";
 		}
 		//筛选模块开始
 		$sxbase=M("shaixuan");
@@ -347,6 +384,7 @@ class ChanpinController extends Controller {
 		$this->assign("pxdiv",$pxdiv);		
 		$this->assign("cplist",$cplist);		
 		$this->assign("searchoption",$searchoption);		
+		$this->assign("page_max_page",$page_max_page);		
 		$this->assign("thstr",$thstr);		
 		$this->assign("flidlist",$flidlist);		
 		$this->assign("bmlist",$bmList);
@@ -368,6 +406,7 @@ class ChanpinController extends Controller {
 			die();
 		}
 		$cpid=addslashes($_GET['cpid']);
+		$flid=addslashes($_GET['flid']);
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 
 		$cpbase=M("chanpin");
@@ -385,12 +424,13 @@ class ChanpinController extends Controller {
 		foreach($cpflarr1 as $k=>$v)
 		{
 			$cpflarr[$v['cpfl_id']]=$v['cpfl_name'];
+			$canNotChangeOption=$flid==$v['cpfl_id']?"selected":'';
 			//产品分类下拉框
-			$cpfloption.="<option value='".$v['cpfl_id']."' >".$v['cpfl_name']."</option>";
+			$cpfloption.="<option value='".$v['cpfl_id']."' $canNotChangeOption >".$v['cpfl_name']."</option>";
 		}
 		//查询自定义字段表
 		$zdbase=M("yewuziduan");
-		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7' limit 1");
+		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7,".$flid."' limit 1");
 		$zdarr=json_decode($zdarr[0]['zd_data'],true);
 		//格式化业务字段数组
 		foreach($zdarr as $k=>$v)
@@ -400,7 +440,7 @@ class ChanpinController extends Controller {
 		}
 		//查询排序表
 		$pxbase=M("paixu");
-		$pxarr=$pxbase->query("select px_px from crm_paixu where px_yh='$fid' and px_mod='7' limit 1");
+		$pxarr=$pxbase->query("select px_px from crm_paixu where px_yh='$fid' and px_mod='7,".$flid."' limit 1");
 		$pxarr=explode(',',$pxarr[0]['px_px']);
 		//根据排序构造产品信息表的html字符串
 		$infostr='';
@@ -462,7 +502,7 @@ class ChanpinController extends Controller {
 		$cptp=$cpjsonarr['zdy7']==''?"style='display:none'":"";
 		//系统规定的字段
 		$old_zd_arr=array(
-			"zdy6"=>"<select id='addflsel' name='zdy6'>".$cpfloption."</select>",
+			"zdy6"=>"<select id='addflsel' name='zdy6' disabled=disabled >".$cpfloption."</select>",
 			"zdy7"=>"<input type='file' name='cpimage' lay-type='images' class='layui-upload-file' id='imm'  /></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' $cptp src='".$_GET['public_dir']."/chanpinfile/cpimg/".$cpjsonarr['zdy7']."' style='margin-bottom: 10px;'>",
 			"zdy8"=>"<textarea id='cp_jieshao' name='zdy8'>".$cpjsonarr['zdy8'].
 			"</textarea>"
@@ -509,6 +549,23 @@ class ChanpinController extends Controller {
 		$this->assign("fjtable",$fjtable);
 		$this->assign("oldimgname",$cpjsonarr['zdy7']);
 		$this->display();
+	}
+	public function hahaha()
+	{
+		set_time_limit(300);
+		$sql='INSERT INTO `crm_chanpin` (`cp_id`, `cp_data`, `cp_add_time`, `cp_edit_time`, `cp_qy`, `cp_del`, `cp_add_user`, `cp_yh`) VALUES (NULL, \'{\"zdy0\":\"\\u5c0f\\u7c737\",\"zdy6\":\"17\",\"zdy9\":\"\\u9ad8\\u901a \\u9a81\\u9f99835\",\"zdy13\":\"1920\\u00d71080\",\"zdy2\":\"2499\",\"zdy7\":\"14927602641492737286455.jpg\",\"zdy8\":\"\\u5c0f\\u7c736\\u5c0f\\u7c736\\u5c0f\\u7c736\\u5c0f\\u7c736\",\"zdy11\":\"6GB\",\"zdy12\":\"5.15\\u82f1\\u5bf8\",\"zdy14\":\"428ppi\",\"zdy15\":\"64GB\\/128GB\",\"zdy16\":\"\",\"zdy46\":\"\"}\', \'2017-04-21 15:37:58\', \'2017-06-09 13:54:43\', \'1\', \'0\', \'3\', \'3\')';
+		
+
+
+
+		$ss=M("kh");
+		
+		
+		for($a=0;$a<70000;$a++)
+		{
+			$ss->query($sql);
+		}
+		echo 1;
 	}
 	//新增产品
 	public function cp_add()
@@ -632,13 +689,14 @@ class ChanpinController extends Controller {
 	{
 		$sea_type=addslashes($_POST['sea_type']);
 		$sea_text=addslashes($_POST['sea_text']);
+		$flid=addslashes($_POST['flid']);
 		$px=$_POST['px'];
 		$pz=$_POST['pz'];
 		$old_sea_text=$sea_text;
 		$sea_text=str_replace("\\","%",substr(json_encode($sea_text),1,-1));
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$cpbase=M("chanpin");
-		$fenlei_where=$old_sea_text!=''?"cp_data like '%\"".$sea_type."\":\"%".$sea_text."%\"%' and ":'';
+		$fenlei_where=$old_sea_text!=''?"cp_data like '%\"".$sea_type."\":\"%".$sea_text."%\"%' and cp_data like '%\"zdy6\":\"".$flid."\"%' ":'';
 		$newcparr=$cpbase->query("select * from crm_chanpin where $fenlei_where cp_yh='$fid' and cp_del='0' ");
 		//解析当前页面的配置数据
 		$pxarr=json_decode($px,true);
@@ -1092,7 +1150,7 @@ class ChanpinController extends Controller {
 		$file_path="./Public/chanpinfile/cpfile/linshi/".$csvfilename;
 		$bs=fopen($file_path,"r");
 		$str = fread($bs,filesize($file_path));
-		$str=iconv("gbk","utf-8//IGNORE",$str);
+		//$str=iconv("gbk","utf-8//IGNORE",$str);
 		$filearr=explode("\n",$str);
 		//文件读取完毕
 		$zdbase=M("yewuziduan");
@@ -1124,6 +1182,8 @@ class ChanpinController extends Controller {
 				}
 				$a=str_replace("\r",'',$v);
 				$a=str_replace("\n",'',$a);
+				$a=str_replace('﻿','',$a);
+				
 				if($zdstr!=($a.','))
 				{
 					echo '4';die;
@@ -1289,7 +1349,8 @@ class ChanpinController extends Controller {
 	public function show_option()
 	{
 		$checkid=addslashes($_POST['checkid']);
-		if($checkid=='')
+		$flid=addslashes($_POST['flid']);
+		if($checkid==''||$flid=='')
 		{
 			echo 2;
 			die;
@@ -1306,7 +1367,7 @@ class ChanpinController extends Controller {
 		}
 
 		$zdbase=M("yewuziduan");
-		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7' limit 1");
+		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7,".$flid."' limit 1");
 		$zdarr=json_decode($zdarr[0]['zd_data'],true);
 		foreach($zdarr as $k=>$v)
 		{
@@ -1315,9 +1376,18 @@ class ChanpinController extends Controller {
 				$jsondata[]=$v['id'];
 			}
 		}
-		$jsonstr=json_encode($jsondata);
+
 		$pzbase=M("config");
-		$pzbase->query("update crm_config set config_cp_table_data='$jsonstr' where config_name='".cookie("user_id")."'");
+		$iscz=$pzbase->query("select config_cp_table_data from crm_config where config_name='".cookie("user_id")."' limit 1");
+		if($iscz[0]['config_cp_table_data']!='')
+		{
+			$olddata=json_decode($iscz[0]['config_cp_table_data'],true);
+		}
+		$olddata[$flid]=$jsondata;
+		$jsonstr=json_encode($olddata);
+		
+		$sql=count($iscz)>0?"update crm_config set config_cp_table_data='$jsonstr' where config_name='".cookie("user_id")."' limit 1":"insert into crm_config set config_cp_table_data='$jsonstr',config_name='".cookie("user_id")."' ";
+		$pzbase->query($sql);
 		echo 1;
 	}
 	//筛选

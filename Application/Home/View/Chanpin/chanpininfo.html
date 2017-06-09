@@ -61,7 +61,7 @@ textarea{resize:none;}
         {$cpinfoarr['cp_name']}
     </div>
     <div id="cp_btn">
-        <button class="layui-btn layui-btn-primary" onclick="window.location='{$_GET[root_dir]}/index.php/Home/Chanpin/index'"><i class="fa fa-arrow-left" aria-hidden="true"></i>返回</button>
+        <button class="layui-btn layui-btn-primary" onclick="layer.load(2);window.location='{$_GET[root_dir]}/index.php/Home/Chanpin/index/?flid={$_GET[\'flid\']}'"><i class="fa fa-arrow-left" aria-hidden="true"></i>返回</button>
         <button class="layui-btn" onclick="bj_chanpin()"><i class="fa fa-edit" aria-hidden="true"></i>编辑</button>
         <button class="layui-btn" onclick="del_chanpin()"><i class="fa fa-trash" aria-hidden="true"></i>删除</button>
         {$jy_btn}
