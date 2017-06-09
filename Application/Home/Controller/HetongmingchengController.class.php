@@ -196,7 +196,7 @@ class HetongmingchengController extends Controller {
 				$show1.="</tr></table>";
 			} 
 		//echo "<pre>";
-			//var_dump($ht_json);exit;
+			//	var_dump($ht_json);exit;
 			foreach ($ywzd as $k => $v){
 				if($k=="zdy9" || $k=='zdy14'){
 					continue;
