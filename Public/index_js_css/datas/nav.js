@@ -42,7 +42,7 @@ var navs = [{
 }, {
 	"title": "产品",
 	"icon": "fa-book",
-	"href": "index.php/Home/Chanpin/",
+	"href": "index.php/Home/Cpfl/cpfl_index",
 	"spread": false
 }, {
 	"title": "报表中心",
