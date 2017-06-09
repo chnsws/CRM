@@ -19,9 +19,11 @@
   		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
 		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"'" ></script>
-
+		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
   		<style>
   			body,ul,li,tr{margin:0;padding:0;font-size:14px;}
+  			.bjwh{width:300px;height:30px}
   			.jibenxinxi{width:50% ;float:left;}
   			.xiegenjin{width:48% ;float:right;}
   		
@@ -105,9 +107,9 @@
 			   </div>
 			    <div class="clear"></div>
 			   	<div class="bianji"  style="display: none;border:1px;">
-		    		<div class="bianji_nb" style="width:330px;margin:0 auto">
+		    		<div class="bianji_nb" style="width:430px;margin:0 auto">
 		    			<form id="myform">
-		    			{$show2}
+		    			{$show3}
 		    			</form>
 		    		</div>
 			   	</div>
@@ -273,7 +275,7 @@
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
 										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
 									}
-									//alert (ajaxstr);
+									alert (ajaxstr);
 									$.get(rooturl+'/index.php/Home/Shangjimingcheng/save',{"id":ajaxstr},
 							        		 function(html){
 									        		// alert(html)
@@ -317,7 +319,15 @@
 				}); 
 			});              
 		  }
-		  
+		  function get_sj(sj){
+    				var kh_id= $(sj).val();
+    			$.get(rooturl+'/index.php/Home/Hetong/get_sj',{"id":kh_id},
+			        		 				function(html){
+        		 								//tishi(html)
+												$(".th_sj").html(html);
+												layer.close(win)
+											});
+    		}
 		  function add_cpp(){
     				layui.use('layer', function(){
 					//	alert(123)

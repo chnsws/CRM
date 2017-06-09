@@ -56,7 +56,15 @@ class HetongmingchengController extends Controller {
 			}
 
 			$fuzeren=M('user');
-			$map['user_act']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+				$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		if(cookie('user_fid')=='0')
+		{
+			$map['user_id']=$fid;
+		}
+		else
+		{
+			$map['user_fid']=$fid;
+		}
 		 	$fuzeren_sql=$fuzeren->where($map)->select();//缺少条件
 				foreach ($fuzeren_sql as $k=>$v)
 				{
@@ -76,30 +84,25 @@ class HetongmingchengController extends Controller {
 			return $fzr_only;
 		}
 		public function kehu(){
-			$xiaji= $this->get_xiashu_id();//  查询下级ID
-			$new_xiaji=$xiaji;          
-			$new_array=explode(',',$new_xiaji);
-			$kh_base=M('kh');
-			$data_kh['kh_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-			$kh_sql=$kh_base->where($data_kh)->select();
-			foreach($kh_sql as $kkh =>$vkh)
-			{
-				$kh_json=json_decode($vkh['kh_data'],true);
-				//$kh_json1=json_encode($kh_json,true);
-				//echo "<pre>";
-				///var_dump($kh_json);exit;
-				foreach($new_array as $kxj=>$vxj)
-				{
-					if($kh_json['fuzeren']==$vxj){
-						$kh['id']=$vkh['kh_id'];
-						$kh['name']=$kh_json['zdy0'];
-						$kh['department']=$kh_json['department'];
-						$kh_name[$vkh['kh_id']]=$kh;
-					}
-				}
-			}
-			return $kh_name;
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$new_xiaji=$xiaji;          
+		$new_array=explode(',',$new_xiaji);
+		$kh_base=M('kh');
+		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
+		
+		foreach($kh_sql as $kkh =>$vkh)
+		{
+			$kh_json=json_decode($vkh['kh_data'],true);
+			
+					$kh['id']=$vkh['kh_id'];
+					$kh['name']=$kh_json['zdy0'];
+					$kh_name[$vkh['kh_id']]=$kh;
 		}
+		//echo "<pre>";
+		//var_dump($kh_name);exit;
+		return $kh_name;
+	}
 		public function shangji()
 		{
 			$xiaji= $this->get_xiashu_id();//  查询下级ID
@@ -131,10 +134,13 @@ class HetongmingchengController extends Controller {
 		public function hetongmingcheng(){
 			$ywzd=$this->ywzd();
 			$user=$this->user();
+
 			$kehu=$this->kehu();
 			$ywcs=$this->ywcs();
 			$shangji=$this->shangji();
 			$chanpin=$this->chanpin();
+		//	echo "<pre>";
+			//var_dump($ywcs);exit;
 			$ht_id=$_GET['id'];
 			$map['ht_id']=$ht_id;//联系人条件
 			$map['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件          
@@ -189,6 +195,74 @@ class HetongmingchengController extends Controller {
 				}
 				$show1.="</tr></table>";
 			} 
+		//echo "<pre>";
+			//var_dump($ht_json);exit;
+			foreach ($ywzd as $k => $v){
+				if($k=="zdy9" || $k=='zdy14'){
+					continue;
+				}
+				$show3.="<table class='uk-form'><tr style='line-height:40px'><td style='width :150px'>".$v['name']."：</td>";
+	
+					if($k == 'zdy1')
+					{
+						$show3.="<td ><select name='$k' onchange='get_sj(this)' class='bjwh'>";
+
+						
+						foreach($kehu as $k2=>$v2)
+						{
+							if($k2==$ht_json[$k])
+							$show3.="<option value='".$v2['id']."' selected='selected'>".$v2['name']."</option>";
+							else
+							$show3.="<option value='".$v2['id']."' >".$v2['name']."</option>";
+						}
+						$show3.="</select></td>";	
+					}elseif($k=='zdy2'){
+
+						$show3.="<td class='th_sj'><select name='$k' class='bjwh'>";
+						
+							foreach($shangji as $k3=>$v3)
+							{
+								if($ht_json['zdy1']==$v3['zdy1']){
+									if($v3['zdy2']==$ht_json['zdy2'])
+										$show3.="<option value='".$v3['sj_id']."' selected='selecteed'>".$v3['zdy0']."</option>";	
+									else{
+										$show3.="<option value='".$v3['sj_id']."' >".$v3['zdy0']."</option>";	
+									}
+									
+								}
+								
+							}
+						if($ht_json[$k]=='012'){
+									$show3.="<option value='' selected='selected'>--未填写--</option>";
+							}
+						$show3.="</select></td>";	
+					}elseif($k=='zdy7' || $k=='zdy10' || $k=='zdy11'){
+						$show3.="<td ><select  class='bjwh' name='$k'>";
+							if($ht_json[$k]==''){
+								$show3.="<option value='' selected='selected'>--请选择--</option>";
+							}
+							foreach($ywcs[$k] as $k4 =>$v4)
+							{	
+								
+									if($k4==$ht_json[$k])
+									$show3.="<option value='".$k4."' selected='selected'>".$v4."</option>";
+									else{
+									$show3.="<option value='".$k4."'>".$v4."</option>";
+									}
+							
+								
+							}
+
+						$show3.="</select></td>";
+					
+					}elseif($k=='zdy4' || $k=='zdy5'  ||$k=='zdy6' || $k=='zdy15'){
+						$show3.="<td ><input type='text' class='bjwh' name='$k' value='".$ht_json[$k]."' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";	
+					}else{
+						$show3.="<td ><input type='text' class='bjwh' name='$k' value='".$ht_json[$k]."'></td>";	
+					}	
+				
+				$show3.="</tr></table>";
+			}
 			//合同附件查询
 			$file['mk']=6;
 			$file['yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
@@ -249,6 +323,7 @@ class HetongmingchengController extends Controller {
 			$this->assign('chanpin1',$chanpin1); 
 			$this->assign('ht_id',$ht_id);
 			$this->assign('show2',$show2); //合同残品
+			$this->assign('show3',$show3); //合同编辑
 			$this->assign('file_show',$file_show); //合同附件
 			$this->assign('show',$show); //合同基本信息
 			$this->assign('show1',$show1); //合同系统信息

@@ -617,19 +617,19 @@ public function kehu(){
 		//echo "<pre>";
 	//	var_dump($shangji);exit;
 		$num=1;
-		$sj_th.="<select>";
+		$sj_th.="<select class='bjwh'>";
 		foreach($shangji as $k => $v)
 		{	
 			if($v['zdy1']==$id)
 			{	$num=$num+1;
-				$sj_th.="<option value='".$v['sj_id']."'> ".$v['zdy0']."".$v['sj_id']."</option>";
+				$sj_th.="<option value='".$v['sj_id']."'> ".$v['zdy0']."</option>";
 			}
 		}
 		$sj_th.="</select>";
 	
-		$sj_th3.="<select>";
+		$sj_th3.="<select class='bjwh'>";
 			$sj_th3.="<option value=''>请添加对应商机 </option>";
-			$sj_th3.="<option value='111'>暂不填写</option>";
+			$sj_th3.="<option value='012'>暂不填写</option>";
 		$sj_th3.="</select>";
 		if($num>1){
 			echo $sj_th;
@@ -651,7 +651,7 @@ public function kehu(){
 	}
 	public function add_ht(){
 		$id=$_GET['id'];
-	//	$id="zdy0:驱蚊器群,zdy1:277,zdy2:155,zdy3:444444,zdy4:2017-6-2 15:59:38,zdy5:2017-6-2 15:59:44,zdy6:2017-6-2 15:59:47,zdy7:canshu1,zdy15:2017-6-2 15:59:50,zdy8:00041,cpgd:添加产品,undefined:undefined,undefined:undefined,zdy10:,zdy11:,zdy12:,zdy13:,undefined:,undefined:undefined,undefined:undefined,zdy17:,zdy18:,ht_fz:1,ht_department:项目部-上海";
+	//	$id="zdy0:驱蚊器群,zdy1:277,zdy2:155,zdy3:444444,zdy4:2017-6-2 15:59:38,yyyy:2017-6-2 15:59:44,zdy6:2017-6-2 15:59:47,zdy7:canshu1,zdy15:2017-6-2 15:59:50,zdy8:00041,cpgd:添加产品,undefined:undefined,undefined:undefined,zdy10:,zdy11:,zdy12:,zdy13:,undefined:,undefined:undefined,undefined:undefined,zdy17:,zdy18:,ht_fz:1,ht_department:项目部-上海";
 		$new_arr=explode(',',$id);
 		foreach($new_arr as $k=>$v)
 		{
