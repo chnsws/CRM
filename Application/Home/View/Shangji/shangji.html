@@ -944,9 +944,16 @@
 									//tishi(ajaxstr)
 									$.get(rooturl+'/index.php/Home/Lianxiren/add',{"id":ajaxstr},
 							        		 function(html){
-									        		 tishi("添加成功")
+							        		 	var kh_id= $(".lxr_ajax").val();
+							        		 	
+									    			$.get(rooturl+'/index.php/Home/Shangji/lxr_get',{"id":kh_id},
+												        		 				function(html){
+																						$(".lx_th").html(html);
+																						 tishi("添加成功")
+																						layer.close(win)
+																				});
 									        		
-									        		layer.close(win)
+									        	
 							                   });
 
 								},

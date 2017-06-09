@@ -225,7 +225,7 @@ class ShangjiController extends Controller {
 							if($vzd['id']=="zdy1")
 							{
 								$table.="<td>";
-								$table.="<select  class='required' name='".$vzd['id']."' onchange='get_lx(this)' style='width:300px;height:30px;'>";
+								$table.="<select  class='required lxr_ajax' name='".$vzd['id']."' onchange='get_lx(this)' style='width:300px;height:30px;'>";
 										$table.="<option value=''>--请选择--</option>";
 								foreach($kh_name as $k=>$v)
 									{
