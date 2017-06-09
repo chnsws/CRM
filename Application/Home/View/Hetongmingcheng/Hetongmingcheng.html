@@ -270,6 +270,7 @@
 									var formdom=$("#myform").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';
+
 									for(a=0;a<fornum;a++)
 									{
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
@@ -278,9 +279,9 @@
 									alert (ajaxstr);
 									$.get(rooturl+'/index.php/Home/Shangjimingcheng/save',{"id":ajaxstr},
 							        		 function(html){
-									        		// alert(html)
+									        		alert(html)
 									        		if(html=="no"){
-									        			alert("没有修改信息")
+									        			tishi("没有修改信息")
 									        			layer.close(win)
 									        		}else{
 									        			
@@ -432,5 +433,11 @@
                    });
 		  
 		  }
+		  	 function tishi(neirong)
+			{
+			    layer.msg(neirong, {
+			        time: 2000, 
+			    });
+			}
 	</script>
 </html>

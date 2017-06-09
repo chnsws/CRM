@@ -195,13 +195,14 @@ class HetongmingchengController extends Controller {
 				}
 				$show1.="</tr></table>";
 			} 
-		//echo "<pre>";
-			//	var_dump($ht_json);exit;
+		$show3.="<tr><td></td><td><input type='text' name='ht_id' value='".$ht_id."'></td></tr>";
 			foreach ($ywzd as $k => $v){
 				if($k=="zdy9" || $k=='zdy14'){
 					continue;
 				}
-				$show3.="<table class='uk-form'><tr style='line-height:40px'><td style='width :150px'>".$v['name']."：</td>";
+				$show3.="<table class='uk-form'>";
+			
+				$show3.="<tr style='line-height:40px'><td style='width :150px'>".$v['name']."：</td>";
 	
 					if($k == 'zdy1')
 					{
@@ -218,7 +219,7 @@ class HetongmingchengController extends Controller {
 						$show3.="</select></td>";	
 					}elseif($k=='zdy2'){
 
-						$show3.="<td class='th_sj'><select name='$k' class='bjwh'>";
+						$show3.="<td class='th_sj'><select name='".$k."' class='bjwh'>";
 						
 							foreach($shangji as $k3=>$v3)
 							{
@@ -262,6 +263,7 @@ class HetongmingchengController extends Controller {
 					}	
 				
 				$show3.="</tr></table>";
+
 			}
 			//合同附件查询
 			$file['mk']=6;

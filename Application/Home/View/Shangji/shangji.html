@@ -921,8 +921,8 @@
 									 $("#lxr :input.required1").trigger('blur');
 			             				  var numErrorxp= $('form .onError').length;
 											
-											
-			              				  if(numErrorxp){
+										
+			              				  if(numErrorxp>0){
 			              				  	tishi('必填项不能为空')
 					                   			 return false;
 					              		 	 } 
@@ -945,7 +945,7 @@
 									$.get(rooturl+'/index.php/Home/Lianxiren/add',{"id":ajaxstr},
 							        		 function(html){
 							        		 	var kh_id= $(".lxr_ajax").val();
-							        		 	
+
 									    			$.get(rooturl+'/index.php/Home/Shangji/lxr_get',{"id":kh_id},
 												        		 				function(html){
 																						$(".lx_th").html(html);

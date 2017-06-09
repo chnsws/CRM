@@ -365,6 +365,7 @@ return $fzr_only;
 		
 		$this->display();
 	}
+	
 	public function get_xiashu_id()
 	{
 		$nowloginid=cookie("user_id");
