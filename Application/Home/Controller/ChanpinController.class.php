@@ -420,6 +420,7 @@ class ChanpinController extends Controller {
 		//产品分类数据查询
 		$cp_flbase=M("chanpinfenlei");
 		$cpflarr1=$cp_flbase->query("select cpfl_name,cpfl_id from crm_chanpinfenlei where cpfl_company='$fid'");
+		
 		$cpfloption='<option value="0">未选择</option>';
 		foreach($cpflarr1 as $k=>$v)
 		{
@@ -431,6 +432,8 @@ class ChanpinController extends Controller {
 		//查询自定义字段表
 		$zdbase=M("yewuziduan");
 		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7,".$flid."' limit 1");
+		
+		
 		$zdarr=json_decode($zdarr[0]['zd_data'],true);
 		//格式化业务字段数组
 		foreach($zdarr as $k=>$v)
@@ -441,6 +444,15 @@ class ChanpinController extends Controller {
 		//查询排序表
 		$pxbase=M("paixu");
 		$pxarr=$pxbase->query("select px_px from crm_paixu where px_yh='$fid' and px_mod='7,".$flid."' limit 1");
+		//$pxarr[0]['px_px']=count($pxarr)==0?'zdy0,zdy1,zdy2,zdy3,zdy4,zdy5,zdy6,zdy7,zdy8';
+		if(count($pxarr)==0)
+		{
+			foreach($zdarr as $k=>$v)
+			{
+				$pxarr[0]['px_px'].=$k.',';
+			}
+			$pxarr[0]['px_px']=substr($pxarr[0]['px_px'],0,-1);
+		}
 		$pxarr=explode(',',$pxarr[0]['px_px']);
 		//根据排序构造产品信息表的html字符串
 		$infostr='';
@@ -552,20 +564,7 @@ class ChanpinController extends Controller {
 	}
 	public function hahaha()
 	{
-		set_time_limit(300);
-		$sql='INSERT INTO `crm_chanpin` (`cp_id`, `cp_data`, `cp_add_time`, `cp_edit_time`, `cp_qy`, `cp_del`, `cp_add_user`, `cp_yh`) VALUES (NULL, \'{\"zdy0\":\"\\u5c0f\\u7c737\",\"zdy6\":\"17\",\"zdy9\":\"\\u9ad8\\u901a \\u9a81\\u9f99835\",\"zdy13\":\"1920\\u00d71080\",\"zdy2\":\"2499\",\"zdy7\":\"14927602641492737286455.jpg\",\"zdy8\":\"\\u5c0f\\u7c736\\u5c0f\\u7c736\\u5c0f\\u7c736\\u5c0f\\u7c736\",\"zdy11\":\"6GB\",\"zdy12\":\"5.15\\u82f1\\u5bf8\",\"zdy14\":\"428ppi\",\"zdy15\":\"64GB\\/128GB\",\"zdy16\":\"\",\"zdy46\":\"\"}\', \'2017-04-21 15:37:58\', \'2017-06-09 13:54:43\', \'1\', \'0\', \'3\', \'3\')';
-		
-
-
-
-		$ss=M("kh");
-		
-		
-		for($a=0;$a<70000;$a++)
-		{
-			$ss->query($sql);
-		}
-		echo 1;
+		echo phpinfo();
 	}
 	//新增产品
 	public function cp_add()
