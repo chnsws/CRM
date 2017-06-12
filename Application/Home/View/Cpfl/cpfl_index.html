@@ -322,7 +322,7 @@ function create_fl_link()
                 link_title_dom.find("span").eq(0).text(jianjietext);
                 link_title_dom.find("span").eq(1).text(shuliangtext);
 
-                var linkmodhtml='<li class="fl_mod" style="display:none;" id="newlink'+arr[a]+'" ><div class="fl_in_mod"><div class="fl_mod_top"><div class="fl_name">'+link_title+'</div><div class="fl_set uk-button-dropdown" data-uk-dropdown="{mode:\'click\'}" ><i class="uk-icon-cog"></i><div class="uk-dropdown uk-dropdown-small"><ul class="uk-nav uk-nav-dropdown"><li><a onclick="edit_fl_name_fun_link(this)">修改名称</a></li><li><a onclick="edit_fl_jj(this)">修改简介</a></li><li><a onclick="loadingggg(this)">删除快捷方式</a><a onclick="loadingggg(this)">删除产品分类</a></li></ul></div></div></div><div class="fl_mod_info"><div class="fl_cpnum">产品数量：'+shuliangtext+'</div><div class="fl_father" title="'+jianjietext+'">产品简介：'+jianjietext+'</div></div></div></li>';
+                var linkmodhtml='<li class="fl_mod" style="display:none;" id="newlink'+arr[a]+'" ><div class="fl_in_mod"><div class="fl_mod_top"><div class="fl_name">'+link_title+'</div><div class="fl_set uk-button-dropdown" data-uk-dropdown="{mode:\'click\'}" ><i class="uk-icon-cog"></i><div class="uk-dropdown uk-dropdown-small"><ul class="uk-nav uk-nav-dropdown"><li><a onclick="edit_fl_name_fun_link(this)">修改名称</a></li><li><a onclick="edit_fl_jj(this)">修改简介</a></li><li><a onclick="link_del_this(this)">删除快捷方式</a><a onclick="link_del_this_fl(this)">删除产品分类</a></li></ul></div></div></div><div class="fl_mod_info"><div class="fl_cpnum">产品数量：'+shuliangtext+'</div><div class="fl_father" title="'+jianjietext+'">产品简介：'+jianjietext+'</div></div></div></li>';
                 $("#cpfl_jiazai2").hide();
                 //$("#kongstyle").remove();
                 $("#cpfl_list").append(linkmodhtml);
@@ -464,11 +464,12 @@ function add_link()
             var this_fl_id=$(this).parent().prop("id").substr(6);
             var jj=$(this).parent().children().eq(0).text();
             var sl=$(this).parent().children().eq(1).text();
-            var linkmodhtml='<li class="fl_mod" style="display:none;" id="newlink'+this_fl_id+'" ><div class="fl_in_mod"><div class="fl_mod_top"><div class="fl_name">'+cpname+'</div><div class="fl_set uk-button-dropdown" data-uk-dropdown="{mode:\'click\'}" ><i class="uk-icon-cog"></i><div class="uk-dropdown uk-dropdown-small"><ul class="uk-nav uk-nav-dropdown"><li><a onclick="edit_fl_name_fun_link(this)">修改名称</a></li><li><a onclick="edit_fl_jj(this)">修改简介</a></li><li><a onclick="loadingggg(this)">删除快捷方式</a><a onclick="loadingggg(this)">删除产品分类</a></li></ul></div></div></div><div class="fl_mod_info"><div class="fl_cpnum">产品数量：'+sl+'</div><div class="fl_father" title="'+jj+'">产品简介：'+jj+'</div></div></div></li>';
+            var linkmodhtml='<li class="fl_mod" style="display:none;" id="newlink'+this_fl_id+'" ><div class="fl_in_mod"><div class="fl_mod_top"><div class="fl_name">'+cpname+'</div><div class="fl_set uk-button-dropdown" data-uk-dropdown="{mode:\'click\'}" ><i class="uk-icon-cog"></i><div class="uk-dropdown uk-dropdown-small"><ul class="uk-nav uk-nav-dropdown"><li><a onclick="edit_fl_name_fun_link(this)">修改名称</a></li><li><a onclick="edit_fl_jj(this)">修改简介</a></li><li><a onclick="link_del_this(this)">删除快捷方式</a><a onclick="link_del_this_fl(this)">删除产品分类</a></li></ul></div></div></div><div class="fl_mod_info"><div class="fl_cpnum">产品数量：'+sl+'</div><div class="fl_father" title="'+jj+'">产品简介：'+jj+'</div></div></div></li>';
             $("#kongstyle").remove();
             $("#cpfl_list").append(linkmodhtml);
             $('#newlink'+this_fl_id).fadeIn();
             baocun_link(1);
+            goto_fl_page();//监听点击事件，链接到对应的分类页面
         }
     });
 }
@@ -713,6 +714,53 @@ function edit_fl_jj(thisdom)
             }
         }); 
     }); 
+}
+//快捷方式-菜单-删除本快捷方式的方法
+function link_del_this(thisdom)
+{
+    $(thisdom).parent().parent().parent().parent().parent().parent().parent().hide("fast");
+    setTimeout(function() {
+        $(thisdom).parent().parent().parent().parent().parent().parent().parent().remove();
+        baocun_link(1);
+    }, 200);
+    
+}
+//快捷方式-菜单-删除产品分类
+function link_del_this_fl(thisdom)
+{
+    layer.msg("是否删除该产品分类？<br>如果该分类有子分类，那么子分类也会被删除", {
+            time: 9999999,
+            btn: ['确认删除', '取消'],
+            btn1: function(index, layero){
+                //获取本模块的id
+                var this_fl_id=$(thisdom).parent().parent().parent().parent().parent().parent().parent().prop("id").substr(7);
+                //获取删除分类的名称
+                var this_fl_name=$(thisdom).parent().parent().parent().parent().parent().children(".fl_name").text();
+                this_fl_name=$.trim(this_fl_name);
+                link_del_this(thisdom);//删除本快捷方式的显示，并保存
+                //删除数据库中的分类
+                $.get(rooturl+"/index.php/Home/Chanpin/delfl",{"delid":this_fl_id,"delname":this_fl_name},function(res){
+                    if(res=='1')
+                    {
+                        //save_tree();
+                        location.reload();
+                    }
+                    else if(res=='2')
+                    {
+                        tishi("删除失败");
+                        return false;
+                    }
+                    else
+                    {
+                        tishi("删除失败,请稍后重试");
+                        return false;
+                    }
+                });
+            },
+            btn2:function(index,layero){
+                layer.close(index);
+            }
+    });
 }
 //拖拽监听事件
 function tuozhuai()
