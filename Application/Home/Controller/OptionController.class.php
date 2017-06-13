@@ -14,7 +14,70 @@ class OptionController extends Controller {
     }
     //设置中心
     public function optioncenter(){
+		//echo "<pre>";print_r($_COOKIE);
+		if(cookie("islogin")!='1')
+        {
+            echo "<script>window.location='$_GET[root_dir]/index.php/Home/Login'</script>";
+        }
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$userbase=M("user");
+		$f_user_info=$userbase->query("select user_sign_time,user_youxiaoqi from crm_user where user_id='$fid' limit 1");
+		$usercount=$userbase->query("select count(user_id) from crm_user where user_del='0' and  (user_id='$fid' or user_fid='$fid') ");
+		$can_show_gg=$this->gonggao_can_show();
+		$gg_str='';
+		foreach($can_show_gg as $v)
+		{
+			$gg_str.='<tr><td><a href="./gonggaomore?ggid='.$v['ggsz_id'].'&center=1">'.$v['ggsz_name'].'</a><span class="gg_right">'.$v['ggsz_fbsj'].'</span></td></tr>';
+			$a++;
+			if($a==5) break;
+		}
+		$this->assign("gg_str",$gg_str);
+		$this->assign("usercount",$usercount[0]['count(user_id)']);
+		$this->assign("stime",substr($f_user_info[0]['user_sign_time'],0,10));
+		$this->assign("etime",substr($f_user_info[0]['user_youxiaoqi'],0,10));
 		$this->display();
+	}
+	//返回登录用户有权限看的公告
+	public function gonggao_can_show()
+	{
+		//系统公告
+		$ggbase=M("ggshezhi");
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$ggbasearr=$ggbase->query("select ggsz_id,ggsz_kjid,ggsz_name,ggsz_fbsj,ggsz_kjfw,ggsz_fbr from crm_ggshezhi where ggsz_yh='$fid' ");
+		//公司总管理或者超级管理员可以看到全部的公告
+		//if(cookie("user_fid")=='0'||cookie("user_quanxian")=='1')
+		if(cookie("user_quanxian")=='1')
+		{
+			return $ggbasearr;
+		}
+		else
+		{
+			//筛选出登录用户可以看的公告
+			foreach($ggbasearr as $k=>$v)
+			{
+				$kjid=explode(",",$v['ggsz_kjid']);
+				//指定部门
+				if($v['ggsz_kjfw']=='2')
+				{
+					$zhu_bid=cookie("user_zhu_bid");
+					$fu_bid=cookie("user_zhu_bid");
+					if(!in_array($zhu_bid,$kjid)&&!in_array($fu_bid,$kjid))
+					{
+						unset($ggbasearr[$k]);
+					}
+				}
+				//指定角色
+				if($v['ggsz_kjfw']=='3')
+				{
+					$juese=cookie("user_quanxian");
+					if(!in_array($juese,$kjid))
+					{
+						unset($ggbasearr[$k]);
+					}
+				}
+			}
+			return $ggbasearr;
+		}
 	}
 	//部门和用户设置
 	public function bumenyonghu(){

@@ -48,6 +48,13 @@
 </body>
 <script>
     window.root_dir="{$_GET['root_dir']}";
+    window.as="{$_GET['center']}";
+    $(function(){
+        if(as=='1')
+        {
+            $("#box").children("button").eq(0).html('<i class="fa fa-reply" aria-hidden="true" style="margin-right:10px;"></i>返回');
+        }
+    });
     layui.use('layer', function(){
         window.layer = layui.layer;
     }); 
@@ -61,7 +68,14 @@
     //返回公告列表
     function fanhui()
     {
-        window.location=root_dir+"/index.php/Home/Option/gonggaoguanli";
+        if(as=='1')
+        {
+            window.location=root_dir+"/index.php/Home/Option/optioncenter";
+        }
+        else
+        {
+            window.location=root_dir+"/index.php/Home/Option/gonggaoguanli";
+        }
     }
     //单条删除
     function ggshanchu(delggid)
