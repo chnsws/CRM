@@ -292,6 +292,19 @@ class YewuziduanDoController extends Controller {
         $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
         $zdbase=M("yewuziduan");
         $zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='$pageval' limit 1");
+        $pxbase=M("paixu");
+        $pxbasearr=$pxbase->query("select px_px from crm_paixu where px_yh='$fid' and px_mod='$pageval' limit 1");
+        $pxarr=explode(",",$pxbasearr);
+        foreach($pxarr as $k=>$v)
+        {
+            if($v==$changeid)
+            {
+                unset($pxarr[$k]);
+                break;
+            }
+        }
+        $pxnewarr=implode(",",$pxarr);
+        $pxbase->query("update crm_paixu set px_px='$pxnewarr' where px_yh='$fid' and px_mod='$pageval' limit 1 ");
         $dataarr=json_decode($zdarr[0]['zd_data'],true);
         foreach($dataarr as $k=>$v)
         {

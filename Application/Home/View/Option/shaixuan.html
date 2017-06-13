@@ -33,6 +33,9 @@
     #hidden-div{float:right;font-weight:bold;margin-right:15px;font-size:20px;color:#656565;}
     .left-mar{padding-left:37px;}
     /*绿色提示窗结束*/
+    /*产品分类模块*/
+    #cpfl_sel{height:38px;line-height: 38px;width:300px;top:1px;float: right;}
+    #cpfl_sel option{height:30px;line-height: 30px;}
     /*数据模块*/
     #shengchengbtn{float:right;}
 </style>
@@ -62,7 +65,13 @@
             </ul>
             <div class="layui-tab-content" >
                 <div class="layui-tab-item layui-show">
-                    <div><button class="layui-btn" name="qybtn7" onclick="kqgb(this)">关闭筛选</button></div>
+                    <div>
+                        
+                        <button class="layui-btn" name="qybtn7" onclick="kqgb(this)">关闭筛选</button>
+                        <select id="cpfl_sel">
+                            {$cpfl_option}
+                        </select>
+                    </div>
                     <div id="body7" style="display:none;">
                         <table class="layui-table uk-form" lay-skin="line">
                             <thead>
@@ -71,11 +80,11 @@
                                 <th>筛选选项</th>
                             </thead>
                             <tbody>
-                                {$sxtable[7]}
+                                
                             </tbody>
                         </table>
-                        <span id='sj7'>上次生成时间：{$sctime[7]}</span>
-                        <span id="shengchengbtn"><button class="layui-btn layui-btn-radius layui-btn-normal" onclick="createmb(this)" >生成筛选模块</button><button class="layui-btn layui-btn-radius" onclick="bcbtn(this)">保存设置</button></span>
+                        <span id='sj7'></span>
+                        <span id="shengchengbtn"><button class="layui-btn layui-btn-radius layui-btn-normal" onclick="createmb(this)" >更新筛选模块</button><button class="layui-btn layui-btn-radius" onclick="bcbtn(this)">保存设置</button></span>
                     </div>
                 </div>
                 <div class="layui-tab-item">
@@ -89,6 +98,8 @@
 </body>
 <script>
 window.root_dir="{$_GET['root_dir']}";
+window.this_page_cpfl_id="{$_GET['cpflid']}";
+
 //上方绿色提示框的关闭效果
 function hidden_div(){
     $("#mod1").hide();
@@ -112,31 +123,47 @@ function tishi(neirong)
         time: 1000, 
     });
 }
-//显示
-var qy={$qy};
-for(a=1;a<8;a++)
-{
-    var bodynum=qy[a];
+$(function(){
+    //根据页面传值改变下拉框中产品分类选中的属性
+    //根据页面传值改变产品的数据
+    this_page_cpfl_id=this_page_cpfl_id==''?$("#cpfl_sel").find("option").eq(0).val():this_page_cpfl_id;
+    $("#cpfl_sel").find("option[value='"+this_page_cpfl_id+"']").prop("selected","selected");
+    var pagekey='7,'+this_page_cpfl_id;
+    var cp_sx_content={$sxtable};
+    var sj={$sctime};
+    $("#body7").find("tbody").html(cp_sx_content[pagekey]);
+    $("#sj7").html("上次更新时间："+sj[pagekey]);
+    window.flname=$("#cpfl_sel").find("option[value='"+this_page_cpfl_id+"']").text();
+    //显示
+    var qy={$qy};
+    var bodynum=qy[pagekey];
     if(bodynum=='1')
     {
-        $("#body"+a).show();
+        $("#body7").show();
     }
     else
     {
-        $("button[name='qybtn"+a+"']").text("开启筛选");
+        $("button[name='qybtn7']").text("开启筛选");
     }
-}
-//区间数量显示隐藏
-$("select").change(function(){
-    if($(this).val()=='5')
-    {
-        $(this).parent().children(".qjspan").show();
-    }
-    else
-    {
-        $(this).parent().children(".qjspan").hide();
-    }
-});
+
+    //区间数量显示隐藏
+    $("select").change(function(){
+        if($(this).val()=='5')
+        {
+            $(this).parent().children(".qjspan").show();
+        }
+        else
+        {
+            $(this).parent().children(".qjspan").hide();
+        }
+    });
+    //监听下拉框的选择
+    $("#cpfl_sel").change(function(){
+        var this_sel_val=$(this).val();
+        window.location=root_dir+"/index.php/Home/Option/shaixuan?cpflid="+this_sel_val;
+    });
+})
+
 
 //启用/不启用
 function kqgb(thisdom)
@@ -145,9 +172,10 @@ function kqgb(thisdom)
     var thisname=$(thisdom).prop("name");
     var thisyewu=thisname.substr(5);
     var thistext=$(thisdom).text();
+    
     if(thistext=='开启筛选')//当前是关闭状态需要开启
     {
-        $.get(root_dir+"/index.php/Home/ShaixuanDo/sxqy",{"cval":'1',"thisyewu":thisyewu},function(res){
+        $.get(root_dir+"/index.php/Home/ShaixuanDo/sxqy",{"cval":'1',"thisyewu":thisyewu,"flid":this_page_cpfl_id,"flname":flname},function(res){
             layer.close(jiazai);
             if(res!='1')
             {
@@ -160,7 +188,7 @@ function kqgb(thisdom)
     }
     else
     {
-        $.get(root_dir+"/index.php/Home/ShaixuanDo/sxqy",{"cval":'0',"thisyewu":thisyewu},function(res){
+        $.get(root_dir+"/index.php/Home/ShaixuanDo/sxqy",{"cval":'0',"thisyewu":thisyewu,"flid":this_page_cpfl_id,"flname":flname},function(res){
             layer.close(jiazai);
             if(res!='1')
             {
@@ -178,6 +206,10 @@ function bcbtn(thisdom)
     window.jiazai= layer.load(2);
     var thisid=$(thisdom).parent().parent().attr("id");
     var thisyewu=thisid.substr(4);
+    if(thisyewu=='7')
+    {
+        thisyewu=thisyewu+','+this_page_cpfl_id;
+    }
     var thisboxdom=$("#"+thisid).children("table").children("tbody").find("input[type='checkbox']");
     var qyid='';
     var thisboxname='';
@@ -192,9 +224,9 @@ function bcbtn(thisdom)
         {
             thisboxname=thisboxdom.eq(a).prop("name")
             qyid+=thisboxname+',';
-            thisselval=$(".ys"+thisyewu+"[name='"+thisboxname+"']").val();
+            thisselval=$(".layui-show").find("select[name='"+thisboxname+"']").val();
             selectval+=thisselval+',';
-            thisqjnum=$(".qj"+thisyewu+"[name='qjnum"+thisboxname+"']").val();
+            thisqjnum=$(".layui-show").find("input[name='qjnum"+thisboxname+"']").val();
             if((thisqjnum<5||thisqjnum>50)&&thisselval=='5')
             {
                 layer.close(jiazai);
@@ -207,7 +239,7 @@ function bcbtn(thisdom)
     qyid=qyid.substr(0,qyid.length-1);//zdy1
     selectval=selectval.substr(0,selectval.length-1);//123
     qjnum=qjnum.substr(0,qjnum.length-1);//123
-    $.get(root_dir+"/index.php/Home/ShaixuanDo/bcsz",{"qyid":qyid,"selectval":selectval,"yewu":thisyewu,"qjnum":qjnum},function(res){
+    $.get(root_dir+"/index.php/Home/ShaixuanDo/bcsz",{"qyid":qyid,"selectval":selectval,"yewu":thisyewu,"qjnum":qjnum,"flid":this_page_cpfl_id,"flname":flname},function(res){
         layer.close(jiazai);
         if(res!="1")
         {
@@ -223,7 +255,8 @@ function createmb(thisdom)
     var thisid=$(thisdom).parent().parent().attr("id");//内容ID
     var thisyewu=thisid.substr(4);//业务号
 
-    $.get(root_dir+"/index.php/Home/ShaixuanDo/createmb",{"thisyewu":thisyewu},function(res){
+    $.get(root_dir+"/index.php/Home/ShaixuanDo/createmb",{"thisyewu":thisyewu,"flid":this_page_cpfl_id,"flname":flname},function(res){
+        //document.write(res);return;
         layer.close(jiazai);
         resarr=res.split("#");
         if(resarr[0]!='1')
@@ -232,7 +265,7 @@ function createmb(thisdom)
             return false;
         }
         tishi("操作成功");
-        $("#sj"+thisyewu).text("上次生成时间："+resarr[1]);
+        $("#sj"+thisyewu).text("上次更新时间："+resarr[1]);
     });
 }
 </script>

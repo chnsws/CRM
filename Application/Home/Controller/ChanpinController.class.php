@@ -319,13 +319,15 @@ class ChanpinController extends Controller {
 		}
 		//筛选模块开始
 		$sxbase=M("shaixuan");
-		$sxbasearr=$sxbase->query("select sx_qy from crm_shaixuan where sx_yh='$fid' and sx_yewu='7' limit 1");
+		$sxbasearr=$sxbase->query("select sx_qy from crm_shaixuan where sx_yh='$fid' and sx_yewu='7,".$get_flid."' limit 1");
 		$sxarr=$sxbasearr[0];
+		
 		$kqsx=$sxarr['sx_qy'];
 		if($kqsx=='1')
 		{
 			$sxcbase=M("sx_cache");
-			$sxcbasearr=$sxcbase->query("select sxc_data from crm_sx_cache where sxc_yh='$fid' and sxc_yewu='7' limit 1 ");
+			$sxcbasearr=$sxcbase->query("select sxc_data from crm_sx_cache where sxc_yh='$fid' and sxc_yewu='7,".$get_flid."' limit 1 ");
+			
 			if(count($sxcbasearr)<1)
 			{
 				$kqsx='0';
@@ -351,6 +353,7 @@ class ChanpinController extends Controller {
 				$sxhtmlarr[5][3]="</div>";
 
 				$sxcarr=json_decode($sxcbasearr[0]['sxc_data'],true);
+				
 				$sxhtml='';
 				foreach($sxcarr as $k=>$v)
 				{
@@ -362,11 +365,12 @@ class ChanpinController extends Controller {
 					$sxhtml2='';
 					if(in_array($tj,array("1","2","5")))
 					{
+						/*
 						if($v['data']=='')
 						{
 							continue;
 						}
-						
+						*/
 						foreach($v['data'] as $sxz)
 						{
 							$sxhtml2.="<span class='sx_no'>".$sxz."</span>";
@@ -695,8 +699,8 @@ class ChanpinController extends Controller {
 		$sea_text=str_replace("\\","%",substr(json_encode($sea_text),1,-1));
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$cpbase=M("chanpin");
-		$fenlei_where=$old_sea_text!=''?"cp_data like '%\"".$sea_type."\":\"%".$sea_text."%\"%' and cp_data like '%\"zdy6\":\"".$flid."\"%' ":'';
-		$newcparr=$cpbase->query("select * from crm_chanpin where $fenlei_where cp_yh='$fid' and cp_del='0' ");
+		//$fenlei_where=$old_sea_text!=''?"and cp_data like '%\"zdy6\":\"".$flid."\"%' ":'';
+		$newcparr=$cpbase->query("select * from crm_chanpin where  cp_yh='$fid' and cp_del='0' and cp_data like '%\"zdy6\":\"".$flid."\"%' ");
 		//解析当前页面的配置数据
 		$pxarr=json_decode($px,true);
 		$pzarr=json_decode($pz,true);
@@ -1079,15 +1083,26 @@ class ChanpinController extends Controller {
 	//导入模板下载
 	public function get_muban()
 	{
+		$flid=$_GET['flid'];
+		if(!$flid)
+		{
+			echo "<script>alert('未获取到产品分类ID');history.go(-1);</script>";
+			die;
+		}
 		$name="产品数据导入模板";
 		//$name=iconv("utf-8","gbk//IGNORE",$name);
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$zdbase=M("yewuziduan");
-		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7' limit 1");
+		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7,".$flid."' limit 1");
+		if(count($zdarr)<=0)
+		{
+			echo "<script>alert('未获取到产品分类ID');history.go(-1);</script>";
+			die;
+		}
 		$zdarr=json_decode($zdarr[0]['zd_data'],true);
 		foreach($zdarr as $v)
 		{
-			if($v['qy']!='1'||$v['id']=='zdy5'||$v['id']=='zdy7')
+			if($v['qy']!='1'||$v['id']=='zdy5'||$v['id']=='zdy6'||$v['id']=='zdy7')
 			{
 				continue;
 			}
@@ -1139,21 +1154,25 @@ class ChanpinController extends Controller {
 	public function daoru_chanpin()
 	{
 		$csvfilename=addslashes($_GET['csvfilename']);
-		if($csvfilename=='')
+		$flid=addslashes($_GET['flid']);
+		if($csvfilename==''||$flid=='')
 		{
 			echo '2';
 			die;
 		}
+		$cpflbase=M("chanpinfenlei");
+		$flname=$cpflbase->query("select cpfl_name from crm_chanpinfenlei where cpfl_id='$flid' limit 1");
+		$flname=$flname[0]['cpfl_name'];
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		//读取文件
 		$file_path="./Public/chanpinfile/cpfile/linshi/".$csvfilename;
 		$bs=fopen($file_path,"r");
 		$str = fread($bs,filesize($file_path));
-		//$str=iconv("gbk","utf-8//IGNORE",$str);
+		$str=iconv("gbk","utf-8//IGNORE",$str);
 		$filearr=explode("\n",$str);
 		//文件读取完毕
 		$zdbase=M("yewuziduan");
-		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yewu='7' and zd_yh='$fid' limit 1");
+		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yewu='7,".$flid."' and zd_yh='$fid' limit 1");
 		$zdarr=json_decode($zdarr[0]['zd_data'],true);
 		$first='0';
 		$insertstr='';
@@ -1170,7 +1189,7 @@ class ChanpinController extends Controller {
 				foreach($zdarr as $vv)
 				{
 					
-					if($vv['qy']!='1'||$vv['id']=='zdy5'||$vv['id']=='zdy7')
+					if($vv['qy']!='1'||$vv['id']=='zdy5'||$vv['id']=='zdy6'||$vv['id']=='zdy7')
 						continue;
 					$newzdarr[$newzdarrk]['bt']=$vv['bt'];
 					$newzdarr[$newzdarrk]['id']=$vv['id'];
@@ -1185,7 +1204,8 @@ class ChanpinController extends Controller {
 				
 				if($zdstr!=($a.','))
 				{
-					echo '4';die;
+					echo '4';
+					die;
 				}//判断结束
 				$first='1';
 				continue;
@@ -1206,6 +1226,7 @@ class ChanpinController extends Controller {
 			{
 				$insertarr[$filerowsnum][$vv['id']]=$drarr[$vv['id']];
 			}
+			$insertarr[$filerowsnum]["zdy6"]=$flid;
 			$filerowsnum++;
 		}
 		if(count($insertarr)<1)
@@ -1220,7 +1241,7 @@ class ChanpinController extends Controller {
 		$insertstr=substr($insertstr,0,-1);
 		$cpbase=M("chanpin");
 		$cpbase->query("insert into crm_chanpin values $insertstr ");
-		echo $this->insertrizhi("导入了".count($insertarr)."条产品数据");
+		echo $this->insertrizhi("产品分类：".$flname." 导入了".count($insertarr)."条数据");
 	}
 	//获取导入记录
 	public function get_dr_history()
@@ -1243,11 +1264,17 @@ class ChanpinController extends Controller {
 			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
 			die();
 		}
+		$flid=$_GET['flid'];
+		if(!$flid)
+		{
+			echo "<script>alert('未获取到产品分类ID');history.go(-1);</script>";
+			die;
+		}
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）		
 		$name="产品数据";
 		//字段表
 		$zdbase=M("yewuziduan");
-		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7' limit 1");
+		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7,".$flid."' limit 1");
 		$zdarr=json_decode($zdarr[0]['zd_data'],true);
 		foreach($zdarr as $k=>$v)
 		{
@@ -1267,7 +1294,7 @@ class ChanpinController extends Controller {
 		}
 		//产品表
 		$cpbase=M("chanpin");
-		$cparr=$cpbase->query("select * from crm_chanpin where cp_yh='$fid' and cp_del='0' ");
+		$cparr=$cpbase->query("select * from crm_chanpin where cp_yh='$fid' and cp_del='0' and cp_data like '%\"zdy6\":\"".$flid."\"%' ");
 		$body='';
 		foreach($cparr as $v)
 		{
@@ -1393,6 +1420,7 @@ class ChanpinController extends Controller {
 	public function shaixuan()
 	{
 		$ajaxstr=addslashes($_POST['ajaxstr']);
+		$flid=addslashes($_POST['flid']);
 		$px=$_POST['px'];
 		$pz=$_POST['pz'];
 		//$ajaxstr="[0]:[4],[1]:[2,6,7,8],[2]:[1000],[3]:[[0][1000]],[4]:[7]";
@@ -1412,7 +1440,9 @@ class ChanpinController extends Controller {
 
 		
 		$sxcbase=M("sx_cache");
-		$sxcbasearr=$sxcbase->query("select * from crm_sx_cache where sxc_yh='$fid' and sxc_yewu='7' limit 1");
+		$sxcbasearr=$sxcbase->query("select * from crm_sx_cache where sxc_yh='$fid' and sxc_yewu='7,".$flid."' limit 1");
+		//echo "select * from crm_sx_cache where sxc_yh='$fid' and sxc_yewu='7,".$flid."' limit 1";die;
+		//echo $ajaxstr;die;
 		$sxcarr=json_decode($sxcbasearr[0]['sxc_data'],true);
 		
 		$autok=0;
@@ -1437,8 +1467,9 @@ class ChanpinController extends Controller {
 			//unset($sxcarr[$k]);
 			$autok++;
 		}
-		//echo "<pre>";print_r($sxcarr);die;
+		
 		$ajaxarr=$this->jiexi($ajaxstr);
+		
 		foreach($ajaxarr as $ak=>$av)
 		{
 			$tj=$sxcarr[$ak]['tj'];
@@ -1450,8 +1481,9 @@ class ChanpinController extends Controller {
 			$wherearr[$zdy]['tj']=$tj;
 			$wherearr[$zdy]['val']=$av;
 		}
+		
 		$cpbase=M("chanpin");
-		$cpbasearr=$cpbase->query("select * from crm_chanpin where cp_yh='$fid' and cp_del='0' ");
+		$cpbasearr=$cpbase->query("select * from crm_chanpin where cp_yh='$fid' and cp_del='0' and cp_data like '%\"zdy6\":\"".$flid."\"%' ");
 		foreach($cpbasearr as $cpbk=>$v)
 		{
 			$cpdata=json_decode($v['cp_data'],true);
@@ -1464,6 +1496,8 @@ class ChanpinController extends Controller {
 				{
 					if($fw['tj']=='1')
 					{
+						//echo "<pre>";
+						//print_r($ajaxarr);
 						if($cpdv!=$sxcarr[$cpdk]['ndata'][$fw['val']-2])
 						{
 							continue 2;
@@ -1538,87 +1572,9 @@ class ChanpinController extends Controller {
 					}
 				}
 			}
-			/*
-			foreach($cpdata as $cpdk=>$cpdv)
-			{
-				$fw=$wherearr[$cpdk];
-				if($fw!='')
-				{
-					if($fw['tj']=='1')
-					{
-						if($cpdv!=$sxcarr[$cpdk]['ndata'][$fw['val']-2])
-						{
-							continue 2;
-						}
-					}
-					if($fw['tj']=='2')
-					{
-						$thisvalarr=explode(',',$fw['val']);
-						foreach($thisvalarr as $thisk1=>$thisv1)
-						{
-							$thisvalarr[$thisk1]=$sxcarr[$cpdk]['ndata'][$thisv1-2];
-						}
-						if(!in_array($cpdv,$thisvalarr))
-						{
-							continue 2;
-						}
-					}
-					
-					if($fw['tj']=='3')
-					{
-						$iscz=explode($fw['val'],$cpdv);
-						if(count($iscz)=='1')
-						{
-							continue 2;
-						}
-					}
-					
-					if($fw['tj']=='4')
-					{
-						$thisval4=explode('][',substr($fw['val'],1,-1));
-						$val1=$thisval4[0];
-						$val2=$thisval4[1];
-						if($cpdv<$val1||$cpdv>$val2)
-						{
-							
-							continue 2;
-						}
-					}
-					if($fw['tj']=='5')
-					{
-						//echo $cpdk;
-						$thisqj=$sxcarr[$cpdk]['ndata'][$fw['val']-2];
-						//echo $thisqj;
-						if(count(explode('大于',$thisqj))!=1)
-						{
-							$dayu=explode('大于',$thisqj);
-							if($cpdv<$dayu[1])
-							{
-								continue 2;
-							}
-						}
-						else if(count(explode('小于',$thisqj))!=1)
-						{
-							$xiaoyu=explode('小于',$thisqj);
-							if($cpdv>$xiaoyu[1])
-							{
-								continue 2;
-							}
-						}
-						else
-						{
-							$qjarr=explode('-',$thisqj);
-							if($cpdv<$qjarr[0]||$cpdv>$qjarr[1])
-							{
-								continue 2;
-							}
-						}
-					}
-				}
-			}
-			*/
 			$sxcp[$cpbk]=$v;
 		}
+		//die;
 		//echo $aa;die;
 		if(count($sxcp)<1)
 		{

@@ -911,6 +911,15 @@ class OptionController extends Controller {
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		//筛选条件html结构
 		$sxtjoption="<select><option value='1'>单条件筛选</option><option value='2'>多条件筛选</option><option value='3'>文本筛选</option><option value='4'>文本区间</option><option value='5'>自动区间</option></select>";
+		//产品分类
+		$cpflbase=M("chanpinfenlei");
+		$cpflbasearr=$cpflbase->query("select cpfl_name,cpfl_id from crm_chanpinfenlei where cpfl_company='$fid' ");
+		
+		$cpfl_option='';
+		foreach($cpflbasearr as $v)
+		{
+			$cpfl_option.="<option value='".$v['cpfl_id']."'>".$v['cpfl_name']."</option>";
+		}
 		//筛选表操作
 		$sxbase=M("shaixuan");
 		$sxbasearr=$sxbase->query("select * from crm_shaixuan where sx_yh='$fid' ");
@@ -931,9 +940,9 @@ class OptionController extends Controller {
 			{
 				if($jsonrow['qy']!='1')	continue;
 				$thisid=$jsonrow['id'];
-				if($yewu=='7')
+				if(substr($yewu,0,1)=='7')
 				{
-					if($thisid=='zdy7')	continue;//这个是产品图片
+					if($thisid=='zdy7'||$thisid=='zdy6')	continue;//这个是产品图片
 				}
 				$checkedstr=$sxarr[$yewu][$thisid]['qy']=='1'?'checked':'';
 				$thisoption=$sxarr[$yewu][$thisid]['xx']>0?str_replace("value='".$sxarr[$yewu][$thisid]['xx']."'","value='".$sxarr[$yewu][$thisid]['xx']."' selected",$sxtjoption):$sxtjoption;
@@ -946,9 +955,10 @@ class OptionController extends Controller {
 			$sctime[$yewu]=$sxarr[$yewu]['sctime']==''?$ntime:$sxarr[$yewu]['sctime'];
 			$qy[$yewu]=$sxarr[$yewu]['qy'];
 		}
+		$this->assign("cpfl_option",$cpfl_option);
 		$this->assign("qy",json_encode($qy));
-		$this->assign("sxtable",$sxtable);
-		$this->assign("sctime",$sctime);
+		$this->assign("sxtable",json_encode($sxtable));
+		$this->assign("sctime",json_encode($sctime));
 		$this->display();
 	}
 	//日志
