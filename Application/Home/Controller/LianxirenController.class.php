@@ -407,6 +407,7 @@ class LianxirenController extends Controller {
 		$lx_base=M('lx');
 		$add_lx=$lx_base->add($data);
 		if($add_lx){
+			echo $add_lx;
 			$xiaji= $this->ajax_sx();
 			echo $xiaji;
 		}else{
