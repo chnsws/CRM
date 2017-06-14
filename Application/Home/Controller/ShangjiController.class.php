@@ -1332,7 +1332,7 @@ class ShangjiController extends Controller {
 		foreach($sql_de as $kdpt => $vdpt)
 		{
 			
-			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
+			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门ddddddd
 		}
 
 		$fuzeren=M('user');

@@ -20,7 +20,7 @@ class HetongController extends Controller {
 		}
 		return $sql;
 	}
-	public function user(){                 //负责人和部门
+	public function user(){                 //负责人和dddd
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
 		$new_xiaji=$xiaji;          
 		$new_array=explode(',',$new_xiaji);
@@ -31,7 +31,7 @@ class HetongController extends Controller {
 		foreach($sql_de as $kdpt => $vdpt)
 		{
 			
-			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
+			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门ddddd
 		}
 
 		$fuzeren=M('user');
