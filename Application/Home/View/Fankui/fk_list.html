@@ -32,7 +32,48 @@
     <div id="top">
         问题反馈列表
     </div>
-    <div id="body">
+    <div id="body" class="uk-form">
+        <select id="feedback_mod" name="feedback_mod">
+            <option value="0">全部模块</option>
+            <option value="1">线索</option>
+            <option value="2">客户</option>
+            <option value="3">客户公海</option>
+            <option value="4">联系人</option>
+            <option value="5">商机</option>
+            <option value="6">合同</option>
+            <option value="7">产品</option>
+            <option value="8">报表中心</option>
+            <option value="9">工作报告</option>
+            <option value="10">跟进记录</option>
+            <option value="11">知识库</option>
+            <option value="12">设置中心</option>
+            <option value="13">部门和用户设置</option>
+            <option value="14">角色和权限设置</option>
+            <option value="15">公司信息</option>
+            <option value="16">公告管理</option>
+            <option value="17">业绩目标</option>
+            <option value="18">客户公海（后台设置）</option>
+            <option value="19">工作报告</option>
+            <option value="20">自定义业务字段</option>
+            <option value="21">自定义业务参数</option>
+            <option value="22">自定义审批</option>
+            <option value="23">自定义筛选</option>
+            <option value="24">日志查询</option>
+            <option value="25">其他</option>
+        </select>
+        <select id="feedback_type" name="feedback_type">
+            <option value="0">全部分类</option>
+            <option value="1">优化建议</option>
+            <option value="2">BUG提交</option>
+            <option value="3">逻辑有误</option>
+            <option value="4">运行速度</option>
+            <option value="5">其他</option>
+        </select>
+        <select id="feedback_act" name="asdada">
+            <option value="0">未进行</option>
+            <option value="2">已完成</option>
+            <option value="3">忽略</option>
+        </select>
         <table class="layui-table" lay-skin="line">
             <thead>
                 <th>标题</th>
@@ -67,6 +108,18 @@ function tishi(neirong)
 }
 window.rooturl="{$_GET['root_dir']}";
 $(function(){
+    if("{$_GET['mod']}"!='')
+    {
+        $("#feedback_mod").find("option[value='"+"{$_GET['mod']}"+"']").prop("selected",true);
+    }
+    if("{$_GET['type']}"!='')
+    {
+        $("#feedback_type").find("option[value='"+"{$_GET['type']}"+"']").prop("selected",true);
+    }
+    if("{$_GET['act']}"!='')
+    {
+        $("#feedback_act").find("option[value='"+"{$_GET['act']}"+"']").prop("selected",true);
+    }
     $(".layui-btn").on("click",function(){
         if($(this).prop("id").substr(0,2)=='wa')
         {
@@ -84,6 +137,15 @@ $(function(){
                 window.location.reload();
             });
         }
+    });
+    $("#feedback_mod").change(function(){
+        window.location=rooturl+"/index.php/Home/Fankui/fk_list?mod="+$(this).val()+"&type="+"{$_GET['type']}"+"&act="+"{$_GET['act']}";
+    });
+    $("#feedback_type").change(function(){
+        window.location=rooturl+"/index.php/Home/Fankui/fk_list?mod="+"{$_GET['mod']}"+"&type="+$(this).val()+"&act="+"{$_GET['act']}";
+    });
+    $("#feedback_act").change(function(){
+        window.location=rooturl+"/index.php/Home/Fankui/fk_list?mod="+"{$_GET['mod']}"+"&type="+"{$_GET['type']}"+"&act="+$(this).val();
     });
 });
 

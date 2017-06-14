@@ -91,7 +91,25 @@ class FankuiController extends Controller {
             '5'=>'其他'
         );
         $fkbase=M("feedback");
-        $fkarr=$fkbase->query("select crm_feedback.*,crm_user.user_name from crm_feedback left join crm_user on crm_feedback.fk_user_id=crm_user.user_id where crm_feedback.fk_act=0");
+        $tj='';
+        
+        if($_GET['mod'])
+        {
+            $tj.=" and crm_feedback.fk_mod='".$_GET['mod']."' ";
+        }
+        if($_GET['type'])
+        {
+            $tj.=" and crm_feedback.fk_type='".$_GET['type']."' ";
+        }
+        if($_GET['act'])
+        {
+            $tj.=" and crm_feedback.fk_act='".$_GET['act']."' ";
+        }
+        else
+        {
+            $tj.=" and crm_feedback.fk_act='0' ";
+        }
+        $fkarr=$fkbase->query("select crm_feedback.*,crm_user.user_name from crm_feedback left join crm_user on crm_feedback.fk_user_id=crm_user.user_id where 1 $tj ");
         
         $tablestr='';
         foreach($fkarr as $v)
@@ -99,6 +117,7 @@ class FankuiController extends Controller {
             $a1=mb_strlen($v['fk_title'])>15?substr($v['fk_title'],0,15).'...':$v['fk_title'];
             $a2=mb_strlen($v['fk_content'])>15?substr($v['fk_content'],0,15).'...':$v['fk_content'];
             $tupian=$v['fk_img']==''?'无图片':'<a href="'.$_GET['public_dir'].'/feedbackImg/'.$v['fk_img'].'" data-uk-lightbox >查看图片</a>';
+            $button=$_GET['act']?'禁止操作':'<button class="layui-btn" id="wancheng'.$v['fk_id'].'">完成</button><button class="layui-btn" id="hulve'.$v['fk_id'].'">忽略</button>';
             $tablestr.='<tr>
                             <td title="'.$v['fk_title'].'">'.$a1.'</td>
                             <td>'.$modarr[$v['fk_mod']].'</td>
@@ -106,11 +125,10 @@ class FankuiController extends Controller {
                             <td title="'.$v['fk_content'].'">'.$a2.'</td>
                             <td>'.$typearr[$v['fk_type']].'</td>
                             <td>'.$v['user_name'].'</td>
-                            <td>2017-05-05 11:11:11</td>
+                            <td>'.$v['fk_date'].'</td>
                             <td title="'.$v['fk_browser'].'">浏览器信息</td>
                             <td>
-                                <button class="layui-btn" id="wancheng'.$v['fk_id'].'">已完成</button>
-                                <button class="layui-btn" id="hulve'.$v['fk_id'].'">忽略</button>
+                                '.$button.'
                             </td>
                         </tr>';
         }
