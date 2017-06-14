@@ -119,9 +119,12 @@ class KehuController extends Controller {
 						$show_bt.="<select>
 						<input type='text' name='box' id='sss' style='width:200px;position:absolute;left:27.7%;height:31px;line-height:30px;'>	<span style='margin-left:20px;margin-right:24px ;color:blue' onclick='add_lxr()'>点击添加</span></td>";	
 				
+				}elseif($v['id']=='zdy0'){
+					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
+					$show_bt.="<td><input type='text'  class='required' id= 'wyszdy0'onkeyup='kh_name_if(this)' name='".$v['id']."'></td></tr>";	
 				}else{
-				$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-				$show_bt.="<td><input type='text'  class='required'  name='".$v['id']."'></td></tr>";	
+					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
+					$show_bt.="<td><input type='text'  class='required' name='".$v['id']."'></td></tr>";	
 				}	
 			}else{
 				if($v['cy']==1)
@@ -495,8 +498,7 @@ class KehuController extends Controller {
 				{
 					
 						$lxr_new[$k]=$v;
-						$lxr_new['zdy1']=$add_lx;
-					
+						$lxr_new['zdy1']=(string)$add_lx;
 				}
 				$save_lx["lx_data"]=json_encode($lxr_new,true);
 				$save_lxr=$lxr_base->where($lxr_map)->save($save_lx);
@@ -939,8 +941,8 @@ class KehuController extends Controller {
 	 		$tiaojian='"zdy1":"'.$kh_id.'"';
 	 		
 			$sql_lxr=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and lx_data like '%$tiaojian%'");
-			//echo "<pre>";
-		//	var_dump($sql_lxr);exit;
+			
+			
 			foreach($sql_lxr as $k=>$v)
 			{	
 				foreach($v as $k1 =>$v1)
@@ -2793,5 +2795,31 @@ public function save(){
 			echo $add_lx;
 			
 		}
+	}
+	public function kh_name_if(){
+	
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$new_xiaji=$xiaji;          
+		$new_array=explode(',',$new_xiaji);
+		$kh_base=M('kh');
+		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
+		
+		foreach($kh_sql as $kkh =>$vkh)
+		{
+			$kh_json=json_decode($vkh['kh_data'],true);
+			
+					$kh['id']=$vkh['kh_id'];
+					$kh['name']=$kh_json['zdy0'];
+					$kh_name[$vkh['kh_id']]=$kh;
+		}
+		$name=$_GET['id'];
+		foreach($kh_name as $k=>$v)
+		{
+			if($v['name']==$name){
+				echo "ok";
+			}
+		}
+
 	}
 }

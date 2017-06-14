@@ -797,10 +797,12 @@ function add_yh()
 			var $parent =$(this).parent();
 			$parent.find(".formtips").remove();
 			if( $(this).is('.required') ){
+
 				if(this.value==""){
 					var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#x1007;</i> ";
 					$parent.append('<span class="formtips onError">'+error+'</span>');
 				}else{
+
 					var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#xe616;</i> "
 					$parent.append('<span class="formtips onSuccess">'+error+'</span>');
 				}
@@ -813,8 +815,19 @@ function add_yh()
              $(this).triggerHandler("blur");
         });//end blur
 
-			
 		
+		function kh_name_if(e){
+			var a =$(e).val();
+			$.get(rooturl+'/index.php/Home/Kehu/kh_name_if',{"id":a},
+			        		 				function(html){
+
+        		 							if(html=='ok'){
+												tishi("此客户已存在")
+												$('#wyszdy0').val('')
+        		 							}
+											
+											});
+		}
          function tishi(neirong)
 			{
 			    layer.msg(neirong, {
