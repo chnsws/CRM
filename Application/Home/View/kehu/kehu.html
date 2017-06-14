@@ -375,7 +375,7 @@ if(checked_str=="")
 			return false;
  	}
 	checked_str=checked_str.substr(0,checked_str.length-1);
-	alert(checked_str)
+
 	$.get(rooturl+'/index.php/Home/Kehu/del_kehu',{"id":checked_str},
 							        		 function(html){
 							        			tishi('删除成功')
@@ -728,7 +728,7 @@ function add_yh()
 										}
 										
 									}
-									alert(ajaxstr)
+									
 									if(ajaxstr_lxr!=''){
 										$.get(rooturl+'/index.php/Home/Kehu/lxr_add',{"id":ajaxstr_lxr},
 							        		 function(lxrid){
@@ -821,9 +821,11 @@ function add_yh()
 			$.get(rooturl+'/index.php/Home/Kehu/kh_name_if',{"id":a},
 			        		 				function(html){
 
-        		 							if(html=='ok'){
-												tishi("此客户已存在")
+        		 							if(html){
+												tishi("此客户由"+html+"负责")
 												$('#wyszdy0').val('')
+
+
         		 							}
 											
 											});
