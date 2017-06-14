@@ -65,6 +65,11 @@ var navs = [{
 	"href": "https://www.baidu.com",
 	"spread": false
 }, {
+	"title": "问题反馈",
+	"icon": "fa-envelope",
+	"href": "index.php/Home/Fankui/index",
+	"spread": false
+}, {
 	"title": "收起",
 	"icon": "fa-chevron-left",
 	"href": "#",
