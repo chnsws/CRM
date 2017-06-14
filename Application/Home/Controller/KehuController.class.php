@@ -864,7 +864,7 @@ class KehuController extends Controller {
 
 					}
 				}
-				$new_ywcs[$vcs['id']]=$cs_new;            //获取到启用了的参数
+				$new_ywcs[$vcs['id']]=$cs_new;            //获取到启用了的参数232
 				unset($cs_new);
 				
 			}
