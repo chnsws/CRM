@@ -11,17 +11,39 @@ class ShaixuanDoController extends Controller {
     public function sxqy(){
         $cval=addslashes($_GET['cval']);
         $thisyewu=addslashes($_GET['thisyewu']);
+        $flid=addslashes($_GET['flid']);
+        $flname=addslashes($_GET['flname']);
         if($cval==''||$thisyewu=='')
         {
             echo '2';
             die;
         }
         $ywarr=$this->ywarr;
+        $rzstr=$ywarr[$thisyewu];
+        //如果是产品，组合
+        if($thisyewu=='7')
+        {
+            if($flid=='')
+            {
+                echo 2;die;
+            }
+            $thisyewu=$thisyewu.','.$flid;
+            $rzstr="产品分类：".$flname.' 的';
+        }
+        
         $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
         $sxbase=M("shaixuan");
-        $sxbase->query("update crm_shaixuan set sx_qy='$cval' where sx_yh='$fid' and sx_yewu='$thisyewu'");
+        $iscz=$sxbase->query("select * from crm_shaixuan where sx_yh='$fid' and sx_yewu='$thisyewu' ");
+        if(count($iscz))
+        {
+            $sxbase->query("update crm_shaixuan set sx_qy='$cval' where sx_yh='$fid' and sx_yewu='$thisyewu'");
+        }
+        else
+        {
+            $sxbase->query("insert into crm_shaixuan values('','','$cval','$thisyewu','$fid','')");
+        }
         $kq=$cval=='1'?'开启':'关闭';
-        echo $this->insertrizhi($kq."了".$ywarr[$thisyewu]."筛选");
+        echo $this->insertrizhi($kq."了".$rzstr."筛选");
     }
     //保存设置
     public function bcsz()
@@ -30,9 +52,18 @@ class ShaixuanDoController extends Controller {
         $selectval=addslashes($_GET['selectval']);
         $qjnum=addslashes($_GET['qjnum']);
         $yewu=addslashes($_GET['yewu']);
+        $flid=addslashes($_GET['flid']);
+        $flname=addslashes($_GET['flname']);
         if($yewu=='')
         {
             echo '2';
+        }
+        $ywarr=$this->ywarr;
+        $rzstr=$ywarr[$yewu];
+        if($yewu=='7')
+        {
+            $yewu=$yewu.','.$flid;
+            $rzstr="产品分类：".$flname." 的";
         }
         $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
         $injson='';
@@ -50,16 +81,27 @@ class ShaixuanDoController extends Controller {
             $injson=json_encode($sqlarr);
         }
         $sxbase=M("shaixuan");
-        $sxbase->query("update crm_shaixuan set sx_data ='$injson' where sx_yh='$fid' and sx_yewu='$yewu' limit 1");
-        $ywarr=$this->ywarr;
-
-        echo $this->insertrizhi("更新了".$ywarr[$yewu]."筛选设置");
+        $iscz=$sxbase->query("select sx_id from crm_shaixuan where sx_yh='$fid' and sx_yewu='$yewu' limit 1 ");
+        if(count($iscz))
+        {
+            $sxbase->query("update crm_shaixuan set sx_data ='$injson' where sx_yh='$fid' and sx_yewu='$yewu' limit 1");
+        }
+        else
+        {
+            $sxbase->query("insert into crm_shaixuan values('','$injson','1','$yewu','$fid','')");
+        }
+        echo $this->insertrizhi("更新了".$rzstr."筛选设置");
     }
     //生成模板
     public function createmb()
     {
         $yewu=addslashes($_GET['thisyewu']);
-        $yewu=7;
+        $flid=addslashes($_GET['flid']);
+        $flname=addslashes($_GET['flname']);
+        if($yewu=='7')
+        {
+            $yewu=$yewu.','.$flid;
+        }
         if($yewu == '') die;
         $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
         //查询筛选设置表
@@ -67,38 +109,41 @@ class ShaixuanDoController extends Controller {
         $sxbasearr=$sxbase->query("select * from crm_shaixuan where sx_yh='$fid' and sx_yewu='$yewu' limit 1");
         $sxarr=$sxbasearr[0];
         if($sxarr['sx_qy']!='1') die;
+        if($sxarr['sx_data']=='')
+        {
+            echo 2;
+            die;
+        }
         $sxjsonarr=json_decode($sxarr['sx_data'],true);
         foreach($sxjsonarr as $k=>$v)
         {
             if($v['qy']!='1')   continue;
-            if($v['xx']=='1'||$v['xx']=='2'||$v['xx']=='5') $needselbase[$yewu]=1;//需不需要查询数据库
+            if($v['xx']=='1'||$v['xx']=='2'||$v['xx']=='5') $needselbase=1;//需不需要查询数据库
             $needsx[$k]=$k;
             $sxtj[$k]=$v['xx'];
             $qj[$k]=$v['qj'];
         }
-        if($yewu=='7')//产品筛选判断
+        $ywarr=$this->ywarr;
+        $rzstr=$ywarr[$yewu];
+        if(substr($yewu,0,1)=='7')//产品筛选判断
         {
-            if($needselbase[$yewu]=='1')
+            $rzstr="产品分类：".$flname." 的";
+            if($needselbase=='1')
             {
                 $cpbase=M("chanpin");
-                $cpbasearr=$cpbase->query("select * from crm_chanpin where cp_yh='$fid' and cp_del='0' ");
-                $cpflbase=M("chanpinfenlei");
-                $cpflbasearr=$cpflbase->query("select cpfl_id,cpfl_name from crm_chanpinfenlei where cpfl_company='$fid' ");
-                foreach($cpflbasearr as $v)
-                {
-                    $cpfl[$v['cpfl_id']]=$v['cpfl_name'];
-                }
+                $cpbasearr=$cpbase->query("select * from crm_chanpin where cp_yh='$fid' and cp_del='0' and cp_data like '%\"zdy6\":\"".$flid."\"%' ");
                 foreach($cpbasearr as $cprow)
                 {
                     $rowjsonarr=json_decode($cprow['cp_data'],true);
                     foreach($needsx as $k)
                     {
-                        $thisstr=$k=='zdy6'?$cpfl[$rowjsonarr[$k]]:$rowjsonarr[$k];
+                        $thisstr=$rowjsonarr[$k];
                         if($thisstr!='')
                         $cpsxarr[$k][$thisstr]=$thisstr;//去重
                     }
                 }
             }
+            
             foreach($needsx as $k)//k=zdy1
             {
                 $intarr='';//最大值的初始化
@@ -131,6 +176,7 @@ class ShaixuanDoController extends Controller {
             echo '....';
             die;
         }
+        //echo "<pre>";print_r($injson);die;
         $injsonstr=json_encode($injson);
         $injsonstr=str_replace('\\','\\\\',$injsonstr);
         $sxcbase=M("sx_cache");
@@ -145,8 +191,8 @@ class ShaixuanDoController extends Controller {
         }
         $nowtime=date("Y-m-d H:i:s",time());
         $sxbase->query("update crm_shaixuan set sx_time='$nowtime' where sx_yewu='$yewu' and sx_yh='$fid' limit 1");
-        $ywarr=$this->ywarr;
-        $rzr=$this->insertrizhi("更新了".$ywarr[$yewu]."筛选模块");
+        
+        $rzr=$this->insertrizhi("更新了".$rzstr."筛选模块");
         echo $rzr.'#'.$nowtime;
     }
 

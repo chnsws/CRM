@@ -19,7 +19,8 @@
 <!--UIkit-->
 <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
 <script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
-
+<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/sticky.css" />
+<script src="{$_GET['public_dir']}/uikit/js/components/sticky.js"></script>
 <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/sortable.css" />
 <script src="{$_GET['public_dir']}/uikit/js/components/sortable.js"></script>
 <style>
@@ -33,6 +34,7 @@ body,html,#box{height:auto;margin:0;background-color:#F7F7F7;}
 /*div{border:1px solid #f00;}*/
 #box{height:auto;}
 #main_table thead th{background: #50BBB1;border:none;color:#fff;}
+#main_table{margin-top:0px;}
 #left-div{float:left;width:20%;height:auto;background-color:#fff;}
 #left-top{height:40px;line-height:40px;color:#1AA094;padding-left:10px;font-weight:bold;background-color:#f2f2f2}
 
@@ -49,7 +51,8 @@ body,html,#box{height:auto;margin:0;background-color:#F7F7F7;}
 
 #right-div{float:left;width:100%;}
 #right-top{margin-left:10px;height:60px;line-height:60px;border-bottom:1px solid #ccc;}
-#right-body{margin:10px 10px 0 10px;}
+#right-body{margin:0px 10px 0 10px;}
+#right-body-top{background:#f7f7f7;padding-top:10px;padding-bottom:10px;}
 
 #right-top span{color:#1AA094;font-weight:bold;font-size:22px;}
 #right-top button{height:30px;line-height:30px;float:right;margin-right:10px;margin-top:20px;}
@@ -111,6 +114,7 @@ div,span{overflow:hidden;}
 /*分页*/
 #page_div{float:right;}
 
+.layui-layer-btn0{background:#1AA094;}
 </style>
 </head>
 <body>
@@ -143,8 +147,8 @@ div,span{overflow:hidden;}
     <div id="right-div">
         <div id="right-top">
             <span>产品列表</span>
-            <button class="layui-btn layui-btn-primary" onclick="/*daochu()*/loadingggg(this)">导出</button>
-            <button class="layui-btn layui-btn-primary" onclick="/*daoru()*/loadingggg(this)">导入</button>
+            <button class="layui-btn layui-btn-primary" onclick="daochu()">导出</button>
+            <button class="layui-btn layui-btn-primary" onclick="daoru()">导入</button>
             <button class="layui-btn" onclick="cp_add()"><i class='fa fa-plus' aria-hidden='true'></i>新增产品</button>
         </div>
         <!--筛选区域-->
@@ -159,7 +163,7 @@ div,span{overflow:hidden;}
         <div id="sxshowbtn" onselectstart='return false' ><i class='fa fa-chevron-down' aria-hidden='true'></i></div>
         <!--筛选结束-->
         <div id="right-body">
-            <div id="right-body-top" class="uk-form">
+            <div id="right-body-top" class="uk-form"  data-uk-sticky >
                 <div id="rb-left">
                     <!--<div data-uk-offcanvas="{target:'#my-id'}" style="position:fixed;top:100px;left:0px;z-index:999;background:#000;color:#fff;width:20px;opacity:0.40;text-align:center;padding:8px 0px;cursor:pointer;border-radius:0px 5px 5px 0px;font-size:10px;">产品分类</div>-->
                     <button class="layui-btn layui-btn-primary" onclick="to_cpfl()"><i class='fa fa-reply' aria-hidden='true'></i>返回</button>
@@ -175,7 +179,7 @@ div,span{overflow:hidden;}
                         {$searchoption}
                     </select>
                     <input type="search" id="search_ipt" placeholder="请输入搜索内容">
-                    <button class="layui-btn" onclick="/*searchfun()*/loadingggg(this)">搜索</button>
+                    <button class="layui-btn" onclick="searchfun()">搜索</button>
                 </div>
             </div>
             <span id="tabletishi" style="display:none;">提示：可以按住键盘Shift键并滑动鼠标滑轮来横向滑动列表</span>
@@ -198,8 +202,9 @@ div,span{overflow:hidden;}
 <div id="daorudiv" style="display: none">
     <div class="daoruhead">
         1.下载数据模板后，将要导入的数据填充到数据导入模板文件中，再进行上传导入。<br>
-        2.模板中的表头不可更改，表头行不可删除。<br>
-        3.单次导入的数据不超过4000条。
+        2.导入文件必须为以“,”为分隔符的CSV格式的文件。<br>
+        3.模板中的表头不可更改，表头行不可删除。<br>
+        4.单次导入的数据不超过4000条。
     </div>
     <div id="daorubody" class='layui-form' style="margin-left:10px;margin-top:10px;">
         <center><input type="file" name="csv_up" lay-type="file" class="layui-upload-file" id="imm"  /></center>
@@ -209,7 +214,7 @@ div,span{overflow:hidden;}
         <span id="fileclose" style="cursor:pointer;float:right;" onclick="delnowfile(this)"><i class="layui-icon" style="font-size: 20px; color: #1E9FFF;">&#x1006;</i></span>
         <span id="filesize" style="float:right;margin-right:40px;">223.0K</span>
     </div>
-    <span style="color:#828282;cursor:pointer;position:absolute;bottom:0px;right:15px;" onclick="open_dr_history()">查看导入记录</span>
+    <!--<span style="color:#828282;cursor:pointer;position:absolute;bottom:0px;right:15px;" onclick="open_dr_history()">查看导入记录</span>-->
 </div>
 <!--导入历史弹出层-->
 <div id="daoru_history" style="width:580px;margin:0 10px 0 10px;padding:0;display:none">
@@ -528,8 +533,8 @@ function sxfun()
     //alert(ajaxstr);return false;
     var px=JSON.stringify(nowpagepx);
     var pz=JSON.stringify(nowpagepz);
-    $.post(root_dir+"/index.php/Home/Chanpin/shaixuan",{"ajaxstr":ajaxstr,"px":px,"pz":pz},function(res){
-        //alert(res);
+    $.post(root_dir+"/index.php/Home/Chanpin/shaixuan",{"ajaxstr":ajaxstr,"px":px,"pz":pz,"flid":page_fl_id},function(res){
+
         $("#right-body-body").children("table").find("tbody").html(res);
         layer.close(jiazai);
     });
@@ -639,10 +644,10 @@ function daochu()
         var layer = layui.layer;
         layer.open({
             type:0,
-            title: '全部导出',
-            content:"是否导出全部产品数据？",
+            title: '导出',
+            content:"是否导出该分类的产品数据？",
             yes:function(index,layero){
-                window.location=root_dir+"/index.php/Home/Chanpin/daochu_data";
+                window.location=root_dir+"/index.php/Home/Chanpin/daochu_data?flid="+page_fl_id;
                 layer.close(index);
             }
         }); 
@@ -700,29 +705,19 @@ function daoru()
             area:"600px",
             title: '产品导入',
             content:$("#daorudiv"),
-            btn:["下载模板","产品分类id表","开始导入","取消"],
+            btn:["下载模板","开始导入","取消"],
             btn1:function(index,layero){
-                window.location=root_dir+"/index.php/Home/Chanpin/get_muban";
+                window.location=root_dir+"/index.php/Home/Chanpin/get_muban?flid="+page_fl_id;
             },
+            
             btn2:function(index,layero){
-                var fenlei=layer.open({
-                    type:1,
-                    area:"300px",
-                    title: '产品分类id表',
-                    content:$("#flidlist"),
-                    btn:"关闭",
-                    btn1:function(){
-                        layer.close(fenlei);
-                    }
-                }); 
-            },
-            btn3:function(index,layero){
                 if(is_upload=='')
                 {
                     tishi("请先选择需要导入的文件");
                     return false;
                 }
-                $.get(root_dir+"/index.php/Home/Chanpin/daoru_chanpin",{"csvfilename":is_upload},function(res){
+                $.get(root_dir+"/index.php/Home/Chanpin/daoru_chanpin",{"csvfilename":is_upload,"flid":page_fl_id},function(res){
+                    //alert(res);
                     if(res=='1')
                     {
                         $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload});
@@ -739,16 +734,16 @@ function daoru()
                         return false;
                     }
                 });
-                layer.close(index);
+                //layer.close(index);
             },
-            btn4:function(index,layero){
+            btn3:function(index,layero){
                 if(is_upload!=''&&clickdelnowfile=='0')
                 {
                     $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload});
                 }
                 layer.close(index);
             },
-             cancel: function(index, layero){ 
+            cancel: function(index, layero){ 
                 if(is_upload!=''&&clickdelnowfile=='0')
                 {
                     $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload});
@@ -758,7 +753,20 @@ function daoru()
         }); 
     });  
 }
-
+/*
+btn2:function(index,layero){
+                var fenlei=layer.open({
+                    type:1,
+                    area:"300px",
+                    title: '产品分类id表',
+                    content:$("#flidlist"),
+                    btn:"关闭",
+                    btn1:function(){
+                        layer.close(fenlei);
+                    }
+                }); 
+            },
+            */
 //取消当前选择的文件
 function delnowfile(thisdom)
 {
@@ -1111,16 +1119,23 @@ function searchfun()
 {
     var sea_type=$("#search_sel").val();
     var sea_text=$("#search_ipt").val();
-    window.location=root_dir+"/index.php/Home/Chanpin/index?page="+page_nowpage+"&flid="+page_fl_id+"&searchInfo="+sea_type+","+sea_text;
-    /*
+    
+   // window.location=root_dir+"/index.php/Home/Chanpin/index?page="+page_nowpage+"&flid="+page_fl_id+"&searchInfo="+sea_type+","+sea_text;
     var px=JSON.stringify(nowpagepx);
     var pz=JSON.stringify(nowpagepz);
     //alert(sea_text+sea_type);return false;
-    alert(page_fl_id);
+    //alert(page_fl_id);
     $.post(root_dir+"/index.php/Home/Chanpin/searchfun",{"sea_type":sea_type,"sea_text":sea_text,"px":px,"pz":pz,"flid":page_fl_id},function(res){
         $("#right-body-body").children("table").find("tbody").html(res);
+        if(sea_text=='')
+        {
+            $("#page_div").show();
+        }
+        else
+        {
+            $("#page_div").hide();
+        }
     });
-    */
 }
 
 $("a").click(function(e){

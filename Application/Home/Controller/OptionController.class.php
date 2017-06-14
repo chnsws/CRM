@@ -14,7 +14,70 @@ class OptionController extends Controller {
     }
     //设置中心
     public function optioncenter(){
+		//echo "<pre>";print_r($_COOKIE);
+		if(cookie("islogin")!='1')
+        {
+            echo "<script>window.location='$_GET[root_dir]/index.php/Home/Login'</script>";
+        }
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$userbase=M("user");
+		$f_user_info=$userbase->query("select user_sign_time,user_youxiaoqi from crm_user where user_id='$fid' limit 1");
+		$usercount=$userbase->query("select count(user_id) from crm_user where user_del='0' and  (user_id='$fid' or user_fid='$fid') ");
+		$can_show_gg=$this->gonggao_can_show();
+		$gg_str='';
+		foreach($can_show_gg as $v)
+		{
+			$gg_str.='<tr><td><a href="./gonggaomore?ggid='.$v['ggsz_id'].'&center=1">'.$v['ggsz_name'].'</a><span class="gg_right">'.$v['ggsz_fbsj'].'</span></td></tr>';
+			$a++;
+			if($a==5) break;
+		}
+		$this->assign("gg_str",$gg_str);
+		$this->assign("usercount",$usercount[0]['count(user_id)']);
+		$this->assign("stime",substr($f_user_info[0]['user_sign_time'],0,10));
+		$this->assign("etime",substr($f_user_info[0]['user_youxiaoqi'],0,10));
 		$this->display();
+	}
+	//返回登录用户有权限看的公告
+	public function gonggao_can_show()
+	{
+		//系统公告
+		$ggbase=M("ggshezhi");
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$ggbasearr=$ggbase->query("select ggsz_id,ggsz_kjid,ggsz_name,ggsz_fbsj,ggsz_kjfw,ggsz_fbr from crm_ggshezhi where ggsz_yh='$fid' ");
+		//公司总管理或者超级管理员可以看到全部的公告
+		//if(cookie("user_fid")=='0'||cookie("user_quanxian")=='1')
+		if(cookie("user_quanxian")=='1')
+		{
+			return $ggbasearr;
+		}
+		else
+		{
+			//筛选出登录用户可以看的公告
+			foreach($ggbasearr as $k=>$v)
+			{
+				$kjid=explode(",",$v['ggsz_kjid']);
+				//指定部门
+				if($v['ggsz_kjfw']=='2')
+				{
+					$zhu_bid=cookie("user_zhu_bid");
+					$fu_bid=cookie("user_zhu_bid");
+					if(!in_array($zhu_bid,$kjid)&&!in_array($fu_bid,$kjid))
+					{
+						unset($ggbasearr[$k]);
+					}
+				}
+				//指定角色
+				if($v['ggsz_kjfw']=='3')
+				{
+					$juese=cookie("user_quanxian");
+					if(!in_array($juese,$kjid))
+					{
+						unset($ggbasearr[$k]);
+					}
+				}
+			}
+			return $ggbasearr;
+		}
 	}
 	//部门和用户设置
 	public function bumenyonghu(){
@@ -911,6 +974,15 @@ class OptionController extends Controller {
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		//筛选条件html结构
 		$sxtjoption="<select><option value='1'>单条件筛选</option><option value='2'>多条件筛选</option><option value='3'>文本筛选</option><option value='4'>文本区间</option><option value='5'>自动区间</option></select>";
+		//产品分类
+		$cpflbase=M("chanpinfenlei");
+		$cpflbasearr=$cpflbase->query("select cpfl_name,cpfl_id from crm_chanpinfenlei where cpfl_company='$fid' ");
+		
+		$cpfl_option='';
+		foreach($cpflbasearr as $v)
+		{
+			$cpfl_option.="<option value='".$v['cpfl_id']."'>".$v['cpfl_name']."</option>";
+		}
 		//筛选表操作
 		$sxbase=M("shaixuan");
 		$sxbasearr=$sxbase->query("select * from crm_shaixuan where sx_yh='$fid' ");
@@ -931,9 +1003,9 @@ class OptionController extends Controller {
 			{
 				if($jsonrow['qy']!='1')	continue;
 				$thisid=$jsonrow['id'];
-				if($yewu=='7')
+				if(substr($yewu,0,1)=='7')
 				{
-					if($thisid=='zdy7')	continue;//这个是产品图片
+					if($thisid=='zdy7'||$thisid=='zdy6')	continue;//这个是产品图片
 				}
 				$checkedstr=$sxarr[$yewu][$thisid]['qy']=='1'?'checked':'';
 				$thisoption=$sxarr[$yewu][$thisid]['xx']>0?str_replace("value='".$sxarr[$yewu][$thisid]['xx']."'","value='".$sxarr[$yewu][$thisid]['xx']."' selected",$sxtjoption):$sxtjoption;
@@ -946,9 +1018,10 @@ class OptionController extends Controller {
 			$sctime[$yewu]=$sxarr[$yewu]['sctime']==''?$ntime:$sxarr[$yewu]['sctime'];
 			$qy[$yewu]=$sxarr[$yewu]['qy'];
 		}
+		$this->assign("cpfl_option",$cpfl_option);
 		$this->assign("qy",json_encode($qy));
-		$this->assign("sxtable",$sxtable);
-		$this->assign("sctime",$sctime);
+		$this->assign("sxtable",json_encode($sxtable));
+		$this->assign("sctime",json_encode($sctime));
 		$this->display();
 	}
 	//日志
