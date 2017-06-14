@@ -403,6 +403,7 @@ class LianxirenController extends Controller {
 	}
 	public function adda(){
 		$a=$_GET['id'];
+		$b=$_GET['id2'];
 		//$a="zdy0:王玉帅,zdy1:公司二,zdy2:男,zdy3:技术部,zdy4:程序员,zdy5:15101574324,zdy6:1510157324,zdy7:guanzhuwoba666,zdy8:792732447,zdy9:没有,zdy10:792732447@qq.com,zdy11:www.nmm.com,zdy12[]:北京市-北京市市辖区-东城区,zdy13:劲松富顿中心C座1201,zdy14:548976,zdy15:2017-4-27 17:11:46,zdy16:2222,";
 		$new_number=substr($a,0,strlen($a)-1); 
 		$new_arr=explode(',',$new_number);
@@ -413,11 +414,14 @@ class LianxirenController extends Controller {
 			{
 				$substr=substr($ex['0'],0,strlen($ex['0'])-2); //id
 					$ex1[$substr]=$ex['1'];
+			}elseif($ex['0']=='zdy1'){
+
+				$ex1['zdy1']=$b;
 			}else{
 				$ex1[$ex['0']]=$ex['1'];
 			}
 			
-		}
+		}  
 		$data["lx_data"]=json_encode($ex1,true);
 		$data["lx_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 		$data["lx_cj"]=	cookie('user_id');//本人ID  ;
