@@ -155,7 +155,7 @@
 	<div id="add_kh" style="display: none;border:1px"> <!--新增lxr 弹出框-->
 								<form  name= 'form_kh' method="post" id="kh" >
 									<table class=" th_kh addshangji_weizhi uk-form">
-										{$add_yw}
+										
 										
 									</table>
 								</form>
@@ -176,6 +176,7 @@
   					</div>
 	</body>
 	<script>
+	window.ajaxstr_kh='';
 		window.rooturl="{$_GET['root_dir']}";
 	$("#add_shangji").hide();
 	$(".ncy").hide();
@@ -255,14 +256,26 @@
 										}
 										
 									}
-									//tishi(ajaxstr)
-									$.get(rooturl+'/index.php/Home/Lianxiren/add',{"id":ajaxstr},
-							        		 function(html){
-									        		 tishi("添加成功")
-									        		$("#jb_bianji").html(html);
-									        		layer.close(win)
-							                   });
-
+									if(ajaxstr_kh=='')
+									{
+										$.get(rooturl+'/index.php/Home/Lianxiren/add',{"id":ajaxstr},
+								        		 function(html){
+										        		 tishi("添加成功")
+										        		$("#jb_bianji").html(html);
+										        		layer.close(win)
+								                   });
+									}else{
+										$.get(rooturl+'/index.php/Home/Lianxiren/add_kh',{"id":ajaxstr_kh},
+								        		 function(khid){
+								        		 	window.kh_id=khid;
+								        		 	$.get(rooturl+'/index.php/Home/Lianxiren/adda',{"id":ajaxstr,"id2":kh_id},
+										        		 function(html){
+												        		 tishi("添加成功")
+												        		$("#jb_bianji").html(html);
+												        		layer.close(win)
+										                   });
+								                   });
+									}
 								},
 								btn2:function(){
 									layer.close(win)
@@ -506,13 +519,13 @@
 								btn:['确认添加','取消'],
 								btn1:function(){
 									 $("#kh :input.required1").trigger('blur');
-			             				  var numError = $('#lxr .onError').length;
-			             				 // alert(numError)fffff
+			             				  var numError = $('#kh .onError').length;
+			             				
 			              				  if(numError){
 			              				  	tishi('必填项不能为空')
 					                   			 return false;
 					              		 	 } 
-									var formdom=$("#lxr").children("table").find("tr");
+									var formdom=$("#kh").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';
 									for(a=0;a<fornum;a++)
@@ -527,16 +540,13 @@
 										}
 										
 									}
-									window.ajaxstr_lxr=ajaxstr;//alert(ajaxstr)
-									var name =$("#lxr").find("#zdy0").val();
-									$("#sss").val(name)
-									$(".zssj").prop("selected",true)
-								//	$.get(rooturl+'/index.php/Home/Lianxiren/add',{"id":ajaxstr},
-							        		// function(html){
-									        		// tishi("添加成功")
-									        	//	$("#jb_bianji").html(html);
+									window.ajaxstr_kh=ajaxstr;
+									var name =$("#kh").find("#wyszdy0").val();
+								
+									 $(".kh_ls").html("<option value='001' selected='selected'>"+name+"</option>");
+								
 									        		layer.close(win)
-							                 //  });
+							  
 
 								},
 								btn2:function(){
@@ -546,6 +556,15 @@
 							}); 
 						});  
 
-	}
+	}function get_bm(bm){
+    			var user_id=$(bm).val();
+    		//	tishi(user_id)ddddddd
+    			$.get(rooturl+'/index.php/Home/Hetong/get_bm',{"id":user_id},
+			        		 				function(html){
+        		 								//tishi(html)
+											$(".bm_th").html(html);
+												layer.close(win)
+											});
+    		}
     	</script>
 </html>

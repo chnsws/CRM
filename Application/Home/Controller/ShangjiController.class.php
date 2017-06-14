@@ -1337,7 +1337,7 @@ class ShangjiController extends Controller {
 
 		$fuzeren=M('user');
 		
-		$fuzeren=M('user');
+	
 		
 			$map['user_id']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
 	

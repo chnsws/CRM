@@ -2491,7 +2491,7 @@ krsort($ko);
 		foreach($sql_de as $kdpt => $vdpt)
 		{
 			
-			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门rrrrr
+			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
 		}
 
 
@@ -2516,7 +2516,7 @@ krsort($ko);
 				}
 			} 
 	
-
+			
 return $fzr_only;
 	}
 	public function ceshi(){
