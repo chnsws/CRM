@@ -209,13 +209,13 @@ class LianxirenController extends Controller {
 							$add_yw.="<tr class='addtr'>";
 							$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td>";
 									$add_yw.="<td>
-							 		<select  name='".$vywzd['id']."' class='required' style='width:300px;height:30px;'>
+							 		<select  name='".$vywzd['id']."' class='required' style='width:230px;height:30px;'>
 							 			<option value=''>--请选择--</option>";
 							 		foreach ($kh_name as $kkh => $vkh)
 							 		{
 							 			 $add_yw.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
 							 		} 
-							 $add_yw.=	"</select> </td>";
+							 $add_yw.=	"</select> <span style='color:blue;margin-right:10px' onclick='kh_add()'>点击添加</span></td>";
 							$add_yw.="</tr>";
 						}
 					}elseif($vywzd['type']==2){
@@ -239,20 +239,7 @@ class LianxirenController extends Controller {
 				{
 					if($vywzd['type']==3)
 					{
-						if($vywzd['id']=='zdy1')
-						{
-							$add_yw1.="<tr class='addtr'>";
-							$add_yw1.="<td>".$vywzd['name'].":</td>";
-									$add_yw1.="<td>
-							 		<select  name='' style='width:300px;height:30px;'>
-							 			<option>--请选择--</option>";
-							 		foreach ($kh_name as $kkh => $vkh)
-							 		{
-							 			 $add_yw1.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
-							 		} 
-							 $add_yw1.=	"</select> </td>";
-							$add_yw1.="</tr>";
-						}
+						
 					}elseif($vywzd['type']==2){
 						$add_yw1.="<tr class='addtr'>";
 						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";
@@ -538,5 +525,105 @@ class LianxirenController extends Controller {
 		}
 		echo $show_bt;
 
-	}
+	}  public function kehu_add(){
+    	$xiaji= $this->get_xiashu_id();//  查询下级ID
+    //	$lxr=$this->lxr();
+    
+
+  		$a=M('yewuziduan');                      //新增客户所需字段     
+  		$map['zd_yewu']="2";
+  		$map['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//这里通过查询获得
+  		$sql=$a->where($map)->field('zd_data')->find();
+		$a_arr=json_decode($sql['zd_data'],true);
+		foreach($a_arr as $k=>$v)
+		{	if($v['qy']==1){
+			$canm[$v['id']]=$v;
+			}
+		}
+		$ywcs=M('ywcs');                 //获取ywcs表中的 数据
+ 		$yw_cs['ywcs_yw']="2";
+ 		$yw_cs['ywcs_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+ 		$ywcs_sql=$ywcs->where($yw_cs)->field('ywcs_data')->find();
+ 		$ywcs_sql_json=json_decode($ywcs_sql['ywcs_data'],true);
+ 		foreach($ywcs_sql_json as $kywcs=>$vywcs)
+			{
+				$ywcs_new[$vywcs['id']]=$vywcs;
+			}
+			
+		foreach($ywcs_new as $k=>$v)
+		{
+			foreach($v['qy'] as $k1=>$v1)
+			{
+				if($v1==1){
+					$ywcs_wys[$k1]=$v[$k1];
+				}
+
+			}
+			$ywcs_wysend[$k]=$ywcs_wys;
+		}
+		foreach($a_arr as $k2=>$v2){
+			if($v2['qy']=="1"){
+
+				$qy_arr=$v2;
+				$new_qy[]=$qy_arr;
+			}
+		}
+		$a_arr=$new_qy;
+		foreach($a_arr as $k=>$v)
+		{
+			if($v['bt']==1)
+			{
+				if($v['id']=="zdy1" || $v['id']=="zdy9" || $v['id']=="zdy10" || $v['id']=="zdy11" || $v['id']=="zdy12")
+				{
+					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
+					$show_bt.="<td><select  class='required1' name='".$v['id']."'>";
+							$show_bt.="<option value=''>--请选择--</option>";
+						foreach($ywcs_wysend[$v['id']] as $k=>$v)
+						{
+							$show_bt.="<option value='".$k."'>".$v."</option>";
+						}
+					$show_bt.="<select></td>";	
+					$show_bt.="</tr>";
+				}elseif($v['id']=='zdy13'){
+						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
+						$show_bt.="<td><input type='text' name='".$v['id']."'  class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td></tr>";	
+				}elseif($v['id']=='zdy6'){
+					$show_bt.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
+					$show_bt.="<td><span style='color:red'>*</span>".$v['name'].":</td><td class='form-group' style='width:80%;'>";
+
+					$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
+		          	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
+		         	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
+	 				$show_bt.="</td></tr>";
+				}elseif($v['id']=='zdy15'){
+					
+				
+				}elseif($v['id']=='zdy0'){
+					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
+					$show_bt.="<td><input type='text'  class='required1' id= 'wyszdy0'onkeyup='kh_name_if(this)' name='".$v['id']."'></td></tr>";	
+				}else{
+					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
+					$show_bt.="<td><input type='text'  class='required1' name='".$v['id']."'></td></tr>";	
+				}	
+			}
+	
+						
+		}
+			$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>乙方负责人:</td>";
+			$show_bt.="<td><select name='ht_fz'  class ='required' onchange='get_bm(this)'>";
+			$show_bt.="<option  value=''>请选择负责人</option>";	
+				foreach($fzr_only as $k=>$v)
+				{
+					$show_bt.="<option  value='".$v['user_id']."'>".$v['user_name']."</option>";
+				}
+			$show_bt.=" </select></td></tr>	";
+			$show_bt.="<tr class='addtr '><td>部门:</td>";
+			$show_bt.="<td class='bm_th' ><input type='text' name='ht_department' disabled value='' > </td>";
+		
+		  echo 	$show_bt;
+
+
+    }
+
+ 
 }

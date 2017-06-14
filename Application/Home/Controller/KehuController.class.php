@@ -2496,16 +2496,10 @@ krsort($ko);
 
 
 		$fuzeren=M('user');
-			$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		if(cookie('user_fid')=='0')
-		{
-			$map['user_id']=$fid;
-		}
-		else
-		{
-			$map['user_fid']=$fid;
-		}
-	 	$fuzeren_sql=$fuzeren->where($map)->select();//缺少条件
+		
+			$map['user_id']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+	
+	 	$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id IN ($xiaji)");//缺少条件
 			foreach ($fuzeren_sql as $k=>$v)
 			{
 				foreach ($new_array as $k1=>$v1)
@@ -2522,8 +2516,7 @@ krsort($ko);
 				}
 			} 
 	
-//echo "<pre>";
-//var_dump($fzr_only);exit;
+			
 return $fzr_only;
 	}
 	public function ceshi(){

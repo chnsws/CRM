@@ -76,10 +76,12 @@
 			.addshangji_weizhi{margin:0px auto;margin-top:20px;}
 			.addtr{line-height:25px;}
 			.addtr td{padding-top:20px;}
+			.addtr td select{width:300px;}
 			.addtr td input{width:300px;}	.anniudw{  position: relative;top: 14px;}	span a{margin-left:20px;}
 			#nchangyong{margin-top:10px;margin-left:15%;}
 			.onError{color:red;}
 			.onSuccess{color:green;}
+
 		</style>      
 	</head>
 	<body style="position:relative">
@@ -150,6 +152,15 @@
 					</form>
 					<div id="nchangyong"  onselectstart='return false'><span style="color:blue">展开更多信息>></span></div>
 	</div>
+	<div id="add_kh" style="display: none;border:1px"> <!--新增lxr 弹出框-->
+								<form  name= 'form_kh' method="post" id="kh" >
+									<table class=" th_kh addshangji_weizhi uk-form">
+										{$add_yw}
+										
+									</table>
+								</form>
+								
+				</div>
 	<div id="daoru" style="margin-top:40px;display: none;border:1px"><!--导入-->
   						<div class="dr_q" style="width:80%;margin:0px auto";>
   							<li style="height:30px;position: relative; left:-8px;">一、下载导入数据模板 ,将导入的数据填充到导入模板文件中。</li>
@@ -453,5 +464,88 @@
 			        time: 1000, 
 			    });
 			}
+			    function kh_add(){
+	$.get(rooturl+'/index.php/Home/lianxiren/kehu_add',{},
+			        		 				function(html){
+			        		 					$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.js");
+		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/main.js");
+		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.data.js");
+											$(".th_kh").html(html);
+											$('#kh table :input').blur(function(){
+									    	
+													var $parent =$(this).parent();
+													$parent.find(".formtips").remove();
+													if( $(this).is('.required1') ){
+														if(this.value==""){
+															var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#x1007;</i> ";
+															$parent.append('<span class="formtips onError">'+error+'</span>');
+														}else{
+															var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#xe616;</i> "
+															$parent.append('<span class="formtips onSuccess">'+error+'</span>');
+														}
+
+													}
+			
+														}).keyup(function(){
+												           $(this).triggerHandler("blur");
+												        }).focus(function(){
+												             $(this).triggerHandler("blur");
+												        });//end blur
+												layer.close(win)
+											});
+    	
+		layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'630px',
+								fixed: false,
+								title: '新增客户',
+								content:$('#add_kh'),
+								btn:['确认添加','取消'],
+								btn1:function(){
+									 $("#kh :input.required1").trigger('blur');
+			             				  var numError = $('#lxr .onError').length;
+			             				 // alert(numError)
+			              				  if(numError){
+			              				  	tishi('必填项不能为空')
+					                   			 return false;
+					              		 	 } 
+									var formdom=$("#lxr").children("table").find("tr");
+									var fornum=formdom.length;
+									var ajaxstr='';
+									for(a=0;a<fornum;a++)
+									{
+										var thisdom=formdom.eq(a).find("td").eq(1).children();
+										if(thisdom.prop("name")=='zdy12[]')
+										{	//tishi(thisdom.prop("name"))
+											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
+										}else{
+											
+											ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+										}
+										
+									}
+									window.ajaxstr_lxr=ajaxstr;//alert(ajaxstr)
+									var name =$("#lxr").find("#zdy0").val();
+									$("#sss").val(name)
+									$(".zssj").prop("selected",true)
+								//	$.get(rooturl+'/index.php/Home/Lianxiren/add',{"id":ajaxstr},
+							        		// function(html){
+									        		// tishi("添加成功")
+									        	//	$("#jb_bianji").html(html);
+									        		layer.close(win)
+							                 //  });
+
+								},
+								btn2:function(){
+									layer.close(win)
+									//addshangji()
+								}
+							}); 
+						});  
+
+	}
     	</script>
 </html>
