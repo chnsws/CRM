@@ -25,6 +25,8 @@
         #box{margin:10px;}
         #top{border-bottom:3px solid #1AA094;height:50px;line-height: 50px;font-size: 24px;color:#1AA094;font-weight: bold;margin-bottom:20px;}
        
+       #add_beizhu{display:none;}
+       #add_beizhu textarea{width:475px;margin:10px;height:100px;resize: none;border-radius: 5px;}
     </style>
 </head>
 <body>
@@ -84,6 +86,7 @@
                 <th>反馈人</th>
                 <th>反馈时间</th>
                 <th>浏览器</th>
+                <th>备注</th>
                 <th>操作</th>
             </thead>
             <tbody>
@@ -93,6 +96,9 @@
     </div>
 </div>
 </body>
+<div id="add_beizhu">
+<textarea id="textarea"></textarea>
+</div>
 <script>
 //初始化
 layui.use('layer', function(){
@@ -136,6 +142,30 @@ $(function(){
             $.get(rooturl+"/index.php/Home/Fankui/change_act",{"fk_id":thisid,"act":"3"},function(res){
                 window.location.reload();
             });
+        }
+        if($(this).prop("id").substr(0,2)=='be')
+        {
+            var thisid=$(this).prop("id").substr(6);
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                layer.open({
+                    type:1,
+                    area:"500px",
+                    title: '添加产品分类',
+                    content:$("#add_beizhu"),
+                    btn:["保存","取消"],
+                    btn1:function(index){
+                        var textarea_val=$("#textarea").val();
+                        $.post(rooturl+"/index.php/Home/Fankui/addbeizhu",{"fk_id":thisid,"tara":textarea_val},function(res){
+                            window.location.reload();
+                        });
+                        
+                    },
+                    btn2:function(index){
+                        layer.close(index);
+                    }
+                }); 
+            }); 
         }
     });
     $("#feedback_mod").change(function(){

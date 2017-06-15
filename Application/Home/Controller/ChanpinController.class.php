@@ -290,6 +290,7 @@ class ChanpinController extends Controller {
 					$left_t='';
 					if($tdnum=='0')
 					{
+						$tddata=strlen($tddata)>30?mb_substr($tddata,0,10).'...':$tddata;
 						$left_t="class='left_t'";
 						$b="<td $tdclass  style='width:200px'  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' title='".$titledata."'>".$tddata."</td>";
 						

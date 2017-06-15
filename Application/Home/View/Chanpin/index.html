@@ -73,6 +73,7 @@ body,html,#box{height:auto;margin:0;background-color:#F7F7F7;}
 #tabletishi{color:#828282;}
 #addcpdiv{width:400px;padding:20px 50px 20px 50px;font-weight:bold;font-size:14px;}
 #addcpdiv tr{height:50px;line-height:50px;}
+#addcpdiv input{line-height: 30px;}
 #add_yc_div{color:#1AA094;}
 #cpimg{width:120px;height:120px;}
 
@@ -424,6 +425,7 @@ $("#sxshowbtn").click(function(){
 $(".sxzddiv").children("span").click(function(){
     $(this).parent().children("span").prop("class","sx_no");
     $(this).prop("class","sx_yes");
+    $("#page_div").hide();
 });
 
 //筛选的选项（多选）
@@ -456,6 +458,7 @@ $(".sxzddiv_d").children("span").click(function(){
     {
         $(this).parent().find("span").eq(0).prop("class",'sx_yes');
     }
+    $("#page_div").hide();
 });
 $(".sxsea").change(function(){
     if($(this).val()!='')
@@ -470,9 +473,11 @@ $(".sxsea").change(function(){
 $("#sxzddiv").find("span").click(function(){
     if($(this).parent().prop("class")!='sxzddiv') return false;
     sxfun();
+    $("#page_div").hide();
 });
 $(".sxdbtn").click(function(){
     sxfun();
+    $("#page_div").hide();
 });
 //获取筛选的所有元素
 function sxfun()
@@ -1053,6 +1058,7 @@ function cp_add()
                             if(has_old_img=='')
                             {
                                 tishi("必须上传一个产品图片");
+                                layer.close(jiazai);
                                 return false;
                             }
                         }
@@ -1061,6 +1067,7 @@ function cp_add()
                             if(thiszdyvalue=='')
                             {
                                 tishi("必填项不能为空");
+                                layer.close(jiazai);
                                 return false;
                             }
                         }
@@ -1087,11 +1094,13 @@ function cp_add()
                     else if(res=='2')
                     {
                         tishi("添加失败");
+                        layer.close(jiazai);
                         return false;
                     }
                     else
                     {
                         tishi("添加失败，请刷新后重试");
+                        layer.close(jiazai);
                         return false;
                     }
                 });

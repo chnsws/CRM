@@ -44,7 +44,7 @@ class FankuiController extends Controller {
                 die();
             }
         }
-        $mod->add_one_data("crm_feedback","'','$feedback_title','$feedback_more','$newfilename','$feedback_mod','$feedback_type','$user_id','$bro_info','$fk_time','0'");
+        $mod->add_one_data("crm_feedback","'','$feedback_title','$feedback_more','$newfilename','$feedback_mod','$feedback_type','$user_id','$bro_info','$fk_time','','0'");
         echo "<script>alert('您的反馈已经收录，我们会认真对您所提出来的建议对系统进行相应的改进，感激您宝贵的意见和建议。');</script>";
         echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Fankui/index';</script>";
     }
@@ -117,7 +117,8 @@ class FankuiController extends Controller {
             $a1=mb_strlen($v['fk_title'])>15?substr($v['fk_title'],0,15).'...':$v['fk_title'];
             $a2=mb_strlen($v['fk_content'])>15?substr($v['fk_content'],0,15).'...':$v['fk_content'];
             $tupian=$v['fk_img']==''?'无图片':'<a href="'.$_GET['public_dir'].'/feedbackImg/'.$v['fk_img'].'" data-uk-lightbox >查看图片</a>';
-            $button=$_GET['act']?'禁止操作':'<button class="layui-btn" id="wancheng'.$v['fk_id'].'">完成</button><button class="layui-btn" id="hulve'.$v['fk_id'].'">忽略</button>';
+            $button=$_GET['act']?'禁止操作':'<button class="layui-btn" id="beizhu'.$v['fk_id'].'">备注</button><button class="layui-btn" id="wancheng'.$v['fk_id'].'">完成</button><button class="layui-btn" id="hulve'.$v['fk_id'].'">忽略</button>';
+            $bz=$v['fk_bz']==''?"无备注":"查看备注";
             $tablestr.='<tr>
                             <td title="'.$v['fk_title'].'">'.$a1.'</td>
                             <td>'.$modarr[$v['fk_mod']].'</td>
@@ -127,6 +128,7 @@ class FankuiController extends Controller {
                             <td>'.$v['user_name'].'</td>
                             <td>'.$v['fk_date'].'</td>
                             <td title="'.$v['fk_browser'].'">浏览器信息</td>
+                            <td title="'.$v['fk_bz'].'">'.$bz.'</td>
                             <td>
                                 '.$button.'
                             </td>
@@ -139,6 +141,14 @@ class FankuiController extends Controller {
     {
         $fkbase=M("feedback");
         $fkbase->query("update crm_feedback set fk_act='".$_GET['act']."' where fk_id='".$_GET['fk_id']."' limit 1");
+        echo 1;
+    }
+    public function addbeizhu()
+    {
+        $id=$_POST['fk_id'];
+        $tara=$_POST['tara'];
+        $fkbase=M("feedback");
+        $fkbase->query("update crm_feedback set fk_bz='$tara' where fk_id='".$id."' limit 1");
         echo 1;
     }
 }
