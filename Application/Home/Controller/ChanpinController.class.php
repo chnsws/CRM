@@ -156,7 +156,7 @@ class ChanpinController extends Controller {
 		}
 		//排序查询
 		$pxbase=M("paixu");
-		$pxarr=$pxbase->query("select px_px from crm_paixu where px_yh='$fid' and px_mod='7' limit 1");
+		$pxarr=$pxbase->query("select px_px from crm_paixu where px_yh='$fid' and px_mod='$get_yewu' limit 1");
 		//根据已存的排序重新打乱数组
 		if(count($pxarr)>0)
 		{
