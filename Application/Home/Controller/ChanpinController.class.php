@@ -603,8 +603,9 @@ class ChanpinController extends Controller {
         }
 		$getFileArr=$_FILES['cpimage'];
         $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$user_id=cookie("user_id");
         $oldnamehz=substr(strrchr($getFileArr['name'], '.'), 1);
-        $newname=time().$getFileArr['name'];
+        $newname=$fid.'_'.$user_id.'_'.time().'.'.$oldnamehz;
         $ss=move_uploaded_file($getFileArr['tmp_name'],'./Public/chanpinfile/cpimg/'.$newname);
         if(!file_exists('./Public/chanpinfile/cpimg/'.$newname))//验证上传是否成功
         {
@@ -851,8 +852,9 @@ class ChanpinController extends Controller {
         }
 		$getFileArr=$_FILES['editcpimage'];
         $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-        //$oldnamehz=substr(strrchr($getFileArr['name'], '.'), 1);
-        $newname=time().$getFileArr['name'];
+		$user_id=cookie("user_id");
+        $oldnamehz=substr(strrchr($getFileArr['name'], '.'), 1);
+        $newname=$fid.'_'.$user_id.'_'.time().'.'.$oldnamehz;
         $ss=move_uploaded_file($getFileArr['tmp_name'],'./Public/chanpinfile/cpimg/'.$newname);
         if(!file_exists('./Public/chanpinfile/cpimg/'.$newname))//验证上传是否成功
         {
