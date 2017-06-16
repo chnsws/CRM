@@ -220,7 +220,7 @@ class ChanpinController extends Controller {
 		$cydiv.="</table></div>";
 		$ncydiv.="</table></div>";
 		$show_more="<div id='add_yc_div'><span onclick='more_info()' style='cursor:pointer;'>展开更多信息<i class='fa fa-chevron-down' aria-hidden='true'></i></span></div>";
-		$addlist=$cydiv.$show_more.$ncydiv;//自定义添加表单
+		$addlist=$ncydiv=="<div id='add_yc_body' style='display:none;'><table></table></div>"?$cydiv:$cydiv.$show_more.$ncydiv;//自定义添加表单
 
 		//==表单查询模块结束
 		//开始产品列表查询
