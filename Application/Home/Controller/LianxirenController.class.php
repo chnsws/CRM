@@ -429,7 +429,18 @@ class LianxirenController extends Controller {
 		$lx_base=M('lx');
 		$add_lx=$lx_base->add($data);
 		if($add_lx){
-			echo $add_lx;
+			$kh_base=M('kh');
+			$map_kh['kh_id']=$b;
+			$map_kh["kh_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$sql_kh=$kh_base->where($map_kh)->find();
+			$kh_json=json_decode($sql_kh['kh_data'],true);
+			foreach($kh_json as $k=>$v)
+			{
+				$sqlkh_new[$k]=$v;
+			} 
+			$sqlkh_new['zdy15']=(string)$add_lx;
+			$sqlkh_en['kh_data']=json_encode($sqlkh_new,true);
+			$sql_save=$kh_base->where($map_kh)->save($sqlkh_en);
 			$xiaji= $this->ajax_sx();
 			echo $xiaji;
 		}else{

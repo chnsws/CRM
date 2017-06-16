@@ -72,6 +72,7 @@
 			.addtr{line-height:25px;}
 			.addtr td{padding-top:20px;}
 			.addtr td input{width:300px;}
+			.addtr td select{width:300px;}
 			.anniudw{  position: relative;top: 14px;}
 			span a{margin-left:20px;}
 			.pl_bj{margin:0px auto;}
@@ -297,7 +298,15 @@
 					</form>
 
 					</div>
-
+<div id="add_kh" style="display: none;border:1px"> <!--新增客户-->
+								<form  name= 'form_kh' method="post" id="kh" >
+									<table class=" th_kh addshangji_weizhi uk-form">
+										
+										
+									</table>
+								</form>
+								
+				</div>
 	</body>
 	<script>
 		window.rooturl="{$_GET['root_dir']}";
@@ -377,9 +386,10 @@
 
 								type:1,
 								offset: 't',
-								area: ['630px', '700px'],
-								title: '新增商机',
+								area:'630px',
 								fixed: false,
+								title: '新增商机',
+							
 								content:$('#add_shangji'),
 								btn:['确认添加','取消'],
 								btn1:function(){
@@ -482,6 +492,7 @@
 								type:1,
 								offset: 't',
 								area:'630px',
+									fixed: false,
 								title: '客户导入',
 								content:$('#daoru'),
 								btn:['下载模板','下载客户参数','开始导入','取消'],
@@ -576,6 +587,7 @@
 								type:1,
 								offset: 't',
 								area:'630px',
+									fixed: false,
 								title: '添加产品',
 								content:$('#addcp'),
 								btn:['保存'],
@@ -660,6 +672,7 @@
 											type:1,
 											offset: 't',
 											area:'630px',
+												fixed: false,
 											title: '批量编辑客户',
 											content:$('#bj_kehu'),
 											btn:['确认修改','取消'],
@@ -716,6 +729,7 @@
 									type:1,
 									offset: 't',
 									area:'630px',
+										fixed: false,
 									title: '批量转移客户',
 									content:$('#piliangzy'),
 									btn:['确认转移','取消'],
@@ -913,7 +927,8 @@
 							var win=layer.open({
 								type:1,
 								offset: 't',
-								area: ['630px', '600px'],
+								area:'630px',
+										fixed: false,
 								title: '新增联系人',
 								content:$('#lxr'),
 								btn:['确认添加','取消'],
@@ -965,5 +980,117 @@
 						});  
 
 			}
+					    function kh_add(){
+	$.get(rooturl+'/index.php/Home/Shangji/kehu_add',{},
+			        		 				function(html){
+			        		 					$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.js");
+		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/main.js");
+		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.data.js");
+											$(".th_kh").html(html);
+											$('#kh table :input').blur(function(){
+									    	
+													var $parent =$(this).parent();
+													$parent.find(".formtips").remove();
+													if( $(this).is('.required1') ){
+														if(this.value==""){
+															var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#x1007;</i> ";
+															$parent.append('<span class="formtips onError">'+error+'</span>');
+														}else{
+															var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#xe616;</i> "
+															$parent.append('<span class="formtips onSuccess">'+error+'</span>');
+														}
+
+													}
+			
+														}).keyup(function(){
+												           $(this).triggerHandler("blur");
+												        }).focus(function(){
+												             $(this).triggerHandler("blur");
+												        });//end blur
+												layer.close(win)
+											});
+    	
+		layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'630px',
+								fixed: false,
+								title: '新增客户',
+								content:$('#add_kh'),
+								btn:['确认添加','取消'],
+								btn1:function(){
+									 $("#kh :input.required1").trigger('blur');
+			             				  var numError = $('#kh .onError').length;
+			             				
+			              				  if(numError){
+			              				  	tishi('必填项不能为空')
+					                   			 return false;
+					              		 	 } 
+									var formdom=$("#kh").children("table").find("tr");
+									var fornum=formdom.length;
+									var ajaxstr='';
+									for(a=0;a<fornum;a++)
+									{
+										var thisdom=formdom.eq(a).find("td").eq(1).children();
+										if(thisdom.prop("name")=='zdy12[]')
+										{	//tishi(thisdom.prop("name"))
+											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
+										}else{
+											
+											ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+										}
+										
+									}
+									window.ajaxstr_kh=ajaxstr;
+									var name =$("#kh").find("#wyszdy0").val();
+								
+									 $(".kh_ls").html("<option value='001' selected='selected'>"+name+"</option>");
+								
+									        		layer.close(win)
+							  
+
+								},
+								btn2:function(){
+									layer.close(win)
+									//addshangji()
+								}
+							}); 
+						});  
+
+	}
+	 $("#sss").on("click",function(){
+            var main_height=$("option").length*1;
+            $("#student").css("height",main_height+"px");
+            $("#student").attr("size","20");
+        })
+
+        $("#sss").on("keyup",function(){
+            //$("option")rrrr
+            var in_text=$("#sss").val();
+            if(in_text=='')
+            {
+                $("option").show();
+                return;
+            }
+            var main_height=$("option").length*1;
+            $("#student").css("height",main_height+"px");
+            $("#student").attr("size","20");
+            
+            $("option").each(function(){
+            	 $("#tshi").show();
+                if($(this).text().search(in_text)>=0)
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+                
+            });
+
+        });
     	</script>
 </html>

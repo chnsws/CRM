@@ -20,14 +20,7 @@
 
 
 
-		<link href="{$_GET['public_dir']}/dataTable/css/dataTables.bootstrap.css" rel="stylesheet">
-  		<link href="{$_GET['public_dir']}/bootstrap/css/bootstrap.css" rel="stylesheet">
-
-		<script src="{$_GET['public_dir']}/dataTable/js/jquery.dataTables.min.js" ></script>
-		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
-		<script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js"></script>
-		<script src="{$_GET['public_dir']}/dataTable/js/dataTables.bootstrap.js" ></script>
-
+		
 <!--下面   地区插件-->
 	
 		<link href="{$_GET['public_dir']}/diqu/css/main.css" rel="stylesheet">
@@ -100,73 +93,49 @@
 			#nchangyong{margin-top:10px;margin-left:15%;}
 			.onError{color:red;}
 			.onSuccess{color:green;}
-
+			.kongzhiyeshu{margin-top:19px;height:40px;font-size:16px;margin-left:20px;}
    			 </style>
   			
 
 		<script type="text/javascript">
 		window.ajaxstr_lxr='';
 		window.lxr_id='';
-        $(function () {
-            $("#table_local").dataTable({
-                //lengthMenu: [5, 10, 20, 30],//这里也可以设置分页，但是不能设置具体内容，只能是一维或二维数组的方式，所以推荐下面language里面的写法。
-                //"
-                "sScrollX": "100%",
-				"sScrollXInner": "250%",
-				"bScrollCollapse": true,
-                paging: true,//分页
-                ordering: true,//是否启用排序
-                searching: true,//搜索
-                language: {
-                    lengthMenu: '<select class="form-control input-xsmall">' + '<option value="1">1</option>' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">40</option>' + '<option value="50">50</option>' +'<option value="5">5</option>' + '</select>条记录',//左上角的分页大小显示。
-                    search: '<span class="label label-success">搜索：</span>',//右上角的搜索文本，可以写html标签
 
-                    paginate: {
-                        previous: "上一页",
-                        next: "下一页",
-                        first: "第一页",
-                        last: "最后"
-                    },
+	      layui.use(['laypage', 'layer'], function(){
+		  var laypage = layui.laypage
+		  ,layer = layui.layer;
+		  
+		 var ys=$("#ys").val();
+		 var wocao=$("#wocao").val();
+		  laypage({
+		    cont: 'demo7'
+		    ,pages: ys
+		    ,curr:wocao
+		    ,skip: true,
 
-                    zeroRecords: "没有内容",//table tbody内容为空时，tbody的内容。
-                    //下面三者构成了总体的左下角的内容。
-                    info: "总共_PAGES_ 页，显示第_START_ 到第 _END_ ，筛选之后得到 _TOTAL_ 条，初始_MAX_ 条 ",//左下角的信息显示，大写的词为关键字。
-                    infoEmpty: "0条记录",//筛选为空时左下角的显示。
-                    infoFiltered: ""//筛选之后的左下角筛选提示，
-                },
-                paging: true,
-                pagingType: "full_numbers",//分页样式的类型
+		    jump: function(obj, first){
+		      if(!first){
+		      	var fenye=$("#fenye").val();
+		      
+		      	window.location.href="kehu?dijiye="+obj.curr+"&fenye="+fenye;
+		       tishi('第 '+ obj.curr +' 页');
 
-            });
-            $("#table_local_filter input[type=search]").css({ width: "auto" });//右上角的默认搜索文本框，不写这个就超出去了。
-          
-        });
+		      }
+		  	}
+		  });
+		});
+
 
     	</script>
     	
- <!--<script>
-    		$(document).ready(function(){
-    			$(".shaixuan").click(function(){
-
-		tishi($(this).attr("name"))
-		tishi($(this).attr("id"))
-    				$.get(rooturl+'/index.php/Home/Kehu/shaixuan',{"title":$(this).attr("name"),"val":$(this).attr("id")},
-							        		 				function(html){
-							        		 					tishi(html)
-															$("#jb_bianji").html(html);
-															blurfun();
-
-															});
-
-    			});
-    		});
-    	</script>-->
 
 	</head>
 
 	<body style="position:relative">
 	
-		 
+		 <input type="hidden" id="ys" value="{$ys}">
+		 <input type="hidden" id="fenye" value="{$list_num}">
+		  <input type="hidden" id="wocao" value="{$dijiye}">
 		<div id="tabs">
 		<div>
 			  <ul>
@@ -191,15 +160,6 @@
   					</div>
 
 
-			  <!--	<div class="peizhi">
-				   	<div class="left">
-				  
-					   	 <div  class="left1" style="margin-top:13px;margin-bottom:13px;line-height:30px" >
-					   	 	 	{$new_html}					
-						</div>
-
-					</div>
-			   	</div>--> 
 		 <div id="sxdiv" >
             <div id="sxhidestr"  style='display: none;border:1px'>
           
@@ -270,27 +230,47 @@
 					</form>
 					</div>
    				</div>
-		   		<div class="kehu">   	
-		   			<div class="panel panel-default">
+		   		<div class="kehu">   
+		   		<div class='kongzhiyeshu uk-form '>每页显示<select  onchange="kongzhiyeshu(this)">
+
+		   						<option value="5">5</option>
+		   						<option value="10">10</option>
+		   						<option value="15">15</option>
+		   						<option value="20">20</option>
+		   						<option value="25">25</option>
+		   						<option value="30">30</option>
+		   						<if condition ="$list_num neq ''" >
+		   							<option value="{$list_num}" selected="selected">{$list_num}</option>
+		   						<else />
+		   						</if>
+		   					</select>条
+		   					 		<span style="float:right; margin-right:8%" ><span  style="width:60px;" class=" layui-btn layui-btn-small  ">搜索</span>：<input type="text" height=26px;  onkeyup="sousuo(this)" value="">
+		   				</span>
+		   		</div>
+		  		
+		   			<div style="overflow:auto">
 			   			 
-						<div class="panel-body" >
-								 <table id="table_local" class="table table-bordered table-striped table-hover" >
-						            <thead>
-						                <tr>	
+						<div  style="width :5600px;" >
+								<table class="layui-table" lay-skin="line" >
+							  	<thead>
+							  			<tr>	
 						                		<th>ID</th>
 							                <foreach name="kehu1" item="vo">
-
 							                    <th>{$vo.name}</th> <!--客户标题-->
 							                 </foreach>
 						                </tr>
-						            </thead>
-						                <tbody id="jb_bianji">
-													{$table}    <!--客户显示信息-->
-						                </tbody>			       
-						  			</table>
+								</thead>
+								<tbody id="jb_bianji">
+												{$table}    <!--客户显示信息-->
+					             </tbody>	
+							</table>  
+							
 						</div>
 					</div>
 				</div>
+<div id="demo7" style="right:0;z-index: 9999; position: fixed ! important; "></div>
+					  		
+
 				<div id="dialog-form" style="display: none;border:1px"> <!--新增商机 弹出框-->
 					<form id="ht_form" method="post" class="uk-form " >
 						<table class="addshangji_weizhi ">
@@ -354,7 +334,7 @@ layui.use('upload', function(){
     			})
     		}
 $(document).ready(blurfun());
-
+	
 
 function del_check()
 {
@@ -389,8 +369,13 @@ if(checked_str=="")
 
 </script>
 <script>
+function kongzhiyeshu(ss){
 
-
+		var yeshu=$(ss).val();
+		window.yeshu=yeshu;
+		window.location.href="kehu?fenye="+yeshu;
+	
+	}
   								
 function yc_file(thisdom){
 	clickdelnowfile='1';
@@ -963,5 +948,14 @@ function add_yh()
 							}); 
 						});  
 
-	}
+		}
+		function sousuo(e){
+			var name= $(e).val();
+			alert (name)
+			 $.get(rooturl+'/index.php/Home/Kehu/sousuo',{"id":name},
+								        		 function(lxrid){
+								        		
+										        	alert(lxrid)
+								                  });
+		}
 	</script>

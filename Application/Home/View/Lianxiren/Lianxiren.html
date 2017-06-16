@@ -348,6 +348,7 @@
 								type:1,
 								offset: 't',
 								area:'630px',
+								fixed: false,
 								title: '客户导入',
 								content:$('#daoru'),
 								btn:['下载模板','下载客户参数','开始导入','取消'],
@@ -556,7 +557,8 @@
 							}); 
 						});  
 
-	}function get_bm(bm){
+	}
+	function get_bm(bm){
     			var user_id=$(bm).val();
     		//	tishi(user_id)ddddddd
     			$.get(rooturl+'/index.php/Home/Hetong/get_bm',{"id":user_id},
@@ -566,5 +568,19 @@
 												layer.close(win)
 											});
     		}
+    			function kh_name_if(e){
+			var a =$(e).val();
+			$.get(rooturl+'/index.php/Home/Kehu/kh_name_if',{"id":a},
+			        		 				function(html){
+
+        		 							if(html){
+												tishi("此客户由"+html+"负责")
+												$('#wyszdy0').val('')
+
+
+        		 							}
+											
+											});
+		}
     	</script>
 </html>

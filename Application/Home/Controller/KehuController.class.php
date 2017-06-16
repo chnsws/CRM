@@ -21,9 +21,32 @@ class KehuController extends Controller {
 			}
 		}
 		$a_arr=$canm;
+		$fenye=$_GET['fenye'];
+		if($fenye==null || $fenye=='')
+		{
+			$list_num=5;
+		}else{
+			$list_num=$fenye;
+		}
+		$dijiye=$_GET['dijiye'];
+		if($dijiye==null || $dijiye=="")
+		{
+			$new=0;
+			$dijiye=1;
+		}else{
+			$new=($dijiye-1)*$list_num;
+		}
+		
 		$datakh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 		$ht_base=M('kh');
-		$kehu=$ht_base->query("select * from crm_kh where kh_yh='$datakh' and kh_fz IN ($xiaji)");// 查询商机信息
+		$kehu=$ht_base->query("select * from crm_kh where kh_yh='$datakh' and kh_fz IN ($xiaji) limit ".$new.",".$list_num."");
+		$kehu_count=$ht_base->query("select count(kh_id) from crm_kh where kh_yh='$datakh' and kh_fz IN ($xiaji)");
+		$ys= ceil($kehu_count['0']['count(kh_id)']/$list_num);//多少页
+
+
+
+
+
 		$ywcs=M('ywcs');                 //获取ywcs表中的 数据
  		$yw_cs['ywcs_yw']="2";
  		$yw_cs['ywcs_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
@@ -364,7 +387,9 @@ class KehuController extends Controller {
 								}
 						$table.="</tr>";				
 		}
-
+		$this->assign('ys',$ys);//页数
+		$this->assign('dijiye',$dijiye);
+		$this->assign('list_num',$list_num);
 		$this->assign('table',$table);
 		$this->assign('kehu1',$kh_biaoti1);//显示客户标题
 		$this->assign('kehu',$a_arr);//新增客户标题
@@ -2864,4 +2889,20 @@ public function save(){
 		//var_dump($kh_name);exit;
 		return $kh_name;
 	}
+	public function index4(){
+
+		$list_num=3;
+		$new=0;
+		$kh_base=M('user');
+		$sql_count=$kh_base->where($map)->count();
+		$ys=$sql_count/$list_num;
+		$list = $kh_base->limit($new,$list_num)->select();
+		$this->assign("list",$list);
+		$this->display();
+		
+	}
+		public function sousuo(){
+			$name=$_GET['id'];
+			
+		}
 }
