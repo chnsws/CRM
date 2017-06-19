@@ -141,7 +141,7 @@ class KehuController extends Controller {
 							$show_bt.="<option id='tshi'  class='zssj' style='height:38px' value='0001'></option>";
 							
 						$show_bt.="<select>
-						<input type='text' name='box' id='sss' style='width:200px;position:absolute;left:27.7%;height:31px;line-height:30px;'>	<span style='margin-left:20px;margin-right:24px ;color:blue' onclick='add_lxr()'>点击添加</span></td>";	
+						<input type='text' name='box' id='sss' style='width:200px;position:absolute;left:30.2%;height:31px;line-height:30px;'>	<span style='margin-left:20px;margin-right:24px ;color:blue' onclick='add_lxr()'>点击添加</span></td>";	
 				
 				}elseif($v['id']=='zdy0'){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
@@ -2871,6 +2871,7 @@ public function save(){
 	}
 	public function kehu_name(){
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
+
 		$new_xiaji=$xiaji;          
 		$new_array=explode(',',$new_xiaji);
 		$kh_base=M('kh');
@@ -2889,20 +2890,115 @@ public function save(){
 		//var_dump($kh_name);exit;
 		return $kh_name;
 	}
-	public function index4(){
-
-		$list_num=3;
-		$new=0;
-		$kh_base=M('user');
-		$sql_count=$kh_base->where($map)->count();
-		$ys=$sql_count/$list_num;
-		$list = $kh_base->limit($new,$list_num)->select();
-		$this->assign("list",$list);
-		$this->display();
-		
-	}
-		public function sousuo(){
-			$name=$_GET['id'];
-			
+	public function sousuo(){
+		$user=$this->user();
+		$ywcs=M('ywcs');                 //获取ywcs表中的 数据
+ 		$yw_cs['ywcs_yw']="2";
+ 		$yw_cs['ywcs_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+ 		$ywcs_sql=$ywcs->where($yw_cs)->field('ywcs_data')->find();
+ 		$ywcs_sql_json=json_decode($ywcs_sql['ywcs_data'],true);
+		foreach($ywcs_sql_json as $kywcs=>$vywcs)
+		{
+			$ywcs_new[$vywcs['id']]=$vywcs;
 		}
+		//var_dump($user);exit;
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$name=$_GET['id'];
+		
+		$json_name=json_encode($name,true);
+		$newstr = substr($json_name,0,strlen($json_name)-1); 
+		$first =substr($newstr,1);  
+		$tihuan= str_replace("\\", "\\\\\\\\", $first);
+		$kh_base=M('kh');
+		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kehu=$kh_base->query("select * from crm_kh where kh_yh = '$yh' and kh_fz IN ($xiaji) and  kh_data like '%".$tihuan."%'");
+
+			foreach($kehu as $k=>$v)
+				{
+					foreach($v as $kk=>$vv)
+					{
+						if($kk!='kh_data')
+							$ronghe[$k][$kk]=$vv;
+						else
+						{
+							$rowjson=json_decode($vv,true);
+							foreach($rowjson as $kkk=>$vvv)
+							{	
+								if($kkk=='zdy1' || $kkk=='zdy9' ||$kkk=='zdy10' ||$kkk=='zdy11' ||$kkk=='zdy12')
+								{
+									//echo $kkk;
+									foreach($ywcs_new as $kcs=>$vcs)
+									{
+										if($kkk==$kcs)
+										{
+											$ronghe[$k][$kkk]=$vcs[$vvv];
+										}
+											
+									}
+							}else{
+								$ronghe[$k][$kkk]=$vvv;
+
+							}
+							}
+						}
+					}
+				}
+		$a=M('yewuziduan');                      //新增客户所需字段     
+  		$map['zd_yewu']="2";
+  		$map['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//这里通过查询获得
+  		$sql=$a->where($map)->field('zd_data')->find();
+		$a_arr=json_decode($sql['zd_data'],true);
+		$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_cj_cp'=>"已经成交产品",'kh_new_gj'=>"最新跟进记录",'kh_sj_gj_date'=>"实际跟进时间",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
+		foreach($array_jiansuo as $k=>$v){
+				$new_str1['id']=$k;
+				$new_str1['name']=$v;
+				$new_str1['qy']=1;
+				$new_str1['type']=0;
+				$new_array1[]=$new_str1;
+			}
+
+		$kh_biaoti1=array_merge_recursive($a_arr,$new_array1);//客户标题名字	
+
+			$lxr=$this->lxr();
+
+					foreach($ronghe as $r_k=>$r_v)
+					{	
+						$id=$r_v['kh_id'];
+						$table.="<tr id='tr".$r_v['kh_id']."'>";
+								$xs123=$r_v['kh_id'];
+								$table.="
+										<td >
+											<input type='checkbox' class='chbox_duoxuan' id='$xs123'>
+										</td>";
+								foreach($kh_biaoti1 as $k_biaoti=>$v_biaoti)
+								{	
+									if($r_v[$v_biaoti['id']]!="")	
+									{
+											if($v_biaoti['id']=='zdy0')
+												$xs123="<a href='kehumingcheng/kh_id/$id'>".$r_v[$v_biaoti['id']]."
+												</a>";
+											elseif($v_biaoti['id']=="kh_fz" || $v_biaoti['id']=="kh_old_fz" || $v_biaoti['id']=="kh_cj" )
+																$xs123="<span id='wys{$id}'>".$user[$r_v[$v_biaoti['id']]]['user_name']."</span>";
+											elseif($v_biaoti['id']=="zdy15" )
+												$xs123="<a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$lxr[$r_v[$v_biaoti['id']]]['id']."'>".$lxr[$r_v[$v_biaoti['id']]]['name']."</a>";
+
+											else
+												$xs123="
+												<span id='wys{$id}'>".$r_v[$v_biaoti['id']]."</span>";
+												$table.="<td name='$k'>
+													$xs123
+												</td>";
+									}else{
+												$xs123="
+												<span id='wys{$id}'>---</span>";
+												$table.="<td name='$k'>
+													$xs123
+												</td>";
+									}	
+								}
+						$table.="</tr>";				
+		}
+		echo $table;
+	}
+	
 }

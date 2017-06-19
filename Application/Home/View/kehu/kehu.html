@@ -80,7 +80,7 @@
 			.sx_title{float:left;width:80px;height:25px;margin:5px 5px 5px 5px;line-height:25px;}
 			.sx_yes,.sx_no{width:auto;margin:5px 5px 5px 5px;cursor:pointer;padding:0 5px 0 5px;float:left;height:25px;line-height:25px;}
 			.sx_yes{background-color:#1AA094;border-radius:3px;color:#fff;}
-			.xinzeng2{float:right;}
+			.xinzeng2{float:right;margin-right:2%;}
 			.fa-pencil{float:right;}
 			.sx_tj_margain{width:auto;margin:5px 5px 5px 15px;cursor:pointer;padding:0 5px 0 5px;float:left;height:25px;line-height:25px;background-color:#1AA094;border-radius:3px;color:#fff;}
 			.layui-btn-primary{width:200px;height:30px;}
@@ -94,7 +94,7 @@
 			.onError{color:red;}
 			.onSuccess{color:green;}
 			.kongzhiyeshu{margin-top:19px;height:40px;font-size:16px;margin-left:20px;}
-
+			.panel-title{font-size:21px;}
    			 </style>
   			
 
@@ -246,7 +246,9 @@
 				   						<else />
 				   						</if>
 				   					</select>条
-				   					 		<span style="float:right; margin-right:8%" ><span  style="width:60px;" class=" layui-btn layui-btn-small  ">搜索</span>：<input type="text" height=26px;  onkeyup="sousuo(this)" value="">
+				   					 		<span style="float:right; margin-right:2%" ><input type="text" height=26px; id="sousuo" value="">
+				   					 <span onclick="sousuo1()" style="margin-left:-25px">	<i class="layui-icon" >&#x1006;</i></span>
+				   					 		<span  style="width:60px; margin-left:15px" class=" layui-btn layui-btn-small "  onclick="sousuo()">搜索</span>
 				   				</span>
 				   		</div>
 			  		
@@ -947,13 +949,24 @@ function add_yh()
 						});  
 
 		}
-		function sousuo(e){
-			var name= $(e).val();
-			alert (name)
+		function sousuo(){
+			var name= $("#sousuo").val();
+		
 			 $.get(rooturl+'/index.php/Home/Kehu/sousuo',{"id":name},
 								        		 function(lxrid){
-								        		
-										        	alert(lxrid)
+
+								        		$("#jb_bianji").html(lxrid);
+										        	
+								                  });
+		}
+			function sousuo1(){
+			var name= "";
+			 $("#sousuo").val("");
+			 $.get(rooturl+'/index.php/Home/Kehu/sousuo',{"id":name},
+								        		 function(lxrid){
+
+								        		$("#jb_bianji").html(lxrid);
+										        	
 								                  });
 		}
 	</script>
