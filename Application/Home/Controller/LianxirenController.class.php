@@ -128,7 +128,7 @@ class LianxirenController extends Controller {
 		}else{
 			$new=($dijiye-1)*$list_num;
 		}
-	
+
 		$lxr_base=M('lx');
 		$map['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司
 		$map['lx_cj']=array('in',$new_array);//cid在这个数组中，
@@ -470,8 +470,8 @@ class LianxirenController extends Controller {
 		//	echo $mapid;
 			$shangjidel_base=M('lx');
 			$sql_del=$shangjidel_base->query("delete from `crm_lx` where `lx_id` in ($mapid)");
-			$save_jb=$this->ajax_sx();
-			echo $save_jb;
+			//$save_jb=$this->ajax_sx();
+			//echo $save_jb;
 	}
 	public function shaixuan(){
 		$id=$_GET['id'];

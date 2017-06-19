@@ -66,7 +66,8 @@
 			.sx_tj_margain{margin-left:12px;}
 			.anniu{width:auto;height:50px;border:1px solid #ccc;margin-left:-17px;} 
 			.head_title{margin-left:16px;font-size:20px;}
-			.addshangji_weizhi{margin:0px auto;margin-top:20px;}
+			.addshangji_weizhi{margin:0px auto;margin-top:20px;width:420px;}
+
 			.addtr{line-height:25px;}
 			.addtr td{padding-top:20px;}
 			.addtr td select{width:300px;}
@@ -114,58 +115,58 @@
   					</button>
 					</span>
    				</div>
-		   		<div class="kehu">   
-				   	<div class='kongzhiyeshu uk-form '>每页显示<select  onchange="kongzhiyeshu(this)">
+		   			<div class="kehu">   
+						   	<div class='kongzhiyeshu uk-form '>每页显示<select  onchange="kongzhiyeshu(this)">
 
-				   						<option value="5">5</option>
-				   						<option value="10">10</option>
-				   						<option value="15">15</option>
-				   						<option value="20">20</option>
-				   						<option value="25">25</option>
-				   						<option value="30">30</option>
-				   						<if condition ="$list_num neq ''" >
-				   							<option value="{$list_num}" selected="selected">{$list_num}</option>
-				   						<else />
-				   						</if>
-				   					</select>条
-				   					 		<span style="float:right; margin-right:8%" ><span  style="width:60px;" class=" layui-btn layui-btn-small  ">搜索</span>：<input type="text" height=26px;  onkeyup="sousuo(this)" value="">
-				   				</span>
-				   	</div>
-			  		
-			   			<div style="overflow:auto">
-								<div  style="width :5600px;" >
-										<table class="layui-table" lay-skin="line" >
-									  	<thead>
-									  			<tr>	
-								                	  <th>ID</th> <!--客户标题-->
-								                <foreach name="lx_biaoti" item="vo">
-								                    <th>{$vo.name}</th> <!--客户标题-->
-								                  </foreach>
-								                </tr>
-										</thead>
-										<tbody id="jb_bianji">
-														{$show_bt}   <!--客户显示信息-->
-							             </tbody>	
-									</table>  
-									
-								</div>
-						</div>
-				</div>
+						   						<option value="5">5</option>
+						   						<option value="10">10</option>
+						   						<option value="15">15</option>
+						   						<option value="20">20</option>
+						   						<option value="25">25</option>
+						   						<option value="30">30</option>
+						   						<if condition ="$list_num neq ''" >
+						   							<option value="{$list_num}" selected="selected">{$list_num}</option>
+						   						<else />
+						   						</if>
+						   					</select>条
+						   					 		<span style="float:right; margin-right:8%" ><span  style="width:60px;" class=" layui-btn layui-btn-small  ">搜索</span>：<input type="text" height=26px;  onkeyup="sousuo(this)" value="">
+						   				</span>
+						   	</div>
+				  		
+				   			<div style="overflow:auto">
+									<div  style="width :5600px;" >
+											<table class="layui-table" lay-skin="line" >
+										  	<thead>
+										  			<tr>	
+									                	  <th>ID</th> <!--客户标题-->
+									                <foreach name="lx_biaoti" item="vo">
+									                    <th>{$vo.name}</th> <!--客户标题-->
+									                  </foreach>
+									                </tr>
+											</thead>
+											<tbody id="jb_bianji">
+															{$show_bt}   <!--客户显示信息-->
+								             </tbody>	
+										</table>  
+										
+									</div>
+							</div>
+					</div>
 				<div id="demo7" style="float:right"></div>
 		</div>
-	</div>
 
-	<div id="add_shangji" style="display: none;border:1px"> <!--新增商机 弹出框-->
-					<form name="" method="post" id="myform" >
-						<table class="addshangji_weizhi uk-form">
-							{$add_yw}
-							{$add_yw1}
-							{$add_yw2}
-						</table>
-					</form>
-					<div id="nchangyong"  onselectstart='return false'><span style="color:blue">展开更多信息>></span></div>
-	</div>
-	<div id="add_kh" style="display: none;border:1px"> <!--新增lxr 弹出框-->
+
+			<div id="add_shangji" style="display: none;border:1px"> <!--新增商机 弹出框-->
+							<form name="" method="post" id="myform" >
+								<table class="addshangji_weizhi uk-form">
+									{$add_yw}
+									{$add_yw1}
+									{$add_yw2}
+								</table>
+							</form>
+							<div id="nchangyong"  onselectstart='return false'><span style="color:blue">展开更多信息>></span></div>
+			</div>
+			<div id="add_kh" style="display: none;border:1px"> <!--新增lxr 弹出框-->
 								<form  name= 'form_kh' method="post" id="kh" >
 									<table class=" th_kh addshangji_weizhi uk-form">
 										
@@ -186,7 +187,9 @@
   							<li   id="yc_xs" ><span id="name_sc" style="margin-left:10px;margin-top:19px;" >名字</span><span   style="margin-left:60px" id="size_sc">大小</span><span   style="margin-left:60px"> 完成</span > <span style="margin-left:60px" onclick="yc_file(this)"  id="fileclose">删除</span></li>
   							
   						</div>
-  					</div>
+  	</div>
+  	</div>
+  	</div>
 	</body>
 	<script>
 	window.ajaxstr_kh='';
@@ -467,7 +470,8 @@
     			$.get(rooturl+'/index.php/Home/Lianxiren/del',{"id":checked_str},
 		        		 function(html){
 		        		 	tishi("删除成功");
-		        				$("#jb_bianji").html(html);
+		        						      
+		     				window.location.href="lianxiren";
 		                   });
 
     		}
