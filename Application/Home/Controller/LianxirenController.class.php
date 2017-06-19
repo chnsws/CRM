@@ -45,39 +45,7 @@ class LianxirenController extends Controller {
 		return $dpt_arr;
 	}
 	public function lianxiren_sel(){
-		$xiaji= $this->get_xiashu_id();//  查询下级ID
-		$new_xiaji=$xiaji;
-		//$new_xiaji="1,3,4,6,7,8";       
-		$new_array=explode(',',$new_xiaji);
-		
-		
-		$lxr_base=M('lx');
-		$map['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司
-		$map['lx_cj']=array('in',$new_array);//cid在这个数组中，
-		$lxr_sql=$lxr_base->where($map)->select();  //查询出我的我的下级联系人
-			//echo "<pre>";
-		//var_dump($lxr_sql);exit;
-		foreach($lxr_sql as $k=>$v)
-		{
-			foreach($v as $k1 =>$v1)
-			{
-				if($k1!="lx_data")
-				{
-					$sql[$k1]=$lxr_sql[$k][$k1];
-				}else{
 
-					$sql_json=json_decode($v1,true);
-					foreach($sql_json as $kjson=>$vjson)
-					{
-						$sql[$kjson]=$vjson;
-					}
-				}
-			
-			}$new_lxr[]=$sql;
-			unset($sql );
-			
-		}
-		return $new_lxr;
 
 	}
 	public function ajax_sx(){
@@ -140,7 +108,55 @@ class LianxirenController extends Controller {
 		$kh_name= $this->kehu();    //业务字段信息 
 	//	echo "<pre>";var_dump($kh_name);exit;
 		$dpt_arr= $this->department();    //部门字段信息 
-		$lianxiren= $this->lianxiren_sel();    //业务字段信息 
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$new_xiaji=$xiaji;
+		//$new_xiaji="1,3,4,6,7,8";       
+		$new_array=explode(',',$new_xiaji);
+		
+		$fenye=$_GET['fenye'];
+		if($fenye==null || $fenye=='')
+		{
+			$list_num=5;
+		}else{
+			$list_num=$fenye;
+		}
+		$dijiye=$_GET['dijiye'];
+		if($dijiye==null || $dijiye=="")
+		{
+			$new=0;
+			$dijiye=1;
+		}else{
+			$new=($dijiye-1)*$list_num;
+		}
+	
+		$lxr_base=M('lx');
+		$map['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司
+		$map['lx_cj']=array('in',$new_array);//cid在这个数组中，
+		$lx_count=$lxr_base->where($map)->count(); 
+		$lxr_sql=$lxr_base->where($map)->limit($new,$list_num)->order("lx_cj_date desc")->select();  //查询出我的我的下级联系人
+		$ys= ceil((int)$lx_count/$list_num);//多少页
+		
+		foreach($lxr_sql as $k=>$v)
+		{
+			foreach($v as $k1 =>$v1)
+			{
+				if($k1!="lx_data")
+				{
+					$sql[$k1]=$lxr_sql[$k][$k1];
+				}else{
+
+					$sql_json=json_decode($v1,true);
+					foreach($sql_json as $kjson=>$vjson)
+					{
+						$sql[$kjson]=$vjson;
+					}
+				}
+			
+			}$lianxiren[]=$sql;
+			unset($sql );
+			
+		}
+	 
 																	//联系人标题
 		foreach($ywzd as $k=>$v)
 		{
@@ -295,7 +311,9 @@ class LianxirenController extends Controller {
 				}
 			}
 		}
-		
+			$this->assign('dijiye',$dijiye);
+		$this->assign('ys',$ys);
+		$this->assign('list_num',$list_num);
 		$this->assign('lx_biaoti',$lx_biaoti1);
 		$this->assign('add_yw',$add_yw);
 		$this->assign('add_yw1',$add_yw1);
