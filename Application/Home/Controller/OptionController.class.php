@@ -739,7 +739,8 @@ class OptionController extends Controller {
 							$instyle2="<input type='checkbox' $bt name='bt".$v['id']."'>";
 							$instyle3="<input type='checkbox' $cy name='cy".$v['id']."'>";
 						}
-						$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' ><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."','".$v['sc']."')>编辑</a></td></tr>";
+						$can_bj=$v['bj']=='0'?"不可编辑":"<a onclick=bianji('".$v['id']."','".$v['sc']."')>编辑</a>";
+						$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' ><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td>".$can_bj."</td></tr>";
 						continue 2; 
 					}
 				}
@@ -764,7 +765,8 @@ class OptionController extends Controller {
 					$instyle2="<input type='checkbox' $bt name='bt".$v['id']."'>";
 					$instyle3="<input type='checkbox' $cy name='cy".$v['id']."'>";
 				}
-				$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' ><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."','".$v['sc']."')>编辑</a></td></tr>";
+				$can_bj=$v['bj']=='0'?"不可编辑":"<a onclick=bianji('".$v['id']."','".$v['sc']."')>编辑</a>";
+				$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' ><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td>".$can_bj."</td></tr>";
 			}
 		}
 		$this->assign("tablestr",$tablestr);
