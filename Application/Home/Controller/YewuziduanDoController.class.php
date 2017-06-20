@@ -244,7 +244,8 @@ class YewuziduanDoController extends Controller {
 							$instyle2="<input type='checkbox' $bt name='bt".$v['id']."'>";
 							$instyle3="<input type='checkbox' $cy name='cy".$v['id']."'>";
 						}
-						$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' onmousedown='tuozhuai()'><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."','".$v['sc']."')>编辑</a></td></tr>";
+                        $can_bj=$v['bj']=='0'?'不可编辑':"<a onclick=bianji('".$v['id']."','".$v['sc']."')>编辑</a>";
+						$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' onmousedown='tuozhuai()'><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td>".$can_bj."</td></tr>";
 						continue 2; 
 					}
 				}
@@ -269,7 +270,8 @@ class YewuziduanDoController extends Controller {
 					$instyle2="<input type='checkbox' $bt name='bt".$v['id']."'>";
 					$instyle3="<input type='checkbox' $cy name='cy".$v['id']."'>";
 				}
-				$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' onmousedown='tuozhuai()'><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."','".$v['sc']."')>编辑</a></td></tr>";
+                $can_bj=$v['bj']=='0'?'不可编辑':"<a onclick=bianji('".$v['id']."','".$v['sc']."')>编辑</a>";
+				$tablestr.="<tr id='".$v['id']."'><td class='tuozhuaiclass' onmousedown='tuozhuai()'><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td>".$can_bj."</td></tr>";
 			}
 		}
         echo $tablestr;
@@ -383,7 +385,8 @@ class YewuziduanDoController extends Controller {
 					$instyle2="<input type='checkbox' $bt name='bt".$v['id']."'>";
 					$instyle3="<input type='checkbox' $cy name='cy".$v['id']."'>";
 				}
-				$tablestr[$fl_key].="<tr id='".$v['id']."'><td class='tuozhuaiclass uk-sortable-handle'><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td><a onclick=bianji('".$v['id']."','".$v['sc']."',this.parentNode.parentNode.parentNode.id.substr(14))>编辑</a></td></tr>";
+                $can_bj=$v['bj']=='0'?"不可编辑":"<a onclick=bianji('".$v['id']."','".$v['sc']."',this.parentNode.parentNode.parentNode.id.substr(14))>编辑</a>";
+				$tablestr[$fl_key].="<tr id='".$v['id']."'><td class='tuozhuaiclass uk-sortable-handle'><i class='fa fa-reorder' aria-hidden='true'></i></td><td>".$v['name']."</td><td>&nbsp;&nbsp;$instyle1</td><td>&nbsp;&nbsp;$instyle2</td><td>&nbsp;&nbsp;$instyle3</td><td>".$can_bj."</td></tr>";
                 $mod_height[$fl_key]=$mod_height[$fl_key]+51;
 			}
 		}
