@@ -2477,7 +2477,7 @@ krsort($ko);
 		$kh_biaoti1=array_merge_recursive($canm,$new_array1);//客户标题名字
 
 		$hetong=$ronghhh; //替换合同
-	
+	$lxr=$this->lxr();
 		foreach($hetong as $k=>$v)
 		{
 				$content.="<tr id='".$v['ht_id']."'><td><input type='checkbox' class='chbox_duoxuan' id='".$v['kh_id']."'></td>";
@@ -2492,6 +2492,8 @@ krsort($ko);
 							$content.="<td>".$ywcs_wysend[$kbt][$v[$kbt]]."</td>";
 					elseif($kbt=='kh_fz' || $kbt=='kh_cj' ||$kbt=='kh_old_fz')
 						$content.="<td>".$user[$v[$kbt]]['user_name']."</td>";
+					elseif($kbt=="zdy15" )
+									$xs123="<a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$lxr[$r_v[$v_biaoti['id']]]['id']."'>".$lxr[$vbt]['name']."</a>";
 					elseif($kbt=='zdy14')
 								$content.="<td>".$v[$kbt]."</td>";
 					else

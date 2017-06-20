@@ -37,7 +37,7 @@
 			body,ul,li,table,tr{margin:0;padding:0;}
 
 			.big{width:99%;height:100%;margin: 0px auto;}
-			.xinzeng{float:right;} /* 新增 导入*/
+			.xinzeng{float:right;margin-right:2%;} /* 新增 导入*/
 			div,span{overflow:hidden;}
 			#sxdiv{background-color:#fff;margin:10px 10px 0px 10px;padding:10px 5px 10px 5px;}
 			#sxshowbtn{background-color:#fff;width:40px;text-align:center;margin:0 auto;cursor:pointer;}
@@ -129,7 +129,10 @@
 						   						<else />
 						   						</if>
 						   					</select>条
-						   					 		<span style="float:right; margin-right:8%" ><span  style="width:60px;" class=" layui-btn layui-btn-small  ">搜索</span>：<input type="text" height=26px;  onkeyup="sousuo(this)" value="">
+						   					 			<span style="float:right; margin-right:2%" ><input type="text" height=26px; id="sousuo" value="">
+				   					 <span onclick="sousuo1()" style="margin-left:-25px">	<i class="layui-icon" >&#x1006;</i></span>
+				   					 		<span  style="width:60px; margin-left:15px" class=" layui-btn layui-btn-small "  onclick="sousuo()">搜索</span>
+				   				</span>
 						   				</span>
 						   	</div>
 				  		
@@ -152,7 +155,7 @@
 									</div>
 							</div>
 					</div>
-				<div id="demo7" style="float:right"></div>
+				<div id="demo7" style="float:right;margin-right:2%"></div>
 		</div>
 
 
@@ -629,6 +632,25 @@
 		window.location.href="lianxiren?fenye="+yeshu;
 	
 	}
+		function sousuo(){
+					var name= $("#sousuo").val();
+				alert(name)
+					 $.get(rooturl+'/index.php/Home/Lianxiren/sousuo',{"id":name},
+										        		 function(lxrid){
 
+										        		$("#jb_bianji").html(lxrid);
+												        	
+										                  });
+				}
+					function sousuo1(){
+					var name= "";
+					 $("#sousuo").val("");
+					 $.get(rooturl+'/index.php/Home/Kehu/sousuo',{"id":name},
+										        		 function(lxrid){
+
+										        		$("#jb_bianji").html(lxrid);
+												        	
+										                  });
+				}
     	</script>
 </html>

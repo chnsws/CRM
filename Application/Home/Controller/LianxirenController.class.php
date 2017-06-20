@@ -783,5 +783,61 @@ return $fzr_only;
 			echo "no";
 		}
  
-}
+}	
+	public function sousuo(){
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$name=$_GET['id'];
+		$name="中软";
+		$json_name=json_encode($name,true);
+		$newstr = substr($json_name,0,strlen($json_name)-1); 
+		$first =substr($newstr,1);  
+		$tihuan= str_replace("\\", "\\\\\\\\", $first);
+
+		//现在去查客户名字是  $NAME 的ID 
+		$kh_base=M('kh');
+		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kehu=$kh_base->query("select * from crm_kh where kh_yh = '$yh' and kh_fz IN ($xiaji) and  kh_data like '%".$tihuan."%'");
+
+		foreach($kehu as $k=>$v)
+		{
+			foreach($v as $k1 =>$v1)
+			{
+				if($k1!="kh_data")
+				{
+					$sql_kh[$k1]=$v1;
+				}else{
+
+					$sql_json=json_decode($v1,true);
+					foreach($sql_json as $kjson=>$vjson)
+					{
+						$sql_kh[$kjson]=$vjson;
+					}
+				}
+			
+			}$kh_end[]=$sql_kh;
+			unset($sql );
+			
+		}
+
+
+		
+
+
+
+	 	foreach($kh_end as $k=>$v)
+	 	{
+	 		
+		if(strpos($v['zdy0'],$name)!==false)
+		{
+			$kh_id[$v['kh_id']]=$v['kh_id'];continue;
+		}	
+
+	 	}
+	 	$imp=implode(',',$kh_id);
+		$kh_base=M('lx');
+		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$lianxiren=$kh_base->query("select * from crm_lx where lx_yh = '$yh' and lx_cj IN ($xiaji) and  lx_data like '%".$tihuan."%'");
+		echo "<pre>";
+		var_dump($imp);exit;
+	}
 }
