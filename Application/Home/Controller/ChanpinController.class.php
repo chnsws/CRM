@@ -476,7 +476,7 @@ class ChanpinController extends Controller {
 			}
 			if($v=='zdy5')//毛利率
 			{
-				if($zdarr['zdy2']['qy']=='1'||$zdarr['zdy4']['qy']=='1')
+				if($zdarr['zdy2']['qy']=='1'&&$zdarr['zdy4']['qy']=='1')
 				{
 					$xxstr=(($cpjsonarr['zdy2']-$cpjsonarr['zdy4'])/$cpjsonarr['zdy2'])*100;
 					$xxstr=round($xxstr,2).'%';
