@@ -327,11 +327,6 @@
                             tishi("字段名不能超过12个字符");
                             return false;
                         }
-                        if(!newzdname.match(/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/))
-                        {
-                            tishi("字段名只能由中文、字母、数字和下划线组成");
-                            return false;
-                        }
                         var jsondata={"thispage":nowpage,"ziduanname":newzdname};
                         if(nowpage=="paixu_chanpin")
                         {
