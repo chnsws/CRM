@@ -342,9 +342,11 @@ class YewuziduanDoController extends Controller {
             $yewu=explode(",",$v['px_mod']);
             $have_px[$yewu[1]]=explode(',',$v['px_px']);
         }
+        
         //格式化字段数据，如果有排序就进行排序
         foreach($cpzdarr as $k=>$v)
         {
+            $this_zd_arr_have_px='';
             $this_zd_fl=explode(',',$v['zd_yewu']);
             $this_zd_arr=json_decode($v['zd_data'],true);
             
@@ -357,9 +359,9 @@ class YewuziduanDoController extends Controller {
             //如果有排序,就覆写本条字段
             if(count($have_px[$this_zd_fl[1]])>0)
             {
-                foreach($have_px[$this_zd_fl[1]] as $v)
+                foreach($have_px[$this_zd_fl[1]] as $vc)
                 {
-                    $this_zd_arr_have_px[$v]=$this_zd_arr[$v];
+                    $this_zd_arr_have_px[$vc]=$this_zd_arr[$vc];
                 }
                 $newcpzdarr[$this_zd_fl[1]]=$this_zd_arr_have_px;
             }
@@ -427,5 +429,9 @@ class YewuziduanDoController extends Controller {
 		$xitongrizhibase->query("insert into crm_rz values('','3','8','".cookie("user_id")."','0','0','0','0','0','$con','$loginIp','$loginDidianStr','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','$fid','".time()."')");
 
         return '1';
+    }
+    public function sss()
+    {
+        echo json_encode("毛利率");
     }
 }
