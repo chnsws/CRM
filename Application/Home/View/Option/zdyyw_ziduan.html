@@ -186,7 +186,7 @@
 <table id="hid_table">
     <tr>
         <td class="hid_tab_left">显示名称</td>
-        <td><input type="text" placeholder="请填写显示名称，最长12个字符" id="newzdname" class="layui-input"/></td>
+        <td><input type="text" placeholder="请填写显示名称，最长20个字符" id="newzdname" class="layui-input"/></td>
     </tr>
     <!--
     <tr>
@@ -322,9 +322,9 @@
                             tishi("字段名不能为空");
                             return false;
                         }
-                        if(newzdname.length>12)
+                        if(newzdname.length>20)
                         {
-                            tishi("字段名不能超过12个字符");
+                            tishi("字段名不能超过20个字符");
                             return false;
                         }
                         var jsondata={"thispage":nowpage,"ziduanname":newzdname};
