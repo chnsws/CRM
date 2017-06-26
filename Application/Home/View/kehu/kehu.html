@@ -17,7 +17,7 @@
 		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/jquery-ui/jquery-ui.css">
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
-
+<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
 
 
 		
@@ -88,7 +88,7 @@
 			.addtr td select{width:300px;height:30px;}
 	
 			.addtr td{padding-top:20px;}
-			.addshangji_weizhi{margin:0px auto;margin-top:20px;width:420px;}	
+			.addshangji_weizhi{margin:0px auto;margin-top:20px;width:440px;}	
 
 			#nchangyong{margin-top:10px;margin-left:15%;}
 			.onError{color:red;}
@@ -233,7 +233,7 @@
    				</div>
    			<div class="kehu2" >   
 		   		<div class="kehu">   
-				   		<div class='kongzhiyeshu uk-form '>每页显示<select  onchange="kongzhiyeshu(this)">
+				   		<div class='kongzhiyeshu uk-form '><span class="ycyo">每页显示<select  onchange="kongzhiyeshu(this)">
 
 				   						<option value="5">5</option>
 				   						<option value="10">10</option>
@@ -246,6 +246,9 @@
 				   						<else />
 				   						</if>
 				   					</select>条
+
+				   					
+				   					</span>
 				   					 		<span style="float:right; margin-right:2%" ><input type="text" height=26px; id="sousuo" value="">
 				   					 <span onclick="sousuo1()" style="margin-left:-25px">	<i class="layui-icon" >&#x1006;</i></span>
 				   					 		<span  style="width:60px; margin-left:15px" class=" layui-btn layui-btn-small "  onclick="sousuo()">搜索</span>
@@ -271,7 +274,7 @@
 								</div>
 						</div>
 				</div>
-					<div id="demo7" style="float:right"></div>
+					<div id="demo7" class="ycyo" style="float:right"></div> 
 			</div>
 					<div id="dialog-form" style="display: none;border:1px"> <!--新增商机 弹出框-->
 						<form id="ht_form" method="post" class="uk-form " >
@@ -668,6 +671,7 @@ $(".sxzddiv").children("span").click(function(){
 		{
 			$(".six").text(tex); //23
 		}
+		$(".ycyo").hide();
 	$.get(rooturl+'/index.php/Home/Kehu/shaixuan',{"id":id},
 							        		 function(html){
 							        		 	//tishi(html)
@@ -951,7 +955,7 @@ function add_yh()
 		}
 		function sousuo(){
 			var name= $("#sousuo").val();
-		
+		$(".ycyo").hide();
 			 $.get(rooturl+'/index.php/Home/Kehu/sousuo',{"id":name},
 								        		 function(lxrid){
 
@@ -960,6 +964,7 @@ function add_yh()
 								                  });
 		}
 			function sousuo1(){
+				$(".ycyo").hide();
 			var name= "";
 			 $("#sousuo").val("");
 			 $.get(rooturl+'/index.php/Home/Kehu/sousuo',{"id":name},

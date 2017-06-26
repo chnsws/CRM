@@ -14,21 +14,12 @@
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
 		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
 		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
-
-	
-		<link href="{$_GET['public_dir']}/dataTable/css/dataTables.bootstrap.css" rel="stylesheet">
-  		<link href="{$_GET['public_dir']}/bootstrap/css/bootstrap.css" rel="stylesheet">
-
-		<script src="{$_GET['public_dir']}/dataTable/js/jquery.dataTables.min.js" ></script>
-		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
-		<script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js"></script>
-		<script src="{$_GET['public_dir']}/dataTable/js/dataTables.bootstrap.js" ></script>
-
 		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
 		<!--UIkit-->
 		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
 		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
 		<style>
 
 			body,ul,li,table,tr{margin:0;padding:0;}
@@ -58,7 +49,7 @@
 			.fa-pencil{float:right;}
 			.sx_tj_margain{margin-left:12px;}
 			.anniu{width:auto;height:50px;border:1px solid #ccc;margin-left:-17px;} 
-			.head_title{margin-left:-16px;font-size:20px;}
+			.head_title{font-size:20px;}
 			.addshangji_weizhi{margin:0px auto;margin-top:20px;}
 			.addtr{line-height:25px;}
 			.addtr td{padding-top:20px;}
@@ -68,15 +59,53 @@
 			.pl_bj{margin:0px auto;}
 			.onError{color:red;}
 			.onSuccess{color:green;}
-		</style>      
+			.kongzhiyeshu{margin-top:19px;height:40px;font-size:16px;margin-left:20px;}
+		</style>  
+				<script type="text/javascript">
+		window.ajaxstr_lxr='';
+		window.lxr_id='';
+
+	      layui.use(['laypage', 'layer'], function(){
+		  var laypage = layui.laypage
+		  ,layer = layui.layer;
+		  
+		 var ys=$("#ys").val();
+	
+
+		 var wocao=$("#wocao").val();
+		 
+		  laypage({
+		    cont: 'demo7'
+		    ,pages:ys
+		    ,curr:wocao
+		    ,skip: true,
+
+		    jump: function(obj, first){
+		      if(!first){
+		      	var fenye=$("#fenye").val();
+		      
+		      	window.location.href="hetong?dijiye="+obj.curr+"&fenye="+fenye;
+		       tishi('第 '+ obj.curr +' 页');
+
+		      }
+		  	}
+		  });
+		});
+
+
+    	</script>    
 	</head>
 	<body style="position:relative">
+	
 	<div class="beijing">
+	<input type="hidden" id="ys" value="{$ys}">
+	<input type="hidden" id="fenye" value="{$list_num}">
+	 <input type="hidden" id="wocao" value="{$dijiye}">
 		<div class="big">
 			<div >
 				  <ul>
 				    <li class="panel-heading">
-				    	<span class="head_title">客户信息</span>
+				    	<span class="head_title">合同信息</span>
 				    	<span class="xinzeng"><button  id="create-sahngji" onclick="addhetong()" class="layui-btn layui-btn-small" >新增合同</button><button onclick="daoru()" style="margin-left:20px" class="layui-btn layui-btn-small">导入商机</button></span>
 				    </li>
 				  </ul>
@@ -102,7 +131,7 @@
    			 			<i class="layui-icon">&#xe642;</i>删除所选</button>
    			 			<button onclick="piliangzhuanyi()"  class="layui-btn layui-btn-primary layui-btn-small top_del">
    			 			<i class="layui-icon">&#xe642;</i>转移至客户公海</button>	
-					</span>
+					</span>.
 					
 				
 					<div id="piliangzy" style="margin-top:10px;padding-top:20px;display: none;border:1px ">
@@ -117,34 +146,54 @@
 											  </select>
 												</td>
 							</tr>
-							
-
 						</table>
 					</form>
 					</div>
    				</div>
 
-						<div class="kehu">   	
-				   			<div class="panel panel-default">
-					   			 
-								<div class="panel-body" >
-										 <table id="table_local" class="table table-bordered table-striped table-hover">
-								            <thead>
-								                <tr>	
+   			<div class="kehu2" >   
+		   		<div class="kehu">   
+				   		<div class='kongzhiyeshu uk-form '><span class="ycyo">每页显示<select  onchange="kongzhiyeshu(this)">
+
+				   						<option value="5">5</option>
+				   						<option value="10">10</option>
+				   						<option value="15">15</option>
+				   						<option value="20">20</option>
+				   						<option value="25">25</option>
+				   						<option value="30">30</option> 
+				   						<if condition ="$list_num neq ''" >
+				   							<option value="{$list_num}" selected="selected">{$list_num}</option>
+				   						<else />
+				   						</if>
+				   					</select>条
+				   					</span>
+				   					 		<span style="float:right; margin-right:2%" ><input type="text" height=26px; id="sousuo" value="">
+				   					 <span onclick="sousuo1()" style="margin-left:-25px">	<i class="layui-icon" >&#x1006;</i></span>
+				   					 		<span  style="width:60px; margin-left:15px" class=" layui-btn layui-btn-small "  onclick="sousuo()">搜索</span>
+				   				</span>
+				   		</div>
+			  		
+			   			<div style="overflow:auto">
+								<div  style="width :5600px;" >
+										<table class="layui-table" lay-skin="line" >
+									  	<thead>
+									  			<tr>	
 								                		<th>ID</th>
-								                	<foreach name="ywzd" item="vo">
+									               <foreach name="ywzd" item="vo">
 									                    <th>{$vo.name}</th> <!--客户标题-->  
 									                  </foreach>
-									        
 								                </tr>
-								            </thead>
-								                <tbody id="jb_bianji" style="display:none;">
+										</thead>
+										 <tbody id="jb_bianji">
 														{$a}
-								                </tbody>			       
-								  			</table>
+								                </tbody>
+									</table>  
+									
 								</div>
-							</div>
 						</div>
+				</div>
+					<div id="demo7" class="ycyo" style="float:right"></div>
+			</div>		
 		</div>
 	</div>
 
@@ -330,7 +379,7 @@ $(".yincang").hide()
 	{
 		$(".one").text(tex);
 	}
-
+   $(".ycyo").hide();
 	$.get(rooturl+'/index.php/Home/Hetong/shaixuan',{"id":id},
 							        		 function(html){
 							        		 	
@@ -402,11 +451,13 @@ $(".yincang").hide()
 									$.get(rooturl+'/index.php/Home/Hetong/add_ht',{"id":vstr},
 							        		 function(html){
 							        		 		tishi("添加成功")
-							        		 	$("#jb_bianji").html(html);
+							        		 	
 							        		 		 	$(".cp").hide();
 									        		$(".yc_xs").hide();
 									        		  $("#nchangyong").html("<span style='color:blue'>展开更多信息>></span>");
 	     											   $("#nchangyong").prop("name",'0');
+
+	     											   	window.location.href="hetong";
 									        		layer.close(win)
 							                 });
 								},
@@ -512,43 +563,7 @@ $("#nchangyong").click(function(){
 	    }
 	});
 </script>
-<script type="text/javascript">
-        $(function () {
-            $("#table_local").dataTable({
-                //lengthMenu: [5, 10, 20, 30],//这里也可以设置分页，但是不能设置具体内容，只能是一维或二维数组的方式，所以推荐下面language里面的写法。
-                //"
-                "sScrollX": "100%",
-				"sScrollXInner": "250%",
-				"bScrollCollapse": true,
-                paging: true,//分页
-                ordering: true,//是否启用排序
-                searching: true,//搜索
-                language: {
-                    lengthMenu: '<select class="form-control input-xsmall">' + '<option value="1">1</option>' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">40</option>' + '<option value="50">50</option>' +'<option value="5">5</option>' + '</select>条记录',//左上角的分页大小显示。
-                    search: '<span class="label label-success">搜索：</span>',//右上角的搜索文本，可以写html标签
 
-                    paginate: {
-                        previous: "上一页",
-                        next: "下一页",
-                        first: "第一页",
-                        last: "最后"
-                    },
-
-                    zeroRecords: "没有内容",//table tbody内容为空时，tbody的内容。
-                    //下面三者构成了总体的左下角的内容。
-                    info: "总共_PAGES_ 页，显示第_START_ 到第 _END_ ，筛选之后得到 _TOTAL_ 条，初始_MAX_ 条 ",//左下角的信息显示，大写的词为关键字。
-                    infoEmpty: "0条记录",//筛选为空时左下角的显示。
-                    infoFiltered: ""//筛选之后的左下角筛选提示，
-                },
-                paging: true,
-                pagingType: "full_numbers",//分页样式的类型
-
-            });
-            $("#table_local_filter input[type=search]").css({ width: "auto" });//右上角的默认搜索文本框，不写这个就超出去了。
-            $("#jb_bianji").show();
-        });
-
-    	</script>
     	<script>
     		function get_sj(sj){
     				var kh_id= $(sj).val();
@@ -881,6 +896,34 @@ $("#nchangyong").click(function(){
 			        time: 1000, 
 			    });
 			}
+	function kongzhiyeshu(ss){
 
+		var yeshu=$(ss).val();
+		window.yeshu=yeshu;
+		window.location.href="hetong?fenye="+yeshu;
+	
+	}
+	function sousuo(){
+			$(".ycyo").hide();
+					var name= $("#sousuo").val();
+
+					 $.get(rooturl+'/index.php/Home/hetong/sousuo',{"id":name},
+										        		 function(ht_id){
+										        		
+										        		$("#jb_bianji").html(ht_id);
+												        	
+										                  });
+				}
+					function sousuo1(){
+					$(".ycyo").hide();
+					var name= "";
+					 $("#sousuo").val("");
+					 $.get(rooturl+'/index.php/Home/hetong/sousuo',{"id":name},
+										        		 function(lxrid){
+
+										        		$("#jb_bianji").html(lxrid);
+												        	
+										                  });
+				}
     	</script>
 </html>

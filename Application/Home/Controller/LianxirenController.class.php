@@ -44,65 +44,8 @@ class LianxirenController extends Controller {
 		}
 		return $dpt_arr;
 	}
-	public function lianxiren_sel(){
 
-
-	}
-	public function ajax_sx(){
-		$ywzd= $this->ywzd();    //业务字段信息 
-		$kh_name= $this->kehu();    //业务字段信息 
-		$dpt_arr= $this->department();    //部门字段信息 
-		$lianxiren= $this->lianxiren_sel();    //业务字段信息 
-																	//联系人标题
-		foreach($ywzd as $k=>$v)
-		{
-			if($v['qy']==1)
-			{
-				$ywzd2[$v['id']]=$v;
-				//$ywzd2[]=$ywzd1;
-			}
-		}
-		$array_jiansuo=array('lx_cj'=>"创建人",'lx_cj_date'=>"创建时间",'lx_gx_date'=>"更新时间");
-				foreach($array_jiansuo as $k=>$v){
-						$new_str1['id']=$k;
-						$new_str1['name']=$v;
-						$new_str1['qy']=1;
-						$new_str1['type']=0;
-						$new_array[$new_str1['id']]=$new_str1;
-					}
-
-		$lx_biaoti1=array_merge_recursive($ywzd2,$new_array);//联系人标题名字
-							//联系人显示内容
-		foreach($lianxiren as $k=>$v)
-		{
-			$id=$v['lx_id'];
-			//echo "<pre>";
-			//var_dump($lianxiren);exit;
-			$show_bt.="<tr><td ><input type='checkbox' class='chbox_duoxuan' id='".$v['lx_id']."'>".$v['lx_id']."</td>";
-				foreach($lx_biaoti1 as $k1=>$v1)
-				{
-					if($v[$k1]!="")
-					{
-
-						if($k1=="zdy0")    //商机标题  跳转到商机页面
-						{ 
-							$show_bt.="<td><a href='".$_GET['root_dir']."/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/$id'>".$v[$k1]." </a></td>"	;
-						}elseif($k1=="zdy1"){     //k客户标题 跳转到客户页面
-							$kh_id=$v[$k1];
-							$kh_mc=$kh_name[$v[$k1]]['name'];
-							$show_bt.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/id/$kh_mc/kh_id/$kh_id'>".$kh_name[$v[$k1]]['name']." </a></td>"	;
-						}else{
-							$show_bt.="<td> ".$v[$k1]." </td>"	;
-						}
-
-					}else{
-						$show_bt.="<td> ---- </td>"	;
-					}
-				}	
-			$show_bt.="</tr>";
-		}
-		return $show_bt;
-	}
+	
 	public function lianxiren(){
 		$ywzd= $this->ywzd();    //业务字段信息 
 		$kh_name= $this->kehu();    //业务字段信息 
@@ -412,9 +355,7 @@ class LianxirenController extends Controller {
 		$lx_base=M('lx');
 		$add_lx=$lx_base->add($data);
 		if($add_lx){
-			echo $add_lx;
-			$xiaji= $this->ajax_sx();
-			echo $xiaji;
+			
 		}else{
 			echo "2";
 		}
@@ -459,8 +400,7 @@ class LianxirenController extends Controller {
 			$sqlkh_new['zdy15']=(string)$add_lx;
 			$sqlkh_en['kh_data']=json_encode($sqlkh_new,true);
 			$sql_save=$kh_base->where($map_kh)->save($sqlkh_en);
-			$xiaji= $this->ajax_sx();
-			echo $xiaji;
+			
 		}else{
 			echo "2";
 		}
@@ -608,7 +548,6 @@ class LianxirenController extends Controller {
 		
 	
 		
-			$map['user_id']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
 	
 	 	$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id IN ($xiaji)");//缺少条件
 			foreach ($fuzeren_sql as $k=>$v)
@@ -785,59 +724,85 @@ return $fzr_only;
  
 }	
 	public function sousuo(){
+		$ywzd= $this->ywzd();  
+		$kh_name= $this->kehu();
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
 		$name=$_GET['id'];
-		$name="中软";
+		
 		$json_name=json_encode($name,true);
 		$newstr = substr($json_name,0,strlen($json_name)-1); 
 		$first =substr($newstr,1);  
 		$tihuan= str_replace("\\", "\\\\\\\\", $first);
-
-		//现在去查客户名字是  $NAME 的ID 
-		$kh_base=M('kh');
+		$kh_base=M('lx');
 		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kehu=$kh_base->query("select * from crm_kh where kh_yh = '$yh' and kh_fz IN ($xiaji) and  kh_data like '%".$tihuan."%'");
+		$lxr_sql=$kh_base->query("select * from crm_lx where lx_yh = '$yh' and lx_cj IN ($xiaji) and  lx_data like '%".$tihuan."%'");
 
-		foreach($kehu as $k=>$v)
+		foreach($lxr_sql as $k=>$v)
 		{
 			foreach($v as $k1 =>$v1)
 			{
-				if($k1!="kh_data")
+				if($k1!="lx_data")
 				{
-					$sql_kh[$k1]=$v1;
+					$sql[$k1]=$lxr_sql[$k][$k1];
 				}else{
 
 					$sql_json=json_decode($v1,true);
 					foreach($sql_json as $kjson=>$vjson)
 					{
-						$sql_kh[$kjson]=$vjson;
+						$sql[$kjson]=$vjson;
 					}
 				}
 			
-			}$kh_end[]=$sql_kh;
+			}$lianxiren[]=$sql;
 			unset($sql );
 			
-		}
-
-
-		
-
-
-
-	 	foreach($kh_end as $k=>$v)
-	 	{
-	 		
-		if(strpos($v['zdy0'],$name)!==false)
+		}														//联系人标题
+		foreach($ywzd as $k=>$v)
 		{
-			$kh_id[$v['kh_id']]=$v['kh_id'];continue;
-		}	
+			if($v['qy']==1)
+			{
+				$ywzd2[$v['id']]=$v;
+				//$ywzd2[]=$ywzd1;
+			}
+		}
+			$array_jiansuo=array('lx_cj'=>"创建人",'lx_cj_date'=>"创建时间",'lx_gx_date'=>"更新时间");
+				foreach($array_jiansuo as $k=>$v){
+						$new_str1['id']=$k;
+						$new_str1['name']=$v;
+						$new_str1['qy']=1;
+						$new_str1['type']=0;
+						$new_array[$new_str1['id']]=$new_str1;
+					}
+		$lx_biaoti1=array_merge_recursive($ywzd2,$new_array);//联系人标题名字												//联系人显示内容
+		foreach($lianxiren as $k=>$v)
+		{
+			$id=$v['lx_id'];
+			$show_bt.="<tr><td ><input type='checkbox' class='chbox_duoxuan' id='".$v['lx_id']."'>".$v['lx_id']."</td>";
+				foreach($lx_biaoti1 as $k1=>$v1)
+				{
+					if($v[$k1]!="")
+					{
 
-	 	}
-	 	$imp=implode(',',$kh_id);
-		$kh_base=M('lx');
-		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$lianxiren=$kh_base->query("select * from crm_lx where lx_yh = '$yh' and lx_cj IN ($xiaji) and  lx_data like '%".$tihuan."%'");
-		echo "<pre>";
-		var_dump($imp);exit;
+						if($k1=="zdy0")    //商机标题  跳转到商机页面
+						{ 
+							$show_bt.="<td><a href='".$_GET['root_dir']."/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/$id'>".$v[$k1]." </a></td>"	;
+						}elseif($k1=="zdy1"){     //k客户标题 跳转到客户页面
+							$kh_id=$v[$k1];
+							$kh_mc=$kh_name[$v[$k1]]['name'];
+							$show_bt.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/id/$kh_mc/kh_id/$kh_id'>".$kh_name[$v[$k1]]['name']." </a></td>"	;
+						}else{
+							$show_bt.="<td> ".$v[$k1]." </td>"	;
+						}
+
+					}else{
+						$show_bt.="<td> ---- </td>"	;
+					}
+				}	
+			$show_bt.="</tr>";
+		}
+	//	echo "<pre>";
+	//	var_dump($lianxiren);exit;
+		echo $show_bt;
+
 	}
 }

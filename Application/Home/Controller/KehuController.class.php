@@ -39,7 +39,8 @@ class KehuController extends Controller {
 		
 		$datakh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 		$ht_base=M('kh');
-		$kehu=$ht_base->query("select * from crm_kh where kh_yh='$datakh' and kh_fz IN ($xiaji) limit ".$new.",".$list_num."");
+		$kehu=$ht_base->query("select * from crm_kh where kh_yh='$datakh' and kh_fz IN ($xiaji) order by kh_id desc limit ".$new.",".$list_num." ");
+		
 		$kehu_count=$ht_base->query("select count(kh_id) from crm_kh where kh_yh='$datakh' and kh_fz IN ($xiaji)");
 		$ys= ceil($kehu_count['0']['count(kh_id)']/$list_num);//多少页
 

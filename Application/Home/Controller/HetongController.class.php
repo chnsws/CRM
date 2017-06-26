@@ -218,6 +218,51 @@ public function kehu(){
 	//	echo "<pre>";
 	//	var_dump($shangji);exit;
 		//批量编辑
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$ht_base=M('hetong');
+		$data_ht=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$fenye=$_GET['fenye'];
+		if($fenye==null || $fenye=='')
+		{
+			$list_num=5;
+		}else{
+			$list_num=$fenye;
+		}
+		$dijiye=$_GET['dijiye'];
+		if($dijiye==null || $dijiye=="")
+		{
+			$new=0;
+			$dijiye=1;
+		}else{
+			$new=($dijiye-1)*$list_num;
+		}
+		
+		$userarr=$ht_base->query("select * from crm_hetong where ht_yh='$data_ht' and ht_fz IN ($xiaji) order by ht_id desc limit ".$new.",".$list_num." ");// 查询商机信息
+		$userarr_count=$ht_base->query("select count(ht_id) from crm_hetong where ht_yh='$data_ht' and ht_fz IN ($xiaji)");
+		
+		$ys= ceil($userarr_count['0']['count(ht_id)']/$list_num);//多少页
+
+
+		foreach($userarr as $v)
+		{
+			foreach($v as $k1 =>$v1)
+			{
+				if($k1!='ht_data')
+				{
+					$ht_sql[$k1]=$v1;
+				}else{
+					$ht_json=json_decode($v[$k1],true);
+					foreach($ht_json as $k2=>$v2)
+					{
+						$ht_sql[$k2]=$v2;
+					}
+				}
+				$ht_sql2[$v['ht_id']]=$ht_sql;
+			}
+			
+		}
+	$hetong=$ht_sql2;
+	
 		foreach($ywzd as $k=>$v)
 		{
 			if($v['qy']==1)
@@ -530,7 +575,7 @@ public function kehu(){
 
 		$ht_biaoti1=array_merge_recursive($ywzd,$new_arrayoo);//客户标题名字
 
-		$hetong=$this->htselect();
+
 		
 		
 		foreach($hetong as $k=>$v)
@@ -590,6 +635,9 @@ public function kehu(){
 							$chanpin1.="<option value='".$v['cp_id']."'>".$v['zdy0']." </option>";
 					}
 					$chanpin1.="</select> </td></tr>";
+		$this->assign('ys',$ys);//页数
+		$this->assign('dijiye',$dijiye);
+		$this->assign('list_num',$list_num);
 		$this->assign('chanpin1',$chanpin1); 
 		$this->assign('new_html',$new_html); 	
         $this->assign('peizhi',$peizhi);
@@ -673,8 +721,7 @@ public function kehu(){
 	//	echo "<pre>";
 		//var_dump($ex1);exit;
 		if($sql){
-					$a = $this->ajax_jb();
-					echo $a;
+					
 					$sql_sel=$ht_base->where($data)->field('ht_id')->find();
 					$sql12['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
 					$sql12['sj_id']=0; 
@@ -701,7 +748,7 @@ public function kehu(){
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
 		$ht_base=M('hetong');
 		$data_ht=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$userarr=$ht_base->query("select * from crm_hetong where ht_yh='$data_ht' and ht_fz IN ($xiaji)");// 查询商机信息
+		$userarr=$ht_base->query("select * from crm_hetong where ht_yh='$data_ht' and ht_fz IN ($xiaji) order by ht_id desc");// 查询商机信息
 		foreach($userarr as $v)
 		{
 			foreach($v as $k1 =>$v1)
@@ -1174,6 +1221,95 @@ public function kehu(){
 		$rz_sql=$rz->add($rz_map);//查'			//删除增加日志
 		
 	}
+	public function sousuo(){
+		/**$user=$this->user();
+		$ywcs=M('ywcs');                 //获取ywcs表中的 数据
+ 		$yw_cs['ywcs_yw']="2";
+ 		$yw_cs['ywcs_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+ 		$ywcs_sql=$ywcs->where($yw_cs)->field('ywcs_data')->find();
+ 		$ywcs_sql_json=json_decode($ywcs_sql['ywcs_data'],true);
+		foreach($ywcs_sql_json as $kywcs=>$vywcs)
+		{
+			$ywcs_new[$vywcs['id']]=$vywcs;
+		}
+		//var_dump($user);exit;**/
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$kehu= $this->kehu();//  查询下
+		$shangji= $this->shangji();//  查询下
+		$user= $this->user();//  查询下
+		$ywcs= $this->ywcs();//  查询下
+		$name=$_GET['id'];
+		//$name="二级";
+		$json_name=json_encode($name,true);
+		$newstr = substr($json_name,0,strlen($json_name)-1); 
+		$first =substr($newstr,1);  
+		$tihuan= str_replace("\\", "\\\\\\\\", $first);
+		$ht_base=M('hetong');
+		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$hetong=$ht_base->query("select * from crm_hetong where ht_yh = '$yh' and ht_fz IN ($xiaji) and  ht_data like '%".$tihuan."%'");
+		
+			foreach($hetong as $k=>$v)
+				{
+					foreach($v as $kk=>$vv)
+					{
+						if($kk!='ht_data')
+							$ronghe[$k][$kk]=$vv;
+						else
+						{
+							$rowjson=json_decode($vv,true);
+							foreach($rowjson as $kkk=>$vvv)
+							{	
+								$ronghe[$k][$kkk]=$vvv;
+
+							}
+						}
+					}
+				}
+
+
+	$ywzd=$this->ywzd();
+		$array_jiansuo=array('ht_fz'=>"负责人",'ht_bm'=>"部门",'ht_spzt'=>"审批状态",'ht_new_gj'=>"最新跟进记录",'ht_sj_gj_date'=>"最新跟进时间",'ht_cj'=>"创建人",'ht_old_fz'=>"原负责人",'ht_old_bm'=>"原负责人部门",'ht_cj_date'=>"创建时间","ht_gx_date"=>"更新时间");
+				foreach($array_jiansuo as $k=>$v){
+						$new_str1['id']=$k;
+						$new_str1['name']=$v;
+						$new_str1['qy']=1;
+						$new_str1['type']=0;
+						$new_arrayoo[$k]=$new_str1;
+					}
+
+		$ht_biaoti1=array_merge_recursive($ywzd,$new_arrayoo);//客户标题名
+	
+		foreach($ronghe as $k=>$v)
+		{
+				$content.="<tr id='".$v['ht_id']."'><td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'>".$v['ht_id']."</td>";
+			foreach($ht_biaoti1 as $kbt => $vbt)
+			{
+				if($v[$kbt]!="")
+				{
+					if($kbt=='zdy0')
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:blue' >".$v[$kbt]."</span></a></td>";
+					elseif($kbt=='zdy1'){
+						$kh_mc=$kehu[$v[$kbt]]['name'];
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:blue' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
+						}
+					elseif($kbt=='zdy2')
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:blue' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
+					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
+							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
+					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz')
+						$content.="<td>".$user[$v[$kbt]]['user_name']."</td>";
+					else
+						$content.="<td>".$v[$kbt]."</td>";
+				}else{
+					$content.="<td>---</td>";
+				}
+				
+			}
+			$content."</tr>";
+		}
+		echo $content;
+	}
+	
 }
 
 
