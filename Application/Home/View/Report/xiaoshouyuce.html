@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>销售预测报表</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta charset="utf-8">
+<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+<script src="{$_GET['public_dir']}/echarts/echarts.min.js"></script>
+<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" media="all">
+<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="{$_GET['public_dir']}/report/main.css">
+<!--layUI-->
+<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+<!--UIkit-->
+<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+<style>
+
+</style>
+</head>
+<body>
+<div id="box">
+    <div id="head">
+        <sapn class="head_title">销售预测报表</sapn>
+    </div>
+    <div id="shaixuan">
+        <div>
+            <span class="sx_title">所属部门：</span>
+            <span class="sx_xx">
+                <select>
+                    <option value="0">请选择部门</option>
+                </select>
+            </span>
+        </div>
+        <div>
+            <span class="sx_title">负责人：</span>
+            <span class="sx_xx">
+                <select>
+                    <option value="0">请选择部门</option>
+                </select>
+            </span>
+        </div>
+    </div>
+    <div id="chart"></div>
+    <div id="table">
+        <div class="table_head">商机数: 14， 预计销售金额：¥ 3,438,806.000000， 概率金额：¥ 1,077,626.200000</div>
+        <table class="layui-table" lay-skin="line">
+            <thead>
+                <th>时间</th>
+                <th>商机数</th>
+                <th>销售金额</th>
+                <th>概率金额</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2017-06</td>
+                    <td>11</td>
+                    <td>￥123,465,456.00</td>
+                    <td>￥123,465,456.00</td>
+                </tr>
+                <tr>
+                    <td>2017-06</td>
+                    <td>11</td>
+                    <td>￥123,465,456.00</td>
+                    <td>￥123,465,456.00</td>
+                </tr>
+                <tr>
+                    <td>2017-06</td>
+                    <td>11</td>
+                    <td>￥123,465,456.00</td>
+                    <td>￥123,465,456.00</td>
+                </tr>
+                <tr>
+                    <td>2017-06</td>
+                    <td>11</td>
+                    <td>￥123,465,456.00</td>
+                    <td>￥123,465,456.00</td>
+                </tr>
+                <tr>
+                    <td>2017-06</td>
+                    <td>11</td>
+                    <td>￥123,465,456.00</td>
+                    <td>￥123,465,456.00</td>
+                </tr>
+                <tr>
+                    <td>2017-06</td>
+                    <td>11</td>
+                    <td>￥123,465,456.00</td>
+                    <td>￥123,465,456.00</td>
+                </tr>
+                
+                <tr>
+                    <td colspan="4" style="text-align:center;">共7条</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+
+<script>
+//获取URL的绝对路径
+window.root_dir="{$_GET['root_dir']}";
+var aaa=$("#right_window").html();
+//初始化
+layui.use('layer', function(){
+    window.layer = layui.layer;
+});
+//黑色半透明提示
+function tishi(neirong)
+{
+    layer.msg(neirong, {
+        time: 1000, 
+        color:"#fff"
+    });
+}
+$(function(){
+    $('select').searchableSelect();
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('chart'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        legend: {
+            data:['预计销售金额','概率金额','商机数']
+        },
+        grid: {
+            left: '10px',
+            right: '10px',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : ['2017年06月','2017年07月','2017年08月']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'预计销售金额',
+                type:'bar',
+                data:[320, 332, 301]
+            },
+            {
+                name:'概率金额',
+                type:'bar',
+                data:[120, 132, 101]
+            },
+            {
+                name:'商机数',
+                type:'line',
+                data:[862, 1018, 964]
+            }
+        ]
+    };
+
+// 使用刚指定的配置项和数据显示图表。
+myChart.setOption(option);
+    //myChart.showLoading();     //加载动画
+});
+</script>
+</html>
+

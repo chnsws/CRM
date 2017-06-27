@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>客户数量排名报表</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta charset="utf-8">
+<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+<script src="{$_GET['public_dir']}/echarts/echarts.min.js"></script>
+<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" media="all">
+<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="{$_GET['public_dir']}/report/main.css">
+<link rel="stylesheet" href="{$_GET['public_dir']}/report/time_axis.css">
+<!--layUI-->
+<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+
+<!--UIkit-->
+<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/datepicker.css" />
+<script src="{$_GET['public_dir']}/uikit/js/components/datepicker.js"></script>
+<style>
+    #table{margin-top:20px;}
+    .sx_title{width:45px!important;margin-right:0px!important;padding-left:0px!important;}
+
+    
+</style>
+</head>
+<body>
+<div id="box">
+    <div id="head">
+        <sapn class="head_title">客户数量排名报表</sapn>
+    </div>
+    <div id="shaixuan">
+        <div>
+            <span class="sx_title">视角：</span>
+            <span class="sx_xx sx_this">个人</span>
+            <span class="sx_xx">部门</span>
+        </div>
+    </div>
+    <div id="table">
+        <div class="table_head">
+            <select>
+                <option value="0">请选择部门</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+            <span id="time_select_group" class="uk-form">
+                <input type="text" class="start_time" data-uk-datepicker="{format:'YYYY-MM-DD'}">
+                <span class="mid_span">-</span>
+                <input type="text" class="end_time" data-uk-datepicker="{format:'YYYY-MM-DD'}">
+                <button class="layui-btn cx_btn">查询</button>
+            </span>
+            <span id="daochu_group">
+                <button class="layui-btn layui-btn-primary">导出</button>
+            </span>
+            <span id="px_group">
+                <select name="" id="">
+                    <option value="0">客户数降序</option>
+                    <option value="0">客户数升序</option>
+                </select>
+            </span>
+            
+        </div>
+        <table class="layui-table" lay-skin="line">
+            <thead>
+                <th>排名</th>
+                <th>姓名</th>
+                <th>所在部门</th>
+                <th>客户数</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>王玉帅</td>
+                    <td>销售部</td>
+                    <td>215</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>王玉帅</td>
+                    <td>销售部</td>
+                    <td>215</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>王玉帅</td>
+                    <td>销售部</td>
+                    <td>215</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>王玉帅</td>
+                    <td>销售部</td>
+                    <td>215</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>王玉帅</td>
+                    <td>销售部</td>
+                    <td>215</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>王玉帅</td>
+                    <td>销售部</td>
+                    <td>215</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>王玉帅</td>
+                    <td>销售部</td>
+                    <td>215</td>
+                </tr>
+
+                <tr>
+                    <td colspan="4" style="text-align:center;">共7条</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="zong">客户总数：786</div>
+    </div>
+</div>
+</body>
+
+<script>
+//获取URL的绝对路径
+window.root_dir="{$_GET['root_dir']}";
+var aaa=$("#right_window").html();
+//初始化
+layui.use('layer', function(){
+    window.layer = layui.layer;
+});
+//黑色半透明提示
+function tishi(neirong)
+{
+    layer.msg(neirong, {
+        time: 1000, 
+        color:"#fff"
+    });
+}
+$(function(){
+    $('select').searchableSelect();
+    
+});
+</script>
+</html>
+

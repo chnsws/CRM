@@ -1,0 +1,58 @@
+html,body,box{background: #f7f7f7;height:auto;}
+#box{margin:0px 10px;}
+/*头部*/
+#head{height:80px;}
+.head_title{height:80px;width:200px;float:left;color:#1AA094;line-height:80px;font-weight:bold;font-size:22px;}
+.head_tab{float:left;height:80px;}
+.head_tab span{background: #1AA094;float:left;color:#fff;width:130px;height:30px;line-height:30px;text-align: center;margin-top:25px;cursor:pointer;}
+.head_tab span:first-child{border-radius:5px 0px 0px 5px;}
+.head_tab span:last-child{border-radius:0px 5px 5px 0px;}
+.head_tab_show{border:1px solid #1AA094;background:#fff!important;color:#1AA094!important;height:28px!important;line-height: 28px!important;}
+/*筛选*/
+#shaixuan>div{height:40px;}
+#shaixuan>div>span{float:left;height:26px;line-height:26px;padding:0px 10px;margin-right:10px;margin-top:7px;cursor:pointer;}
+.sx_this{background:#50BBB1;color:#fff;border-radius:5px;}
+#shaixuan>div>span:first-child{width:100px;}
+
+/*需要特殊对齐的筛选栏*/
+.textalign>span:first-child{width:110px!important;}
+
+
+.sx_xx select{display:none;}
+
+
+.sx_time{display:none;}
+/*图表*/
+#chart{width:100%;height:500px;background: #f7f7f7;}
+/*表格*/
+thead,th{background: #50BBB1;border-color:#50BBB1!important;color:#fff;}
+
+/*右边弹出窗体*/
+#right_window{position: fixed;height:100%;width:500px;background: #fff;right:0px;top:0px;box-shadow:-5px 0px 10px #ccc;display: none;overflow: auto;z-index:99999;}
+
+/*下拉框样式*/
+.searchable-select-dropdown{z-index: 99999;}
+.searchable-select>span:first-child{margin-top:13px;}
+.searchable-select-holder{height:30px;line-height: 30px;padding:0px 10px;margin-left:0px;}
+
+/*时间选择组样式*/
+#time_select_group{height:30px;display:inline-block;padding:0px;margin-left:20px;}
+#time_select_group>.start_time,#time_select_group>.end_time{margin:0px!important;line-height: 30px;width:120px!important;}
+#time_select_group>.start_time{border-radius:5px 0px 0px 5px!important;}
+#time_select_group>.mid_span{display:inline-block;height:28px;width:30px!important;line-height:26px;border:1px solid #DDDDDD;text-align:center;margin:0px -4px;}
+#time_select_group>.end_time{border-radius: 0px!important;}
+#time_select_group>.cx_btn{height:30px!important;line-height:30px!important;margin:-5px!important;border-radius:0px 3px 3px 0px!important;}
+
+/*导出样式*/
+#daochu_group{float:right;}
+#daochu_group>button{height:30px!important;line-height:30px!important;}
+
+/*排序*/
+#px_group{float:right;}
+
+/*总量*/
+#zong{margin:30px 0px!important; height:50px!important;line-height: 50px!important;background: #fff!important;padding-left:10px!important;border:1px solid #ddd!important;}
+
+/*日期选择中样式*/
+.uk-active{background:#50BBB1!important;}
+

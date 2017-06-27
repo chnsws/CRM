@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>线索转化率报表</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta charset="utf-8">
+<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+<script src="{$_GET['public_dir']}/echarts/echarts.min.js"></script>
+<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" media="all">
+<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="{$_GET['public_dir']}/report/main.css">
+<link rel="stylesheet" href="{$_GET['public_dir']}/report/time_axis.css">
+<!--layUI-->
+<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+<!--UIkit-->
+<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/datepicker.css" />
+<script src="{$_GET['public_dir']}/uikit/js/components/datepicker.js"></script>
+<style>
+</style>
+</head>
+<body>
+<div id="box">
+    <div id="head">
+        <sapn class="head_title">线索转化率报表</sapn>
+        <sapn class="head_tab">
+            <span>转化率</span>
+            <span class="head_tab_show" onclick="location='./xiansuozhuanhualv2'">转化时长</span>
+        </sapn>
+    </div>
+    <div id="shaixuan">
+       
+        <div>
+            <span class="sx_title">时间：</span>
+            <span class="sx_xx">
+                <select>
+                    <option value="0">2017</option>
+                </select>
+            </span>
+        </div>
+        <div>
+            <span class="sx_title">所属部门：</span>
+            <span class="sx_xx">
+                <select>
+                    <option value="0">请选择部门</option>
+                </select>
+            </span>
+        </div>
+        <div>
+            <span class="sx_title">负责人：</span>
+            <span class="sx_xx">
+                <select>
+                    <option value="0">请选择用户</option>
+                </select>
+            </span>
+        </div>
+        
+    </div>
+    <div id="chart"></div>
+    <div id="table">
+        <div class="table_head">新增线索数 ：55， 已转化线索数 ：40， 转化率 ：72.7%</div>
+        <table class="layui-table" lay-skin="line">
+            <thead>
+                <th>时间</th>
+                <th>新增线索数</th>
+                <th>已转化线索数</th>
+                <th>转化率</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1月</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>100%</td>
+                </tr>
+                <tr>
+                    <td>1月</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>100%</td>
+                </tr>
+                <tr>
+                    <td>1月</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>100%</td>
+                </tr>
+                <tr>
+                    <td>1月</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>100%</td>
+                </tr>
+                <tr>
+                    <td>1月</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>100%</td>
+                </tr>
+                <tr>
+                    <td>1月</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>100%</td>
+                </tr>
+                <tr>
+                    <td>1月</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>100%</td>
+                </tr>
+                
+               
+                
+                
+                <tr>
+                    <td colspan="4" style="text-align:center;">共7条</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+
+<script>
+//获取URL的绝对路径
+window.root_dir="{$_GET['root_dir']}";
+var aaa=$("#right_window").html();
+//初始化
+layui.use('layer', function(){
+    window.layer = layui.layer;
+});
+//黑色半透明提示
+function tishi(neirong)
+{
+    layer.msg(neirong, {
+        time: 1000, 
+        color:"#fff"
+    });
+}
+$(function(){
+    $('select').searchableSelect();
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('chart'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        legend: {
+            data:['新增线索数','已转化线索数','转化率']
+        },
+        grid: {
+            left: '10px',
+            right: '10px',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+            }
+        ],
+        yAxis : [
+            {
+                type:'value',
+                name:"线索数"
+            },
+            {
+                type:'value',
+                name:"转化率",
+                min: 0,
+                axisLabel: {
+                    formatter: '{value} %'
+                }
+            }
+        ],
+        series : [
+            {
+                name:'新增线索数',
+                type:'bar',
+                data:[320, 332, 301, 334, 390, 330, 320,320, 332, 301, 334, 390]
+            },
+            {
+                name:'已转化线索数',
+                type:'bar',
+                data:[320, 332, 301, 334, 390, 330, 320,320, 332, 301, 334, 390]
+            },
+            {
+                name:'转化率',
+                type:'line',
+                data:[320, 332, 301, 334, 390, 330, 320,320, 332, 301, 334, 390],
+                tooltip :{
+                    trigger: 'item',
+                    formatter: "转化率 : {c} %"
+                },
+                yAxisIndex:1,
+
+            }
+        ]
+    };
+
+// 使用刚指定的配置项和数据显示图表。
+myChart.setOption(option);
+    //myChart.showLoading();     //加载动画
+});
+</script>
+</html>
+

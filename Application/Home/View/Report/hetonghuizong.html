@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>赢单商机汇总报表</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta charset="utf-8">
+<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+<script src="{$_GET['public_dir']}/echarts/echarts.min.js"></script>
+<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" media="all">
+<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="{$_GET['public_dir']}/report/main.css">
+<link rel="stylesheet" href="{$_GET['public_dir']}/report/time_axis.css">
+<!--layUI-->
+<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+<!--UIkit-->
+<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+<style>
+</style>
+</head>
+<body>
+<div id="box">
+    <div id="head">
+        <sapn class="head_title">合同汇总报表</sapn>
+    </div>
+    <div id="shaixuan">
+        <div>
+            <span class="sx_title">时间：</span>
+            <span class="sx_xx">
+                <select>
+                    <option value="0">2017</option>
+                    <option value="111">2016</option>
+                    <option value="222">2015</option>
+                    <option value="333">2014</option>
+                </select>
+            </span>
+        </div>
+        <div>
+            <span class="sx_title">合同类型：</span>
+            <span class="sx_xx sx_this">全部</span>
+            <span class="sx_xx">客户合同</span>
+            <span class="sx_xx">采购合同</span>
+            <span class="sx_xx">其他</span>
+        </div>
+        <div>
+            <span class="sx_title">所属部门：</span>
+            <span class="sx_xx">
+                <select>
+                    <option value="0">请选择部门</option>
+                    <option value="111">111</option>
+                    <option value="222">222</option>
+                    <option value="333">333</option>
+                </select>
+            </span>
+        </div>
+        <div>
+            <span class="sx_title">负责人：</span>
+            <span class="sx_xx">
+                <select>
+                    <option value="0">请选择用户</option>
+                </select>
+            </span>
+        </div>
+    </div>
+    <div id="chart"></div>
+    <div id="table">
+        <div class="table_head">合同数: 86， 合同总金额：¥ 2,594,691,416.123456</div>
+        <table class="layui-table" lay-skin="line">
+            <thead>
+                <th>时间</th>
+                <th>合同数</th>
+                <th>合同数环比增长</th>
+                <th>合同总金额</th>
+                <th>合同总金额环比增长</th>
+                <th>平均客单价</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1月</td>
+                    <td>3</td>
+                    <td>33.3%</td>
+                    <td>¥ 42,581.000000</td>
+                    <td>41.9%</td>
+                    <td>¥ 10,645.250000</td>
+                </tr>
+                <tr>
+                    <td>1月</td>
+                    <td>3</td>
+                    <td>33.3%</td>
+                    <td>¥ 42,581.000000</td>
+                    <td>41.9%</td>
+                    <td>¥ 10,645.250000</td>
+                </tr>
+                <tr>
+                    <td>1月</td>
+                    <td>3</td>
+                    <td>33.3%</td>
+                    <td>¥ 42,581.000000</td>
+                    <td>41.9%</td>
+                    <td>¥ 10,645.250000</td>
+                </tr>
+                <tr>
+                    <td>1月</td>
+                    <td>3</td>
+                    <td>33.3%</td>
+                    <td>¥ 42,581.000000</td>
+                    <td>41.9%</td>
+                    <td>¥ 10,645.250000</td>
+                </tr>
+                <tr>
+                    <td>1月</td>
+                    <td>3</td>
+                    <td>33.3%</td>
+                    <td>¥ 42,581.000000</td>
+                    <td>41.9%</td>
+                    <td>¥ 10,645.250000</td>
+                </tr>
+                <tr>
+                    <td>1月</td>
+                    <td>3</td>
+                    <td>33.3%</td>
+                    <td>¥ 42,581.000000</td>
+                    <td>41.9%</td>
+                    <td>¥ 10,645.250000</td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="text-align:center;">共7条</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+
+<script>
+//获取URL的绝对路径
+window.root_dir="{$_GET['root_dir']}";
+var aaa=$("#right_window").html();
+//初始化
+layui.use('layer', function(){
+    window.layer = layui.layer;
+});
+//黑色半透明提示
+function tishi(neirong)
+{
+    layer.msg(neirong, {
+        time: 1000, 
+        color:"#fff"
+    });
+}
+$(function(){
+    $('select').searchableSelect();
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('chart'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        legend: {
+            data:['合同数量','合同总金额']
+        },
+        grid: {
+            left: '10px',
+            right: '10px',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value',
+                name:"合同数量"
+            },
+            {
+                type: 'value',
+                name: '合同金额',
+                axisLabel: {
+                    formatter: '￥ {value}'
+                }
+            }
+        ],
+        series : [
+            {
+                name:'合同数量',
+                type:'line',
+                data:[320, 332, 301, 334, 390, 330, 320,320, 332, 301, 334, 390]
+            },
+            {
+                name:'合同总金额',
+                type:'bar',
+                yAxisIndex:1,
+                data:[1200000, 1320000, 1010000, 1340000, 900000, 2300000, 2100000,1200000, 1320000, 1010000, 1340000, 900000]
+            }
+        ]
+    };
+
+// 使用刚指定的配置项和数据显示图表。
+myChart.setOption(option);
+    //myChart.showLoading();     //加载动画
+});
+</script>
+</html>
+

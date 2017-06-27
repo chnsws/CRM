@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>销售额排名报表</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta charset="utf-8">
+<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+<script src="{$_GET['public_dir']}/echarts/echarts.min.js"></script>
+<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" media="all">
+<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="{$_GET['public_dir']}/report/main.css">
+<link rel="stylesheet" href="{$_GET['public_dir']}/report/time_axis.css">
+<!--layUI-->
+<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+<!--UIkit-->
+<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/datepicker.css" />
+<script src="{$_GET['public_dir']}/uikit/js/components/datepicker.js"></script>
+<style>
+    .head_title{width:300px;}
+    #time_select_group{margin-left:0px;}
+</style>
+</head>
+<body>
+<div id="box">
+    <div id="head">
+        <sapn class="head_title">销售额排名报表</sapn>
+        <sapn class="head_tab">
+            <span>合同金额</span>
+            <span class="head_tab_show">赢单商机金额</span>
+        </sapn>
+    </div>
+    <div id="shaixuan">
+        <div>
+            <span class="sx_title">合同开始日期：</span>
+            <span class="sx_xx">
+                <span id="time_select_group" class="uk-form">
+                    <input type="text" class="start_time" data-uk-datepicker="{format:'YYYY-MM-DD'}">
+                    <span class="mid_span">-</span>
+                    <input type="text" class="end_time" data-uk-datepicker="{format:'YYYY-MM-DD'}">
+                    <button class="layui-btn cx_btn layui-btn-primary">查询</button>
+                </span>
+            </span>
+        </div>
+        <div>
+            <span class="sx_title">所属部门：</span>
+            <span class="sx_xx">
+                <select>
+                    <option value="0">请选择部门</option>
+                </select>
+            </span>
+        </div>
+        
+    </div>
+    <div id="chart"></div>
+    <div id="table">
+        <div class="table_head">合同金额：¥ 249,696,174,496.073456</div>
+        <table class="layui-table" lay-skin="line">
+            <thead>
+                <th>排名</th>
+                <th>姓名</th>
+                <th>所在部门</th>
+                <th>合同金额</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>王玉帅</td>
+                    <td>总裁办</td>
+                    <td>￥12312312</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>王玉帅</td>
+                    <td>总裁办</td>
+                    <td>￥12312312</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>王玉帅</td>
+                    <td>总裁办</td>
+                    <td>￥12312312</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>王玉帅</td>
+                    <td>总裁办</td>
+                    <td>￥12312312</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>王玉帅</td>
+                    <td>总裁办</td>
+                    <td>￥12312312</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>王玉帅</td>
+                    <td>总裁办</td>
+                    <td>￥12312312</td>
+                </tr>
+               
+               
+                
+                
+                <tr>
+                    <td colspan="4" style="text-align:center;">共7条</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+
+<script>
+//获取URL的绝对路径
+window.root_dir="{$_GET['root_dir']}";
+var aaa=$("#right_window").html();
+//初始化
+layui.use('layer', function(){
+    window.layer = layui.layer;
+});
+//黑色半透明提示
+function tishi(neirong)
+{
+    layer.msg(neirong, {
+        time: 1000, 
+        color:"#fff"
+    });
+}
+$(function(){
+    $('select').searchableSelect();
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('chart'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        legend: {
+            data:['合同金额']
+        },
+        grid: {
+            left: '10px',
+            right: '10px',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : ['王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅']
+            }
+        ],
+        dataZoom: [
+            {   // 这个dataZoom组件，默认控制x轴。
+                type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                start: 0,      // 左边在 10% 的位置。
+                end: 60         // 右边在 60% 的位置。
+            },
+            {   // 这个dataZoom组件，默认控制x轴。
+                type: 'inside', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                start: 0,      // 左边在 10% 的位置。
+                end: 60         // 右边在 60% 的位置。
+            }
+        ],
+        yAxis : [
+            {
+                type:'value',
+                name:"金额"
+            }
+        ],
+        series : [
+            {
+                name:'合同金额',
+                type:'bar',
+                data:[320, 332, 301, 334, 390, 330, 320,320, 332, 301, 334, 390,334, 390]
+            }
+        ]
+    };
+
+// 使用刚指定的配置项和数据显示图表。
+myChart.setOption(option);
+    //myChart.showLoading();     //加载动画
+});
+</script>
+</html>
+

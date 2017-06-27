@@ -1,0 +1,17 @@
+/*跟进记录的时光轴样式*/
+.gj_mod{overflow: hidden;margin-left:10px;}
+.gj_head,.gj_body{margin-left:20px;border-left:1px solid #ccc;}
+.gj_head{height:40px;line-height:40px;}
+.gj_head_point{height:10px;width:10px;border-radius: 5px;border:none;margin-top:15px;margin-left:-5px;float:left;background: #1AA094;}
+.gj_head_date{background: #1AA094;color:#fff;float:left;height:20px;line-height: 20px;padding:0px 10px;border-radius: 3px;margin-top:10px;margin-left: 20px;}
+.gj_body_icon{float:left;width:30px;height:30px;background: #1AA094;border-radius: 15px;line-height: 30px;margin-left: -15px;}
+.gj_body_icon i{height:30px;width: 30px;line-height: 30px;text-align: center;color:#fff;}
+.gj_body_content{margin-left:25px;background:#F1F9FE;border:1px solid #50BBB1;margin-right:10px;border-radius:10px;padding:10px;overflow: hidden;}
+.gj_headimg{height:25px;width:25px;margin-right:5px;border-radius:15px}
+.gj_body_content_head i{margin:0px 5px;}
+.gj_body_content_content{line-height: 26px;margin:10px 0px;}
+.gj_body_content_time,.gj_body_content_from{height:26px;line-height: 26px;}
+/*隐藏评论按钮
+.gj_body_content_button{display: none;}
+*/
+.gj_body_content_button button{float:right;height:30px;line-height: 30px;}
