@@ -223,26 +223,27 @@ class ShangjiController extends Controller {
 							//echo $vzd['id'];
 							if($vzd['id']=="zdy1")
 							{
-								$table.="<td>";
-								$table.="<select  class='required lxr_ajax' name='".$vzd['id']."' onchange='get_lx(this)' style='width:230px;height:30px;'>";
+								$table.="<td id='sj_zdy1'>";
+								$table.="<select id='ss1' class='required lxr_ajax xlss' name='".$vzd['id']."' onchange='get_lx(this)' style='width:230px;height:30px;'>";
 										$table.="<option value=''>--请选择--</option>";
+										$table.="<option value='tiaozhuan' style='color:red'>点我添加新客户</option>";
 								foreach($kh_name as $k=>$v)
 									{
 										$table.="<option value='".$v['id']."'>".$v['name']."</option>";
 									}
 									$table.="</select>";	
-								$table.="</select> <span style='color:blue;margin-right:10px' onclick='kh_add()'>点击添加</span></td>";
+							
 							}elseif($vzd['id']=="zdy2")
 							{
-								$table.="<td class='lx_th'>";
-								$table.="<select name='".$vzd['id']."' class='required ' style='width:300px;height:30px;'>";
+								$table.="<td class='lx_th' id='sj_zdy2'>";
+								$table.="<select id='ss2' name='".$vzd['id']."' class='required ' style='width:300px;height:30px;'>";
 										$table.="<option value=''>请先选择公司</option>";
 									$table.="</select>";	
 								$table.="</td>";
 							}elseif($vzd['id']=="zdy9")
 							{
 								$table.="<td>";
-								$table.="<select name='".$vzd['id']."'  class='required' style='width:300px;height:30px;'>";
+								$table.="<select name='".$vzd['id']."'  class='required ' style='width:300px;height:30px;'>";
 										$table.="<option value=''>--请选择--</option>";
 								foreach($new_ywcs[$vzd['id']] as $k=>$v)
 									{
@@ -758,23 +759,17 @@ class ShangjiController extends Controller {
 		$sj_base=M('shangji');
 		$add_sj=$sj_base->add($data);
 		if($add_sj){
-					$xiaji= $this->gongyou();
-					echo $xiaji;
-					$sql_sel=$sj_base->where($data)->field('sj_id')->find();
+						//以下方法不好 需要完善
 					$sql['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
 					$sql['sj_id']='0'; 
 					$sql['cp_sj_cj']=cookie('user_id'); //通用条件   
 					$cp_sj_base=M('cp_sj');
-					$dat['sj_id']= $sql_sel['sj_id'];
+					$dat['sj_id']=$add_sj;
 					$sql_add=$cp_sj_base->where($sql)->save($dat);
 					//echo "<pre>";
 					//var_dump($sql);exit;
 			
-	}else{
-			$xiaji= $this->gongyou();
-			//echo $xiaji;
-			echo "no";
-		}
+	}
 	}
 	public function get_xiashu_id()
 	{
@@ -1221,11 +1216,11 @@ class ShangjiController extends Controller {
 			}
 			$new_lx[]=$new_sql;
 		}
-		$c=1;
+
 		foreach($new_lx as $k=>$v)
 		{
 			if($v['zdy1']==$a)
-			{	$c=$c+1;
+			{	
 				$lx_arr['id']=$v['lx_id'];
 				$lx_arr['name']=$v['zdy0'];
 				$lx_end[$v['zdy0']]=$lx_arr;
@@ -1238,18 +1233,9 @@ class ShangjiController extends Controller {
 		}
 		$table.="</select>";	
 
-		//$table2.="<select name='zdy2' style='width:300px;height:30px;'>";
-		
-		//$table2.="<option value='' style='color:red'>请添加此客户联系人</option>";
-		
-		//$table2.="</select>";
-		$table2.="<span style='color:red;margin-left:30px' onclick='add_lx(this)'> 点我添加(必填)</span><input type='hidden'  class='lxr_ad required' value='ok'>";
-		if($c>1) //000
-		{
+
 			echo $table;
-		}else{
-			echo $table2;
-		}
+	
 		
 		
 	}
@@ -1378,12 +1364,13 @@ return $fzr_only;
 			
 					$lx['id']=$vkh['lx_id'];
 					$lx['name']=$kh_json['zdy0'];
+					$lx['kh_id']=$kh_json['zdy1'];
 					$lx_name[$vkh['lx_id']]=$lx;
 		}
-		
+
 		return $lx_name;
 	}
-	public function lianxiren(){
+	public function lianxiren(){           // 6 月26确定暂时没用的方法
 		$ywzd= $this->ywzd();    //业务字段信息 
 		$kh_name= $this->kehu();    //业务字段信息 
 	//	echo "<pre>";var_dump($kh_name);exit;
@@ -1398,22 +1385,13 @@ return $fzr_only;
 			if($vywzd['qy']==1)
 			{
 				if($vywzd['bt']==1)
-				{
+				{	
+				
 					if($vywzd['type']==3)
 					{
 						if($vywzd['id']=='zdy1')
 						{
-							$add_yw.="<tr class='addtr'>";
-							$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td>";
-									$add_yw.="<td>
-							 		<select  name='".$vywzd['id']."' class='required1' style='width:300px;height:30px;'>
-							 			<option value=''>--请选择--</option>";
-							 		foreach ($kh_name as $kkh => $vkh)
-							 		{
-							 			 $add_yw.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
-							 		} 
-							 $add_yw.=	"</select> </td>";
-							$add_yw.="</tr>";
+						
 						}
 					}elseif($vywzd['type']==2){
 						$add_yw.="<tr class='addtr'>";
@@ -1428,88 +1406,17 @@ return $fzr_only;
 		 				$add_yw.="</td></tr>";
 					}else{
 						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required1' name='".$vywzd['id']."'></td>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required1' value='lxr".$vywzd['id']."'  id='lxr".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
 					}
-				}elseif($vywzd['cy']==1)
-				{
-					if($vywzd['type']==3)
-					{
-						if($vywzd['id']=='zdy1')
-						{
-							$add_yw1.="<tr class='addtr'>";
-							$add_yw1.="<td>".$vywzd['name'].":</td>";
-									$add_yw1.="<td>
-							 		<select  name='' style='width:300px;height:30px;'>
-							 			<option>--请选择--</option>";
-							 		foreach ($kh_name as $kkh => $vkh)
-							 		{
-							 			 $add_yw1.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
-							 		} 
-							 $add_yw1.=	"</select> </td>";
-							$add_yw1.="</tr>";
-						}
-					}elseif($vywzd['type']==2){
-						$add_yw1.="<tr class='addtr'>";
-						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";
-						$add_yw.="</tr>";
-					}elseif($vywzd['type']==1){	
-						$add_yw1.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
-						$add_yw1.="<td>".$vywzd['name'].":</td><td class='form-group' style='width:80%;'>";
-						$add_yw1.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
-			          	$add_yw1.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
-			         	$add_yw1.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
-		 				$add_yw1.="</td></tr>";
-					}else{
-						$add_yw1.="<tr class='addtr'>";
-						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'></td>";
-						$add_yw1.="</tr>";
-					}
-				}else
-				{
-					if($vywzd['type']==3)
-					{
-						if($vywzd['id']=='zdy1')
-						{
-							$add_yw2.="<tr class='addtr nncy' style='display: none;border:1px'>";
-							$add_yw2.="<td>".$vywzd['name'].":</td>";
-									$add_yw2.="<td>
-							 		<select  name='' style='width:300px;height:30px;'>
-							 			<option>--请选择--</option>";
-							 		foreach ($kh_name as $kkh => $vkh)
-							 		{
-							 			 $add_yw2.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
-							 		} 
-							 $add_yw2.=	"</select> </td>";
-							$add_yw2.="</tr>";
-						}
-					}elseif($vywzd['type']==2){
-						$add_yw2.="<tr class='addtr nncy' style='display: none;border:1px'>";
-						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";
-						$add_yw.="</tr>";
-					}elseif($vywzd['type']==1){	
-						$add_yw2.="<tr class='addtr nncy' data-toggle='distpicker' style='overflow:hidden'>";
-						$add_yw2.="<td>".$vywzd['name'].":</td><td class='form-group' style='width:80%;'>";
-
-						$add_yw2.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
-			          	$add_yw2.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
-			         	$add_yw2.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
-		 				$add_yw2.="</td></tr>";
-					}else{
-						$add_yw2.="<tr class='addtr nncy' style='display: none;border:1px'>";
-						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'></td>";
-						$add_yw2.="</tr>";
-					}
+		
 				}
 			}
 		}
 		
 	echo $add_yw;
-	echo $add_yw1;
-	echo $add_yw2;	
 		$this->assign('add_yw',$add_yw);
-		$this->assign('add_yw1',$add_yw1);
-		$this->assign('add_yw2',$add_yw2);
+
 		
 	//	$this->display();
   
@@ -1537,7 +1444,9 @@ return $fzr_only;
 	 public function kehu_add(){
     	$xiaji= $this->get_xiashu_id();//  查询下级ID
     	$lxr=$this->lxr();
-    
+    $kehu_name= $this->kehu();
+ //   echo "<pre>";
+ //   var_dump($kehu_name);exit;
 		$user=$this->user();
   		$a=M('yewuziduan');                      //新增客户所需字段     
   		$map['zd_yewu']="2";
@@ -1578,6 +1487,7 @@ return $fzr_only;
 			}
 		}
 		$a_arr=$new_qy;
+	
 		foreach($a_arr as $k=>$v)
 		{
 			if($v['bt']==1)
@@ -1605,20 +1515,18 @@ return $fzr_only;
 		         	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
 	 				$show_bt.="</td></tr>";
 				}elseif($v['id']=='zdy15'){
-						$show_bt.="<tr class='addtr'><td><span style='color:red;width:30px'>*</span>".$v['name']."：</td>";
-						$show_bt.="<td><select  class='required1' style='width:200px;' name='".$v['id']."' id='student' >";
-							
-							$show_bt.="<option id='tshi'style='height:38px' value=''></option>";
-
-							$show_bt.="<option class='sx_xl' id='tshi'  value=''>暂且不选</option>";
-								foreach($lxr as $k=>$v)
+						$show_bt.="<tr class='addtr' ><td><span style='color:red;width:30px'>*</span>".$v['name']."：</td>";
+						$show_bt.="<td id='zdy15th'><select  class='required1 xlss2' name='".$v['id']."' id='ss2' >";
+								$show_bt.="<option value=''>--请选择--</option>";
+									$show_bt.="<option value='add_lxr'>新增联系人</option>";
+								foreach($lxr as $k1=>$v1)
 								{
-									$show_bt.="<option class='sx_xl' title='".$kehu_name[$v['zdy1']]['name']."' value='".$v['id']."'>".$v['name']."</option>";
+									$show_bt.="<option value='".$v1['id']."'>".$v1['name']."(".$kehu_name[$v1['kh_id']]['name'].")</option>";
 								}
-							$show_bt.="<option id='tshi'  class='zssj' style='height:38px' value='0001'></option>";
+						
 							
-						$show_bt.="<select>
-						<input type='text' name='box' id='sss' style='width:200px;position:absolute;left:32.8%;height:31px;line-height:30px;'>	<span style='margin-left:20px;margin-right:24px ;color:blue' onclick='add_lxr()'>点击添加</span></td>";	
+						$show_bt.="<select>";
+					
 				}elseif($v['id']=='zdy0'){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
 					$show_bt.="<td><input type='text'  class='required1' id= 'wyszdy0' onkeyup='kh_name_if(this)' name='".$v['id']."'></td></tr>";	
@@ -1631,7 +1539,7 @@ return $fzr_only;
 						
 		}
 			$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>乙方负责人:</td>";
-			$show_bt.="<td><select name='ht_fz'  class ='required1' onchange='get_bm(this)'>";
+			$show_bt.="<td><select name='kh_fz'  class ='required1' onchange='kh_bm(this)'>";
 			$show_bt.="<option  value=''>请选择负责人</option>";	
 				foreach($user as $k=>$v)
 				{
@@ -1639,7 +1547,7 @@ return $fzr_only;
 				}
 			$show_bt.=" </select></td></tr>	";
 			$show_bt.="<tr class='addtr '><td>部门:</td>";
-			$show_bt.="<td class='bm_th' ><input type='text' name='ht_department' disabled value='' > </td>";
+			$show_bt.="<td class='bm_th' ><input type='text' name='kh_bm' disabled value='' > </td>";
 		
 		  echo 	$show_bt;
 
@@ -1795,5 +1703,46 @@ return $fzr_only;
 		echo $show;
 
 	}
+	public function lxr_if(){ //弹出客户 的联系人判断选择的还是添加的
+		$lxr=$this->lxr();
+		$id=$_GET['id'];
+		if($lxr[$id]=="" || $lxr[$id]==null)
+		{
+			echo "ok";
+		}else{
+			echo $lxr[$id]['name'];
+		}
 
+	}
+	public function add_end(){
+		$kehu=$_GET['id'];
+		$kehu="zdy0:阿衰嫌憎,zdy1:canshu2,zdy2:23,zdy3:2323,zdy4:23,zdy5:232332,zdy15:206,kh_fz:46,kh_bm:技术部,";
+		$new_number=substr($kehu,0,strlen($kehu)-1); 
+		$new_arr=explode(',',$new_number);
+		foreach($new_arr as $k=>$v)
+		{
+			$ex=explode(":",$v);
+			if($ex['0']=="kh_fz")
+			{
+				$data["kh_fz"]=	$ex['1'];//本人ID  ;
+			}elseif($ex['0']=="kh_bm")
+			{
+				$data["kh_bm"]=	$ex['1'];//本人ID  ;
+			}else{
+				$ex1[$ex['0']]=$ex['1'];
+			}		
+		}
+		
+		$data["kh_data"]=json_encode($ex1,true);
+		$data["kh_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		$data["kh_cj"]=	cookie('user_id');//本人ID  ;
+		$data["kh_cj_date"]=time();//本人ID  ;
+		
+		$kh_base=M('kh');
+		//$add_kh=$kh_base->add($data);
+		if($add_kh)
+		{
+			$lxr=$_GET['lxr'];
+		}
+	}
 }

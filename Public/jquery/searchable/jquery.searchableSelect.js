@@ -226,6 +226,8 @@
       if(this.options.afterSelectItem){
         this.options.afterSelectItem.apply(this);
       }
+      var this_dom=this.element;
+      change_fun(this_dom);
     },
 
     hasCurrentHoverItem: function(){

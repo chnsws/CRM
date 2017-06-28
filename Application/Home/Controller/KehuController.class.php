@@ -397,7 +397,9 @@ class KehuController extends Controller {
         $this->display();
     }
 
-
+    public function index4(){
+    	$this->display();
+    }
 	/**	public function add(){
 		    $data['kh_data']=$_GET['id'];
 		    	$a_arr=json_decode( $data['kh_data'],true);
