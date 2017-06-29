@@ -548,6 +548,129 @@ class ReportController extends DBController {
         $this->assign('data_table',$data_table);//表格的数据
         $this->display();
     }
+    //赢单商机汇总报表
+    public function yingdanshangjihuizong()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //当前年度
+        $now_year=$_GET['sx_1']==''?date("Y",time()):$_GET['sx_1'];
+        $last_year=$now_year-1;//上一年
+
+        //年份下拉框
+        $year_option=$this->get_year_option($now_year);
+        //部门下拉框
+        $bm_option=$this->get_bm_option($fid);
+        //用户下拉框
+        $user_option=$this->get_user_option($fid);
+        //获取每个用户对应着的部门
+        $user_bm=$this->get_user_bm($fid);
+
+        //赢单金额
+        $yj_sum=array(
+            '1'=>0,
+            '2'=>0,
+            '3'=>0,
+            '4'=>0,
+            '5'=>0,
+            '6'=>0,
+            '7'=>0,
+            '8'=>0,
+            '9'=>0,
+            '10'=>0,
+            '11'=>0,
+            '12'=>0
+        );
+        //赢单数
+        $yj_num=$yj_sum;
+        //总金额、数量
+        $yj_zong_sum=0;
+        $yj_zong_num=0;
+        //上一年最后一个月的数量和金额
+        $last_y_m_sum=0;
+        $last_y_m_num=0;
+
+        $sj_arr=parent::sel_more_data("crm_shangji","sj_id,sj_data,sj_fz","sj_yh='$fid'");
+        foreach($sj_arr as $v)
+        {
+            //金额zdy3,日期zdy4
+            $sj_json=json_decode($v['sj_data'],true);
+            //排除不是已经赢单的商机
+            if($sj_json['zdy5']!='canshu5')
+            {
+                return;
+            }
+            if($last_year.'-12'==substr($this->date_to_date($sj_json['zdy4']),0,7))
+            {
+                $last_y_m_sum+=$sj_json['zdy3'];
+                $last_y_m_num++;
+            }
+            //确保是选择年份的商机
+            $sj_date_arr=explode('-',$this->date_to_date($sj_json['zdy4']));
+            if($sj_date_arr[0]!=$now_year)
+            {
+                continue;
+            }
+            if($_GET['sx_2']!='0'&&$_GET['sx_2']!='')
+            {
+                if($user_bm[$v['sj_fz']]!=$_GET['sx_2'])
+                {
+                    continue;
+                }
+            }
+            if($_GET['sx_3']!='0'&&$_GET['sx_3']!='')
+            {
+                if($v['sj_fz']!=$_GET['sx_3'])
+                {
+                    continue;
+                }
+            }
+            //月份去0
+            $this_sj_m=substr($sj_date_arr[1],0,1)==0?substr($sj_date_arr[1],1):$sj_date_arr[1];
+
+            $yj_sum[$this_sj_m]+=$sj_json['zdy3'];//每个月的金额数组
+            $yj_num[$this_sj_m]++;//每个月的数量数组
+
+            //总金额、数量
+            $yj_zong_sum+=$sj_json['zdy3'];
+            $yj_zong_num++;
+
+        }
+        //图形数据
+        $sj_sum_chart='["'.implode('","',$yj_sum).'"]';
+        $sj_num_chart='["'.implode('","',$yj_num).'"]';
+
+        //表格数据
+        $data_table='';
+        foreach($yj_sum as $k=>$v)
+        {
+            $hb_num=$this->get_hb($last_y_m_num,$yj_num[$k]);
+            $hb_sum=$this->get_hb($last_y_m_sum,$v);
+            $last_y_m_num=$yj_num[$k];
+            $last_y_m_sum=$v;
+            $data_table.="<tr>
+                            <td>".$k."月</td>
+                            <td>".$yj_num[$k]."</td>
+                            <td>".$hb_num."</td>
+                            <td>￥".number_format($v,2)."</td>
+                            <td>".$hb_sum."</td>
+                            <td>￥".number_format(($v/$yj_num[$k]),2)."</td>
+                        </tr>";
+        }
+
+        //年份下拉框
+        $this->assign("year_option",$year_option);
+        //部门下拉框
+        $this->assign("bm_option",($_GET['sx_2']?str_replace("value='".$_GET['sx_2']."'","value='".$_GET['sx_2']."' selected ",$bm_option):$bm_option));
+        //负责人下拉框
+        $this->assign("user_option",($_GET['sx_3']?str_replace("value='".$_GET['sx_3']."'","value='".$_GET['sx_3']."' selected ",$user_option):$user_option));
+        //图形数据
+        $this->assign("sj_sum_chart",$sj_sum_chart);
+        $this->assign("sj_num_chart",$sj_num_chart);
+        //表格数据
+        $this->assign("data_table",$data_table);
+        $this->display();
+    }
     //获得部门下拉内容
     public function get_bm_option($fid)
     {

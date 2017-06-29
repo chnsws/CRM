@@ -36,10 +36,7 @@
             <span class="sx_title">时间：</span>
             <span class="sx_xx">
                 <select>
-                    <option value="0">2017</option>
-                    <option value="111">2016</option>
-                    <option value="222">2015</option>
-                    <option value="333">2014</option>
+                    {$year_option}
                 </select>
             </span>
         </div>
@@ -48,9 +45,7 @@
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择部门</option>
-                    <option value="111">111</option>
-                    <option value="222">222</option>
-                    <option value="333">333</option>
+                    {$bm_option}
                 </select>
             </span>
         </div>
@@ -59,6 +54,7 @@
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择用户</option>
+                    {$user_option}
                 </select>
             </span>
         </div>
@@ -76,59 +72,7 @@
                 <th>平均客单价</th>
             </thead>
             <tbody>
-                <tr>
-                    <td>1月</td>
-                    <td>3</td>
-                    <td>33.3%</td>
-                    <td>¥ 42,581.000000</td>
-                    <td>41.9%</td>
-                    <td>¥ 10,645.250000</td>
-                </tr>
-                <tr>
-                    <td>1月</td>
-                    <td>3</td>
-                    <td>33.3%</td>
-                    <td>¥ 42,581.000000</td>
-                    <td>41.9%</td>
-                    <td>¥ 10,645.250000</td>
-                </tr>
-                <tr>
-                    <td>1月</td>
-                    <td>3</td>
-                    <td>33.3%</td>
-                    <td>¥ 42,581.000000</td>
-                    <td>41.9%</td>
-                    <td>¥ 10,645.250000</td>
-                </tr>
-                <tr>
-                    <td>1月</td>
-                    <td>3</td>
-                    <td>33.3%</td>
-                    <td>¥ 42,581.000000</td>
-                    <td>41.9%</td>
-                    <td>¥ 10,645.250000</td>
-                </tr>
-                <tr>
-                    <td>1月</td>
-                    <td>3</td>
-                    <td>33.3%</td>
-                    <td>¥ 42,581.000000</td>
-                    <td>41.9%</td>
-                    <td>¥ 10,645.250000</td>
-                </tr>
-                <tr>
-                    <td>1月</td>
-                    <td>3</td>
-                    <td>33.3%</td>
-                    <td>¥ 42,581.000000</td>
-                    <td>41.9%</td>
-                    <td>¥ 10,645.250000</td>
-                </tr>
-                
-                
-                <tr>
-                    <td colspan="6" style="text-align:center;">共7条</td>
-                </tr>
+                {$data_table}
             </tbody>
         </table>
     </div>
@@ -167,6 +111,7 @@ $(function(){
         legend: {
             data:['赢单数','金额']
         },
+        color:["#F7A35C","#48C9B3"],
         grid: {
             left: '10px',
             right: '10px',
@@ -195,13 +140,13 @@ $(function(){
             {
                 name:'赢单数',
                 type:'line',
-                data:[320, 332, 301, 334, 390, 330, 320,320, 332, 301, 334, 390]
+                data:{$sj_num_chart}
             },
             {
                 name:'金额',
                 type:'bar',
                 yAxisIndex:1,
-                data:[1200000, 1320000, 1010000, 1340000, 900000, 2300000, 2100000,1200000, 1320000, 1010000, 1340000, 900000]
+                data:{$sj_sum_chart}
             }
         ]
     };
@@ -210,6 +155,37 @@ $(function(){
 myChart.setOption(option);
     //myChart.showLoading();     //加载动画
 });
+var sel_num=3;
+function change_fun(dom)
+{
+    if(sel_num!=0)
+    {
+        sel_num--;
+        return;
+    }
+    var sx_num=dom.index("select")+1;
+    var this_val=dom.val();
+    var now_sx=get_url_val(sx_num);
+    window.location="./yingdanshangjihuizong?sx_"+sx_num+"="+this_val+now_sx;
+}
+//获取URL中剩余的值，可以删除一个值
+function get_url_val(without)
+{
+    var now_sx='';
+    if("{$_GET['sx_1']}"!=''&&"sx_"+without!='sx_1')
+    {
+        now_sx+="&sx_1="+"{$_GET['sx_1']}";
+    }
+    if("{$_GET['sx_2']}"!=''&&"sx_"+without!='sx_2')
+    {
+        now_sx+="&sx_2="+"{$_GET['sx_2']}";
+    }
+    if("{$_GET['sx_3']}"!=''&&"sx_"+without!='sx_3')
+    {
+        now_sx+="&sx_3="+"{$_GET['sx_3']}";
+    }
+    return now_sx;
+}
 </script>
 </html>
 
