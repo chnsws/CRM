@@ -56,7 +56,7 @@ class ReportController extends DBController {
                 //日周月季度
                 if(strlen($_GET['sx_1'])==1)
                 {
-                    if($this->date_to_date($ht_json['zdy6'])<$timearr[$_GET['sx_1']][s]||$this->date_to_date($ht_json['zdy6'])>$timearr[$_GET['sx_1']][e])
+                    if($this->date_to_date($ht_json['zdy5'])<$timearr[$_GET['sx_1']][s]||$this->date_to_date($ht_json['zdy5'])>$timearr[$_GET['sx_1']][e])
                     {
                         continue;
                     }
@@ -65,7 +65,7 @@ class ReportController extends DBController {
                 {
                     //自定义时间段
                     $zdytimearr=explode(',',$_GET['sx_1']);
-                    if($this->date_to_date($ht_json['zdy6'])<$zdytimearr[0].' 00:00:00'||$this->date_to_date($ht_json['zdy6'])>$zdytimearr[1].' 23:59:59')
+                    if($this->date_to_date($ht_json['zdy5'])<$zdytimearr[0].' 00:00:00'||$this->date_to_date($ht_json['zdy5'])>$zdytimearr[1].' 23:59:59')
                     {
                         continue;
                     }
@@ -166,7 +166,7 @@ class ReportController extends DBController {
                 //日周月季度
                 if(strlen($_GET['sx_1'])==1)
                 {
-                    if($this->date_to_date($ht_json['zdy6'])<$timearr[$_GET['sx_1']][s]||$this->date_to_date($ht_json['zdy6'])>$timearr[$_GET['sx_1']][e])
+                    if($this->date_to_date($ht_json['zdy5'])<$timearr[$_GET['sx_1']][s]||$this->date_to_date($ht_json['zdy5'])>$timearr[$_GET['sx_1']][e])
                     {
                         continue;
                     }
@@ -175,7 +175,7 @@ class ReportController extends DBController {
                 {
                     //自定义时间段
                     $zdytimearr=explode(',',$_GET['sx_1']);
-                    if($this->date_to_date($ht_json['zdy6'])<$zdytimearr[0].' 00:00:00'||$this->date_to_date($ht_json['zdy6'])>$zdytimearr[1].' 23:59:59')
+                    if($this->date_to_date($ht_json['zdy5'])<$zdytimearr[0].' 00:00:00'||$this->date_to_date($ht_json['zdy5'])>$zdytimearr[1].' 23:59:59')
                     {
                         continue;
                     }
@@ -276,15 +276,16 @@ class ReportController extends DBController {
         }
         //所有合同查询 //合同zdy5:合同开始时间
         $ht_arr=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid'");
+        
         foreach($ht_arr as $v)
         {
             $ht_json=json_decode($v['ht_data'],true);
-            if(substr($this->date_to_date($ht_json['zdy6']),0,7)==$last_year)
+            if(substr($this->date_to_date($ht_json['zdy5']),0,7)==$last_year)
             {
                 $last_year_last_m_ht[$v['ht_id']]=1;
                 $ht_dbtable_in_str[]=$v['ht_id'];
             }
-            $ht_date_arr=explode('-',$this->date_to_date($ht_json['zdy6']));
+            $ht_date_arr=explode('-',$this->date_to_date($ht_json['zdy5']));
             if($ht_date_arr[0]!=$now_year)
             {
                 continue;
@@ -308,7 +309,6 @@ class ReportController extends DBController {
             }
             $ht_dbtable_in_str[]=$v['ht_id'];
         }
-
         $ht_dbtable_in_str=implode("','",$ht_dbtable_in_str);
         $ht_dbtable_in_str="'".$ht_dbtable_in_str."'";
         
@@ -406,6 +406,148 @@ class ReportController extends DBController {
         $this->assign("sum_xiaoliang",$sum_xiaoliang);//总销量
         $this->display();
     }
+    //合同汇总报表
+    public function hetonghuizong()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //当前年度
+        $now_year=$_GET['sx_1']==''?date("Y",time()):$_GET['sx_1'];
+        $last_year=$now_year-1;//上一年
+
+        //年份下拉框
+        $year_option=$this->get_year_option($now_year);
+        //部门下拉框
+        $bm_option=$this->get_bm_option($fid);
+        //用户下拉框
+        $user_option=$this->get_user_option($fid);
+        //获取每个用户对应着的部门
+        $user_bm=$this->get_user_bm($fid);
+        //获取合同类型参数,构造合同类型筛选栏
+        $ht_cs_arr=parent::sel_more_data("crm_ywcs","ywcs_data","ywcs_yh='$fid' and ywcs_yw='6'");
+        $ht_cs_json_arr=json_decode($ht_cs_arr[0]['ywcs_data'],true);
+        $ht_type_arr=array();
+        $ht_type_span='';
+        foreach($ht_cs_json_arr as $v)
+        {
+            if($v['id']=='zdy10')
+            {
+                foreach($v as $kk=>$vv)
+                {
+                    if(substr($kk,0,6)!='canshu')
+                    {
+                        continue;
+                    }
+                    if($v['qy'][$kk]!=1)
+                    {
+                        continue;
+                    }
+                    $ht_type_arr[$kk]=$vv;
+                    $ht_type_span.='<span class="sx_xx" lang="'.$kk.'">'.$vv.'</span>';
+                }
+            }
+        }
+
+        //查询合同
+        //初始化合同数量
+        $ht_num=array(
+            '1'=>0,
+            '2'=>0,
+            '3'=>0,
+            '4'=>0,
+            '5'=>0,
+            '6'=>0,
+            '7'=>0,
+            '8'=>0,
+            '9'=>0,
+            '10'=>0,
+            '11'=>0,
+            '12'=>0
+        );
+        //初始化合同金额
+        $ht_sum=$ht_num;
+        //总金额、数量
+        $ht_zong_sum=0;
+        $ht_zong_num=0;
+        $ht_arr=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid'");
+        
+        foreach($ht_arr as $v)
+        {
+            $ht_json=json_decode($v['ht_data'],true);
+            //parent::rr($ht_json);
+            //上一年最后一个月的合同信息
+            if($last_year.'-12'==substr($this->date_to_date($ht_json['zdy5']),0,7))
+            {
+                $last_y_m_sum+=$ht_json['zdy3'];
+                $last_y_m_num++;
+            }
+            //确保是选择年份的合同
+            $ht_date_arr=explode('-',$this->date_to_date($ht_json['zdy5']));
+            if($ht_date_arr[0]!=$now_year)
+            {
+                continue;
+            }
+            if($_GET['sx_2']!='0'&&$_GET['sx_2']!='')
+            {
+                if($ht_json['zdy10']!=$_GET['sx_2'])
+                {
+                    continue;
+                }
+            }
+            if($_GET['sx_3']!='0'&&$_GET['sx_3']!='')
+            {
+                if($user_bm[$v['ht_fz']]!=$_GET['sx_3'])
+                {
+                    continue;
+                }
+            }
+            if($_GET['sx_4']!='0'&&$_GET['sx_4']!='')
+            {
+                if($v['ht_fz']!=$_GET['sx_4'])
+                {
+                    continue;
+                }
+            }
+            //月份去0
+            $this_ht_m=substr($ht_date_arr[1],0,1)==0?substr($ht_date_arr[1],1):$ht_date_arr[1];
+            $ht_sum[$this_ht_m]+=$ht_json['zdy3'];//每月合同金额
+            $ht_num[$this_ht_m]++;//合同数量
+            //总金额/数量
+            $ht_zong_sum+=$ht_json['zdy3'];
+            $ht_zong_num++;
+        }
+        $data_table='';
+        foreach($ht_sum as $k=>$v)
+        {
+            $hb_num=$this->get_hb($last_y_m_num,$ht_num[$k]);
+            $hb_sum=$this->get_hb($last_y_m_sum,$v);
+            $last_y_m_num=$ht_num[$k];
+            $last_y_m_sum=$v;
+            $data_table.="<tr>
+                            <td>".$k."月</td>
+                            <td>".$ht_num[$k]."</td>
+                            <td>".$hb_num."</td>
+                            <td>".$v."</td>
+                            <td>".$hb_sum."</td>
+                            <td>".number_format($v/$ht_num[$k],2)."</td>
+                        </tr>";
+        }
+        //parent::rr($ht_num);
+        $ht_sum_chart='["'.implode('","',$ht_sum).'"]';
+        $ht_num_chart='["'.implode('","',$ht_num).'"]';
+        $this->assign("year_option",$year_option);//年份下拉框
+        //部门下拉框
+        $this->assign("bm_option",($_GET['sx_3']?str_replace("value='".$_GET['sx_3']."'","value='".$_GET['sx_3']."' selected ",$bm_option):$bm_option));
+        //用户下拉框
+        $this->assign("user_option",($_GET['sx_4']?str_replace("value='".$_GET['sx_4']."'","value='".$_GET['sx_4']."' selected ",$user_option):$user_option));
+        $this->assign('ht_type_span',$ht_type_span);//合同类型的选择框
+        $this->assign('ht_sum_chart',$ht_sum_chart);//合同数量的图形数据
+        $this->assign('ht_num_chart',$ht_num_chart);//合同金额的图形数据
+        $this->assign('ht_zong_sum',number_format($ht_zong_sum,2));//总金额
+        $this->assign('ht_zong_num',$ht_zong_num);//总数量
+        $this->assign('data_table',$data_table);//表格的数据
+        $this->display();
+    }
     //获得部门下拉内容
     public function get_bm_option($fid)
     {
@@ -451,9 +593,11 @@ class ReportController extends DBController {
     public function get_year_option($now_year)
     {
         $year_option='';
+        $now_year2=$now_year;
+        $now_year=date("Y",time());
         for($a=($now_year-3);$a<=($now_year+1);$a++)
         {
-            $is_sel=$a==$now_year?"selected":'';
+            $is_sel=$a==$now_year2?"selected":'';
             $year_option.="<option value='".$a."' $is_sel>".$a."</option>";
         }
         return $year_option;
