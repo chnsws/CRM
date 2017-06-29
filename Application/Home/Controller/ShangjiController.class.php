@@ -1406,7 +1406,7 @@ return $fzr_only;
 		 				$add_yw.="</td></tr>";
 					}else{
 						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required1' value='lxr".$vywzd['id']."'  id='lxr".$vywzd['id']."'></td>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='required1' value='lxr".$vywzd['id']."'  id='lxr".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
 					}
 		
@@ -1539,7 +1539,7 @@ return $fzr_only;
 						
 		}
 			$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>乙方负责人:</td>";
-			$show_bt.="<td><select name='kh_fz'  class ='required1' onchange='kh_bm(this)'>";
+			$show_bt.="<td><select name='kh_fz'  class ='required1'  onchange='kh_bmo(this)'>";
 			$show_bt.="<option  value=''>请选择负责人</option>";	
 				foreach($user as $k=>$v)
 				{
@@ -1547,7 +1547,7 @@ return $fzr_only;
 				}
 			$show_bt.=" </select></td></tr>	";
 			$show_bt.="<tr class='addtr '><td>部门:</td>";
-			$show_bt.="<td class='bm_th' ><input type='text' name='kh_bm' disabled value='' > </td>";
+			$show_bt.="<td class='khbm_th' ><input type='text' name='kh_bm' disabled value='' > </td>";
 		
 		  echo 	$show_bt;
 
@@ -1715,8 +1715,9 @@ return $fzr_only;
 
 	}
 	public function add_end(){
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
 		$kehu=$_GET['id'];
-		$kehu="zdy0:阿衰嫌憎,zdy1:canshu2,zdy2:23,zdy3:2323,zdy4:23,zdy5:232332,zdy15:206,kh_fz:46,kh_bm:技术部,";
+		//$kehu="zdy0:阿衰嫌憎3,zdy1:canshu2,zdy2:23,zdy3:2323,zdy4:23,zdy5:232332,zdy15:206,kh_fz:46,kh_bm:技术部,";
 		$new_number=substr($kehu,0,strlen($kehu)-1); 
 		$new_arr=explode(',',$new_number);
 		foreach($new_arr as $k=>$v)
@@ -1738,11 +1739,124 @@ return $fzr_only;
 		$data["kh_cj"]=	cookie('user_id');//本人ID  ;
 		$data["kh_cj_date"]=time();//本人ID  ;
 		
+		//var_dump($data["kh_data"]);
 		$kh_base=M('kh');
-		//$add_kh=$kh_base->add($data);
+		$add_kh=$kh_base->add($data);
 		if($add_kh)
-		{
+		{	
+
 			$lxr=$_GET['lxr'];
+		//	$lxr="zdy0:wang,zdy2:lxrzdy2,zdy4:lxrzdy4,zdy6:lxrzdy6,zdy10:lxrzdy10,zdy12[]:北京市-北京市市辖区-东城区,";	var_dump($add_kh);
+			$lx_base=M('lx');
+			if($lxr=="" || $lxr==null)
+			{
+				$lxr_id=$_GET['lxr_id'];
+				$new_xiaji=$xiaji;          
+				$new_array=explode(',',$new_xiaji);
+				$lx_yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+				$lx_sql=$lx_base->query("select * from  crm_lx where lx_yh='$lx_yh' and lx_id='$lxr_id' and lx_cj IN ($xiaji)");
+				$lxr_json=json_decode($lx_sql['0']['lx_data'],true);
+				$lxr_json['zdy1']=$add_kh;
+				$lxr_map['lx_data']=json_encode($lxr_json,true);
+				$lxr_map['lx_cj_date']=time();
+				$lxr_map['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+				$lxr_map['lx_cj']=cookie('user_id');
+				$lxr_add=$lx_base->add($lxr_map);
+			}else{
+				$lxr_number=substr($lxr,0,strlen($lxr)-1); 
+				$lxr_ex=explode(',',$lxr_number);
+				foreach($lxr_ex as $k=>$v)
+				{
+					$exv=explode(":",$v);
+					if($exv['0']=="zdy12[]")
+					{
+					$exv1['zdy12']=$exv['1'];
+					}else{
+					$exv1[$exv['0']]=$exv['1'];
+					}
+				}
+				$exv1['zdy1']=$add_kh;
+				
+				$lxr_map1['lx_data']=json_encode($exv1,true);
+				$lxr_map1['lx_cj_date']=time();
+				$lxr_map1['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+				$lxr_map1['lx_cj']=cookie('user_id');
+				$lxr_add=$lx_base->add($lxr_map1);
+				
+		
+			}
+			//修改客户里的联系人
+			$sql_save_kh=$kh_base->query("select * from crm_kh where kh_yh ='".$data["kh_yh"]."' and kh_id = '$add_kh' and kh_fz IN ($xiaji) ");
+
+			foreach($sql_save_kh['0'] as $k=>$v)
+			{
+
+				if($k=="kh_data")
+				{
+				
+			
+					$kh_save_json=json_decode($sql_save_kh['0']['kh_data'],true);
+	
+					foreach($kh_save_json as $k1=>$v1)
+					{
+						if($k1!="zdy15")
+						{
+							$kh_encod[$k1]=$v1;
+						}else{
+							$kh_encod["zdy15"]=$lxr_add;
+						}
+
+					}
+
+				}
+			}
+			$khu_data['kh_data']=json_encode($kh_encod,true);
+			$khu_map['kh_id']=$add_kh;
+			$khu_map['kh_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$kehu_save=$kh_base->where($khu_map)->save($khu_data);
+		//	$lx_sql=$lx_base->query("select * from  crm_lx where lx_yh='$lx_yh' and lx_id='$lxr_id' and lx_cj IN ($xiaji)");
+			if($kehu_save)
+			{
+				$shangji=$_GET['shangji'];
+				$shangji_qd=substr($shangji,0,strlen($shangji)-1); 
+				$shangji_arr=explode(",", $shangji_qd);
+				foreach($shangji_arr as $k=>$v){
+					$sj_ex=explode(":",$v);
+					if($sj_ex['0']=="fuzeren")
+					{
+						$data_sj_map['sj_fz']=$sj_ex['1'];
+					}elseif($sj_ex['0']=="department"){
+						$data_sj_map['sj_bm']=$sj_ex['1'];
+					}elseif($sj_ex['0']!="xiaodan"){
+						if($sj_ex['0']=="zdy1")
+						{
+ 						$data_shang['zdy1']=$add_kh;
+						}elseif($sj_ex['0']=="zdy2"){
+						$data_shang['zdy2']=$lxr_add;
+						}else{
+						 $data_shang[$sj_ex['0']]=$sj_ex['1'];
+						 }
+					}
+				} 
+
+				$data_sj_map["sj_data"]=json_encode($data_shang,true);
+				$data_sj_map["sj_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+				$data_sj_map["sj_cj"]=cookie('user_id');//本人ID  
+				$data_sj_map["sj_cj_date"]=time();
+				$sj_base=M('shangji');
+				$add_sj=$sj_base->add($data_sj_map);
+			if($add_sj){
+						//以下方法不好 需要完善
+					$sql['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
+					$sql['sj_id']='0'; 
+					$sql['cp_sj_cj']=cookie('user_id'); //通用条件   
+					$cp_sj_base=M('cp_sj');
+					$dat['sj_id']=$add_sj;
+					$sql_add=$cp_sj_base->where($sql)->save($dat);
+					echo "成功";
+				}else{echo "失败";}
+
 		}
 	}
+} 
 }

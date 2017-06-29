@@ -462,6 +462,7 @@ window.name_lxr="";
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
 										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
 									}
+
 									if(ajaxstr_kh=='')
 									{
 									$.get(rooturl+'/index.php/Home/Shangji/add',{"id":ajaxstr},
@@ -469,9 +470,10 @@ window.name_lxr="";
 																		         	window.location.href="shangji";
 																                   });
 									}else{
-										alert(ajaxstr_lxr)
-										$.get(rooturl+'/index.php/Home/Shangji/add_end',{"id":ajaxstr_kh,"lxr":ajaxstr_lxr},
+								
+										$.get(rooturl+'/index.php/Home/Shangji/add_end',{"id":ajaxstr_kh,"lxr":ajaxstr_lxr,"lxr_id":name_lxr,'shangji':ajaxstr},
 																        		 function(html){
+																        		 	alert(html)
 																		         	window.location.href="shangji";
 																                   });
 									}
@@ -1006,13 +1008,13 @@ window.name_lxr="";
 
 		 } 
     		
-    		function kh_bm(bm){
+    		function kh_bmo(bm){
     			var user_id=$(bm).val();
     		alert(user_id)
     			$.get(rooturl+'/index.php/Home/Hetong/get_bm',{"id":user_id},
 			        		 				function(html){
         		 								//tishi(html)
-											$(".bm_th").html(html);
+											$(".khbm_th").html(html);
 												layer.close(win)
 											});
     		}
