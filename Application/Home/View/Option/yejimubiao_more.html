@@ -37,15 +37,15 @@
 
         #mod2-left{width:25%;font-size:14px;float:left;}
         #left-top{height:40px;line-height:40px;font-weight:bold;color:#676767;border-bottom:1px solid #ccc;margin-bottom:20px;}
-        #left-bottom div{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-top:5px;margin-bottom:5px;padding-left:5px;}
-        #left-bottom li{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-top:5px;margin-bottom:5px;padding-left:5px;}
+        #left-bottom>div{border:1px solid #B6B6B6;height:auto;overflow:hidden;line-height:28px;color:#6B6B6B;border-left:4px solid #1AA094;margin-top:5px;margin-bottom:5px;padding-left:5px;}
+        #left-bottom li{border:1px solid #B6B6B6;line-height:28px;color:#6B6B6B;border-left:4px solid #1AA094;margin-top:5px;margin-bottom:5px;padding-left:5px;}
         .lv1{margin-left:20px;}
         .lv2{margin-left:40px;}
         .lv3{margin-left:60px;}
         .lv4{margin-left:80px;}
         .lv5{margin-left:100px;}
         .left-li{margin-left:5px;}
-        .right-span{float:right;margin-right:5px;}
+        .right-span{display:block;text-align:right;margin-right:5px;}
         #mod2-right{float:right;width:73%;height:600px;font-size:14px;}
         #right-head{height:40px;line-height:40px;font-weight:bold;color:#676767;border-bottom:1px solid #ccc;margin-bottom:20px;}
         #right-head button{float:right;margin-top:4px;background-color:#1AA094;border:1px solid #1AA094;height:32px;line-height:32px;color:#fff;width:100px;}
@@ -180,67 +180,9 @@
             time: 1000, 
         });
     }
-    //部门列表上方公司名称点击事件
-    $(".lv-on").on("click",function(){
-        var clicktext=$(this).text();
-        $("#table-head").text(clicktext);
-        if($(this).is("div"))//如果点击了DIV
-        {
-            if(!$(this).val())
-            {
-                $(this).children("i").removeClass("fa-folder-open");
-                $(this).children("i").addClass("fa-folder");
-                $(this).val('1');
-                $(this).parent().children("ul").hide("fast");
-            }
-            else
-            {
-                $(this).children("i").removeClass("fa-folder");
-                $(this).children("i").addClass("fa-folder-open");
-                $(this).val('');
-                $(this).parent().children("ul").show("fast");
-            }
-        }
-    });
+    
     function bmlistfun()
     {
-        //部门列表点击事件
-        $(".lv-on").on("click",function(){
-            var clicktext=$(this).text();
-            $("#table-head").text(clicktext);
-            if(!$(this).is("div"))
-            {
-                var thisid=$(this).attr("id").substr(2);
-                var hideFid='fid'+thisid;
-                if($(this).val()=='1')
-                {
-                    $(this).children("i").removeClass("fa-folder-open");
-                    $(this).children("i").addClass("fa-folder");
-                    $(this).css('border-left','4px solid #B7B7B7');
-                    $(this).val('0');
-                    var thislv=$(this).attr("name");
-                    $(".lv"+thislv+thisid).hide("fast");
-                    $(".lv"+thislv+thisid).val('0');
-                    $(".lv"+thislv+thisid).children("i").removeClass("fa-folder-open");
-                    $(".lv"+thislv+thisid).children("i").addClass("fa-folder");
-                    $(".lv"+thislv+thisid).css('border-left','4px solid #B7B7B7');	
-                }
-                else
-                {
-                    $(this).children("i").removeClass("fa-folder");
-                    $(this).children("i").addClass("fa-folder-open");
-                    $(this).css('border-left','4px solid #828282');
-                    $(this).val('1');
-                    var thislv=$(this).attr("name");
-                    $(".lv"+thislv+thisid).show("fast");
-                    $(".lv"+thislv+thisid).val('1');
-                    $(".lv"+thislv+thisid).children("i").removeClass("fa-folder");
-                    $(".lv"+thislv+thisid).children("i").addClass("fa-folder-open");
-                    $(".lv"+thislv+thisid).css('border-left','4px solid #828282');
-                
-                }
-            }
-        });
         //点击表格后表格内增加文本框
         $(".change-text").click(function(){
             if(isclick=='0')
@@ -268,6 +210,11 @@
             tishi("输入的数字格式错误");
             return false;
         }
+        if(thisval.length>10)
+        {
+            tishi("您输入的数值过大");
+            return;
+        }
         var zzobj=/^([1-9]\d*|0)(\.\d{1,2})?$/;
         if(!zzobj.exec(thisval))
         {
@@ -279,14 +226,7 @@
         {
             //加载层
             window.jiazai= layer.load(2);
-            var cha=parseFloat(parseFloat(thisval)*1000)-parseFloat(parseFloat(oldval)*1000);
-            var zong=$("#zong").text();
-            zong=parseFloat(zong)*1000;
-            $("#zong").text(((parseFloat(zong)+parseFloat(cha))/1000).toFixed(2));
-            $("#rightspansum").text(((parseFloat(zong)+parseFloat(cha))/1000).toFixed(2));
-            var oldzong=$("#tr"+trid).children(".sumyj").text();
-            oldzong=parseFloat(oldzong)*1000;
-            $("#tr"+trid).children(".sumyj").text((parseFloat(oldzong)+parseFloat(cha))/1000);
+            
             var biaoti='{$biaoti}';
             biaoti=biaoti.substr(0,4);
             var rzbz='{$cpname}';
@@ -294,16 +234,25 @@
             var newval=thisval;//新值
             var mnum= $("#txtinput").parent().index();//获取修改的几月的（此处是+1的，需要在后台处理-1）
             $.post(root_dir+"/index.php/Home/YejimubiaoDo/edituseryj",{"trid":trid,"rzbz":rzbz,"newval":newval,"mnum":mnum},function(res){
-                bmshuaxin()
+                //bmshuaxin()
+                window.location.reload();
             });
         }
+        
         $("#txtinput").parent("td").html(thisval);
         window.isclick='0';
     }
     //按下回车事件
     $(document).keydown(function(event){ 
-        if(event.keyCode==13){ 
-            inputblur()
+        if(event.keyCode==13){
+            if($("#txtinput").prop("tagName")!=undefined)
+            {
+                $("#txtinput").prop("onblur",'');
+                inputblur();
+                setTimeout(function() {
+                    $("#txtinput").prop("onblur",'inputblur()'); 
+                }, 200);
+            }
         }    
     });
     //刷新部门列表
@@ -318,5 +267,18 @@
             layer.close(jiazai);
         });
     }
+    function fmoney(s, n)   
+    {   
+        n = n > 0 && n <= 20 ? n : 2;   
+        s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";   
+        var l = s.split(".")[0].split("").reverse(),   
+        r = s.split(".")[1];   
+        t = "";   
+        for(i = 0; i < l.length; i ++ )   
+        {   
+            t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");   
+        }   
+        return t.split("").reverse().join("") + "." + r;   
+    } 
 </script>
 </html>
