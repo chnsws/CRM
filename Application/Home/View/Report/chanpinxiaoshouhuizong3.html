@@ -33,37 +33,32 @@
     <div id="head">
         <sapn class="head_title">产品销售汇总表</sapn>
         <sapn class="head_tab">
-            <span>按产品汇总</span>
+            <span class="head_tab_show" onclick="window.location='./chanpinxiaoshouhuizong';">按产品汇总</span>
             <span class="head_tab_show" onclick="window.location='./chanpinxiaoshouhuizong2';">按分类汇总</span>
-            <span class="head_tab_show" onclick="window.location='./chanpinxiaoshouhuizong3';">按时间汇总</span>
+            <span onclick="window.location='./chanpinxiaoshouhuizong3';">按时间汇总</span>
         </sapn>
     </div>
     <div id="shaixuan">
-        <div class="textalign">
-            <span class="sx_title">合同开始日期：</span>
-            <span class="sx_xx">全部</span>
-            <span class="sx_xx">今日</span>
-            <span class="sx_xx">本周</span>
-            <span class="sx_xx">本月</span>
-            <span class="sx_xx">本季度</span>
-            <span class="sx_xx">本年</span>
-            <span class="sx_xx zdy_time_btn">自定义时间段</span>
-        </div>
-        <div style="display:none;">
-            <span class="sx_title">请选择时间段：</span>
-            <span id="time_select_group" class="uk-form top_line">
-                <input type="text" class="start_time" placeholder="请选择开始时间" data-uk-datepicker="{format:'YYYY-MM-DD'}">
-                <span class="mid_span">-</span>
-                <input type="text" class="end_time"  placeholder="请选择结束时间" data-uk-datepicker="{format:'YYYY-MM-DD'}">
-                <button class="layui-btn cx_btn">查询</button>
+        <div>
+            <span class="sx_title">日期：</span>
+            <span class="sx_xx">
+                <select>
+                    {$year_option}
+                </select>
             </span>
         </div>
         <div>
-            <span class="sx_title">产品分类：</span>
+            <span class="sx_title">产品：</span>
             <span class="sx_xx">
                 <select>
                     <option value="0">全部</option>
                     {$cpfl_option}
+                </select>
+            </span>
+            <span class="sx_xx">
+                <select>
+                    <option value="0">请选择产品</option>
+                    {$cp_option}
                 </select>
             </span>
         </div>
@@ -91,12 +86,10 @@
         <div class="table_head">总销量：{$sum_xiaoliang} ， 销售额：¥ {$sum_sum}</div>
         <table class="layui-table" lay-skin="line">
             <thead>
-                <th>产品名称</th>
-                <th>产品编号</th>
-                <th>产品分类</th>
+                <th>时间</th>
                 <th>销量</th>
                 <th>销售额</th>
-                <th>平均单价</th>
+                <th>销售额环比增长</th>
             </thead>
             <tbody>
                 {$data_table}
@@ -157,18 +150,6 @@ $(function(){
                 data : {$cp_name_chart}
             }
         ],
-        dataZoom: [
-            {   // 这个dataZoom组件，默认控制x轴。
-                type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
-                start: 0,      // 左边在 10% 的位置。
-                end: 60         // 右边在 60% 的位置。
-            },
-            {   // 这个dataZoom组件，默认控制x轴。
-                type: 'inside', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
-                start: 0,      // 左边在 10% 的位置。
-                end: 60         // 右边在 60% 的位置。
-            }
-        ],
         yAxis : [
             {
                 type : 'value',
@@ -221,7 +202,7 @@ $(function(){
             layer.load(2);
             var now_sx=get_url_val(1);
 
-            window.location="./chanpinxiaoshouhuizong?sx_1="+now_sx;
+            window.location="./chanpinxiaoshouhuizong3?sx_1="+now_sx;
         }
         else if($(this).text()=='自定义时间段')
         {
@@ -231,7 +212,7 @@ $(function(){
         {
             layer.load(2);
             var ss=get_url_val(1);
-            window.location="./chanpinxiaoshouhuizong?sx_1="+$(this).index()+ss;
+            window.location="./chanpinxiaoshouhuizong3?sx_1="+$(this).index()+ss;
             $(this).parent().next().hide();
         }
     });
@@ -254,12 +235,12 @@ $(function(){
         }
         
         var now_sx=get_url_val(1);
-        window.location="./chanpinxiaoshouhuizong?sx_1="+time1+','+time2+now_sx;
+        window.location="./chanpinxiaoshouhuizong3?sx_1="+time1+','+time2+now_sx;
     });
 });
 
 //searchable的改变事件
-var select_num=3;
+var select_num=5;
 function change_fun(dom)
 {
     if(select_num!=0)
@@ -268,10 +249,10 @@ function change_fun(dom)
         return;
     }
     layer.load(2);
-    var sxnum=(parseInt(dom.index("select"))+2);
+    var sxnum=(parseInt(dom.index("select"))+1);
     //alert(dom.val());
     var now_sx=get_url_val(sxnum);
-    window.location="./chanpinxiaoshouhuizong?sx_"+sxnum+"="+dom.val()+now_sx;
+    window.location="./chanpinxiaoshouhuizong3?sx_"+sxnum+"="+dom.val()+now_sx;
 }
 //获取URL中剩余的值，可以删除一个值
 function get_url_val(without)

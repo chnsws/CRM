@@ -14,6 +14,7 @@ html,body,box{background: #f7f7f7;height:auto;}
 .sx_this{background:#50BBB1;color:#fff;border-radius:5px;}
 #shaixuan>div>span:first-child{width:100px;}
 
+
 /*需要特殊对齐的筛选栏*/
 .textalign>span:first-child{width:110px!important;}
 
@@ -56,3 +57,4 @@ thead,th{background: #50BBB1;border-color:#50BBB1!important;color:#fff;}
 /*日期选择中样式*/
 .uk-active{background:#50BBB1!important;}
 
+.top_line{margin-left:10px!important;padding-left:0px!important;}
