@@ -35,15 +35,15 @@
        
         <div class="textalign">
             <span class="sx_title">跟进状态：</span>
-            <span class="sx_xx sx_this">拜访</span>
-            <span class="sx_xx">成交</span>
-            <span class="sx_xx">等等</span>
+            <span class="sx_xx" lang='0'>全部</span>
+            {$genjinzhuangtai_span}
         </div>
         <div>
             <span class="sx_title">所属部门：</span>
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择部门</option>
+                    {$bm_option}
                 </select>
             </span>
         </div>
@@ -52,6 +52,7 @@
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择用户</option>
+                    {$user_option}
                 </select>
             </span>
         </div>
@@ -59,26 +60,14 @@
     </div>
     <div id="chart"></div>
     <div id="table">
-        <div class="table_head">新增线索数 ：55， 已转化线索数 ：40， 转化率 ：72.7%</div>
+        <div class="table_head">客户数：{$zong}</div>
         <table class="layui-table" lay-skin="line">
             <thead>
                 <th>客户类型</th>
                 <th>客户数</th>
             </thead>
             <tbody>
-               
-                <tr>
-                    <td>一般客户</td>
-                    <td>333</td>
-                </tr>
-                <tr>
-                    <td>一般客户</td>
-                    <td>333</td>
-                </tr>
-                <tr>
-                    <td>一般客户</td>
-                    <td>333</td>
-                </tr>
+               {$data_table}
             </tbody>
         </table>
     </div>
@@ -114,6 +103,7 @@ $(function(){
                 type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
             }
         },
+        color:["#48C9B3"],
         legend: {
             data:['客户数']
         },
@@ -125,7 +115,7 @@ $(function(){
         xAxis : [
             {
                 type : 'category',
-                data : ['重要客户','一般客户','低价值客户']
+                data : {$chart_title}
             }
         ],
         yAxis : [
@@ -138,15 +128,70 @@ $(function(){
             {
                 name:'客户数',
                 type:'bar',
-                data:[320, 332, 301]
+                data:{$chart_val}
             }
         ]
     };
 
-// 使用刚指定的配置项和数据显示图表。
-myChart.setOption(option);
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
     //myChart.showLoading();     //加载动画
+    var sx_1="{$_GET['sx_1']}";
+    if(sx_1=='0'||sx_1==''||sx_1==undefined)
+    {
+        $(".textalign").children(".sx_xx").eq(0).addClass("sx_this");
+    }
+    else
+    {
+        $(".textalign").children(".sx_xx[lang='"+sx_1+"']").addClass("sx_this");
+    }
+    $(".textalign").children(".sx_xx").on("click",function(){
+        layer.load(2);
+        $(this).parent().children(".sx_this").removeClass("sx_this");
+        $(this).addClass("sx_this");
+        var now_sx=get_url_val(1);
+        if($(this).prop("lang")=='0')
+        {
+            window.location="./kehuleixingtongji?sx_1=0"+now_sx;
+        }
+        else
+        {
+            window.location="./kehuleixingtongji?sx_1="+$(this).prop("lang")+now_sx;
+        }
+    });
 });
+var sel_num=2;
+function change_fun(dom)
+{
+    if(sel_num>0)
+    {
+        sel_num--;
+        return;
+    }
+    layer.load(2);
+    var sel_index=dom.index("select")+2;
+    var now_sx=get_url_val(sel_index);
+    window.location="./kehuleixingtongji?sx_"+sel_index+"="+dom.val()+now_sx;
+}
+//获取URL中剩余的值，可以删除一个值
+function get_url_val(without)
+{
+    var now_sx='';
+    if("{$_GET['sx_1']}"!=''&&"sx_"+without!='sx_1')
+    {
+        now_sx+="&sx_1="+"{$_GET['sx_1']}";
+        
+    }
+    if("{$_GET['sx_2']}"!=''&&"sx_"+without!='sx_2')
+    {
+        now_sx+="&sx_2="+"{$_GET['sx_2']}";
+    }
+    if("{$_GET['sx_3']}"!=''&&"sx_"+without!='sx_3')
+    {
+        now_sx+="&sx_3="+"{$_GET['sx_3']}";
+    }
+    return now_sx;
+}
 </script>
 </html>
 

@@ -593,18 +593,21 @@ class ReportController extends DBController {
         $sj_arr=parent::sel_more_data("crm_shangji","sj_id,sj_data,sj_fz","sj_yh='$fid'");
         foreach($sj_arr as $v)
         {
+            
             //金额zdy3,日期zdy4
             $sj_json=json_decode($v['sj_data'],true);
+            
             //排除不是已经赢单的商机
             if($sj_json['zdy5']!='canshu5')
             {
-                return;
+                continue;
             }
             if($last_year.'-12'==substr($this->date_to_date($sj_json['zdy4']),0,7))
             {
                 $last_y_m_sum+=$sj_json['zdy3'];
                 $last_y_m_num++;
             }
+            
             //确保是选择年份的商机
             $sj_date_arr=explode('-',$this->date_to_date($sj_json['zdy4']));
             if($sj_date_arr[0]!=$now_year)
@@ -636,6 +639,7 @@ class ReportController extends DBController {
             $yj_zong_num++;
 
         }
+        
         //图形数据
         $sj_sum_chart='["'.implode('","',$yj_sum).'"]';
         $sj_num_chart='["'.implode('","',$yj_num).'"]';
@@ -669,6 +673,120 @@ class ReportController extends DBController {
         $this->assign("sj_num_chart",$sj_num_chart);
         //表格数据
         $this->assign("data_table",$data_table);
+        $this->display();
+    }
+    //客户类型统计报表
+    public function kehuleixingtongji()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+
+        //部门下拉框
+        $bm_option=$this->get_bm_option($fid);
+        //用户下拉框
+        $user_option=$this->get_user_option($fid);
+        //获取每个用户对应着的部门
+        $user_bm=$this->get_user_bm($fid);
+
+        //获得跟进状态字段
+        $cs_arr=parent::sel_more_data("crm_ywcs","ywcs_data","ywcs_yh='$fid' and ywcs_yw='2'");
+        $cs_json=json_decode($cs_arr[0]['ywcs_data'],true);
+        $genjinzhuangtai=array();
+        $genjinzhuangtai_span='';
+        foreach($cs_json as $v)
+        {
+            if($v['id']=='zdy9')
+            {
+                foreach($v as $kk=>$vv)
+                {
+                    if(substr($kk,0,6)!='canshu')
+                    {
+                        continue;
+                    }
+                    if($v['qy'][$kk]!=1)
+                    {
+                        continue;
+                    }
+                    $genjinzhuangtai[$kk]=$vv;
+                    $genjinzhuangtai_span.="<span class='sx_xx' lang='$kk'>$vv</span>";
+                }
+            }
+            if($v['id']=='zdy1')
+            {
+                foreach($v as $kk=>$vv)
+                {
+                    if(substr($kk,0,6)!='canshu')
+                    {
+                        continue;
+                    }
+                    if($v['qy'][$kk]!=1)
+                    {
+                        continue;
+                    }
+                    $chart['name'][$kk]=$vv;
+                    $chart['num'][$kk]=0;
+                }
+            }
+        }
+        
+        //查询客户表
+        $kh_arr=parent::sel_more_data("crm_kh","kh_id,kh_data,kh_fz","kh_yh='$fid'");
+        $zong=0;
+        foreach($kh_arr as $v)
+        {
+            $kh_json=json_decode($v['kh_data'],true);
+            //zdy1客户类型、zdy9跟进状态
+            if($kh_json['zdy1']==''||substr($kh_json['zdy1'],0,6)!='canshu')
+            {
+                continue;
+            }
+            if($_GET['sx_1']!=''&&$_GET['sx_1']!='0')
+            {
+                if($kh_json['zdy9']!=$_GET['sx_1'])
+                {
+                    continue;
+                }
+            }
+            if($_GET['sx_2']!=''&&$_GET['sx_2']!='0')
+            {
+                if($user_bm[$v['kh_fz']]!=$_GET['sx_2'])
+                {
+                    continue;
+                }
+            }
+            if($_GET['sx_3']!=''&&$_GET['sx_3']!='0')
+            {
+                if($v['kh_fz']!=$_GET['sx_3'])
+                {
+                    continue;
+                }
+            }
+            $chart['num'][$kh_json['zdy1']]++;
+            $zong++;
+        }
+        $chart_title='["'.implode('","',$chart['name']).'"]';
+        $chart_val='["'.implode('","',$chart['num']).'"]';
+
+        //模板数据
+        $data_table='';
+        foreach($chart['num'] as $k=>$v)
+        {
+            $data_table.="<tr>
+                            <td>".$chart['name'][$k]."</td>
+                            <td>".$chart['num'][$k]."</td>
+                        </tr>";
+        }
+
+        //变量
+        //部门下拉框
+        $this->assign("bm_option",($_GET['sx_2']?str_replace("value='".$_GET['sx_2']."'","value='".$_GET['sx_2']."' selected ",$bm_option):$bm_option));
+        //用户下拉框
+        $this->assign("user_option",($_GET['sx_3']?str_replace("value='".$_GET['sx_3']."'","value='".$_GET['sx_3']."' selected ",$user_option):$user_option));
+        $this->assign("chart_title",$chart_title);
+        $this->assign("chart_val",$chart_val);
+        $this->assign("zong",$zong);
+        $this->assign("data_table",$data_table);
+        $this->assign("genjinzhuangtai_span",$genjinzhuangtai_span);;
         $this->display();
     }
     //获得部门下拉内容
