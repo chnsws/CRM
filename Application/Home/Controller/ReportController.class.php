@@ -987,6 +987,204 @@ class ReportController extends DBController {
         $this->assign("bm_option",($_GET['sx_1']?str_replace("value='".$_GET['sx_1']."'","value='".$_GET['sx_1']."' selected ",$bm_option):$bm_option));
         $this->display();
     }
+    //销售额排名报表-合同金额
+    public function xiaoshouepaiming()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //部门下拉框
+        $bm_option=$this->get_bm_option($fid);
+        //部门名称
+        $bm_name=$this->option_to_arr($bm_option);
+        //获取每个用户对应着的部门
+        $user_bm=$this->get_user_bm($fid);
+        //用户id ->用户名
+        $user_id_name=$this->get_user_id_name($fid);
+        //查询合同
+        $ht_arr=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid'");
+        //日期
+        $datearr=$this->get_now_month();
+        if($_GET['sx_1']!='')
+        {
+            $getdatearr=explode(',',addslashes($_GET['sx_1']));
+        }
+        $datearr['s']=$getdatearr[0]?$getdatearr[0]:$datearr['s'];
+        $datearr['e']=$getdatearr[1]?$getdatearr[1]:$datearr['e'];
+
+
+        $user_ht_num=array();
+        foreach($ht_arr as $v)
+        {
+            
+            //合同金额：zdy3 ,合同开始时间：zdy5
+            $ht_json=json_decode($v['ht_data'],true);
+            if($this->date_to_date($ht_json['zdy5'])<$datearr['s']||$this->date_to_date($ht_json['zdy5'])>$datearr['e'])
+            {
+                continue;
+            }
+            if($_GET['sx_2']!=''&&$_GET['sx_2']!='0')
+            {
+                if($user_bm[$v['ht_fz']]!=$_GET['sx_2'])
+                {
+                    continue;
+                }
+            }
+            $user_ht_num[$v['ht_fz']]+=$ht_json['zdy3'];
+        }
+        //降序操作
+        arsort($user_ht_num);
+
+        //图形数据&表格数据
+        $data_table='';
+        $paiming=1;
+        $zong=0;
+        $chart_name='';
+        $chart_val='';
+        $suofang='';
+        $data_table_num=count($user_ht_num);
+        if($data_table_num>15)
+        {
+            $suofang="dataZoom: [
+                    {   // 这个dataZoom组件，默认控制x轴。
+                        type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                        start: 0,      // 左边在 10% 的位置。
+                        end: 60         // 右边在 60% 的位置。
+                    },
+                    {   // 这个dataZoom组件，默认控制x轴。
+                        type: 'inside', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                        start: 0,      // 左边在 10% 的位置。
+                        end: 60         // 右边在 60% 的位置。
+                    }
+                ],";
+        }
+        foreach($user_ht_num as $k=>$v)
+        {
+            $data_table.="<tr>
+                            <td>".$paiming."</td>
+                            <td>".$user_id_name[$k]."</td>
+                            <td>".$bm_name[$user_bm[$k]]."</td>
+                            <td>￥".number_format($v,2)."</td>
+                        </tr>";
+            $chart_name.=$user_id_name[$k].'","';
+            $chart_val.=$v.'","';
+            $zong+=$v;
+            $paiming++;
+        }
+        $chart_name='["'.substr($chart_name,0,-3).'"]';
+        $chart_val='["'.substr($chart_val,0,-3).'"]';
+
+
+        //部门下拉框
+        $this->assign("bm_option",($_GET['sx_2']?str_replace("value='".$_GET['sx_2']."'","value='".$_GET['sx_2']."' selected ",$bm_option):$bm_option));
+        $this->assign("zong",number_format($zong,2));
+        $this->assign("st",$datearr['s']);
+        $this->assign("et",$datearr['e']);
+        $this->assign("suofang",$suofang);
+        $this->assign("data_table",$data_table);
+        $this->assign("data_table_num",$data_table_num);
+        $this->assign("chart_name",$chart_name);
+        $this->assign("chart_val",$chart_val);
+        $this->display();
+    }
+    //销售额排名-赢单商机金额
+    public function xiaoshouepaiming2()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //部门下拉框
+        $bm_option=$this->get_bm_option($fid);
+        //部门名称
+        $bm_name=$this->option_to_arr($bm_option);
+        //获取每个用户对应着的部门
+        $user_bm=$this->get_user_bm($fid);
+        //用户id ->用户名
+        $user_id_name=$this->get_user_id_name($fid);
+        //zdy3
+        //日期
+        $datearr=$this->get_now_month();
+        if($_GET['sx_1']!='')
+        {
+            $getdatearr=explode(',',addslashes($_GET['sx_1']));
+        }
+        $datearr['s']=$getdatearr[0]?$getdatearr[0]:$datearr['s'];
+        $datearr['e']=$getdatearr[1]?$getdatearr[1]:$datearr['e'];
+
+        //查询商机
+        $sj_arr=parent::sel_more_data("crm_shangji","sj_data,sj_fz","sj_yh='$fid'");
+        
+        $sj_user_data=array();
+        foreach($sj_arr as $v)
+        {
+            $sj_json=json_decode($v['sj_data'],true);
+            if($sj_json['zdy5']==''||$sj_json['zdy5']!='canshu5')
+            {
+                continue;
+            }
+            if($this->date_to_date($sj_json['zdy4'])<$datearr['s']||$this->date_to_date($sj_json['zdy4'])>$datearr['e'])
+            {
+                continue;
+            }
+            if($_GET['sx_2']!=0&&$_GET['sx_2']!='')
+            {
+                if($user_bm[$v['sj_fz']]!=$_GET['sx_2'])
+                {
+                    continue;
+                }
+            }
+            $sj_user_data[$v['sj_fz']]+=$sj_json['zdy3'];
+            
+        }
+        //降序
+        arsort($sj_user_data);
+
+        $data_table='';
+        $paiming=1;
+        $zong=0;
+        $data_table_num=count($sj_user_data);
+        if($data_table_num>15)
+        {
+            $suofang="dataZoom: [
+                    {   // 这个dataZoom组件，默认控制x轴。
+                        type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                        start: 0,      // 左边在 10% 的位置。
+                        end: 60         // 右边在 60% 的位置。
+                    },
+                    {   // 这个dataZoom组件，默认控制x轴。
+                        type: 'inside', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                        start: 0,      // 左边在 10% 的位置。
+                        end: 60         // 右边在 60% 的位置。
+                    }
+                ],";
+        }
+        foreach($sj_user_data as $k=>$v)
+        {
+            $data_table.="<tr>
+                            <td>".$paiming."</td>
+                            <td>".$user_id_name[$k]."</td>
+                            <td>".$bm_name[$user_bm[$k]]."</td>
+                            <td>￥".number_format($v,2)."</td>
+                        </tr>";
+            $chart_name.=$user_id_name[$k].'","';
+            $chart_val.=$v.'","';
+            $zong+=$v;
+            $paiming++;
+        }
+        $chart_name='["'.substr($chart_name,0,-3).'"]';
+        $chart_val='["'.substr($chart_val,0,-3).'"]';
+
+
+        //部门下拉框
+        $this->assign("bm_option",($_GET['sx_2']?str_replace("value='".$_GET['sx_2']."'","value='".$_GET['sx_2']."' selected ",$bm_option):$bm_option));
+        $this->assign("zong",number_format($zong,2));
+        $this->assign("st",$datearr['s']);
+        $this->assign("et",$datearr['e']);
+        $this->assign("suofang",$suofang);
+        $this->assign("data_table",$data_table);
+        $this->assign("data_table_num",$data_table_num);
+        $this->assign("chart_name",$chart_name);
+        $this->assign("chart_val",$chart_val);
+        $this->display();
+    }
     //获得部门下拉内容
     public function get_bm_option($fid)
     {
@@ -1027,6 +1225,16 @@ class ReportController extends DBController {
             $cpfl_option.="<option value='".$v['cpfl_id']."'>".$v['cpfl_name']."</option>";
         }
         return $cpfl_option;
+    }
+    //根据用户id获得用户名称
+    public function get_user_id_name($fid)
+    {
+        $userarr=parent::sel_more_data("crm_user","user_id,user_name","(user_id='$fid' or user_fid='$fid') and user_del='0'");
+        foreach($userarr as $v)
+        {
+            $rarr[$v['user_id']]=$v['user_name'];
+        }
+        return $rarr;
     }
     //获得前三年+当前年+后一年的option
     public function get_year_option($now_year)
@@ -1090,5 +1298,14 @@ class ReportController extends DBController {
         $dt['e']=date("Y-m-d",time());
         $dt['s']=date("Y-m-d",strtotime($nowdate.' -1 month'));
         return $dt;
+    }
+    //获得本月第一天和本月最后一天的日期
+    public function get_now_month()
+    {
+        $s=date("Y-m",time()).'-01';
+        $e=date("Y-m-d",strtotime(date("Y-m-d",strtotime($s.' +1 month')).' -1 day'));
+        $d['s']=$s;
+        $d['e']=$e;
+        return $d;
     }
 }

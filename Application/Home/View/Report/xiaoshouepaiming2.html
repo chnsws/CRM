@@ -35,8 +35,8 @@
     <div id="head">
         <sapn class="head_title">销售额排名报表</sapn>
         <sapn class="head_tab">
-            <span>合同金额</span>
-            <span class="head_tab_show" onclick="window.location='./xiaoshouepaiming2'">赢单商机金额</span>
+            <span class="head_tab_show" onclick="window.location='./xiaoshouepaiming'">合同金额</span>
+            <span>赢单商机金额</span>
         </sapn>
     </div>
     <div id="shaixuan">
@@ -64,13 +64,13 @@
     </div>
     <div id="chart"></div>
     <div id="table">
-        <div class="table_head">合同金额：¥ {$zong}</div>
+        <div class="table_head">赢单金额：¥ {$zong}</div>
         <table class="layui-table" lay-skin="line">
             <thead>
                 <th>排名</th>
                 <th>姓名</th>
                 <th>所在部门</th>
-                <th>合同金额</th>
+                <th>赢单金额</th>
             </thead>
             <tbody>
                 {$data_table}
@@ -117,7 +117,7 @@ $(function(){
             }
         },
         legend: {
-            data:['合同金额']
+            data:['赢单金额']
         },
         grid: {
             left: '10px',
@@ -139,7 +139,7 @@ $(function(){
         ],
         series : [
             {
-                name:'合同金额',
+                name:'赢单金额',
                 type:'bar',
                 data:{$chart_val}
             }
@@ -166,7 +166,7 @@ $(function(){
         var time_str=stime+','+etime;
         var now_sx=get_url_val(1);
         layer.load(2);
-        window.location="./xiaoshouepaiming?sx_1="+time_str+now_sx;
+        window.location="./xiaoshouepaiming2?sx_1="+time_str+now_sx;
     });
 });
 var sel_num=1;
@@ -179,7 +179,7 @@ function change_fun(dom)
     }
     layer.load(2);
     var now_sx=get_url_val(2);
-    window.location="./xiaoshouepaiming?sx_2="+dom.val()+now_sx;
+    window.location="./xiaoshouepaiming2?sx_2="+dom.val()+now_sx;
 }
 //获取URL中剩余的值，可以删除一个值
 function get_url_val(without)
