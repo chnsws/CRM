@@ -41,8 +41,8 @@
     <div id="shaixuan">
         <div>
             <span class="sx_title">视角：</span>
-            <span class="sx_xx sx_this">个人</span>
-            <span class="sx_xx">部门</span>
+            <span class="sx_xx">个人</span>
+            <span class="sx_xx sx_this">部门</span>
         </div>
     </div>
     <div id="table">
@@ -73,7 +73,6 @@
         <table class="layui-table" lay-skin="line">
             <thead>
                 <th>排名</th>
-                <th>姓名</th>
                 <th>所在部门</th>
                 <th>客户数</th>
             </thead>
@@ -124,7 +123,7 @@ $(function(){
         }
         var time_str=stime+','+etime;
         var now_sx=get_url_val(3);
-        window.location="./kehushuliangpaiming?sx_3="+time_str+now_sx;
+        window.location="./kehushuliangpaiming2?sx_3="+time_str+now_sx;
     });
     $("#shaixuan").children("div").children(".sx_xx").on("click",function(){
         $(".sx_this").removeClass("sx_this");
@@ -153,7 +152,7 @@ function change_fun(dom)
     }
     var sel_index=dom.index("select")+1;
     var now_sx=get_url_val(sel_index)
-    window.location="./kehushuliangpaiming?sx_"+sel_index+"="+dom.val()+now_sx;
+    window.location="./kehushuliangpaiming2?sx_"+sel_index+"="+dom.val()+now_sx;
 }
 //获取URL中剩余的值，可以删除一个值
 function get_url_val(without)

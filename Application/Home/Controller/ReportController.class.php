@@ -789,6 +789,204 @@ class ReportController extends DBController {
         $this->assign("genjinzhuangtai_span",$genjinzhuangtai_span);;
         $this->display();
     }
+    //客户数量排名报表
+    public function kehushuliangpaiming()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //部门下拉框
+        $bm_option=$this->get_bm_option($fid);
+        $montharr=$this->get_last_month();
+
+        //获取每个用户对应着的部门
+        $user_bm=$this->get_user_bm($fid);
+        $get_stime=0;
+        $get_etime=0;
+        if($_GET['sx_3'])
+        {
+            $sx_3=addslashes($_GET['sx_3']);
+            $get_time_arr=explode(",",$_GET['sx_3']);
+            $get_stime=$get_time_arr[0];
+            $get_etime=$get_time_arr[1];
+        }
+        //时间筛选
+        $montharr['s']=$get_stime?$get_stime:$montharr['s'];
+        $montharr['e']=$get_etime?$get_etime:$montharr['e'];
+
+        $times=strtotime($montharr['s'].' 00:00:00');
+        $timee=strtotime($montharr['e'].' 23:59:59');
+
+        //查询公司用户
+        $user_arr=parent::sel_more_data("crm_user","user_id,user_name,user_zhu_bid","user_id='$fid' or user_fid='$fid'");
+        foreach($user_arr as $v)
+        {
+            $user_name_arr[$v['user_id']]['name']=$v['user_name'];
+            $user_name_arr[$v['user_id']]['bm']=$user_bm[$v['user_zhu_bid']];
+
+        }
+
+        //查询客户
+        $kh_arr=parent::sel_more_data("crm_kh","kh_fz","kh_yh='$fid' and kh_cj_date>='".$times."' and kh_cj_date<='".$timee."' ");
+
+        //根据负责人对客户进行分类
+        foreach($kh_arr as $v)
+        {
+            if($_GET['sx_1']!='0'&&$_GET['sx_1']!='')
+            {
+                if($user_name_arr[$v['kh_fz']]['bm']!=$_GET['sx_1'])
+                {
+                    continue;
+                }
+            }
+            $user_kh[$v['kh_fz']]++;
+        }
+        
+
+        //对每个人的客户数量进行排序
+        $dx='';
+        if($_GET['sx_2']=='1')
+        {
+            //升序
+            asort($user_kh);
+            $dx='selected';
+        }
+        else
+        {
+            //降序
+            arsort($user_kh);
+        }
+
+        
+        //表格数据
+        $data_table='';
+        $paiming=1;
+        $zong=0;
+        foreach($user_kh as $k=>$v)
+        {
+            if($user_name_arr[$k]['name']=='')
+            {
+                continue;
+            }
+            $data_table.="<tr>
+                            <td>".$paiming."</td>
+                            <td>".$user_name_arr[$k]['name']."</td>
+                            <td>".($user_name_arr[$k]['bm']==''?'未分配部门':$user_name_arr[$k]['bm'])."</td>
+                            <td>".$v."</td>
+                        </tr>";
+            $zong+=$v;
+            $paiming++;
+        }
+        
+        
+
+        $this->assign("dx",$dx);
+        $this->assign("zong",$zong);
+        $this->assign("data_table",$data_table);
+        $this->assign("data_table_num",count($user_kh));
+        $this->assign("st",$montharr['s']);
+        $this->assign("et",$montharr['e']);
+        $this->assign("bm_option",$bm_option);
+        $this->assign("bm_option",($_GET['sx_1']?str_replace("value='".$_GET['sx_1']."'","value='".$_GET['sx_1']."' selected ",$bm_option):$bm_option));
+        $this->display();
+    }
+    //客户数量排名报表
+    public function kehushuliangpaiming2()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //部门下拉框
+        $bm_option=$this->get_bm_option($fid);
+        $montharr=$this->get_last_month();
+
+        //获取每个用户对应着的部门
+        $user_bm=$this->get_user_bm($fid);
+        $bm_arr=$this->option_to_arr($bm_option);
+
+        $get_stime=0;
+        $get_etime=0;
+        if($_GET['sx_3'])
+        {
+            $sx_3=addslashes($_GET['sx_3']);
+            $get_time_arr=explode(",",$_GET['sx_3']);
+            $get_stime=$get_time_arr[0];
+            $get_etime=$get_time_arr[1];
+        }
+        //时间筛选
+        $montharr['s']=$get_stime?$get_stime:$montharr['s'];
+        $montharr['e']=$get_etime?$get_etime:$montharr['e'];
+
+        $times=strtotime($montharr['s'].' 00:00:00');
+        $timee=strtotime($montharr['e'].' 23:59:59');
+
+        //查询公司用户
+        $user_arr=parent::sel_more_data("crm_user","user_id,user_name,user_zhu_bid","user_id='$fid' or user_fid='$fid'");
+        foreach($user_arr as $v)
+        {
+            $user_name_arr[$v['user_id']]['bm']=$user_bm[$v['user_zhu_bid']];
+
+        }
+
+        //查询客户
+        $kh_arr=parent::sel_more_data("crm_kh","kh_fz","kh_yh='$fid' and kh_cj_date>='".$times."' and kh_cj_date<='".$timee."' ");
+
+        //根据负责人对客户进行分类
+        foreach($kh_arr as $v)
+        {
+            if($_GET['sx_1']!='0'&&$_GET['sx_1']!='')
+            {
+                if($user_name_arr[$v['kh_fz']]['bm']!=$_GET['sx_1'])
+                {
+                    continue;
+                }
+            }
+            $bm=$user_name_arr[$v['kh_fz']]['bm']==''?'no':$user_name_arr[$v['kh_fz']]['bm'];
+            $user_kh[$bm]++;
+        }
+        
+
+        //对每个人的客户数量进行排序
+        $dx='';
+        if($_GET['sx_2']=='1')
+        {
+            //升序
+            asort($user_kh);
+            $dx='selected';
+        }
+        else
+        {
+            //降序
+            arsort($user_kh);
+        }
+
+        
+        //表格数据
+        $data_table='';
+        $paiming=1;
+        $zong=0;
+        foreach($user_kh as $k=>$v)
+        {
+            $bmname=$k=='no'?'未分配部门':$bm_arr[$k];
+            $data_table.="<tr>
+                            <td>".$paiming."</td>
+                            <td>".$bmname."</td>
+                            <td>".$v."</td>
+                        </tr>";
+            $zong+=$v;
+            $paiming++;
+        }
+        
+        
+
+        $this->assign("dx",$dx);
+        $this->assign("zong",$zong);
+        $this->assign("data_table",$data_table);
+        $this->assign("data_table_num",count($user_kh));
+        $this->assign("st",$montharr['s']);
+        $this->assign("et",$montharr['e']);
+        $this->assign("bm_option",$bm_option);
+        $this->assign("bm_option",($_GET['sx_1']?str_replace("value='".$_GET['sx_1']."'","value='".$_GET['sx_1']."' selected ",$bm_option):$bm_option));
+        $this->display();
+    }
     //获得部门下拉内容
     public function get_bm_option($fid)
     {
@@ -885,5 +1083,12 @@ class ReportController extends DBController {
         $b=round(($b*100));
         $hb=$b;
         return $hb.'%';
+    }
+    //获得前一个月的时间和本日的时间
+    public function get_last_month()
+    {
+        $dt['e']=date("Y-m-d",time());
+        $dt['s']=date("Y-m-d",strtotime($nowdate.' -1 month'));
+        return $dt;
     }
 }
