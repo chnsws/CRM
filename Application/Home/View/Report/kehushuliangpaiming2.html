@@ -121,6 +121,7 @@ $(function(){
             tishi("开始时间不能大于结束时间");
             return;
         }
+        layer.load(2);
         var time_str=stime+','+etime;
         var now_sx=get_url_val(3);
         window.location="./kehushuliangpaiming2?sx_3="+time_str+now_sx;
@@ -132,12 +133,14 @@ $(function(){
         {
             var now_sx=get_url_val(4);
             now_sx=now_sx.substr(1);
+            layer.load(2);
             window.location="./kehushuliangpaiming2?"+now_sx;
         }
         else
         {
             var now_sx=get_url_val(4);
             now_sx=now_sx.substr(1);
+            layer.load(2);
             window.location="./kehushuliangpaiming?"+now_sx;
         }
     });
@@ -150,6 +153,7 @@ function change_fun(dom)
         sel_num--;
         return;
     }
+    layer.load(2);
     var sel_index=dom.index("select")+1;
     var now_sx=get_url_val(sel_index)
     window.location="./kehushuliangpaiming2?sx_"+sel_index+"="+dom.val()+now_sx;
