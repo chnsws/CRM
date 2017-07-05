@@ -1297,6 +1297,114 @@ class ReportController extends DBController {
         $this->assign("chart",$chart);
         $this->display();
     }
+    //销售预测报表
+    public function xiaoshouyuce()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //部门下拉框
+        $bm_option=$this->get_bm_option($fid);
+        //用户下拉框
+        $user_option=$this->get_user_option($fid);
+        //获取每个用户对应着的部门
+        $user_bm=$this->get_user_bm($fid);
+        //获取最近的三个月
+        $m=date("Y-m",time());
+        $now_month=date("m",time())<10?substr(date("m",time()),1,1):date("m",time());
+        $m3[$now_month]=date("Y年m月",time());
+        $m3[$now_month+1]=date("Y年m月",strtotime($m.' +1 month'));
+        $m3[$now_month+2]=date("Y年m月",strtotime($m.' +2 month'));
+
+        //销售阶段字段参数查询
+        $cs_arr=parent::sel_more_data("crm_ywcs","ywcs_data","ywcs_yh='$fid' and ywcs_yw='5'");
+        $cs_arr=json_decode($cs_arr[0]['ywcs_data'],true);
+        $cs_knx=$cs_arr[1]['knx'];
+        //查询商机表
+        $fz_where='';
+        if($_GET['sx_2']!=''&&$_GET['sx_2']!='0')
+        {
+            $fz_where="and sj_fz='".$_GET['sx_2']."'";
+        }
+        $sj_arr=parent::sel_more_data("crm_shangji","sj_data,sj_fz,sj_qiandan","sj_yh='$fid' $fz_where ");
+        //预计销售金额 zdy3   预计签单日期 zdy4   销售阶段zdy5
+        foreach($sj_arr as $v)
+        {
+            $sj_json=json_decode($v['sj_data'],true);
+            if($sj_json['zdy4']=='')
+            {
+                continue;
+            }
+            if($_GET['sx_1']!=''&&$_GET['sx_1']!='0')
+            {
+                if($_GET['sx_1']!=$user_bm[$v['sj_fz']])
+                {
+                    continue;
+                }
+            }
+            $sjdate=$this->date_to_date($sj_json['zdy4']);//预计销售日期
+            $sjm=explode('-',$sjdate);
+            $sjm=$sjm[1]<10?substr($sjm[1],1,1):$sjm[1];
+            if(substr($sjdate,0,7)!=$m&&substr($sjdate,0,7)!=date("Y-m",strtotime($m.' +1 month'))&&substr($sjdate,0,7)!=date("Y-m",strtotime($m.' +2 month')))
+            {
+                continue;
+            }
+            $sj_data[$sjm]['yuji']+=$sj_json['zdy3'];
+            $sj_data[$sjm]['num']++;
+            //预计销售金额、销售阶段、销售阶段的签单可能性之中如果有一条为空，就不计算概率金额
+            if($sj_json['zdy3']==''||$sj_json['zdy5']==''||$cs_knx[$sj_json['zdy5']]=='')
+            {
+                $sj_data[$sjm]['gailv']+=0;
+            }
+            else
+            {
+                //概率金额=预计签单金额*签单可能性
+                $gl=($sj_json['zdy3']*$cs_knx[$sj_json['zdy5']])/100;
+                $sj_data[$sjm]['gailv']+=$gl;
+            }
+        }
+
+        $data_table='';
+        $zong_num=0;
+        $zong_sum=0;
+        $zong_sum_gl=0;
+        $chart_sum='';
+        $chart_sum_gl='';
+        $chart_num='';
+        foreach($m3 as $k=>$v)
+        {
+            $data_table.="<tr>
+                            <td>".$v."</td>
+                            <td>".($sj_data[$k]['num']==''?'0':$sj_data[$k]['num'])."</td>
+                            <td>￥".number_format(($sj_data[$k]['yuji']==''?'0':$sj_data[$k]['yuji']),2)."</td>
+                            <td>￥".number_format(($sj_data[$k]['gailv']==''?'0':$sj_data[$k]['gailv']),2)."</td>
+                        </tr>";
+            
+            $chart_time.=$v.'","';
+            $chart_sum.=($sj_data[$k]['yuji']==''?'0':$sj_data[$k]['yuji']).'","';
+            $chart_sum_gl.=($sj_data[$k]['gailv']==''?'0':$sj_data[$k]['gailv']).'","';
+            $chart_num.=($sj_data[$k]['num']==''?'0':$sj_data[$k]['num']).'","';
+
+            $zong_num+=$sj_data[$k]['num'];
+            $zong_sum+=$sj_data[$k]['yuji'];
+            $zong_sum_gl=$sj_data[$k]['gailv'];
+        }
+
+        //部门下拉框
+        $this->assign("bm_option",($_GET['sx_1']?str_replace("value='".$_GET['sx_1']."'","value='".$_GET['sx_1']."' selected ",$bm_option):$bm_option));
+        //用户下拉框
+        $this->assign("user_option",($_GET['sx_2']?str_replace("value='".$_GET['sx_2']."'","value='".$_GET['sx_2']."' selected ",$user_option):$user_option));
+        $this->assign("zong_num",$zong_num);
+        $this->assign("zong_sum",$zong_sum);
+        $this->assign("zong_sum_gl",$zong_sum_gl);
+
+        $this->assign("chart_time",'["'.substr($chart_time,0,-3).'"]');
+        $this->assign("chart_sum",'["'.substr($chart_sum,0,-3).'"]');
+        $this->assign("chart_sum_gl",'["'.substr($chart_sum_gl,0,-3).'"]');
+        $this->assign("chart_num",'["'.substr($chart_num,0,-3).'"]');
+
+        $this->assign("data_table",$data_table);
+        $this->display();
+    }
     //获得部门下拉内容
     public function get_bm_option($fid)
     {

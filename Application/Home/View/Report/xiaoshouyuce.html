@@ -37,6 +37,7 @@
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择部门</option>
+                    {$bm_option}
                 </select>
             </span>
         </div>
@@ -44,14 +45,15 @@
             <span class="sx_title">负责人：</span>
             <span class="sx_xx">
                 <select>
-                    <option value="0">请选择部门</option>
+                    <option value="0">请选负责人</option>
+                    {$user_option}
                 </select>
             </span>
         </div>
     </div>
     <div id="chart"></div>
     <div id="table">
-        <div class="table_head">商机数: 14， 预计销售金额：¥ 3,438,806.000000， 概率金额：¥ 1,077,626.200000</div>
+        <div class="table_head">商机数: {$zong_num}， 预计销售金额：¥ {$zong_sum} ， 概率金额：¥ {$zong_sum_gailv}</div>
         <table class="layui-table" lay-skin="line">
             <thead>
                 <th>时间</th>
@@ -60,46 +62,7 @@
                 <th>概率金额</th>
             </thead>
             <tbody>
-                <tr>
-                    <td>2017-06</td>
-                    <td>11</td>
-                    <td>￥123,465,456.00</td>
-                    <td>￥123,465,456.00</td>
-                </tr>
-                <tr>
-                    <td>2017-06</td>
-                    <td>11</td>
-                    <td>￥123,465,456.00</td>
-                    <td>￥123,465,456.00</td>
-                </tr>
-                <tr>
-                    <td>2017-06</td>
-                    <td>11</td>
-                    <td>￥123,465,456.00</td>
-                    <td>￥123,465,456.00</td>
-                </tr>
-                <tr>
-                    <td>2017-06</td>
-                    <td>11</td>
-                    <td>￥123,465,456.00</td>
-                    <td>￥123,465,456.00</td>
-                </tr>
-                <tr>
-                    <td>2017-06</td>
-                    <td>11</td>
-                    <td>￥123,465,456.00</td>
-                    <td>￥123,465,456.00</td>
-                </tr>
-                <tr>
-                    <td>2017-06</td>
-                    <td>11</td>
-                    <td>￥123,465,456.00</td>
-                    <td>￥123,465,456.00</td>
-                </tr>
-                
-                <tr>
-                    <td colspan="4" style="text-align:center;">共7条</td>
-                </tr>
+                {$data_table}
             </tbody>
         </table>
     </div>
@@ -135,6 +98,7 @@ $(function(){
                 type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
             }
         },
+        color:["#F7A35C","#48C9B3","#DA3610"],
         legend: {
             data:['预计销售金额','概率金额','商机数']
         },
@@ -146,37 +110,75 @@ $(function(){
         xAxis : [
             {
                 type : 'category',
-                data : ['2017年06月','2017年07月','2017年08月']
+                data : {$chart_time}
             }
         ],
         yAxis : [
             {
-                type : 'value'
+                type : 'value',
+                name:"数量"
+            },
+            {
+                type: 'value',
+                name: '金额',
+                axisLabel: {
+                    formatter: '￥ {value}'
+                }
             }
         ],
         series : [
             {
                 name:'预计销售金额',
                 type:'bar',
-                data:[320, 332, 301]
+                data:{$chart_sum},
+                yAxisIndex:1
             },
             {
                 name:'概率金额',
                 type:'bar',
-                data:[120, 132, 101]
+                data:{$chart_sum_gl},
+                yAxisIndex:1
             },
             {
                 name:'商机数',
                 type:'line',
-                data:[862, 1018, 964]
+                data:{$chart_num},
+                yAxisIndex:0
             }
         ]
     };
 
-// 使用刚指定的配置项和数据显示图表。
-myChart.setOption(option);
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
     //myChart.showLoading();     //加载动画
 });
+var sel_num=2;
+function change_fun(dom)
+{
+    if(sel_num!=0)
+    {
+        sel_num--;
+        return;
+    }
+    layer.load(2);
+    var sel_index=dom.index("select")+1;
+    var now_sx=get_url_val(sel_index);
+    window.location="./xiaoshouyuce?sx_"+sel_index+"="+dom.val()+now_sx;
+}
+//获取URL中剩余的值，可以删除一个值
+function get_url_val(without)
+{
+    var now_sx='';
+    if("{$_GET['sx_1']}"!=''&&"sx_"+without!='sx_1')
+    {
+        now_sx+="&sx_1="+"{$_GET['sx_1']}";
+    }
+    if("{$_GET['sx_2']}"!=''&&"sx_"+without!='sx_2')
+    {
+        now_sx+="&sx_2="+"{$_GET['sx_2']}";
+    }
+    return now_sx;
+}
 </script>
 </html>
 
