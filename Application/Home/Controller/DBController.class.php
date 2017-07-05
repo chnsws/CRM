@@ -100,8 +100,32 @@ class DBController extends Controller {
         $timearr['4']['s']=date("Y-m-d H:i:s",mktime(0, 0 , 0,date("m"),1,date("Y")));
         $timearr['4']['e']=date("Y-m-d H:i:s",mktime(23,59,59,date("m"),date("t"),date("Y")));
         //本季度
-        $timearr['5']['s']=date('Y-m-d H:i:s', mktime(0, 0, 0,date('n')-(date('n')-1)%3,1,date('Y')));
-        $timearr['5']['e']=date('Y-m-d H:i:s', mktime(23,59,59,date('n')+(date('n')-1)%3,$getMonthDays,date('Y')));
+        $nowm=date("m",time());
+        $nowyear=date("Y",time());
+        if($nowm>=1&&$nowm<4)
+        {
+            //第一季度
+            $timearr['5']['s']=$nowyear.'-01-01 00:00:00';
+            $timearr['5']['e']=$nowyear.'-03-31 23:59:59';
+        }
+        else if($nowm>=4&&$nowm<7)
+        {  
+            //第二季度
+            $timearr['5']['s']=$nowyear.'-04-01 00:00:00';
+            $timearr['5']['e']=$nowyear.'-06-30 23:59:59';
+        }
+        else if($nowm>=7&&$nowm<10)
+        {
+            //第三季度
+            $timearr['5']['s']=$nowyear.'-07-01 00:00:00';
+            $timearr['5']['e']=$nowyear.'-09-30 23:59:59';
+        }
+        else
+        {
+            //第四季度
+            $timearr['5']['s']=$nowyear.'-10-01 00:00:00';
+            $timearr['5']['e']=$nowyear.'-12-31 23:59:59';
+        }
         //本年
         $timearr['6']['s']=date('Y',time()).'-01-01 00:00:00';
         $timearr['6']['e']=date('Y',time()).'-12-31 23:59:59';
