@@ -331,6 +331,8 @@ class HetongmingchengController extends Controller {
 			$this->assign('show1',$show1); //合同系统信息
 			$this->assign('name',$ht_json['zdy0']); //合同名字
 			$this->assign('fuzeren',$user[$sql_lianxi['ht_fz']]['user_name']);//合同负责人
+			echo "<pre>";
+			var_dump($user);exit;
 			$this->display();
 		}
 		public function get_xiashu_id()

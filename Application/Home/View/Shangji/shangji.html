@@ -27,12 +27,12 @@
 	    <script src="{$_GET['public_dir']}/diqu/js/main.js"></script>
 
 
-		<link href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
-		<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
 
 	    <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
 		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
 
+		<link href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
+		<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
 		<style>
 
 			body,ul,li,table,tr{margin:0;padding:0;}
@@ -92,12 +92,12 @@
   }
 
   </style>  
-  <script>
-  $(function(){
+<script>
 
+	$(function(){
 		$('.xlss').searchableSelect();
+ });
 
-	}); 
 </script>
 	</head>
 
@@ -473,7 +473,7 @@ window.name_lxr="";
 								
 										$.get(rooturl+'/index.php/Home/Shangji/add_end',{"id":ajaxstr_kh,"lxr":ajaxstr_lxr,"lxr_id":name_lxr,'shangji':ajaxstr},
 																        		 function(html){
-																        		 	alert(html)
+																        		// 	alert(html)
 																		         	window.location.href="shangji";
 																                   });
 									}
@@ -786,7 +786,7 @@ window.name_lxr="";
 		 		is_one++;
 		 		return;
 		 	}
-		 	alert(v2.prop("id"))
+		 //	alert(v2.prop("id"))
 		 		if(v2.prop("id")=="ss1"){
 	    			var kh_id= v2.val();
 	    			if(kh_id!="tiaozhuan"){
@@ -849,7 +849,7 @@ window.name_lxr="";
 													window.name_lxr=$("#kh").find("#ss2").val();
 												}
 											
-												alert(name_lxr)
+											//	alert(name_lxr)
 											
 										
 											
@@ -977,7 +977,7 @@ window.name_lxr="";
 								
 										window.ajaxstr_lxr=ajaxstr;//alert(ajaxstr)
 									window.name_lxr =$("#lxr").find("#lxrzdy0").val();
-										alert(name_lxr)
+										//alert(name_lxr)
 									$("#zdy15th").html("<input type='text' name='zdy15' value='"+name_lxr+"' readonly='true'>");
 											layer.close(win)
 
@@ -1010,7 +1010,7 @@ window.name_lxr="";
     		
     		function kh_bmo(bm){
     			var user_id=$(bm).val();
-    		alert(user_id)
+    	//	alert(user_id)
     			$.get(rooturl+'/index.php/Home/Hetong/get_bm',{"id":user_id},
 			        		 				function(html){
         		 								//tishi(html)

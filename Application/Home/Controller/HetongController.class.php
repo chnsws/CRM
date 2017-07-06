@@ -305,9 +305,10 @@ public function kehu(){
 					if($v['id']=='zdy1')
 					{
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name'].":</td>";
-						$show_bt.="<td><select name='".$v['id']."' class='required' onchange='get_sj(this)'>";
+						$show_bt.="<td id='kh_name'><select name='".$v['id']."' class='required ht_ss'  id='xl1'>";
 
 								$show_bt.="	<option value=''> --选择客户--</option>";
+								$show_bt.="	<option value='xz_kh'> --新增客户--</option>";
 							foreach($kehu as $kkh =>$vkh)
 							{
 								$show_bt.="	<option value='".$vkh['id']."'> ".$vkh['name']."</option>";
@@ -317,11 +318,12 @@ public function kehu(){
 					elseif($v['id']=='zdy2')
 					{
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name'].":</td>";
-						$show_bt.="<td ><select name='".$v['id']."' class='th_sj required'>";
+						$show_bt.="<td ><select name='".$v['id']."' class='th_sj required sjgl' id='sjtz' onchange='sjtzz(this)'>";
 							
 								$show_bt.="	<option value=''> 请先选择对应客户</option>";
+								$show_bt.="	<option value='xzsj'>新增商机(此商机对应商机)</option>";
 						
-						$show_bt.=  " </select></td></tr>	";		
+						$show_bt.=  " </select></td></tr>";		
 					}elseif($v['id']=='zdy7'){
 
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name'].":</td>";
@@ -336,7 +338,7 @@ public function kehu(){
 					}elseif($v['id']=='zdy10'){
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name'].":</td>";
 						$show_bt.="<td><select name='".$v['id']."' class='required' >";
-
+ 
 								$show_bt.="	<option value=''> --请选择--</option>";
 							foreach($ywcs[$v['id']] as $k =>$v)
 							{
@@ -553,7 +555,7 @@ public function kehu(){
 		//echo "<pre>";
 		//var_dump($user);exit;
 			$jw.="<tr class='addtr'><td><span style='color:red'>*</span>负责人:</td>";
-			$jw.="<td><select name='ht_fz' class='required'  onchange='get_bm(this)'>";
+			$jw.="<td><select name='ht_fz' class='required' id='xl2' onchange='get_bm(this)'>";
 			$jw.="<option  value='".$v['user_id']."'>请选择负责人</option>";	
 				foreach($user as $k=>$v)
 				{
@@ -660,18 +662,21 @@ public function kehu(){
 	//	var_dump($shangji);exit;
 		$num=1;
 		$sj_th.="<select class='bjwh'>";
+		$sj_th.="<option value=''>--请选择--</option>";
+		$sj_th.="<option value='xzsj'>新增商机(此商机对应商机)</option>";
 		foreach($shangji as $k => $v)
 		{	
 			if($v['zdy1']==$id)
 			{	$num=$num+1;
 				$sj_th.="<option value='".$v['sj_id']."'> ".$v['zdy0']."</option>";
 			}
+
 		}
 		$sj_th.="</select>";
 	
 		$sj_th3.="<select class='bjwh'>";
 			$sj_th3.="<option value=''>请添加对应商机 </option>";
-			$sj_th3.="<option value='012'>暂不填写</option>";
+			$sj_th3.="<option value='xzsj'>新增商机(此商机对应商机)</option>";
 		$sj_th3.="</select>";
 		if($num>1){
 			echo $sj_th;
@@ -1309,7 +1314,447 @@ public function kehu(){
 		}
 		echo $content;
 	}
+	public function add_shangji(){
+		$kh_id_sj=$_GET['id'];
+		//$kh_id_sj= "xz_kh";
+			if($kh_id_sj!="xz_kh")
+			{
+			$lxr_base=M('lx');
+	 		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+	 		$tiaojian='"zdy1":"'.$kh_id_sj.'"';
+			$sql_lxr=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and lx_data like '%$tiaojian%'");
+				foreach($sql_lxr as $k=>$v)
+				{
+					foreach($v as $k1=>$v1)
+					{
+						if($k1=="lx_data")
+						{
+							$lxr_json=json_decode($v[$k1],true);
+								
+								$lxr_new['lx_id']=$v['lx_id'];
+								$lxr_new['lx_name']=$lxr_json['zdy0'];
+								$lxr_end[]=$lxr_new;
+						
+						}
+					}
+				}
+			}
+		//echo "<pre>";
+		//var_dump($lxr_end);exit;
+		$user=$this->user();
+		$data['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件               
+		$data['zd_yewu']=5;//所属模块
+		$yewuziduan_base=M('yewuziduan');
+		$ywzd_sql=$yewuziduan_base->where($data)->field("zd_data")->find();        //添加商机 查询
+		$ywzd_sql_json=json_decode($ywzd_sql['zd_data'],true);
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$new_xiaji=$xiaji;          
+		$new_array=explode(',',$new_xiaji);
+		//var_dump($new_array);exit;
+		
+		$ywcs_base=M('ywcs');
+		$ywcs['ywcs_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$ywcs['ywcs_yw']=5;
+		$ywcs_sql=$ywcs_base->where($ywcs)->field('ywcs_data')->find();
+		$ywcs_json=json_decode($ywcs_sql['ywcs_data'],true);                   //获取商机配置表参数
 	
+     
+		foreach($ywcs_json as $kcs => $vcs)
+		{
+			foreach($vcs['qy'] as $kqy=>$vqy)
+			{
+
+				if($vqy=='1')
+				{
+					$cs_new[$kqy]=$vcs[$kqy];
+
+				}
+			}
+			$new_ywcs[$vcs['id']]=$cs_new;            //获取到启用了的参数
+			unset($cs_new);
+			
+		}
+	//	echo "<pre>";
+//ar_dump($ywcs_json );exit;
+//echo "<pre>";
+//var_dump($new_ywcs);exit;
+		
+		
+		foreach($ywzd_sql_json as $kzd=>$vzd)                                      //后台判断生成模板
+		{
+			if($vzd['qy']=="1")
+			{
+				if($vzd['bt']=="1")
+				{
+					$table.="<tr class='addtr '>";
+						if($vzd['id']!="zdy1")
+						{
+						$table.="<td><span style='color:red'>*</span>".$vzd['name'].":</td>";
+						if($vzd['type']=="0") 
+							$table.="<td><input type='text' class='required' id='wy".$vzd['id']."' name='".$vzd['id']."'  ></td>";   //  0文本框
+						elseif($vzd['type']=="2")
+							$table.="<td><input type='text' class='required' name='".$vzd['id']."'   class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";   //  2 日期 
+						elseif($vzd['type']=="3")
+						{	
+							//echo $vzd['id'];
+						if($vzd['id']=="zdy9")
+							{
+								$table.="<td>";
+								$table.="<select name='".$vzd['id']."'  class='required ' style='width:300px;height:30px;'>";
+										$table.="<option value=''>--请选择--</option>";
+								foreach($new_ywcs[$vzd['id']] as $k=>$v)
+									{
+										$table.="<option value='".$k."'>".$v."</option>";
+									}
+								$table.="</td>";
+							
+							}elseif($vzd['id']=="zdy2"){
+								if($kh_id_sj!="xz_kh")
+								{
+									$table.="<td>";
+									$table.="<select name='".$vzd['id']."'  class='required ' style='width:300px;height:30px;'>";
+											foreach($lxr_end as $k=>$v)
+											{
+												$table.="<option value='".$v['lx_id']."'>".$v['lx_name']."</option>";
+											}
+										
+									$table.="</td>";
+								}else{
+									$lx_id74=$_GET['lx_id'];
+								//	$lx_id74="206";
+									$lxr_base=M('lx');
+	 								$lxr_maplx['lx_id']=$lx_id74;//获取所属用户（所属公司）
+	 								$lxr_maplx['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+	 								$lx_lxsql=$lxr_base->where($lxr_maplx)->find();
+	 								
+	 								if($lx_lxsql=='' || $lx_lxsql==null)//客户那里新增新的
+	 								{
+	 									$table.="<td>";
+											$table.="<input name='".$vzd['id']."'  class='required ' value='".$lx_id74."' readonly='value'>";
+										
+											$table.="</td>";
+	 								}else{                            //客户那里选的
+
+	 									$san_json=json_decode($lx_lxsql['lx_data'],true);
+	 								//	echo "<pre>";
+	 								//var_dump($san_json);exit;
+	 									$table.="<td>";
+											$table.="<input name='".$vzd['id']."'  class='required ' value='".$san_json['zdy0']."' readonly='value'>";
+											
+											$table.="</td>";
+	 								}
+								}
+							}elseif($vzd['id']=="zdy5")
+							{
+								$table.="<td>";
+								$table.="<select name='".$vzd['id']."' class='required ' style='width:300px;height:30px;'>";
+										$table.="<option value=''>--请选择--</option>";
+								foreach($new_ywcs[$vzd['id']] as $k=>$v)
+									{
+										$table.="<option value='".$k."'>".$v."</option>";
+									}
+								$table.="</td>";
+								
+							}elseif($vzd['id']=="zdy7")
+							{
+								$table.="<td>";
+								$table.="<select name='".$vzd['id']."' id='".$vzd['id']."' class='required' style='width:300px;height:30px;'>";
+										$table.="<option value=''>--请选择--</option>";
+								foreach($new_ywcs[$vzd['id']] as $k=>$v)
+									{
+										$table.="<option value='".$k."'>".$v."</option>";
+									}
+								$table.="</td>";
+								
+							}
+						}											//  3下拉选择
+					$table.="</tr>";																						
+	
+				}
+			}
+			}
+		}
+	$table.="<tr class='addtr'><td><span style='color:red'>*</span>负责人:</td>";
+			$table.="<td><select name='sj_fz' class='required' id='xl2' onchange='get_bm(this)'>";
+			$table.="<option  value='".$v['user_id']."'>请选择负责人</option>";	
+				foreach($user as $k=>$v)
+				{
+					$table.="<option  value='".$v['user_id']."'>".$v['user_name']."</option>";
+				}
+			$table.=" </select></td></tr>	";
+			$table.="<tr class='addtr '><td>部门:</td>";
+			$table.="<td class='bm_th' ><input type='text' name='sj_department' disabled value='' > </td>";
+
+		echo $table;
+	}
+	public function add_ht1(){
+		$xiaji= $this->get_xiashu_id();//  查询下级I
+		$kehu=$_GET['kh']; 
+		//$kehu="zdy0:2323,zdy1:canshu2,zdy2:23,zdy3:233223,zdy4:23,zdy5:23,zdy15:215,kh_fz:45,ht_department:销售部-国贸1,";
+		if($kehu=="" || $kehu == null)       //z只需要处理 合同和商机。客户和联系人都有了
+		{
+			$shangji= $_GET['sj'];
+			//$shangji="zdy0:标题拍合同,zdy1:104114,zdy2:晓明商机,zdy3:896000,zdy4:2017-7-13 18:11:34,zdy5:2017-7-4 18:11:37,zdy6:2017-7-4 18:11:40,zdy7:canshu1,zdy15:2017-7-4 18:11:42,zdy8:,cpgd:添加产品,undefined:undefined,undefined:undefined,zdy10:,zdy11:,zdy12:,zdy13:,undefined:,undefined:undefined,undefined:undefined,zdy17:,ht_fz:46,ht_department:技术部
+		//	";
+			$kh_id=$_GET['kh_id']; //选的客户
+			$kh_id=104104;
+		//	$shangji="zdy0:小母牛1,undefined:undefined,zdy2:142,zdy3:60000,zdy4:2017-7-4 18:25:41,sj_fz:46,ht_department:技术部,";
+			$shangji_number=substr($shangji,0,strlen($shangji)-1); 
+			$shangji_arr=explode(',',$shangji_number);
+			
+			foreach($shangji_arr as $k=>$v)
+			{
+				$sj_ex=explode(":",$v);
+				if($sj_ex['0']=="sj_fz")
+				{
+					$sj_data["sj_fz"]=	$sj_ex['1'];//本人ID  ;
+				}elseif($sj_ex['0']=="ht_department")
+				{
+					$sj_data["sj_bm"]=	$sj_ex['1'];//本人ID  ;
+				
+				}elseif($sj_ex['0']=="undefined"){
+
+				}else{
+					$sj_ex_json[$sj_ex['0']]=$sj_ex['1'];
+				}		
+			}
+			$sj_ex_json['zdy1']=$kh_id;
+			$sj_data['sj_data']=json_encode($sj_ex_json,true);
+			$sj_data["sj_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$sj_data["sj_cj"]=cookie('user_id');//本人ID  
+			$sj_data["sj_cj_date"]=time();
+			$shangji_base=M('shangji');
+			$shangji_add=$shangji_base->add($sj_data);
+			if($shangji_add)//商机添加完了 添加合同开始
+			{
+				$hetong=$_GET['ht'];
+			//	$hetong="zdy0:标题拍合同1,zdy1:104114,zdy2:晓明商机,zdy3:896000,zdy4:2017-7-13 18:11:34,zdy5:2017-7-4 18:11:37,zdy6:2017-7-4 18:11:40,zdy7:canshu1,zdy15:2017-7-4 18:11:42,zdy8:,cpgd:添加产品,undefined:undefined,undefined:undefined,zdy10:,zdy11:,zdy12:,zdy13:,undefined:,undefined:undefined,undefined:undefined,zdy17:,ht_fz:46,ht_department:技术部";
+					$ht_new_arr=explode(',',$hetong);
+					foreach($ht_new_arr as $k=>$v)
+					{
+						$ht_ex=explode(":",$v);
+						if($ht_ex['0']=="ht_fz")
+						{
+							$ht_data['ht_fz']=$ht_ex['1'];
+						}elseif($ht_ex['0']=="ht_department")
+						{
+							$ht_data['ht_bm']=$ht_ex['1'];
+						}elseif($ht_ex['0']=="cpgd" || $ht_ex['0']=="fjgd" || $ht_ex['0']=="jkgd" )
+						{
+							
+						}else{
+							if($ht_ex['0']=="zdy2"){
+								$ht_ex1['zdy2']=$shangji_add;
+							}else{
+							$ht_ex1[$ht_ex['0']]=$ht_ex['1'];
+							}
+						}
+						
+					}
+					$ht_data["ht_data"]=json_encode($ht_ex1,true);
+					$ht_data["ht_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+					$ht_data["ht_cj"]=cookie('user_id');//本人ID  
+					$ht_data["ht_cj_date"]=time();
+					$ht_baseq=M('hetong');
+					$ht_sql=$ht_baseq->add($ht_data);
+					if($ht_sql)
+					{	
+						$sql_sel=$ht_sql;
+						$sql12['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
+						$sql12['sj_id']=0; 
+						$sql12['cp_mk']=6; 
+						$sql12['cp_sj_cj']=cookie('user_id'); //通用条件   
+						$cp_sj_base=M('cp_sj');
+						$dat['sj_id']= $sql_sel;
+					//	$dat1['name_id']= $sql_sel;
+						$sql_add=$cp_sj_base->where($sql12)->save($dat); //应该缺少修改附件
+
+						
+					}else{
+						echo "2";
+					}
+			}
+		}else{
+
+			$lxr_id_sel=$_GET['lxr_id'];
+			//$lxr_id_sel="lslxr";
+				$lx_base=M('lx');
+				if($lxr_id_sel=="lslxr"){     //先添加联系人 这里是  新增的 else 是选择的
+					$lxr75=$_GET['lxr'];
+					//$lxr75="zdy0:我收,zdy2:lxrzdy2,zdy4:lxrzdy4,zdy6:lxrzdy6,zdy10:lxrzdy10,zdy12[]:北京市-北京市市辖区-东城区,";
+					$lxr_number=substr($lxr75,0,strlen($lxr75)-1); 
+
+					$lxr_ex=explode(',',$lxr_number);
+					foreach($lxr_ex as $k=>$v)
+					{
+						$exv=explode(":",$v);
+						if($exv['0']=="zdy12[]")
+						{
+						$exv1['zdy12']=$exv['1'];
+						}else{
+						$exv1[$exv['0']]=$exv['1'];
+						}
+					}
+				
+					$lxr_map1['lx_data']=json_encode($exv1,true);
+					$lxr_map1['lx_cj_date']=time();
+					$lxr_map1['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+					$lxr_map1['lx_cj']=cookie('user_id');
+			//	echo "<pre>";var_dump($lxr_map1);exit;
+					$lxr_add=$lx_base->add($lxr_map1); //联系人添加完了 添加客户
+				}else{
+					$lxr_id=$lxr_id_sel;
+					$new_xiaji=$xiaji;          
+					$new_array=explode(',',$new_xiaji);
+					$lx_yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+					$lx_sql=$lx_base->query("select * from  crm_lx where lx_yh='$lx_yh' and lx_id='$lxr_id' and lx_cj IN ($xiaji)");
+					$lxr_json=json_decode($lx_sql['0']['lx_data'],true);
+					$lxr_json['zdy1']="lssj";
+					$lxr_map['lx_data']=json_encode($lxr_json,true);
+					$lxr_map['lx_cj_date']=time();
+					$lxr_map['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+					$lxr_map['lx_cj']=cookie('user_id');
+					$lxr_add=$lx_base->add($lxr_map);
+
+				}
+					if($lxr_add){
+				
+						$kehu75=$_GET['kh'];
+						//$kehu75="zdy0:新的客户1,zdy1:canshu1,zdy2:4545,zdy3:45,zdy4:4545,zdy5:45,zdy15:lslxr,kh_fz:47,ht_department:技术部,";
+						$kh_number=substr($kehu75,0,strlen($kehu75)-1); 
+						$kh_ex=explode(',',$kh_number);
+						foreach($kh_ex as $k=>$v)
+						{
+							$kh_ex=explode(":",$v);
+							if($kh_ex['0']=="kh_fz")
+							{
+								$data_kh75["kh_fz"]=$kh_ex['1'];//本人ID  ;
+							}elseif($kh_ex['0']=="ht_department")
+							{
+								$data_kh75["kh_bm"]=$kh_ex['1'];//本人ID  ;
+							}else{
+								if($kh_ex['0']=='zdy15')
+								{
+									$kh_ex1['zdy15']=$lxr_add;
+								}else{
+								$kh_ex1[$kh_ex['0']]=$kh_ex['1'];
+								}
+							}		
+						}
+						//echo "<pre>";
+						//var_dump($kh_ex1);exit;
+						$data_kh75["kh_data"]=json_encode($kh_ex1,true);
+						$data_kh75["kh_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+						$data_kh75["kh_cj"]=cookie('user_id');//本人ID  ;
+						$data_kh75["kh_cj_date"]=time();//本人ID  ;
+						
+						//var_dump($data["kh_data"]);
+						//echo "<pre>";
+						//var_dump($data_kh75);exit;
+						$kh_base=M('kh');
+						$add_kh=$kh_base->add($data_kh75);
+						if($add_kh)
+						{
+							$shangji=$_GET['sj'];
+							//$shangji="zdy0:安慰法1,undefined:undefined,zdy2:281,zdy3:2333333,zdy4:2017-7-5 17:37:46,sj_fz:46,ht_department:技术部,";
+							$sj_number=substr($shangji,0,strlen($shangji)-1); 
+							$sj_ex=explode(",",$sj_number);
+							foreach($sj_ex as $k=>$v){
+								$sj_ex=explode(":",$v);
+								if($sj_ex["0"]=="sj_fz")
+								{
+									$sj_data['sj_fz']=$sj_ex["1"];
+								}elseif($sj_ex["0"]=="ht_department"){
+									$sj_data['sj_bm']=$sj_ex["1"];
+								}else{
+									if($sj_ex["0"]=="zdy2")
+									{
+										$sj_ex1["zdy2"]=$lxr_add;
+									}elseif($sj_ex["0"]==undefined){
+
+									}else{
+										$sj_ex1[$sj_ex['0']]=$sj_ex['1'];
+									}
+								}
+
+							}
+							$sj_ex1["zdy1"]=$add_kh;
+							$sj_data["sj_data"]=json_encode($sj_ex1,true);
+							$sj_data["sj_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+							$sj_data["sj_cj"]=cookie('user_id');//本人ID  
+							$sj_data["sj_cj_date"]=time();
+							$shangji_base=M('shangji');
+							$sj_add=$shangji_base->add($sj_data);
+							if($sj_add){
+								$hetong=$_GET['ht'];
+								//$hetong="zdy0:真的合同,zdy1:合同公司,zdy2:即可看看,zdy3:45656,zdy4:2017-12-5 18:02:07,zdy5:2017-7-14 18:02:10,zdy6:2017-7-20 18:02:16,zdy7:canshu4,zdy15:2017-7-24 18:02:20,zdy8:,cpgd:添加产品,undefined:undefined,undefined:undefined,zdy10:,zdy11:,zdy12:,zdy13:,undefined:,undefined:undefined,undefined:undefined,zdy17:,ht_fz:46,ht_department:技术部";
+							$ht_ex=explode(",",$hetong);
+								foreach($ht_ex as $k=>$v)
+								{
+									$ht_ex=explode(":",$v);
+									if($ht_ex["0"]=="ht_fz")
+									{
+										$ht_data['ht_fz']=$ht_ex["1"];
+									}elseif($ht_ex["0"]=="ht_department"){
+										$ht_data['ht_bm']=$ht_ex["1"];
+									}elseif($ht_ex["0"]==undefined){
+									}else{
+										if($ht_ex["0"]=="zdy1")
+										{
+											$ht_ex1["zdy1"]=$add_kh;
+										}elseif($ht_ex["0"]=="zdy2"){
+											$ht_ex1["zdy2"]=$sj_add;
+										}else{
+											$ht_ex1[$ht_ex['0']]=$ht_ex['1'];
+										}
+									}
+								}
+								
+								$ht_data["ht_data"]=json_encode($ht_ex1,true);
+								$ht_data["ht_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+								$ht_data["ht_cj"]=cookie('user_id');//本人ID  
+								$ht_data["ht_cj_date"]=time();
+								$ht_base=M('hetong');
+								$sql_ht=$ht_base->add($ht_data);
+								if($sql_ht)       //合同完成 修改最初的联系人少的客户ID
+								{
+									$lx_map['lx_id']=$lxr_add;
+									$lx_map['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+									$lx_base=M('lx');
+									$sql_lx=$lx_base->where($lx_map)->find();
+									$lx_json=json_decode($sql_lx['lx_data'],true);
+									
+									$lx_json['zdy1']=$add_kh;
+
+									$lx_data_save['lx_data']=json_encode($lx_json,true);
+									
+									
+									$lx_save=$lx_base->where($lx_map)->save($lx_data_save);
+									if($lx_save){
+										$sql_sel=$sql_ht;
+										$sql12['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
+										$sql12['sj_id']=0; 
+										$sql12['cp_mk']=6; 
+										$sql12['cp_sj_cj']=cookie('user_id'); //通用条件   
+										$cp_sj_base=M('cp_sj');
+										$dat['sj_id']= $sql_sel;
+									//	$dat1['name_id']= $sql_sel;
+										$sql_add=$cp_sj_base->where($sql12)->save($dat); //应该缺少修改附件
+									}
+								}
+							}
+							
+						}
+					}
+
+		
+
+
+			
+		
+		}				
+					
+	}
 }
 
 

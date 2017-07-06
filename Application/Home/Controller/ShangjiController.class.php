@@ -224,7 +224,7 @@ class ShangjiController extends Controller {
 							if($vzd['id']=="zdy1")
 							{
 								$table.="<td id='sj_zdy1'>";
-								$table.="<select id='ss1' class='required lxr_ajax xlss' name='".$vzd['id']."' onchange='get_lx(this)' style='width:230px;height:30px;'>";
+								$table.="<select id='ss1' class='required lxr_ajax xlss' id='ac' name='".$vzd['id']."' onchange='get_lx(this)' style='width:230px;height:30px;'>";
 										$table.="<option value=''>--请选择--</option>";
 										$table.="<option value='tiaozhuan' style='color:red'>点我添加新客户</option>";
 								foreach($kh_name as $k=>$v)
@@ -236,7 +236,7 @@ class ShangjiController extends Controller {
 							}elseif($vzd['id']=="zdy2")
 							{
 								$table.="<td class='lx_th' id='sj_zdy2'>";
-								$table.="<select id='ss2' name='".$vzd['id']."' class='required ' style='width:300px;height:30px;'>";
+								$table.="<select id='ss2' name='".$vzd['id']."' class='required '  id='bc' style='width:300px;height:30px;'>";
 										$table.="<option value=''>请先选择公司</option>";
 									$table.="</select>";	
 								$table.="</td>";
