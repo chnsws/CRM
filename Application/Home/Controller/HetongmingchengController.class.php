@@ -41,48 +41,48 @@ class HetongmingchengController extends Controller {
 			}
 			return $sql_json3;
 		}
-		public function user(){                 //负责人和部门
-			$xiaji= $this->get_xiashu_id();//  查询下级ID
-			$new_xiaji=$xiaji;          
-			$new_array=explode(',',$new_xiaji);
-		 	$department=M('department');
-			$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-				//echo $dpmet['bm_company'];exit;
-			$sql_de=$department->where($dpt)->select();
-			foreach($sql_de as $kdpt => $vdpt)
-			{
-				
-				$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
-			}
+		public function user(){                 //负责人和dddd
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$new_xiaji=$xiaji;          
+		$new_array=explode(',',$new_xiaji);
+	 	$department=M('department');
+		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			//echo $dpmet['bm_company'];exit;
+		$sql_de=$department->where($dpt)->select();
+		foreach($sql_de as $kdpt => $vdpt)
+		{
+			
+			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门ddddd
+		}
 
-			$fuzeren=M('user');
-				$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		if(cookie('user_fid')=='0')
-		{
-			$map['user_id']=$fid;
-		}
-		else
-		{
-			$map['user_fid']=$fid;
-		}
-		 	$fuzeren_sql=$fuzeren->where($map)->select();//缺少条件
-				foreach ($fuzeren_sql as $k=>$v)
+		$fuzeren=M('user');
+
+		
+			$map['user_id']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+	
+	 	$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id IN ($xiaji)");//缺少条件
+			foreach ($fuzeren_sql as $k=>$v)
+			{
+				foreach ($new_array as $k1=>$v1)
 				{
-					foreach ($new_array as $k1=>$v1)
+					if($v['user_id']==$v1)
 					{
-						if($v['user_id']==$v1)
-						{
-							$new_fuzeren['user_id']=$v['user_id'];
-							$new_fuzeren['user_name']=$v['user_name'];
-							$new_fuzeren['user_zhu_bid']=$v['user_zhu_bid'];
-							$new_fuzeren['department']=$dpt_arr[$v['user_zhu_bid']]['bm_name'];
-							$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
-						}
-							
+						$new_fuzeren['user_id']=$v['user_id'];
+						$new_fuzeren['user_name']=$v['user_name'];
+						$new_fuzeren['user_zhu_bid']=$v['user_zhu_bid'];
+						$new_fuzeren['department']=$dpt_arr[$v['user_zhu_bid']]['bm_name'];
+						$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
 					}
-				}  
-			return $fzr_only;
-		}
+						
+				}
+			}  
+
+
+return $fzr_only;
+
+
+
+	}
 		public function kehu(){
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
 		$new_xiaji=$xiaji;          
@@ -134,19 +134,21 @@ class HetongmingchengController extends Controller {
 		public function hetongmingcheng(){
 			$ywzd=$this->ywzd();
 			$user=$this->user();
-
+		//	echo"<pre>";
+		//	var_dump($user);exit;
 			$kehu=$this->kehu();
 			$ywcs=$this->ywcs();
+			
 			$shangji=$this->shangji();
 			$chanpin=$this->chanpin();
-		//	echo "<pre>";
-			//var_dump($ywcs);exit;
+			
 			$ht_id=$_GET['id'];
 			$map['ht_id']=$ht_id;//联系人条件
 			$map['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件          
 			$lx_base=M("hetong");
 			$sql_lianxi=$lx_base->where($map)->find();
 			$ht_json=json_decode($sql_lianxi['ht_data'],true);
+
 			foreach ($ywzd as $k => $v){
 				$show.="<table><tr style='line-height:40px'><td style='width :150px'>".$v['name']."：</td>";
 				if($ht_json[$k]!=""){
@@ -313,7 +315,7 @@ class HetongmingchengController extends Controller {
 				</tr>";
 			}
 
-		$chanpin1.="<tr  class='addtr'>";
+				$chanpin1.="<tr  class='addtr'>";
 				$chanpin1.="<td><span style='color:red'>*</span>产品名称：</td>";
 					$chanpin1.="<td><select name='cp_id' onchange='cp_aj(this)' class ='clk_fzr' style='width:300px;height:26px;'>";
 							$chanpin1.="<option value='s'>请选择产品 </option>";
@@ -322,6 +324,162 @@ class HetongmingchengController extends Controller {
 							$chanpin1.="<option value='".$v['cp_id']."'>".$v['zdy0']." </option>";
 					}
 					$chanpin1.="</select> </td></tr>";
+			//回款计划开始咯
+			$hk_base=M('hk');
+			$hk_map['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$hk_map['hk_htid']=$ht_id;
+			$sql_hk=$hk_base->where($hk_map)->select();
+			$zonghkjh=0;
+					$zb=0;
+			foreach($sql_hk as $k=>$v)
+			{
+				$zonghkjh=$v['hk_je']+$zonghkjh;
+				$zb=$v['hk_zb']+$zb;
+			}
+			$this->assign('zonghkjh',$zonghkjh);
+			$this->assign('zb',$zb);
+			$hkzje=0;
+			foreach($sql_hk as $k=>$v)
+			{
+				$hkzje=$hkzje+$v['hk_je'];  //计划回款总金额
+
+			}
+			$shenpi_arr=array("0"=>"待审批","1"=>"审批通过","2"=>"审批驳回");
+			//查询已添加的回款
+			$add_hk_base=M("hkadd");
+			$hk_addmap['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$hk_addmap['hk_ht']=$ht_id;
+			$sql_hk_add=$add_hk_base->where($hk_addmap)->select();
+			
+			foreach($sql_hk_add as $k=>$v)
+			{
+				$count[$v['hk_qici']][]=$v;
+			}
+			$yihuikuan[$v1['hk_qici']]=0;
+			$zonghk=0;
+			foreach($count as $k=>$v)
+			{
+				foreach($v as $k1=>$v1)
+				{
+					$yihuikuan[$v1['hk_qici']]=$v1['hk_je']+$yihuikuan[$v1['hk_qici']];
+				
+				}
+				$zonghk=$zonghk+$yihuikuan[$v1['hk_qici']];//全部回款$zonghk；
+			}
+
+			
+			//
+				foreach($sql_hk as $k=>$v)
+				{
+					$weihuikuan=$v['hk_je']-$yihuikuan[$v['hk_qici']];
+					$hk_jihua.="<div class='long'>";  
+						$hk_jihua.="<div class='backg'>";
+							$hk_jihua.="<div class='kongzhi1'><span class='hkshow'>第<b>".$v['hk_qici']."</b>期回款计划：".$v['hk_data']."</span><span class='hkshow'>计划回款总金额：¥<b> ".$v['hk_je']."</b></span><span class='hkshow'>占比：¥<b> ".$v['hk_zb']."%</b></span><span class='hkshow'> 已回款总金额：¥ <b>".$yihuikuan[$v['hk_qici']]."</b></span> <span class='hkshow'>未回款总金额：¥<b>".$weihuikuan."</b></span><span  class='hkshow'>未完成</span><button  id='create-sahngji' onclick='xzjh(this)' class='layui-btn layui-btn-small add_wz' >新增汇款记录</button>
+						  	</div>
+						  </div>";
+					  	$hk_jihua.="<table class='layui-table' lay-skin='line' >
+							  	<thead >
+							  		<th >操作</th>
+					  				<th >审批状态</th>
+					  				<th >回款日期</th>
+					  				<th >回款金额</td>
+					  				<th >付款方式</th>
+					  				<th >回款类型</th>
+					  				<th >收款人</th>
+					  				<th >备注</th>
+								</thead>";
+								$abc=0;
+								foreach($sql_hk_add as $k3=>$v3)
+								{
+									
+										if($v['hk_qici']==$v3['hk_qici']){
+											$abc++;
+											$hk_jihua.="<tbody class='fujian_del'>
+												<tr>
+												<td >操作</td>
+												<td >".$shenpi_arr[$v3['hk_sp']]."</td>
+												<td >".$v3['hk_data']."</td>
+												<td >".$v3['hk_je']."</td>
+												<td >".$ywcs['zdy11'][$v3['zdy11']]."</td>
+												<td >".$ywcs['hktype'][$v3['hk_type']]."</td>
+												<td >".$user[$v3['hk_skr']]['user_name']."</td>
+												<td >".$v3['hk_bz']."</td>
+												</tr>  
+												</tbody>";
+										}
+									
+								}
+								if($abc==0){
+											$hk_jihua.="	<tbody class='fujian_del'>
+											<tr><td colspan='8'  height='120px' >
+												<i class='layui-icon xiaolian' style='font-size:80px;float:left;position:relative;left:50%;margin-left:-200px;'><b>&#xe60c;</b></i>
+
+												<span>亲~ 还没有数据哦～ <span style='color:blue;cursor:pointer;' onclick='xzjh(this)'>新增回款记录 >></span></span>
+											</td></tr>  
+											</tbody>";
+								}
+								
+								
+							 
+							$hk_jihua.="</table>
+				 	</div>";
+				}
+			//这里往下是新增计划、
+			
+			$xz_jh.="<table class='uk-form ' >";
+		    			$xz_jh.="<tr>
+		    						<td><span style='color:red' >*</span>回款日期：</td><td><input type='text' name='hk_data'  onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d'".'})"'."></td>
+		    					</tr>
+		    					<tr>
+		    						<td><span style='color:red' >*</span>回款金额：</td><td><input type='number' name='hk_je' value=''></td>
+		    					</tr>
+		    					<tr>
+		    						<td><span style='color:red' >*</span>对应客户：</td><td><select name='hk_kh'><option value='".$ht_json['zdy1']."'>".$kehu[$ht_json['zdy1']]['name']."</option></select></td>
+		    					</tr>
+		    					<tr>
+		    						<td><span style='color:red' >*</span>合同标题：</td><td><select name='hk_ht'><option value='".$ht_id."'>".$ht_json['zdy0']."</option></select></td>
+		    					</tr>
+		    					<tr>
+		    						<td><span style='color:red' >*</span>合同期次：</td><td class='qicia'><select name='ht_qici'><option value=''>第".$v."期</option></select></td>
+		    					</tr>
+		    					<tr>
+		    						<td>付款方式：</td><td><select name='zdy11'>";
+		    						foreach($ywcs['zdy11'] as $k=>$v)
+		    						{
+		    							$xz_jh.="<option value='".$k."'>".$v."</option>";
+		    						}
+		    					$xz_jh.="	</select>
+		    					</td>
+		    					</tr>
+		    					<tr>
+		    						<td>回款类型：</td><td><select name='hk_type'>";
+									foreach($ywcs['hktype'] as $k=>$v)
+		    						{
+		    							$xz_jh.="<option value='".$k."'>".$v."</option>";
+		    						}
+		    						
+		    					$xz_jh.="</select></td>
+		    					</tr>
+		    					<tr>
+		    						<td><span style='color:red' >*</span>收款人：</td><td><select name='hk_skr'>";
+		    							foreach($user as $k=>$v)
+				    						{
+				    							$xz_jh.="<option value='".$k."'>".$v['user_name']."</option>";
+				    						}
+		    						$xz_jh.="</select></td>
+		    					</tr>
+		    					<tr>
+		    						<td>备注：</td><td><input type='text' name='hk_bz' value=''></td>
+		    					</tr>";
+
+		    			$xz_jh.="</table>";
+		    
+		    $weihka=$hkzje-$zonghk;
+		    $this->assign("weihka", $weihka);
+		   	$this->assign("xz_jh",$xz_jh);
+			$this->assign("hk_jihua",$hk_jihua);//回款计划页面信息
+			$this->assign('zonghk',$zonghk);
+			$this->assign('hkzje',$hkzje); 
 			$this->assign('chanpin1',$chanpin1); 
 			$this->assign('ht_id',$ht_id);
 			$this->assign('show2',$show2); //合同残品
@@ -331,8 +489,12 @@ class HetongmingchengController extends Controller {
 			$this->assign('show1',$show1); //合同系统信息
 			$this->assign('name',$ht_json['zdy0']); //合同名字
 			$this->assign('fuzeren',$user[$sql_lianxi['ht_fz']]['user_name']);//合同负责人
-			echo "<pre>";
-			var_dump($user);exit;
+			//echo "<pre>";
+			//var_dump($user );exit;
+			$this->assign("ht_kh",$kehu[$ht_json['zdy1']]['name']);
+			$this->assign("ht_name",$ht_json['zdy0']);
+			$this->assign("ht_money",$ht_json['zdy3']);
+			$this->assign("ht_data",$ht_json['zdy4']);
 			$this->display();
 		}
 		public function get_xiashu_id()
@@ -343,7 +505,7 @@ class HetongmingchengController extends Controller {
 		$qxbase=M("quanxian");
 		$bmbase=M("department");
 		$userarr=$userbase->query("select * from crm_user where (user_fid='$nowloginfid' or user_id='$nowloginfid') and user_del='0'");
-		foreach($userarr as $v)
+		foreach($userarr as $v)  
 		{
 			$userkeyid[$v['user_id']]=$v;
 		}
@@ -527,4 +689,110 @@ class HetongmingchengController extends Controller {
 				 $sql_del=$sql_file->where($data)->delete();
 				 
 			}
+	public function jisuan(){
+		$zje=$_GET['zje'];
+		$zba=$_GET['zba'];
+		$a=($zje/100)*$zba;
+		
+		echo $a;
+	}
+	public function jisuan1(){
+		$zje=$_GET['zje'];
+		
+		$money=$_GET['money'];
+	
+		$a=$money/($zje/100);   
+
+		
+		echo $a;
+	}
+	public function peizhi_hk(){
+		$id=$_GET['id'];
+	//	$id=5;
+		$content=$_GET['content'];
+	//	$content="hk_qici:1,hk_data:2017-7-11,hk_zb:12,hk_je:10161415.8,hk_bz:12!hk_qici:2,hk_data:2017-7-22,hk_zb:13,hk_je:11008200.45,hk_bz:13!";
+		$hk_number=substr($content,0,strlen($content)-1); 
+		$new_hk=explode("!",$hk_number);
+		foreach($new_hk as $k=>$v)
+		{
+			$array_hk=explode(",",$v);
+			foreach($array_hk as $k=>$v)
+			{
+				$array_end=explode(":",$v);
+				$data[$array_end[0]]=$array_end[1];
+			}
+			$data['hk_htid']=$id;
+			$data['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+			$data['hk_cj']=cookie("user_id");
+			$hk_peizhi_base=M('hk');
+			$sql_add=$hk_peizhi_base->add($data);
+			
+		}
+
+		if($sql_add){
+			echo "1";
+		}else{
+			echo "2";
+		}
+				
+	}
+	public function add_huikuan(){
+		$content=$_GET['id'];
+		//$content="hk_data:2017-7-28,hk_je:60000,hk_kh:104335,hk_ht:308,hk_qici:1,zdy11:canshu1,hk_type:canshu1,hk_skr:1,hk_bz:0000000,";
+		$hk_number=substr($content,0,strlen($content)-1); 
+		$new_hk=explode(",",$hk_number);
+		foreach($new_hk as $k=>$v)
+		{
+			$baobao=explode(":", $v);
+			$data[$baobao[0]]=$baobao[1];
+
+		}
+		$data['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+		$data['hk_sp']=0;
+		$data['hk_cj_date']=time();
+		$data['hk_cj']=cookie("user_id");
+		$hkadd_base=M('hkadd');
+		$hk_sql=$hkadd_base->add($data);
+	}
+	public function hkpz_content(){
+		
+			$hk_base=M('hk');
+			$hk_map['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$hk_map['hk_htid']=$_GET['id'];
+		//$hk_map['hk_htid']=309;
+			$sql_hk=$hk_base->where($hk_map)->select();
+			if($sql_hk==null || $sql_hk=="")
+			{
+				$peizhi712.="<tr class='qingxuanze'>
+					<td colspan='6' ><span>亲~还没有回款计划哦~<span onclick='hkzb()'
+					style='color:blue;font-weight:bold'>新增回款计划>></span></span></td>
+				</tr>
+				<tr class='add_pz' style='display:none'>
+					<td >1</td>
+					<td ><span onclick='jia(this)'><i class='layui-icon'  style='color:black'>&#xe61f;</i></span><span class='1' onclick='hkzb1(this)'><i class='layui-icon'   style='font-size:20px'>&#xe640;</i></span></td>
+					<td ><input type='text' style='width:110px'  name ='' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>
+					<td ><input type='text' style='width:100px' class= 'zbi' onchange='zolop(this)'></td>
+					<td ><input type='text' style='width:100px' class= 'money' value='' onchange='fan(this)' name =''></td>
+					<td ><input type='text' style='width:110px' name =''></td>
+				</tr> ";
+			}else{
+				foreach($sql_hk as $k=>$v)
+				{
+					
+				$peizhi712.="<tr class='add_pz'>
+								<td >".$v['hk_qici']."</td>
+								<td ><span onclick='jia(this)'><i class='layui-icon'  style='color:black'>&#xe61f;</i></span><span class='1' onclick='hkzb1(this)'><i class='layui-icon'   style='font-size:20px'>&#xe640;</i></span></td>
+								<td ><input type='text' style='width:110px'  name =''  value='".$v['hk_data']."'  onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>
+								<td ><input type='text' style='width:100px' class= 'zbi' value='".$v['hk_zb']."' onchange='zolop(this)'></td>
+								<td ><input type='text' style='width:100px' class= 'money' value='".$v['hk_je']."' onchange='fan(this)' name =''></td>
+								<td ><input type='text' style='width:110px' name ='' value='".$v['hk_bz']."'></td>
+							</tr>"; 
+				}
+				
+			
+			}
+			echo $peizhi712;
+
+	}
+
 }

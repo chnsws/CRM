@@ -23,6 +23,7 @@
 		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
   		<style>
   			body,ul,li,tr{margin:0;padding:0;font-size:14px;}
+  			table{margin-top:0px!important;}
   			.bjwh{width:300px;height:30px}
   			.jibenxinxi{width:50% ;float:left;}
   			.xiegenjin{width:48% ;float:right;}
@@ -31,7 +32,7 @@
   			.bianji_nb{margin:left:30%; border:1px solid:red; }
 			.ziliao{height:40px;width:100%; background-color:#eee;}
 			.xiaoshou{position: relative; left :20px;top:10px;width:107%;}
-			.genjinjilu{background-color:#1AA094;width:70px;height:24px;float:right;}
+			.genjinjilu{background-color:#50BBB1;width:70px;height:24px;float:right;}
 			.genjinjilu{position: relative; right:8px;top:6px;color:white;}
 			.only1{position: relative; left:75%;top:6px;}
 			.genjin_back{background-color:#F7FBFE;width:90%;position: relative; top:10px;margin:20px auto;}
@@ -42,9 +43,27 @@
 			.addtr td{padding-top:20px;}
 			.addtr td input{width:300px;}
 			.addtr td select{width:300px;}
-			.top_bz{position: relative; top: -65px;;}
+			.cd input{width:500px;}
+			.cd td{padding-top:20px;}
+			.jc{font-weight:bold }
+			.top_bz{position: relative; top: -65px;}
+			.hkshow{margin-left:30px; }
+			.hk_wh{height:40px;}
+			.hkauto{margin-top: 20px; }
+			.pz_wz{float:right;}
+			.backg{height:40px;border:1px solid #DDD;background-color:#DDDDDD;}
+		.kongzhi1{margin-top:13px;}
+		.add_wz{float:right;margin-top:-9px;}
+			th{background-color:#50BBB1;height:30px;color:white;}
 			tr{line-height:30px;}
-  				  		</style>
+			.th_hei th{height:40px;}
+			th{text-align:center!important;}
+			td{text-align:center!important;}
+			.shuai{padding-top:60px;}
+			input{width:300px;}
+			 select{width:300px;}
+			 td{padding-top:20px;}
+  	</style>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
 			 $(function() {
@@ -114,31 +133,71 @@
 		    		</div>
 			   	</div>
 		   </div>
+		   
 		  <div id="tabs-2">
-		  	<table class="layui-table" lay-skin="line">
-				  	<thead>
-				  		<th >姓名</th>
-		  				<th >职务</th>
-		  				<th >电话</th>
-		  				<th >手机</td>
-		  				<th >邮箱</th>
-		  				<th >备注</th>
+		  	<div class="add_hk"  style="display: none;border:1px;">
+		    		<div class="bianji_nb" style="width:430px;margin:0 auto">
+		    			<form id="hk_add">
+		    				{$xz_jh}
+		    			</form>
+		    		</div>
+			 </div> 
+		  <div id="hkpz"  style="display: none;border:1px;">
+		    		<div class="bianji_nb" style="width:620px;margin:0 auto">
+		    			<form id="myform">
+		    			<table class='uk-form cd'>
 
-					</thead>
-					<tbody class="fujian_del">
-						<tr>
-						
-				  				<td ><a href="{$_GET['root_dir']}/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/{$sql_lianxi.lx_id}"><span style="color:blue">{$lx_json.zdy0}</span></a></td>
-				  				<td >{$lx_json.zdy4}</td>
-				  				<td >{$lx_json.zdy5}</td>
-				  				<td >{$lx_json.zdy6}</td>
-				  				<td >{$lx_json.zdy10}</td>
-				  				<td >{$lx_json.zdy16}</td>
-				  			
-				  	
-						</tr> 	
-					</tbody>
-			 </table>
+		    			
+		    					<tr><td><span style="color:red;">*</span><span class="jc">对应客户：</span></td><td><input type="text" name='' value="{$ht_kh}" readonly="true"></td></tr>
+		    					<tr><td><span style="color:red;">*</span><span class="jc">合同标题：</span></td><td><input type="text" name='' value="{$ht_name}" readonly="true"></td></tr>
+		    					<tr><td><span style="color:red">*</span><span class="jc">合同总金额：</span></td><td><input type="text" class="zje" name='' value="{$ht_money}"  readonly="true"></td></tr>
+		    					<tr><td><span style="color:red">*</span><span class="jc">签约日期：</span></td><td><input type="text" name='' value="{$ht_data}" readonly="true"></td></tr>
+		    				<tr><td> </td><td> </td></tr>
+					    		<tr style="margin-top:130px">
+					    			<td colspan='2'>
+							    		<table class='uk-form cd' style="width:100%;">
+							    			<thead class="th_hei">
+										  		<th >期次</th>
+								  				<th >操作</th>
+								  				<th >回款日期</th>
+								  				<th >回款占比(%)</td>
+								  				<th >汇款金额</th>
+								  				<th >备注</th>
+											</thead>
+											<tbody class="fujian_del th_peizhi">
+												<tr class="qingxuanze">
+													<td colspan="6" ><span>亲~还没有回款计划哦~<span onclick="hkzb()"
+													style="color:blue;font-weight:bold">新增回款计划>></span></span></td>
+												</tr>
+												<tr class="add_pz" style="display:none">
+													<td >1</td>
+													<td ><span onclick="jia(this)"><i class="layui-icon"  style="color:black">&#xe61f;</i></span><span class="1" onclick="hkzb1(this)"><i class="layui-icon"   style="font-size:20px">&#xe640;</i></span></td>
+													<td ><input type="text" style="width:110px"  name =""  onfocus="WdatePicker({dateFmt:'yyyy-M-d'})"></td>
+													<td ><input type="text" style="width:100px" class= "zbi" onchange="zolop(this)"></td>
+													<td ><input type="text" style="width:100px" class= "money" value="" onchange="fan(this)" name =""></td>
+													<td ><input type="text" style="width:110px" name =""></td>
+												</tr> 	
+	 	
+											</tbody>
+										</table>
+									</td>
+								</tr> 
+
+							<tr style="padding-top:40px"><td class="shuai" colspan="2"><span style="margin-left:0px;">合计</span><span style="margin-left:80px" class="zhanbi">{$zb}</span><span style="margin-left:70px" class="zongjine">{$zonghkjh}</span></td></tr>
+		    			</table>
+		    			</form>
+		    		</div>
+			   	</div>
+		  <div class="hk_wh">
+		  	<div class="hkauto">
+		  		<span class="hkshow">计划回款总金额：¥ <b>{$hkzje}</b></span><span class="hkshow"> 已回款总金额：¥<b> {$zonghk}</b></span> <span class="hkshow">未回款总金额：¥ <b>{$weihka}</b>(逾期未回款金额： <span style="color:red">¥ 0.000000</span>)</span> <span  class="pz_wz"><button onclick="hkpeizhi()"  class="layui-btn layui-btn-primary layui-btn-small ">
+ 				<i class="layui-icon">&#xe614;</i>配置回款计划</button>	</span>
+		  	</div >
+		  </div>
+		 	 	<div>
+		 	 		{$hk_jihua}
+				</div>
+
 		  </div>
 		  <div id="tabs-3">
 		  <input type="button"  onclick="add_cpp()" class=" layui-btn layui-btn-small" value="+添加产品">
@@ -243,7 +302,7 @@
 								<tr class="addtr">
 									<td></td>
 										<td>
-											<input type="hidden" name="sj_id" disabled value="{$ht_id}";'>	
+											<input type="hidden" name="sj_id" disabled class="ht_id" value="{$ht_id}";'>	
 										</td>			
 								</tr>
 								</table>
@@ -439,5 +498,175 @@
 			        time: 2000, 
 			    });
 			}
+			 function hkpeizhi(){
+
+				var htid=$(".ht_id").val();	 	
+			 	$.get(rooturl+'/index.php/Home/Hetongmingcheng/hkpz_content',{"id":htid},
+					 function(html){
+					 	alert(html)
+		        		$(".th_peizhi").html(html)
+                   });
+			
+    				layui.use('layer', function(){
+					//	alert(123)
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'750px',
+								title: '新增回款计划',
+								content:$('#hkpz'),
+								btn:['保存'],
+
+								btn1:function(){
+									var htid=$(".ht_id").val();
+									
+									var a="";
+									$(".add_pz").each(function(){
+										 a +="hk_qici:"+$(this).children().eq(0).text()+","+"hk_data:"+$(this).children().eq(2).find("input").val()+","+"hk_zb:"+$(this).children().eq(3).find("input").val()+","+"hk_je:"+$(this).children().eq(4).find("input").val()+","+"hk_bz:"+$(this).children().eq(5).find("input").val()+"!";
+									});
+								
+									$.get(rooturl+'/index.php/Home/Hetongmingcheng/peizhi_hk',{"id":htid,"content":a},
+												 function(html){
+									        			 	window.location.href="Hetongmingcheng?id="+htid;
+							                   });
+
+								}
+							}); 
+						});                  
+    			}
+    			function hkzb(){
+					$(".add_pz").show();
+					$(".qingxuanze").hide();
+    			}
+    			function hkzb1(ss){
+
+
+					$(".add_pz").hide();
+					$(".qingxuanze").show();
+				
+
+
+
+    			}
+    			var jh_num=2;
+    			function jia(thisdom){
+    				
+					var next_tr=$(thisdom).parent().parent();
+					var as=next_tr.html();
+					$(thisdom).parent().parent().parent().append("<tr class='add_pz'>"+as+"</tr>");
+					$(thisdom).parent().parent().parent().children("tr").last().children("td").eq(0).html(jh_num);
+					//$(thisdom).parent().parent().parent().children("tr").last().children("td").eq(1).class(jh_num);
+				
+					jh_num++;
+
+    			}
+    		
+    			function zolop(sa){
+    		
+    				var zba = $(sa).val();
+
+    				var zje = $(".zje").val();
+    			
+    				$.get(rooturl+'/index.php/Home/Hetongmingcheng/jisuan',{"zba":zba,"zje":zje},
+							        		 function(html){
+									       	
+									        		$(sa).parent().parent().find(".money").val(html)
+									        			var jinez=0;
+
+									    				for(dood=0;dood < jh_num-1;dood++)
+									    				{
+									    					var mon=$(".money").eq(dood).val();
+									    				
+									    					jinez=mon*1+jinez;
+									    				}
+									    				$(".zongjine").html(jinez);
+							                   });
+
+    				var boo =0;//获取占比
+    				for(doom=0;doom < jh_num-1;doom++)
+    				{
+    					var a=$(".zbi").eq(doom).val();
+    					boo=a*1+boo;
+    				}
+    				$(".zhanbi").html(boo+"%");
+    						//获取金额
+    			
+    			}
+    			function fan(saa){
+    		
+    				var money= $(saa).val();
+    				var zje = $(".zje").val();
+    					var jinez=0;
+	    				for(dood=0;dood < jh_num-1;dood++)
+	    				{
+	    					var mon=$(".money").eq(dood).val();
+	    				
+	    					jinez=mon*1+jinez;
+	    				}
+	    				$(".zongjine").html(jinez);
+    				$.get(rooturl+'/index.php/Home/Hetongmingcheng/jisuan1',{"money":money,"zje":zje},
+							        		 function(html){
+									       		
+									        		$(saa).parent().parent().find(".zbi").val(html)
+									        			var boo =0;//获取占比
+									    				for(doom=0;doom < jh_num-1;doom++)
+									    				{
+									    					var a=$(".zbi").eq(doom).val();
+									    					boo=a*1+boo;
+									    				}
+									    				$(".zhanbi").html(boo+"%");
+							                   });
+
+    			
+    			}
+    			function xzjh(thisdom){
+    				var qi='';
+    				if($(thisdom).prop("tagName")=='BUTTON')
+    				{
+    					qi=$(thisdom).parent().find("b").eq(0).text();
+    				}
+    				else
+    				{
+    					qi=$(thisdom).parent().parent().parent().parent().parent().prev().find("b").eq(0).text();
+    				}
+    				$(".qicia").html("<select name='hk_qici'><option value='"+qi+"'>第"+qi+"期</option></select>")
+    					layui.use('layer', function(){
+			
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'750px',
+								title: '新增回款',
+								content:$('.add_hk'),
+								btn:['保存'],
+
+								btn1:function(){
+										
+										var htid=$(".ht_id").val();	 	
+										var formdom1=$("#hk_add").children("table").find("tr");
+										var fornum1=formdom1.length;
+										var end_hk='';
+									//	alert(fornum1)
+										for(a=0;a<fornum1;a++)
+										{
+											var thisdom=formdom1.eq(a).find("td").eq(1).children();
+												end_hk+=thisdom.prop("name")+":"+thisdom.val()+",";
+										}
+									
+											$.get(rooturl+'/index.php/Home/Hetongmingcheng/add_huikuan',{"id":end_hk},
+												 function(html){
+									        			window.location.href="Hetongmingcheng?id="+htid;
+							                   });
+
+								}
+							
+							}); 
+						});                  
+    			}
+
 	</script>
 </html>
