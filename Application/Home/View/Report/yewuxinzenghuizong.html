@@ -37,7 +37,7 @@
         </sapn>
     </div>
     <div id="shaixuan">
-        <div>
+        <div class="textalign">
             <span class="sx_title">时间纬度：</span>
             <span class="sx_xx">日</span>
             <span class="sx_xx">周</span>
@@ -195,10 +195,20 @@ $(function(){
         ]
     };
 
-// 使用刚指定的配置项和数据显示图表。
-myChart.setOption(option);
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
     //myChart.showLoading();     //加载动画
 });
+var sel_num=2;
+function change_fun(dom)
+{
+    if(sel_num!=0)
+    {
+        sel_num--;
+        return;
+    }
+    alert(1);
+}
 </script>
 </html>
 

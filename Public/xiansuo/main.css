@@ -1,0 +1,100 @@
+html,body,box{background: #f7f7f7;height:auto;}
+#box{margin:0px 10px;}
+td a{color:#1AA094!important;}
+/*头部*/
+#head{height:80px;border-bottom: 1px solid #e3e3e3;}
+.head_title{height:80px;width:100px;float:left;color:#1AA094;line-height:80px;font-weight:bold;font-size:22px;}
+.head_tab{float:left;height:80px;}
+.head_tab span{background: #1AA094;float:left;color:#fff;width:130px;height:30px;line-height:30px;text-align: center;margin-top:25px;cursor:pointer;}
+.head_tab span:first-child{border-radius:5px 0px 0px 5px;}
+.head_tab span:last-child{border-radius:0px 5px 5px 0px;}
+.head_tab_show{border:1px solid #1AA094;background:#fff!important;color:#1AA094!important;height:28px!important;line-height: 28px!important;}
+
+.t_r_btn{float:right;height:80px;line-height:80px;}
+.layui-btn{height:30px!important;line-height:30px!important;}
+button>i{margin-right:5px;}
+
+/*筛选*/
+.sx_div{padding-bottom:20px;border-bottom: 1px solid #e3e3e3;padding-top:20px;}
+.sx_div select{display:none;}
+.sx_setting>i{float:right;font-size: 18px;color:#1AA094;cursor:pointer;margin-right:10px;}
+.sx_title{padding-right:0px!important;margin-right: 0px!important;}
+#shaixuan *{font-size:13px;}
+#shaixuan>div{height:40px;display: none;}
+#shaixuan>div>span{float:left;height:26px;line-height:26px;padding:0px 10px;margin-right:10px;margin-top:7px;cursor:pointer;}
+.sx_this{background:#50BBB1;color:#fff;border-radius:5px;}
+#shaixuan>div>span:first-child{width:110px;padding-left:0px;cursor:default;}
+
+/*筛选显示或隐藏的按钮*/
+#sx_show_hide{background:#e6e6e6;margin-top:10px;padding:0px 20px 5px 20px;cursor: pointer;}
+
+/*需要特殊对齐的筛选栏*/
+.textalign>span:first-child{width:120px!important;}
+
+/*时间选择组样式*/
+#time_select_group{height:30px;display:inline-block;padding:0px;margin-left:20px;}
+#time_select_group>.start_time,#time_select_group>.end_time{margin:0px!important;line-height: 30px;width:120px!important;}
+#time_select_group>.start_time{border-radius:5px 0px 0px 5px!important;}
+#time_select_group>.mid_span{display:inline-block;height:28px;width:30px!important;line-height:26px;border:1px solid #DDDDDD;text-align:center;margin:0px -4px;}
+#time_select_group>.end_time{border-radius: 0px!important;}
+#time_select_group>.cx_btn{height:30px!important;line-height:30px!important;margin:-5px!important;border-radius:0px 3px 3px 0px!important;}
+
+/*日期选择中样式*/
+.uk-active{background:#50BBB1!important;}
+.top_line{margin-left:10px!important;padding-left:0px!important;}
+
+/*下拉框样式*/
+.searchable-select-dropdown{z-index: 99999;}
+.searchable-select>span:first-child{margin-top:13px;}
+.searchable-select-holder{height:30px;line-height: 30px;padding:0px 10px;margin-left:0px;}
+
+/*表格上方的按钮区域*/
+.table_top_div{height:50px;overflow: hidden;line-height: 50px;margin-top:0px;}
+.t_t_d_l{float: left;}
+.t_t_d_r{float:right;}
+.t_t_d_r>select{height:30px;width:100px;}
+.t_t_d_r>input{height:26px;line-height: 26px;}
+.t_t_d_r>button{margin-top:-2px;}
+
+.input_clear{font-weight:bold;position:relative;margin-left:-20px;margin-right:7px;cursor:pointer;font-size:16px;top:2px;color:#777;}
+
+/*表格样式*/
+.cctable td{cursor:pointer;}
+.cctable tbody>tr>td:nth-child(1){cursor:default;}
+input[type='checkbox']{cursor:pointer;}
+/*分页*/
+#fy_div{float: right;}
+
+/*设置筛选字段弹出框样式*/
+#sx_set_div{margin:10px;}
+#sx_set_div>div:first-child{height:30px;line-height:30px;padding-left:2px;}
+
+/*批量转移弹出框*/
+#piliangzhuanyidiv{height:60px;line-height: 60px;display:none;}
+#piliangzhuanyidiv span{float:left;}
+#piliangzhuanyidiv span:first-child{width:100px;text-align: center;font-weight: bold;}
+#piliangzhuanyidiv span:last-child select{width:380px;}
+
+/*新增线索弹出框*/
+#xinzengxiansuodiv{margin:10px;width:580px;display: none;}
+#xinzengxiansuodiv input[type='text']{line-height: 30px;height:30px;}
+#xinzengxiansuodiv>table{width:500px;margin:0 auto;}
+#xinzengxiansuodiv>table .redstar{color:#f00;margin-left:-10px;float:left;font-weight: bold;font-size: 14px;}
+#xinzengxiansuodiv>table>tbody>tr>td{height:50px;}
+#xinzengxiansuodiv>table>tbody>tr>td:first-child{width:30%;font-weight:bold;padding-left:10px;padding-right:10px;}
+#xinzengxiansuodiv>table>tbody>tr>td:last-child>input[type='text'],#xinzengxiansuodiv>table>tbody>tr>td:last-child>select{width:100%;}
+
+.add_show_btn{color:#1AA094;cursor:pointer;}
+
+.add_diqu{width:30%!important;margin:0px!important;padding:0px!important;}
+.add_diqu:first-child{margin-right:3%!important;}
+.add_diqu:last-child{margin-left:3%!important;}
+
+.beizhu>td{height:100px!important;vertical-align: top;padding-top:10px;}
+.beizhu>td>textarea{width:100%;height:70px;resize:none;}
+
+/*导入线索弹出框*/
+#daorudiv{width:600px;display: none;}
+#daorudiv>.daoru_shuoming{width:100%;background:#F7F7F7;color:#74B7B0;padding:10px 0px 5px 0px;}
+#daorudiv>.daoru_shuoming>div{margin:0px 20px 5px 20px;}
+#daorudiv>div:last-child{margin:20px 0px;}

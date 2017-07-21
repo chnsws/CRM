@@ -1,0 +1,120 @@
+html,body,box{background: #f7f7f7;}
+#box{margin:0px 20px;}
+td a{color:#1AA094!important;text-decoration: none!important;}
+/*头部*/
+#head{height:80px;}
+#head>.head_name{height:80px;color:#1AA094;line-height:80px;font-weight:bold;font-size:22px;margin-right: 10px;}
+#head>.head_fuzeren>.head_fuzeren_name{color:#1AA094;}
+
+.xiacigenjinshijian{float:right;height:80px;line-height:80px;color:#777;}
+
+/*按钮栏*/
+#btn_div{height:50px;line-height: 50px;background:#f7f7f7;z-index:19891013}
+#btn_div>div>div li,#btn_div>div>div li a{height:30px!important;line-height: 30px!important;padding:0px 10px;}
+#btn_div>div>div li a:hover{background: #1AA094;height:30px!important;}
+#btn_div button{height:30px;line-height: 30px;}
+#btn_div .uk-button-dropdown{float:right;}
+#btn_div button i{margin-right:5px;}
+
+.asd{border-bottom:1px solid #ccc;}
+
+/*选项卡样式*/
+#infobody ul{padding:0px!important;margin:0px 0px 0px 0px;}
+.layui-tab-item,.layui-tab-content{margin:0px!important;padding:0px!important;}
+/*选项卡1*/
+#jibenxinxi_table{width:100%;}
+#xiaoshoudongtai{border-left:10px solid #efefef;padding:20px 0px 0px 10px;}
+#xiaoshoudongtai .xxtitle{height:30px; line-height: 20px;border-bottom:1px solid #ccc;color:#666;margin-left:-10px;padding-left:10px;font-weight:bold;}
+.gj_mod button{display:none!important;}
+
+#jibenxinxi{width:60%;padding:20px 10px 0px 0px;}
+#jibenxinxi .xxtitle{height:30px; line-height: 20px;border-bottom:1px solid #ccc;color:#666;font-weight:bold;margin-right:-10px;}
+#jibenxinxi table{margin-bottom:20px;}
+#jibenxinxi table td{height:50px;line-height: 50px;}
+#jibenxinxi table tr>td:first-child{font-weight:bold;}
+#jibenxinxi table tr>td:last-child{text-indent:2em;max-width:100%;}
+
+
+#add_genjin{height:28px;line-height: 28px;float:right;padding-left:10px!important;padding-right:10px!important;}
+#add_genjin i{margin-right:5px;}
+
+
+/*批量转移弹出框*/
+#piliangzhuanyidiv{height:60px;line-height: 60px;display:none;}
+#piliangzhuanyidiv span{float:left;}
+#piliangzhuanyidiv span:first-child{width:100px;text-align: center;font-weight: bold;}
+#piliangzhuanyidiv span:last-child select{width:380px;}
+
+
+/*写跟进弹出层*/
+#xiegenjindiv{width:560px;height:360px;margin:0px 20px;background:#fff;display:none;}
+.select2-container{width:100%!important;}
+.select2-selection{padding-top:0px!important;padding-bottom:0px!important;}
+.select2-selection ul{margin:0px!important;}
+.select2-search__field{margin-top:0px!important;height:26px!important; }
+.select2-selection__choice{font-size:14px;background:#1AA094!important;color:#fff!important;border:1px solid #1AA094!important;}
+.select2-selection__choice>span{color:#fff!important;}
+.select2-selection--multiple{color:1px solid #ccc!important;}
+.select2-container{z-index:99999999;}
+#xiegenjindiv>table{width:100%;height:100%;}
+#xiegenjindiv>table tr:nth-child(1)>td{width:50%;}
+#xiegenjindiv>table tr:nth-child(1)>td select{width:185px;}
+#xiegenjindiv>table tr:nth-child(1)>td input{width:185px;}
+#xiegenjindiv>table tr:nth-child(2)>td textarea{height:120px;width:100%;resize:none;line-height:20px;}
+#tixingshuikan{width:100%;}
+#tixingshuikan *{z-index:99999;}
+#xiegenjindiv>table tr:nth-child(3){display:none;}/*====提醒谁看功能：目前提醒模块不完善，临时隐藏====*/
+#xiegenjindiv>table tr:nth-child(3)>td:nth-child(1),#xiegenjindiv>table tr:nth-child(4)>td:nth-child(1),#xiegenjindiv>table tr:nth-child(4)>td:nth-child(3),#xiegenjindiv>table tr:nth-child(5)>td:nth-child(1),#xiegenjindiv>table tr:nth-child(5)>td:nth-child(3){font-weight: bold;}
+#xiegenjindiv>table tr:nth-child(4)>td:nth-child(2) input{width:160px;margin-right:20px;}
+#xiegenjindiv>table tr:nth-child(4)>td:nth-child(3){text-align: center;}
+#xiegenjindiv>table tr:nth-child(4)>td:nth-child(4) select{width:100%;}
+#xiegenjindiv>table tr:nth-child(5)>td:nth-child(2) input{width:160px;margin-right:20px;}
+
+/*编辑线索弹出框*/
+#xinzengxiansuodiv{margin:10px;width:580px;display: none;}
+#xinzengxiansuodiv input[type='text']{line-height: 30px;height:30px;}
+#xinzengxiansuodiv>table{width:500px;margin:0 auto;}
+#xinzengxiansuodiv>table .redstar{color:#f00;margin-left:-10px;float:left;font-weight: bold;font-size: 14px;}
+#xinzengxiansuodiv>table>tbody>tr>td{height:50px;}
+#xinzengxiansuodiv>table>tbody>tr>td:first-child{width:30%;font-weight:bold;padding-left:10px;padding-right:10px;}
+#xinzengxiansuodiv>table>tbody>tr>td:last-child>input[type='text'],#xinzengxiansuodiv>table>tbody>tr>td:last-child>select{width:100%;}
+.add_show_btn{color:#1AA094;cursor:pointer;}
+
+.add_diqu{width:30%!important;margin:0px!important;padding:0px!important;}
+.add_diqu:first-child{margin-right:3%!important;}
+.add_diqu:last-child{margin-left:3%!important;}
+
+.beizhu>td{height:100px!important;vertical-align: top;padding-top:10px;}
+.beizhu>td>textarea{width:100%;height:70px;resize:none;}
+
+/*选项卡2*/
+#tab2 div{margin-top:10px;}
+#tab2 div i{margin-right:5px;}
+#tab2 div>table>thead>tr>th{background:#50BBB1;color:#fff;border:none;}
+
+/*跟进记录-暂无跟进记录*/
+
+
+.no_gj{width:100%;margin-top:60px;}
+.no_gj>.layui-icon{width:100%;height:140px;text-align:center;font-size:140px;line-height:150px;color:#bbb;display:inline-block;margin-bottom:20px;}
+.no_gj>div{color:#999;text-align: center;}
+
+/*跟进记录-用户头像暂时没有，暂时隐藏*/
+.gj_body_content_head>img{display: none;}
+
+/*附件*/
+#fujian_div{width:600px;margin-top:30px;margin-bottom:30px;display:none;}
+#fujian_div table tr:nth-child(1){height:50px;}
+#filebody{display: none;}
+#fujian_div table textarea{width:100%;height:80px;resize:none;}
+
+#tab2 table tr>td>a:first-child{margin-right:20px;}
+
+
+
+
+
+
+
+
+

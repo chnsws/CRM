@@ -46,6 +46,12 @@ class DBController extends Controller {
         $bk=$this->basename_do($basename);
         $bk['basemod']->query("update ".$bk['qz'].$bk['basename']." set $field='$value' where $tj limit 1 ");
     }
+    //修改多条
+    public function edit_more_data($basename,$field,$tj)
+    {
+        $bk=$this->basename_do($basename);
+        $bk['basemod']->query("update ".$bk['qz'].$bk['basename']." set $field where $tj limit 1 ");
+    }
     //处理数据表名称
     public function basename_do($basename)
     {
