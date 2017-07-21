@@ -37,8 +37,8 @@ class XiansuoController extends DBController {
 		$conarr=count($conarr)<1?'1,2,3,4,5':$conarr[0]['config_xs_sx_config'];
 		//添加弹出框内容查询
 		$px=$this->get_xs_px($fid);
-		$pxzdarr=$this->px_zd($zdarr,$px);
 		
+		$pxzdarr=$px==''?$zdarr:$this->px_zd($zdarr,$px);
 		$add_table_show='';
 		$add_table_hide='';
 		$search_option='';
@@ -910,6 +910,7 @@ class XiansuoController extends DBController {
 
         echo '{"res":1,"newname":"'.$newname.'","newsize":"'.$sizestr.'","oldname":"'.$oldname.'","oldoldname":"'.$getFileArr['name'].'"}';
 	}
+	
 	//删除旧文件
 	public function del_old_file()
 	{
@@ -964,6 +965,155 @@ class XiansuoController extends DBController {
 		$asd=M("xiansuo_file");
 		$asd->query("delete from crm_xiansuo_file where xsf_id='$fjid' limit 1");
 		echo 1;
+	}
+	//导入线索--上传需要导入的文件
+	public function daoru_upload()
+	{
+		//文件保存
+        if(count($_FILES['daoru'])<1)
+        {
+            echo '{"res":0}';
+            die();
+        }
+		$getFileArr=$_FILES['daoru'];
+        $fid=parent::get_fid();
+		$oldname=mb_strlen($getFileArr['name'])>25?mb_substr($getFileArr['name'],0,25).'...':$getFileArr['name'];
+        $oldnamehz=substr(strrchr($getFileArr['name'], '.'), 1);
+		if($oldnamehz!='xls'&&$oldnamehz!='xlsx')
+		{
+			echo '{"res":2}';
+			die;
+		}
+        $newname=time().$fid.cookie("user_id").'.'.$oldnamehz;
+        $ss=move_uploaded_file($getFileArr['tmp_name'],'./Public/xiansuofile/xiansuo_daoru_file/'.$newname);
+        if(!file_exists('./Public/xiansuofile/xiansuo_daoru_file/'.$newname))//验证上传是否成功
+        {
+            echo '{"res":0}';
+            die();
+        }
+        
+		$sizestr=$getFileArr['size']>=1048576?round(($getFileArr['size']/1048576),2).'M':round(($getFileArr['size']/1024),2).'K';
+       
+
+        echo '{"res":1,"newname":"'.$newname.'","newsize":"'.$sizestr.'","oldname":"'.$oldname.'","oldoldname":"'.$getFileArr['name'].'"}';
+	}
+	//导入线索--解析文件并插入数据库
+	public function daoru_start()
+	{
+		$filename=$_GET['upname'];
+		if($filename=='')
+		{
+			echo '0';die;
+		}
+		$hz=substr(strrchr($filename, '.'), 1);
+		//获取文件内容
+		$daoruClass=A("Filedo");
+		$file_content_arr=$daoruClass->getdata("./Public/xiansuofile/xiansuo_daoru_file/".$filename,$hz);
+		//查询当前系统中的字段，判断导入的数据是否与系统中的字段对应
+		$fid=parent::get_fid();
+		$zdarr=parent::sel_more_data("crm_yewuziduan","zd_data"," zd_yh='$fid' and zd_yewu='1' limit 1");
+		$zdarr=json_decode($zdarr[0]['zd_data'],true);
+
+		foreach($file_content_arr[1] as $v)
+		{
+			$file_head[]=$v;
+		}
+		$k=0;
+		foreach($zdarr as $v)
+		{
+			if($v['qy']!='1')
+			{
+				continue;
+			}
+			if($v['id']=='zdy14')
+			{
+				continue;
+			}
+			if($v['id']=='zdy15')
+			{
+				continue;
+			}
+			if($file_head[$k]!=$v['name'])
+			{
+				echo '2';die;
+			}
+			$daorukey[]=$v['id'];
+			$k++;
+		}
+		//字段匹配正确后开始构造sql语句
+		//删除表头
+		unset($file_content_arr[1]);
+		
+		$nowtime=date("Y-m-d H:i:s",time());
+		$insertdbstr='';
+		foreach($file_content_arr as $v)
+		{
+			$dk=0;
+			$row_arr=array();
+			$kongbai=0;
+			$this_row_num=count($v);//本行一共多少列
+			foreach($v as $vv)
+			{
+				$this_td_val=trim($vv);//去除字符串开头和结尾的空格
+				if($this_td_val=='')
+				{
+					$kongbai++;
+				}
+				$row_arr[$daorukey[$dk]]=$this_td_val;
+				$row_str=json_encode($row_arr);
+				$dk++;
+			}
+			//如果本行是空，就不插入
+			if($kongbai==$this_row_num)
+			{
+				continue;
+			}
+			$insertdbstr.="('','".str_replace('\\','\\\\',$row_str)."','0','0','$nowtime','".cookie("user_id")."','$nowtime','0','','$fid','0'),";
+		}
+		$insertdbstr=substr($insertdbstr,0,-1);//去掉最后一个逗号
+		if($insertdbstr=='')
+		{
+			echo 3;
+			die;
+		}
+		
+		$xsdb=M("xiansuo");
+		$xsdb->query("insert into crm_xiansuo values $insertdbstr ");
+		echo 1;
+	}
+	//导入线索--下载模板
+	public function download_mod()
+	{
+		$fid=parent::get_fid();
+		//查询字段
+		$zdarr=parent::sel_more_data("crm_yewuziduan","zd_data","zd_yh='3' and zd_yewu='1' limit 1");
+		$zdarr=json_decode($zdarr[0]['zd_data'],true);
+		$head=array();
+		foreach($zdarr as $v)
+		{
+			if($v['qy']!='1')
+			{
+				continue;
+			}
+			if($v['id']=='zdy14')
+			{
+				continue;
+			}
+			if($v['id']=='zdy15')
+			{
+				continue;
+			}
+			$head[]=$v['name'];
+		}
+		for($a=0;$a<20;$a++)
+		{
+			for($b=0;$b<count($head);$b++)
+			{
+				$data[$a][]=' ';
+			}
+		}
+		$f=A("Filedo");
+		$f->getExcel("线索导入模板",$head,$data);
 	}
 	/*
 	======================================

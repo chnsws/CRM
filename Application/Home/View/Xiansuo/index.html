@@ -40,10 +40,10 @@
         </sapn>
         <span class="t_r_btn">
             <button class="layui-btn" id="xinzengxiansuo" onclick="xinzengxiansuo(this)"><i class="fa fa-plus"></i>新增线索</button>
-            <!--
-            <button class="layui-btn layui-btn-primary" onclick="daoru()">导入线索</button>
-            <button class="layui-btn layui-btn-primary" onclick="daochu()">导出线索</button>
-            -->
+            
+            <button id="daorubtn" class="layui-btn layui-btn-primary" onclick="daoru()">导入线索</button>
+            <!--<button class="layui-btn layui-btn-primary" onclick="daochu()">导出线索</button>-->
+            
         </span>
     </div>
     <div class="sx_div">
@@ -316,14 +316,19 @@
 <div id="daorudiv">
     <div class="daoru_shuoming">
         <div>1.下载数据模板后，将要导入的数据填充到数据导入模板文件中，再进行上传导入。</div>
-        <div>2.导入文件必须为以“,”为分隔符的CSV格式的文件。</div>
-        <div>3.模板中的表头不可更改，表头行不可删除。</div>
-        <div>4.单次导入的数据不超过4000条。</div>
+        <div>2.模板中的表头不可更改，表头行不可删除。</div>
+        <div>3.单次导入的数据不超过4000条。</div>
+        <div>4.跟进状态、线索来源字段暂不支持导入。</div>
     </div>
-    <div>
+    <div style="margin-top:20px;margin-bottom:10px;">
         <center>
         <input type="file" id="daoru" name="daoru" lay-type="file" class="layui-upload-file">
         </center>
+    </div>
+    <div id="filebody" class="uk-alert" style="margin:10px;height:40px;line-height:40px;display:none;">
+        <span id="filename" >12333333.txt</span>
+        <span id="fileclose" style="cursor:pointer;float:right;" onclick="delnowfile(this)"><i class="layui-icon" style="font-size: 20px; color: #1E9FFF;">&#x1006;</i></span>
+        <span id="filesize" style="float:right;margin-right:40px;">223.0K</span>
     </div>
 </div>
 <script>
@@ -338,7 +343,7 @@ layui.use('layer', function(){
 function tishi(neirong)
 {
     layer.msg(neirong, {
-        time: 1000, 
+        time: 2000, 
         color:"#fff"
     });
 }
@@ -644,6 +649,11 @@ $(function(){
         $(".t_t_d_l").children("button").eq(0).hide();
         $(".t_t_d_l").children("button").eq(1).css("margin-left","0px");
     }
+    //其他页面隐藏导入按钮
+    if(main_type!='')
+    {
+        $("#daorubtn").hide();
+    }
     //显示渐入页面
     setTimeout(function() {
         $("#box").fadeIn();
@@ -846,16 +856,20 @@ function xinzengxiansuo(thisdom)
 {
     
     $(thisdom).html("加载中...");
+    
     //如果有地区，就监听地区下拉联动
-    if($("#xinzengxiansuodiv").find(".add_diqu").prop("class"))
+    
+    if($("#xinzengxiansuodiv").find(".add_diqu").html())
     {
         window.jiazai=layer.load(2);
         setTimeout(function() {
             add_diqu_listen();
-            xinzengxiansuo_show();
-            $(thisdom).html('<i class="fa fa-plus"></i>新增线索');
         }, 200);
     }
+    setTimeout(function() {
+        xinzengxiansuo_show();
+        $(thisdom).html('<i class="fa fa-plus"></i>新增线索');
+    }, 200);
     
     
     
@@ -978,8 +992,9 @@ function xinzengxiansuo_show()
 //导入线索弹出框
 function daoru()
 {
+    var upname='';
     layui.upload({
-        url: root_dir+"/index.php/Home/Chanpin/chanpin_csv_upload",
+        url: root_dir+"/index.php/Home/Xiansuo/daoru_upload",
         title:"选择文件",
         before: function(input){
             //返回的参数item，即为当前的input DOM对象
@@ -993,17 +1008,13 @@ function daoru()
                 $("#filesize").text(res['newsize']);
                 $("#filebody").show();
                 $("#fileclose").prop("name",res['newname']);
-                if(is_upload!='')
-                {
-                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload});
-                }
-                is_upload=res['newname'];
+                upname=res['newname'];
                 layer.close(jiazai);
             }
             else if(res['res']=='2')
             {
                 layer.close(jiazai);
-                tishi("只支持CSV文件导入");
+                tishi("只支持xls或xlsx文件导入");
                 return false;
             }
             else
@@ -1019,14 +1030,39 @@ function daoru()
             type:1,
             title: '导入',
             area:"600px",
-            btn:["确定","取消"],
+            btn:["开始导入","下载模板","取消"],
             content:$("#daorudiv"),
             btn1:function(index,layero){
+                $.get(root_dir+"/index.php/Home/Xiansuo/daoru_start",{"upname":upname},function(res){
+                    if(res=='1')
+                    {
+                        window.location=root_dir+"/index.php/Home/Xiansuo/index";
+                    }
+                    else if(res=='2')
+                    {
+                        tishi("当前导入文件的字段与服务器中的字段不符，请下载最新模板后重试");
+                        layer.close(jiazai);
+                        return false;
+                    }
+                    else if(res=='3')
+                    {
+                        tishi("导入失败，无法获取数据");
+                        return false;
+                    }
+                    else
+                    {
+                        tishi("导入失败，请稍后重试");
+                        layer.close(jiazai);
+                    }
+                });
                 layer.close(index);
             },
             btn2:function(index,layero){
+                window.location=root_dir+"/index.php/Home/Xiansuo/download_mod";
+            },
+            btn3:function(index,layero){
                 layer.close(index);
-            }
+            },
         }); 
     });
 }
