@@ -248,7 +248,7 @@ layui.use('layer', function(){
 function tishi(neirong)
 {
     layer.msg(neirong, {
-        time: 1000, 
+        time: 2000, 
         color:"#fff"
     });
 }
@@ -625,6 +625,12 @@ function zhuankehu()
                     if(res=='1')
                     {
                         window.location=root_dir+"/index.php/Home/Xiansuo/index";
+                    }
+                    else if(res=='2')
+                    {
+                        layer.close(jiazai);
+                        tishi("当前没有设置负责人，无法转为客户");
+                        return false;
                     }
                     else
                     {

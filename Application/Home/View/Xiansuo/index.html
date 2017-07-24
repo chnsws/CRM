@@ -870,9 +870,6 @@ function xinzengxiansuo(thisdom)
         xinzengxiansuo_show();
         $(thisdom).html('<i class="fa fa-plus"></i>新增线索');
     }, 200);
-    
-    
-    
 }
 function xinzengxiansuo_show()
 {
@@ -963,6 +960,12 @@ function xinzengxiansuo_show()
                 {
                     layer.close(jiazai);
                     tishi("必填项不能为空");
+                    return false;
+                }
+                if($("#add_fuzeren").children("td").eq(1).children("select").val()=='0'||$("#add_fuzeren").children("td").eq(1).children("select").val()=='')
+                {
+                    layer.close(jiazai);
+                    tishi("请选择负责人");
                     return false;
                 }
                 ajax_str='{'+ajax_str.substr(0,ajax_str.length-1)+'}';

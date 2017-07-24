@@ -168,6 +168,7 @@ class XiansuoController extends DBController {
 		$sx_13='';
 		$sx_14='';
 		$sx_15='';
+		$xs_search='';
 		//----线索来源
 		$sx_1=$_GET['xiansuolaiyuan']==''?'':" and xs_data like '%\"zdy15\":\"".$_GET['xiansuolaiyuan']."\"%'";
 		//----跟进状态
@@ -251,32 +252,16 @@ class XiansuoController extends DBController {
 			$xc_xsid="'".$xc_xsid;
 			$sx_15=" and xs_id in ($xc_xsid)";
 		}
-		$sx_arr=$sx_1.$sx_2.$sx_3.$sx_4.$sx_5.$sx_6.$sx_7.$sx_8.$sx_9.$sx_10.$sx_11.$sx_12.$sx_13.$sx_14.$sx_15;
-		
-		$max_number=parent::sel_more_data("crm_xiansuo","count(xs_id)","xs_yh='$fid' and xs_is_del='0' and xs_is_to_kh='$tab_val' $sx_arr ");
-		$max_number=$max_number[0]['count(xs_id)'];
-		$max_page=$max_number<=10?1:ceil($max_number/$page_size);
-
-		$xiansuo_arr=parent::sel_more_data("crm_xiansuo","*","xs_yh='$fid' and xs_is_del='0' and xs_is_to_kh='$tab_val' $sx_arr order by xs_id desc limit ".$page_db_start.",".$page_size);
-		
-		$bottomtable='';
-		$bottomtable_have_th=0;
-		$bottomtable_th='<th><input type="checkbox"></th>';
-
-		$user_name_arr=$this->option_to_arr($chuangjian_user_option);
-
-		foreach($xiansuo_arr as $v)
+		//搜索的筛选开始
+		if($_GET['search']!='')
 		{
-			$this_xs_json=array();
-			$this_xs_json=json_decode($v['xs_data'],true);
-			$diqu_num=$this_xs_json['zdy11'];
-			$diqu_num_arr=explode(',',$diqu_num);
-			$this_xs_json['zdy11']=$this_xs_json['diquname'];
-			//搜索的筛选开始
-			if($_GET['search']!='')
+			$searcharr=explode(',',$_GET['search']);
+			$xc_xs_arr=parent::sel_more_data("crm_xiansuo","xs_id,xs_data","xs_yh='$fid' and xs_is_del='0'");
+			$this->assign("search_input_str",$searcharr[1]);
+			foreach($xc_xs_arr as $v)
 			{
-				$searcharr=explode(',',$_GET['search']);
-				$this->assign("search_input_str",$searcharr[1]);
+				$this_xs_json=json_decode($v['xs_data'],true);
+
 				if($searcharr[0]=='zdy14'||$searcharr[0]=='zdy15')
 				{
 					if(count(explode($searcharr[1],$cs_name[$searcharr[0]][$this_xs_json[$searcharr[0]]]))<2)
@@ -291,7 +276,32 @@ class XiansuoController extends DBController {
 						continue;
 					}
 				}
-			}//搜索筛选结束
+				$sx_search.=$v['xs_id']."','";
+			}
+			$sx_search=substr($sx_search,0,-2);
+			$sx_search="'".$sx_search;
+			$xs_search=" and xs_id in ($sx_search)";
+			
+		}//搜索筛选结束
+		$sx_arr=$sx_1.$sx_2.$sx_3.$sx_4.$sx_5.$sx_6.$sx_7.$sx_8.$sx_9.$sx_10.$sx_11.$sx_12.$sx_13.$sx_14.$sx_15.$xs_search;
+		$max_number=parent::sel_more_data("crm_xiansuo","count(xs_id)","xs_yh='$fid' and xs_is_del='0' and xs_is_to_kh='$tab_val' $sx_arr ");
+		$max_number=$max_number[0]['count(xs_id)'];
+		$max_page=$max_number<=10?1:ceil($max_number/$page_size);
+
+		$xiansuo_arr=parent::sel_more_data("crm_xiansuo","*","xs_yh='$fid' and xs_is_del='0' and xs_is_to_kh='$tab_val' $sx_arr order by xs_id desc limit ".$page_db_start.",".$page_size);
+		
+		$bottomtable='';
+		$bottomtable_have_th=0;
+		$bottomtable_th='<th><input type="checkbox"></th>';
+
+		$user_name_arr=$this->option_to_arr($chuangjian_user_option);
+		foreach($xiansuo_arr as $v)
+		{
+			$this_xs_json=array();
+			$this_xs_json=json_decode($v['xs_data'],true);
+			$diqu_num=$this_xs_json['zdy11'];
+			$diqu_num_arr=explode(',',$diqu_num);
+			$this_xs_json['zdy11']=$this_xs_json['diquname'];
 
 			$bottomtable.='<tr class="xs_id_'.$v['xs_id'].'">
 								<td><input type="checkbox"></td>';
@@ -845,6 +855,11 @@ class XiansuoController extends DBController {
 			echo 0;
 			die;
 		}
+		if($thisxsarr['xs_fz']==''||$thisxsarr['xs_fz']=='0')
+		{
+			echo 2;
+			die;
+		}
 		$xs_json_arr=json_decode($thisxsarr['xs_data'],true);
 		//将本条线索的信息填写到一个新客户中
 		/*
@@ -879,6 +894,7 @@ class XiansuoController extends DBController {
 
 		$to_kh_data_json=str_replace("\\","\\\\",json_encode($to_kh_data));
 		$khdb=M("kh");
+		
 		$khdb->query("insert into crm_kh set kh_data='$to_kh_data_json',kh_fz='".$thisxsarr['xs_fz']."',kh_bm='".$bm_name_arr[$user_bm_arr[$thisxsarr['xs_fz']]]."',kh_cj='".cookie("user_id")."',kh_old_fz='".$thisxsarr['xs_qfz']."',kh_old_bm='".$bm_name_arr[$user_bm_arr[$thisxsarr['xs_fz']]]."',kh_cj_date='$this_time',kh_yh='$fid' ");
 		//将本条线索的状态改为已转客户
 		parent::edit_more_data("crm_xiansuo","xs_is_to_kh='1',xs_to_kh_time='$this_time_str',xs_last_edit_time='$this_time_str'","xs_id='$xsid'");
