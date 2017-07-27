@@ -3,13 +3,9 @@ var navs = [{
 	"icon": "fa-table",
 	"href": "https://www.baidu.com",
 	"spread": false,
-}/*, {
-	"title": "线索",
-	"icon": "fa-search",
-	"href": "https://www.baidu.com",
-	"spread": false,
-	
-}*/, {
+}
+
+, {
 	"title": "客户",
 	"icon": "fa-group",
 	"href": "index.php/Home/Kehu/kehu",
@@ -44,7 +40,9 @@ var navs = [{
 	"icon": "fa-book",
 	"href": "index.php/Home/Cpfl/cpfl_index",
 	"spread": false
-}/*, {
+}
+
+/*, {
 	"title": "报表中心",
 	"icon": "fa-align-left",
 	"href": "https://www.baidu.com",
@@ -64,7 +62,22 @@ var navs = [{
 	"icon": "fa-tasks",
 	"href": "https://www.baidu.com",
 	"spread": false
-}*/ ,{
+}*/
+, {
+	"title": "审批",
+	"icon": "fa-search",
+	"href": "index.php/Home/Shenpi/shenpi",
+	"spread": false,
+	
+} 
+, {
+	"title": "线索",
+	"icon": "fa-search",
+	"href": "index.php/Home/Xiansuo/index",
+	"spread": false,
+	
+}
+,{
 	"title": "问题反馈",
 	"icon": "fa-envelope",
 	"href": "index.php/Home/Fankui/index",
