@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>商机</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+		<!--layUI 插件 弹窗设计 form表单样式 -->
+		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+		<!--UIkit-->
+		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+		<script src="{$_GET['public_dir']}/uikit/js/components/lightbox.min.js"></script>
+		<style>
+		.box{height:800;width:100%;}
+		.xq_s{margin-top:5%;padding-left:30%;}
+		.xq_s .righ{float:right;}
+		.xq_s .righ1{margin-left:20px;}
+		.xq_s tr{height:40px;}
+		.bhyuany1{margin-top:4%;margin-left:35%;}
+		 td{padding-top:20px;}
+		body,ul,li,table,tr{margin:0;padding:0;}
+		th{background-color:#50BBB1;height:30px;color:white;}
+		textarea{margin-left:25%;margin-top:35px;}
+		</style>
+
+	</head>
+	<body style="position:relative">
+		<div style='display:none' id='bohuio'>
+			<div style="width:100%;height:100">
+			<textarea rows="8" id='bhyy' cols="40"></textarea>
+			</div>
+		</div>
+		<div style='display:none;width:800px' id='xiangqing'>
+			<div class = 'xq_s'>
+				
+			</div>
+		</div>
+		 <div class="bhyuany"  style="display: none;border:1px;">
+		    		<div class="bhyuany1" >
+		    			
+		    		</div>
+			 	</div> 
+		<div class="box">
+			<div class="layui-tab layui-tab-card">
+				  <ul class="layui-tab-title">
+				    <li class="layui-this">合同审批</li>
+				    <li class="huikuan">{$hk_ts}</li>
+				    <li clss='kp_kp' onclick="kp_dian()">{$kp_ts}</li>
+				    <li>后续添加</li>
+				    <li>后续添加</li>
+				  </ul>
+				  <div class="layui-tab-content" >
+				    <div class="layui-tab-item layui-show">亲~还没有数据哟</div>
+				    <div class="layui-tab-item">{$hk_show}</div>
+				    <div class="layui-tab-item">
+
+					 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+							  <ul class="layui-tab-title">
+							    <li class="layui-this">待审批</li>
+							    <li>已通过</li>
+							    <li>已驳回</li>
+					 			<li>他人审批</li>
+					
+							  </ul>
+						 		<div class="layui-tab-content">
+							 		 <div class="layui-tab-item layui-show" >
+							 			
+
+							 			 	{$kp_show}
+
+							 			
+							 		 </div>
+							 		 <div class="layui-tab-item">
+							 			
+							 			 	{$kp_show1}
+							 			
+							 	    </div>
+							 		 <div class="layui-tab-item">
+							 			 
+							 				{$kp_show2}
+							 			
+							 		</div>
+							 		 <div class="layui-tab-item">
+							 			
+							 			 	{$kp_show3}
+							 			 
+							 		</div>
+								 </div>
+				    
+				    </div>
+				   </div>
+				    <div class="layui-tab-item">亲~还没有数据哟</div>
+				    <div class="layui-tab-item">亲~还没有数据哟</div>
+				  
+				  </div>
+			</div>
+		</div>
+		
+	</body>
+	<script>
+	 function tishi(neirong)
+			{
+			    layer.msg(neirong, {
+			        time: 1000, 
+			    });
+			}
+	layui.use('upload', function(){
+		
+  		layui.upload(options);
+		});
+//注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+layui.use('element', function(){
+  var element = layui.element();
+  
+  //…
+});
+window.rooturl="{$_GET['root_dir']}";
+layui.use('upload', function(){
+  layui.upload(options);
+});
+
+</script>
+
+<script>
+	function tongguo(ss){
+		$a=$(ss).prop("class");
+		$.get(rooturl+'/index.php/Home/Shenpi/tongguo',{"id":$a},
+						        		 				function(html){
+						        		 					tishi("审批成功")
+			        		 								 window.location.href="Shenpi";
+														});
+
+
+	}
+	function bohui(ss){
+			$a=$(ss).prop("class");
+		$.get(rooturl+'/index.php/Home/Shenpi/bohui',{"id":$a},
+						        		 				function(html){
+															tishi("审批成功")
+			        		 								 window.location.href="Shenpi";
+														});
+	}
+	
+	function kp_tongguo(sss){
+		var ty_id=$(sss).prop("class");
+		var tb=$(sss).prop("id");
+		var kp_id=$(sss).attr("name");
+		var dq=$(sss).parent().parent().children().eq(10).children().text();
+		var zgjj=$(sss).parent().parent().children().eq(11).children().text();
+		//alert(dq);
+	//	alert(zgjj)
+		$.get(rooturl+'/index.php/Home/Shenpi/kp_tongguo',{"id":ty_id,'tb':tb,'tjr':dq,'zgjj':zgjj,'kp_id':kp_id},
+						        		 				function(html){
+															alert(html)
+			        		 								 window.location.href="Shenpi";
+														});
+		//alert(ty_id);
+
+			
+	}
+	function kp_bohui(sss){
+		var bh_id=$(sss).prop("class");
+		var tb=$(sss).prop("id");
+		var kp_id=$(sss).attr("name");
+	
+		layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'630px',
+								fixed: false,
+								title: '驳回原因',
+								content:$('#bohuio'),
+								btn:['确认驳回'],
+						
+								btn1:function(){
+									
+									var bh_yuanyin=$("#bhyy").val();
+									$.get(rooturl+'/index.php/Home/Shenpi/kp_bohui',{"id":bh_id,'yuanyin':bh_yuanyin,'tb':tb,'kp_id':kp_id},
+						        		 				function(html){
+														
+			        		 								 window.location.href="Shenpi";
+														});
+
+								}
+							}); 
+						});  
+	}
+	function fapiaoxinxi(ss)
+	{
+		var a=$(ss).prop('class');
+		$.get(rooturl+'/index.php/Home/Shenpi/xiangqing',{"id":a},
+						        		 				function(html){
+														
+			        		 								 $('.xq_s').html(html)
+														});
+
+		layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'805px',
+								fixed: false,
+								title: '发票详情',
+								content:$('#xiangqing'),
+								btn:['返回'],
+						
+								btn1:function(){
+									layer.close(win)
+								}
+							}); 
+						});  
+	}
+	function because(ss){
+		var a=$(ss).prop('class');
+
+		$.get(rooturl+'/index.php/Home/Hetongmingcheng/bh_yy',{"id":a},
+												function(html){
+												
+													$(".bhyuany1").html(html);
+
+											})
+		layui.use('layer', function(){
+			
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'750px',
+								title: '驳回原因',
+								content:$('.bhyuany'),
+								btn:['确定'],
+
+								btn1:function(){
+										
+									  layer.close(win)    
+							            
+								}
+							
+							}); 
+						});             
+	}
+
+</script>
+
+	</html>
