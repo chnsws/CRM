@@ -6,10 +6,13 @@ use Think\Controller;
 class KehuController extends Controller {
 
     public function kehu(){
-    	$xiaji= $this->get_xiashu_id();//  查询下级ID
+    	$xiaji= $this->get_xiashu_id();//  查询下级ID\
+    	//$kehuname=$this->kehuname();
     	$lxr=$this->lxr();
-    	$kehu_name=$this->kehu_name();
 
+    	$kehu_name=$this->kehu_name();
+    	//echo "<pre>";
+    	//var_dump($kehu_name);exit;
   		$a=M('yewuziduan');                      //新增客户所需字段     
   		$map['zd_yewu']="2";
   		$map['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//这里通过查询获得
@@ -129,20 +132,21 @@ class KehuController extends Controller {
 		         	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
 	 				$show_bt.="</td></tr>";
 				}elseif($v['id']=='zdy15'){
-						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-						$show_bt.="<td><select  class='required' style='width:200px;' name='".$v['id']."' id='student' >";
-							
-							$show_bt.="<option id='tshi'style='height:38px' value=''></option>";
-
-							$show_bt.="<option class='sx_xl' id='tshi'  value=''>暂且不选</option>";
-								foreach($lxr as $k=>$v)
+						$show_bt.="<tr class='addtr' ><td><span style='color:red;width:30px'>*</span>".$v['name']."：</td>";
+						$show_bt.="<td id='zdy15th'><select  class='required1 xlss' name='".$v['id']."'  >";
+								$show_bt.="<option value=''>--请选择--</option>";
+								$show_bt.="<option value='add_lxr'>新增联系人</option>";
+								
+								
+							foreach($lxr as $k1=>$v1)
 								{
-									$show_bt.="<option class='sx_xl' title='".$kehu_name[$v['zdy1']]['name']."' value='".$v['id']."'>".$v['name']."</option>";
+								
+									$show_bt.="<option value='".$v1['id']."'>".$v1['name']."(".$kehu_name[$v1['zdy1']]['name'].")</option>";
 								}
-							$show_bt.="<option id='tshi'  class='zssj' style='height:38px' value='0001'></option>";
+						
 							
-						$show_bt.="<select>
-						<input type='text' name='box' id='sss' style='width:200px;position:absolute;left:30.2%;height:31px;line-height:30px;'>	<span style='margin-left:20px;margin-right:24px ;color:blue' onclick='add_lxr()'>点击添加</span></td>";	
+						$show_bt.="</select></td></tr>";
+						//	<input type='text' name='box' id='sss' style='width:200px;position:absolute;left:30.2%;height:31px;line-height:30px;'>	<span style='margin-left:20px;margin-right:24px ;color:blue' onclick='add_lxr()'>点击添加</span></td>	
 				
 				}elseif($v['id']=='zdy0'){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
@@ -945,6 +949,8 @@ class KehuController extends Controller {
 		public function kehumingcheng(){
 			$ywcs_sj=$this->ywcs_sj();
 			$ywcs_kh=$this->ywcs_kh();
+			
+								
 			$ywcs_ht=$this->ywcs_ht();
 			$xiaji1= $this->get_xiashu_id();//  查询用户
 			$user=$this->user();
@@ -989,7 +995,7 @@ class KehuController extends Controller {
 	 		
 			$sql_lxr=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and lx_data like '%$tiaojian%'");
 			
-			
+		
 			foreach($sql_lxr as $k=>$v)
 			{	
 				foreach($v as $k1 =>$v1)
@@ -1008,14 +1014,14 @@ class KehuController extends Controller {
 					$lx_end[$v['lx_id']]=$new_lxr;
 				}
 			}
-		
+			
 		$a=1;
 			foreach($lx_end as $k => $v)
 			{
 				
 				
 				if($a<3){
-					$lx_show.="<table  class='left_color'>
+					$lx_show.="<td style='width:500px'><table>
 	  					<tr>
 	  						<td>姓名: <span class='add_null'><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span style='color:blue'>".$v['zdy0']."</span></a></td>
 	  					</tr>
@@ -1035,11 +1041,12 @@ class KehuController extends Controller {
 	  						<td class='bottom_jj';>邮箱：<span class='add_null'>".$v['zdy10']."</span></td>
 	  					</tr>
 	  					
-	  					</table>";
+	  					</table></td>";
 	  					
 					}
 				$a++;	
 			}
+
 			foreach($lx_end as $k => $v)
 			{
 				$lxr_show.="<tr>
@@ -1054,6 +1061,7 @@ class KehuController extends Controller {
 				  			</tr>"; 
 
 			}
+		//	echo $lxr_show;exit;
 			$sj_base=M('shangji');
 	 		$yh_map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 	 		$sj_where='"zdy1":"'.$kh_id.'"';
@@ -1076,10 +1084,16 @@ class KehuController extends Controller {
 						$sj_end[$v['sj_id']]=$new_shangji;
 					}
 				}
-			foreach($sj_end as $k=>$v)
-			{
-				$sj_show.="<tr><td class='shangji'><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1'>".$v['zdy0']."</span></a></td><td  class='shangji'>￥:".$v['zdy3']."</td><td  class='shangji'>".$ywcs_sj['zdy5'][$v['zdy5']]."</td></tr>";
-			}
+				if($sj_end=='' || $sj_end==null)
+				{
+					$sj_show.="<span class='sj_zw'>亲~此客户未添加商机;</span>";
+				}else{
+						foreach($sj_end as $k=>$v)
+						{
+							$sj_show.="<tr><td class='shangji'><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1'>".$v['zdy0']."</span></a></td><td  class='shangji'>￥:".$v['zdy3']."</td><td  class='shangji'>".$ywcs_sj['zdy5'][$v['zdy5']]."</td></tr>";
+						}
+				}
+		
 			foreach($sj_end as $k=>$v)
 			{
 				$sj_show_much.="<tr>
@@ -1144,6 +1158,7 @@ class KehuController extends Controller {
 						}
 					}      
 			}
+			
 			$a=M('yewuziduan');                      //新增客户所需字段     
 	  		$map_ywzd['zd_yewu']="2";
 	  		$map_ywzd['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//这里通过查询获得
@@ -1303,9 +1318,34 @@ class KehuController extends Controller {
 							
 				}
 							
+								$gj_xgj.="<select name='genjinzhuantai' style='width:190px;height:40px'>";
+									if($neww_kehu['zdy9']=='' || $neww_kehu['zdy9']==null)
+									{
+										$gj_xgj.="<option value='".$k."' selected='selected'>--请选择--</option>";
+									}
+			  						foreach($ywcs_kh['zdy9'] as $k=>$v)
+									{
+										if($neww_kehu['zdy9']==$k)
+										{
+											$gj_xgj.="<option value='".$k."' selected='selected'>".$v."</option>";
+										}else{
+											$gj_xgj.="<option value='".$k."'>".$v."</option>";
+										}
+										
+										
+									}
+	  							$gj_xgj.="</select>"; //这里是写跟进的 跟进状态
 
 
-	  		
+	  							$gj_lxr.="<select name='lianxiren'  style='width:190px;height:40px'>";
+
+	  								foreach ($lx_end as $k => $v) {
+	  										$gj_lxr.="<option value=".$v['lx_id']."'>".$v['zdy0']."</option>";
+	  								}
+			  								
+	  							$gj_lxr.="</select>";//这里是写跟进的 联系人
+	  		$this->assign('gj_lxr',$gj_lxr);
+	  		$this->assign('gj_xgj',$gj_xgj);
 	  		$this->assign('table_fj',$table_fj);//日志显示		
 	  		$this->assign('user',$user);//日志显示		
 	  		$this->assign('rz_jl',$rz_jl);//日志显示	
@@ -1600,7 +1640,7 @@ krsort($ko);
 			$sql=M('file');
 			$sql_select=$sql->select();
 			$this->assign('sql',$sql_select);
-			$this->assign('a_id',$a_id);
+			
 			$this->assign('fuzeren',$kh_name);//上面是 客户全景  和附件
 
 
@@ -3005,5 +3045,5 @@ public function save(){
 		}
 		echo $table;
 	}
-	
+
 }

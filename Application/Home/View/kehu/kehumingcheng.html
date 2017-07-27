@@ -15,9 +15,11 @@
   		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"'" ></script><!- 时间插件-->
   		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
-			<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+		<link rel="stylesheet" href="{$_GET['public_dir']}/report/time_axis.css" />
+		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
 		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
-  		
+  		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/css/global.css" media="all">
+<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
 <script>
 	window.rooturl="{$_GET['root_dir']}";
 </script>
@@ -30,41 +32,40 @@
 		.fuzename{color:blue;}
 		.anniu{ position: relative; top :30px;}
 		.quanjing_left{ height:100%;border: 1px solid #eee;}
-		.quanjing_right{ border: 1px solid #eee;}
+		.quanjing_right{ border: 1px solid #eee;height:100%;overflow:hidden;}
 		.ziliao{height:40px;width:100%; background-color:#eee;}
 		#tabs-1{position: relative; right :18px;}
 .jiben{position: relative; left :20px;top:10px;}
 .ck_lx{float:right;margin-top:10px;position: relative; right :20px;}
-.phone{position: relative; left :20px;top:20px;}
-
+.jibenxx{margin-top:20px;margin-left:19px;}
 
 
 .left_color tbody tr{line-height:20px;}
-.left_color:nth(1)-child{float:left;width:35%;background-color:#F7FBFE;}
-.sj_bj{background-color:#F7FBFE;margin-top:20px;margin-bottom:20px;width:81%;}
-.left_color:nth(2)-child{float:right;width:35%;background-color:#F7FBFE;position: relative; right :200px;}
+
+.sj_bj{background-color:#F7FBFE;margin-top:20px;margin-bottom:20px;width:81%;height:200px;}
 .bottom_jj{padding-bottom:30px;}
 .qc{clear:both;}
 .xiaoshou{position: relative; left :20px;top:10px;width:107%;}
-.phone1{line-height:80px;position: relative; left :20px;}
+
+
 td{padding-top: 13px;position: relative; left :20px;}
-#ccc table{ position: relative; top :3px;background-color:#F8F8FF; width:300px;}
+#ccc first-child{ border  float:right;}
 .add_null{position: relative; left :17px;line-height:30px;}
 .shangji{width:200px; height:30px;}
 .shangji1{color:blue;position: relative;}
-.genjinjilu{background-color:#1AA094;width:70px;height:24px;float:right;}
-.genjinjilu{position: relative; right:8px;top:6px;color:white;}
-.only1{position: relative; left:475px;top:6px;}
-.genjin_back{}
+.genjinjilu{float:right; margin-top:3px;margin-right:11px;}
+
+.only1{float:right; margin-top:6px;margin-right:34px;}
+
+.genjin_back{margin-top:12px;}
 .sele{position: relative; left:18px;top:5px;}
 .shiji{float:right;position: relative; right:18px;top:5px;}
 .wenbenyu{position: relative; left:15px;top:10px;}
-.kehu_genjin{position: relative; left:18px;top:20px;}
-.genjinzhuangtai{float:right;position: relative; right:86px;top:-5px;}
-.legt_genjin{position: relative; left:50px;}
-.left_genjin1{position: relative; left:50px;}
-.lianxiren_genjin{position: relative; left:18px;top:30px;}
-.left_lianxiren{position: relative; left:33px;}
+
+
+
+
+
 .next_time{float:right;position: relative; right:86px;top:5px;}
 .tijiao{float:right;position: relative; left:200px;top:90px;}
 .baocun{float:right;position: relative; right:30px;}
@@ -75,7 +76,8 @@ td{padding-top: 13px;position: relative; left :20px;}
 .ziliao_right{position: relative; left:50px;border:none;width:200px}
 .ways{line-height:30px;}
 .ziliao_right1{position: relative; left:38px;border:none;width:185px}
-.fa-pencil{position: relative; left:50px;}
+
+
 .xinzengtixing{background-color:#1AA094;margin-bottom:30px;}
 .tixingkuang{width:55%;height:130px;border-left: 1px solid #555;}
 
@@ -84,13 +86,23 @@ td{padding-top: 13px;position: relative; left :20px;}
 .write{color:white;}
 .time_tx{margin-left:10px;color:#1AA094;}
 .xiala_tx{width:130px;float:right;}
-.yiwancheng{border-radius: 1em; background-color:#1AA094;float:right;position: relative; left:112px;}
+
+
 .tx_nei{background-color:#eee;height:70px; width:85%; margin-left:8%;margin-top:15px;}
 .baocun4{margin-bottom:30px;}
 .bianjiyo{width:300px;}
 .rz_show{background-color:#F7FBFE;width:90%;position: relative; top:10px;margin:50px auto;}
 .rz_sx{width:230px;height:40px;}
 .rz_sx1{margin-left:20px;}
+.woca{display:none;}
+.gj td{padding-left:25px;}
+.gj2{margin-left:3px;}
+.dan1{height:170px;}
+.dan1 tr{height:40px;}
+.dan_sj{height:300px;}
+.sj_zw{margin-left:40%;margin-top:18%;}
+.sj_bj1{margin-left:20px;}
+.sj_bj2{margin-left:20px;}
 		</style>
 
 	</head>
@@ -134,149 +146,180 @@ td{padding-top: 13px;position: relative; left :20px;}
 			  </ul>
 	  		<div id="tabs-1" style="overflow:hidden;width:100%">
 	  			<div class="quanjing_left" style="width:50%; float:left">
-	  				<div class="dan">
-	  				<div class="ziliao">
-	  					<span class="jiben">基本资料</span>
-	  				</div>
-	  				<div >
-	  					<span class="phone">客户类型：{$kh_type2}</span><br />
-	  					<span class="phone1">电话：{$kh_phone}</span>
-	  				</div>
-	  				</div>
-	  				<div class="dan">
-	  				<div class="ziliao">
-	  					<span class="jiben">联系人</span><span class='ck_lx' id='lxrone' onclick="ck_lx(this)">查看更多>></span>
-	  				</div>
-	  				<div class="ccc">
+	  					<div class="dan1">
+			  				<div class="ziliao">
+			  						<span class="jiben">基本资料</span>
+			  				</div>
+		  					<div>
+		  						<table class='jibenxx'>
+			  						<tr>
+			  							<td>客户类型：</td><td>{$kh_type2}</td>
+			  						</tr>
+			  						<tr>
+			  							<td>电话：</td><td>{$kh_phone}</td>
+			  						</tr>
+		  						</table>
+		  					
+		  					</div>
+	  					</div>
+	  					<div class="dan2">
+				  				<div class="ziliao">
+				  					<span class="jiben">联系人</span><span class='ck_lx' id='lxrone' onclick="ck_lx(this)">查看更多>></span>
+				  				</div>
+	  						<div class="ccc">
+			  					<table>
+			  						<tr class='lx_a'>
+			  							{$lx_show}
+			  						</tr>
+			  					</table>
 	  					
-	  				{$lx_show}
-	  				</div>	
-	  				<div class="qc"></div>
-	  				</div>
+	  						</div>	
+	  						<div class="qc"></div>
+	  					</div>
 	  			
-	  				<div class="dan">
-	  				<div class="ziliao">
-	  					<span class="jiben">商机</span>
-	  				</div>
-	  				<div >
+	  				<div class="dan_sj">
+		  				<div class="ziliao">
+		  					<span class="jiben">商机</span>
+		  				</div>
+	  					<div class='sjsss'>
 	  					
-	  					<table class='sj_bj'>
-	  						{$sj_show}
-	  					</table>
-	  				</div>
+		  					<table class='sj_bj1'>
+		  						{$sj_show}
+		  					</table>
+	  					</div>
 	  				</div>
 	  				<div class="dan">
-	  				<div class="ziliao">
-	  					<span class="jiben">合同</span>
-	  				</div>
-	  				<div >
-	  				<table class='sj_bj'>
+		  				<div class="ziliao">
+		  					<span class="jiben">合同</span>
+		  				</div>
+	  		
+	  					<table class='sj_bj2'>
 	  						{$ht_show}
 	  					</table>
 	  					
 	  				</div>
-	  				</div>
+	  		
 	  				<div class="dan">
-	  				<div class="ziliao">
-	  					<span class="jiben">交易数据</span>
+		  				<div class="ziliao">
+		  					<span class="jiben">交易数据</span>
+		  				</div>
+		  				<div >
+		  					<table class='sj_bj'>
+			  				<tr>
+			  					<td class='shangji'>已成交：￥100000</td>
+			  					<td  class='shangji'>已回款：￥100000</td>
+			  					<td  class='shangji'>潜在交易：￥100000</td>
+			  				</tr>
+			  				</table>
+		  				</div>
 	  				</div>
-	  				<div >
-	  					<table class='sj_bj'>
-		  				<tr>
-		  					<td class='shangji'>已成交：￥100000</td>
-		  					<td  class='shangji'>已回款：￥100000</td>
-		  					<td  class='shangji'>潜在交易：￥100000</td>
-		  				</tr>
-		  				</table>
-	  				</div>
-	  				</div>
-	  			</div>
-	  			<div class="quanjing_right" style="width:45%;float:left;position: relative; left :50px;">
+	  		</div>
+	  		
+
+	  		<div class="quanjing_right" >
 					<div class="dan">
-	  				<div class="ziliao">
-	  					<span class="xiaoshou">销售动态</span><span class="only1">只看跟进</span><span id="dialog-form" onclick="xiegenjin()" class="genjinjilu">+写跟进</span>
-	  				</div>
-	  				<div id="uploadfrm" style="height:400px;width:590px;padding:0;margin:0;">
-	  				<form id="uploadform2" action="{$_GET['root_dir']}/index.php/Home/Kehu/genjin_bianji/id/{$kh_id}/pageid/{$_GET['id']}/fuzeren/{$_GET['fuzeren']}/id1/{$_GET['id1']}/kh_id/{$_GET['kh_id']}
-	  				" method="post">
-	  					<select name="fangshi" class="sele" style="width:150px;height:30px">
-	  						<option value="电话">电话</option>
-	  						<option value="QQ">QQ</option>
-	  						<option value="拜访">微信</option>
-	  						<option value="拜访">拜访</option>
-	  						<option value="邮件">邮件</option>
-	  						<option value="短信">短信</option>
-	  						<option value="其他">其他</option>
-	  					</select>
-	  					<input type="text" name="shiji"  class="text ui-widget-content ui-corner-all shiji" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" value="{$valav['kh_sj_gj_date']}" style="width:150px;height:30px">
-	  					<input type="hidden" name="kh_id" class="bingou" value="{$kh_id}">
-	  					
-	  					<textarea name="wenbenyu" rows="10" cols="77" class="wenbenyu"> 
-	  						勤跟进，多签单........
-	  					</textarea>
-	  				<div class="kehu_genjin">客户<span class="legt_genjin"><input type="text" name="shiji_date" value="{$a_id}" style="width:150px;height:20px" readonly="true"></span></div>  
+			  				<div class="ziliao">
+			  					<span class="xiaoshou">销售动态</span><span id="dialog-form" onclick="xiegenjin()" class=" layui-btn layui-btn-small  genjinjilu">+写跟进</span><span class="only1"></span>
+			  				</div>
 
-	  				<div class="genjinzhuangtai"> 
-	  					跟进状态 <span class="left_
-	  					genjin1">
-	  								<select name="genjinzhuantai"  style="width:150px;height:25px">
-		  							
-			  							<foreach name="dan_ywcs" item="ywcs" key="sq">
-			  										<?php 
-			  											if($ywcs == $valav['zdy9']){ ?>
-			  												<option selected="slected" value="{$sq}"> {$ywcs}</option>
 
-			  										<?php	}else{
-			  										?>
-			  												<option value=" {$sq}">{$ywcs}</option>
-			  										<?php	}?>
-		  							</foreach>
-	  							</select></span>
-	  							</div>
- 
-	  				<div class="lianxiren_genjin">联系人
-	  				<span class="left_lianxiren">
-	  								<select name="lianxiren"  style="width:150px;height:25px">
-		  							<option value="王玉帅">王玉帅</option>
-			  						<option value="小明">小明</option>
-			  						<option value="小刚">小刚</option>
-			  						<option value="皮皮虾">皮皮虾</option>
-			  						<option value="biubiubiu">biubiubiu</option>
-	  							</select>
-	  					</span>
-	  				</div>  
+
+	  				<div id="uploadfrm" style="width:660px; height:500px">
+			  				<form id="uploadform2" class="uk-form">
+			  					<select name="type" class="typegj sele" style="width:250px;height:40px;margin-top:10px;margin-left:5px";>
+			  						<option value="电话">电话</option>
+			  						<option value="QQ">QQ</option>
+			  						<option value="拜访">微信</option>
+			  						<option value="拜访">拜访</option>
+			  						<option value="邮件">邮件</option>
+			  						<option value="短信">短信</option>
+			  						<option value="其他">其他</option>
+			  					</select>
+			  					<input type="text" name="add_time"  class="text ui-widget-content ui-corner-all shiji add_timegj" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" value="{$valav['kh_sj_gj_date']}" style="width:250px;height:40px;margin-top:10px">
+			  					<input type="hidden" name="kh_id" class="bingou" value="{$kh_id}">
+			  					
+			  					<textarea name="content" class='contentgj' placeholder=' 勤跟进，多签单........'  style="width:620px;height:260px;margin-top:10px;margin-left:23px";></textarea>
+			  					<table style="margin-top:20px"  class='gj' >
+			  						<tr>
+			  							<td>客户</td>
+			  							<td><input type="text"   name="shiji_date" value="{$kh_name}" style="width:190px;height:40px" readonly="true"></td>
+			  							<td>跟进状态</td>
+			  							<td>{$gj_xgj}
+			  							</td>
+			  						</tr>
+			  				
+			  					
+									<tr>
+										<td>联系人</td>
+				
+			  							<td>
+			  								{$gj_lxr}
+			  							</td>
+			  							<td>下次跟进时间</td>
+			  							<td>
+			  								<input type="text" name='date'  class="text ui-widget-content ui-corner-all dategj" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})"  style="width:190px;height:40px;">
+			  							</td>
+			  						</tr>
+			  					</table>
+ <!--
+	  		
+	  		
+	  			
+	  		
 					<div class="next_time">下次跟进时间<span ><input type="text" name="next_date" value="" style="width:150px;height:20px" class="text ui-widget-content ui-corner-all left_genjin1" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})"></span></div> 
 
-					<div class="tijiao"><input type="submit" value="保存"  style="width:80px">
-					<input type="button" value="取消"  style="width:80px"></div>
-	  				</form>
-	  				</div>
-				<!--	<div  class="genjin_back">
-
-		  				<table>
-			  				<tr>
-			  					<td><span class="fuzename">{$vo.user_id}：{$vo.type}</span></td>
-			  				</tr>
-			  				<tr>
-			  					<td>{$vo.content}</td>
-			  				</tr>
-			  				<tr>
-			  					<td>来自客户<span class="fuzename">  {$a_id}</span></td>
-			  				</tr>
-			  				<tr>
-			  					<td><span class="dataa">时间:{$vo.rz_time}</span></td>
-			  				</tr>
-		  				</table>
-	  				</div>
-			-->
-	  				<div  class="genjin_back" >
-		  				{$rz_show}
+				-->
+	  						</form>
 	  				</div>
 
-	  				</div>
+
+
+	  				<div class="gj_mod">
+						<div class="gj_head"><div class="gj_head_point"></div><div class="gj_head_date">2017-07-21</div></div>
+						<div class="gj_body">
+							<div class="gj_body_icon"><i class="fa fa-pencil"></i></div>
+							<div class="gj_body_content">
+								<div class="gj_body_content_head">
+									<img src="" class="gj_headimg woca">
+									<span class="user_name">
+									阴文策</span><i class="fa fa-caret-right"></i><span class="gj_fangshi">电话
+									</span>
+									<span class="gj_body_content_shiji_time"> 11:15</span>
+								</div>
+								<div class="gj_body_content_content">112312312312321</div>
+								<div class="gj_body_content_time">下次跟进时间：2017-07-21 11:15</div>
+								<div class="gj_body_content_from">来自线索：大家啊生来就打死哦</div>
+								<div class="gj_body_content_button">
+									<button class="layui-btn layui-btn-primary woca">评论</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="gj_mod">
+						<div class="gj_head"><div class="gj_head_point"></div><div class="gj_head_date">2017-07-21</div></div>
+						<div class="gj_body">
+							<div class="gj_body_icon"><i class="fa fa-pencil"></i></div>
+							<div class="gj_body_content">
+								<div class="gj_body_content_head">
+									<img src="" class="gj_headimg woca">
+									<span class="user_name">
+									阴文策</span><i class="fa fa-caret-right"></i><span class="gj_fangshi">电话
+									</span>
+									<span class="gj_body_content_shiji_time"> 11:15</span>
+								</div>
+								<div class="gj_body_content_content">112312312312321</div>
+								<div class="gj_body_content_time">下次跟进时间：2017-07-21 11:15</div>
+								<div class="gj_body_content_from">来自线索：大家啊生来就打死哦</div>
+								<div class="gj_body_content_button">
+									<button class="layui-btn layui-btn-primary woca">评论</button>
+								</div>
+							</div>
+						</div>
+					</div>
 	  				
-	  			</div>
 	  		</div>
+	  	</div>
+	  </div>
 	  		<div id="tabs-2">
 	  			<div >
 	  				<span style="color:blue;margin-bottom:20px">基本信息</span>
@@ -496,6 +539,7 @@ td{padding-top: 13px;position: relative; left :20px;}
   		</script>
   		<script>
  		$("#uploadform").hide();
+
  		$('#uploadfrm').hide();
 			window.rooturl="{$_GET['root_dir']}";
 		  $(function() {
@@ -503,20 +547,35 @@ td{padding-top: 13px;position: relative; left :20px;}
  		 });
 
 
-		  function xiegenjin()
-		  {
-		  	layui.use('layer', function(){
-				var layer = layui.layer;
-				layer.open({
-					type:1,
-					area:'610px',
-					title: '写跟进',
-					content:$('#uploadfrm')
-				}); 
-			});              
-		  }
+		
 
+		  function xiegenjin(){
 
+		layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'680px',
+							
+								title: '写跟进',
+								content:$('#uploadfrm'),
+								btn:['确认'],
+						
+								btn1:function(){
+										var content_gj='';
+										content_gj="type"+":"+$('.typegj').val()+","+"content"+":"+$('.contentgj').val()+",";
+										alert(content_gj);
+									$.get(rooturl+'/index.php/Home/Shenpi/kp_bohui',{"id":bh_id,'yuanyin':bh_yuanyin,'tb':tb,'kp_id':kp_id},
+						        		 				function(html){
+														
+			        		 								 window.location.href="Shenpi";
+														});
+
+								}
+							}); 
+						});  
+	}
 	
   		</script>
 
@@ -697,5 +756,6 @@ td{padding-top: 13px;position: relative; left :20px;}
 			        time: 1000, 
 			    });
 			}
+		
 	</script>
 	   

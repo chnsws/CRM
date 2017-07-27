@@ -75,7 +75,7 @@
 		window.lxr_id='';
 		window.ajaxstr_kh='';
 		window.ajaxstr_sj='';
-window.name_lxr='';
+		window.name_lxr='';
 	      layui.use(['laypage', 'layer'], function(){
 		  var laypage = layui.laypage
 		  ,layer = layui.layer;
@@ -496,7 +496,7 @@ $(".yincang").hide()
 									
 									if(ajaxstr_kh=="" && ajaxstr_sj == "")
 									{ 
-										alert(12)
+										
 										$.get(rooturl+'/index.php/Home/Hetong/add_ht',{"id":vstr},
 								        		 function(html){
 								        		 		tishi("添加成功")
@@ -1302,4 +1302,5 @@ $("#nchangyong").click(function(){
 
 
     	</script>
+    	
 </html>

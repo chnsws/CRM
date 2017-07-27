@@ -1525,7 +1525,7 @@ return $fzr_only;
 								}
 						
 							
-						$show_bt.="<select>";
+						$show_bt.="</select><td></tr>";
 					
 				}elseif($v['id']=='zdy0'){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";

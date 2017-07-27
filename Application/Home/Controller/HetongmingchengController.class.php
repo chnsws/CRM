@@ -475,6 +475,241 @@ return $fzr_only;
 		    			$xz_jh.="</table>";
 		    
 		    $weihka=$hkzje-$zonghk;
+		    $kp_type_arr=array('0' => "增值税普通发票", '1' => "增值税专用发票",'2' => "国税通用机打发票",'3' => "地税通用机打发票",);
+		    $kaipiao.="<table class='uk-form ' >";
+		    			 $kaipiao.="<tr>
+
+		    						<td><span style='color:red'>＊</span>开票日期:</td><td><input type='text' class='required' name='kp_date' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d '".'})"'."></td>
+		    					</tr>
+		    					<tr>
+		    						<td><span style='color:red'>＊</span>票据内容:</td><td><input type='text' name='kp_data' class='required'></td>
+		    					</tr>
+		    					<tr>
+		    						<td><span style='color:red'>＊</span>开票金额:</td><td><input type='text' name='kp_je' class='required'></td>
+		    					</tr>
+		    					<tr>
+		    						<td><span style='color:red'>＊</span>票据类型:</td><td><select name='kp_type' onchange='fapiao(this)' class='required'>
+		    							<option value=''>--请选择发票--</option>
+		    							<option value='0'>增值税普通发票</option>
+		    							<option value='1'>增值税专用发票</option>
+		    							<option value='2'>国税通用机打发票</option>
+		    							<option value='3'>地税通用机打发票</option>
+		    						</select></select></td>
+		    					</tr>
+
+		    					
+
+		    					
+		    					
+		    					<tr>
+
+		    						<td><span style='color:red'>＊</span>合同标题:</td><td><select name='kp_ht' class='required'><option value='".$ht_id."'>".$ht_json['zdy0']."</option></select></td>
+		    					</tr>
+		    					<tr>
+		    						<td><span style='color:red'>＊</span>对应客户:</td><td><select name='kp_kh' class='required'><option value='".$ht_json['zdy1']."'>".$kehu[$ht_json['zdy1']]['name']."</option></select></td>
+		    					</tr>
+		    					<tr>
+		    						<td>发票号码:</td><td><input type='text' name='kp_number'></td>
+		    					</tr>
+		    					<tr>
+		    						<td><span style='color:red'>＊</span>经手人:</td><td><select name='kp_user' class='required'>";
+		    							foreach($user as $k=>$v)
+				    						{
+				    							 $kaipiao.="<option value='".$k."'>".$v['user_name']."</option>";
+				    						}
+		    						 $kaipiao.="</select></td>
+		    					</tr>
+		    					<tr>
+		    						<td><span style='color:red'>＊</span>备注:</td><td><input type='text' name='kp_bz' class='required'></td>
+		    					</tr>
+		    			</table>";
+		    $kp_base=M('kp');
+		    $kp_map['kp_ht']=$ht_id;
+
+		    $kp_map['wocao']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		    $sql_kp= $kp_base->where($kp_map)->select();
+		   	
+		   	foreach ($sql_kp as $k=>$v)
+		   	{
+		   		if($v['kp_type']==0)
+		   		{
+		   			$sql_kp1[]=$v;
+		   		}elseif($v['kp_type']==1)
+		   		{
+					$sql_kp2[]=$v;
+		   		}elseif($v['kp_type']==2)
+		   		{
+		   			$sql_kp3[]=$v;
+		   		}elseif($v['kp_type']==3){
+		   			$sql_kp4[]=$v;
+		   		}
+		   	} 	
+
+		    if($sql_kp1=="" ||  $sql_kp1==null)
+		    {
+					$kp_show.="	<tr class='qingxuanze'>
+						<td colspan='8'><span>亲~ 还没有数据哦～   ~<span onclick='xzkp()'
+						style='color:blue;font-weight:bold'>新增开票记录>></span></span></td>
+					</tr>";
+					
+
+		    }else{
+		    	foreach($sql_kp1 as $k=>$v)
+			    	{
+	
+							$kp_show.="<tr>	";
+								if($v['kp_sp']==0)
+								{
+										$kp_show.="<td>不允许操作</td><td ><span >".$shenpi_arr[$v['kp_sp']]."</span></td>";
+								}elseif($v['kp_sp']==1)
+								{
+										$kp_show.="<td>不允许操作</td><td ><span style='color:green'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
+								}elseif($v['kp_sp']==2)
+								{
+										$kp_show.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:25px;'>&#xe640;</i></span></td><td ><span style='color:red' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
+								}
+						
+								$kp_show.="<td >".$v['kp_date']."</td>
+											<td >".$v['kp_data']."</td>
+											<td >".$v['kp_je']."</td>
+											<td >". $kp_type_arr[$v['kp_type']]."</td>
+												<td >".$v['kp_fp_tt']."</td>
+													<td >".$v['kp_fp_sbm']."</td>
+											<td >".$v['kp_number']."</td>
+											<td >".$user[$v['kp_user']]['user_name']."</td>
+											<td >".$v['kp_bz']."</td>
+											<td >".$user[$v['kp_cj']]['user_name']."</td>
+											<td >".$v['kp_cj_date']."</td>
+										</tr>"; 
+			    	}
+		    	}
+		   if($sql_kp2=="" ||  $sql_kp2==null)
+		    {
+					$kp_show1.="	<tr class='qingxuanze'>
+						<td colspan='8'><span>亲~ 还没有数据哦～   ~<span onclick='xzkp()'
+						style='color:blue;font-weight:bold'>新增开票记录>></span></span></td>
+					</tr>";
+					
+
+		    }else{
+		    	foreach($sql_kp2 as $k=>$v)
+			    	{
+	
+							$kp_show1.="<tr>	";
+								if($v['kp_sp']==0)
+								{
+										$kp_show1.="<td>不允许操作</td><td ><span >".$shenpi_arr[$v['kp_sp']]."</span></td>";
+								}elseif($v['kp_sp']==1)
+								{
+										$kp_show1.="<td>不允许操作</td><td ><span style='color:green'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
+								}elseif($v['kp_sp']==2)
+								{
+										$kp_show1.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:25px;'>&#xe640;</i></span></td><td ><span style='color:red' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
+								}
+						
+								$kp_show1.="<td >".$v['kp_date']."</td>
+											<td >".$v['kp_data']."</td>
+											<td >".$v['kp_je']."</td>
+											<td >". $kp_type_arr[$v['kp_type']]."</td>
+											<td >".$v['kp_fp_dw']."</td>
+											<td >".$v['kp_fp_sbm1']."</td>
+											<td >".$v['kp_fp_zcdz']."</td>
+											<td >".$v['kp_fp_zcdh']."</td>
+											<td >".$v['kp_fp_khyh']."</td>
+											<td >".$v['kp_fp_yhzh']."</td>
+											<td >".$v['kp_fp_spr']."</td>
+											<td >".$v['kp_fp_sprphone']."</td>
+											<td >".$v['kp_fp_sheng']."</td>
+											<td >".$v['kp_fp_xiangxi']."</td>
+											<td >".$v['kp_number']."</td>
+											<td >".$user[$v['kp_user']]['user_name']."</td>
+											<td >".$v['kp_bz']."</td>
+											<td >".$user[$v['kp_cj']]['user_name']."</td>
+											<td >".$v['kp_cj_date']."</td>
+										</tr>"; 
+			    	}
+		    	}
+		    	
+		   if($sql_kp3=="" ||  $sql_kp3==null)
+		    {
+					$kp_show2.="	<tr class='qingxuanze'>
+						<td colspan='8'><span>亲~ 还没有数据哦～   ~<span onclick='xzkp()'
+						style='color:blue;font-weight:bold'>新增开票记录>></span></span></td>
+					</tr>";
+					
+
+		    }else{
+		    	foreach($sql_kp3 as $k=>$v)
+			    	{
+	
+							$kp_show2.="<tr>	";
+								if($v['kp_sp']==0)
+								{
+										$kp_show2.="<td>不允许操作</td><td ><span >".$shenpi_arr[$v['kp_sp']]."</span></td>";
+								}elseif($v['kp_sp']==1)
+								{
+										$kp_show2.="<td>不允许操作</td><td ><span style='color:green'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
+								}elseif($v['kp_sp']==2)
+								{
+										$kp_show2.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:25px;'>&#xe640;</i></span></td><td ><span style='color:red' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
+								}
+						
+								$kp_show2.="<td >".$v['kp_date']."</td>
+											<td >".$v['kp_data']."</td>
+											<td >".$v['kp_je']."</td>
+											<td >". $kp_type_arr[$v['kp_type']]."</td>
+											
+											<td >".$v['kp_number']."</td>
+											<td >".$user[$v['kp_user']]['user_name']."</td>
+											<td >".$v['kp_bz']."</td>
+											<td >".$user[$v['kp_cj']]['user_name']."</td>
+											<td >".$v['kp_cj_date']."</td>
+										</tr>"; 
+			    	}
+		    	}
+		    if($sql_kp4=="" ||  $sql_kp4==null)
+		    {
+					$kp_show3.="	<tr class='qingxuanze'>
+						<td colspan='8'><span>亲~ 还没有数据哦～   ~<span onclick='xzkp()'
+						style='color:blue;font-weight:bold'>新增开票记录>></span></span></td>
+					</tr>";
+					
+
+		    }else{
+		    	foreach($sql_kp4 as $k=>$v)
+			    	{
+	
+							$kp_show3.="<tr>	";
+								if($v['kp_sp']==0)
+								{
+										$kp_show3.="<td>不允许操作</td><td ><span >".$shenpi_arr[$v['kp_sp']]."</span></td>";
+								}elseif($v['kp_sp']==1)
+								{
+										$kp_show3.="<td>不允许操作</td><td ><span style='color:green'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
+								}elseif($v['kp_sp']==2)
+								{
+										$kp_show3.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:25px;'>&#xe640;</i></span></td><td ><span style='color:red' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
+								}
+						
+								$kp_show3.="<td >".$v['kp_date']."</td>
+											<td >".$v['kp_data']."</td>
+											<td >".$v['kp_je']."</td>
+											<td >". $kp_type_arr[$v['kp_type']]."</td>
+											
+											<td >".$v['kp_number']."</td>
+											<td >".$user[$v['kp_user']]['user_name']."</td>
+											<td >".$v['kp_bz']."</td>
+											<td >".$user[$v['kp_cj']]['user_name']."</td>
+											<td >".$v['kp_cj_date']."</td>
+										</tr>"; 
+			    	}
+		    	}
+		    
+		    	 $this->assign("kp_show3",$kp_show3);		
+		    	  $this->assign("kp_show2",$kp_show2);		
+		    	   $this->assign("kp_show1",$kp_show1);										
+		     $this->assign("kp_show",$kp_show);					
+		     $this->assign("kaipiao",$kaipiao);					
 		    $this->assign("weihka", $weihka);
 		   	$this->assign("xz_jh",$xz_jh);
 			$this->assign("hk_jihua",$hk_jihua);//回款计划页面信息
@@ -749,10 +984,63 @@ return $fzr_only;
 		}
 		$data['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
 		$data['hk_sp']=0;
-		$data['hk_cj_date']=time();
+		$data['hk_cj_date']=date("Y-m-d h:i:s");;
 		$data['hk_cj']=cookie("user_id");
 		$hkadd_base=M('hkadd');
 		$hk_sql=$hkadd_base->add($data);
+		if($hk_sql){
+
+			$shenpiyo=$this->shenpi_hk();
+			$shenpi_user=explode(",", $shenpiyo);
+
+			foreach($shenpi_user as $k=>$v)
+			{
+				$new_shenpi[$v]=$v;
+			}
+			
+			$sp_hk_base=M('sp');
+			$map_sp_hk['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+			$map_sp_hk['sp_sj']=date("Y-m-d h:i:s");
+			$map_sp_hk['sp_yy']=2;
+			$map_sp_hk['sp_sjid']=$hk_sql;//回款ID
+			$map_sp_hk['sp_jg']=0;//未审批
+
+			foreach($new_shenpi as $k=>$v)
+			{
+				$map_sp_hk['sp_user']=$v;//回款ID
+				$sh_end=$sp_hk_base->add($map_sp_hk);
+			}
+		}
+
+	}
+	public function shenpi_hk(){  //审批回款封装
+		
+			$shenpi_base=M('shenpi');
+			$shenpi_map['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+			$shenpi_map['sp_type']=2;
+			$sql_shenpi=$shenpi_base->where($shenpi_map)->find();
+			$a="";
+			if($sql_shenpi['sp_qy_1']==1)
+			{
+				$a.=cookie('user_fid')=='0'?cookie('user_id').",":cookie('user_fid').",";
+			}
+			if($sql_shenpi['sp_qy_2']==1)
+			{
+				$user_base=M('user');
+				$map_user['user_id']=cookie("user_id");
+				$user_sql=$user_base->where($map_user)->field('user_zhuguan_id')->find();
+				if($user_sql["user_zhuguan_id"]!=0){
+						$a.=$user_sql["user_zhuguan_id"].",";
+					}
+			}
+			if($sql_shenpi['sp_qy_3']==1)
+			{
+				$a.=$sql_shenpi["sp_value_3"].",";
+			}
+			$shenpi_user=substr($a,0,strlen($a)-1); 
+
+				return $shenpi_user;
+		
 	}
 	public function hkpz_content(){
 		
@@ -770,7 +1058,7 @@ return $fzr_only;
 				<tr class='add_pz' style='display:none'>
 					<td >1</td>
 					<td ><span onclick='jia(this)'><i class='layui-icon'  style='color:black'>&#xe61f;</i></span><span class='1' onclick='hkzb1(this)'><i class='layui-icon'   style='font-size:20px'>&#xe640;</i></span></td>
-					<td ><input type='text' style='width:110px'  name ='' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>
+					<td ><input type='text' style='width:110px'  name ='' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d '".'})"'."></td>
 					<td ><input type='text' style='width:100px' class= 'zbi' onchange='zolop(this)'></td>
 					<td ><input type='text' style='width:100px' class= 'money' value='' onchange='fan(this)' name =''></td>
 					<td ><input type='text' style='width:110px' name =''></td>
@@ -794,5 +1082,225 @@ return $fzr_only;
 			echo $peizhi712;
 
 	}
+	public function shenpi_kp(){  //审批开票封装
+		
+			$shenpi_base=M('shenpi');
+			$shenpi_map['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+			$shenpi_map['sp_type']=3;
+			$sql_shenpi=$shenpi_base->where($shenpi_map)->find();
+			if($sql_shenpi['sp_kq']==1)
+			{
+				
+					$a=$sql_shenpi['sp_kq']."|";
+					if($sql_shenpi['sp_qy_1']==1)     //一级是否开启
+					{
+						if($sql_shenpi['sp_type_1']==1) //直接上级
+						{
+							
+							$user_base=M('user');
+							$map_user['user_id']=cookie("user_id");
+							$user_sql=$user_base->where($map_user)->field('user_zhuguan_id')->find();
+								if($user_sql["user_zhuguan_id"]!=0){
+									$a.=$user_sql["user_zhuguan_id"];
+								}else{
+									$a.=cookie('user_id');
+								}
 
+						}elseif($sql_shenpi['sp_type_1']==2){
+							
+									$a.=$sql_shenpi['sp_value_1'];
+						}elseif($sql_shenpi['sp_type_1']==3){
+
+							$a.=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+						}
+						$a.="|";
+					}
+				if($sql_shenpi['sp_qy_2']==1) //二级是否开启
+					{
+						if($sql_shenpi['sp_type_2']==1) //直接上级
+						{
+							
+							$user_base=M('user');
+							$map_user['user_id']=cookie("user_id");
+							$user_sql=$user_base->where($map_user)->field('user_zhuguan_id')->find();
+								if($user_sql["user_zhuguan_id"]!=0){
+									$a.=$user_sql["user_zhuguan_id"];
+								}else{
+									$a.=cookie('user_id');
+								}
+
+						}elseif($sql_shenpi['sp_type_2']==2){
+							
+									$a.=$sql_shenpi['sp_value_2'];
+						}elseif($sql_shenpi['sp_type_2']==3){
+
+							$a.=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+						}
+						$a.="|";
+					}
+				if($sql_shenpi['sp_qy_3']==1)              //三级是否开启
+					{
+						if($sql_shenpi['sp_type_3']==1) //直接上级
+						{
+							
+							$user_base=M('user');
+							$map_user['user_id']=cookie("user_id");
+							$user_sql=$user_base->where($map_user)->field('user_zhuguan_id')->find();
+								if($user_sql["user_zhuguan_id"]!=0){
+									$a.=$user_sql["user_zhuguan_id"];
+								}else{
+									$a.=cookie('user_id');
+								}
+
+						}elseif($sql_shenpi['sp_type_3']==2){
+							
+									$a.=$sql_shenpi['sp_value_3'];
+						}elseif($sql_shenpi['sp_type_3']==3){
+
+							$a.=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+						}
+						$a.="|";
+					}
+						$spu=substr($a,0,strlen($a)-1); 
+			}else{
+				$spu="zidongtongguo";//审批关闭  自动通过
+			}
+
+
+				return $spu;
+		
+	}
+	public function kaipiaoadd(){
+		$id=$_GET['id'];
+	//	$id="kp_date:2017-7-28 ,kp_data:x晓明内容,kp_je:+56120,kp_type:0,kp_ht:310,kp_kh:104104,kp_number:1213456,kp_user:45,kp_bz:3111,";
+		$kp_number=substr($id,0,strlen($id)-1); 
+		$new_kp=explode(",",$kp_number);
+		
+		foreach($new_kp as $k=>$v)
+		{
+			$baobao=explode(":", $v);
+			$data[$baobao[0]]=$baobao[1];
+
+		}
+		$data['kp_cj']=cookie('user_id');
+		$data['kp_cj_date']=date("Y-m-d h:i:s");
+	//	$data['kp_yh2']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		$data['wocao']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		$data['kp_sp']=0;
+		$kp_base=M('kp');
+		$kp_add=$kp_base->add($data);
+		if($kp_add){
+			$spr=$this->shenpi_kp();
+			if($spr!="zidongtongguo")
+			{
+				$dingji=explode("|",$spr);
+				foreach($dingji as $k=>$v)
+				{
+					if($k!=0)
+					{
+						
+							
+					
+						$arr_new[]=$v;
+				
+					}
+				}
+				$gongjj=count($dingji)-1;
+			//	$fg=explode(",",$dingji[1]); //获取到最顶级一层的审批人
+
+				$sp_kp_base=M('sp');
+				$map_sp_kp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+				$map_sp_kp['sp_sj']=date("Y-m-d h:i:s");
+				$map_sp_kp['sp_sjid']=$kp_add;//开票ID
+				$map_sp_kp['sp_jg']=0;//未审批\
+
+				$map_sp_kp['sp_yy']=3;//所属应用 3代表开票
+				$map_sp_kp['sp_tp']=$dingji['0'];//开启同步否
+				
+				$map_sp_kp['sp_zg_jj']=$gongjj;
+			
+				
+			$jjjj=1;
+				foreach($arr_new as $k=>$v)
+				{
+					$fg=explode(",",$v); //获取到最顶级一层的审批人
+					foreach($fg as $k1=>$v1)
+					{
+						if($jjjj==1)
+						{
+						$map_sp_kp['sp_jg']=0;
+						}else{
+						$map_sp_kp['sp_jg']=128;
+						}
+						$map_sp_kp['sp_dq_jj']=$jjjj;
+						$map_sp_kp['sp_user']=$v1;//回款ID
+						$sh_end=$sp_kp_base->add($map_sp_kp);
+					}
+					$jjjj++;
+					
+				}
+			}else{ 
+				$kp_base=M('kp');     //自动通过
+				$map_kp['wocao']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+				$map_kp['kp_id']=$kp_add;
+				$data_kp['kp_sp']=1;
+				$save_kp=$kp_base->where($map_kp)->save($data_kp);
+
+			}
+		}
+	}
+	public function userws(){                 //负责人和dddd
+	
+		$fuzeren=M('user');
+
+		
+			$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+	
+	 		$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id = $fid or user_fid=$fid ");//缺少条件
+			foreach ($fuzeren_sql as $k=>$v)
+			{
+				
+						$new_fuzeren['user_id']=$v['user_id'];
+						$new_fuzeren['user_name']=$v['user_name'];
+						
+					
+						$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
+				
+			}  
+
+
+return $fzr_only;
+
+
+
+	}
+	public function bh_yy(){
+		$user=$this->userws();
+		
+		$id['sp_sjid']=$_GET['id'];
+		$id['sp_jg']=2;
+		$id['sp_yy']=3;
+		$id['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+		$m=M('sp');
+		$sql=$m->where($id)->find();
+		echo "<table><tr><td>驳回人：</td><td>".$user[$sql['sp_user']]['user_name']."</td></tr><tr><td>驳回原因：</td><td>".$sql['sp_yuanyin']."</td></tr><tr><td>驳回时间：</td><td>".$sql['sp_sj']."</td></tr></table>";
+
+		
+	}
+	
+	public function sc_kpee(){
+		$id['kp_id']=$_GET['id'];
+		$m=M('kp');
+		$id['wocao']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+		$id['kp_sp']=2;
+		$sql_s=$m->where($id)->delete();
+		if($sql_s)
+		{
+			echo "ok";
+		}
+
+	}
+	public function ss(){
+		echo 12;
+	}
 }

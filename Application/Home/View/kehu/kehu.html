@@ -19,7 +19,8 @@
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
 <script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
 
-
+		<link href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
+		<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
 		
 <!--下面   地区插件-->
 	
@@ -55,13 +56,13 @@
 		.anniudw a{  position: relative; margin-left: 30px;}
 		</style>
 			  <style>
-    			 body { font-size: 62.5%; }
+    			
     			 li{overflow:hidden;}
 
    				#dialog-form label{ float:left; }
-   				  #dialog-form input { float:left; }
+   			/** #dialog-form input { float:left; }**/
 
-   				#dialog-form label{ margin-bottom:12px; width:25%;text-align:left;margin-left:18px;padding:.8em;}
+   				#dialog-form label{ margin-bottom:12px; width:35%;text-align:left;margin-left:18px;padding:.8em;}
    				#sel{width:120px;}
    				 #dialog-form input.text { margin-bottom:12px; width:65%; padding: .8em 0em; }
     			
@@ -73,7 +74,7 @@
     			.xzwj_bl{background-color:#1AA094;}
     			#yc_xs{background-color:#FFF;padding-top:10px;padding-bottom:10px;}
     		
-			div,span{overflow:hidden;}
+			.sxzddiv,span{overflow:hidden;}
 			#sxdiv{background-color:#fff;margin:0px 0px 0px 10px;padding:-10px 5px 0px 5px;}
 			#sxshowbtn{background-color:#fff;width:40px;text-align:center;margin:0 auto;cursor:pointer;}
 			.sxzddiv{width:100%;height:auto;word-break: break-all;word-wrap: break-word;}
@@ -88,17 +89,21 @@
 			.addtr td select{width:300px;height:30px;}
 	
 			.addtr td{padding-top:20px;}
-			.addshangji_weizhi{margin:0px auto;margin-top:20px;width:440px;}	
+			.addshangji_weizhi{margin:0px auto;margin-top:20px;margin-left:20%;}	
 
 			#nchangyong{margin-top:10px;margin-left:15%;}
 			.onError{color:red;}
 			.onSuccess{color:green;}
 			.kongzhiyeshu{margin-top:19px;height:40px;font-size:16px;margin-left:20px;}
 			.panel-title{font-size:21px;}
+						.searchable-select-dropdown{z-index:99999990;}
    			 </style>
   			
 
 		<script type="text/javascript">
+			$(function(){
+				$('.xlss').searchableSelect();
+ 			});
 		window.ajaxstr_lxr='';
 		window.lxr_id='';
 
@@ -276,9 +281,9 @@
 				</div>
 					<div id="demo7" class="ycyo" style="float:right"></div> 
 			</div>
-					<div id="dialog-form" style="display: none;border:1px"> <!--新增商机 弹出框-->
-						<form id="ht_form" method="post" class="uk-form " >
-							<table class="addshangji_weizhi ">
+					<div id="dialog-form" style="display: none;border:1px;width:689px"> <!--新增弹出框-->
+						<form id="ht_form" style="border:1px;width:688px" method="post" class="uk-form " >
+							<table class="addshangji_weizhi " style="border:1px;width:688px">
 								{$show_bt}
 								{$show_bt1}
 								{$show_bt2}
@@ -690,7 +695,7 @@ function add_yh()
 
 					type:1,
 					offset: 't',
-				area:'630px',
+				area:'700x',
 				fixed: false,
 					title: '新增客户',
 					content:$('#dialog-form'),
@@ -869,8 +874,43 @@ function add_yh()
             $("#student").attr("size","0");
         
         })
-         function add_lxr(){
-	$.get(rooturl+'/index.php/Home/Kehu/lianxiren',{},
+         function add_lxr(ss){
+         	var vall=$(ss).val();
+         	alert(vall)
+         	
+		
+		}
+		function sousuo(){
+			var name= $("#sousuo").val();
+		$(".ycyo").hide();
+			 $.get(rooturl+'/index.php/Home/Kehu/sousuo',{"id":name},
+								        		 function(lxrid){
+
+								        		$("#jb_bianji").html(lxrid);
+										        	
+								                  });
+		}
+			function sousuo1(){
+				$(".ycyo").hide();
+			var name= "";
+			 $("#sousuo").val("");
+			 $.get(rooturl+'/index.php/Home/Kehu/sousuo',{"id":name},
+								        		 function(lxrid){
+
+								        		$("#jb_bianji").html(lxrid);
+										        	
+								                  });
+		}var is_one =0;
+		function change_fun(v2){
+			
+			if(is_one<1 )
+		 	{
+		 		is_one++;
+		 		return;
+		 	}
+		 	if(v2.val()=="add_lxr")
+		 	{
+		 						$.get(rooturl+'/index.php/Home/Kehu/lianxiren',{},
 			        		 				function(html){
 			        		 					$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.js");
 		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/main.js");
@@ -935,8 +975,7 @@ function add_yh()
 									}
 									window.ajaxstr_lxr=ajaxstr;//alert(ajaxstr)
 									var name =$("#lxr").find("#zdy0").val();
-									$("#sss").val(name)
-									$(".zssj").prop("selected",true)
+									$("#zdy15th").html("<select name='zdy15'><option value='linshi'>"+name+"</option></select> ")
 								//	$.get(rooturl+'/index.php/Home/Lianxiren/add',{"id":ajaxstr},
 							        		// function(html){
 									        		// tishi("添加成功")
@@ -952,26 +991,9 @@ function add_yh()
 							}); 
 						});  
 
-		}
-		function sousuo(){
-			var name= $("#sousuo").val();
-		$(".ycyo").hide();
-			 $.get(rooturl+'/index.php/Home/Kehu/sousuo',{"id":name},
-								        		 function(lxrid){
-
-								        		$("#jb_bianji").html(lxrid);
-										        	
-								                  });
-		}
-			function sousuo1(){
-				$(".ycyo").hide();
-			var name= "";
-			 $("#sousuo").val("");
-			 $.get(rooturl+'/index.php/Home/Kehu/sousuo',{"id":name},
-								        		 function(lxrid){
-
-								        		$("#jb_bianji").html(lxrid);
-										        	
-								                  });
+		 	}
+		
+		 		//if(v2.prop("id")=="ss1"){
+	    		//	var kh_id= v2.val();
 		}
 	</script>

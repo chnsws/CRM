@@ -53,7 +53,7 @@
 			.pz_wz{float:right;}
 			.backg{height:40px;border:1px solid #DDD;background-color:#DDDDDD;}
 		.kongzhi1{margin-top:13px;}
-		.add_wz{float:right;margin-top:-9px;}
+		.add_wz{float:right;margin-top:-9px;padding-top:-20px;}
 			th{background-color:#50BBB1;height:30px;color:white;}
 			tr{line-height:30px;}
 			.th_hei th{height:40px;}
@@ -63,6 +63,9 @@
 			input{width:300px;}
 			 select{width:300px;}
 			 td{padding-top:20px;}
+			 	.onError{color:red;}
+			.onSuccess{color:green;}
+			.bhyuany1{margin-top:4%;margin-left:35%;}
   	</style>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
@@ -85,6 +88,7 @@
 		  <ul>
 		    <li><a href="#tabs-1">基本信息</a></li>
 		    <li><a href="#tabs-2">回款</a></li>
+		    <li><a href="#tabs-7">开票</a></li>
 		    <li><a href="#tabs-3">产品</a></li>
 		    <li><a href="#tabs-4">提醒</a></li>
 		    <li><a href="#tabs-5">附件</a></li>
@@ -135,6 +139,8 @@
 		   </div>
 		   
 		  <div id="tabs-2">
+
+		
 		  	<div class="add_hk"  style="display: none;border:1px;">
 		    		<div class="bianji_nb" style="width:430px;margin:0 auto">
 		    			<form id="hk_add">
@@ -199,11 +205,163 @@
 				</div>
 
 		  </div>
+		  <div id="tabs-7">
+					 
+				 <div class="kpjl"  style="display: none;border:1px;">
+		    		<div class="bianji_nb" style="width:480px;margin:0 auto">
+		    			<form id="kaipiaoadd">
+		    				{$kaipiao}
+		    			</form>
+		    		</div>
+			 	</div> 
+				 <div class="bhyuany"  style="display: none;border:1px;">
+		    		<div class="bhyuany1" >
+		    			
+		    		</div>
+			 	</div> 
+	 <div class="hk_wh">
+				<div class="hkauto" >
+			  		合同总金额：¥ <b>{$hkzje}</b><span class="hkshow"> 已开票总金额：¥<b> {$zonghk}</b></span> <span class="hkshow">未开票总金额：¥ <b>{$weihka}</b</span> <span  class="pz_wz"><button  id='create-sahngji' onclick='xzkp()' class='layui-btn layui-btn-small add_wz' >新增开票记录</button></span>
+			  	</div >
+		</div >
+					 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+							  <ul class="layui-tab-title">
+							    <li class="layui-this">增值税普通发票</li>
+							    <li>增值税专用发票</li>
+							    <li>国税通用机打发票</li>
+							    <li>地税通用机打发票</li>
+					
+							  </ul>
+						 		<div class="layui-tab-content">
+						 			 <div class="layui-tab-item layui-show">
+						 			 		<div>
+												  <table class='layui-table' lay-skin='line' style="margin-top:20px" >
+														  	<thead >
+														  					<th >操作</th>
+														  					<th >状态</th>
+															  				<th >开票日期</th>
+															  				<th >票据内容</th>
+															  				<th >开票金额</td>
+															  				<th >票据类型</th>
+															  				<th >发票开头</th>
+															  				<th >纳税人识别码</th>
+															  				<th >发票号码</th>
+															  				<th >经手人</th>
+															  				<th >备注</th>
+															  				<th >创建人</th>
+															  				<th >创建时间</th>
+															</thead>
+													<tbody class='fujian_del'>
+																		{$kp_show}
+													</tbody>	
+												</table>
+											</div>
+						 			 </div>
+
+
+						 			 
+
+
+									    <div class="layui-tab-item" >
+									    	 <div class="layui-tab-item layui-show"  >
+							 			 		<div style='overflow :auto;width:99%'>
+													  <table class='layui-table' lay-skin='line' style="margin-top:20px;width:3000px" >
+															  	<thead >
+															  					<th >操作</th>
+															  					<th >状态</th>
+																  				<th >开票日期</th>
+																  				<th >票据内容</th>
+																  				<th >开票金额</td>
+																  				<th >票据类型</th>
+																  				<th >单位名称</th>
+																  				<th >纳税人识别码</th>
+																  				<th >注册地址</th>
+																  				<th >注册电话</th>
+																  				<th >开户银行</th>
+																  				<th >银行账户</th>
+																  				<th >收票人姓名</th>
+																  				<th >收票人手机</th>
+																  			
+																  				<th >收票人省份</th>
+																  				<th >详细信息</th>
+																  				<th >发票号码</th>
+																  				<th >经手人</th>
+																  				<th >备注</th>
+																  				<th >创建人</th>
+																  				<th >创建时间</th>
+																</thead>
+														<tbody class='fujian_del'>
+																			{$kp_show1}
+														</tbody>	
+													</table>
+												</div>
+						 					 </div>
+									    </div>
+									    <div class="layui-tab-item">
+									    	<div class="layui-tab-item layui-show">
+							 			 		<div>
+													  <table class='layui-table' lay-skin='line' style="margin-top:20px" >
+															  	<thead >
+															  					<th >操作</th>
+														  					<th >状态</th>
+															  				<th >开票日期</th>
+															  				<th >票据内容</th>
+															  				<th >开票金额</td>
+															  				<th >票据类型</th>
+															  				
+															  				<th >发票号码</th>
+															  				<th >经手人</th>
+															  				<th >备注</th>
+															  				<th >创建人</th>
+															  				<th >创建时间</th>
+																</thead>
+														<tbody class='fujian_del'>
+																			{$kp_show2}
+														</tbody>	
+													</table>
+												</div>
+						 					 </div>
+									    </div>
+									    <div class="layui-tab-item">
+									    	<div class="layui-tab-item layui-show">
+							 			 		<div>
+													  <table class='layui-table' lay-skin='line' style="margin-top:20px" >
+															  	<thead >
+															  					<th >操作</th>
+														  					<th >状态</th>
+															  				<th >开票日期</th>
+															  				<th >票据内容</th>
+															  				<th >开票金额</td>
+															  				<th >票据类型</th>
+															  				
+															  				<th >发票号码</th>
+															  				<th >经手人</th>
+															  				<th >备注</th>
+															  				<th >创建人</th>
+															  				<th >创建时间</th>
+																</thead>
+														<tbody class='fujian_del'>
+																			{$kp_show3}
+														</tbody>	
+													</table>
+												</div>
+						 					 </div>
+
+									    </div>
+									    
+						 		</div>
+						 		
+
+						</div>      
+				
+
+		   </div>
+		   
 		  <div id="tabs-3">
 		  <input type="button"  onclick="add_cpp()" class=" layui-btn layui-btn-small" value="+添加产品">
 				<table class="layui-table" lay-skin="line">
 					  	<thead>
-					  		<th >产品名称</th>
+					  	<th >产品名称</th>
 		  				<th >产品编号</th>
 		  				<th >标准单价</th>
 		  				<th >建议价格</td>
@@ -313,7 +471,7 @@
 	layui.use('upload', function(){
  		 layui.upload(options);
 	});
-
+	window.htid=$(".ht_id").val();
 		function bianji(){
 			layui.use('layer', function(){
 							var layer = layui.layer;
@@ -520,15 +678,16 @@
 								btn:['保存'],
 
 								btn1:function(){
-									var htid=$(".ht_id").val();
+								
 									
 									var a="";
 									$(".add_pz").each(function(){
 										 a +="hk_qici:"+$(this).children().eq(0).text()+","+"hk_data:"+$(this).children().eq(2).find("input").val()+","+"hk_zb:"+$(this).children().eq(3).find("input").val()+","+"hk_je:"+$(this).children().eq(4).find("input").val()+","+"hk_bz:"+$(this).children().eq(5).find("input").val()+"!";
 									});
-								
+							
 									$.get(rooturl+'/index.php/Home/Hetongmingcheng/peizhi_hk',{"id":htid,"content":a},
 												 function(html){
+
 									        			 	window.location.href="Hetongmingcheng?id="+htid;
 							                   });
 
@@ -668,5 +827,169 @@
 						});                  
     			}
 
+    	function xzkp(){
+    		$('#kaipiaoadd table :input').blur(function(){
+			var $parent =$(this).parent();
+			$parent.find(".formtips").remove();
+			if( $(this).is('.required') ){
+				if(this.value==""){
+					var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#x1007;</i> ";
+					$parent.append('<span class="formtips onError">'+error+'</span>');
+				}else{
+					var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#xe616;</i> "
+					$parent.append('<span class="formtips onSuccess">'+error+'</span>');
+				}
+
+			}
+		
+		}).keyup(function(){
+           $(this).triggerHandler("blur");
+        }).focus(function(){
+             $(this).triggerHandler("blur");
+        });
+    				layui.use('layer', function(){
+			
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'750px',
+								title: '新增开票记录',
+								content:$('.kpjl'),
+								btn:['保存'],
+
+								btn1:function(){
+
+								 $("#kaipiaoadd :input.required").trigger('blur');
+             							 var numError = $('form .onError').length;
+		              				  if(numError){
+		              				  	 tishi('必填项不能为空')
+		                   				 return false;
+              		 				 }  /**nnn**/
+									var htid=$(".ht_id").val();
+									var kp_end='';
+									//	var formdom1=$("#hk_add").children("table").find("tr");
+										var kp_num=$("#kaipiaoadd").children("table").find("tr");
+										var kp_num1=kp_num.length;
+										for(var a = 0; a<kp_num1; a++)
+										{
+											var thisdom=kp_num.eq(a).find("td").eq(1).children();
+											kp_end+=thisdom.prop("name")+":"+thisdom.val()+",";
+										}
+									alert(kp_end)
+										$.get(rooturl+'/index.php/Home/Hetongmingcheng/kaipiaoadd',{"id":kp_end},
+												function(html){
+												
+													window.location.href="Hetongmingcheng?id="+htid;
+												})
+
+								}
+							}); 
+						});          
+    	}
+
+    	
+        function bh_yy(tjl){
+        		var bh_id=$(tjl).prop("class");
+        		$.get(rooturl+'/index.php/Home/Hetongmingcheng/bh_yy',{"id":bh_id},
+												function(html){
+												
+													$(".bhyuany1").html(html);
+
+											})
+        		layui.use('layer', function(){
+			
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'750px',
+								title: '驳回原因',
+								content:$('.bhyuany'),
+								btn:['确定'],
+
+								btn1:function(){
+										
+									  layer.close(win)    
+							            
+								}
+							
+							}); 
+						});             
+        }	
+       function sc_kp(ss){
+			var kp_id=$(ss).prop("class");
+			$.get(rooturl+'/index.php/Home/Hetongmingcheng/sc_kpee',{"id":kp_id},
+												function(html){
+													if(html=="ok")
+													{
+														tishi("删除成功");
+														window.location.href="Hetongmingcheng?id="+htid;
+													}else{
+														tishi("删除失败");
+													}
+												
+
+											})
+       }
+       function fapiao(ss){
+       	var a=$(ss).val();
+       	var hqtr = $(ss).parent().parent();
+       	alert(hqtr)
+	       if(a == 0)
+	       {
+	       	$(".zzsfp").remove();
+	    	hqtr.after("<tr class='ptfp' ><td><span style='color:red'>＊</span>发票抬头:</td><td><input type='text' name='kp_fp_tt' class='required'></td></tr><tr class='ptfp' ><td>纳税人识别号:</td><td><input type='text' name='kp_fp_sbm' ></td></tr>");
+	    	$('#kaipiaoadd table :input').blur(function(){
+			var $parent =$(this).parent();
+			$parent.find(".formtips").remove();
+			if( $(this).is('.required') ){
+				if(this.value==""){
+					var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#x1007;</i> ";
+					$parent.append('<span class="formtips onError">'+error+'</span>');
+				}else{
+					var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#xe616;</i> "
+					$parent.append('<span class="formtips onSuccess">'+error+'</span>');
+				}
+
+			}
+		
+		}).keyup(function(){
+           $(this).triggerHandler("blur");
+        }).focus(function(){
+             $(this).triggerHandler("blur");
+        });
+
+	       }else if(a==1){
+	    	$(".ptfp").remove();
+	    	hqtr.after("<tr class='zzsfp'><td><span style='color:red'>＊</span>单位名称:</td><td><input type='text' name='kp_fp_dw' class='required'></td></tr><tr class='zzsfp'><td><span style='color:red'>＊</span>纳税人识别码:</td><td><input type='text' name='kp_fp_sbm1' class='required'></td></tr><tr class='zzsfp' ><td><span style='color:red'>＊</span>注册地址:</td><td><input type='text' name='kp_fp_zcdz' class='required'></td></tr><tr class='zzsfp' ><td><span style='color:red'>＊</span>注册电话:</td><td><input type='text' name='kp_fp_zcdh' class='required'></td></tr><tr class='zzsfp' ><td><span style='color:red'>＊</span>开户银行:</td><td><input type='text' name='kp_fp_khyh' class='required'></td></tr><tr class='zzsfp'><td><span style='color:red'>＊</span>银行账户:</td><td><input type='text' name='kp_fp_yhzh' class='required'></td></tr><tr class='zzsfp' ><td><span style='color:red'>＊</span>收票人姓名:</td><td><input type='text' name='kp_fp_spr' class='required'></td></tr><tr class='zzsfp'><td><span style='color:red'>＊</span>收票人手机:</td><td><input type='text' name='kp_fp_sprphone' class='required'></td></tr><tr class='zzsfp' ><td><span style='color:red'>＊</span>收票人省份:</td><td><input type='text' name='kp_fp_sheng' class='required'></td></tr><tr class='zzsfp' ><td><span style='color:red'>＊</span>详细信息:</td><td><input type='text' name='kp_fp_xiangxi' class='required'></td></tr>");
+	    	$('#kaipiaoadd table :input').blur(function(){
+			var $parent =$(this).parent();
+			$parent.find(".formtips").remove();
+			if( $(this).is('.required') ){
+				if(this.value==""){
+					var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#x1007;</i> ";
+					$parent.append('<span class="formtips onError">'+error+'</span>');
+				}else{
+					var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#xe616;</i> "
+					$parent.append('<span class="formtips onSuccess">'+error+'</span>');
+				}
+
+			}
+		
+		}).keyup(function(){
+           $(this).triggerHandler("blur");
+        }).focus(function(){
+             $(this).triggerHandler("blur");
+        });
+	       }
+       }
+       layui.use('element', function(){
+			  var element = layui.element();
+			  
+			  //…
+			});
 	</script>
 </html>

@@ -121,7 +121,7 @@
 					</p>
 				</div>
 			</div>
-	
+		<input type='hidden' class='cop' value="{$sql_count}">
 		
 			
 			
@@ -129,6 +129,7 @@
 			<script type="text/javascript" src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"></script>
 			<script type="text/javascript" src="{$_GET['public_dir']}/index_js_css/datas/nav.js"></script>
 			<script>
+			
 layui.config({
 	base: "{$_GET[public_dir]}/index_js_css/js/"
 }).use(['element', 'layer', 'navbar', 'tab'], function() {
@@ -160,8 +161,10 @@ layui.config({
 			/*cached:true,
 			url: 'datas/nav.json'*/
 	});
+
 	//渲染navbar
 	navbar.render();
+
 	$(".layui-nav-tree").children("li").eq(-2).css("margin-bottom","45px")
 	$(".layui-nav-tree").children("li").last().css({"position":"fixed","bottom":"0px","width":"160px"});
 	$(".layui-nav-tree").children("li").last().children("a").css({"background":"#1AA094","color":"#fff"});
@@ -228,6 +231,23 @@ layui.config({
 
 });
 				
+			</script>
+			<script>
+				var count = $(".cop").val();
+				if(count==0 || count==null)
+				{
+					var ss='';
+				}else{
+					var ss="("+count+")"
+				}
+				//alert(count)
+			   setTimeout(function () { 
+		      	var count_num =  $("#admin-navbar-side").children().children().eq(6).children().find('cite').text();
+		      	 $("#admin-navbar-side").children().children().eq(6).children().find('cite').html("审批<span style='color:red'>"+ss+"</span>");	
+		    },1000);
+			//	var a=(document.getElementById("admin-navbar-side").tagName);
+		
+			
 			</script>
 
 			
