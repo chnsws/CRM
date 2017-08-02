@@ -49,11 +49,12 @@
     
     </style>
 <body>
-    <div id="box">
+    <div id="box" style="display:none;">
         <!--页面名称-->
         <div id="mod-head">公告管理</div>
         <!--按钮-->
         <div id="box-button">
+            <button class="add-gonggao" onclick="location=root_dir+'/index.php/Home/Main'" style="width:120px;display:none;" ><i class="fa fa-reply" aria-hidden="true" ></i>返回工作台</button>
             <button class="add-gonggao" onclick="to_xinzeng()"><i class="fa fa-edit" aria-hidden="true" ></i>新增公告</button><button id="del-gonggao" onclick="delcheck()"><i class="fa fa-trash-o" aria-hidden="true" ></i>删除所选</button>
         </div>
         <!--表格-->
@@ -108,15 +109,14 @@
         </div>
     </div>
 </body>
-<div id="jusexuanze" class="layui-form" style="margin-left:20px;">
+<div id="jusexuanze" class="layui-form" style="margin-left:20px;display:none;">
 
 </div>
-<div id="bumenxuanze" class="layui-form" style="margin-left:20px;">
+<div id="bumenxuanze" class="layui-form" style="margin-left:20px;display:none;">
 
 </div>
 <script>
-    $("#jusexuanze").hide();
-    $("#bumenxuanze").hide();
+
     window.root_dir="{$_GET['root_dir']}";
     $("#box-form").hide();
     $(function() {
@@ -147,28 +147,55 @@
 
         });
         $("#table_local_filter input[type=search]").css({ width: "auto" });//右上角的默认搜索文本框，不写这个就超出去了。
+        //加载layui表单样式
+        layui.use('form', function(){
+            window.form = layui.form();
+        });
+    
+        //全选
+        $("#checkall").click(function(){
+            var nowstatus=$("input[type=checkbox]").prop("checked");
+
+            if(nowstatus)
+            {
+                $("input[type=checkbox]").prop("checked",true);
+                $(this).val("1");
+            }
+            else
+            {
+                $("input[type=checkbox]").prop("checked",false);
+                $(this).val("0");
+            }
+        });
+
+        //layUI富文本编辑器初始化
+        layui.use('layedit', function(){
+            layedit = layui.layedit;
+            window.areacontent=layedit.build('demo',{
+                tool: ["strong","italic","underline","del","|","left","center","right","|","link","unlink","face"]
+            }); //建立编辑器
+        });
+        //判断是否从首页跳转过来的
+        var form="{$_GET['from']}";
+        if(form=='main')
+        {
+            $("#box-button").find("button").eq(0).show();
+            $("#box-button").find("button").eq(1).hide();
+            $("#box-button").find("button").eq(2).hide();
+            $("#mod-head").text("公告列表");
+            $("tr").each(function(){
+                $(this).children("td").eq(0).hide();
+                $(this).children("td").eq(5).hide();
+            });
+            $("th").eq(0).hide();
+            $("th").eq(5).hide();
+            
+        }
+        $("#box").fadeIn("fast");
+
     });
 
-    //加载layui表单样式
-    layui.use('form', function(){
-        window.form = layui.form();
-    });
-  
-    //全选
-    $("#checkall").click(function(){
-        var nowstatus=$("input[type=checkbox]").prop("checked");
-
-        if(nowstatus)
-        {
-            $("input[type=checkbox]").prop("checked",true);
-            $(this).val("1");
-        }
-        else
-        {
-            $("input[type=checkbox]").prop("checked",false);
-            $(this).val("0");
-        }
-    });
+    
     //黑色半透明提示
     function tishi(neirong)
     {
@@ -176,13 +203,7 @@
             time: 1000, 
         });
     }
-    //layUI富文本编辑器初始化
-    layui.use('layedit', function(){
-        layedit = layui.layedit;
-        window.areacontent=layedit.build('demo',{
-             tool: ["strong","italic","underline","del","|","left","center","right","|","link","unlink","face"]
-        }); //建立编辑器
-    });
+    
     //跳转到发布页面
     function to_xinzeng()
     {

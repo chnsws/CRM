@@ -28,7 +28,7 @@
     #mod-head{height:100px;font-size:22px;line-height:100px;color:#1AA094;font-weight:bold;}
     </style>
 <body>
-    <div id="box">
+    <div id="box" style="display:none;">
         <!--页面名称-->
         <div id="mod-head">公告详情</div>
         <button class='layui-btn' style="height:30px;line-height: 30px;" onclick="fanhui()"><i class="fa fa-reply" aria-hidden="true" style="margin-right:10px;"></i>返回公告列表</button>
@@ -54,6 +54,19 @@
         {
             $("#box").children("button").eq(0).html('<i class="fa fa-reply" aria-hidden="true" style="margin-right:10px;"></i>返回');
         }
+        window.from="{$_GET['from']}";
+        if(from=='main'||from=='main2')
+        {
+            $("button").eq(1).hide();
+            $("button").eq(2).hide();
+        }
+        if(from=='main2')
+        {
+            $("button").eq(0).html('<i class="fa fa-reply" aria-hidden="true" style="margin-right:10px;"></i>返回工作台');
+        }
+        setTimeout(function() {
+            $("#box").fadeIn("fast");
+        }, 200);
     });
     layui.use('layer', function(){
         window.layer = layui.layer;
@@ -68,6 +81,16 @@
     //返回公告列表
     function fanhui()
     {
+        if(from=='main2')
+        {
+            window.location=root_dir+"/index.php/Home/Main/index";
+            return;
+        }
+        if(from=='main')
+        {
+            window.location=root_dir+"/index.php/Home/Option/gonggaoguanli?from=main";
+            return;
+        }
         if(as=='1')
         {
             window.location=root_dir+"/index.php/Home/Option/optioncenter";

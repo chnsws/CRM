@@ -306,15 +306,16 @@ class OptionController extends Controller {
 		$ggarr=$ggbase->query("select ggsz_id,ggsz_name,ggsz_ydcs,ggsz_fbsj,ggsz_zd,user_name from crm_ggshezhi left join crm_user on ggsz_yh=user_id where ggsz_yh='$fid' order by ggsz_zd_sj desc,ggsz_fbsj desc");
 		$ggzdliststr='';
 		$ggliststr='';
+		$from=$_GET['from']=='main'?'&from=main':'';
 		foreach($ggarr as $v)
 		{
 			if($v['ggsz_zd']=='1')
 			{
-				$ggzdliststr.="<tr><td class='checkbox_row'><input type='checkbox' value='".$v['ggsz_id']."' name='ggcheckbox'></td><td><a href='".$_GET['root_dir']."/index.php/Home/Option/gonggaomore?ggid=".$v['ggsz_id']."'>".$v['ggsz_name']."</a></td><td>".$v['ggsz_ydcs']."</td><td>".$v['user_name']."</td><td>".$v['ggsz_fbsj']."</td><td><a onclick='ggbianji(".$v['ggsz_id'].")'>编辑</a><a onclick='ggzhiding(".$v['ggsz_id'].",0)'>取消置顶</a><a onclick=ggshanchu('".$v['ggsz_id']."','".$v['ggsz_name']."')>删除</a></td></tr>";
+				$ggzdliststr.="<tr><td class='checkbox_row'><input type='checkbox' value='".$v['ggsz_id']."' name='ggcheckbox'></td><td><a href='".$_GET['root_dir']."/index.php/Home/Option/gonggaomore?ggid=".$v['ggsz_id']."$from'>".$v['ggsz_name']."</a></td><td>".$v['ggsz_ydcs']."</td><td>".$v['user_name']."</td><td>".$v['ggsz_fbsj']."</td><td><a onclick='ggbianji(".$v['ggsz_id'].")'>编辑</a><a onclick='ggzhiding(".$v['ggsz_id'].",0)'>取消置顶</a><a onclick=ggshanchu('".$v['ggsz_id']."','".$v['ggsz_name']."')>删除</a></td></tr>";
 			}
 			else
 			{
-				$ggliststr.="<tr><td class='checkbox_row'><input type='checkbox' value='".$v['ggsz_id']."' name='ggcheckbox'></td><td><a href='".$_GET['root_dir']."/index.php/Home/Option/gonggaomore?ggid=".$v['ggsz_id']."'>".$v['ggsz_name']."</a></td><td>".$v['ggsz_ydcs']."</td><td>".$v['user_name']."</td><td>".$v['ggsz_fbsj']."</td><td><a onclick='ggbianji(".$v['ggsz_id'].")'>编辑</a><a onclick='ggzhiding(".$v['ggsz_id'].",1)'>置顶</a><a onclick=ggshanchu('".$v['ggsz_id']."','".$v['ggsz_name']."')>删除</a></td></tr>";
+				$ggliststr.="<tr><td class='checkbox_row'><input type='checkbox' value='".$v['ggsz_id']."' name='ggcheckbox'></td><td><a href='".$_GET['root_dir']."/index.php/Home/Option/gonggaomore?ggid=".$v['ggsz_id']."$from'>".$v['ggsz_name']."</a></td><td>".$v['ggsz_ydcs']."</td><td>".$v['user_name']."</td><td>".$v['ggsz_fbsj']."</td><td><a onclick='ggbianji(".$v['ggsz_id'].")'>编辑</a><a onclick='ggzhiding(".$v['ggsz_id'].",1)'>置顶</a><a onclick=ggshanchu('".$v['ggsz_id']."','".$v['ggsz_name']."')>删除</a></td></tr>";
 			}
 			
 		}

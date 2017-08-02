@@ -795,7 +795,7 @@ class XiansuoController extends DBController {
 		//插入跟进表
 		$new_genjin_time=strtotime($new_genjin_time);
 		$new_genjin_next_genjin_time=strtotime($new_genjin_next_genjin_time);
-		parent::add_one_data("crm_xiegenjin","'','1','$new_genjin_xiansuo','".cookie("user_id")."','$new_genjin_fangshi','$new_genjin_content','$new_genjin_next_genjin_time','$new_genjin_time','$fid'");
+		parent::add_one_data("crm_xiegenjin","'','1','$new_genjin_xiansuo','".cookie("user_id")."','$new_genjin_fangshi','$new_genjin_content','$new_genjin_next_genjin_time','$new_genjin_time','$fid',''");
 		
 		echo 1;
 	}
@@ -1273,13 +1273,13 @@ class XiansuoController extends DBController {
 			else if($num=='4')
 			{
 				//本周
-				$t1=date("Y-m-d H:i:s",strtotime("-1 week Monday"));
+				$t1=date("Y-m-d H:i:s",strtotime("Monday"));
         		$t2=date("Y-m-d",strtotime("Sunday")).' 23:59:59';     
 			}
 			else if($num=='5')
 			{
 				//上周
-				$t1=date("Y-m-d H:i:s",strtotime("-2 week Monday"));
+				$t1=date("Y-m-d H:i:s",strtotime("-1 week Monday"));
         		$t2=date("Y-m-d",strtotime("-1 week Sunday")).' 23:59:59';   
 			}
 			else if($num=='6')
