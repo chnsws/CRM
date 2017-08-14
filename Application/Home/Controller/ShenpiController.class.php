@@ -15,13 +15,15 @@ class ShenpiController extends Controller {
 		$sp_base=M('sp');
 		$sp_map['sp_user']=cookie("user_id");
 		$sp_map['sp_yy']=2;//三代表别人审批了
-		$sp_map['sp_jg']=0;
+	//	$sp_map['sp_jg']=0;
 		$sp_map['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
 		$sp_sql=$sp_base->where($sp_map)->select();
 		$sp_sql_count=$sp_base->where($sp_map)->count();//几条
 		foreach($sp_sql as $k=>$v)
 		{
-			$array_sp[$v['sp_sjid']]=$v['sp_id'];
+			$array_sp[$v['sp_sjid']]['sp_sjid']=$v['sp_id'];
+			$array_sp[$v['sp_sjid']]['sp_jg']=$v['sp_jg'];
+			$array_sp[$v['sp_sjid']]['sp_xgr']=$v['sp_xgr'];
 		}
 	
 		if($sp_sql_count==0 || $sp_sql_count==null)
@@ -42,13 +44,31 @@ class ShenpiController extends Controller {
 		$hkyh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
 		$huikuan=$hk_add_base->query("select * from  crm_hkadd where hk_yh=$hkyh and  hk_id IN ($b)");
 
+
 		foreach($huikuan as $k=>$v)
 		{
 			
-			$huikuan[$k]['sp_id']=$array_sp[$v['hk_id']];
+			$huikuan[$k]['sp_id']=$array_sp[$v['hk_id']]['sp_sjid'];
+			$huikuan[$k]['sp_jg']=$array_sp[$v['hk_id']]['sp_jg'];
+			$huikuan[$k]['sp_xgr']=$array_sp[$v['hk_id']]['sp_xgr'];
 		}
 		
-		if($a=="" || $a==null)
+		foreach($huikuan as $k=>$v)
+		{
+			if($v['sp_jg']==0)
+			{
+				$huikuan1[]=$v;
+			}elseif($v['sp_jg']==1){
+				$huikuan2[]=$v;
+			}elseif($v['sp_jg']==2){
+				$huikuan3[]=$v;
+			}elseif($v['sp_jg']==3 || $v['sp_jg']==4){
+				$huikuan4[]=$v;
+			}
+		}
+	//	echo "<pre>";
+	//	var_dump($huikuan4);exit;
+		if($huikuan1=="" || $huikuan1==null)
 		{
 			$hk_show.="<span style='margin-left:45%;height:70px'>亲~ 还没有数据哦～ </span>";
 		}else{
@@ -73,7 +93,7 @@ class ShenpiController extends Controller {
 			                </tr>
 					</thead>
 					 <tbody >";
-						 foreach($huikuan as $k=>$v)
+						 foreach($huikuan1 as $k=>$v)
 						 {
 								$hk_show.="<tr>
 										<td><span style='color:blue' class='".$v['sp_id']."' onclick='tongguo(this)'>通过</span><span style='color:blue;margin-left:20px'  class='".$v['sp_id']."' onclick='bohui(this)'>驳回</span></td>
@@ -91,6 +111,160 @@ class ShenpiController extends Controller {
 									</tr>";
 						}
 			            $hk_show.="</tbody>
+				</table>  
+				
+			</div>
+		</div>";
+		}
+		if($huikuan2=="" || $huikuan2==null)
+		{
+			$hk_show1.="<span style='margin-left:45%;height:70px'>亲~ 还没有数据哦～ </span>";
+		}else{
+		$hk_show1.="<div >
+			<div >
+					<table class='layui-table' >
+				  	<thead>
+				  			<tr>	
+			                		<th>操作</th>
+			                		<th>回款期次</th>
+			                		<th>合同名称</th>
+			                		<th>合同负责人</th>
+			                		<th>对应客户</th>
+			                		<th>回款日期</th>
+			                		<th>回款金额</th>
+			                		<th>回款方式</th>
+			                		<th>回款类型</th>
+			                		<th>收款人</th>
+			                		<th>创建回款人</th>
+			                		<th>回款创建时间</th>
+
+			                </tr>
+					</thead>
+					 <tbody >";
+						 foreach($huikuan2 as $k=>$v)
+						 {
+								$hk_show1.="<tr>
+										<td><span style='color:green'>您已通过</span></td>
+										<td>第".$v['hk_qici']."期</td>
+										<td>".$ht_name[$v['hk_ht']]['name']."</td>
+										<td>".$user_name[$ht_name[$v['hk_ht']]['fz']]['user_name']."</td>
+										<td>".$kh_name[$v['hk_kh']]['name']."</td>
+										<td>".$v['hk_data']."</td>
+										<td>".$v['hk_je']."</td>
+										<td>".$ywcs['zdy11'][$v['zdy11']]."</td>
+										<td>".$ywcs['hktype'][$v['hk_type']]."</td>
+										<td>".$user_name[$v['hk_skr']]['user_name']."</td>
+										<td>".$user_name[$v['hk_cj']]['user_name']."</td>
+										<td>".date("Y-m-d H:i:s", $v['hk_cj_date'])."</td>
+									</tr>";
+						}
+			            $hk_show1.="</tbody>
+				</table>  
+				
+			</div>
+		</div>";
+		}
+		if($huikuan3=="" || $huikuan3==null)
+		{
+			$hk_show2.="<span style='margin-left:45%;height:70px'>亲~ 还没有数据哦～ </span>";
+		}else{
+		$hk_show2.="<div >
+			<div >
+					<table class='layui-table' >
+				  	<thead>
+				  			<tr>	
+			                		<th>操作</th>
+			                		<th>回款期次</th>
+			                		<th>合同名称</th>
+			                		<th>合同负责人</th>
+			                		<th>对应客户</th>
+			                		<th>回款日期</th>
+			                		<th>回款金额</th>
+			                		<th>回款方式</th>
+			                		<th>回款类型</th>
+			                		<th>收款人</th>
+			                		<th>创建回款人</th>
+			                		<th>回款创建时间</th>
+
+			                </tr>
+					</thead>
+					 <tbody >";
+						 foreach($huikuan3 as $k=>$v)
+						 {
+								$hk_show2.="<tr>
+										<td>您已驳回<span style='margin-left:10px;font-size:20px;color:red' class='".$v['hk_id']."' onclick='hk_because(this)'><i class='layui-icon'>&#xe607;</i>  </span></td>
+										<td>第".$v['hk_qici']."期</td>
+										<td>".$ht_name[$v['hk_ht']]['name']."</td>
+										<td>".$user_name[$ht_name[$v['hk_ht']]['fz']]['user_name']."</td>
+										<td>".$kh_name[$v['hk_kh']]['name']."</td>
+										<td>".$v['hk_data']."</td>
+										<td>".$v['hk_je']."</td>
+										<td>".$ywcs['zdy11'][$v['zdy11']]."</td>
+										<td>".$ywcs['hktype'][$v['hk_type']]."</td>
+										<td>".$user_name[$v['hk_skr']]['user_name']."</td>
+										<td>".$user_name[$v['hk_cj']]['user_name']."</td>
+										<td>".date("Y-m-d H:i:s", $v['hk_cj_date'])."</td>
+									</tr>";
+						}
+			            $hk_show2.="</tbody>
+				</table>  
+				
+			</div>
+		</div>";
+		}
+		if($huikuan4=="" || $huikuan4==null)
+		{
+			$hk_show3.="<span style='margin-left:45%;height:70px'>亲~ 还没有数据哦～ </span>";
+		}else{
+		$hk_show3.="<div >
+			<div >
+					<table class='layui-table' >
+				  	<thead>
+				  			<tr>	
+			                		<th>操作</th>
+			                		<th>回款期次</th>
+			                		<th>合同名称</th>
+			                		<th>合同负责人</th>
+			                		<th>对应客户</th>
+			                		<th>回款日期</th>
+			                		<th>回款金额</th>
+			                		<th>回款方式</th>
+			                		<th>回款类型</th>
+			                		<th>收款人</th>
+			                		<th>创建回款人</th>
+			                		<th>回款创建时间</th>
+
+			                </tr>
+					</thead>
+					 <tbody >";
+					
+						 foreach($huikuan4 as $k=>$v)
+						 {
+								$hk_show3.="<tr>
+										<td>";
+										if($v['sp_jg']==3)
+										{
+											$hk_show3.="<span style='color:green'>".$user_name[$v['sp_xgr']]['user_name']."通过</span>";
+										}elseif($v['sp_jg']==4){
+											$hk_show3.="".$user_name[$v['sp_xgr']]['user_name']."驳回<span style='margin-left:10px;font-size:20px;color:red' class='".$v['hk_id']."' onclick='hk_because(this)'><i class='layui-icon'>&#xe607;</i>  </span>";
+
+										}
+										$hk_show3.="";
+										
+										$hk_show3.="</td><td>第".$v['hk_qici']."期</td>
+										<td>".$ht_name[$v['hk_ht']]['name']."</td>
+										<td>".$user_name[$ht_name[$v['hk_ht']]['fz']]['user_name']."</td>
+										<td>".$kh_name[$v['hk_kh']]['name']."</td>
+										<td>".$v['hk_data']."</td>
+										<td>".$v['hk_je']."</td>
+										<td>".$ywcs['zdy11'][$v['zdy11']]."</td>
+										<td>".$ywcs['hktype'][$v['hk_type']]."</td>
+										<td>".$user_name[$v['hk_skr']]['user_name']."</td>
+										<td>".$user_name[$v['hk_cj']]['user_name']."</td>
+										<td>".date("Y-m-d H:i:s", $v['hk_cj_date'])."</td>
+									</tr>";
+						}
+			            $hk_show3.="</tbody>
 				</table>  
 				
 			</div>
@@ -456,6 +630,9 @@ class ShenpiController extends Controller {
 		$this->assign('hk_ts',$hk_ts);
 		$this->assign('kp_ts',$kp_ts);
 		$this->assign('hk_show',$hk_show);
+		$this->assign('hk_show1',$hk_show1);
+		$this->assign('hk_show2',$hk_show2);
+		$this->assign('hk_show3',$hk_show3);
 		$this->display();
 	}
 	public function  hetong(){
@@ -611,11 +788,60 @@ return $fzr_only;
 		}
 		public function tongguo(){
 			$id=$_GET['id'];
-			echo $id;
+	//$id=237;
+			//echo $id;exit;
 			$sp_base=M('sp');
 			$map_sp['sp_id']=$id;
-			$data['sp_jg']="1";
-			$sql_save=$sp_base->where($map_sp)->save($data);
+			$map_sp['sp_yy']=2;
+
+			$map_sp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$sql_sp=$sp_base->where($map_sp)->find();
+			if($sql_sp['sp_tp']==1) //开启同步
+			{
+				
+				$data['sp_jg']="1";
+				$sql_save=$sp_base->where($map_sp)->save($data);
+				$count_ling['sp_jg']=0;
+				$count_ling['sp_yy']=2;
+				$count_ling['sp_sjid']=$sql_sp['sp_sjid'];
+				$count_ling['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+				$sql_c=$sp_base->where($count_ling)->count();
+				if($sql_c==0){ //全部通过
+					$hk['hk_id']=$sql_sp['sp_sjid'];;
+					$hk['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+					$hk_base=M('hkadd');
+					$hk_data['hk_sp']=1;
+					$sqk_kp_save=$hk_base->where($hk)->save($hk_data);
+					//echo ""
+				}
+				
+			}elseif($sql_sp['sp_tp']==0){//不开启同步
+			
+				$data['sp_jg']="1";
+				$sql_save=$sp_base->where($map_sp)->save($data);
+				$sp_taren['sp_sjid']=$sql_sp['sp_sjid'];
+				$sp_taren['sp_jg']=0;
+				$sp_taren['sp_yy']=2;
+				$sp_taren['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			
+				$sp_sql_count['sp_jg']=4;
+				$sp_sql_count['sp_xgr']=cookie('user_id');
+				$sql_save_taren=$sp_base->where($sp_taren)->save($sp_sql_count);
+					//echo "<pre>";
+				//var_dump($sql_save_taren);exit;
+				if($sql_save_taren)
+				{
+					$hk['hk_id']=$sql_sp['sp_sjid'];;
+					$hk['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+					$hk_base=M('hkadd');
+					$hk_data['hk_sp']=1;
+					$sqk_kp_save=$hk_base->where($hk)->save($hk_data);
+				}
+
+
+
+			}
+
 		}
 		public function bohui(){
 			$id=$_GET['id'];
@@ -623,7 +849,29 @@ return $fzr_only;
 			$sp_base=M('sp');
 			$map_sp['sp_id']=$id;
 			$data['sp_jg']="2";
+			$data['sp_yuanyin']=$_GET['yuanyin'];
 			$sql_save=$sp_base->where($map_sp)->save($data);
+			$map_sp_sql['sp_id']=$id;
+			$map_sp_sql['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$sql=$sp_base->where($map_sp_sql)->find();
+		//	echo "<pre>";
+			//var_dump($sql);exit;
+			$taren_save['sp_sjid']=$sql['sp_sjid'];
+			$taren_save['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$taren_save['sp_yy']=2;
+			$taren_save['sp_jg']=0;
+			$savekk['sp_jg']=3;
+			$savekk['sp_xgr']=cookie('user_id');
+			$sql_taren=$sp_base->where($taren_save)->save($savekk);
+			if($sql_taren)
+			{
+				$hk['hk_id']=$sql['sp_sjid'];
+				$hk['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+				$hk_base=M('hkadd');
+				$hk_data['hk_sp']=2;
+				$sqk_kp_save=$hk_base->where($hk)->save($hk_data);
+			}
+			//var_dump($sql);exit;
 		}
 		public function kp_bohui(){
 			$tb=$_GET['tb'];

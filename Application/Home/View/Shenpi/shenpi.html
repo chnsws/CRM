@@ -61,7 +61,39 @@
 				  </ul>
 				  <div class="layui-tab-content" >
 				    <div class="layui-tab-item layui-show">亲~还没有数据哟</div>
-				    <div class="layui-tab-item">{$hk_show}</div>
+				    <div class="layui-tab-item">
+				    	 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+							  <ul class="layui-tab-title">
+							    <li class="layui-this">待审批</li>
+							    <li>已通过</li>
+							    <li>已驳回</li>
+					 			<li>他人审批</li>
+					
+							  </ul>
+						 		<div class="layui-tab-content">
+							 		 <div class="layui-tab-item layui-show" >
+							 			 	{$hk_show}
+							 		 </div>
+							 		 <div class="layui-tab-item">
+							 			
+							 			 	{$hk_show1}
+							 			
+							 	    </div>
+							 		 <div class="layui-tab-item">
+							 			 
+							 				{$hk_show2}
+							 			
+							 		</div>
+							 		 <div class="layui-tab-item">
+							 			
+							 			 	{$hk_show3}
+							 			 
+							 		</div>
+								 </div>
+				    
+				    </div>
+
+				  </div>
 				    <div class="layui-tab-item">
 
 					 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
@@ -74,11 +106,7 @@
 							  </ul>
 						 		<div class="layui-tab-content">
 							 		 <div class="layui-tab-item layui-show" >
-							 			
-
 							 			 	{$kp_show}
-
-							 			
 							 		 </div>
 							 		 <div class="layui-tab-item">
 							 			
@@ -136,6 +164,7 @@ layui.use('upload', function(){
 		$a=$(ss).prop("class");
 		$.get(rooturl+'/index.php/Home/Shenpi/tongguo',{"id":$a},
 						        		 				function(html){
+						        		 				//	alert(html)
 						        		 					tishi("审批成功")
 			        		 								 window.location.href="Shenpi";
 														});
@@ -144,11 +173,32 @@ layui.use('upload', function(){
 	}
 	function bohui(ss){
 			$a=$(ss).prop("class");
-		$.get(rooturl+'/index.php/Home/Shenpi/bohui',{"id":$a},
+		layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'630px',
+								fixed: false,
+								title: '驳回原因',
+								content:$('#bohuio'),
+								btn:['确认驳回'],
+						
+								btn1:function(){
+									
+									var bh_yuanyin=$("#bhyy").val();
+									alert(bh_yuanyin)
+									$.get(rooturl+'/index.php/Home/Shenpi/bohui',{"id":$a,'yuanyin':bh_yuanyin},
 						        		 				function(html){
-															tishi("审批成功")
+														
 			        		 								 window.location.href="Shenpi";
 														});
+
+								}
+							}); 
+						});  
+		
+											
 	}
 	
 	function kp_tongguo(sss){
@@ -253,7 +303,36 @@ layui.use('upload', function(){
 							}); 
 						});             
 	}
+function hk_because(ss){
+		var a=$(ss).prop('class');
+		//alert(a);
+		$.get(rooturl+'/index.php/Home/Hetongmingcheng/bh_yy1',{"id":a},
+												function(html){
+												
+													$(".bhyuany1").html(html);
 
+											})
+		layui.use('layer', function(){
+			
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'750px',
+								title: '驳回原因',
+								content:$('.bhyuany'),
+								btn:['确定'],
+
+								btn1:function(){
+										
+									  layer.close(win)    
+							            
+								}
+							
+							}); 
+						});             
+	}
 </script>
 
 	</html>

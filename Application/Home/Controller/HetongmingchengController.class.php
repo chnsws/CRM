@@ -259,7 +259,7 @@ return $fzr_only;
 						$show3.="</select></td>";
 					
 					}elseif($k=='zdy4' || $k=='zdy5'  ||$k=='zdy6' || $k=='zdy15'){
-						$show3.="<td ><input type='text' class='bjwh' name='$k' value='".$ht_json[$k]."' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";	
+						$show3.="<td ><input type='text' class='bjwh' name='$k' value='".$ht_json[$k]."' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd H:mm:ss'".'})"'."></td>";	
 					}else{
 						$show3.="<td ><input type='text' class='bjwh' name='$k' value='".$ht_json[$k]."'></td>";	
 					}	
@@ -392,13 +392,24 @@ return $fzr_only;
 								foreach($sql_hk_add as $k3=>$v3)
 								{
 									
+									
 										if($v['hk_qici']==$v3['hk_qici']){
 											$abc++;
 											$hk_jihua.="<tbody class='fujian_del'>
 												<tr>
-												<td >操作</td>
-												<td >".$shenpi_arr[$v3['hk_sp']]."</td>
-												<td >".$v3['hk_data']."</td>
+												<td >操作</td>";
+												if($v3['hk_sp']==0)
+												{
+														$hk_jihua.="<td ><span  >".$shenpi_arr[$v3['hk_sp']]."</span></td>";
+												}elseif($v3['hk_sp']==1)
+												{	
+													$hk_jihua.="<td ><span style='color:green' >".$shenpi_arr[$v3['hk_sp']]."</span></td>";
+												}elseif($v3['hk_sp']==2)
+												{
+													$hk_jihua.="<td ><span style='color:red' onclick='bh_yy1(this)' class='".$v3['hk_id']."'>".$shenpi_arr[$v3['hk_sp']]."</span></td>";
+												}
+												
+												$hk_jihua.="<td >".$v3['hk_data']."</td>
 												<td >".$v3['hk_je']."</td>
 												<td >".$ywcs['zdy11'][$v3['zdy11']]."</td>
 												<td >".$ywcs['hktype'][$v3['hk_type']]."</td>
@@ -428,7 +439,7 @@ return $fzr_only;
 			
 			$xz_jh.="<table class='uk-form ' >";
 		    			$xz_jh.="<tr>
-		    						<td><span style='color:red' >*</span>回款日期：</td><td><input type='text' name='hk_data'  onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d'".'})"'."></td>
+		    						<td><span style='color:red' >*</span>回款日期：</td><td><input type='text' name='hk_data'  onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td>
 		    					</tr>
 		    					<tr>
 		    						<td><span style='color:red' >*</span>回款金额：</td><td><input type='number' name='hk_je' value=''></td>
@@ -479,7 +490,7 @@ return $fzr_only;
 		    $kaipiao.="<table class='uk-form ' >";
 		    			 $kaipiao.="<tr>
 
-		    						<td><span style='color:red'>＊</span>开票日期:</td><td><input type='text' class='required' name='kp_date' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d '".'})"'."></td>
+		    						<td><span style='color:red'>＊</span>开票日期:</td><td><input type='text' class='required' name='kp_date' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd '".'})"'."></td>
 		    					</tr>
 		    					<tr>
 		    						<td><span style='color:red'>＊</span>票据内容:</td><td><input type='text' name='kp_data' class='required'></td>
@@ -987,17 +998,27 @@ return $fzr_only;
 		$data['hk_cj_date']=date("Y-m-d h:i:s");;
 		$data['hk_cj']=cookie("user_id");
 		$hkadd_base=M('hkadd');
-		$hk_sql=$hkadd_base->add($data);
+	$hk_sql=$hkadd_base->add($data);
 		if($hk_sql){
 
 			$shenpiyo=$this->shenpi_hk();
 			$shenpi_user=explode(",", $shenpiyo);
 
 			foreach($shenpi_user as $k=>$v)
-			{
+
+			{	
+				if($k!='a' && $k!='b'){
 				$new_shenpi[$v]=$v;
+				}else{
+					$sp_tbb=$v;
+				}
 			}
-			
+			if($sp_tbb=="a")
+			{
+				$map_sp_hk['sp_tp']=1;//未审批
+			}else{
+				$map_sp_hk['sp_tp']=0;//未审批
+			}
 			$sp_hk_base=M('sp');
 			$map_sp_hk['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
 			$map_sp_hk['sp_sj']=date("Y-m-d h:i:s");
@@ -1019,7 +1040,13 @@ return $fzr_only;
 			$shenpi_map['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
 			$shenpi_map['sp_type']=2;
 			$sql_shenpi=$shenpi_base->where($shenpi_map)->find();
-			$a="";
+			if($sql_shenpi['sp_tb']==1)
+			{
+				$save_tb="a";
+			}else{
+				$save_tb="b";
+			}
+			$a=$save_tb.",";
 			if($sql_shenpi['sp_qy_1']==1)
 			{
 				$a.=cookie('user_fid')=='0'?cookie('user_id').",":cookie('user_fid').",";
@@ -1038,7 +1065,7 @@ return $fzr_only;
 				$a.=$sql_shenpi["sp_value_3"].",";
 			}
 			$shenpi_user=substr($a,0,strlen($a)-1); 
-
+		
 				return $shenpi_user;
 		
 	}
@@ -1058,7 +1085,7 @@ return $fzr_only;
 				<tr class='add_pz' style='display:none'>
 					<td >1</td>
 					<td ><span onclick='jia(this)'><i class='layui-icon'  style='color:black'>&#xe61f;</i></span><span class='1' onclick='hkzb1(this)'><i class='layui-icon'   style='font-size:20px'>&#xe640;</i></span></td>
-					<td ><input type='text' style='width:110px'  name ='' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d '".'})"'."></td>
+					<td ><input type='text' style='width:110px'  name ='' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd '".'})"'."></td>
 					<td ><input type='text' style='width:100px' class= 'zbi' onchange='zolop(this)'></td>
 					<td ><input type='text' style='width:100px' class= 'money' value='' onchange='fan(this)' name =''></td>
 					<td ><input type='text' style='width:110px' name =''></td>
@@ -1280,6 +1307,19 @@ return $fzr_only;
 		$id['sp_sjid']=$_GET['id'];
 		$id['sp_jg']=2;
 		$id['sp_yy']=3;
+		$id['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+		$m=M('sp');
+		$sql=$m->where($id)->find();
+		echo "<table><tr><td>驳回人：</td><td>".$user[$sql['sp_user']]['user_name']."</td></tr><tr><td>驳回原因：</td><td>".$sql['sp_yuanyin']."</td></tr><tr><td>驳回时间：</td><td>".$sql['sp_sj']."</td></tr></table>";
+
+		
+	}
+	public function bh_yy1(){
+		$user=$this->userws();
+		
+		$id['sp_sjid']=$_GET['id'];
+		$id['sp_jg']=2;
+		$id['sp_yy']=2;
 		$id['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
 		$m=M('sp');
 		$sql=$m->where($id)->find();

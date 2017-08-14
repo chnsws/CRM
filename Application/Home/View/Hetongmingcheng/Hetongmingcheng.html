@@ -66,6 +66,7 @@
 			 	.onError{color:red;}
 			.onSuccess{color:green;}
 			.bhyuany1{margin-top:4%;margin-left:35%;}
+			.bhyuany12{margin-top:4%;margin-left:35%;}
   	</style>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
@@ -139,7 +140,11 @@
 		   </div>
 		   
 		  <div id="tabs-2">
-
+			<div class="bhyuanyyy"  style="display: none;border:1px;">
+		    		<div class="bhyuany12" >
+		    			
+		    		</div>
+			 	</div> 
 		
 		  	<div class="add_hk"  style="display: none;border:1px;">
 		    		<div class="bianji_nb" style="width:430px;margin:0 auto">
@@ -206,7 +211,8 @@
 
 		  </div>
 		  <div id="tabs-7">
-					 
+					 				
+	 			
 				 <div class="kpjl"  style="display: none;border:1px;">
 		    		<div class="bianji_nb" style="width:480px;margin:0 auto">
 		    			<form id="kaipiaoadd">
@@ -219,6 +225,7 @@
 		    			
 		    		</div>
 			 	</div> 
+			 
 	 <div class="hk_wh">
 				<div class="hkauto" >
 			  		合同总金额：¥ <b>{$hkzje}</b><span class="hkshow"> 已开票总金额：¥<b> {$zonghk}</b></span> <span class="hkshow">未开票总金额：¥ <b>{$weihka}</b</span> <span  class="pz_wz"><button  id='create-sahngji' onclick='xzkp()' class='layui-btn layui-btn-small add_wz' >新增开票记录</button></span>
@@ -353,7 +360,6 @@
 						 		
 
 						</div>      
-				
 
 		   </div>
 		   
@@ -496,7 +502,7 @@
 									alert (ajaxstr);
 									$.get(rooturl+'/index.php/Home/Shangjimingcheng/save',{"id":ajaxstr},
 							        		 function(html){
-									        		alert(html)
+									        	//	alert(html)
 									        		if(html=="no"){
 									        			tishi("没有修改信息")
 									        			layer.close(win)
@@ -661,7 +667,7 @@
 				var htid=$(".ht_id").val();	 	
 			 	$.get(rooturl+'/index.php/Home/Hetongmingcheng/hkpz_content',{"id":htid},
 					 function(html){
-					 	alert(html)
+					 //	alert(html)
 		        		$(".th_peizhi").html(html)
                    });
 			
@@ -877,7 +883,7 @@
 											var thisdom=kp_num.eq(a).find("td").eq(1).children();
 											kp_end+=thisdom.prop("name")+":"+thisdom.val()+",";
 										}
-									alert(kp_end)
+								//	alert(kp_end)
 										$.get(rooturl+'/index.php/Home/Hetongmingcheng/kaipiaoadd',{"id":kp_end},
 												function(html){
 												
@@ -899,7 +905,7 @@
 
 											})
         		layui.use('layer', function(){
-			
+
 							var layer = layui.layer;
 							var win=layer.open({
 
@@ -919,6 +925,37 @@
 							}); 
 						});             
         }	
+         function bh_yy1(tjl){
+        		var bh_id=$(tjl).prop("class");
+        		$.get(rooturl+'/index.php/Home/Hetongmingcheng/bh_yy1',{"id":bh_id},
+											function(html){
+												//alert(html)
+													$(".bhyuany12").html(html);
+
+											})
+        		layui.use('layer', function(){
+
+							var layer = layui.layer;
+
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'750px',
+								title: '驳回原因',
+								content:$('.bhyuanyyy'),
+								btn:['确定'],
+
+								btn1:function(){
+										
+									  layer.close(win)    
+							            
+								}
+							
+							}); 
+						}); 
+
+        }	
        function sc_kp(ss){
 			var kp_id=$(ss).prop("class");
 			$.get(rooturl+'/index.php/Home/Hetongmingcheng/sc_kpee',{"id":kp_id},
@@ -937,7 +974,7 @@
        function fapiao(ss){
        	var a=$(ss).val();
        	var hqtr = $(ss).parent().parent();
-       	alert(hqtr)
+       //	alert(hqtr)
 	       if(a == 0)
 	       {
 	       	$(".zzsfp").remove();
