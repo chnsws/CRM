@@ -42,12 +42,9 @@ var navs = [{
 	"spread": false
 }
 
+
+
 /*, {
-	"title": "报表中心",
-	"icon": "fa-align-left",
-	"href": "https://www.baidu.com",
-	"spread": false
-}, {
 	"title": "工作报告",
 	"icon": "fa-tags",
 	"href": "https://www.baidu.com",
@@ -76,6 +73,12 @@ var navs = [{
 	"href": "index.php/Home/Xiansuo/index",
 	"spread": false,
 	
+}
+, {
+	"title": "报表中心",
+	"icon": "fa-align-left",
+	"href": "index.php/Home/Report/index",
+	"spread": false
 }
 ,{
 	"title": "问题反馈",

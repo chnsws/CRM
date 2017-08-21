@@ -33,16 +33,15 @@
         <sapn class="head_tab">
             <span>按创建时间汇总</span>
             <span class="head_tab_show"  onclick="location='./yewuxinzenghuizong2'">按创建人汇总</span>
-            <span class="head_tab_show">按负责人汇总</span>
+            <!--<span class="head_tab_show">按负责人汇总</span>-->
         </sapn>
     </div>
     <div id="shaixuan">
         <div class="textalign">
             <span class="sx_title">时间纬度：</span>
-            <span class="sx_xx">日</span>
-            <span class="sx_xx">周</span>
-            <span class="sx_xx sx_this">月</span>
-            <span class="sx_xx">年</span>
+            <span class="sx_xx">本周</span>
+            <span class="sx_xx">本月</span>
+            <span class="sx_xx">今年</span>
             <span class="sx_time"></span>
         </div>
         <div>
@@ -50,18 +49,20 @@
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择部门</option>
+                    {$bm_option}
                 </select>
             </span>
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择用户</option>
+                    {$user_option}
                 </select>
             </span>
         </div>
     </div>
     <div id="chart"></div>
     <div id="table">
-        <div class="table_head">线索数：151，客户学生数：1554，商机数：3316，合同数：191</div>
+        <div class="table_head">线索数：{$topInfo[1]}，客户数：{$topInfo[2]}，商机数：{$topInfo[3]}，合同数：{$topInfo[4]}</div>
         <table class="layui-table" lay-skin="line">
             <thead>
                 <th>时间</th>
@@ -71,52 +72,7 @@
                 <th>合同数</th>
             </thead>
             <tbody>
-                <tr>
-                    <td>2016-07</td>
-                    <td>23</td>
-                    <td>215</td>
-                    <td>58</td>
-                    <td>13</td>
-                </tr>
-                <tr>
-                    <td>2016-07</td>
-                    <td>23</td>
-                    <td>215</td>
-                    <td>58</td>
-                    <td>13</td>
-                </tr>
-                <tr>
-                    <td>2016-07</td>
-                    <td>23</td>
-                    <td>215</td>
-                    <td>58</td>
-                    <td>13</td>
-                </tr>
-                <tr>
-                    <td>2016-07</td>
-                    <td>23</td>
-                    <td>215</td>
-                    <td>58</td>
-                    <td>13</td>
-                </tr>
-                <tr>
-                    <td>2016-07</td>
-                    <td>23</td>
-                    <td>215</td>
-                    <td>58</td>
-                    <td>13</td>
-                </tr>
-                <tr>
-                    <td>2016-07</td>
-                    <td>23</td>
-                    <td>215</td>
-                    <td>58</td>
-                    <td>13</td>
-                </tr>
-                
-                <tr>
-                    <td colspan="5" style="text-align:center;">共7条</td>
-                </tr>
+              {$tableHtml}
             </tbody>
         </table>
     </div>
@@ -153,7 +109,7 @@ $(function(){
             }
         },
         legend: {
-            data:['线索数','商机数','客户数','合同数']
+            data:['线索数','客户数','商机数','合同数']
         },
         grid: {
             left: '10px',
@@ -163,7 +119,7 @@ $(function(){
         xAxis : [
             {
                 type : 'category',
-                data : ['2016-06','2016-07','2016-08','2016-09','2016-10','2016-11','2017-01','2017-02','2017-03','2017-04','2017-05','2017-06']
+                data : [{$chartXName}]
             }
         ],
         yAxis : [
@@ -171,26 +127,38 @@ $(function(){
                 type : 'value'
             }
         ],
+        dataZoom: [
+            {   // 这个dataZoom组件，默认控制x轴。
+                type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                start: 0,      // 左边在 10% 的位置。
+                end: 100         // 右边在 60% 的位置。
+            },
+            {   // 这个dataZoom组件，默认控制x轴。
+                type: 'inside', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                start: 0,      // 左边在 10% 的位置。
+                end: 100         // 右边在 60% 的位置。
+            }
+        ],
         series : [
             {
                 name:'线索数',
                 type:'line',
-                data:[320, 332, 301, 334, 390, 330, 320,320, 332, 301, 334, 390]
-            },
-            {
-                name:'商机数',
-                type:'line',
-                data:[120, 132, 101, 134, 90, 230, 210,120, 132, 101, 134, 90]
+                data:[{$chartValue1}]
             },
             {
                 name:'客户数',
                 type:'line',
-                data:[220, 182, 191, 234, 290, 330, 310,220, 182, 191, 234, 290]
+                data:[{$chartValue2}]
+            },
+            {
+                name:'商机数',
+                type:'line',
+                data:[{$chartValue3}]
             },
             {
                 name:'合同数',
                 type:'line',
-                data:[150, 232, 201, 154, 190, 330, 410,150, 232, 201, 154, 190]
+                data:[{$chartValue4}]
             }
         ]
     };
@@ -198,6 +166,24 @@ $(function(){
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
     //myChart.showLoading();     //加载动画
+    //显示选中的日期
+    var selTime="{$_GET['sx_1']}";
+    if(selTime!='')
+    {
+        var selIndex=parseInt(selTime)-1;
+        $(".textalign").children(".sx_xx").eq(selIndex).addClass("sx_this");
+    }
+    else
+    {
+        $(".textalign").children(".sx_xx").eq(1).addClass("sx_this");
+    }
+    //监听筛选
+    $(".textalign").children(".sx_xx").on("click",function(){
+        layer.load(2);
+        var thisindex=$(this).index();
+        var now_sx=get_url_val(1);
+        window.location=root_dir+"/index.php/Home/Report/yewuxinzenghuizong?sx_1="+thisindex+now_sx;
+    });
 });
 var sel_num=2;
 function change_fun(dom)
@@ -207,7 +193,29 @@ function change_fun(dom)
         sel_num--;
         return;
     }
-    alert(1);
+    layer.load(2);
+    var thisindex=dom.index("select")+2;
+    var now_sx=get_url_val(thisindex);
+    window.location=root_dir+"/index.php/Home/Report/yewuxinzenghuizong?sx_"+thisindex+"="+dom.val()+now_sx;
+}
+//获取URL中剩余的值，可以删除一个值
+function get_url_val(without)
+{
+    var now_sx='';
+    if("{$_GET['sx_1']}"!=''&&"sx_"+without!='sx_1')
+    {
+        now_sx+="&sx_1="+"{$_GET['sx_1']}";
+        
+    }
+    if("{$_GET['sx_2']}"!=''&&"sx_"+without!='sx_2')
+    {
+        now_sx+="&sx_2="+"{$_GET['sx_2']}";
+    }
+    if("{$_GET['sx_3']}"!=''&&"sx_"+without!='sx_3')
+    {
+        now_sx+="&sx_3="+"{$_GET['sx_3']}";
+    }
+    return now_sx;
 }
 </script>
 </html>

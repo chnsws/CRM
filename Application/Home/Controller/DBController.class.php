@@ -137,4 +137,24 @@ class DBController extends Controller {
         $timearr['6']['e']=date('Y',time()).'-12-31 23:59:59';
         return $timearr;
     }
+    //获取的本月多少天
+    public function get_day_num($unix){  
+        $month = date('m', $unix);  
+        $year = date('Y', $unix);  
+        $nextMonth = (($month+1)>12) ? 1 : ($month+1);  
+        $year      = ($nextMonth>12) ? ($year+1) : $year;  
+        $days   = date('d',mktime(0,0,0,$nextMonth,0,$year));  
+        return $days;  
+    }  
+    //获得本年多少天
+    public function get_year_num($unix)
+    {
+        $year = date("Y",$unix);
+        $time = mktime(20,20,20,4,20,$year);//取得一个日期的 Unix 时间戳;  
+        if (date("L",$time)==1){ //格式化时间，并且判断是不是闰年，后面的等于一也可以省略；  
+            return 366; 
+        }else{  
+            return 365; 
+        }  
+    }
 }

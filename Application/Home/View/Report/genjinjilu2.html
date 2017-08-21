@@ -32,7 +32,7 @@
         <sapn class="head_title">跟进记录报表</sapn>
         <sapn class="head_tab">
             <span>跟进对象</span>
-            <span class="head_tab_show" onclick="location=">跟进类型</span>
+            <span class="head_tab_show">跟进类型</span>
         </sapn>
     </div>
     <div id="shaixuan">
@@ -250,7 +250,7 @@ $(function(){
         layer.load(2);
         var thisindex=$(this).index();
         var now_sx=get_url_val(1);
-        window.location=root_dir+"/index.php/Home/Report/genjinjilu?sx_1="+thisindex+now_sx;
+        window.location=root_dir+"/index.php/Home/Report/genjinjilu2?sx_1="+thisindex+now_sx;
     });
 });
 var sel_num=2;
@@ -264,7 +264,7 @@ function change_fun(dom)
     layer.load(2);
     var thisindex=dom.index("select")+2;
     var now_sx=get_url_val(thisindex);
-    window.location=root_dir+"/index.php/Home/Report/genjinjilu?sx_"+thisindex+"="+dom.val()+now_sx;
+    window.location=root_dir+"/index.php/Home/Report/genjinjilu2?sx_"+thisindex+"="+dom.val()+now_sx;
 }
 //获取URL中剩余的值，可以删除一个值
 function get_url_val(without)

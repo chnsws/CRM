@@ -12,14 +12,6 @@ class ReportController extends DBController {
     {
         $this->display();
     }
-    public function yewuxinzenghuizong()
-    {
-        $this->display();
-    }
-    public function yewuxinzenghuizong2()
-    {
-        $this->display();
-    }
     //产品销售汇总表-按产品汇总
     public function chanpinxiaoshouhuizong()
     {
@@ -1405,6 +1397,292 @@ class ReportController extends DBController {
         $this->assign("data_table",$data_table);
         $this->display();
     }
+    //业务新增汇总报表
+    public function yewuxinzenghuizong()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //时间判断
+        $tarr=parent::time_more();
+        $tk='4';
+        if($_GET['sx_1']!='')
+        {
+            $tk=$_GET['sx_1']=='3'?'6':$_GET['sx_1']+2;
+        }
+        $tarr=$tarr[$tk];
+        //parent::rr($tarr);
+        $s=strtotime($tarr['s']);
+        $e=strtotime($tarr['e']);
+        //sql语句之前判断get到的参数 ，进行sql语句条件拼接
+        if($_GET['sx_2']!=''&&$_GET['sx_2']!='0')
+        {
+            $bmuser=$this->get_bm_user(addslashes($_GET['sx_2']));
+            $bmuser="'".implode("','",$bmuser)."'";
+            $sql_bm=" and rz_user in ($bmuser)";
+        }
+        if($_GET['sx_3']!=''&&$_GET['sx_3']!='0')
+        {
+            $sql_user=" and rz_user ='".addslashes($_GET['sx_3'])."'";
+        }
+        $rz=parent::sel_more_data("crm_rz","rz_mode,rz_time","rz_yh='$fid' and rz_cz_type='1' and rz_type='1' and rz_time>='$s' and rz_time<='$e' and rz_mode in ('1','2','5','6') $sql_bm $sql_user");
+        //parent::rr("rz_yh='$fid' and rz_cz_type='1' and rz_type='1' and rz_time>='$s' and rz_time<='$e'");
+        
+        //图形数据处理
+        //线索1客户2联系人4商机5合同6产品7
+        $tableDataTimeType=$_GET['sx_1']==3?'Y-m':'Y-m-d';
+        foreach($rz as $v)
+        {
+            $rz_data[$v['rz_mode']][date("Y-m-d",$v['rz_time'])]++;
+            $topArr[$v['rz_mode']][]=1;
+            $tableData[date($tableDataTimeType,$v['rz_time'])][$v['rz_mode']]++;
+        }
+        $nowMonthDaysNum=$tk=='3'?7:parent::get_day_num($s);
+        $nowMonthDaysNum=$tk=='6'?parent::get_year_num($s):$nowMonthDaysNum;
+        $startDay=date("Y-m-d",$s);
+        for($a=0;$a<$nowMonthDaysNum;$a++)
+        {
+            $toAdd1=$rz_data[1][$startDay]==''?0:$rz_data[1][$startDay];
+            $toAdd2=$rz_data[2][$startDay]==''?0:$rz_data[2][$startDay];
+            $toAdd5=$rz_data[5][$startDay]==''?0:$rz_data[5][$startDay];
+            $toAdd6=$rz_data[6][$startDay]==''?0:$rz_data[6][$startDay];
+            $r[1][$startDay]+=$toAdd1;
+            $r[2][$startDay]+=$toAdd2;
+            $r[5][$startDay]+=$toAdd5;
+            $r[6][$startDay]+=$toAdd6;
+            $chartKey[]=$startDay;
+            $startDay=date("Y-m-d",strtotime($startDay." +1 days"));
+        }
+        $topInfo[1]=count($topArr[1]);
+        $topInfo[2]=count($topArr[2]);
+        $topInfo[3]=count($topArr[5]);
+        $topInfo[4]=count($topArr[6]);
+        //表格数据处理
+        //parent::rr($chartKey);
+        $startDay=date($tableDataTimeType,$s);
+        $nowMonthDaysNum=$tk=='3'?7:parent::get_day_num($s);
+        $nowMonthDaysNum=$tk=='6'?12:$nowMonthDaysNum;
+        $tableHtml='';
+        $addTimeStr=$tk=='6'?' +1 month':' +1 day';
+        for($a=0;$a<$nowMonthDaysNum;$a++)
+        {
+            $tableHtml.='<tr>
+                <td>'.$startDay.'</td>
+                <td>'.($tableData[$startDay][1]==''?0:$tableData[$startDay][1]).'</td>
+                <td>'.($tableData[$startDay][2]==''?0:$tableData[$startDay][2]).'</td>
+                <td>'.($tableData[$startDay][5]==''?0:$tableData[$startDay][5]).'</td>
+                <td>'.($tableData[$startDay][6]==''?0:$tableData[$startDay][6]).'</td>
+            </tr>';
+            $startDay=$startDay=date($tableDataTimeType,strtotime($startDay.$addTimeStr));
+        }
+        $chartXName=implode("','",$chartKey);
+        $chartXName="'".$chartXName."'";
+
+        $chartValue1=implode(',',$r[1]);
+        $chartValue2=implode(',',$r[2]);
+        $chartValue3=implode(',',$r[5]);
+        $chartValue4=implode(',',$r[6]);
+
+        //获取部门下拉框
+        $bm_option=$this->get_bm_option($fid);
+        //获取用户下拉框
+        $user_option=$this->get_user_option($fid);
+        
+
+        $this->assign("bm_option",($_GET['sx_2']?str_replace("value='".$_GET['sx_2']."'","value='".$_GET['sx_2']."' selected ",$bm_option):$bm_option));
+        //用户下拉框
+        $this->assign("user_option",($_GET['sx_3']?str_replace("value='".$_GET['sx_3']."'","value='".$_GET['sx_3']."' selected ",$user_option):$user_option));
+        $this->assign("chartValue1",$chartValue1);
+        $this->assign("chartValue2",$chartValue2);
+        $this->assign("chartValue3",$chartValue3);
+        $this->assign("chartValue4",$chartValue4);
+        $this->assign("chartXName",$chartXName);
+        $this->assign("tableHtml",$tableHtml);
+        $this->assign("topInfo",$topInfo);
+        $this->display();
+    }
+    //业务新增汇总报表---按创建人汇总
+    public function yewuxinzenghuizong2()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //获得用户下拉框
+        $user_option=$this->get_user_option($fid);
+        $userarr=$this->option_to_arr($user_option);
+        //获得部门下拉框
+        $bm_option=$this->get_bm_option($fid);
+        //时间判断
+        $tarr=parent::time_more();
+        $tk=$_GET['sx_1']==''?"3":$_GET['sx_1'];
+        
+        $tarr=$tarr[$tk];
+        $s=strtotime($tarr['s']);
+        $e=strtotime($tarr['e']);
+        $sql_time=$_GET['sx_1']!='1'?"and rz_time>='$s' and rz_time<='$e'":'';
+        //sql语句之前判断get到的参数 ，进行sql语句条件拼接
+        if($_GET['sx_2']!=''&&$_GET['sx_2']!='0')
+        {
+            $bmuser=$this->get_bm_user(addslashes($_GET['sx_2']));
+            $bmuser="'".implode("','",$bmuser)."'";
+            $sql_bm=" and rz_user in ($bmuser)";
+        }
+        if($_GET['sx_3']!=''&&$_GET['sx_3']!='0')
+        {
+            $sql_user=" and rz_user ='".addslashes($_GET['sx_3'])."'";
+        }
+        $rz=parent::sel_more_data("crm_rz","rz_mode,rz_time,rz_user","rz_yh='$fid' and rz_cz_type='1' and rz_type='1' $sql_time and rz_mode in ('1','2','5','6') $sql_bm $sql_user");
+        
+        //图形数据处理
+        foreach($rz as $v)
+        {
+            $r[$v['rz_user']][$v['rz_mode']]++;
+            $topArr[$v['rz_mode']][]=1;
+        }
+        //表格上方显示的数据
+        $topInfo[1]=count($topArr[1]);
+        $topInfo[2]=count($topArr[2]);
+        $topInfo[3]=count($topArr[5]);
+        $topInfo[4]=count($topArr[6]);
+        //----
+        foreach($userarr as $k=>$v)
+        {
+            $chartname[]=$v;
+            $chartValue1[]=$r[$k][1];
+            $chartValue2[]=$r[$k][2];
+            $chartValue3[]=$r[$k][5];
+            $chartValue4[]=$r[$k][6];
+        }
+        //parent::rr($userarr);
+        //下方表格数据//线索1   客户2    联系人4    商机5    合同6    产品7
+        $tableHTML='';
+        foreach($r as $k=>$v)
+        {
+            $tableHTML.="<tr>
+                            <td>".$userarr[$k]."</td>
+                            <td>".($v[1]==''?0:$v[1])."</td>
+                            <td>".($v[2]==''?0:$v[2])."</td>
+                            <td>".($v[5]==''?0:$v[3])."</td>
+                            <td>".($v[6]==''?0:$v[4])."</td>
+                        </tr>";
+        }
+
+
+        $chartname="'".implode("','",$chartname)."'";
+        $chartValue1=implode(",",$chartValue1);
+        $chartValue2=implode(",",$chartValue2);
+        $chartValue3=implode(",",$chartValue3);
+        $chartValue4=implode(",",$chartValue4);
+        
+        $this->assign("bm_option",($_GET['sx_2']?str_replace("value='".$_GET['sx_2']."'","value='".$_GET['sx_2']."' selected ",$bm_option):$bm_option));
+        //用户下拉框
+        $this->assign("user_option",($_GET['sx_3']?str_replace("value='".$_GET['sx_3']."'","value='".$_GET['sx_3']."' selected ",$user_option):$user_option));
+        $this->assign("chartname",$chartname);
+        $this->assign("chartValue1",$chartValue1);
+        $this->assign("chartValue2",$chartValue2);
+        $this->assign("chartValue3",$chartValue3);
+        $this->assign("chartValue4",$chartValue4);
+        $this->assign("topInfo",$topInfo);
+        $this->assign("tableHTML",$tableHTML);
+        $this->display();
+    }
+    //跟进记录报表
+    public function genjinjilu()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //部门，用户下拉框
+        $user_option=$this->get_user_option($fid);
+        $bm_option=$this->get_bm_option($fid);
+        //时间判断
+        $tarr=parent::time_more();
+        
+        
+        $tk=$_GET['sx_1']==''?'1':$_GET['sx_1'];
+        $tarr=$tarr[$tk];
+        
+        //parent::rr($tarr);
+        $s=strtotime($tarr['s']);
+        $e=strtotime($tarr['e']);
+        //查询跟进
+        if($_GET['sx_2']!=''&&$_GET['sx_2']!='0')
+        {
+            $bmuser=$this->get_bm_user(addslashes($_GET['sx_2']));
+            $bmuser="'".implode("','",$bmuser)."'";
+            $sql_bm=" and user_id in ($bmuser)";
+        }
+        if($_GET['sx_3']!=''&&$_GET['sx_3']!='0')
+        {
+            $sql_user=" and user_id ='".addslashes($_GET['sx_3'])."'";
+        }
+        $sql_time=$tk=='1'?'':"and ((add_time>='".$tarr['s']."' and add_time<='".$tarr['e']."') or (add_time>='$s' and add_time<='$e'))";
+        $genjin=parent::sel_more_data("crm_xiegenjin","mode_id,user_id,add_time","genjin_yh='$fid' and mode_id in ('1','2','5','6') $sql_time $sql_bm $sql_user ");
+        //将跟进根据用户分组
+        foreach($genjin as $v)
+        {
+            $chartData[$v['user_id']][$v['mode_id']]++;//每个用户每个模块的跟进次数
+            $userAllData[$v['user_id']]++;//每个用户的跟进总次数
+            $modeData[$v['mode_id']]++;//每个模块跟进总次数
+            $allData++;//本公司总跟进次数
+        }
+        $tableTopData="跟进次数: ".($allData==''?0:$allData)."， 跟进线索次数: ".($modeData[1]==''?0:$modeData[1])."， 跟进客户学生次数: ".($modeData[2]==''?0:$modeData[2])."， 跟进商机次数: ".($modeData[5]==''?0:$modeData[5])."， 跟进合同次数: ".($modeData[6]==''?0:$modeData[6]);
+        //获取用户
+        $userarr=$this->option_to_arr($user_option);
+        //根据用户遍历
+        $tableData='';//表格字符串
+        //获取用户的部门
+        $userbmarr=$this->get_user_bm($fid);
+        //部门名称
+        $bmnamearr=$this->option_to_arr($bm_option);
+        //parent::rr($bmnamearr);
+        foreach($userarr as $k=>$v)
+        {
+            $b1=$userAllData[$k]==''?0:$userAllData[$k];
+            $b2=$chartData[$k][1]==''?0:$chartData[$k][1];
+            $b3=$chartData[$k][2]==''?0:$chartData[$k][2];
+            $b4=$chartData[$k][5]==''?0:$chartData[$k][5];
+            $b5=$chartData[$k][6]==''?0:$chartData[$k][6];
+            $chartValue1[]=$b1;
+            $chartValue2[]=$b2;
+            $chartValue3[]=$b3;
+            $chartValue4[]=$b4;
+            $chartValue5[]=$b5;
+            $chartName[]=$v;
+            //表格数据
+            $tableData.='<tr>
+                <td>'.$v.'</td>
+                <td>'.$bmnamearr[$userbmarr[$k]].'</td>
+                <td>'.$b1.'</td>
+                <td>'.$b2.'</td>
+                <td>'.$b3.'</td>
+                <td>'.$b4.'</td>
+                <td>'.$b5.'</td>
+            </tr>';
+        }
+        //构造图形数据
+        $chartValue1=implode(',',$chartValue1);
+        $chartValue2=implode(',',$chartValue2);
+        $chartValue3=implode(',',$chartValue3);
+        $chartValue4=implode(',',$chartValue4);
+        $chartValue5=implode(',',$chartValue5);
+        $chartName="'".implode("','",$chartName)."'";
+        //parent::rr($chartName);
+        
+
+        //图形数据
+        $this->assign("chartValue1",$chartValue1);
+        $this->assign("chartValue2",$chartValue2);
+        $this->assign("chartValue3",$chartValue3);
+        $this->assign("chartValue4",$chartValue4);
+        $this->assign("chartValue5",$chartValue5);
+        $this->assign("chartName",$chartName);
+        //筛选数据
+        $this->assign("bm_option",($_GET['sx_2']?str_replace("value='".$_GET['sx_2']."'","value='".$_GET['sx_2']."' selected ",$bm_option):$bm_option));
+        //用户下拉框
+        $this->assign("user_option",($_GET['sx_3']?str_replace("value='".$_GET['sx_3']."'","value='".$_GET['sx_3']."' selected ",$user_option):$user_option));
+        //表格数据
+        $this->assign("tableTopData",$tableTopData);
+        $this->assign("tableData",$tableData);
+        $this->display();
+    }
     //获得部门下拉内容
     public function get_bm_option($fid)
     {
@@ -1434,6 +1712,17 @@ class ReportController extends DBController {
             $user_bm[$v['user_id']]=$v['user_zhu_bid'];
         }
         return $user_bm;
+    }
+    //获得指定部门下的所有用户id
+    public function get_bm_user($bmid)
+    {
+        $fid=parent::get_fid();
+        $useridarr=parent::sel_more_data("crm_user","user_id","(user_fid='$fid' or user_id='$fid') and user_del='0' and user_zhu_bid='$bmid'");
+        foreach($useridarr as $v)
+        {
+            $r[]=$v['user_id'];
+        }
+        return $r;
     }
     //获得产品分类下拉框内容
     public function get_cpfl_option($fid)
