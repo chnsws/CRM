@@ -9,7 +9,7 @@ html,body,box{background: #f7f7f7;height:auto;}
 .head_tab span:last-child{border-radius:0px 5px 5px 0px;}
 .head_tab_show{border:1px solid #1AA094;background:#fff!important;color:#1AA094!important;height:28px!important;line-height: 28px!important;}
 /*筛选*/
-#shaixuan>div{height:40px;}
+#shaixuan>div{min-height:40px;}
 #shaixuan>div>span{float:left;height:26px;line-height:26px;padding:0px 10px;margin-right:10px;margin-top:7px;cursor:pointer;}
 .sx_this{background:#50BBB1;color:#fff;border-radius:5px;}
 #shaixuan>div>span:first-child{width:100px;}
@@ -17,6 +17,8 @@ html,body,box{background: #f7f7f7;height:auto;}
 
 /*需要特殊对齐的筛选栏*/
 .textalign>span:first-child{width:110px!important;}
+
+.moredo{overflow: hidden;}
 
 
 .sx_xx select{display:none;}

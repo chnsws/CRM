@@ -36,41 +36,33 @@
             <span class="sx_title">时间：</span>
             <span class="sx_xx">
                 <select>
-                    <option value="0">2017</option>
-                    <option value="111">2016</option>
-                    <option value="222">2015</option>
-                    <option value="333">2014</option>
+                    {$dateOption}
                 </select>
             </span>
         </div>
-        <div>
+        <div class="textalign moredo">
             <span class="sx_title">业绩类型：</span>
-            <span class="sx_xx">后台添加的业绩目标</span>
-            <span class="sx_xx">后台添加的业绩目标</span>
-            <span class="sx_xx sx_this">后台添加的业绩目标</span>
-            <span class="sx_xx">后台添加的业绩目标</span>
-            <span class="sx_xx">后台添加的业绩目标</span>
+            {$sxName}
         </div>
         <div>
             <span class="sx_title">部门和用户：</span>
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择部门</option>
-                    <option value="111">111</option>
-                    <option value="222">222</option>
-                    <option value="333">333</option>
+                    {$bm_option}
                 </select>
             </span>
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择用户</option>
+                    {$user_option}
                 </select>
             </span>
         </div>
     </div>
     <div id="chart"></div>
     <div id="table">
-        <div class="table_head">销售金额：¥ 55,338,333,338,756,490.000000目标金额：¥ 0.000000完成率：--</div>
+        <div class="table_head">{$tableTopTip}</div>
         <table class="layui-table" lay-skin="line">
             <thead>
                 <th>时间</th>
@@ -79,35 +71,7 @@
                 <th>完成率</th>
             </thead>
             <tbody>
-                <tr>
-                    <td>一月</td>
-                    <td>¥ 4,980,450.000000</td>
-                    <td>¥ 4,980,450.000000</td>
-                    <td>100%</td>
-                </tr>
-                <tr>
-                    <td>一月</td>
-                    <td>¥ 4,980,450.000000</td>
-                    <td>¥ 4,980,450.000000</td>
-                    <td>100%</td>
-                </tr>
-                <tr>
-                    <td>一月</td>
-                    <td>¥ 4,980,450.000000</td>
-                    <td>¥ 4,980,450.000000</td>
-                    <td>100%</td>
-                </tr>
-                <tr>
-                    <td>一月</td>
-                    <td>¥ 4,980,450.000000</td>
-                    <td>¥ 4,980,450.000000</td>
-                    <td>100%</td>
-                </tr>
-                
-                
-                <tr>
-                    <td colspan="4" style="text-align:center;">共7条</td>
-                </tr>
+                {$dataTable}
             </tbody>
         </table>
     </div>
@@ -154,7 +118,7 @@ $(function(){
         xAxis : [
             {
                 type : 'category',
-                data : ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
+                data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
             }
         ],
         yAxis : [
@@ -176,18 +140,18 @@ $(function(){
             {
                 name:'销售金额',
                 type:'bar',
-                data:[320, 332, 301, 334, 390, 330, 320,320, 332, 301, 334, 390]
+                data:{$chart2}
             },
             {
                 name:'目标',
                 type:'bar',
-                data:[120, 132, 101, 134, 90, 230, 210,120, 132, 101, 134, 90]
+                data:{$chart1}
             },
             {
                 name:'完成率',
                 yAxisIndex:1,
                 type:'line',
-                data:[20,30,40,50,60,70,80,90,22,11,44,66],
+                data:{$chart3},
                 tooltip :{
                     trigger: 'item',
                     formatter: "完成率 : {c} %"
@@ -196,10 +160,62 @@ $(function(){
         ]
     };
 
-// 使用刚指定的配置项和数据显示图表。
-myChart.setOption(option);
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
     //myChart.showLoading();     //加载动画
+
+    $(".textalign").children(".sx_xx").on("click",function(){
+        var thisYjId=$(this).attr("name");
+        if(thisYjId=='none')
+        {
+            return;
+        }
+        layer.load(2);
+        var now_sx=get_url_val(2);
+        window.location=root_dir+"/index.php/Home/Report/yejimubiaowanchengdu?sx_2="+thisYjId+now_sx;
+    });
+
 });
+//监听下拉框改变
+var sel_num=3;
+function change_fun(dom)
+{
+    if(sel_num!=0)
+    {
+        sel_num--;
+        return;
+    }
+    
+    var thisindex=dom.index("select")=='0'?dom.index("select")+1:dom.index("select")+2;
+    var now_sx=get_url_val(thisindex);
+    window.location=root_dir+"/index.php/Home/Report/yejimubiaowanchengdu?sx_"+thisindex+"="+dom.val()+now_sx;
+}
+//获取URL中剩余的值，可以删除一个值
+function get_url_val(without)
+{
+    var now_sx='';
+    if("{$_GET['sx_1']}"!=''&&"sx_"+without!='sx_1')
+    {
+        now_sx+="&sx_1="+"{$_GET['sx_1']}";
+    }
+    if(without=='1')
+    {
+        without='2';
+    }
+    if("{$_GET['sx_2']}"!=''&&"sx_"+without!='sx_2')
+    {
+        now_sx+="&sx_2="+"{$_GET['sx_2']}";
+    }
+    if("{$_GET['sx_3']}"!=''&&"sx_"+without!='sx_3')
+    {
+        now_sx+="&sx_3="+"{$_GET['sx_3']}";
+    }
+    if("{$_GET['sx_4']}"!=''&&"sx_"+without!='sx_4')
+    {
+        now_sx+="&sx_4="+"{$_GET['sx_4']}";
+    }
+    return now_sx;
+}
 </script>
 </html>
 

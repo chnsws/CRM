@@ -1683,6 +1683,158 @@ class ReportController extends DBController {
         $this->assign("tableData",$tableData);
         $this->display();
     }
+    //业绩目标完成度报表
+    public function yejimubiaowanchengdu()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //部门，用户下拉框
+        $user_option=$this->get_user_option($fid);
+        $bm_option=$this->get_bm_option($fid);
+        $nowYear=$_GET['sx_1']?$_GET['sx_1']:date("Y",time());
+        //默认选中日期
+        $dateOption='   <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>';
+        $dateOption=$_GET['sx_1']?str_replace('value="'.$_GET['sx_1'].'"','value="'.$_GET['sx_1'].'" selected ',$dateOption):str_replace('value="'.$nowYear.'"','value="'.$nowYear.'" selected ',$dateOption);
+
+
+        //业绩目标名称和年度
+        $yjarr=parent::sel_more_data("crm_yjmb","yjmb_id,yjmb_type_more,yjmb_type","yjmb_yh='$fid' and yjmb_nd='$nowYear'");
+        $firstId=$_GET['sx_2']?$_GET['sx_2']:'';
+        $firstId=count($yjarr)?$firstId:'0';
+        $firstType='';
+        $firstMore='';
+        $firstNd='';
+        $sxName='';
+        foreach($yjarr as $v)
+        {
+           
+            if($firstId=='')
+            {
+                //获取第一条的id和年度 并且给第一条默认选中
+                $firstId=$v['yjmb_id'];
+                $firstType=$v['yjmb_type'];
+                $firstMore=$v['yjmb_type_more'];
+                $firstNd=$v['yjmb_nd'];
+                $sxName.='<span class="sx_xx sx_this" name="'.$v['yjmb_id'].'">'.$this->get_yjmb_name($v['yjmb_type'],$v['yjmb_type_more']).'</span>';
+                continue;
+            }
+            else
+            {
+                if($firstId==$v['yjmb_id'])
+                {
+                    //获取第一条的id和年度 并且给第一条默认选中
+                    $firstId=$v['yjmb_id'];
+                    $firstType=$v['yjmb_type'];
+                    $firstMore=$v['yjmb_type_more'];
+                    $firstNd=$v['yjmb_nd'];
+                    $sxName.='<span class="sx_xx sx_this" name="'.$v['yjmb_id'].'">'.$this->get_yjmb_name($v['yjmb_type'],$v['yjmb_type_more']).'</span>';
+                    continue;
+                }
+            }
+            $sxName.='<span class="sx_xx" name="'.$v['yjmb_id'].'">'.$this->get_yjmb_name($v['yjmb_type'],$v['yjmb_type_more']).'</span>';
+        }
+        $sxName=count($yjarr)?$sxName:'<span class="sx_xx" name="none" style="padding-left:0px;" >'.$nowYear.'年度尚未设置业绩目标</span>';
+
+        //查询全公司的业绩目标数据
+        $getBm=$_GET['sx_3']?addslashes($_GET['sx_3']):'0';
+        $getUser=$_GET['sx_4']?addslashes($_GET['sx_4']):'0';
+        $this->get_bm_user($bm);
+        $selUserSql='';
+
+        if($getBm!='0'&&$getUser=='0')
+        {
+            $bmarr=$this->get_bm_user($getBm);
+            foreach($bmarr as $v)
+            {
+                $u[]=$v['user_id'];
+            }
+            $u=implode("','",$u);
+            $u="'".$u."'";
+            $selUserSql=" and yjm_uid in ($u)";
+        }
+        if($getUser!='0')
+        {
+            $selUserSql=" and yjm_uid='$getUser'";
+        }
+        $userMbArr=parent::sel_more_data("crm_yjmb_user","*","yjm_fid='$fid' and yjm_yid='$firstId' $selUserSql ");
+        $allMonthMb=array();
+        foreach($userMbArr as $v)
+        {
+            foreach($v as $kk=>$vv)
+            {
+                if(substr($kk,0,5)!='yjm_m')
+                {
+                    continue;
+                }
+                $allMonthMb[substr($kk,5)]+=$vv;
+            }
+        }
+        //每月的业绩目标图数据
+        $chart1=implode("','",$allMonthMb);
+        $chart1="['".$chart1."']";
+        //查询该业绩目标的每个月的实际数据
+        $noneArr=array();
+        
+
+        $getYjArr=$firstType==''?$noneArr:$this->get_yjmb($firstType,$firstMore,$nowYear,$getBm,$getUser);  
+        $dataTable='';
+        for($a=1;$a<=12;$a++)
+        {
+            $chart2Arr[$a]=$getYjArr[$a]==''?0:$getYjArr[$a];
+            $chart3Arr[$a]=$chart2Arr[$a]/$allMonthMb[$a];
+            if($chart3Arr[$a]>1)
+            {
+                $chart3Arr[$a]=1;
+            }
+            if($chart3Arr[$a]<0)
+            {
+                $chart3Arr[$a]=0;
+            }
+            $chart3Arr[$a]=($chart3Arr[$a]*100);
+            //表格数据
+            $dataTable.='<tr>
+                            <td>'.$a.'月</td>
+                            <td>'.$chart2Arr[$a].'</td>
+                            <td>'.$allMonthMb[$a].'</td>
+                            <td>'.$chart3Arr[$a].'%</td>
+                        </tr>';
+            $zongYj+=$allMonthMb[$a];
+            $zongWc+=$chart2Arr[$a];
+        }
+        $chart2=implode("','",$chart2Arr);
+        $chart2="['".$chart2."']";
+        $chart3=implode("','",$chart3Arr);
+        $chart3="['".$chart3."']";
+
+        //表格上方的完成提示
+        $tableTopTip='销售金额：¥ '.number_format($zongWc,2).'  目标金额：¥ '.number_format($zongYj,2).'完成率：'.((number_format($zongWc,2)/number_format($zongYj,2))*100).'%';
+
+        //业绩目标类型
+        $this->assign("sxName",$sxName);
+        //年度选择下拉框
+        $this->assign("dateOption",$dateOption);
+        //图形数据
+        $this->assign("chart1",$chart1);//图形1，系统设置的目标数据
+        $this->assign("chart2",$chart2);//图形2，公司内的实际数据
+        $this->assign("chart3",$chart3);//图形3，公司内的实际数据/系统设置的业绩目标 的百分比
+        //部门下拉框
+        $this->assign("bm_option",($_GET['sx_3']?str_replace("value='".$_GET['sx_3']."'","value='".$_GET['sx_3']."' selected ",$bm_option):$bm_option));
+        //用户下拉框
+        $this->assign("user_option",($_GET['sx_4']?str_replace("value='".$_GET['sx_4']."'","value='".$_GET['sx_4']."' selected ",$user_option):$user_option));
+        //表格上方数据
+        $this->assign("tableTopTip",$tableTopTip);
+        //下方表格
+        $this->assign("dataTable",$dataTable);
+        $this->display();
+    }
     //获得部门下拉内容
     public function get_bm_option($fid)
     {
@@ -1816,5 +1968,319 @@ class ReportController extends DBController {
         $d['s']=$s;
         $d['e']=$e;
         return $d;
+    }
+    //获取业绩目标名称
+    public function get_yjmb_name($yjmbtype,$yjmbmore)
+    {
+        $yjmbtypearr=array(
+            '1'=>'赢单商机金额',
+            '2'=>'赢单商机数',
+            '3'=>'合同回款金额',
+            '4'=>'合同金额',
+            '5'=>'合同数',
+            '6'=>'产品销量',
+            '7'=>'产品销售额',
+            '8'=>'产品分类销量',
+            '9'=>'产品分类销售额'
+        );
+        $yjname='';
+        if($yjmbtype=='6'||$yjmbtype=='7')
+        {
+            //和产品有关的业绩目标，需要查询产品名称
+            $cp=parent::sel_more_data("crm_chanpin","cp_data","cp_id='$yjmbmore' limit 1");
+            $cpname=json_decode($cp[0]['cp_data'],true);
+            $yjname=$yjmbtypearr[$yjmbtype].'('.$cpname['zdy0'].')';
+        }
+        else if($yjmbtype=='8'||$yjmbtype=='9')
+        {
+            //和产品分类有关的业绩目标，需要查询产品分类的名称
+            $cpfl=parent::sel_more_data("crm_chanpinfenlei","cpfl_name","cpfl_id='$yjmbmore'");
+            $yjname=$yjmbtypearr[$yjmbtype].'('.$cpfl[0]['cpfl_name'].')';
+        }
+        else
+        {
+            $yjname=$yjmbtypearr[$yjmbtype];
+        }
+        return $yjname;
+    }
+    //业绩目标的算法-返回本公司每个月的业绩目标的已完成的值
+    public function get_yjmb($yjmbtype,$yjmbmore,$year,$bm,$user)
+    {
+        //$yjmbtype,$yjmbmore,$year
+        //$yjmbtype=9;
+        //$yjmbmore=16;
+        //$year=2017;
+
+
+        $fid=parent::get_fid();
+        $usersx='';
+        //部门用户的筛选
+        if($bm!='0'&&$user=='0')
+        {
+            $bmarr=$this->get_bm_user($bm);
+            foreach($bmarr as $v)
+            {
+                $u[]=$v['user_id'];
+            }
+            $u=implode("','",$u);
+            $u="'".$u."'";
+            $usersx=" in ($u)";
+        }
+        if($user!='0')
+        {
+            $usersx=" ='$user'";
+        }
+
+
+        $r=array();
+        //判断时间
+        $tarr['s']=$year.'-01-01 00:00:00';
+        $tarr['e']=$year.'-12-31 23:59:59';
+        //parent::rr($tarr);
+        if($yjmbtype=='1')
+        {
+            //赢单商机金额
+            /*
+                本公司所有人的商机中  赢单的金额
+            */
+            //查询商机数据  预计销售金额zdy3  预计签单日期zdy4  销售阶段zdy5  赢单canshu5
+            $usersx=$usersx==''?'':" and sj_fz $usersx ";
+            $shangji=parent::sel_more_data("crm_shangji","sj_data","sj_yh='$fid' $usersx ");
+            
+            foreach($shangji as $v)
+            {
+                $j=json_decode($v['sj_data'],true);
+               
+                //parent::rr($j);
+                if($j['zdy5']!='canshu5')
+                {
+                    continue;
+                }
+                $sjt=$this->date_to_date($j['zdy4']);
+                if($sjt<$tarr['s']||$sjt>$tarr['e'])
+                {
+                    continue;
+                }
+                $sjt=substr($sjt,5,2);
+                $sjt2=$this->get_int($sjt);
+                $r[$sjt2]+=$j['zdy3'];
+            }
+        }
+        else if($yjmbtype=='2')
+        {
+            //赢单商机数
+            $usersx=$usersx==''?'':" and sj_fz $usersx ";
+            $shangji=parent::sel_more_data("crm_shangji","sj_data","sj_yh='$fid' $usersx ");
+            foreach($shangji as $v)
+            {
+                $j=json_decode($v['sj_data'],true);
+                //parent::rr($j);
+                if($j['zdy5']!='canshu5')
+                {
+                    continue;
+                }
+                $sjt=$this->date_to_date($j['zdy4']);
+                if($sjt<$tarr['s']||$sjt>$tarr['e'])
+                {
+                    continue;
+                }
+                $sjt=substr($sjt,5,2);
+                $sjt2=$this->get_int($sjt);
+                $r[$sjt2]++;
+            }
+        }
+        else if($yjmbtype=='3')
+        {
+            //合同回款金额
+            /*
+                找到本公司的合同
+            */
+            //查询我的合同回款
+            $usersx=$usersx==''?'':" and ht_fz $usersx ";
+            $myht=parent::sel_more_data("crm_hetong","ht_id"," ht_yh='$fid' $usersx");
+            foreach($myht as $v)
+            {
+                $hk_in_str.="'".$v['ht_id']."',";
+            }
+            $hk_in_str=substr($hk_in_str,0,-1);
+            //查询回款
+            $myhk=parent::sel_more_data("crm_hkadd","*","hk_yh='$fid' and hk_sp='1' and hk_ht in ($hk_in_str)");
+            foreach($myhk as $v)
+            {
+                $htt=$this->date_to_date($v['hk_data']);
+                if($htt<$tarr['s']||$htt>$tarr['e'])
+                {
+                    continue;
+                }
+                
+                $htt=substr($htt,5,2);
+                $htt2=$this->get_int($htt);
+                $r[$htt2]+=$v['hk_je'];
+            }
+        }
+        else if($yjmbtype=='4')
+        {
+            //合同金额
+            /*
+                合同总金额zdy3  签约日期zdy4
+            */
+            $usersx=$usersx==''?'':" and ht_fz $usersx ";
+            $myht=parent::sel_more_data("crm_hetong","ht_data","ht_yh='$fid' $usersx ");
+            foreach($myht as $v)
+            {
+                $j=json_decode($v['ht_data'],true);
+                $d=$this->date_to_date($j['zdy4']);
+                if($j['zdy7']!='canshu3')
+                {
+                    //判断是否为成功结束
+                    continue;
+                }
+                if($d<$tarr['s']||$d>$tarr['e'])
+                {
+                    continue;
+                }
+                $d=substr($d,5,2);
+                $d2=$this->get_int($d);
+                $r[$d2]+=$j['zdy3'];
+            }
+        }
+        else if($yjmbtype=='5')
+        {
+            //合同数
+            $usersx=$usersx==''?'':" and ht_fz $usersx ";
+            $myht=parent::sel_more_data("crm_hetong","ht_data","ht_yh='$fid' $usersx ");
+            foreach($myht as $v)
+            {
+                $j=json_decode($v['ht_data'],true);
+                $d=$this->date_to_date($j['zdy4']);
+                if($j['zdy7']!='canshu3')
+                {
+                    //判断是否为成功结束
+                    continue;
+                }
+                if($d<$tarr['s']||$d>$tarr['e'])
+                {
+                    continue;
+                }
+                $d=substr($d,5,2);
+                $d2=$this->get_int($d);
+                $r[$d2]++;
+            }
+        }
+        else if($yjmbtype=='6')
+        {
+            //产品销量
+            //合同查询
+            $h=$this->get_my_htid($fid,$tarr,$usersx);
+            $htid=$h["id"];
+            $cp=parent::sel_more_data("crm_cp_sj","cp_num1,sj_id","cp_yh='$fid' and cp_id='$yjmbmore' and sj_id in ($htid)");
+            foreach($cp as $v)
+            {
+                $r[$h['darr'][$v['sj_id']]]+=$v['cp_num1'];
+            }
+        }
+        else if($yjmbtype=='7')
+        {
+            //产品销售额
+            //合同查询
+            $h=$this->get_my_htid($fid,$tarr,$usersx);
+            $htid=$h["id"];
+            $cp=parent::sel_more_data("crm_cp_sj","cp_zj,sj_id","cp_yh='$fid' and cp_id='$yjmbmore' and sj_id in ($htid)");
+            foreach($cp as $v)
+            {
+                $r[$h['darr'][$v['sj_id']]]+=$v['cp_zj'];
+            }
+        }
+        else if($yjmbtype=='8')
+        {
+            //产品分类销量
+            //合同查询
+            $h=$this->get_my_htid($fid,$tarr,$usersx);
+            $htid=$h["id"];
+            //该分类的产品查询--获得本分类下的所有产品
+            $cp=parent::sel_more_data("crm_chanpin","cp_id","cp_yh='$fid' and cp_del='0' and cp_data like '%\"zdy6\":\"".$yjmbmore."\"%' ");
+            $cpid='';
+            foreach($cp as $v)
+            {
+                $cpid.="'".$v['cp_id']."',";
+            }
+            $cpid=substr($cpid,0,-1);
+
+            $cp=parent::sel_more_data("crm_cp_sj","cp_num1,sj_id","cp_yh='$fid' and cp_id in ($cpid) and sj_id in ($htid) ");
+            foreach($cp as $v)
+            {
+                $r[$h['darr'][$v['sj_id']]]+=$v['cp_num1'];
+            }
+        }
+        else if($yjmbtype=='9')
+        {
+            //产品分类销售额
+            //合同查询
+            $h=$this->get_my_htid($fid,$tarr,$usersx);
+            $htid=$h["id"];
+            //该分类的产品查询--获得本分类下的所有产品
+            $cp=parent::sel_more_data("crm_chanpin","cp_id","cp_yh='$fid' and cp_del='0' and cp_data like '%\"zdy6\":\"".$yjmbmore."\"%' ");
+            $cpid='';
+            foreach($cp as $v)
+            {
+                $cpid.="'".$v['cp_id']."',";
+            }
+            $cpid=substr($cpid,0,-1);
+
+            $cp=parent::sel_more_data("crm_cp_sj","cp_zj,sj_id","cp_yh='$fid' and cp_id in ($cpid) and sj_id in ($htid) ");
+            foreach($cp as $v)
+            {
+                $r[$h['darr'][$v['sj_id']]]+=$v['cp_zj'];
+            }
+        }
+        else
+        {
+            echo "未知错误";die;
+        }
+ 
+        return $r;
+    }
+    //查询本公司指定年的合同
+    public function get_my_htid($fid,$tarr,$usersx)
+    {
+        //合同查询
+        $usersx=$usersx==''?'':" and ht_fz $usersx ";
+        $myht=parent::sel_more_data("crm_hetong","ht_id,ht_data","ht_yh='$fid' $usersx ");
+        $htid='';
+        foreach($myht as $v)
+        {
+            $j=json_decode($v['ht_data'],true);
+            $d=$this->date_to_date($j['zdy4']);
+            if($j['zdy7']!='canshu3')
+            {
+                //判断是否为成功结束
+                continue;
+            }
+            if($d<$tarr['s']||$d>$tarr['e'])
+            {
+                continue;
+            }
+            $htt=substr($d,5,2);
+            $htt2=$this->get_int($htt);
+            $htdate[$v['ht_id']]=$htt2;
+            $htid.="'".$v['ht_id']."',";
+        }
+        $htid=substr($htid,0,-1);
+        $r['id']=$htid;
+        $r['darr']=$htdate;
+        return $r;
+    }
+    //将带0的小于10的数字转化成一个数的数字
+    public function get_int($num)
+    {
+        $r=$num;
+        if($num<10)
+        {
+            if(strlen($num)==2)
+            {
+                $r=substr($num,1);
+            }
+        }
+        return $r;
     }
 }
