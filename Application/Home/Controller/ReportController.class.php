@@ -1835,6 +1835,132 @@ class ReportController extends DBController {
         $this->assign("dataTable",$dataTable);
         $this->display();
     }
+    //回款计划汇总报表
+    public function huikuanjihuahuizong()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //部门，用户下拉框
+        $user_option=$this->get_user_option($fid);
+        $bm_option=$this->get_bm_option($fid);
+
+        $nowYear=$_GET['sx_1']?addslashes($_GET['sx_1']):date("Y",time());
+
+        $getBm=$_GET['sx_2']?addslashes($_GET['sx_2']):'0';
+        $getUser=$_GET['sx_3']?addslashes($_GET['sx_3']):'0';
+
+        $where1='';
+        $where2='';
+        if($getBm!='0'&&$getUser=='0')
+        {
+            $bmarr=$this->get_bm_user($getBm);
+            foreach($bmarr as $v)
+            {
+                $u[]=$v['user_id'];
+            }
+            $u=implode("','",$u);
+            $u="'".$u."'";
+            $htidarr=parent::sel_more_data("crm_hetong","ht_id","ht_yh='$fid' and ht_fz in ($u)");
+            foreach($htidarr as $v)
+            {
+                $hu[]=$v['ht_id'];
+            }
+            $hu=implode("','",$hu);
+            $hu="'".$hu."'";
+
+            $where1=" and hk_ht in ($hu)";
+            $where2=" and hk_htid in ($hu)";
+        }
+        if($getUser!='0')
+        {
+            $htidarr=parent::sel_more_data("crm_hetong","ht_id","ht_yh='$fid' and ht_fz='$getUser'");
+            foreach($htidarr as $v)
+            {
+                $hu[]=$v['ht_id'];
+            }
+            $hu=implode("','",$hu);
+            $hu="'".$hu."'";
+            $where1=" and hk_ht in ($hu)";
+            $where2=" and hk_htid in ($hu)";
+        }
+
+        //获得全公司今年已回款金额
+        $hkarr=parent::sel_more_data("crm_hkadd","hk_data,hk_je","hk_yh='$fid' and hk_sp='1' and hk_data like '$nowYear%' $where1 ");
+        //parent::rr($hkarr);
+        foreach($hkarr as $v)
+        {
+            $thisdata=$this->date_to_date($v['hk_data']);
+            $d=substr($thisdata,5,2);
+            $d2=$this->get_int($d);
+            $hkMonthArr[$d2]+=$v['hk_je'];
+        }
+
+        //获得全公司计划回款金额
+        $jhhkarr=parent::sel_more_data("crm_hk","hk_data,hk_je","hk_yh='$fid' and hk_data like '$nowYear%' $where2 ");
+        foreach($jhhkarr as $v)
+        {
+            $thisdata=$this->date_to_date($v['hk_data']);
+            $d=substr($thisdata,5,2);
+            $d2=$this->get_int($d);
+            $jhMonthArr[$d2]+=$v['hk_je'];
+        }
+
+        //一年十二个月的循环
+        $chart1='';//计划回款数据
+        $chart2='';//已回款数据
+        $chart3='';//完成率
+        $dataTable='';//下方表格数据
+        for($a=1;$a<=12;$a++)
+        {
+            $chart1[$a]=$jhMonthArr[$a]==''?0:$jhMonthArr[$a];
+            $chart2[$a]=$hkMonthArr[$a]==''?0:$hkMonthArr[$a];
+            $c3=round(($hkMonthArr[$a]/$jhMonthArr[$a]),2)*100;
+            $chart3[$a]=$c3>100?100:$c3;
+            $c[$a]=(($jhMonthArr[$a]-$hkMonthArr[$a])<0?0:($jhMonthArr[$a]-$hkMonthArr[$a]));
+            $dataTable.="<tr>
+                <td>".$a."月</td>
+                <td>￥".number_format($jhMonthArr[$a],2)."</td>
+                <td>￥".number_format($hkMonthArr[$a],2)."</td>
+                <td>".$chart3[$a]."%</td>
+                <td>￥".number_format($c[$a],2)."</td>
+            </tr>";
+
+            $z1+=$chart1[$a];
+            $z2+=$chart2[$a];
+            $z3+=$c[$a];
+        
+        }
+        $ztip='计划回款金额 ：¥ '.number_format($z1,2).'， 已完成金额 ：¥ '.number_format($z2,2).'， 完成率 ：'.round((($z2/$z1)*100),2).'%， 未完成金额 ：¥ '.number_format($z3,2).'';//表格上方的总数据
+        $chart1="['".implode("','",$chart1)."']";
+        $chart2="['".implode("','",$chart2)."']";
+        $chart3="['".implode("','",$chart3)."']";
+
+        $yearOption='
+                    <option value="2015">2015</option>
+                    <option value="2016">2016</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>';
+        $yearOption=str_replace('value="'.$nowYear.'"','value="'.$nowYear.'" selected ',$yearOption);
+        //图形数据
+        $this->assign("chart1",$chart1);
+        $this->assign("chart2",$chart2);
+        $this->assign("chart3",$chart3);
+        //表格数据
+        $this->assign("dataTable",$dataTable);
+        //表格上方的总数据
+        $this->assign("ztip",$ztip);
+        //年度下拉框
+        $this->assign("yearOption",$yearOption);
+        //部门下拉框
+        $this->assign("bm_option",($_GET['sx_2']?str_replace("value='".$_GET['sx_2']."'","value='".$_GET['sx_2']."' selected ",$bm_option):$bm_option));
+        //用户下拉框
+        $this->assign("user_option",($_GET['sx_3']?str_replace("value='".$_GET['sx_3']."'","value='".$_GET['sx_3']."' selected ",$user_option):$user_option));
+        $this->display();
+    }
     //获得部门下拉内容
     public function get_bm_option($fid)
     {
