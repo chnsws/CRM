@@ -39,36 +39,45 @@
         <sapn class="head_title">销售回款排名报表</sapn>
     </div>
     <div id="shaixuan">
+        <!--
         <div>
             <span class="sx_title">视角：</span>
-            <span class="sx_xx sx_this">个人</span>
+            <span class="sx_xx">个人</span>
             <span class="sx_xx">部门</span>
+        </div>
+        -->
+        <div>
+            <span class="sx_title">时间：</span>
+            <span id="time_select_group" class="uk-form" style="margin-left:0px;">
+                <input type="text" class="start_time" data-uk-datepicker="{format:'YYYY-MM-DD'}" placeholder="开始日期" value="{$sts}" >
+                <span class="mid_span">-</span>
+                <input type="text" class="end_time" data-uk-datepicker="{format:'YYYY-MM-DD'}" placeholder="结束日期" value="{$ste}" >
+                <button class="layui-btn cx_btn">查询</button>
+            </span>
         </div>
     </div>
     <div id="table">
         <div class="table_head">
+            <!--
             <select>
                 <option value="0">请选择部门</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
             </select>
-            <span id="time_select_group" class="uk-form">
-                <input type="text" class="start_time" data-uk-datepicker="{format:'YYYY-MM-DD'}">
-                <span class="mid_span">-</span>
-                <input type="text" class="end_time" data-uk-datepicker="{format:'YYYY-MM-DD'}">
-                <button class="layui-btn cx_btn">查询</button>
-            </span>
+            
             <span id="daochu_group">
                 <button class="layui-btn layui-btn-primary">导出</button>
             </span>
-            <span id="px_group">
+            -->
+            <!--
+            <span id="px_group" style="margin-bottom:10px;">
                 <select name="" id="">
-                    <option value="0">回款金额顺序</option>
-                    <option value="0">回款次数顺序</option>
+                    <option value="0">按回款金额排名</option>
+                    <option value="0">按回款次数排名</option>
                 </select>
             </span>
-            
+            -->
         </div>
         <table class="layui-table" lay-skin="line">
             <thead>
@@ -79,62 +88,10 @@
                 <th>回款金额</th>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>王玉帅</td>
-                    <td>销售部</td>
-                    <td>215</td>
-                    <td>￥5821312321</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>王玉帅</td>
-                    <td>销售部</td>
-                    <td>215</td>
-                    <td>￥5821312321</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>王玉帅</td>
-                    <td>销售部</td>
-                    <td>215</td>
-                    <td>￥5821312321</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>王玉帅</td>
-                    <td>销售部</td>
-                    <td>215</td>
-                    <td>￥5821312321</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>王玉帅</td>
-                    <td>销售部</td>
-                    <td>215</td>
-                    <td>￥5821312321</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>王玉帅</td>
-                    <td>销售部</td>
-                    <td>215</td>
-                    <td>￥5821312321</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>王玉帅</td>
-                    <td>销售部</td>
-                    <td>215</td>
-                    <td>￥5821312321</td>
-                </tr>
-
-                <tr>
-                    <td colspan="5" style="text-align:center;">共7条</td>
-                </tr>
+               {$dataTable}
             </tbody>
         </table>
-        <div id="zong">回款总金额：￥45687546786</div>
+        <div id="zong">回款总金额：￥{$zong}</div>
     </div>
 </div>
 </body>
@@ -157,7 +114,48 @@ function tishi(neirong)
 }
 $(function(){
     $('select').searchableSelect();
+    /*
+    var sx1="{$_GET['sx_1']}";
     
+    if(sx1=='')
+    {
+        $(".sx_xx").eq(0).addClass("sx_this");
+    }
+    else
+    {
+        sx1=parseInt(sx1)-1;
+        $(".sx_xx").eq(sx1).addClass("sx_this");
+    }
+    $("#shaixuan").find(".sx_xx").on("click",function(){
+        $(this).parent().children(".sx_this").removeClass("sx_this");
+        $(this).addClass("sx_this");
+        var thisindex=$(this).index();
+        var now_sx=get_url_val(1);
+        window.location=root_dir+"/index.php/Home/Report/xiaoshouhuikuanpaiming?sx_1="+thisindex+now_sx;
+    });
+    */
+    $(".cx_btn").on("click",function(){
+        window.jiazai=layer.load(2);
+        var s=$(this).parent().children(".start_time").val();
+        var e=$(this).parent().children(".end_time").val();
+        var s2=s.replace('-','').replace('-','');
+        var e2=e.replace('-','').replace('-','');
+
+        if(s==''||e=='')
+        {
+            tishi("开始时间和结束时间不能为空");
+            layer.close(jiazai);
+            return;
+        }
+        if(s2>e2)
+        {
+            tishi("开始时间不能大于结束时间");
+            layer.close(jiazai);
+            return;
+        }
+        var dateStr=s+','+e;
+        window.location=root_dir+"/index.php/Home/Report/xiaoshouhuikuanpaiming?sx_1="+dateStr;
+    });
 });
 </script>
 </html>

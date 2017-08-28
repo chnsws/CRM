@@ -1961,6 +1961,72 @@ class ReportController extends DBController {
         $this->assign("user_option",($_GET['sx_3']?str_replace("value='".$_GET['sx_3']."'","value='".$_GET['sx_3']."' selected ",$user_option):$user_option));
         $this->display();
     }
+    //销售回款排名报表
+    public function xiaoshouhuikuanpaiming()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //部门下拉框
+        $bmarr=parent::sel_more_data("crm_department","bm_id,bm_name","bm_company='$fid'");
+        foreach($bmarr as $v)
+        {
+            $bmname[$v['bm_id']]=$v['bm_name'];
+        }
+
+        //查询公司每个人
+        $userarr=parent::sel_more_data("crm_user","user_name,user_id,user_zhu_bid","(user_id='$fid' or user_fid='$fid') and user_del='0'");
+        foreach($userarr as $v)
+        {
+            $username[$v['user_id']]=$v['user_name'];
+            $userbm[$v['user_id']]=$bmname[$v['user_zhu_bid']];
+        }
+        //所有合同
+        $htarr=parent::sel_more_data("crm_hetong","ht_id,ht_fz","ht_yh='$fid' ");
+        $htuser=array();
+        foreach($htarr as $v)
+        {
+            //每个合同对应着哪个用户
+            $htuser[$v['ht_id']]=$v['ht_fz'];
+        }
+        //查询所有销售回款。并根据公司员工进行分组
+        $hkarr=parent::sel_more_data("crm_hkadd","hk_je,hk_ht,hk_data","hk_yh='$fid' and hk_sp='1' ");
+        foreach($hkarr as $v)
+        {
+            if($_GET['sx_1']!='')
+            {
+                $t=explode(',',$_GET['sx_1']);
+                $s=$this->date_to_date($v['hk_data']);
+                if($s<$t[0]||$s>$t[1])
+                {
+                    continue;
+                }
+            }
+            $res[$htuser[$v['hk_ht']]]+=$v['hk_je'];
+            $res2[$htuser[$v['hk_ht']]]++;
+            
+        }
+        arsort($res);
+        $dataTable='';
+        $number=1;
+        foreach($res as $k=>$v)
+        {
+            $dataTable.='
+            <td>'.$number.'</td>
+            <td>'.$username[$k].'</td>
+            <td>'.$userbm[$k].'</td>
+            <td>'.$res2[$k].'</td>
+            <td>￥'.number_format($v,2).'</td>';
+            $number++;
+            $zong+=$v;
+        }
+        //parent::rr($res);
+        $this->assign("sts",$t[0]);
+        $this->assign("ste",$t[1]);
+        $this->assign("dataTable",$dataTable);
+        //总
+        $this->assign("zong",number_format($zong,2));
+        $this->display();
+    }
     //获得部门下拉内容
     public function get_bm_option($fid)
     {
