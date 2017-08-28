@@ -709,6 +709,7 @@ class XiansuoController extends DBController {
 		{
 			parent::add_one_data("crm_config",'',"config_xs_sx_config",$sel_str);
 		}
+		$this->insertrizhi('0','2','修改了筛选设置');
 		echo 1;
 	}
 	//新增线索
@@ -728,6 +729,7 @@ class XiansuoController extends DBController {
 		$json_str=str_replace('\\','\\\\',$json_str);
 		$nowtime=date("Y-m-d H:i:s",time());
 		parent::add_one_data("crm_xiansuo","'','$json_str','".$fuzeren."','','$nowtime','".cookie("user_id")."','$nowtime','0','','$fid','0' ");
+		$this->insertrizhi('0','1','新增了线索:'.$ajax_arr['zdy0']);
 		echo 1;
 	}
 	//批量转移线索
@@ -745,6 +747,8 @@ class XiansuoController extends DBController {
 		$fid=parent::get_fid();
 		$xiansuodb=M("crm_xiansuo");
 		$xiansuodb->query("update crm_xiansuo set xs_qfz=xs_fz,xs_fz='$touser',xs_last_edit_time='$nowdatetime' where xs_yh='$fid' and xs_id in $need_to_user_xs ");
+		$num=explode(',',$_GET['need_to_user_xs']);
+		$this->insertrizhi('0','10','批量转移了'.count($num).'条线索');
 		echo 1;
 	}
 	//批量删除
@@ -760,6 +764,8 @@ class XiansuoController extends DBController {
 		$sel_xs="('".str_replace(',',"','",$sel_xs)."')";
 		$xiansuodb=M("crm_xiansuo");
 		$xiansuodb->query("update crm_xiansuo set xs_is_del='1' where xs_yh='$fid' and xs_id in $sel_xs ");
+		$num=explode(',',$_GET['sel_xs']);
+		$this->insertrizhi('0','3','批量删除了'.count($num).'条线索');
 		echo 1;
 	}
 	//写跟进
@@ -812,6 +818,7 @@ class XiansuoController extends DBController {
 		$new_json=str_replace("\\","\\\\",json_encode($this_xs_arr));
 		$nowtime=date("Y-m-d H:i:s",time());
 		parent::edit_more_data("crm_xiansuo","xs_data='$new_json',xs_last_edit_time='$nowtime'","xs_is_del='0' and xs_yh='$fid' and xs_id='$this_xs_id'");
+		$this->insertrizhi($this_xs_id,'2','修改了'.$this_xs_arr['zdy0'].'的跟进状态');
 		echo 1;
 	}
 	//编辑线索
@@ -835,6 +842,7 @@ class XiansuoController extends DBController {
 		$json_str=str_replace('\\','\\\\',$json_str);
 		$nowtime=date("Y-m-d H:i:s",time());
 		parent::edit_more_data("crm_xiansuo","xs_data='$json_str',xs_last_edit_time='$nowtime',xs_fz='$fuzeren'$qfuze"," xs_id='$this_xs_id' and xs_yh='$fid' and xs_is_del='0' ");
+		$this->insertrizhi($this_xs_id,'2','更新了'.$ajax_arr['zdy0'].'的信息');
 		echo 1;
 	}
 	//线索转客户
@@ -898,6 +906,7 @@ class XiansuoController extends DBController {
 		$khdb->query("insert into crm_kh set kh_data='$to_kh_data_json',kh_fz='".$thisxsarr['xs_fz']."',kh_bm='".$bm_name_arr[$user_bm_arr[$thisxsarr['xs_fz']]]."',kh_cj='".cookie("user_id")."',kh_old_fz='".$thisxsarr['xs_qfz']."',kh_old_bm='".$bm_name_arr[$user_bm_arr[$thisxsarr['xs_fz']]]."',kh_cj_date='$this_time',kh_yh='$fid' ");
 		//将本条线索的状态改为已转客户
 		parent::edit_more_data("crm_xiansuo","xs_is_to_kh='1',xs_to_kh_time='$this_time_str',xs_last_edit_time='$this_time_str'","xs_id='$xsid'");
+		$this->insertrizhi($xsid,'11','将'.$ajax_arr['zdy0'].'转成客户');
 		echo 1;
 	}
 	//上传线索附件
@@ -949,6 +958,10 @@ class XiansuoController extends DBController {
 		}
 		$nowtime=date("Y-m-d H:i:s",time());
 		parent::add_one_data("crm_xiansuo_file","'','$nowtime','$fjmc','$oldoldname','$fjdx','$fjbz','$fjxsid'");
+		$xsname=parent::sel_more_data("crm_xiansuo","xs_data","xs_id='$fjxsid' limit 1");
+		$xsname=json_decode($xsname[0]['xs_data'],true);
+		$xsname=$xsname['zdy0'];
+		$this->insertrizhi($fjxsid,'30','为'.$xsname.'添加附件：'.$oldoldname);
 		echo 1;
 	}
 	//附件下载
@@ -976,10 +989,14 @@ class XiansuoController extends DBController {
 	public function del_fujian()
 	{
 		$fjid=addslashes($_GET['fjid']);
-		$as=parent::sel_more_data("crm_xiansuo_file","xsf_name","xsf_id='$fjid' limit 1");
+		$as=parent::sel_more_data("crm_xiansuo_file","xsf_name,xsf_old_name,xsf_xs_id","xsf_id='$fjid' limit 1");
 		unlink('./Public/xiansuofile/'.$as[0]['xsf_name']);
 		$asd=M("xiansuo_file");
 		$asd->query("delete from crm_xiansuo_file where xsf_id='$fjid' limit 1");
+		$xsname=parent::sel_more_data("crm_xiansuo","xs_data","xs_id='".$as[0]['xsf_xs_id']."' limit 1");
+		$xsname=json_decode($xsname[0]['xs_data'],true);
+		$xsname=$xsname['zdy0'];
+		$this->insertrizhi($as[0]['xsf_xs_id'],'3','删除了'.$xsname.'的附件：'.$as[0]['xsf_old_name']);
 		echo 1;
 	}
 	//导入线索--上传需要导入的文件
@@ -1062,6 +1079,7 @@ class XiansuoController extends DBController {
 		
 		$nowtime=date("Y-m-d H:i:s",time());
 		$insertdbstr='';
+		$cot=0;
 		foreach($file_content_arr as $v)
 		{
 			$dk=0;
@@ -1084,6 +1102,7 @@ class XiansuoController extends DBController {
 			{
 				continue;
 			}
+			$cot++;
 			$insertdbstr.="('','".str_replace('\\','\\\\',$row_str)."','0','0','$nowtime','".cookie("user_id")."','$nowtime','0','','$fid','0'),";
 		}
 		$insertdbstr=substr($insertdbstr,0,-1);//去掉最后一个逗号
@@ -1095,6 +1114,7 @@ class XiansuoController extends DBController {
 		
 		$xsdb=M("xiansuo");
 		$xsdb->query("insert into crm_xiansuo values $insertdbstr ");
+		$this->insertrizhi('0','8','导入了'.$cot.'条线索');
 		echo 1;
 	}
 	//导入线索--下载模板
@@ -1333,4 +1353,20 @@ class XiansuoController extends DBController {
 		$a="'".$a."'";
 		return $a;
 	}
+	//插入日志方法
+    public function insertrizhi($xsid,$cztype,$con)
+    {
+        //更新系统日志 	操作时间	操作人员	模块	操作内容	操作设备	操作设备IP
+		$xitongrizhibase=M("rz");
+		$loginIp=$_SERVER['REMOTE_ADDR'];//IP 
+        $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		//登录地点
+		$addressArr=getCity($nowip);
+		$loginDidianStr=$addressArr["country"].$addressArr["region"].$addressArr["city"];
+		$sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
+		//进行插入操作
+		$xitongrizhibase->query("insert into crm_rz values('','1','1','".cookie("user_id")."','$xsid','$cztype','0','0','0','$con','$loginIp','$loginDidianStr','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','$fid','".time()."')");
+
+        return '1';
+    }
 }
