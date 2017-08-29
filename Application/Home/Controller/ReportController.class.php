@@ -1915,7 +1915,7 @@ class ReportController extends DBController {
             $chart1[$a]=$jhMonthArr[$a]==''?0:$jhMonthArr[$a];
             $chart2[$a]=$hkMonthArr[$a]==''?0:$hkMonthArr[$a];
             $c3=round(($hkMonthArr[$a]/$jhMonthArr[$a]),2)*100;
-            $chart3[$a]=$c3>100?100:$c3;
+            $chart3[$a]=$c3;
             $c[$a]=(($jhMonthArr[$a]-$hkMonthArr[$a])<0?0:($jhMonthArr[$a]-$hkMonthArr[$a]));
             $dataTable.="<tr>
                 <td>".$a."月</td>
@@ -2025,6 +2025,250 @@ class ReportController extends DBController {
         $this->assign("dataTable",$dataTable);
         //总
         $this->assign("zong",number_format($zong,2));
+        $this->display();
+    }
+    //线索转化率报表--转化率
+    public function xiansuozhuanhualv()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //部门，用户下拉框
+        $user_option=$this->get_user_option($fid);
+        $bm_option=$this->get_bm_option($fid);
+
+        $nowYear=$_GET['sx_1']?addslashes($_GET['sx_1']):date("Y",time());
+        
+        $yearOption='
+        <option value="2015">2015</option>
+        <option value="2016">2016</option>
+        <option value="2017">2017</option>
+        <option value="2018">2018</option>
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>';
+        $yearOption=str_replace('value="'.$nowYear.'"','value="'.$nowYear.'" selected ',$yearOption);
+
+        //查询本年度所有线索
+        $sql_date_s=$nowYear.'-01-01 00:00:00';
+        $sql_date_e=$nowYear.'-12-31 23:59:59';
+        //是否进行部门或者用户筛选
+        $sqlWhere='';
+        if($_GET['sx_2']&&!$_GET['sx_3'])
+        {
+            //部门
+            //获得本部门下的所有用户id
+            $bmuserid=$this->get_bm_user(addslashes($_GET['sx_2']));
+            if(count($bmuserid))
+            {
+                $sqlWhere=" and xs_fz in ('".implode("','",$bmuserid)."')";
+            }
+        }
+        if($_GET['sx_3'])
+        {
+            //用户
+            $sqlWhere=" and xs_fz = '".addslashes($_GET['sx_3'])."'";
+        }
+
+        //查询本年添加的线索
+        $xsarr=parent::sel_more_data("crm_xiansuo","xs_create_time,xs_to_kh_time,xs_is_to_kh","xs_yh='$fid' and xs_is_del='0' and xs_create_time>='$sql_date_s' and xs_create_time<='$sql_date_e' $sqlWhere ");
+        
+        
+        foreach($xsarr as $v)
+        {
+            $d=substr($v['xs_create_time'],5,2);
+            $d2=$this->get_int($d);
+            $xsMonthArr[$d2]++;
+            if($v['xs_is_to_kh']=='1')
+            {
+                $toKhArr[$d2]++;
+            }
+        }
+        $dataTable='';
+        for($a=1;$a<=12;$a++)
+        {
+            $chart1Arr[$a]=$xsMonthArr[$a]==''?'0':$xsMonthArr[$a];
+            $chart2Arr[$a]=$toKhArr[$a]==''?'0':$toKhArr[$a];
+            $chart3Arr[$a]=round((($chart2Arr[$a]/$chart1Arr[$a])*100),2);
+            $dataTable.='<tr>
+                            <td>'.$a.'月</td>
+                            <td>'.$chart1Arr[$a].'</td>
+                            <td>'.$chart2Arr[$a].'</td>
+                            <td>'.$chart3Arr[$a].'%</td>
+                        </tr>';
+            $zong1+=$chart1Arr[$a];
+            $zong2+=$chart2Arr[$a];
+        }
+        $zong3=round((($zong2/$zong1)*100),2);
+
+        $tableTopTip='新增线索数 ：'.$zong1.'， 已转化线索数 ：'.$zong2.'， 转化率 ：'.$zong3.'%';
+
+        $chart1="['".implode("','",$chart1Arr)."']";
+        $chart2="['".implode("','",$chart2Arr)."']";
+        $chart3="['".implode("','",$chart3Arr)."']";
+        //parent::rr($chart3Arr);
+
+
+
+
+        $this->assign("chart1",$chart1);//新增线索数
+        $this->assign("chart2",$chart2);//已转化线索数
+        $this->assign("chart3",$chart3);//转化率
+
+        //表格数据
+        $this->assign("dataTable",$dataTable);
+        //表格上方的总数
+        $this->assign("tableTopTip",$tableTopTip);
+        //年度下拉框
+        $this->assign("yearOption",$yearOption);
+        //部门下拉框
+        $this->assign("bm_option",($_GET['sx_2']?str_replace("value='".$_GET['sx_2']."'","value='".$_GET['sx_2']."' selected ",$bm_option):$bm_option));
+        //用户下拉框
+        $this->assign("user_option",($_GET['sx_3']?str_replace("value='".$_GET['sx_3']."'","value='".$_GET['sx_3']."' selected ",$user_option):$user_option));
+
+        $this->display();
+    }
+    //线索转化率报表--转化时长
+    public function xiansuozhuanhualv2()
+    {
+        parent::is_login();
+        $fid=parent::get_fid();
+        //部门，用户下拉框
+        $user_option=$this->get_user_option($fid);
+        $bm_option=$this->get_bm_option($fid);
+
+        $nowYear=$_GET['sx_1']?addslashes($_GET['sx_1']):date("Y",time());
+        
+        $yearOption='
+        <option value="2015">2015</option>
+        <option value="2016">2016</option>
+        <option value="2017">2017</option>
+        <option value="2018">2018</option>
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>';
+        $yearOption=str_replace('value="'.$nowYear.'"','value="'.$nowYear.'" selected ',$yearOption);
+
+        //查询本年度所有线索
+        $sql_date_s=$nowYear.'-01-01 00:00:00';
+        $sql_date_e=$nowYear.'-12-31 23:59:59';
+        //是否进行部门或者用户筛选
+        $sqlWhere='';
+        if($_GET['sx_2']&&!$_GET['sx_3'])
+        {
+            //部门
+            //获得本部门下的所有用户id
+            $bmuserid=$this->get_bm_user(addslashes($_GET['sx_2']));
+            if(count($bmuserid))
+            {
+                $sqlWhere=" and xs_fz in ('".implode("','",$bmuserid)."')";
+            }
+        }
+        if($_GET['sx_3'])
+        {
+            //用户
+            $sqlWhere=" and xs_fz = '".addslashes($_GET['sx_3'])."'";
+        }
+
+        //查询本年添加的线索
+        $xsarr=parent::sel_more_data("crm_xiansuo","xs_create_time,xs_to_kh_time,xs_is_to_kh","xs_yh='$fid' and xs_is_del='0' and xs_create_time>='$sql_date_s' and xs_create_time<='$sql_date_e' $sqlWhere ");
+        
+        $chart1=0;
+        $chart2=0;
+        $chart3=0;
+        $chart4=0;
+        $chart5=0;
+        $chart6=0;
+        $chart7=0;
+        $chart8=0;
+        $zong=0;
+        $zong1=0;
+        $zong2=0;
+        foreach($xsarr as $v)
+        {
+            if($v['xs_is_to_kh']=='0')
+            {
+                $chart8++;//未转化
+                $zong1++;
+            }
+            else
+            {
+                $zong2++;
+                $createTime=strtotime($v['xs_create_time']);
+                $zhTime=strtotime($v['xs_to_kh_time']);
+                $rt=$zhTime-$createTime;//单位为：秒
+                //parent::rr($v['xs_create_time'].$v['xs_to_kh_time'].$resTime);
+                if($rt<86400)
+                {
+                    //一天内  一天=86400秒
+                    $chart1++;
+                }
+                else if($rt>=86400&&$rt<259200)
+                {
+                    //一天到三天  三天=259200秒
+                    $chart2++;
+                }
+                else if($rt>=259200&&$rt<604800)
+                {
+                    //3~7天内
+                    $chart3++;
+                }
+                else if($rt>=604800&&$rt<1296000)
+                {
+                    //7~15天内
+                    $chart4++;
+                }
+                else if($rt>=1296000&&$rt<2592000)
+                {
+                    //15~30天内
+                    $chart5++;
+                }
+                else if($rt>=2592000&&$rt<7776000)
+                {
+                    //30~90天内
+                    $chart6++;
+                }
+                else
+                {
+                    //90天以上
+                    $chart7++;
+                }
+            }
+        }
+        $zong=$zong1+$zong2;
+        $tableTopTip='新增线索数 ：'.($zong1+$zong2).'， 已转化线索数 ：'.$zong2.'， 转化率 ：'.round((($zong2/$zong)*100),2).'%';
+        
+
+
+
+        //表格数据
+        $this->assign("t11",$chart1);
+        $this->assign("t12",round((($chart1/$zong)*100),2).'%');
+        $this->assign("t21",$chart2);
+        $this->assign("t22",round((($chart2/$zong)*100),2).'%');
+        $this->assign("t31",$chart3);
+        $this->assign("t32",round((($chart3/$zong)*100),2).'%');
+        $this->assign("t41",$chart4);
+        $this->assign("t42",round((($chart4/$zong)*100),2).'%');
+        $this->assign("t51",$chart5);
+        $this->assign("t52",round((($chart5/$zong)*100),2).'%');
+        $this->assign("t61",$chart6);
+        $this->assign("t62",round((($chart6/$zong)*100),2).'%');
+        $this->assign("t71",$chart7);
+        $this->assign("t72",round((($chart7/$zong)*100),2).'%');
+        $this->assign("t81",$chart8);
+        $this->assign("t82",round((($chart8/$zong)*100),2).'%');
+
+        //表格上方的总数
+        $this->assign("tableTopTip",$tableTopTip);
+        //年度下拉框
+        $this->assign("yearOption",$yearOption);
+        //部门下拉框
+        $this->assign("bm_option",($_GET['sx_2']?str_replace("value='".$_GET['sx_2']."'","value='".$_GET['sx_2']."' selected ",$bm_option):$bm_option));
+        //用户下拉框
+        $this->assign("user_option",($_GET['sx_3']?str_replace("value='".$_GET['sx_3']."'","value='".$_GET['sx_3']."' selected ",$user_option):$user_option));
+
         $this->display();
     }
     //获得部门下拉内容

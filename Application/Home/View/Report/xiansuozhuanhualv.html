@@ -43,7 +43,7 @@
             <span class="sx_title">时间：</span>
             <span class="sx_xx">
                 <select>
-                    <option value="0">2017</option>
+                    {$yearOption}
                 </select>
             </span>
         </div>
@@ -52,6 +52,7 @@
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择部门</option>
+                    {$bm_option}
                 </select>
             </span>
         </div>
@@ -60,6 +61,7 @@
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择用户</option>
+                    {$user_option}
                 </select>
             </span>
         </div>
@@ -67,7 +69,7 @@
     </div>
     <div id="chart"></div>
     <div id="table">
-        <div class="table_head">新增线索数 ：55， 已转化线索数 ：40， 转化率 ：72.7%</div>
+        <div class="table_head">{$tableTopTip}</div>
         <table class="layui-table" lay-skin="line">
             <thead>
                 <th>时间</th>
@@ -76,55 +78,7 @@
                 <th>转化率</th>
             </thead>
             <tbody>
-                <tr>
-                    <td>1月</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>100%</td>
-                </tr>
-                <tr>
-                    <td>1月</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>100%</td>
-                </tr>
-                <tr>
-                    <td>1月</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>100%</td>
-                </tr>
-                <tr>
-                    <td>1月</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>100%</td>
-                </tr>
-                <tr>
-                    <td>1月</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>100%</td>
-                </tr>
-                <tr>
-                    <td>1月</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>100%</td>
-                </tr>
-                <tr>
-                    <td>1月</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>100%</td>
-                </tr>
-                
-               
-                
-                
-                <tr>
-                    <td colspan="4" style="text-align:center;">共7条</td>
-                </tr>
+                {$dataTable}
             </tbody>
         </table>
     </div>
@@ -192,17 +146,17 @@ $(function(){
             {
                 name:'新增线索数',
                 type:'bar',
-                data:[320, 332, 301, 334, 390, 330, 320,320, 332, 301, 334, 390]
+                data:{$chart1}
             },
             {
                 name:'已转化线索数',
                 type:'bar',
-                data:[320, 332, 301, 334, 390, 330, 320,320, 332, 301, 334, 390]
+                data:{$chart2}
             },
             {
                 name:'转化率',
                 type:'line',
-                data:[320, 332, 301, 334, 390, 330, 320,320, 332, 301, 334, 390],
+                data:{$chart3},
                 tooltip :{
                     trigger: 'item',
                     formatter: "转化率 : {c} %"
@@ -213,10 +167,44 @@ $(function(){
         ]
     };
 
-// 使用刚指定的配置项和数据显示图表。
-myChart.setOption(option);
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
     //myChart.showLoading();     //加载动画
 });
+
+var sel_num=3;
+function change_fun(dom)
+{
+    if(sel_num!=0)
+    {
+        sel_num--;
+        return;
+    }
+    //layer.load(2);
+    var thisindex=dom.index("select")+1;
+    //alert(thisindex);return;
+    var now_sx=get_url_val(thisindex);
+    window.location=root_dir+"/index.php/Home/Report/xiansuozhuanhualv?sx_"+thisindex+"="+dom.val()+now_sx;
+}
+//获取URL中剩余的值，可以删除一个值
+function get_url_val(without)
+{
+    var now_sx='';
+    if("{$_GET['sx_1']}"!=''&&"sx_"+without!='sx_1')
+    {
+        now_sx+="&sx_1="+"{$_GET['sx_1']}";
+        
+    }
+    if("{$_GET['sx_2']}"!=''&&"sx_"+without!='sx_2')
+    {
+        now_sx+="&sx_2="+"{$_GET['sx_2']}";
+    }
+    if("{$_GET['sx_3']}"!=''&&"sx_"+without!='sx_3')
+    {
+        now_sx+="&sx_3="+"{$_GET['sx_3']}";
+    }
+    return now_sx;
+}
 </script>
 </html>
 

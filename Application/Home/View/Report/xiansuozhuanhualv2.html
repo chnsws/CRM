@@ -44,9 +44,7 @@
             <span class="sx_title">时间：</span>
             <span class="sx_xx">
                 <select>
-                    <option value="0" name="2017">2017</option>
-                    <option value="2" name="2018">2018</option>
-                    <option value="3" name="2019">2019</option>
+                    {$yearOption}
                 </select>
             </span>
         </div>
@@ -55,6 +53,7 @@
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择部门</option>
+                    {$bm_option}
                 </select>
             </span>
         </div>
@@ -63,6 +62,7 @@
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择用户</option>
+                    {$user_option}
                 </select>
             </span>
         </div>
@@ -70,7 +70,7 @@
     </div>
     <div id="chart"></div>
     <div id="table">
-        <div class="table_head">新增线索数 ：55， 已转化线索数 ：40， 转化率 ：72.7%</div>
+        <div class="table_head">{$tableTopTip}</div>
         <table class="layui-table" lay-skin="line">
             <thead>
                 <th>转化时长</th>
@@ -80,43 +80,43 @@
             <tbody>
                 <tr>
                     <td>1天内</td>
-                    <td>22</td>
-                    <td>40%</td>
+                    <td>{$t11}</td>
+                    <td>{$t12}</td>
                 </tr>
                 <tr>
                     <td>1~3天内</td>
-                    <td>22</td>
-                    <td>40%</td>
+                    <td>{$t21}</td>
+                    <td>{$t22}</td>
                 </tr>
                 <tr>
                     <td>3~7天内</td>
-                    <td>22</td>
-                    <td>40%</td>
+                    <td>{$t31}</td>
+                    <td>{$t32}</td>
                 </tr>
                 <tr>
                     <td>7~15天内</td>
-                    <td>22</td>
-                    <td>40%</td>
+                    <td>{$t41}</td>
+                    <td>{$t42}</td>
                 </tr>
                 <tr>
                     <td>15~30天内</td>
-                    <td>22</td>
-                    <td>40%</td>
+                    <td>{$t51}</td>
+                    <td>{$t52}</td>
                 </tr>
                 <tr>
                     <td>30~90天内</td>
-                    <td>22</td>
-                    <td>40%</td>
+                    <td>{$t61}</td>
+                    <td>{$t62}</td>
                 </tr>
                 <tr>
                     <td>90天以上</td>
-                    <td>22</td>
-                    <td>40%</td>
+                    <td>{$t71}</td>
+                    <td>{$t72}</td>
                 </tr>
                 <tr>
                     <td>未转化</td>
-                    <td>22</td>
-                    <td>40%</td>
+                    <td>{$t81}</td>
+                    <td>{$t82}</td>
                 </tr>
             </tbody>
         </table>
@@ -164,14 +164,14 @@ $(function(){
                 radius : '70%',
                 center: ['40%', '50%'],
                 data:[
-                    {value:335, name:'1天内'},
-                    {value:310, name:'1~3天内'},
-                    {value:234, name:'3~7天内'},
-                    {value:135, name:'7~15天内'},
-                    {value:135, name:'15~30天内'},
-                    {value:135, name:'30~90天内'},
-                    {value:135, name:'90天以上'},
-                    {value:548, name:'未转化'}
+                    {value:{$t11}, name:'1天内'},
+                    {value:{$t21}, name:'1~3天内'},
+                    {value:{$t31}, name:'3~7天内'},
+                    {value:{$t41}, name:'7~15天内'},
+                    {value:{$t51}, name:'15~30天内'},
+                    {value:{$t61}, name:'30~90天内'},
+                    {value:{$t71}, name:'90天以上'},
+                    {value:{$t81}, name:'未转化'}
                 ],
                 itemStyle: {
                     emphasis: {
@@ -184,10 +184,46 @@ $(function(){
         ]
     };
 
-// 使用刚指定的配置项和数据显示图表。
-myChart.setOption(option);
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
     //myChart.showLoading();     //加载动画
 });
+
+
+
+var sel_num=3;
+function change_fun(dom)
+{
+    if(sel_num!=0)
+    {
+        sel_num--;
+        return;
+    }
+    //layer.load(2);
+    var thisindex=dom.index("select")+1;
+    //alert(thisindex);return;
+    var now_sx=get_url_val(thisindex);
+    window.location=root_dir+"/index.php/Home/Report/xiansuozhuanhualv2?sx_"+thisindex+"="+dom.val()+now_sx;
+}
+//获取URL中剩余的值，可以删除一个值
+function get_url_val(without)
+{
+    var now_sx='';
+    if("{$_GET['sx_1']}"!=''&&"sx_"+without!='sx_1')
+    {
+        now_sx+="&sx_1="+"{$_GET['sx_1']}";
+        
+    }
+    if("{$_GET['sx_2']}"!=''&&"sx_"+without!='sx_2')
+    {
+        now_sx+="&sx_2="+"{$_GET['sx_2']}";
+    }
+    if("{$_GET['sx_3']}"!=''&&"sx_"+without!='sx_3')
+    {
+        now_sx+="&sx_3="+"{$_GET['sx_3']}";
+    }
+    return now_sx;
+}
 </script>
 </html>
 
