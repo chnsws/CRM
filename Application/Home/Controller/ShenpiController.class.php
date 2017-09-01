@@ -7,11 +7,13 @@ class ShenpiController extends Controller {
 
 	public function shenpi(){
 		$ht_name=$this->hetong();
+		
 		$kh_name=$this->kehu();
+		$sj_name=$this->shangji();
 		$user_name=$this->user();
+
 		$ywcs=$this->ywcs();
-	//	echo "<pre>";
-	//	var_dump($user_name);exit;
+	
 		$sp_base=M('sp');
 		$sp_map['sp_user']=cookie("user_id");
 		$sp_map['sp_yy']=2;//三代表别人审批了
@@ -620,9 +622,82 @@ class ShenpiController extends Controller {
 			</div>
 		</div>";
 		}	
-		//echo "<pre>";
-	//	var_dump($sp_sql_kp);exit;
-		$sp_sql_count=$sp_base->where($sp_map)->count();//几条、、
+	
+		$spht_map['sp_user']=cookie("user_id");
+		$spht_map['sp_yy']=1;//三代表别人审批了
+	//	$sp_map['sp_jg']=0;
+		$spht_map['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+		$spht_sql=$sp_base->where($spht_map)->select();
+		foreach($spht_sql as $k=>$v)
+		{
+			if($v['sp_jg']==0) //待审批
+			{
+				$ht_sp_show[]=$v;
+			}elseif($v['sp_jg']==1){//已通过
+				$ht_sp_show1[]=$v;
+			}elseif($v['sp_jg']==2){//已驳回
+				$ht_sp_show2[]=$v;
+			}elseif($v['sp_jg']==3 || $v['sp_jg']==4 ){ //别人已审批
+				$ht_sp_show3[]=$v;
+			}
+		}
+		if($ht_sp_show == "" || $ht_sp_show==null )
+		{
+			$ht_show.="暂无记录";
+		}else{
+		$ht_show.="<div >
+					<div >
+					<table class='layui-table' >
+				  	<thead>
+				  			<tr>	
+			                		<th>操作</th>
+			                		<th>合同标题</th>
+			                		<th>对应客户</th>
+			                		<th>对应商机</th>
+			                		<th>合同总金额</th>
+			                		<th>签约日期</th>
+			                		<th>合同开始日期</th>
+			                		<th>合同结束日期</th>
+			                		<th>合同状态</th>
+			                		<th>附件</th>
+			                		<th>负责人</th>
+			                		<th>当前审批级别</th>
+			                		<th>共几级</th>
+			                		<th>是否开启同步</th>
+
+			                </tr>
+					</thead>
+					 <tbody >";
+					//echo "<pre>";
+					//var_dump($kaipiao);exit;
+						foreach($ht_sp_show  as $k=>$v)
+						{
+							$ht_show.="<tr>
+										<td>";
+											$ht_show.="<span style='color:blue' class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['kp_id']."'  onclick='kp_tongguo(this)'>通过</span><span style='color:blue;margin-left:20px'  class='".$v['sp_id']."' id = '".$v['sp_tp']."' name='".$v['kp_id']."' onclick='kp_bohui(this)'>驳回</span></td>";
+							
+								$ht_show.="	<td>".$ht_name[$v['sp_sjid']]['name']."</td>
+											<td>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</td>
+											<td>".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy3']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy4']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy5']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy6']."</td>
+											<td>".$ywcs['zdy7'][$ht_name[$v['sp_sjid']]['zdy7']]."</td>
+											<td><span style='color:blue' class='".$v['sp_sjid']."' onclick='fujian(this)'>点击查看</span></td>
+											<td>".$user_name[$ht_name[$v['sp_sjid']]['fz']]['user_name']."</td>
+											<td>第<span>".$v['sp_dq_jj']."</span>级</td>
+											<td>共<span>".$v['sp_zg_jj']."</span>级</td>
+											<td>".$tongbu[$v['sp_tp']]."</td>
+									</tr>";
+						}
+			            $ht_show.="</tbody>
+				</table>  
+				
+			</div>
+		</div>";
+		}	
+		$this->assign('ht_show',$ht_show);
 		$this->assign('kp_show3',$kp_show3);
 		$this->assign('kp_show2',$kp_show2);
 		$this->assign('kp_show1',$kp_show1);
@@ -648,6 +723,15 @@ class ShenpiController extends Controller {
 					$hts['id']=$v['ht_id'];
 					$hts['name']=$ht_json['zdy0'];
 					$hts['fz']=$v['ht_fz'];
+					$hts['zdy1']=$ht_json['zdy1'];
+					$hts['zdy2']=$ht_json['zdy2'];
+					$hts['zdy3']=$ht_json['zdy3'];
+					$hts['zdy4']=$ht_json['zdy4'];
+					$hts['zdy5']=$ht_json['zdy5'];
+					$hts['zdy6']=$ht_json['zdy6'];
+					$hts['zdy7']=$ht_json['zdy7'];
+					$hts['zdy14']=$ht_json['zdy14'];
+
 					$ht_name[$v['ht_id']]=$hts;
 		}
 		//echo "<pre>";
@@ -1048,6 +1132,36 @@ return $fzr_only;
 		//	var_dump($xq_show);exit;
 
 		}
+			public function shangji(){
+		
+				$sj_base=M('shangji');
+				$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+				$sj_sql=$sj_base->query("select * from  crm_shangji where sj_yh='$map'");
+				
+				foreach($sj_sql as $kkh =>$vkh)
+				{
+					$sj_json=json_decode($vkh['sj_data'],true);
+					
+							$sj['id']=$vkh['sj_id'];
+							$sj['name']=$sj_json['zdy0'];
+							$sj_name[$vkh['sj_id']]=$sj;
+				}
+				
+				return $sj_name;
+			}
+			public function fujian(){
+				$map['name_id']=$_GET['id'];
+				$map['yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+				$map['mk']=6;
+				$base=M('file');
+
+				$sql=$base->where($map)->select();
+				foreach($sql as $k=>$v)
+				{
+					$fujian.="<tr><td><span style='cursor:pointer;color:blue' title='点击下载'>".$v['fujian_name']."</span></td></tr>";
+				}
+				echo $fujian;
+			}
 		
 }
 

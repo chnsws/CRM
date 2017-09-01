@@ -21,9 +21,11 @@
 		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"'" ></script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
 		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+			<link rel="stylesheet" href="{$_GET['public_dir']}/report/time_axis.css" />
+	<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">	
   		<style>
-  			body,ul,li,tr{margin:0;padding:0;font-size:14px;}
-  			table{margin-top:0px!important;}
+  			table body,ul,li,tr td{margin:0;padding:0;font-size:14px;}
+  		
   			.bjwh{width:300px;height:30px}
   			.jibenxinxi{width:50% ;float:left;}
   			.xiegenjin{width:48% ;float:right;}
@@ -31,11 +33,10 @@
   			.clear{clear:both; height: 0; line-height: 0; font-size: 0}
   			.bianji_nb{margin:left:30%; border:1px solid:red; }
 			.ziliao{height:40px;width:100%; background-color:#eee;}
-			.xiaoshou{position: relative; left :20px;top:10px;width:107%;}
-			.genjinjilu{background-color:#50BBB1;width:70px;height:24px;float:right;}
-			.genjinjilu{position: relative; right:8px;top:6px;color:white;}
+			.xiaoshou{position: relative; left :20px;width:107%;}
+			
 			.only1{position: relative; left:75%;top:6px;}
-			.genjin_back{background-color:#F7FBFE;width:90%;position: relative; top:10px;margin:20px auto;}
+	
 			.fuzeren{ position: relative; left: 15px;font-size:14px;}
 			.tbl{margin-left:20px;}
 			.addshangji_weizhi{margin:0px auto;margin-top:20px;}
@@ -55,18 +56,28 @@
 		.kongzhi1{margin-top:13px;}
 		.add_wz{float:right;margin-top:-9px;padding-top:-20px;}
 			th{background-color:#50BBB1;height:30px;color:white;}
-			tr{line-height:30px;}
+			tr{line-height:45px;}
 			.th_hei th{height:40px;}
-			th{text-align:center!important;}
-			td{text-align:center!important;}
+			.hk_add tr{height:60px;}
 			.shuai{padding-top:60px;}
-			input{width:300px;}
-			 select{width:300px;}
+		form input{width:300px;}
+		form select{width:300px;}
 			 td{padding-top:20px;}
 			 	.onError{color:red;}
 			.onSuccess{color:green;}
 			.bhyuany1{margin-top:4%;margin-left:35%;}
 			.bhyuany12{margin-top:4%;margin-left:35%;}
+			.name{font-size:20px; color:#50BBB1;}
+			.fuzename{color:#50BBB1;}
+			#th_onlykh {margin-left:20px;}
+				.genjinjilu{float:right;}
+			.genjinjilu{position: relative; right:8px;top :4px;color:white;}
+				.gj td{padding-left:25px;}
+			.gj tr{height:70px;}
+			.woca{display:none;}
+			.ace{width:80px;}
+
+
   	</style>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
@@ -76,200 +87,232 @@
 		</script>
 	</head>
 	<body>
-		<div style="margin:20px"><span style="font-size:22px;margin-right:10px">{$name}</span>负责人：<span>{$fuzeren}</span></div>
-		<div style="margin-top:20px;margin-left:8px; height:50px" >
+		<div style="margin-left:10px"><span  class='name' ><b>{$name}</b></span><span style="margin-left:10px">负责人：<span class="fuzename">	{$fuzeren}</span></span>
+		</div>
+		<input type='hidden' value='{$kh_id}' class='kh_id'>
+		<div style="margin-top:20px;margin-left:8px; height:35px" >
 	   		<button onclick="history.go(-1)"  class="layui-btn layui-btn-primary layui-btn-small">
  				<i class="layui-icon">&#xe603;</i>返回</button>	
 		   	<button onclick="bianji()"  class="layui-btn layui-btn-primary layui-btn-small">
 	 			<i class="layui-icon">&#xe642;</i>编辑</button>
-		   	<button onclick="del_check(this)"  name='{$kh_id}'  class="layui-btn layui-btn-primary layui-btn-small">
+		   	<button onclick="del_check(this)"  id='{$ht_id}'  class="layui-btn layui-btn-primary layui-btn-small">
 	 			<i class="layui-icon">&#xe640;</i>删除</button>
 		</div>	
-		<div id="tabs">
-		  <ul>
-		    <li><a href="#tabs-1">基本信息</a></li>
-		    <li><a href="#tabs-2">回款</a></li>
-		    <li><a href="#tabs-7">开票</a></li>
-		    <li><a href="#tabs-3">产品</a></li>
-		    <li><a href="#tabs-4">提醒</a></li>
-		    <li><a href="#tabs-5">附件</a></li>
-		    <li><a href="#tabs-6">操作日志</a></li>
-		   
-		  </ul>
-		  <div id="tabs-1">
-			  <div class="jibenxinxi">
-			  		<div>
-			  				<span style="color:blue">基本资料</span>
-   
-			  			 	<span id="save_jb">{$show}</span>
-			  		</div>
-			  		<div>
-			  				<span style="color:blue">系统资料</span>
-			  				{$show1}
-			  		</div>
-			   </div>
-			   <div class="xiegenjin">
-					<div class="ziliao">
-	  					<span class="xiaoshou">销售动态</span><span class="only1">只看跟进</span><span id="dialog-form" onclick="xiegenjin()" class="genjinjilu">+写跟进</span>
-	  				</div>
-	  				<div  class="genjin_back">
-	  				<table class="tbl">
-		  				<tr>
-		  					<td>操作人：<span class="fuzename">王玉帅</span></td>
-		  				</tr>
-		  				<tr>
-		  					<td>我吃饭了呼呼呼呼或或</td>
-		  				</tr>
-		  				<tr>
-		  					<td>来自客户<span class="fuzename">  抓泥鳅</span></td>
-		  				</tr>
-		  				<tr>
-		  					<td><span class="dataa">时间:2012-03-03</span></td>
-		  				</tr>
-	  				</table>
-	  				</div>
-			   </div>
-			    <div class="clear"></div>
-			   	<div class="bianji"  style="display: none;border:1px;">
+			<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+			<div class="bianji"  style="display: none;border:1px;">
 		    		<div class="bianji_nb" style="width:430px;margin:0 auto">
 		    			<form id="myform">
 		    			{$show3}
 		    			</form>
 		    		</div>
 			   	</div>
-		   </div>
-		   
-		  <div id="tabs-2">
-			<div class="bhyuanyyy"  style="display: none;border:1px;">
-		    		<div class="bhyuany12" >
-		    			
-		    		</div>
-			 	</div> 
-		
-		  	<div class="add_hk"  style="display: none;border:1px;">
-		    		<div class="bianji_nb" style="width:430px;margin:0 auto">
-		    			<form id="hk_add">
-		    				{$xz_jh}
-		    			</form>
-		    		</div>
-			 </div> 
-		  <div id="hkpz"  style="display: none;border:1px;">
-		    		<div class="bianji_nb" style="width:620px;margin:0 auto">
-		    			<form id="myform">
-		    			<table class='uk-form cd'>
-
-		    			
-		    					<tr><td><span style="color:red;">*</span><span class="jc">对应客户：</span></td><td><input type="text" name='' value="{$ht_kh}" readonly="true"></td></tr>
-		    					<tr><td><span style="color:red;">*</span><span class="jc">合同标题：</span></td><td><input type="text" name='' value="{$ht_name}" readonly="true"></td></tr>
-		    					<tr><td><span style="color:red">*</span><span class="jc">合同总金额：</span></td><td><input type="text" class="zje" name='' value="{$ht_money}"  readonly="true"></td></tr>
-		    					<tr><td><span style="color:red">*</span><span class="jc">签约日期：</span></td><td><input type="text" name='' value="{$ht_data}" readonly="true"></td></tr>
-		    				<tr><td> </td><td> </td></tr>
-					    		<tr style="margin-top:130px">
-					    			<td colspan='2'>
-							    		<table class='uk-form cd' style="width:100%;">
-							    			<thead class="th_hei">
-										  		<th >期次</th>
-								  				<th >操作</th>
-								  				<th >回款日期</th>
-								  				<th >回款占比(%)</td>
-								  				<th >汇款金额</th>
-								  				<th >备注</th>
-											</thead>
-											<tbody class="fujian_del th_peizhi">
-												<tr class="qingxuanze">
-													<td colspan="6" ><span>亲~还没有回款计划哦~<span onclick="hkzb()"
-													style="color:blue;font-weight:bold">新增回款计划>></span></span></td>
-												</tr>
-												<tr class="add_pz" style="display:none">
-													<td >1</td>
-													<td ><span onclick="jia(this)"><i class="layui-icon"  style="color:black">&#xe61f;</i></span><span class="1" onclick="hkzb1(this)"><i class="layui-icon"   style="font-size:20px">&#xe640;</i></span></td>
-													<td ><input type="text" style="width:110px"  name =""  onfocus="WdatePicker({dateFmt:'yyyy-M-d'})"></td>
-													<td ><input type="text" style="width:100px" class= "zbi" onchange="zolop(this)"></td>
-													<td ><input type="text" style="width:100px" class= "money" value="" onchange="fan(this)" name =""></td>
-													<td ><input type="text" style="width:110px" name =""></td>
-												</tr> 	
-	 	
-											</tbody>
-										</table>
-									</td>
-								</tr> 
-
-							<tr style="padding-top:40px"><td class="shuai" colspan="2"><span style="margin-left:0px;">合计</span><span style="margin-left:80px" class="zhanbi">{$zb}</span><span style="margin-left:70px" class="zongjine">{$zonghkjh}</span></td></tr>
-		    			</table>
-		    			</form>
-		    		</div>
-			   	</div>
-		  <div class="hk_wh">
-		  	<div class="hkauto">
-		  		<span class="hkshow">计划回款总金额：¥ <b>{$hkzje}</b></span><span class="hkshow"> 已回款总金额：¥<b> {$zonghk}</b></span> <span class="hkshow">未回款总金额：¥ <b>{$weihka}</b>(逾期未回款金额： <span style="color:red">¥ 0.000000</span>)</span> <span  class="pz_wz"><button onclick="hkpeizhi()"  class="layui-btn layui-btn-primary layui-btn-small ">
- 				<i class="layui-icon">&#xe614;</i>配置回款计划</button>	</span>
-		  	</div >
-		  </div>
-		 	 	<div>
-		 	 		{$hk_jihua}
-				</div>
-
-		  </div>
-		  <div id="tabs-7">
-					 				
-	 			
-				 <div class="kpjl"  style="display: none;border:1px;">
-		    		<div class="bianji_nb" style="width:480px;margin:0 auto">
-		    			<form id="kaipiaoadd">
-		    				{$kaipiao}
-		    			</form>
-		    		</div>
-			 	</div> 
-				 <div class="bhyuany"  style="display: none;border:1px;">
-		    		<div class="bhyuany1" >
-		    			
-		    		</div>
-			 	</div> 
-			 
-	 <div class="hk_wh">
-				<div class="hkauto" >
-			  		合同总金额：¥ <b>{$hkzje}</b><span class="hkshow"> 已开票总金额：¥<b> {$zonghk}</b></span> <span class="hkshow">未开票总金额：¥ <b>{$weihka}</b</span> <span  class="pz_wz"><button  id='create-sahngji' onclick='xzkp()' class='layui-btn layui-btn-small add_wz' >新增开票记录</button></span>
-			  	</div >
-		</div >
-					 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-							  <ul class="layui-tab-title">
-							    <li class="layui-this">增值税普通发票</li>
-							    <li>增值税专用发票</li>
-							    <li>国税通用机打发票</li>
-							    <li>地税通用机打发票</li>
-					
-							  </ul>
-						 		<div class="layui-tab-content">
-						 			 <div class="layui-tab-item layui-show">
-						 			 		<div>
-												  <table class='layui-table' lay-skin='line' style="margin-top:20px" >
-														  	<thead >
-														  					<th >操作</th>
-														  					<th >状态</th>
-															  				<th >开票日期</th>
-															  				<th >票据内容</th>
-															  				<th >开票金额</td>
-															  				<th >票据类型</th>
-															  				<th >发票开头</th>
-															  				<th >纳税人识别码</th>
-															  				<th >发票号码</th>
-															  				<th >经手人</th>
-															  				<th >备注</th>
-															  				<th >创建人</th>
-															  				<th >创建时间</th>
-															</thead>
-													<tbody class='fujian_del'>
-																		{$kp_show}
-													</tbody>	
+		  <ul class="layui-tab-title">
+		    <li class="layui-this">基本信息</li>
+		    <li>回款</li>
+		    <li>开票</li>
+		    <li>产品</li>
+		  	<li>附件</li>
+		    <li>操作日志</li>
+		  </ul>
+		  
+			  <div class="layui-tab-content">
+					<div class="layui-tab-item layui-show">
+				  	    <table style=" width:100%;">
+				  	    	<tr class='jb_xt'>
+				  	    		<td style="border:1px solid #EEE; width:49%;"  align="left" valign="top">
+				  	    			 <div class='ziliao_kh'  style="width:100%" >
+										
+						  					<div   style=" height:30px;width:85%;line-height:30px;background-color:#50BBB1;color:white"><span style="margin-left:10px">基本信息</span></div>
+										  	<table id="th_onlykh">
+										  		{$show}	
+											</table>
+										</div>			
+										<div class='ziliao_kh'  style="width:100%">
+							  					<div  style="height:30px;line-height:30px; width:85%; background-color:#50BBB1;color:white"><span style="margin-left:10px">系统信息</span></div>
+											  	<table id="th_onlykh" >
+											  		{$show1}
 												</table>
-											</div>
-						 			 </div>
+									
+							  					
+										</div>
+				  	    		</td>
+					  	    		<td style="border:1px solid #EEE; width:49%;"  align="left" valign="top">
+
+												<div class="ziliao">
+								  					<span class="xiaoshou">销售动态</span>
+								  					<span id="dialog-form" onclick="xiegenjin()" class=" layui-btn layui-btn-small  genjinjilu" class="genjinjilu">+写跟进</span>
+								  				</div>
+								  				<div  class="genjin_back">
+										  				<div id="uploadfrm" style="width:660px; height:500px;display: none;border:1px; ">
+														  				<form id="uploadform2" class="uk-form">
+														  					<select name="type" class="typegj sele" style="width:250px;height:40px;margin-top:10px;margin-left:23px";>
+														  						<option value="电话">电话</option>
+														  						<option value="QQ">QQ</option>
+														  						<option value="微信">微信</option>
+														  						<option value="拜访">拜访</option>
+														  						<option value="邮件">邮件</option>
+														  						<option value="短信">短信</option>
+														  						<option value="其他">其他</option>
+														  					</select>
+														  					<input type="text" name="add_time"  class="text ui-widget-content ui-corner-all shiji add_timegj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})" value="{$valav['kh_sj_gj_date']}" style="width:250px;height:40px;margin-top:10px;margin-left:17.5%">
+														  					<input type="hidden" name="sj_id" class="bingou" value="{$sj_id}">
+														  					
+														  					<textarea name="content" class='contentgj' placeholder=' 勤跟进，多签单........'  style="width:620px;height:260px;margin-top:10px;margin-left:23px";></textarea>
+														  					<table style="margin-top:20px"  class='gj' >
+														  						<tr>
+														  							<td>合同</td>
+														  							<td><input type="text"  name="shiji_date" value="{$name}" style="width:190px;height:40px" readonly="true"></td>
+														  							<td>跟进状态</td>
+														  							<td>{$gj_xgj}
+														  							</td>
+														  						</tr>
+														  				
+														  					
+																				<tr >
+																					
+														  							<td>下次跟进时间</td>
+														  							<td>
+														  								<input type="text" name='date'  class="text ui-widget-content ui-corner-all dategj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})"  style="width:190px;height:40px;">
+														  							</td>
+														  						</tr>
+														  					</table>
+												  						</form>
+												  		</div>
+								  				{$xgj_show}
+								  				</div>
+									
+					  	    		 </td>
+				  	    	</tr>
+				  	    </table>
+			  	    </div>
+			  	    
+				    <div class='layui-tab-item'>
+					  	<div class="bhyuanyyy"  style="display: none;border:1px;">
+				    		<div class="bhyuany12" >
+				    			
+				    		</div>
+						</div>
+					  			<div class="add_hk"  style="display: none;border:1px;">
+						    		<div class="bianji_nb" style="width:430px;margin:0 auto">
+						    			<form id="hk_add">
+						    				{$xz_jh}
+						    			</form>
+						    		</div>
+								</div> 
+
+					    		<div id="hkpz"  style="display: none;border:1px;">
+					    		<div class="bianji_nb" style="width:620px;margin:0 auto">
+					    			<form id="myform">
+					    			<table class='uk-form cd'>
+
+					    			
+					    					<tr><td><span style="color:red;">*</span><span class="jc">对应客户：</span></td><td><input type="text" name='' value="{$ht_kh}" readonly="true"></td></tr>
+					    					<tr><td><span style="color:red;">*</span><span class="jc">合同标题：</span></td><td><input type="text" name='' value="{$ht_name}" readonly="true"></td></tr>
+					    					<tr><td><span style="color:red">*</span><span class="jc">合同总金额：</span></td><td><input type="text" class="zje" name='' value="{$ht_money}"  readonly="true"></td></tr>
+					    					<tr><td><span style="color:red">*</span><span class="jc">签约日期：</span></td><td><input type="text" name='' value="{$ht_data}" readonly="true"></td></tr>
+					    				    <tr><td> </td><td> </td></tr>
+								    		<tr style="margin-top:130px">
+								    			<td colspan='2'>
+										    		<table class='uk-form cd' style="width:100%;">
+										    			<thead class="th_hei">
+													  		<th >期次</th>
+											  				<th >操作</th>
+											  				<th >回款日期</th>
+											  				<th >回款占比(%)</td>
+											  				<th >汇款金额</th>
+											  				<th >备注</th>
+														</thead>
+														<tbody class="fujian_del th_peizhi">
+															<tr class="qingxuanze">
+																<td colspan="6" ><span>亲~还没有回款计划哦~<span onclick="hkzb()"
+																style="color:blue;font-weight:bold">新增回款计划>></span></span></td>
+															</tr>
+															<tr class="add_pz" style="display:none">
+																<td >1</td>
+																<td ><span onclick="jia(this)"><i class="layui-icon"  style="color:black">&#xe61f;</i></span><span class="1" onclick="hkzb1(this)"><i class="layui-icon"   style="font-size:20px">&#xe640;</i></span></td>
+																<td ><input type="text" style="width:110px"  name =""  onfocus="WdatePicker({dateFmt:'yyyy-M-d'})"></td>
+																<td ><input type="text" style="width:100px" class= "zbi" onchange="zolop(this)"></td>
+																<td ><input type="text" style="width:100px" class= "money" value="" onchange="fan(this)" name =""></td>
+																<td ><input type="text" style="width:110px" name =""></td>
+															</tr> 	
+				 	
+														</tbody>
+													</table>
+												</td>
+											</tr> 
+
+										<tr style="padding-top:40px"><td class="shuai" colspan="2"><span style="margin-left:0px;">合计</span><span style="margin-left:80px" class="zhanbi">{$zb}</span><span style="margin-left:70px" class="zongjine">{$zonghkjh}</span></td></tr>
+					    			</table>
+					    			</form>
+					    		</div>
+								</div>
+					    		<div class="hk_wh">
+						  			<div class="hkauto">
+								  		<span class="hkshow">计划回款总金额：¥ <b>{$hkzje}</b></span><span class="hkshow"> 已回款总金额：¥<b> {$zonghk}</b></span> <span class="hkshow">未回款总金额：¥ <b>{$weihka}</b>(逾期未回款金额： <span style="color:red">¥ 0.000000</span>)</span> <span  class="pz_wz"><button onclick="hkpeizhi()"  class="layui-btn layui-btn-primary layui-btn-small ">
+						 				<i class="layui-icon">&#xe614;</i>配置回款计划</button>	</span>
+						 		 	</div >
+					   			</div>
+				 	 			<div>
+				 	 				{$hk_jihua}
+								</div>
+					</div>
 
 
-						 			 
 
 
-									    <div class="layui-tab-item" >
+
+
+				    <div class='layui-tab-item'>
+					  		<div class="kpjl"  style="display: none;border:1px;">
+					    		<div class="bianji_nb" style="width:480px;margin:0 auto">
+					    			<form id="kaipiaoadd">
+					    				{$kaipiao}
+					    			</form>
+					    		</div>
+					 		</div> 
+							<div class="bhyuany"  style="display: none;border:1px;">
+					    		<div class="bhyuany1" >
+					    			
+					    		</div>
+						 	</div>
+							<div class="hk_wh">
+										<div class="hkauto" >
+									  		合同总金额：¥ <b>{$hkzje}</b><span class="hkshow"> 已开票总金额：¥<b> {$zonghk}</b></span> <span class="hkshow">未开票总金额：¥ <b>{$weihka}</b></span> <span  class="pz_wz"><button  id='create-sahngji' onclick='xzkp()' class='layui-btn layui-btn-small add_wz' >新增开票记录</button></span>
+									  	</div >
+							</div>
+						<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+									  <ul class="layui-tab-title">
+									    <li class="layui-this">增值税普通发票</li>
+									    <li>增值税专用发票</li>
+									    <li>国税通用机打发票</li>
+									    <li>地税通用机打发票</li>
+									  </ul>
+								 		<div class="layui-tab-content">
+								 			 <div class="layui-tab-item layui-show">
+								 			 		<div>
+														  <table class='layui-table' lay-skin='line' style="margin-top:20px" >
+																  	<thead >
+																  					<th >操作</th>
+																  					<th >状态</th>
+																	  				<th >开票日期</th>
+																	  				<th >票据内容</th>
+																	  				<th >开票金额</td>
+																	  				<th >票据类型</th>
+																	  				<th >发票开头</th>
+																	  				<th >纳税人识别码</th>
+																	  				<th >发票号码</th>
+																	  				<th >经手人</th>
+																	  				<th >备注</th>
+																	  				<th >创建人</th>
+																	  				<th >创建时间</th>
+																	</thead>
+															<tbody class='fujian_del'>
+																				{$kp_show}
+															</tbody>	
+													      </table>
+													</div>
+								 			 </div>
+								 			  <div class="layui-tab-item" >
 									    	 <div class="layui-tab-item layui-show"  >
 							 			 		<div style='overflow :auto;width:99%'>
 													  <table class='layui-table' lay-skin='line' style="margin-top:20px;width:3000px" >
@@ -355,73 +398,97 @@
 						 					 </div>
 
 									    </div>
-									    
-						 		</div>
-						 		
 
-						</div>      
+								 		</div>
+						</div>
 
-		   </div>
-		   
-		  <div id="tabs-3">
-		  <input type="button"  onclick="add_cpp()" class=" layui-btn layui-btn-small" value="+添加产品">
-				<table class="layui-table" lay-skin="line">
-					  	<thead>
-					  	<th >产品名称</th>
-		  				<th >产品编号</th>
-		  				<th >标准单价</th>
-		  				<th >建议价格</td>
-		  				<th >数量</th>
-		  				<th >折扣</th>
-		  				<th >总价</th>
-		  				<th >销售单位</th>
-		  				<th >产品分类</th>
-		  				<th >备注</th>
-		  				<th >操作</th>
-						</thead>
-						<tbody class="cp_showoo">
-							{$show2}	
-						</tbody>
-				 </table>
-		  </div>
-		  <div id="tabs-4">
-		  统一做
-		  </div>
-		  <div id="tabs-5">
+				</div>		
 
-			  		<input type="button" id="dialog-form" onclick="fj_cp()"  class=" layui-btn layui-btn-small" value="+文件上传">
-			   <table class="layui-table" lay-skin="line">
-					  	<thead>
-					  		<th >上传时间</th>
-			  				<th >附件名称</th>
-			  				<th >大小</td>
-			  				<th >备注</th>
-			  				<th >操作</th>
 
-						</thead>
-						<tbody class="fujian_del">
-						
-							{$file_show}
 
-						</tbody>
-				 </table>
+
+
+
+				    <div class='layui-tab-item'>
+			  			  <input type="button"  onclick="add_cpp()" class=" layui-btn layui-btn-small" value="+添加产品">
+							<table class="layui-table" lay-skin="line">
+								  	<thead>
+								  	<th >产品名称</th>
+					  				<th >产品编号</th>
+					  				<th >标准单价</th>
+					  				<th >建议价格</td>
+					  				<th >数量</th>
+					  				<th >折扣</th>
+					  				<th >总价</th>
+					  				<th >销售单位</th>
+					  				<th >产品分类</th>
+					  				<th >备注</th>
+					  				<th >操作</th>
+									</thead>
+									<tbody class="cp_showoo">
+										{$show2}	
+									</tbody>
+							 </table>
+			 		 </div>
+			 		  <div class='layui-tab-item'>
+			  			<input type="button" id="dialog-form" onclick="fj_cp()"  class=" layui-btn layui-btn-small" value="+文件上传">
+					   <table class="layui-table" lay-skin="line">
+							  	<thead>
+							  		<th >上传时间</th>
+					  				<th >附件名称</th>
+					  				<th >大小</td>
+					  				<th >备注</th>
+					  				<th >操作</th>
+
+								</thead>
+								<tbody class="fujian_del">
+								
+									{$file_show}
+
+								</tbody>
+						 </table>
 				 	<div id="fj_cp"  style="display: none;border:1px;">     
 				  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Hetongmingcheng/fj_shangchuan/id/{$ht_id}" enctype="multipart/form-data" method="post" style="margin:20px;">
 			  					<input type="file" name="wenjian"  >
 			  					<div id="shangc_top" style="margin-top:20px"><span class="top_bz">备&nbsp;&nbsp;&nbsp;&nbsp;注：</span><!-- 第一个是普通textarea -->
 							<textarea name="wenbenyu" class="comments" rows="5" cols="30"> </textarea>  </div>
-			  					<div id="shangc_top" ><input type="submit" value="上传附件"  class="layui-btn layui-btn-small"></div>
+			  					<div id="shangc_top" ><input type="submit" value="上传附件"  class="layui-btn layui-btn-small ace"></div>
 			  				</form>
 					</div>	
-		
-		  </div>
-		  <div id="tabs-6">
-		    	
+			 		 </div>
+			 		  <div class='layui-tab-item'>
 			  		
-	  		</div>
-	  		
-		 
+					  			<table class="layui-table" lay-skin="line"> 
+								  	<thead>
+								  				
+								  				<th >操作时间</th>
+								  				<th >操作人员</th>
+								  				<th >操作模块</th>
+								  			
+								  				<th >备注</th>
+								  				<th >类型</th>
+
+								  				
+								  			
+									</thead>
+									<tbody class="rz_sxp">
+								
+								  		{$rz_jl}
+
+									</tbody>
+					  			</table>  
+				    		 </div>
+			 		 </div>
+			 		  <div class='layui-tab-item'>
+			  			<b>4</b>
+			 		 </div>
+			 </div>
 		</div>
+		 
+		  
+
+
+
 		 <div id="addcp" style="display: none;border:1px">
 		  		<form id="cp_form" method="post" >
 								<table class="addshangji_weizhi">
@@ -472,6 +539,16 @@
 								</table>
 							</form>
 		  	</div>
+
+
+
+
+
+
+
+
+
+
 	</body>
 	<script>
 	layui.use('upload', function(){
@@ -482,7 +559,6 @@
 			layui.use('layer', function(){
 							var layer = layui.layer;
 							var win=layer.open({
-
 								type:1,
 								offset: 't',
 								area:'630px',
@@ -499,17 +575,18 @@
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
 										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
 									}
-									alert (ajaxstr);
-									$.get(rooturl+'/index.php/Home/Shangjimingcheng/save',{"id":ajaxstr},
+									
+									var ht_id=$(".ht_id1").val();
+									$.get(rooturl+'/index.php/Home/Hetongmingcheng/save',{"id":ajaxstr,'ht_id':ht_id},
 							        		 function(html){
 									        	//	alert(html)
 									        		if(html=="no"){
 									        			tishi("没有修改信息")
-									        			layer.close(win)
+									        			window.location.href="hetongmingcheng?id="+ht_id;
 									        		}else{
 									        			
-									        			$("#save_jb").html(html);
-									        			layer.close(win)
+									        			
+									        			window.location.href="hetongmingcheng?id="+ht_id;
 									        		}
 							                   });
 								},
@@ -575,7 +652,9 @@
 										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
 									}
 									var vstr=ajaxstr.substr(0,ajaxstr.length-1);
-									$.get(rooturl+'/index.php/Home/Hetongmingcheng/add_cp',{"id":vstr},
+									var kh_id=$(".kh_id").val();
+								
+									$.get(rooturl+'/index.php/Home/Hetongmingcheng/add_cp',{"id":vstr,'kh_id':kh_id},
 							        		 function(html){
 									       		 $(".cp_showoo").html(html);
 									        		layer.close(win)
@@ -584,7 +663,7 @@
 								}
 							}); 
 						});   
-    			}
+    			} 
 	</script>
 	<script>
 		function cp_aj(a){
@@ -1028,5 +1107,44 @@
 			  
 			  //…
 			});
+         function xiegenjin(){
+
+		layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'680px',
+							
+								title: '写跟进',
+								content:$('#uploadfrm'),
+								btn:['确认'],
+						
+								btn1:function(){
+										var content_gj='';
+										content_gj="kh_id!"+$(".ht_id").val()+","+"type!"+$('.typegj').val()+","+"content!"+$('.contentgj').val()+","+"add_time!"+$(".add_timegj").val()+","+"date!"+$(".dategj").val();
+										var xgj=$(".gjzt12").val();
+									//	alert(content_gj)
+									//	alert(xgj);return;
+									$.get(rooturl+'/index.php/Home/Hetongmingcheng/xgj',{"id":content_gj,'xgj':xgj},
+						        		 				function(html){
+												
+			        		 								location=rooturl+"/index.php/Home/Hetongmingcheng/hetongmingcheng?id="+$(".ht_id").val();
+														});
+
+								}
+							}); 
+						});  
+	}
+	function del_check(ss){
+    			var checked_str=$(ss).prop('id');
+    			
+    			$.get(rooturl+'/index.php/Home/Hetong/del',{"id":checked_str},
+		        		 function(html){
+		        		 		tishi("删除成功")
+		        				 				location=rooturl+"/index.php/Home/Hetong/hetong";
+		                   });
+
+    		}
 	</script>
 </html>

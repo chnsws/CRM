@@ -56,18 +56,21 @@
 			.xinzeng2{float:right;}
 			.fa-pencil{float:right;}
 			.sx_tj_margain{margin-left:12px;}
-			.anniu{width:auto;height:50px;border:1px solid #ccc;margin-left:-17px;} 
+			
+		.anniu{line-height:70px;height:70px;border:1px solid #ccc;margin-top:20px;} 
 			.head_title{font-size:20px;}
 			.addshangji_weizhi{margin:0px auto;margin-top:20px;}
 			.addtr{line-height:25px;}
 			.addtr td{padding-top:20px;}
 			.addtr td input{width:300px;}
 			.addtr td select{width:300px;}
-			.top_del{margin-top:10px;}
+	
 			.pl_bj{margin:0px auto;}
 			.onError{color:red;}
 			.onSuccess{color:green;}
 			.kongzhiyeshu{margin-top:19px;height:40px;font-size:16px;margin-left:20px;}
+			th{background-color:#50BBB1;height:30px;color:white;} 
+			.panel-title{margin-left:2px;margin-top:9px; font-size:21px; color:#1AA094;}
 		</style>  
 				<script type="text/javascript">
 			
@@ -121,7 +124,7 @@ $(function(){
 			<div >
 				  <ul>
 				    <li class="panel-heading">
-				    	<span class="head_title">合同信息</span>
+				    	<span class="panel-title"><b>合同</b></span>
 				    	<span class="xinzeng"><button  id="create-sahngji" onclick="addhetong()" class="layui-btn layui-btn-small" >新增合同</button><button onclick="daoru()" style="margin-left:20px" class="layui-btn layui-btn-small">导入商机</button></span>
 				    </li>
 				  </ul>
@@ -431,15 +434,19 @@ $(".yincang").hide()
 							                   });
  
 });
-
+	var fujian_name='';
 	function addhetong(){
 		
 					layui.upload({
 					        url: rooturl+"/index.php/Home/Hetong/wjsc_dr",
+					      
 					        title:"选择文件",
 					        success: function(res){
+					        
 					            if(res['res']=='1')
 					            {
+					            	var a=res['oldname'];
+					            alert(a)
 					            	$.get(rooturl+'/index.php/Home/Hetong/sql_fj',{},
 							        		 function(html){
 							        		 	$(".fj_th").html(html);
@@ -449,10 +456,7 @@ $(".yincang").hide()
 					            	
 						  
 					            }
-					            else if(res['res']=='2')
-					            {
-					                tishi("上传文件格式仅支持csv");
-					            }
+					           
 					            else
 					            {
 					           		 tishi("文件上传失败");
@@ -507,6 +511,7 @@ $(".yincang").hide()
 									}else{
 
 											var kh_lxr_name=$("#kh_lxr_name").val();
+					
 											if(kh_lxr_name==undefined || kh_lxr_name==null)
 											{
 												kh_lxr_name =name_lxr;
@@ -658,10 +663,11 @@ $("#nchangyong").click(function(){
     				return flase;
     			}
     			checked_str=checked_str.substr(0,checked_str.length-1);
+    			//alert(checked_str);return;
     			$.get(rooturl+'/index.php/Home/Hetong/del',{"id":checked_str},
 		        		 function(html){
 		        		 		tishi("删除成功")
-		        				$("#jb_bianji").html(html);
+		        				 	window.location.href="hetong"
 		                   });
 
     		}
@@ -706,11 +712,11 @@ $("#nchangyong").click(function(){
 
 												//tishi(xgzd);
 											//	tishi(content);
+										//	alert(bianji_str+xgzd+content+xgzd2+content2);return
 												$.get(rooturl+'/index.php/Home/Hetong/pl_bianji',{"id":bianji_str,"ziduan":xgzd,"content":content,"xgzd2":xgzd2,"content2":content2},
 					        		 				function(html){
 					        		 				tishi("批量修改成功")
-															$("#jb_bianji").html(html);
-															layer.close(win)
+															  	window.location.href="hetong"
 													});
 
 											},
@@ -762,8 +768,8 @@ $("#nchangyong").click(function(){
 														$.get(rooturl+'/index.php/Home/Hetong/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"ht_id":piliang_str},
 							        		 				function(html){
 							        		 					tishi("批量转移成功")
-																			$("#jb_bianji").html(html);
-																			layer.close(win)
+							        		 					   	window.location.href="hetong"
+																		
 															});
 													},
 													btn2:function(){

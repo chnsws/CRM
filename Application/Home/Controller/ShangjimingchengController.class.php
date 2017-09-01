@@ -361,7 +361,7 @@ return $fzr_only;
 		$sql_file_sj=$file_sj_base->where($file_sj)->select();
 		foreach($sql_file_sj as $k=>$v)
 		{
-			$file_sj_show.="<tr class='".$v['id']."'><td>".$v['id']."</td><td>".$v['sc_data']."</td><td>".$v['fujian_name']."</td><td>".$v['big']."</td><td>".$v['beizhu']."</td><td><button onclick='fujian_del(this)' name='".$v['id']."' class='layui-btn layui-btn-primary layui-btn-small'>
+			$file_sj_show.="<tr class='".$v['id']."'><td>".$v['sc_data']."</td><td>".$v['fujian_name']."</td><td>".$v['big']."</td><td>".$v['beizhu']."</td><td><button onclick='fujian_del(this)' name='".$v['id']."' class='layui-btn layui-btn-primary layui-btn-small'>
     <i class='layui-icon'>&#xe642;</i>删除
   </button></td>";
 			$file_sj_show.="</tr>";
@@ -384,7 +384,7 @@ return $fzr_only;
 										
 									}
 	  							$gj_xgj.="</select>"; //这里是写跟进的 跟进状态
-	  	$xiegenjin_base=M('xiegenjin');
+	  			$xiegenjin_base=M('xiegenjin');
 	  			$map_xiegenjin['genjin_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 				$map_xiegenjin['mode_id']=5;
 				$map_xiegenjin['kh_id']=$sj_id;
@@ -564,91 +564,7 @@ return $fzr_only;
 		$sj_base=M('shangji');
 		$sql_save=$sj_base->where($map)->save($data);
 		if($sql_save){
-				$sj_id=$map['sj_id'];
-				$sj_base=M('shangji');
-				$map_sj['sj_id']=$sj_id;
-				$sql_sj=$sj_base->where($map_sj)->find();
-				foreach($sql_sj as $k=>$v)
-				{
-					if($k!='sj_data')
-					{
-						$sql_rh[$k]=$v;
-					}else{
-						
-						$sj_json=json_decode($sql_sj['sj_data'],true);
-						foreach ($sj_json as $k1=>$v1)
-						{
-							$sql_rh[$k1]=$v1;
-						}
-					}
-
-				}    //商机信息查询
-
-				$biaoti=$this->ywzd(); //标题过来了
-				$ywcs=$this->ywcs(); //参数过来了
-				//echo "<pre>";
-				//var_dump($biaoti);exit;
-				foreach($biaoti as $kbt=>$vbt)
-				{
-					$show.="<table>";
-					if($kbt!='zdy2')
-						$show.="<tr style='line-height:30px'><td style='width:160px'><b>".$vbt['name'].":<b></td>";
-					if($sql_rh[$kbt]=="")
-					{
-						$show.="<td>未填写</td>";
-					}else{
-						if($kbt=="zdy1")
-						{
-							$kh_name=$this->kehu_name();
-							foreach( $kh_name as $k=>$v)
-							{
-								if($k==$sql_rh[$kbt])
-								{
-									$show.="<td>".$v['name']."</td> ";
-								}
-							}
-							
-						}elseif($kbt=="zdy2"){
-							//2就是空
-						}elseif($kbt=="zdy5"){	
-							
-							foreach( $ywcs[$kbt] as $k=>$v)
-							{
-								if($k==$sql_rh[$kbt])
-								{
-									$show.="<td>".$ywcs[$kbt][$k]."</td> ";
-								}
-							}
-
-						}elseif($kbt=="zdy7"){	
-							
-							foreach( $ywcs[$kbt] as $k=>$v)
-							{
-								if($k==$sql_rh[$kbt])
-								{
-									$show.="<td>".$ywcs[$kbt][$k]."</td> ";
-								}
-							}
-						}elseif($kbt=="zdy9"){	
-
-							foreach( $ywcs[$kbt] as $k=>$v)
-							{
-								if($k==$sql_rh[$kbt])
-								{
-									$show.="<td>".$ywcs[$kbt][$k]."</td> ";
-								}
-							}
-								
-						}else{
-							$show.="<td>".$sql_rh[$kbt]."</td> ";
-						}
-						
-					}
-							$show.="</tr>";
-						$show.="</table>";
-						
-
-				}echo $show;
+				echo "ok";
 
 		}else{
 			echo "no";
@@ -743,7 +659,7 @@ return $fzr_only;
 				 $sql_del=$sql_file->where($data)->delete();
 				 
 			}
-			public function xgj(){
+	public function xgj(){
 		$id=$_GET['id'];
 
 	//	$id="kh_id!276,type!拜访,content!123456,xgj_czr!411,add_time!2017-08-22 10:53:01,date!2017-08-23 10:53:06";

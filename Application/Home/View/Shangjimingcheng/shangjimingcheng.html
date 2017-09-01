@@ -35,7 +35,6 @@
 			.genjinjilu{float:right;}
 			.genjinjilu{position: relative; right:8px;top :4px;color:white;}
 
-			.genjin_back{background-color:#F7FBFE;}
 			.fuzeren{ position: relative; left: 15px;font-size:14px;}
 			.tbl{margin-left:20px;}
 			.name{font-size:20px; color:#50BBB1;}
@@ -110,56 +109,56 @@
 		  	    		</td>
 		  	    		<td style="border:1px solid #EEE; width:49%;"  align="left" valign="top">
 
-								<div class="ziliao">
-				  					<span class="xiaoshou">销售动态</span>
-				  					<span id="dialog-form" onclick="xiegenjin()" class=" layui-btn layui-btn-small  genjinjilu" class="genjinjilu">+写跟进</span>
-				  				</div>
-				  				<div  class="genjin_back">
-				  				<div id="uploadfrm" style="width:660px; height:500px;display: none;border:1px; ">
-								  				<form id="uploadform2" class="uk-form">
-								  					<select name="type" class="typegj sele" style="width:250px;height:40px;margin-top:10px;margin-left:23px";>
-								  						<option value="电话">电话</option>
-								  						<option value="QQ">QQ</option>
-								  						<option value="拜访">微信</option>
-								  						<option value="拜访">拜访</option>
-								  						<option value="邮件">邮件</option>
-								  						<option value="短信">短信</option>
-								  						<option value="其他">其他</option>
-								  					</select>
-								  					<input type="text" name="add_time"  class="text ui-widget-content ui-corner-all shiji add_timegj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})" value="{$valav['kh_sj_gj_date']}" style="width:250px;height:40px;margin-top:10px">
-								  					<input type="hidden" name="sj_id" class="bingou" value="{$sj_id}">
-								  					
-								  					<textarea name="content" class='contentgj' placeholder=' 勤跟进，多签单........'  style="width:620px;height:260px;margin-top:10px;margin-left:23px";></textarea>
-								  					<table style="margin-top:20px"  class='gj' >
-								  						<tr>
-								  							<td>客户</td>
-								  							<td><input type="text"  name="shiji_date" value="{$sql_rh.zdy0}" style="width:190px;height:40px" readonly="true"></td>
-								  							<td>跟进状态</td>
-								  							<td>{$gj_xgj}
-								  							</td>
-								  						</tr>
-								  				
-								  					
-														<tr >
-															<td >联系人</td>
-									
-							  									
-								  							<td>
-								  								<select name='lianxiren' class='lxr_id' style='width:190px;height:40px'>";
-							  										<option value='{$sql_lianxi.lx_id}'>{$lx_json.zdy0}</option>;
-							  									</select>
-								  							</td>
-								  							<td>下次跟进时间</td>
-								  							<td>
-								  								<input type="text" name='date'  class="text ui-widget-content ui-corner-all dategj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})"  style="width:190px;height:40px;">
-								  							</td>
-								  						</tr>
-								  					</table>
-						  						</form>
-						  				</div>
-				  				{$xgj_show}
-				  				</div>
-						 		  </div>
+									<div class="ziliao">
+					  					<span class="xiaoshou">销售动态</span>
+					  					<span id="dialog-form" onclick="xiegenjin()" class=" layui-btn layui-btn-small  genjinjilu" class="genjinjilu">+写跟进</span>
+					  				</div>
+					  				<div  class="genjin_back">
+						  				<div id="uploadfrm" style="width:660px; height:500px;display: none;border:1px; ">
+										  				<form id="uploadform2" class="uk-form">
+										  					<select name="type" class="typegj sele" style="width:250px;height:40px;margin-top:10px;margin-left:23px";>
+										  						<option value="电话">电话</option>
+										  						<option value="QQ">QQ</option>
+										  						<option value="拜访">微信</option>
+										  						<option value="拜访">拜访</option>
+										  						<option value="邮件">邮件</option>
+										  						<option value="短信">短信</option>
+										  						<option value="其他">其他</option>
+										  					</select>
+										  					<input type="text" name="add_time"  class="text ui-widget-content ui-corner-all shiji add_timegj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})" value="{$valav['kh_sj_gj_date']}" style="width:250px;height:40px;margin-top:10px;">
+										  					<input type="hidden" name="sj_id" class="bingou" value="{$sj_id}">
+										  					
+										  					<textarea name="content" class='contentgj' placeholder=' 勤跟进，多签单........'  style="width:620px;height:260px;margin-top:10px;margin-left:23px";></textarea>
+										  					<table style="margin-top:20px"  class='gj' >
+										  						<tr>
+										  							<td>客户</td>
+										  							<td><input type="text"  name="shiji_date" value="{$sql_rh.zdy0}" style="width:190px;height:40px" readonly="true"></td>
+										  							<td>跟进状态</td>
+										  							<td>{$gj_xgj}
+										  							</td>
+										  						</tr>
+										  				
+										  					
+																<tr >
+																	<td >联系人</td>
+											
+									  									
+										  							<td>
+										  								<select name='lianxiren' class='lxr_id' style='width:190px;height:40px'>";
+									  										<option value='{$sql_lianxi.lx_id}'>{$lx_json.zdy0}</option>;
+									  									</select>
+										  							</td>
+										  							<td>下次跟进时间</td>
+										  							<td>
+										  								<input type="text" name='date'  class="text ui-widget-content ui-corner-all dategj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})"  style="width:190px;height:40px;">
+										  							</td>
+										  						</tr>
+										  					</table>
+								  						</form>
+								  		</div>
+					  				{$xgj_show}
+					  				</div>
+						 		
 		  	    		 </td>
 		  	    	</tr>
 		  	    </table>
@@ -220,7 +219,7 @@
 					  		<input type="button" id="dialog-form" onclick="fj_cp()" class="layui-btn layui-btn-small" value="+文件上传">
 					  		<table class="layui-table" lay-skin="line">
 								  	<thead>
-								  				<th >ID</th>
+								  		
 								  				<th >上传时间</th>
 								  				<th >附件名称</th>
 								  				<th >大小</td>
@@ -300,9 +299,7 @@
 									        			alert("没有修改信息")
 									        			layer.close(win)
 									        		}else{
-									        			
-									        			$("#save_jb").html(html);
-									        			layer.close(win)
+									        			location=rooturl+"/index.php/Home/Shangjimingcheng/shangjimingcheng?id="+$(".bingou").val();
 									        		}
 							                   });
 								},

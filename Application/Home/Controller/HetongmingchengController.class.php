@@ -150,7 +150,7 @@ return $fzr_only;
 			$ht_json=json_decode($sql_lianxi['ht_data'],true);
 
 			foreach ($ywzd as $k => $v){
-				$show.="<table><tr style='line-height:40px'><td style='width :150px'>".$v['name']."：</td>";
+				$show.="<tr style='line-height:40px'><td style='width :150px'>".$v['name']."：</td>";
 				if($ht_json[$k]!=""){
 					if($k == 'zdy1')
 					{
@@ -165,7 +165,7 @@ return $fzr_only;
 				}else{
 					$show.="<td >未填写</td>";
 				}
-				$show.="</tr></table>";
+				$show.="</tr>";
 			}
 			$array_jiansuo=array('ht_fz'=>"负责人",'ht_bm'=>"部门",'ht_spzt'=>"审批状态",'ht_new_gj'=>"最新跟进记录",'ht_sj_gj_date'=>"最新跟进时间",'ht_cj'=>"创建人",'ht_old_fz'=>"原负责人",'ht_old_bm'=>"原负责人部门",'ht_cj_date'=>"创建时间","ht_gx_date"=>"更新时间");
 				foreach($array_jiansuo as $k=>$v){
@@ -177,7 +177,7 @@ return $fzr_only;
 				}
 			foreach($new_arrayoo as $k=>$v)
 			{
-				$show1.="<table><tr style='line-height:40px'><td style='width :150px'>".$v['name']."：</td>";
+				$show1.="<tr style='line-height:40px'><td style='width :150px'>".$v['name']."：</td>";
 				if($sql_lianxi[$k]!=""){
 						if($k=='ht_fz' || $k=='ht_old_fz' ||$k=='ht_cj')
 						{
@@ -195,9 +195,10 @@ return $fzr_only;
 				}else{
 					$show1.="<td >未填写</td>";
 				}
-				$show1.="</tr></table>";
+				$show1.="</tr>";
 			} 
-		$show3.="<tr><td></td><td><input type='text' name='ht_id' value='".$ht_id."'></td></tr>";
+		
+		$show3.="<tr><td></td><td><input type='hidden' class='ht_id1' value='".$ht_id."'></td></tr>";
 			foreach ($ywzd as $k => $v){
 				if($k=="zdy9" || $k=='zdy14'){
 					continue;
@@ -215,29 +216,22 @@ return $fzr_only;
 						{
 							if($k2==$ht_json[$k])
 							$show3.="<option value='".$v2['id']."' selected='selected'>".$v2['name']."</option>";
-							else
-							$show3.="<option value='".$v2['id']."' >".$v2['name']."</option>";
+							
 						}
 						$show3.="</select></td>";	
 					}elseif($k=='zdy2'){
 
 						$show3.="<td class='th_sj'><select name='".$k."' class='bjwh'>";
 						
-							foreach($shangji as $k3=>$v3)
-							{
-								if($ht_json['zdy1']==$v3['zdy1']){
-									if($v3['zdy2']==$ht_json['zdy2'])
-										$show3.="<option value='".$v3['sj_id']."' selected='selecteed'>".$v3['zdy0']."</option>";	
-									else{
-										$show3.="<option value='".$v3['sj_id']."' >".$v3['zdy0']."</option>";	
-									}
+							
+							
+									$show3.="<option value='".$ht_json['zdy2']."' selected='selected'>".$shangji[$ht_json['zdy2']]['zdy0']."</option>";		
+					
 									
-								}
+							
 								
-							}
-						if($ht_json[$k]=='012'){
-									$show3.="<option value='' selected='selected'>--未填写--</option>";
-							}
+							
+						
 						$show3.="</select></td>";	
 					}elseif($k=='zdy7' || $k=='zdy10' || $k=='zdy11'){
 						$show3.="<td ><select  class='bjwh' name='$k'>";
@@ -425,7 +419,7 @@ return $fzr_only;
 											<tr><td colspan='8'  height='120px' >
 												<i class='layui-icon xiaolian' style='font-size:80px;float:left;position:relative;left:50%;margin-left:-200px;'><b>&#xe60c;</b></i>
 
-												<span>亲~ 还没有数据哦～ <span style='color:blue;cursor:pointer;' onclick='xzjh(this)'>新增回款记录 >></span></span>
+												<span style='margin-left:45%'>亲~ 还没有数据哦111～ <span style='color:blue;cursor:pointer;' onclick='xzjh(this)'>新增回款记录 >></span></span>
 											</td></tr>  
 											</tbody>";
 								}
@@ -716,11 +710,101 @@ return $fzr_only;
 			    	}
 		    	}
 		    
-		    	 $this->assign("kp_show3",$kp_show3);		
-		    	  $this->assign("kp_show2",$kp_show2);		
-		    	   $this->assign("kp_show1",$kp_show1);										
-		     $this->assign("kp_show",$kp_show);					
-		     $this->assign("kaipiao",$kaipiao);					
+								$gj_xgj.="<select name='genjinzhuantai' class='gjzt12' style='width:190px;height:40px'>";
+									if($ht_json['zdy7']=='' || $ht_json['zdy0']==null)
+									{
+										$gj_xgj.="<option  selected='selected'>--请选择--</option>";
+									}
+			  						foreach($ywcs['zdy7'] as $k=>$v)
+									{
+										if($ht_json['zdy7']==$k)
+										{
+											$gj_xgj.="<option value='".$k."' selected='selected'>".$v."</option>";
+										}else{
+											$gj_xgj.="<option value='".$k."'>".$v."</option>";
+										}
+										
+										
+									}
+	  							$gj_xgj.="</select>"; //这里是写跟进的 跟进状态\
+	  		$xiegenjin_base=M('xiegenjin');
+	  			$map_xiegenjin['genjin_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+				$map_xiegenjin['mode_id']=6;
+				$map_xiegenjin['kh_id']=$ht_id;
+				$sql_xiegenjin=$xiegenjin_base->where($map_xiegenjin)->order("add_time desc")->select();
+				if($sql_xiegenjin=="" || $sql_xiegenjin==null)
+				{
+					$xgj_show.="<table  style='margin-left:40%;margin-top:20%'><tr><td><i class='layui-icon' style='font-size: 140px; color: #999;'>&#xe64d;</i></td></tr>
+						 <tr><td ><span style='margin-left:25px;color:#999'>暂无跟进记录</span></tr> </table>";
+				}
+				foreach($sql_xiegenjin as $k=>$v)
+				{
+					$xgj_show.="<div class='gj_mod'>
+						<div class='gj_head'><div class='gj_head_point'></div><div class='gj_head_date'>".$v['add_time']."</div></div>
+						<div class='gj_body'>
+							<div class='gj_body_icon'><i class='fa fa-pencil'></i></div>
+							<div class='gj_body_content'>
+								<div class='gj_body_content_head'>
+									<img src='' class='gj_headimg woca'>
+									<span class='user_name'>
+									".$user[$v['user_id']]['user_name']."</span><i class='fa fa-caret-right'></i><span class='gj_fangshi'>".$v['type'].":<span style='color:blue'>".$lx_json['zdy0']."</span>
+									</span>
+								
+								</div>
+								<div class='gj_body_content_content'>".$v['content']."</div>
+							
+								<div class='gj_body_content_from'>来自合同：".$ht_json['zdy0']."</div> 
+								<div class='gj_body_content_button'>
+									<button class='layui-btn layui-btn-primary woca'>评论</button>
+								</div>
+							</div>
+						</div>
+					</div>";
+				}//客户模块下
+			$rz=M('rz');
+	 		$rz_map['rz_type']=1;//这个1是操作日志类型  死的
+	 		$rz_map['rz_mode']=6;
+	 		$rz_map['rz_user']=cookie('user_id');
+			$rz_map['rz_zd_name']=$ht_id;//客户名称ID
+			$rz_sql=$rz->where(array($rz_map))->order("rz_time desc")->select();//查询出日志记录、
+			
+			
+			$rz_mk_a=array(
+				"1"=>"线索",
+				"2"=>"客户",
+				"3"=>"客户公海",
+				"4"=>"联系人",
+				"5"=>"商机",
+				"6"=>"合同",
+				);
+			$rz_type=array(
+				"1"=>"添加",
+				"2"=>"编辑",
+				"3"=>"删除"
+				
+				);
+			foreach($rz_sql as $k=>$v)
+			{
+		  		$rz_jl.="<tr>
+	  					<td >".date('Y-m-d H:i:s',$v['rz_time'])."</td>
+	  					<td >".$user[$v['rz_user']]['user_name']."</td>";
+	  					$rz_jl.="<td >".$rz_mk_a[$v['rz_mode']]."</td>";
+	  					$rz_jl.="
+	  							 <td >".$v['rz_bz']."</td>";
+	  				
+	  					$rz_jl.="<td >".$rz_type[$v['rz_cz_type']]."</td>";
+	  				
+	  				
+	  			$rz_jl.="</tr>";
+	  		}
+	  			$this->assign("rz_jl",$rz_jl);		
+			$this->assign("xgj_show",$xgj_show);		
+			$this->assign("gj_xgj",$gj_xgj);		
+    	    $this->assign("kp_show3",$kp_show3);		
+    	    $this->assign("kp_show2",$kp_show2);		
+    	    $this->assign("kp_show1",$kp_show1);										
+		    $this->assign("kp_show",$kp_show);					
+		    $this->assign("kaipiao",$kaipiao);					
 		    $this->assign("weihka", $weihka);
 		   	$this->assign("xz_jh",$xz_jh);
 			$this->assign("hk_jihua",$hk_jihua);//回款计划页面信息
@@ -735,8 +819,7 @@ return $fzr_only;
 			$this->assign('show1',$show1); //合同系统信息
 			$this->assign('name',$ht_json['zdy0']); //合同名字
 			$this->assign('fuzeren',$user[$sql_lianxi['ht_fz']]['user_name']);//合同负责人
-			//echo "<pre>";
-			//var_dump($user );exit;
+			$this->assign("kh_id",$ht_json['zdy1']);
 			$this->assign("ht_kh",$kehu[$ht_json['zdy1']]['name']);
 			$this->assign("ht_name",$ht_json['zdy0']);
 			$this->assign("ht_money",$ht_json['zdy3']);
@@ -832,8 +915,11 @@ return $fzr_only;
 		return $sql_cp;
 	}
 	public function add_cp(){
+	
+		//echo "<pre>";
+		//var_dump($chanpin);exit;
 		$id=$_GET['id'];
-		//$id= "cp_id:58,cp_yj:6666,cp_jy:6666,cp_num1:1,cp_zk:100.0%,cp_zj:6666,cp_beizhu:		7";
+		//$id= "cp_id:140156,cp_yj:20800,cp_jy:20800,cp_num1:1,cp_zk:100.0%,cp_zj:20800,cp_beizhu:	1										,sj_id:335";
 		$ex=explode(',',$id);
 		foreach($ex as $v)
 		{
@@ -844,6 +930,7 @@ return $fzr_only;
 		$sql['cp_sj_cj']=cookie('user_id'); //通用条件   
 		$sql['cp_mk']=6;
 		$cp_sj_base=M('cp_sj');
+
 		$sql_add=$cp_sj_base->add($sql);
 		if($sql_add){
 			$chanpin=$this->chanpin();
@@ -876,6 +963,8 @@ return $fzr_only;
 				<td><input type='button' name='".$v['cp_id1']."' onclick='cp_del(this)' value='删除'></td>
 				</tr>";
 			}
+			$rz_bz="新增了产品：".$chanpin[$sql['cp_id']]['zdy0'].",型号：".$chanpin[$sql['cp_id']]['zdy1']."" ;	
+			$this->rizhi($_GET['kh_id'],$rz_bz,"1",$sql['sj_id']);//1客户id   2备注    3 
 			echo $show2;
 			 						
 		} else{
@@ -883,7 +972,7 @@ return $fzr_only;
 		}
 	
 		}
-			public function fj_shangchuan(){//http://www.jb51.net/article/74353.htm   筛选第二天要看的
+			public function fj_shangchuan(){
 
 
 				$ht_id=$_GET['id'];
@@ -1031,6 +1120,8 @@ return $fzr_only;
 				$map_sp_hk['sp_user']=$v;//回款ID
 				$sh_end=$sp_hk_base->add($map_sp_hk);
 			}
+			$rz_bz="新增了第".$data['hk_qici']."期回款记录：￥：".$data['hk_je']."";	
+			$this->rizhi($data['hk_kh'],$rz_bz,"1",$data['hk_ht']);//1客户id   2备注    3 
 		}
 
 	}
@@ -1274,6 +1365,8 @@ return $fzr_only;
 				$save_kp=$kp_base->where($map_kp)->save($data_kp);
 
 			}
+			$rz_bz="新增了开票：开票金额：".$data['kp_je']."";	
+			$this->rizhi($data['kp_kh'],$rz_bz,"1",$data['kp_ht']);//1客户id   2备注    3 
 		}
 	}
 	public function userws(){                 //负责人和dddd
@@ -1342,5 +1435,160 @@ return $fzr_only;
 	}
 	public function ss(){
 		echo 12;
+	}
+	public function xgj(){
+		$id=$_GET['id'];
+
+	//	$id="kh_id!276,type!拜访,content!123456,add_time!2017-08-22 10:53:01,date!2017-08-23 10:53:06";
+		$ex_id_arr=explode(',',$id);
+		foreach($ex_id_arr as $k=>$v)
+		{
+			$ex2=explode("!", $v);
+			$array[$ex2['0']]=$ex2['1'];
+
+		}
+	
+		$array['mode_id']=6;
+		$array['user_id']=cookie('user_id');
+		$array['genjin_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//这里通过查询获得
+		$xgj_base=M('xiegenjin');
+		$add_xgj=$xgj_base->add($array);
+
+		$xgj=$_GET['xgj'];
+		//$xgj="canshu5";
+		$map_kh['ht_id']=$array['kh_id'];
+		$map_kh['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//这里通过查询获得
+		$m_kh=M('hetong');
+		$sql_sj=$m_kh->where($map_kh)->find();
+		
+		$a_arra=json_decode($sql_sj['ht_data'],true);
+		
+		$old=$a_arr['zdy7'];
+		
+		if($a_arr['zdy7']==$xgj){
+			//相等代表没改变 啥也不用干
+			//echo 1;exit;
+		}else{ //改变了赋值
+			//echo 2;exit;
+				$a_arra['zdy7']=$xgj;
+				$a_arr1x['ht_gx_date']=$array['add_time'];
+				$a_arr1x['ht_data']=json_encode($a_arra,true);
+				$sql_sjx=$m_kh->where($map_kh)->save($a_arr1x);//修改成功
+				if($sql_sjx){
+					echo "1";
+				}else{
+					echo "2";
+				}
+				/**$ywzd=$this->ywzd_sj();
+				foreach($ywzd as $k=>$v)
+				{
+					$sjywzd[$v['id']]=$v;
+				}
+						$ywcs=M('ywcs');                 //获取ywcs表中的 数据
+				 		$yw_cs['ywcs_yw']="5";
+				 		$yw_cs['ywcs_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+				 		$ywcs_sql=$ywcs->where($yw_cs)->field('ywcs_data')->find();
+				 		
+				 		$ywcs_sql_json=json_decode($ywcs_sql['ywcs_data'],true);
+				 		
+				 		foreach($ywcs_sql_json as $k=>$v)
+				 		{
+				 			$ywcs_new[$v['id']]=$v;
+				 		}
+				 	
+					$rz_bz="把".$sjywzd['zdy5']['name']."的".$ywcs_new['zdy5'][$old]."值改为".$ywcs_new['zdy5'][$xgj];
+					
+					$this->rizhi($array['kh_id'],$rz_bz,"2");	**/
+
+					
+				}
+
+		
+		
+	}
+	public function save(){
+		$ywzd=$this->ywzd();
+		$ywcs=$this->ywcs();
+		
+		$a=$_GET['id'];
+		
+		$new_number=substr($a,0,strlen($a)-1); 
+		$new_arr=explode(',',$new_number);
+		foreach($new_arr as $k=>$v)
+		{
+			$ex=explode(":",$v);
+			
+			
+				$ex1[$ex['0']]=$ex['1'];               //提交过来的数据
+		
+			
+
+		}
+		$data['ht_data']=json_encode($ex1,true);
+		
+	$mapa['ht_id']=$_GET['ht_id'];
+		
+		$kh_base=M('hetong');
+		$kh_map['ht_id']=$mapa['ht_id'];
+		$sql_kh=$kh_base->where($kh_map)->find();
+	
+				
+		$ht_json=json_decode($sql_kh['ht_data'],true);
+		
+		foreach($ht_json as $kjson =>$vjson)
+		{
+			$new_ht[$kjson]=$vjson;
+		}
+		$sql_save=$kh_base->where($mapa)->save($data);
+
+		if($sql_save){
+			foreach($ex1 as $knew=>$vnew)
+			{
+				if($ex1[$knew] != $new_ht[$knew])
+				{
+					if( $knew == 'zdy7' ||  $knew == 'zdy10' || $knew == 'zdy11' )
+					{
+						
+						$rz_bz="".$ywzd[$knew]['name']."的".$ywcs[$knew][$new_ht[$knew]]."改为了".$ywcs[$knew][$ex1[$knew]]."";
+						
+						$this->rizhi($ex1['zdy1'],$rz_bz,"2",$mapa['ht_id']);//1客户id   2备注    3 操作类型   4合同id  	
+					}else{
+					
+					//	$rz_bz="把xxx的xxx改为xxxx";
+						$rz_bz="".$ywzd[$knew]['name']."的".$new_ht[$knew]."改为了".$ex1[$knew]."";
+						
+						$this->rizhi($ex1['zdy1'],$rz_bz,"2",$mapa['ht_id']);//1客户id   2备注    3 操作类型   4合同id  	
+					}
+				}
+			}
+		//	$kh_rz_new=
+		
+			echo "ok";
+			
+		}else{
+			echo "no";
+		}
+	}
+	public function rizhi($one="",$two="",$three="",$four="")
+	{
+		$sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
+		$loginIp=$_SERVER['REMOTE_ADDR'];//IP 
+		$addressArr=getCity($nowip);//登录地点
+		$loginDidianStr=$addressArr["country"].$addressArr["region"].$addressArr["city"];
+		$rz=M('rz');
+		$rz_map['rz_type']=1;//这个1是操作日志类型  死的
+		$rz_map['rz_mode']=6;
+		$rz_map['rz_object']=$one;//客户名称ID
+		$rz_map['rz_bz']=$two;
+		$rz_map['rz_user']=cookie('user_id');
+		$rz_map['rz_cz_type']=$three;//2代表编辑
+		$rz_map['rz_zd_name']=$four;//2代表编辑
+		$rz_map['rz_time']=time();
+		$rz_map['rz_ip']=$loginIp;//ip
+		$rz_map['rz_place']=$loginDidianStr;//登录地点
+		$rz_map['rz_sb']=$sysbroinfo['sys'].'/'.$sysbroinfo['bro'];//ip
+		$rz_map['rz_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$rz_sql=$rz->add($rz_map);//查'			//删除增加日志
+		
 	}
 }
