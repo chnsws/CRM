@@ -24,9 +24,18 @@
    				$( "#tabs" ).tabs();
  			 });
 		</script>
+		<style>
+		.zuotiao{margin-left:-30px;margin-top:-10px;}
+		.name{font-size:20px; color:#50BBB1;}
+		.head1{margin-left:10px;margin-top:10px;}
+		.fuzeren{ position: relative; left: 6px;font-size:14px;color:#50BBB1;}
+		.ziliao_kh{margin-left:30px;}
+		.th_onlykh{margin-left:20px;}
+			th{background-color:#50BBB1;height:30px;color:white;}
+		</style>
 	</head>
 	<body style="position:relative">
-	<div style="margin:20px"><span style="font-size:22px;margin-right:10px">{$lx_json.zdy0}</span>客户：<span>{$kehu_nm}</span>
+	<div class='head1'><span class='name'><b>{$lx_json.zdy0}</b></span><span style="margin-left:30px">客户：</span><span class='fuzeren'>{$kehu_nm}</span>
 	</div>
 	<div class="bianji"  style="display: none;border:1px;">
 		    		<div class="bianji_nb" style="width:330px;margin:0 auto">
@@ -44,75 +53,82 @@
 	 			<i class="layui-icon">&#xe642;</i>编辑</button>
 		  
 		</div>	
-		<div id="tabs">
-		  <ul>
-		    <li><a href="#tabs-1">基本信息</a></li>
-		    <li><a href="#tabs-2">相关联系人</a></li>
-		    <li><a href="#tabs-3">商机</a></li>
-		    <li><a href="#tabs-4">操作日志</a></li>
-		   
-		  </ul>
-		  <div id="tabs-1">
-				<div class="">
-					<span style="color:blue">基本信息</span> 
-  					<table class="save_jb">
-  						{$show}
-  					</table>
-				</div>
-				<div class="" style="margin-top:20px">
-					<span style="color:blue">系统信息</span>
-					<table>
-  					{$show1}
-  					</table>
-				</div>
-				
-		</div>	  		
-		  <div id="tabs-2">
-					<table class="layui-table" lay-skin="line">
-				  	<thead>
-				  		<th >姓名</th>
-		  				<th >电话</th>
-		  				<th >手机</td>
-		  				<th >邮箱</th>
-		  				<th >地址</th>
 
-					</thead>
-					<tbody class="fujian_del">
-					<foreach name="kh" item="vo">
-						<tr>
-				  				<td ><a href="{$_GET['root_dir']}/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/{$vo.lx_id}"><span style="color:blue">{$vo.zdy0}</span></a></td>
-				  				<td >{$vo.zdy5}</td>
-				  				<td >{$vo.zdy6}</td>
-				  				<td >{$vo.zdy10}</td>
-				  				<td >{$vo.zdy13}</td>
-						</tr> 
-						</foreach>	
-					</tbody>
-			 </table>
-		  </div>
-		  <div id="tabs-3">
-				<table class="layui-table" lay-skin="line">
-				  	<thead>
-				  		<th >商机标题</th>
-		  				<th >预售销售金额</th>
-		  				<th >预计签单日期</td>
-		  				<th >销售阶段</th>
-		  				
-						<th >备注</th>
-						<th >签单可能性</th>
-					</thead>
-					<tbody class="fujian_del">
-				
-						{$shangji1}
+		 <div class="layui-tab layui-tab-brief zuotiao" lay-filter="docDemoTabBrief">
+							  <ul class="layui-tab-title ">
+							    <li class="layui-this">基本信息</li>
+							    <li>相关联系人</li>
+							    <li>商机</li>
+					 			
 					
-					</tbody>
-			 </table>
-		  </div>
-		  <div id="tabs-4">
-		   操作日志
-		  </div>
-		</div>
- 
+							  </ul>
+						 		<div class="layui-tab-content">
+							 		 <div class="layui-tab-item layui-show" >
+							 			 <div class='ziliao_kh'  style="width:100%" >
+										
+						  					<div   style=" height:30px;width:42%;line-height:30px;background-color:#50BBB1;color:white"><span style="margin-left:10px">基本信息</span></div>
+										  	<table class="th_onlykh">
+										  		{$show}	
+											</table>
+										</div>			
+										<div class='ziliao_kh'  style="width:100%">
+							  					<div  style="height:30px;line-height:30px; width:45%; background-color:#50BBB1;color:white"><span style="margin-left:10px">系统信息</span></div>
+											  	<table class="th_onlykh" >
+											  		{$show1}
+												</table>
+									
+							  					
+										</div>
+							 		 </div>
+							 		 <div class="layui-tab-item">
+							 			
+							 			<table class="layui-table ziliao_kh" lay-skin="line">
+										  	<thead>
+										  		<th >姓名</th>
+								  				<th >电话</th>
+								  				<th >手机</td>
+								  				<th >邮箱</th>
+								  				<th >地址</th>
+
+											</thead>
+											<tbody class="fujian_del">
+												<foreach name="kh" item="vo">
+												<tr>
+										  				<td ><a href="{$_GET['root_dir']}/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/{$vo.lx_id}"><span style="color:blue">{$vo.zdy0}</span></a></td>
+										  				<td >{$vo.zdy5}</td>
+										  				<td >{$vo.zdy6}</td>
+										  				<td >{$vo.zdy10}</td>
+										  				<td >{$vo.zdy13}</td>
+												</tr> 
+												</foreach>	
+											</tbody>
+									 </table>
+							 			
+							 	    </div>
+							 		 <div class="layui-tab-item">
+							 			 
+							 			<table class="layui-table ziliao_kh" lay-skin="line">
+											  	<thead>
+											  		<th >商机标题</th>
+									  				<th >预售销售金额</th>
+									  				<th >预计签单日期</td>
+									  				<th >销售阶段</th>
+									  				
+													<th >备注</th>
+													<th >签单可能性</th>
+												</thead>
+												<tbody class="fujian_del">
+											
+													{$shangji1}
+												
+												</tbody>
+										 </table>
+														 			
+							 		</div>
+							 		 
+								 </div>
+							</div>
+
 	</body>
 </html>
 	<script>
@@ -158,4 +174,9 @@
 						});  
 
 		}
+		layui.use('element', function(){
+  var element = layui.element();
+  
+  //…
+});
 	</script>
