@@ -22,8 +22,10 @@ class HetongController extends Controller {
 	}
 	public function user(){                 //负责人和dddd
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
+
 		$new_xiaji=$xiaji;          
 		$new_array=explode(',',$new_xiaji);
+
 	 	$department=M('department');
 		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 			//echo $dpmet['bm_company'];exit;
@@ -52,10 +54,12 @@ class HetongController extends Controller {
 						$new_fuzeren['department']=$dpt_arr[$v['user_zhu_bid']]['bm_name'];
 						$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
 					}
+					else{
+						$fzr_only[$v['user_id']]='32';       //负	
+					}
 						
 				}
 			}  
-
 
 return $fzr_only;
 
@@ -172,7 +176,7 @@ public function kehu(){
 		}
 		if($dataqx=='1')
 		{
-			return "'".$nowloginid."'";
+			return $nowloginid;
 		}
 		$foreachnum=0;
 		foreach($userkeyid as $v)
@@ -552,7 +556,7 @@ public function kehu(){
 			}
 		}
 		$user=$this->user();
-		
+	
 			$jw.="<tr class='addtr'><td><span style='color:red'>*</span>负责人:</td>";
 			$jw.="<td><select name='ht_fz' class='required' id='xl2' onchange='get_bm(this)'>";
 			$jw.="<option  value='".$v['user_id']."'>请选择负责人</option>";	

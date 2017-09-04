@@ -833,7 +833,7 @@ class KehuController extends Controller {
 		}
 		if($dataqx=='1')
 		{
-			return "'".$nowloginid."'";
+			return $nowloginid;
 		}
 		$foreachnum=0;
 		foreach($userkeyid as $v)

@@ -329,7 +329,7 @@ return $fzr_only;
 		}
 		if($dataqx=='1')
 		{
-			return "'".$nowloginid."'";
+			return $nowloginid;
 		}
 		$foreachnum=0;
 		foreach($userkeyid as $v)

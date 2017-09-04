@@ -478,13 +478,13 @@ $(".yincang").hide()
 								content:$('#add_shangji'),
 								btn:['确认添加','取消'],
 								btn1:function(){
-
+									
 								 $("#ht_form :input.required").trigger('blur');
              							 var numError = $('form .onError').length;
 		              				  if(numError){
 		              				  	 tishi('必填项不能为空')
 		                   				 return false;
-              		 				 }  /**nnn**/
+              		 				 } 
 									var formdom=$("#ht_form").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';
@@ -494,9 +494,9 @@ $(".yincang").hide()
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
 										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
 									}
-								
+
 									var vstr=ajaxstr.substr(0,ajaxstr.length-1);
-								
+									
 									
 									if(ajaxstr_kh=="" && ajaxstr_sj == "")
 									{ 
@@ -516,7 +516,7 @@ $(".yincang").hide()
 											{
 												kh_lxr_name =name_lxr;
 											}
-											alert(vstr);
+											
 										$.get(rooturl+'/index.php/Home/Hetong/add_ht1',{"kh":ajaxstr_kh,"lxr_id":kh_lxr_name,"kh_id":kh_id12,"lxr":ajaxstr_lxr,"sj":ajaxstr_sj,"ht":vstr},
 									        		 function(html){
 									        		 	alert(html)
