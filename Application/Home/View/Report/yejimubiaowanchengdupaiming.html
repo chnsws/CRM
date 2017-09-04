@@ -37,44 +37,37 @@
     </div>
     <div id="shaixuan">
         <div>
-            <span class="sx_title">时间：</span>
+            <span class="sx_title">年度：</span>
             <span class="sx_xx">
                 <select>
-                    <option value="2017">2017</option>
-                    <option value="2016">2016</option>
+                    {$yearOption}
                 </select>
             </span>
         </div>
         <div>
-            <span class="sx_title">时间筛选：</span>
-            <span class="sx_xx">
-                <span id="time_select_group" class="uk-form">
-                    <input type="text" class="start_time" data-uk-datepicker="{format:'YYYY-MM-DD'}">
-                    <span class="mid_span">-</span>
-                    <input type="text" class="end_time" data-uk-datepicker="{format:'YYYY-MM-DD'}">
-                    <button class="layui-btn cx_btn layui-btn-primary">查询</button>
+                <span class="sx_title">月份：</span>
+                <span class="sx_xx">
+                    <select>
+                        {$monthOption}
+                    </select>
                 </span>
-            </span>
-        </div>
+            </div>
         <div class="textalign">
             <span class="sx_title">业绩类型：</span>
-            <span class="sx_xx sx_this">赢单商机金额</span>
-            <span class="sx_xx">赢单商机数</span>
-            <span class="sx_xx">产品销售额</span>
-            <span class="sx_xx">合同数</span>
-            <span class="sx_xx">合同金额</span>
-            <span class="sx_xx">合同回款金额</span>
+            {$sxName}
         </div>
         <div>
             <span class="sx_title">所属部门：</span>
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择部门</option>
+                    {$bm_option}
                 </select>
             </span>
             <span class="sx_xx">
                 <select>
                     <option value="0">请选择用户</option>
+                    {$user_option}
                 </select>
             </span>
         </div>
@@ -82,7 +75,7 @@
     </div>
     <div id="chart"></div>
     <div id="table">
-        <div class="table_head">回款金额：¥ 246,914,087,781.000000目标金额：¥ 122,680,485.120000完成率：201266.0%</div>
+        <div class="table_head">{$tableTopTip}</div>
         <table class="layui-table" lay-skin="line">
             <thead>
                 <th>排名</th>
@@ -93,68 +86,7 @@
                 <th>完成率</th>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>王玉帅</td>
-                    <td>总裁办</td>
-                    <td>￥12312312</td>
-                    <td>￥12312321</td>
-                    <td>200%</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>王玉帅</td>
-                    <td>总裁办</td>
-                    <td>￥12312312</td>
-                    <td>￥12312321</td>
-                    <td>200%</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>王玉帅</td>
-                    <td>总裁办</td>
-                    <td>￥12312312</td>
-                    <td>￥12312321</td>
-                    <td>200%</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>王玉帅</td>
-                    <td>总裁办</td>
-                    <td>￥12312312</td>
-                    <td>￥12312321</td>
-                    <td>200%</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>王玉帅</td>
-                    <td>总裁办</td>
-                    <td>￥12312312</td>
-                    <td>￥12312321</td>
-                    <td>200%</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>王玉帅</td>
-                    <td>总裁办</td>
-                    <td>￥12312312</td>
-                    <td>￥12312321</td>
-                    <td>200%</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>王玉帅</td>
-                    <td>总裁办</td>
-                    <td>￥12312312</td>
-                    <td>￥12312321</td>
-                    <td>200%</td>
-                </tr>
-               
-                
-                
-                <tr>
-                    <td colspan="6" style="text-align:center;">共7条</td>
-                </tr>
+                {$dataTable}
             </tbody>
         </table>
     </div>
@@ -201,7 +133,7 @@ $(function(){
         xAxis : [
             {
                 type : 'category',
-                data : ['王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅','王玉帅']
+                data : {$chart3}
             }
         ],
         dataZoom: [
@@ -234,17 +166,17 @@ $(function(){
             {
                 name:'回款金额',
                 type:'bar',
-                data:[320, 332, 301, 334, 390, 330, 320,320, 332, 301, 334, 390,334, 390]
+                data:{$chart2}
             },
             {
                 name:'目标',
                 type:'bar',
-                data:[320, 332, 301, 334, 390, 330, 320,320, 332, 301, 334, 390,334, 390]
+                data:{$chart1}
             },
             {
                 name:'完成率',
                 type:'line',
-                data:[20, 32,1, 34, 90, 30, 20,20, 32, 1, 34, 90,34, 390],
+                data:{$chart4},
                 tooltip :{
                     trigger: 'item',
                     formatter: "完成率 : {c} %"
@@ -254,10 +186,60 @@ $(function(){
         ]
     };
 
-// 使用刚指定的配置项和数据显示图表。
-myChart.setOption(option);
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
     //myChart.showLoading();     //加载动画
+    $(".textalign").children(".sx_xx").on("click",function(){
+        var thisYjId=$(this).attr("name");
+        if(thisYjId=='none')
+        {
+            return;
+        }
+        layer.load(2);
+        var now_sx=get_url_val(3);
+        window.location=root_dir+"/index.php/Home/Report/yejimubiaowanchengdupaiming?sx_3="+thisYjId+now_sx;
+    });
 });
+var sel_num=4;
+function change_fun(dom)
+{
+    if(sel_num!=0)
+    {
+        sel_num--;
+        return;
+    }
+    layer.load(2);
+    var sel_index=dom.index("select")<2?dom.index("select")+1:dom.index("select")+2;
+    //alert(sel_index);return;
+    var now_sx=get_url_val(sel_index)
+    window.location="./yejimubiaowanchengdupaiming?sx_"+sel_index+"="+dom.val()+now_sx;
+}
+//获取URL中剩余的值，可以删除一个值
+function get_url_val(without)
+{
+    var now_sx='';
+    if("{$_GET['sx_1']}"!=''&&"sx_"+without!='sx_1')
+    {
+        now_sx+="&sx_1="+"{$_GET['sx_1']}";
+    }
+    if("{$_GET['sx_2']}"!=''&&"sx_"+without!='sx_2')
+    {
+        now_sx+="&sx_2="+"{$_GET['sx_2']}";
+    }
+    if("{$_GET['sx_3']}"!=''&&"sx_"+without!='sx_3')
+    {
+        now_sx+="&sx_3="+"{$_GET['sx_3']}";
+    }
+    if("{$_GET['sx_4']}"!=''&&"sx_"+without!='sx_4')
+    {
+        now_sx+="&sx_4="+"{$_GET['sx_4']}";
+    }
+    if("{$_GET['sx_5']}"!=''&&"sx_"+without!='sx_5')
+    {
+        now_sx+="&sx_5="+"{$_GET['sx_5']}";
+    }
+    return now_sx;
+}
 </script>
 </html>
 
