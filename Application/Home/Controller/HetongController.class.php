@@ -972,6 +972,7 @@ public function kehu(){
 	public function chanpin(){
 		$map['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$cp_base=M('chanpin');
+		$map['cp_del']=0;
 		$sql=$cp_base->where($map)->select();
 		foreach($sql as $k=>$v)
 		{

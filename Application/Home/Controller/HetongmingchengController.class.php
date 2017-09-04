@@ -894,6 +894,7 @@ return $fzr_only;
 	}
 		public function chanpin(){
 		$map['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$map['cp_del']=0;
 		$cp_base=M('chanpin');
 		$sql=$cp_base->where($map)->select();
 		foreach($sql as $k=>$v)
