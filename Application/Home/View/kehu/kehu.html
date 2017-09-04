@@ -63,7 +63,7 @@
 
    				#dialog-form label{ margin-bottom:12px; width:35%;text-align:left;margin-left:18px;padding:.8em;}
    				#sel{width:120px;}
-   				 #dialog-form input.text { margin-bottom:12px; width:65%; padding: .8em 0em; }
+   				 #dialog-form input.text { margin-bottom:12px;  padding: .8em 0em; }
     			
     	
     			#table_local_length{width:100px;}
@@ -88,7 +88,7 @@
 			.addtr td select{width:300px;height:30px;}
 	
 			.addtr td{padding-top:20px;}
-			.addshangji_weizhi{margin:0px auto;margin-top:20px;margin-left:20%;}	
+			.addshangji_weizhi{margin:0 auto;margin-top:20px;margin-left:20%;}	
 
 			#nchangyong{margin-top:10px;margin-left:15%;}
 			.onError{color:red;}
@@ -96,7 +96,8 @@
 			.kongzhiyeshu{margin-top:19px;height:40px;font-size:16px;margin-left:20px;}
 			.panel-title{margin-left:10px;margin-top:9px; font-size:21px; color:#1AA094;}
 						.searchable-select-dropdown{z-index:99999990;}
-						th{background-color:#50BBB1;height:30px;color:white;} 
+						th{background-color:#50BBB1;height:30px;color:white;}
+						
    			 </style>
   			
 
@@ -281,9 +282,9 @@
 				</div>
 					<div id="demo7" class="ycyo" style="float:right"></div> 
 			</div>
-					<div id="dialog-form" style="display: none;border:1px;width:689px"> <!--新增弹出框-->
-						<form id="ht_form" style="border:1px;width:688px" method="post" class="uk-form " >
-							<table class="addshangji_weizhi " style="border:1px;width:688px">
+					<div id="dialog-form" style="display: none;border:1px;"> <!--新增弹出框-->
+						<form id="ht_form" style="border:1px; method="post" class="uk-form " >
+							<table class="addshangji_weizhi " style="border:1px;">
 								{$show_bt}
 								{$show_bt1}
 								{$show_bt2}
@@ -692,11 +693,10 @@ function add_yh()
 		layui.use('layer', function(){
 				var layer = layui.layer;
 				var win=layer.open({
-
-					type:1,
-					offset: 't',
-				area:'700x',
-				fixed: false,
+								type:1,
+								offset: 't',
+								area:'630px',
+								fixed: false,
 					title: '新增客户',
 					content:$('#dialog-form'),
 					btn:['确认添加','取消'],
