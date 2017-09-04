@@ -315,7 +315,7 @@ return $fzr_only;
 							$chanpin1.="<option value='s'>请选择产品 </option>";
 					foreach ($chanpin as $k=>$v)
 					{
-							$chanpin1.="<option value='".$v['cp_id']."'>".$v['zdy0']." </option>";
+							$chanpin1.="<option value='".$v['cp_id']."'>".$v['zdy0'].$v['zdy1']." </option>";
 					}
 					$chanpin1.="</select> </td></tr>";
 			//回款计划开始咯
