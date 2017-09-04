@@ -1560,8 +1560,8 @@ class ReportController extends DBController {
                             <td>".$userarr[$k]."</td>
                             <td>".($v[1]==''?0:$v[1])."</td>
                             <td>".($v[2]==''?0:$v[2])."</td>
-                            <td>".($v[5]==''?0:$v[3])."</td>
-                            <td>".($v[6]==''?0:$v[4])."</td>
+                            <td>".($v[5]==''?0:$v[5])."</td>
+                            <td>".($v[6]==''?0:$v[6])."</td>
                         </tr>";
         }
 
