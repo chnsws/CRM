@@ -446,7 +446,7 @@ $(".yincang").hide()
 					            if(res['res']=='1')
 					            {
 					            	var a=res['oldname'];
-					            alert(a)
+					
 					            	$.get(rooturl+'/index.php/Home/Hetong/sql_fj',{},
 							        		 function(html){
 							        		 	$(".fj_th").html(html);
@@ -519,7 +519,8 @@ $(".yincang").hide()
 											
 										$.get(rooturl+'/index.php/Home/Hetong/add_ht1',{"kh":ajaxstr_kh,"lxr_id":kh_lxr_name,"kh_id":kh_id12,"lxr":ajaxstr_lxr,"sj":ajaxstr_sj,"ht":vstr},
 									        		 function(html){
-									        		 	alert(html)
+									        	
+
 									        		 		tishi("添加成功")
 
 			     											   	window.location.href="hetong";
@@ -1054,7 +1055,7 @@ $("#nchangyong").click(function(){
 												}
 												window.ajaxstr_kh=ajaxstr;
 												window.name_kh =$("#kh").find("#wyszdy0").val();
-												alert(ajaxstr_kh)
+											
 												if(name_lxr==''){
 													window.name_lxr=$("#kh").find("#ss2").val();
 												}
@@ -1062,10 +1063,7 @@ $("#nchangyong").click(function(){
 												
 											
 										
-												alert(ajaxstr_kh)
-												alert(name_kh)
-												alert(ajaxstr_lxr)
-												alert(name_lxr)
+
 											$.get(rooturl+'/index.php/Home/Shangji/lxr_if',{"id":name_lxr},
 			        		 				function(html){
 												 $("#sj_zdy1").html("<input type='text' name='zdy1' value='"+name_kh+"' readonly='true'>");
@@ -1184,7 +1182,8 @@ $("#nchangyong").click(function(){
 									}
 								
 										window.ajaxstr_lxr=ajaxstr;//alert(ajaxstr)
-										alert(ajaxstr_lxr)
+								
+
 									window.name_lxr =$("#lxr").find("#lxrzdy0").val();
 										
 									$("#zdy15th").html("<select name='zdy15' id='kh_lxr_name'><option value='lslxr'>"+name_lxr+"</option></select>");
@@ -1288,7 +1287,8 @@ $("#nchangyong").click(function(){
 									}
 								
 										window.ajaxstr_sj=ajaxstr_sj1;//
-									alert(ajaxstr_sj)
+							
+							
 									window.name_sj =$("#sj_name").find("#wyzdy0").val();
 									//	alert(name_sj)
 									$(".sjgl").html("<option  value='"+name_sj+"'>"+name_sj+"</option>");

@@ -1406,7 +1406,7 @@ return $fzr_only;
 		 				$add_yw.="</td></tr>";
 					}else{
 						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='required1' value='lxr".$vywzd['id']."'  id='lxr".$vywzd['id']."'></td>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='required1'   id='lxr".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
 					}
 		
