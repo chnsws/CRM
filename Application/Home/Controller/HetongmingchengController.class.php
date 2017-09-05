@@ -205,7 +205,7 @@ return $fzr_only;
 				}
 				
 			
-				$show3.="<tr style='line-height:30px'><td style='width :150px'>".$v['name']."：</td>";
+				$show3.="<tr style='height:30px'><td style='width :150px'>".$v['name']."：</td>";
 	
 					if($k == 'zdy1')
 					{
