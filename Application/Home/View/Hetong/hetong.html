@@ -219,7 +219,7 @@ $(function(){
 										<table class="layui-table" lay-skin="line" >
 									  	<thead>
 									  			<tr>	
-								                		<th>ID</th>
+								                		<th><input type="checkbox" onclick="swapCheck()" /></th>
 									               <foreach name="ywzd" item="vo">
 									                    <th>{$vo.name}</th> <!--客户标题-->  
 									                  </foreach>
@@ -686,7 +686,7 @@ $("#nchangyong").click(function(){
     				return flase;
     			}
     			checked_str=checked_str.substr(0,checked_str.length-1);
-    			//alert(checked_str);return;
+    			alert(checked_str);return;
     			$.get(rooturl+'/index.php/Home/Hetong/del',{"id":checked_str},
 		        		 function(html){
 		        		 		tishi("删除成功")
@@ -1326,7 +1326,20 @@ $("#nchangyong").click(function(){
 						});      		
     			}
     		}
-    		
+    		    var isCheckAll = false;  
+		        function swapCheck() {  
+		            if (isCheckAll) {  
+		                $("input[type='checkbox']").each(function() {  
+		                    this.checked = false;  
+		                });  
+		                isCheckAll = false;  
+		            } else {  
+		                $("input[type='checkbox']").each(function() {  
+		                    this.checked = true;  
+		                });  
+		                isCheckAll = true;  
+		            }  
+		        } 
 
 
     	</script>

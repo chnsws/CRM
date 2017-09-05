@@ -303,8 +303,7 @@ return $fzr_only;
 				<td>".$v['cp_num1']."</td>
 				<td>".$v['cp_zk']."</td>
 				<td>".$v['cp_zj']."</td>
-				<td>".$v['zdy3']."</td>
-				<td>".$v['zdy6']."</td>
+		
 				<td>".$v['cp_beizhu']."</td>
 				<td><input type='button' name='".$v['cp_id1']."' onclick='cp_del(this)' value='删除'></td>
 				</tr>";
