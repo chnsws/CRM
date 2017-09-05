@@ -573,9 +573,11 @@ return $fzr_only;
 		public function chanpin(){
 		$map['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$cp_base=M('chanpin');
+		$map['cp_del']=0;
 		$sql=$cp_base->where($map)->select();
 		foreach($sql as $k=>$v)
 		{
+			$cp_sql='';
 			foreach($v as $k1=>$v1){
 				if($k1!='cp_data'){
 					$cp_sql[$k1]=$v1;
@@ -584,12 +586,12 @@ return $fzr_only;
 					foreach($json as $k2=>$v2){
 						$cp_sql[$k2]=$v2;
 					}
+					
 				}
 			}$sql_cp[$v['cp_id']]=$cp_sql;
 			
 		}
-		//echo "<pre>";
-		//var_dump($sql_cp);exit;
+		
 		return $sql_cp;
 	}
 	public function cp_sj_del(){

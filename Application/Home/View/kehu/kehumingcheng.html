@@ -559,7 +559,7 @@ th{background-color:#50BBB1;height:30px;color:white;}
 					//alert($(this).attr("id"))
     				$.get(rooturl+'/index.php/Home/Kehu/delete_fj',{"id":$(this).attr("id")},
 							        		 				function(html){
-							        		 					alert(html)
+							        		 				//	alert(html)
 															$(".fujian_del").html(html);
 															blurfun();
 
