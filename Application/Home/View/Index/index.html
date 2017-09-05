@@ -232,23 +232,7 @@ layui.config({
 });
 				
 			</script>
-			<script>
-				var count = $(".cop").val();
-				if(count==0 || count==null)
-				{
-					var ss='';
-				}else{
-					var ss="("+count+")"
-				}
-				//alert(count)
-			   setTimeout(function () { 
-		      	var count_num =  $("#admin-navbar-side").children().children().eq(6).children().find('cite').text();
-		      	 $("#admin-navbar-side").children().children().eq(6).children().find('cite').html("审批<span style='color:red'>"+ss+"</span>");	
-		    },1000);
-			//	var a=(document.getElementById("admin-navbar-side").tagName);
-		
-			
-			</script>
+
 
 			
 		</div>
