@@ -76,8 +76,7 @@
 			.gj tr{height:70px;}
 			.woca{display:none;}
 			.ace{width:80px;}
-			#laq td{line-height:30px;}
-			#laq input{line-height:30px;}
+			
 
   	</style>
 		<script>
@@ -102,7 +101,7 @@
 			<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 			<div class="bianji"  style="display: none;border:1px;">
 		    		<div class="bianji_nb" style="width:430px;margin:0 auto">
-		    			<form id="myform laq">
+		    			<form id="myform">
 		    			{$show3}
 		    			</form>
 		    		</div>
@@ -578,6 +577,7 @@
 									}
 									
 									var ht_id=$(".ht_id1").val();
+									
 									$.get(rooturl+'/index.php/Home/Hetongmingcheng/save',{"id":ajaxstr,'ht_id':ht_id},
 							        		 function(html){
 									        	//	alert(html)
@@ -592,7 +592,8 @@
 							                   });
 								},
 								btn2:function(){
-									layer.close(win)
+									var ht_id=$(".ht_id1").val();
+									window.location.href="hetongmingcheng?id="+ht_id;
 									//addshangji()
 								}
 							}); 
