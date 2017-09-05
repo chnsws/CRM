@@ -411,6 +411,7 @@ class XiansuoController extends DBController {
 		}
 		$this_xs_arr=parent::sel_one_data("crm_xiansuo","*","xs_yh='$fid' and xs_id='$xiansuoid'");
 		
+		
 		$this_json_data=json_decode($this_xs_arr['xs_data'],true);
 		foreach($this_xs_arr as $k=>$v)
 		{
@@ -429,7 +430,6 @@ class XiansuoController extends DBController {
 		$add_table_hide='';
 		$search_option='';
 		$xinxi_table='';//左侧的信息表
-		
 		foreach($pxzdarr as $k=>$v)
 		{
 			$add_table='';
@@ -686,7 +686,7 @@ class XiansuoController extends DBController {
 		$this->assign("xt_chuangjianren",$username_arr[$this_json_data['xs_create_user']]);
 		$this->assign("xt_qianfuzeren",$username_arr[$this_json_data['xs_qfz']]);
 		$this->assign("xt_qianfuzebumen",$bm_name_arr[$user_bm_arr[$this_json_data['xs_qfz']]]);
-
+		
 		//添加弹出框变量
 		$this->assign("add_table_str",$add_table_show.'<tr><td colspan="2"><div class="add_show_btn">展开更多信息<i class="fa fa-chevron-down" aria-hidden="true"></i></div><td></tr>'.$add_table_hide.$xitong_info);
 
@@ -1208,12 +1208,19 @@ class XiansuoController extends DBController {
 	protected function px_zd($zd,$px)
 	{
 		$px_arr=explode(',',$px);
-		foreach($px_arr as $v)
+		if(count($px_arr)&&$px!='')
 		{
-			if($zd[$v]!='')
+			foreach($px_arr as $v)
 			{
-				$pxzdarr[$v]=$zd[$v];
+				if($zd[$v]!='')
+				{
+					$pxzdarr[$v]=$zd[$v];
+				}
 			}
+		}
+		else
+		{
+			$pxzdarr=$zd;
 		}
 		return $pxzdarr;
 	}
