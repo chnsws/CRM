@@ -197,13 +197,13 @@ return $fzr_only;
 				}
 				$show1.="</tr>";
 			} 
-		
+		$show3.="<table class='uk-form'>";
 		$show3.="<tr><td></td><td><input type='hidden' class='ht_id1' value='".$ht_id."'></td></tr>";
 			foreach ($ywzd as $k => $v){
 				if($k=="zdy9" || $k=='zdy14'){
 					continue;
 				}
-				$show3.="<table class='uk-form'>";
+				
 			
 				$show3.="<tr style='line-height:40px'><td style='width :150px'>".$v['name']."：</td>";
 	
@@ -258,9 +258,10 @@ return $fzr_only;
 						$show3.="<td ><input type='text' class='bjwh' name='$k' value='".$ht_json[$k]."'></td>";	
 					}	
 				
-				$show3.="</tr></table>";
+				$show3.="</tr>";
 
 			}
+			$show3.="</table>";
 			//合同附件查询
 			$file['mk']=6;
 			$file['yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
