@@ -686,7 +686,7 @@ $("#nchangyong").click(function(){
     				return flase;
     			}
     			checked_str=checked_str.substr(0,checked_str.length-1);
-    			alert(checked_str);return;
+    	
     			$.get(rooturl+'/index.php/Home/Hetong/del',{"id":checked_str},
 		        		 function(html){
 		        		 		tishi("删除成功")
