@@ -174,15 +174,37 @@ $(function(){
 		   		<div class="kehu">   
 				   		<div class='kongzhiyeshu uk-form '><span class="ycyo">每页显示<select  onchange="kongzhiyeshu(this)">
 
-				   						<option value="5">5</option>
-				   						<option value="10">10</option>
-				   						<option value="15">15</option>
-				   						<option value="20">20</option>
-				   						<option value="25">25</option>
-				   						<option value="30">30</option> 
-				   						<if condition ="$list_num neq ''" >
+				   						
+				   					
+				   						<if condition ="$list_num eq '5'" >
 				   							<option value="{$list_num}" selected="selected">{$list_num}</option>
 				   						<else />
+				   							<option value="5">5</option>
+				   						</if>
+				   						<if condition ="$list_num eq '10'" >
+				   							<option value="{$list_num}" selected="selected">{$list_num}</option>
+				   						<else />
+				   							<option value="10">10</option>
+				   						</if>
+				   						<if condition ="$list_num eq '15'" >
+				   							<option value="{$list_num}" selected="selected">{$list_num}</option>
+				   						<else />
+				   							<option value="15">15</option>
+				   						</if>
+				   						<if condition ="$list_num eq '20'" >
+				   							<option value="{$list_num}" selected="selected">{$list_num}</option>
+				   						<else />
+				   							<option value="20">20</option>
+				   						</if>
+				   						<if condition ="$list_num eq '25'" >
+				   							<option value="{$list_num}" selected="selected">{$list_num}</option>
+				   						<else />
+				   							<option value="25">25</option>
+				   						</if>
+				   						<if condition ="$list_num eq '30'" >
+				   							<option value="{$list_num}" selected="selected">{$list_num}</option>
+				   						<else />
+				   							<option value="30">30</option>
 				   						</if>
 				   					</select>条
 				   					</span>
