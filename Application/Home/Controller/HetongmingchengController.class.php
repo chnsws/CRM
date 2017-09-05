@@ -132,13 +132,15 @@ return $fzr_only;
 			return $sql_sj1;
 		}
 		public function hetongmingcheng(){
+				$userqb=$this->userqb();
+
 			$ywzd=$this->ywzd();
 			$user=$this->user();
 		//	echo"<pre>";
 		//	var_dump($user);exit;
 			$kehu=$this->kehu();
 			$ywcs=$this->ywcs();
-			
+
 			$shangji=$this->shangji();
 			$chanpin=$this->chanpin();
 			
@@ -159,6 +161,13 @@ return $fzr_only;
 						$show.="<td >".$shangji[$ht_json[$k]]['zdy0']."</td>";	
 					}elseif($k=='zdy7' || $k=='zdy10' || $k=='zdy11'){
 						$show.="<td >".$ywcs[$k][$ht_json[$k]]."</td>";
+					}elseif($k=='zdy13'){
+
+												
+
+
+					$show.="<td >".$userqb[$ht_json[$k]]['user_name']."</td>";	
+			
 					}else{
 						$show.="<td >".$ht_json[$k]."</td>";	
 					}	
@@ -197,6 +206,7 @@ return $fzr_only;
 				}
 				$show1.="</tr>";
 			} 
+		
 			$show3.="<table class='uk-form'>";
 		$show3.="<tr><td></td><td><input type='hidden' class='ht_id1' value='".$ht_id."'></td></tr>";
 			foreach ($ywzd as $k => $v){
@@ -254,6 +264,26 @@ return $fzr_only;
 					
 					}elseif($k=='zdy4' || $k=='zdy5'  ||$k=='zdy6' || $k=='zdy15'){
 						$show3.="<td ><input type='text' class='bjwh' name='$k' value='".$ht_json[$k]."' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd H:mm:ss'".'})"'."></td>";	
+					}elseif($k=='zdy13'){
+
+												
+
+
+						$show3.="<td ><select  class='bjwh' name='$k'>";
+						
+						
+						
+							foreach($userqb as $k11=>$v11)
+							{
+								if($v11['user_id']==$ht_json[$k])
+								{
+								$show3.="<option value='".$v11['user_id']."' selected='selected'>".$v11['user_name']."</option>";
+								}else{
+								$show3.="<option value='".$v11['user_id']."' >".$v11['user_name']."</option>";
+								}
+
+							}
+						$show3.="</select></td>";	
 					}else{
 						$show3.="<td ><input type='text' class='bjwh' name='$k' value='".$ht_json[$k]."'></td>";	
 					}	
@@ -826,6 +856,39 @@ return $fzr_only;
 			$this->assign("ht_data",$ht_json['zdy4']);
 			$this->display();
 		}
+		public function userqb(){                 //负责人和部门
+	
+
+	 	$department=M('department');
+		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			//echo $dpmet['bm_company'];exit;
+		$sql_de=$department->where($dpt)->select();
+		foreach($sql_de as $kdpt => $vdpt)
+		{
+			
+			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
+		}
+
+
+		$fuzeren=M('user');
+		
+		$map['user_id']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+	
+	 	$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id = ".$map['user_id']." or user_fid = ".$map['user_id']."");//缺少条件
+			foreach ($fuzeren_sql as $k=>$v)
+			{
+				
+						$new_fuzeren['user_id']=$v['user_id'];
+						$new_fuzeren['user_name']=$v['user_name'];
+						$new_fuzeren['user_zhu_bid']=$v['user_zhu_bid'];
+						$new_fuzeren['department']=$dpt_arr[$v['user_zhu_bid']]['bm_name'];
+						$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
+				
+			} 
+	
+		
+return $fzr_only;
+	}
 		public function get_xiashu_id()
 	{
 		$nowloginid=cookie("user_id");

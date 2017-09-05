@@ -20,6 +20,7 @@ class HetongController extends Controller {
 		}
 		return $sql;
 	}
+
 		public function user(){                 //负责人和部门
 		$xiaji= $this->get_xiashu_id();;//  查询下级ID
 		$new_xiaji=$xiaji;          
@@ -57,6 +58,39 @@ class HetongController extends Controller {
 			} 
 	
 			
+return $fzr_only;
+	}
+	public function userqb(){                 //负责人和部门
+	
+
+	 	$department=M('department');
+		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			//echo $dpmet['bm_company'];exit;
+		$sql_de=$department->where($dpt)->select();
+		foreach($sql_de as $kdpt => $vdpt)
+		{
+			
+			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
+		}
+
+
+		$fuzeren=M('user');
+		
+		$map['user_id']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+	
+	 	$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id = ".$map['user_id']." or user_fid = ".$map['user_id']."");//缺少条件
+			foreach ($fuzeren_sql as $k=>$v)
+			{
+				
+						$new_fuzeren['user_id']=$v['user_id'];
+						$new_fuzeren['user_name']=$v['user_name'];
+						$new_fuzeren['user_zhu_bid']=$v['user_zhu_bid'];
+						$new_fuzeren['department']=$dpt_arr[$v['user_zhu_bid']]['bm_name'];
+						$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
+				
+			} 
+	
+		
 return $fzr_only;
 	}
 public function kehu(){
@@ -212,6 +246,7 @@ public function kehu(){
 		$kehu=$this->kehu();
 		$ywcs=$this->ywcs();
 		$shangji=$this->shangji();
+		$userqb=$this->userqb();
 	//	echo "<pre>";
 	//	var_dump($shangji);exit;
 		//批量编辑
@@ -370,6 +405,19 @@ public function kehu(){
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name'].":</td>";
 						$show_bt.="<td><input type='button' value='".$v['id']."' > </td></tr>	";
 
+
+					}elseif($v['id']=='zdy13')
+					{
+						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name'].":</td>";
+						$show_bt.="<td>
+										<select  name='".$v['id']."'>";
+											foreach($userqb as $k=>$v )
+											{
+												$show_bt.="<option  value='".$v['user_id']."'>".$v['user_name']."</option>";
+											}
+										$show_bt.="	</select>
+									 </td></tr>	";		
+			
 					}else{
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name'].":</td>";
 						$show_bt.="<td><input type='text' class='required' name='".$v['id']."' value='' > </td></tr>	";		
@@ -593,7 +641,7 @@ public function kehu(){
 						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:blue' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
 					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
 							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
-					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz')
+					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz' ||$kbt=='zdy13')
 						$content.="<td>".$user[$v[$kbt]]['user_name']."</td>";
 					else
 						$content.="<td>".$v[$kbt]."</td>";
@@ -884,8 +932,8 @@ public function kehu(){
 						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/$v[$kbt]'><span style='color:blue' >".$v[$kbt]."".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
 					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
 							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
-					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz')
-						$content.="<td>".$user[$v[$kbt]]['user_name']."</td>";
+					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz' ||$kbt=='zdy13')
+						$content.="<td>".$userqb[$v[$kbt]]['user_name']."</td>";
 					else
 						$content.="<td>".$v[$kbt]."</td>";
 				}else{
@@ -1260,7 +1308,7 @@ public function kehu(){
 						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/$v[$kbt]'><span style='color:blue' >".$v[$kbt]."".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
 					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
 							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
-					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz')
+					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz'||$kbt=='zdy13')
 						$content.="<td>".$user[$v[$kbt]]['user_name']."</td>";
 					else
 						$content.="<td>".$v[$kbt]."</td>";
@@ -1370,7 +1418,7 @@ public function kehu(){
 						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:blue' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
 					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
 							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
-					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz')
+					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz'||$kbt=='zdy13')
 						$content.="<td>".$user[$v[$kbt]]['user_name']."</td>";
 					else
 						$content.="<td>".$v[$kbt]."</td>";
