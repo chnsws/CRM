@@ -3,7 +3,7 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class ChanpinController extends Controller {
+class ChanpinController extends DBController {
 	//主页
     public function index(){
         if(cookie("islogin")!='1')
@@ -1113,6 +1113,13 @@ class ChanpinController extends Controller {
 			$flstr=$v['id']=='zdy6'?"(根据分类ID表填写)":'';
 			$head[]=$v['name'].$btstr.$flstr;
 		}
+		//构造空字段
+		
+		$nulldata=array();
+		//parent::rr($name);
+		$filedo=A("Filedo");
+		$filedo->getExcel($name,$head,$nulldata);
+		/*
 		//连接标题
 		$r = implode(',',$head);
 		$r .="\n";
@@ -1123,6 +1130,7 @@ class ChanpinController extends Controller {
 		header("Content-Disposition: attachment; filename=\"$name\""); 
 		echo $r;
 		die;
+		*/
 	}
 	//上传csv文件
 	public function chanpin_csv_upload()
@@ -1134,12 +1142,14 @@ class ChanpinController extends Controller {
             die();
         }
 		$getFileArr=$_FILES['csv_up'];
-        $oldnamehz=substr(strrchr($getFileArr['name'], '.'), 1);
+		$oldnamehz=substr(strrchr($getFileArr['name'], '.'), 1);
+		/*
 		if(strtolower($oldnamehz)!='csv')
 		{
 			echo '{"res":2}';
 			die();
 		}
+		*/
         $newname=time().$getFileArr['name'];
         $ss=move_uploaded_file($getFileArr['tmp_name'],'./Public/chanpinfile/cpfile/linshi/'.$newname);
         if(!file_exists('./Public/chanpinfile/cpfile/linshi/'.$newname))//验证上传是否成功
@@ -1167,6 +1177,7 @@ class ChanpinController extends Controller {
 		$flname=$cpflbase->query("select cpfl_name from crm_chanpinfenlei where cpfl_id='$flid' limit 1");
 		$flname=$flname[0]['cpfl_name'];
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		/*
 		//读取文件
 		$file_path="./Public/chanpinfile/cpfile/linshi/".$csvfilename;
 		$bs=fopen($file_path,"r");
@@ -1174,6 +1185,7 @@ class ChanpinController extends Controller {
 		$str=iconv("gbk","utf-8//IGNORE",$str);
 		$filearr=explode("\n",$str);
 		//文件读取完毕
+		*/
 		$zdbase=M("yewuziduan");
 		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yewu='7,".$flid."' and zd_yh='$fid' limit 1");
 		$zdarr=json_decode($zdarr[0]['zd_data'],true);
@@ -1181,9 +1193,18 @@ class ChanpinController extends Controller {
 		$insertstr='';
 		$filerowsnum=0;
 		$nowdatetime=date("Y-m-d H:i:s",time());
+		$filedo=A("Filedo");
+		
+		$filearr=$filedo->getdata("./Public/chanpinfile/cpfile/linshi/".$csvfilename,'xls');
+		//parent::rr($aqw);
 		foreach($filearr as $v)
 		{
-			if($v=='')	continue;
+			if($v=='')
+			{
+				continue;
+			}
+			//echo "<pre>";
+			//print_r($v);
 			if($first=='0')
 			{
 				//判断是否符合数据库中的字段
@@ -1201,7 +1222,8 @@ class ChanpinController extends Controller {
 					$zdstr.=$vv['name'].$btstr.$flstr.',';
 					$newzdarrk++;
 				}
-				$a=str_replace("\r",'',$v);
+				$a=implode(',',$v);
+				$a=str_replace("\r",'',$a);
 				$a=str_replace("\n",'',$a);
 				$a=str_replace('﻿','',$a);
 				
@@ -1212,17 +1234,37 @@ class ChanpinController extends Controller {
 				}//判断结束
 				$first='1';
 				continue;
+				
 			}
 			$varr='';
 			$drarr='';
-			$varr=explode(',',str_replace("\n",'',str_replace("\r",'',$v)));
-			foreach($varr as $k=>$v)
+			$varr=$v;
+			$countv=count($v);//总共有多少列（多少个字段）
+			$null_num=0;//这一行有多少个空值
+
+			//echo "<pre>";
+			//print_r($v);
+			//echo "<br><br>";
+			$zdindex=0;
+			foreach($varr as $k=>$vv)
 			{
-				if($v==''&&$newzdarr[$k]['bt']=='1')//如果这一条中有一个必填字段没有填，这一条就导入不进去
+				
+				if($vv=='')
+				{
+					$null_num++;
+				}
+				if($vv==''&&$newzdarr[$k]['bt']=='1')//如果这一条中有一个必填字段没有填，这一条就导入不进去
 				{
 					continue 2;
 				}
-				$drarr[$newzdarr[$k]['id']]=$v;
+				$drarr[$newzdarr[$zdindex]['id']]=$vv;
+				$zdindex++;
+				//echo $k;
+			}
+			//parent::rr($drarr);
+			if($null_num==$countv)
+			{
+				continue;
 			}
 			//完善json数据
 			foreach($zdarr as $vv)
@@ -1232,6 +1274,8 @@ class ChanpinController extends Controller {
 			$insertarr[$filerowsnum]["zdy6"]=$flid;
 			$filerowsnum++;
 		}
+		//parent::rr();
+		//die;
 		if(count($insertarr)<1)
 		{
 			echo '2';die;
@@ -1328,10 +1372,15 @@ class ChanpinController extends Controller {
 				}
 				$rowval=str_replace('
 ','',str_replace("\n",'',str_replace("\r",'',$rowval)));
-				$line.=$rowval.',';
+				$line[]=$rowval;
 			}
-			$body.=$line."".$v['cp_add_time'].",".$v['cp_edit_time'].""."\r\n";
+			$line[]=$v['cp_add_time'];
+			$line[]=$v['cp_edit_time'];
+			$body[]=$line;
 		}
+		$filedo=A("Filedo");
+		$filedo->getExcel($name,$head,$body);
+		/*
 		//连接标题
 		$line = implode(',',$head);
 		$line .="\r\n";
@@ -1342,6 +1391,7 @@ class ChanpinController extends Controller {
 		header("Content-Disposition: attachment; filename=\"$name\""); 
 		echo $line;
 		die;
+		*/
 	}
 	//产品图片下载
 	public function img_download()
