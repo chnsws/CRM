@@ -976,6 +976,7 @@ public function kehu(){
 		$sql=$cp_base->where($map)->select();
 		foreach($sql as $k=>$v)
 		{
+			$cp_sql='';
 			foreach($v as $k1=>$v1){
 				if($k1!='cp_data'){
 					$cp_sql[$k1]=$v1;
@@ -984,12 +985,12 @@ public function kehu(){
 					foreach($json as $k2=>$v2){
 						$cp_sql[$k2]=$v2;
 					}
+					
 				}
 			}$sql_cp[$v['cp_id']]=$cp_sql;
 			
 		}
-		//echo "<pre>";
-		//var_dump($sql_cp);exit;
+		
 		return $sql_cp;
 	}
 	public function cp_ajax(){
