@@ -10,7 +10,7 @@ class MainController extends DBController {
         parent::is_login();
         $fid=parent::get_fid();
         //公告查询
-        $gonggao=parent::sel_more_data("crm_ggshezhi","ggsz_id,ggsz_name,ggsz_kjfw,ggsz_kjid,ggsz_fbsj,ggsz_fbr,ggsz_zd,ggsz_zd_sj","ggsz_yh='3' order by ggsz_id desc");
+        $gonggao=parent::sel_more_data("crm_ggshezhi","ggsz_id,ggsz_name,ggsz_kjfw,ggsz_kjid,ggsz_fbsj,ggsz_fbr,ggsz_zd,ggsz_zd_sj","ggsz_yh='$fid' order by ggsz_id desc");
         //parent::rr($gonggao);
         foreach($gonggao as $v)
         {
@@ -82,7 +82,7 @@ class MainController extends DBController {
                 $gonggaostr.='<div><span class="gonggao_row_title"><a>'.$v['ggsz_name'].'</a></span><span class="gonggao_row_time">'.$v['ggsz_fbsj'].'</span></div>';
             }
         }
-        $gonggaostr=$gonggaostr==''?'<div><span class="gonggao_row_title">暂无公告</span><span class="gonggao_row_time"></span></div>':$gonggaostr;
+        $gonggaostr=$gonggaostr==''?'<div><span class="gonggao_row_title" style="text-align:center;">暂无公告</span><span class="gonggao_row_time"></span></div>':$gonggaostr;
         
         //业绩目标下拉框的显示
         $nowyear=date("Y",time());
