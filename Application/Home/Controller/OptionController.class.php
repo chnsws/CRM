@@ -3,7 +3,7 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class OptionController extends Controller {
+class OptionController extends DBController {
 	//模板框架
     public function index(){
 		if(cookie("islogin")!='1')
@@ -431,6 +431,27 @@ class OptionController extends Controller {
 			$yjtable.="<tr><td>".$v['yjmb_nd']."</td><td><a href='".$_GET['root_dir']."/index.php/Home/Option/yejimubiao_more?yjid=".$v['yjmb_id']."'>".$mbname[$v['yjmb_type']].$relname."</a></td><td>".$zongmubiao[$v['yjmb_id']]."</td><td><a href='".$_GET['root_dir']."/index.php/Home/Option/yejimubiao_more?yjid=".$v['yjmb_id']."'>查看</a><a onclick='yjcopy(".$v['yjmb_nd'].",".$v['yjmb_id'].",".$v['yjmb_type'].",".$v['yjmb_type_more'].")'>复制</a><a onclick='yjdel(".$v['yjmb_id'].")'>删除</a></td></tr>";
 		}
 		$this->assign("yjtable",$yjtable);
+		$this->display();
+	}
+	//客户公海
+	public function kehugonghai()
+	{
+		parent::is_login();
+		$fid=parent::get_fid();
+		$gharr=parent::sel_more_data("crm_gonghaishezhi","*","gh_yh='$fid' limit 1");
+		if(!count($gharr))
+		{
+			$ghbase=M("gonghaishezhi");
+			$ghbase->execute("insert into crm_gonghaishezhi set gh_open='0',gh_days='0',gh_yh='$fid'");
+			$gharr[0]=array(
+				"yh_open"=>"0",
+				"gh_days"=>"0"
+			);
+		}
+		$g=$gharr[0];
+		$this->assign("open",$g['gh_open']);
+		$this->assign("days",$g['gh_days']);
+		
 		$this->display();
 	}
 	//业绩目标详细

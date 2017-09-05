@@ -478,6 +478,35 @@ class OptionDoController extends Controller {
 		$xitongrizhibase->query("insert into crm_rz values('','3','1','".cookie("user_id")."','0','0','0','0','0','编辑了用户:$editusername','$loginIp','$loginDidianStr','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','$fid','".time()."')");
 		echo '1';
 	}
+	//修改客户公海设置开启或关闭状态
+	public function changestatus()
+	{
+		if($_GET['sta']=='')
+		{
+			die("error");
+		}
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		$sta=$_GET['sta']=='1'?'1':'0';
+		$ghbase=M("gonghaishezhi");
+		$ghbase->execute("update crm_gonghaishezhi set gh_open='$sta' where gh_yh='$fid' limit 1");
+		
+		echo '1';
+	}
+	//保存客户公海设置的天数
+	public function changeopen()
+	{
+		if($_GET['ts']=='')
+		{
+			die("error");
+		}
+		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		$ts=addslashes($_GET['ts']);
+		$ghbase=M("gonghaishezhi");
+		$ghbase->execute("update crm_gonghaishezhi set gh_days='$ts' where gh_yh='$fid' limit 1");
+		
+		echo '1';
+		
+	}
 }
 
 

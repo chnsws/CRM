@@ -37,7 +37,7 @@ var navs = [{
 	}, {
 		"title": "客户公海",
 		"icon": "&#xe63c;",
-		"href": "form.html"
+		"href": rootdir+"/index.php/Home/Option/kehugonghai"
 	}, {
 		"title": "工作报告",
 		"icon": "&#xe63c;",

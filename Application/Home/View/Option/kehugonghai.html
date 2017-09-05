@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>客户公海设置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!--jquery-->
+    <script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+    <!--layUI 插件  form表单样式 table样式 -->
+    <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <style>
+        *{margin:0;padding:0}
+        a{text-decoration:none;cursor:pointer;color:#1AA094;margin-right:10px;}
+        a:hover{color:#2F6F69;text-decoration:none;}
+        #box{margin-left: 10px;margin-right: 10px;overflow:hidden;color:#3B3B3B;}
+        /*头部页面名称*/
+        #mod-head{height:100px;font-size:22px;line-height:100px;color:#1AA094;font-weight:bold;}
+        /*中部可关闭的提示框*/
+        #mod1{background-color:#DFF0D8;height:50px;color:#255B56;padding-left:15px;padding-bottom:0px;border-radius:0px;font-size:12px;line-height:50px;}
+        #hidden-div{float:right;font-weight:bold;margin-right:15px;font-size:20px;color:#656565;}
+		/*下部mod2*/
+		#mod2{width:100%;margin-top:20px;border:1px solid #ccc;padding:10px;display: none;}
+        #mod2 button{margin-top:10px;}
+        .ts{min-width:50px;width:60px;border-radius: 5px;border:1px solid #ccc;text-align: right;}
+        .setdiv2{font-size: 18px;}
+        .setdiv2,.btndiv{margin-top:20px;}
+        .layui-btn-radius{width:100px;}
+        .btndiv{margin-top:20px!important;}
+        .sethid{display: none;}
+        .fontred{color:#f00;}
+    </style>
+</head>
+<body>
+<div id="box">
+    <!--头部文字-->
+    <div id="mod-head">
+    客户公海设置
+    </div>
+    <!--头部结束-->
+    <!--中部提示-->
+    <div id="mod1">
+        <div>
+            <div>提示：超级管理员不受客户公海中任意规则的限制。<span id="hidden-div"><a onclick="hidden_div()">×</a></span></div>
+        </div>
+    </div>
+    <!--中部结束-->
+	<div id="mod2">
+		<div class="setdiv">
+            <div class="setdiv2 set1 sethid">
+                自动划入公海功能<span class="fontred">已开启</span>。<a class="closegh" onclick="changestatus(0)">点此关闭</a>
+            </div>
+            <div class="setdiv2 set0 sethid">
+                自动划入公海功能<span class="fontred">已关闭</span>。<a class="closegh" onclick="changestatus(1)">点此开启</a>
+            </div>
+            <div class="setdiv2">
+                超过 
+                <input type="number" class="ts" value="{$days}" />
+                天 “ 未跟进 ” 的客户将自动划入公海。
+            </div>
+            <div class="btndiv">
+                <button class="layui-btn layui-btn-radius layui-btn-primary" onclick="editbase()">保存设置</button>
+            </div>
+        </div>
+		
+	</div>
+</div>
+</body>
+
+<script>
+   
+    //上方绿色提示框的关闭效果
+    function hidden_div(){
+        $("#mod1").hide();
+    } 
+    //初始化
+    layui.use('layer', function(){
+        window.layer = layui.layer;
+    });
+    $(function(){
+        var isopen="{$open}";
+        if(isopen=='1')
+        {
+            $(".set1").show();
+        }
+        else
+        {
+            $(".set0").show();
+        }
+        $("#mod2").fadeIn("fast");
+    });
+    //黑色半透明提示
+    function tishi(neirong)
+    {
+        layer.msg(neirong, {
+            time: 1000, 
+        });
+    }
+
+    function editbase()
+    {
+        //加载层
+        window.jiazai= layer.load(2);
+        var ts=$(".ts").val();
+        if(ts<0)
+        {
+            tishi("天数不能小于0");
+            return;
+        }
+        $.get("__ROOT__/index.php/Home/OptionDo/changeopen",{"ts":ts},function(res){
+            if(res=='1')
+            {
+                window.location.reload();
+            }
+            else
+            {
+                layer.close(jiazai);
+                tishi("操作失败，轻稍后重试");
+            }
+        });
+       
+    }
+    function changestatus(sta)
+    {
+        window.jiazai= layer.load(2);
+        $.get("__ROOT__/index.php/Home/OptionDo/changestatus",{"sta":sta},function(res){
+   
+            if(res=='1')
+            {
+                window.location.reload();
+            }
+            else
+            {
+                layer.close(jiazai);
+                tishi("操作失败，请稍后重试");
+            }
+        });
+    }
+</script>
+</html>
