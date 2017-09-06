@@ -83,6 +83,8 @@ class LianxirenmingchengController extends Controller {
 		$lx_base=M("lx");
 		$sql_lianxi=$lx_base->where($map)->find();
 		$lx_json=json_decode($sql_lianxi['lx_data'],true);
+		echo "<pre>";
+		var_dump($sql_lianxi);exit;
 		$ywzd=$this->ywzd();
 		$user=$this->user();
 		$kh_id=$lx_json['zdy1'];
