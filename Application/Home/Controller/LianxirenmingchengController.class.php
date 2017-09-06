@@ -83,10 +83,10 @@ class LianxirenmingchengController extends Controller {
 		$lx_base=M("lx");
 		$sql_lianxi=$lx_base->where($map)->find();
 		$lx_json=json_decode($sql_lianxi['lx_data'],true);
-		echo "<pre>";
-		var_dump($sql_lianxi);exit;
+
 		$ywzd=$this->ywzd();
 		$user=$this->user();
+	
 		$kh_id=$lx_json['zdy1'];
 		//var_dump($kh_id);exit;
 		$kehu=$this->kehu();//echo "<pre>";var_dump($kehu);exit;
@@ -151,7 +151,7 @@ class LianxirenmingchengController extends Controller {
 			$shangji1.="</tr>";
 		}
 	//	var_dump($shangji);exit;
-		//echo "<pre>";var_dump($sj_rh);exit;
+		
 		foreach ($ywzd as $k => $v){
 			$show.="<tr style='line-height:40px'><td>".$v['name']."：</td>";
 				if($lx_json[$k]!=""){
@@ -176,13 +176,14 @@ class LianxirenmingchengController extends Controller {
 						$new_str1['type']=0;
 						$new_array[$new_str1['id']]=$new_str1;
 					}
-		foreach ($new_array as $k => $v){+
+		foreach ($new_array as $k => $v){
 			$show1.="<tr style='line-height:40px'><td>".$v['name']."：</td>";
 				if($sql_lianxi[$k]!=""){
 					if($k=="lx_cj"){
 						$show1.="<td><span style='margin-left:30px'>".$user[$sql_lianxi[$k]]['user_name']."</span></td>";
 					}elseif($k=="lx_cj_date"){
-						$show1.="<td><span style='margin-left:30px'>".date("Y-m-d H:i:s",$user[$sql_lianxi[$k]]['user_name'])."</span></td>";
+					
+						$show1.="<td><span style='margin-left:30px'>".date("Y-m-d H:i:s",$sql_lianxi[$k])."</span></td>";
 					}else{
 					$show1.="<td><span style='margin-left:30px'>".date("Y-m-d H:i:s",$sql_lianxi[$k])."</span></td>";
 					}
@@ -191,6 +192,7 @@ class LianxirenmingchengController extends Controller {
 				}
 			$show1.="</tr>";
 		}
+		//	echo "<pre>";var_dump($show1);exit;
 		foreach ($ywzd as $k => $v){
 			$show3.="<tr style='line-height:40px'><td>".$v['name']."：</td>";
 				if($lx_json[$k]!=""){
@@ -266,7 +268,7 @@ public function kehu(){
 	}
 	
 	public function user(){                 //负责人和部门
-		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$xiaji= $this->get_xiashu_id();;//  查询下级ID
 		$new_xiaji=$xiaji;          
 		$new_array=explode(',',$new_xiaji);
 	 	$department=M('department');
@@ -279,9 +281,12 @@ public function kehu(){
 			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
 		}
 
+
 		$fuzeren=M('user');
-		$map['user_act']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-	 	$fuzeren_sql=$fuzeren->where($map)->select();//缺少条件
+		
+			$map['user_id']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+	
+	 	$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id IN ($xiaji)");//缺少条件
 			foreach ($fuzeren_sql as $k=>$v)
 			{
 				foreach ($new_array as $k1=>$v1)
@@ -296,12 +301,43 @@ public function kehu(){
 					}
 						
 				}
-			}  
+			} 
+	
 
 return $fzr_only;
+	}
+	public function userqb(){                 //负责人和部门
+	
+
+	 	$department=M('department');
+		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			//echo $dpmet['bm_company'];exit;
+		$sql_de=$department->where($dpt)->select();
+		foreach($sql_de as $kdpt => $vdpt)
+		{
+			
+			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
+		}
 
 
-
+		$fuzeren=M('user');
+		
+		$map['user_id']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+	
+	 	$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id = ".$map['user_id']." or user_fid = ".$map['user_id']."");//缺少条件
+			foreach ($fuzeren_sql as $k=>$v)
+			{
+				
+						$new_fuzeren['user_id']=$v['user_id'];
+						$new_fuzeren['user_name']=$v['user_name'];
+						$new_fuzeren['user_zhu_bid']=$v['user_zhu_bid'];
+						$new_fuzeren['department']=$dpt_arr[$v['user_zhu_bid']]['bm_name'];
+						$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
+				
+			} 
+	
+		
+return $fzr_only;
 	}
 	public function get_xiashu_id()
 	{
@@ -388,6 +424,7 @@ return $fzr_only;
 		}
 		$data['lx_data']=json_encode($ex1,true);
 		$sj_base=M('lx');
+		$user=$this->user();
 		$sql_save=$sj_base->where($map)->save($data);
 		if($sql_save){
 				$a=$map['lx_id'];
@@ -397,8 +434,8 @@ return $fzr_only;
 				$sql_lianxi=$lx_base->where($map)->find();
 				$lx_json=json_decode($sql_lianxi['lx_data'],true);
 				$ywzd=$this->ywzd();
-				$user=$this->user();
-				$kehu=$this->kehu();//echo "<pre>";var_dump($kehu);exit;
+		
+				$kehu=$this->kehu();echo "<pre>";var_dump($kehu);exit;
 				foreach ($ywzd as $k => $v){
 					$show.="<tr style='line-height:40px'><td>".$v['name']."：</td>";
 						if($lx_json[$k]!=""){
