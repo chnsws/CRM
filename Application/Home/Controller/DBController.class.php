@@ -157,4 +157,14 @@ class DBController extends Controller {
             return 365; 
         }  
     }
+    //判断权限
+    public function have_qx($qx_name)
+    {
+        $qxvalue=cookie($qx_name);
+        if($qxvalue=='0')
+        {
+            $this->main_gotopage($_GET['root_dir'].'/index.php');
+            die;
+        }
+    }
 }

@@ -645,11 +645,6 @@
 					tishi("邮箱不能为空");
 					return false;
 				}
-				if(!adduseremail.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/))
-				{
-					tishi("邮箱格式不正确");
-					return false
-				}
 				if(!adduserjuese)
 				{
 					tishi("角色不能为空");
@@ -909,11 +904,6 @@
 						{
 							tishi("邮箱不能为空");
 							return false;
-						}
-						if(!adduseremail.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/))
-						{
-							tishi("邮箱格式不正确");
-							return false
 						}
 						if(!adduserjuese)
 						{

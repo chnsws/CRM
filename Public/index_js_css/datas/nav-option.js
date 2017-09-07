@@ -38,12 +38,7 @@ var navs = [{
 		"title": "客户公海",
 		"icon": "&#xe63c;",
 		"href": rootdir+"/index.php/Home/Option/kehugonghai"
-	}, {
-		"title": "工作报告",
-		"icon": "&#xe63c;",
-		"href": rootdir+"/index.php/Home/Option/gongzuobaogao"
 	}]
-	
 }, {
 	"title": "自定义设置",
 	"icon": "fa-address-book",

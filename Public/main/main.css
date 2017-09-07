@@ -19,7 +19,7 @@ div{overflow: hidden;}
 .gonggao_body{height:284px;padding-left: 10px;margin-top:5px;}
 .gonggao_body>div{position:relative;height:40px;line-height:40px;overflow: hidden;border-bottom:1px dashed  #9FDABF;}
 .gonggao_body>div:last-child{border-bottom:none;}
-.gonggao_body>div>.gonggao_row_time{position:absolute;right:0px;min-width: 120px;background:#fff;padding:0px 5px;}
+.gonggao_body>div>.gonggao_row_time{position:absolute;right:0px;min-width: 110px;background:#fff;padding:0px 5px;}
 .gonggao_body>div>.gonggao_row_title{overflow:hidden;max-width:60%;text-overflow:ellipsis;float:left;white-space:nowrap;}
 .gonggao_body>div>.zhiding{display:inline-block;background:#1AA094;border-radius:5px;color:#fff;height:20px;line-height: 20px;font-size:12px;padding:0px 10px;margin-left:5px;}
 .gonggao_more{cursor:pointer;}
@@ -126,37 +126,37 @@ div{overflow: hidden;}
 .zs_mod>.zs_body>div:last-child{height:50px;line-height:40px;font-size:20px;text-align: center;}
 @media screen and (max-width:1500px)
 {
-    .gonggao_body>div>.gonggao_row_title{max-width:55%;}
+    .gonggao_body>div>.gonggao_row_title{max-width:59%;}
 }
 @media screen and (max-width:1400px)
 {
-    .gonggao_body>div>.gonggao_row_title{max-width:50%;}
+    .gonggao_body>div>.gonggao_row_title{max-width:55%;}
 }
 @media screen and (max-width:1300px)
 {
-    .gonggao_body>div>.gonggao_row_title{max-width:45%;}
+    .gonggao_body>div>.gonggao_row_title{max-width:50%;}
 }
 @media screen and (max-width:1200px)
 {
-    .gonggao_body>div>.gonggao_row_title{max-width:40%;}
+    .gonggao_body>div>.gonggao_row_title{max-width:45%;}
 }
 @media screen and (max-width:1100px)
 {
-    .gonggao_body>div>.gonggao_row_title{max-width:32%;}
+    .gonggao_body>div>.gonggao_row_title{max-width:40%;}
     .jianbao .jianbao_icon>i{min-width:80px;}
 }
 @media screen and (max-width:1000px)
 {
-    .gonggao_body>div>.gonggao_row_title{max-width:25%;}
+    .gonggao_body>div>.gonggao_row_title{max-width:33%;}
 }
 @media screen and (max-width:900px)
 {
     .jianbao .jianbao_icon>i{min-width:70px;}
-    .gonggao_body>div>.gonggao_row_title{max-width:15%;}
+    .gonggao_body>div>.gonggao_row_title{max-width:25%;}
 }
 @media screen and (max-width:800px)
 {
-    .gonggao_body>div>.gonggao_row_title{max-width:35%;}
+    .gonggao_body>div>.gonggao_row_title{max-width:40%;}
     .gonggao_body>div>.zhiding{display:none;}
 }
 

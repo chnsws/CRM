@@ -53,6 +53,7 @@
 		#mod2-right-body{border:1px solid #ccc;}
 		#right-body-head{height:40px;line-height:40px;color:#525252;padding-left:20px;}
 		/*折叠标签css*/
+		#accordion{margin:10px;}
 		#accordion h3{border-radius:0px;height:30px;color:#636363;margin-top:10px;line-height:30px;background-color:#F2F2F2;}
 		#accordion div{border-radius:0px;}
 		/*添加角色弹出框表格*/
@@ -79,7 +80,7 @@
 		<div id="mod1">
 			<div>提示:<span id="hidden-div"><a onclick="hidden_div()">×</a></span></div>
 			<div>
-				1、角色代表操作权限和数据权限，操作权限是指具有该角色的用户是否能查看、新增、编辑、删除某些数据，数据权限是指具有该角色的用户能操作的数据的范围；
+				1、角色代表操作权限和数据权限，操作权限是指具有该角色的用户是否能查看、新增、编辑、删除某些数据。
 			</div>
 			<div>
 				2、超级管理员的权限是系统默认的最大权限的角色，不能修改。
@@ -102,147 +103,61 @@
 					<div id="right-body-head">
 						超级管理员设置
 					</div>
-					<div class="layui-tab layui-tab-brief" style="margin-left:10px;margin-right:10px;">
-						<ul class="layui-tab-title">
-							<li class="layui-this">操作权限</li>
-							<li>数据权限</li>
-						</ul>
-						<div class="layui-tab-content">
-							<div class="layui-tab-item layui-show layui-form">
-								<div id="accordion">
-									
-									<h3>线索-权限</h3>
-									<div>
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xs_ck" title="查看">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xs_xz" title="新增">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xs_bj" title="编辑">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xs_sc" title="删除">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xs_dr" title="导入">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xs_dc" title="导出">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xs_zy" title="转移线索给他人">
-									</div>
-									<h3>客户-权限</h3>
-									<div>
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_kh_ck" title="查看">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_kh_xz" title="新增">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_kh_bj" title="编辑">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_kh_sc" title="删除">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_kh_dr" title="导入">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_kh_dc" title="导出">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_kh_zy_tr" title="转移客户给他人">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_kh_zy_gh" title="转移至客户公海">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_kh_dr_gh" title="导入至客户公海">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_kh_ck_gh" title="查看客户公海">
-									</div>
-									<h3>联系人-权限</h3>
-									<div>
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_lx_ck" title="查看">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_lx_xz" title="新增">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_lx_bj" title="编辑">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_lx_sc" title="删除">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_lx_dr" title="导入">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_lx_dc" title="导出">
-									</div>
-									<h3>商机-权限</h3>
-									<div>
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_sj_ck" title="查看">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_sj_xz" title="新增">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_sj_bj" title="编辑">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_sj_sc" title="删除">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_sj_dr" title="导入">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_sj_dc" title="导出">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_sj_zy" title="转移商机给他人">
-									</div>
-									<h3>合同-权限</h3>
-									<div>
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_ht_ck" title="查看">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_ht_xz" title="新增">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_ht_bj" title="编辑">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_ht_sc" title="删除">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_ht_dr" title="导入">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_ht_dc" title="导出">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_ht_zy" title="转移合同给他人">
-									</div>
-									<h3>产品-权限</h3>
-									<div>
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_cp_ck" title="查看">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_cp_xz" title="新增">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_cp_bj" title="编辑">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_cp_sc" title="删除">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_cp_dr" title="导入">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_cp_dc" title="导出">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_cp_fl" title="产品分类设置">
-									</div>
-									<h3>跟进记录-权限</h3>
-									<div>
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_gj_sc" title="删除">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_gj_dr" title="导入">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_gj_dc" title="导出">
-									</div>
-									<h3>知识库-权限</h3>
-									<div>
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_zs_ck" title="查看">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_zs_xz" title="新增">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_zs_bj" title="编辑">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_zs_sc" title="删除">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_zs_zd" title="置顶文档">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_zs_sz" title="版块设置">
-									</div>
-									<h3>报表-权限</h3>
-									<div>
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_bb_dc" title="导出数据">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_bb_ck" title="查看报表">
-									</div>
-									<h3>系统-权限</h3>
-									<div>
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_ckbmyh" title="查看部门和用户">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_szbmyh" title="管理部门和用户"><br />
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_ckjsqx" title="查看角色和权限">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_szjsqx" title="角色和权限设置"><br />
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_ckgsxx" title="查看公司信息">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_bjgsxx" title="编辑公司信息"><br />
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_ggsz" title="公告设置"><br />
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_szyjmb" title="设置业绩目标">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_ckyjmb" title="查看业绩目标"><br />
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_ccsz" title="客户查重设置"><br />
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_ghsz" title="客户公海设置"><br />
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_bgsz" title="工作报告设置">
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_gzbgdc" title="工作报告导出"><br />
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_sbsz" title="数据上报设置"><br />
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_hjzx" title="呼叫中心设置"><br />
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_zdyzd" title="自定义业务字段管理"><br />
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_zdycs" title="自定义业务参数管理"><br />
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_zdysp" title="自定义审批设置"><br />
-										<input type="checkbox" lay-filter="qxcheckbox" id="qx_xt_cxrz" title="查询日志"><br />
-									</div>
-									
-								</div><!--折叠结束-->
-							</div><!--内容1结束-->
-							<div class="layui-tab-item">
-								<table id="dataqxtable">
-									<tr>
-										<td><input type="radio" name="dataqx" class="dataqx" id="dataqx1" value='1'>个人</td>
-										<td style="padding-left:30px;color:#949494;">只能操作自己和下属的数据</td>
-									</tr>
-									<tr>
-										<td><input type="radio" name="dataqx" class="dataqx" id="dataqx2" value='2'>所属部门</td>
-										<td style="padding-left:30px;color:#949494;">能操作自己、下属、和自己所属部门的数据</td>
-									</tr>
-									<tr>
-										<td><input type="radio" name="dataqx" class="dataqx" id="dataqx3" value='3'>所属部门及下属部门</td>
-										<td style="padding-left:30px;color:#949494;">能操作自己、下属和自己所属部门及其子部门的数据</td>
-									</tr>
-									<tr>
-										<td><input type="radio" name="dataqx" class="dataqx" id="dataqx4" value='4'>全公司</td>
-										<td style="padding-left:30px;color:#949494;">能操作全公司的数据</td>
-									</tr>
-								
-								
-								
-								
-								</table>
-							</div>
+					<div id="accordion" class="layui-form">
+						
+						<h3>线索-权限</h3>
+						<div>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_xs_open" title="线索查看">
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_xs_del" title="线索删除">
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_xs_to_kh" title="线索转成客户">
 						</div>
+						<h3>客户-权限</h3>
+						<div>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_kh_open" title="客户查看">
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_kh_del" title="客户删除">
+							
+						</div>
+						<h3>联系人-权限</h3>
+						<div>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_lxr_open" title="联系人查看">
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_lxr_del" title="联系人删除">
+						</div>
+						<h3>商机-权限</h3>
+						<div>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_sj_open" title="商机查看">
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_sj_del" title="商机删除">
+						</div>
+						<h3>合同-权限</h3>
+						<div>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_ht_open" title="合同查看">
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_ht_del" title="合同删除">
+						</div>
+						<h3>产品-权限</h3>
+						<div>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_cp_open" title="产品查看">
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_cp_add" title="产品添加">
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_cp_edit" title="产品修改">
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_cp_del" title="产品删除">
+						</div>
+						<h3>报表-权限</h3>
+						<div>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_bb_open" title="报表查看">
+						</div>
+						<h3>系统-权限</h3>
+						<div>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_sys_bmyh" title="部门和用户设置"><br>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_sys_jsqx" title="角色权限设置"><br>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_sys_gsxx" title="公司信息设置"><br>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_sys_gggl" title="公告管理"><br>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_sys_yjmb" title="业绩目标设置"><br>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_sys_khgh" title="客户公海设置"><br>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_sys_ywzd" title="业务字段设置"><br>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_sys_ywcs" title="业务参数设置"><br>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_sys_sp" title="审批设置"><br>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_sys_sx" title="产品筛选设置"><br>
+							<input type="checkbox" lay-filter="qxcheckbox" id="qx_sys_rz" title="日志查询"><br>
+						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -250,7 +165,7 @@
 	</div>
 	</body>
 	<!--添加角色表单-->
-	<div  id="addjuese">
+	<div  id="addjuese" style="display:none!important;">
 		<center>
 			<div id="addform" style="padding:10px;" class="layui-form">
 				<table id="addtable">
@@ -266,7 +181,7 @@
 		</center>
 	</div>
 	<!--复制角色表单-->
-	<div  id="copyjuese">
+	<div  id="copyjuese" style="display:none;">
 		<center>
 			<form id="copyform" style="padding:10px;">
 				<table id="copytable">
@@ -380,6 +295,7 @@
 				var changefiledname=$("#qx"+changejuese).text();
 				window.jiazai= layer.load(2);
 				//改变数据库的该权限的值
+				//alert(changefiledname);return;
 				$.get(root_dir+"/index.php/Home/QuanxianDo/changeqxval",{"changefiled":changefiled,"changejuese":changejuese,"changefiledvalue":changefiledvalue,"changefiledname":changefiledname},function(cqvres){
 					if(cqvres=='1')
 					{
@@ -400,7 +316,6 @@
 			});    
 		});
 		//添加角色
-		$("#addjuese").hide();
 		function addjuese()
 		{
 			$("#jsnameinput").val('');
@@ -446,6 +361,7 @@
 		//动态改变右边的权限列表
 		function jsClick(nowclickid)
 		{
+			window.jiazai=layer.load(2);
 			//初始化效果
 			$("input[type='checkbox']").prop("disabled",false);
 			$("input[type='checkbox']").prop("checked",false);
@@ -454,17 +370,19 @@
 			$.ajaxSetup({
 				async : false
 			});
+			//alert(nowclickid);
 			$.get(root_dir+"/index.php/Home/QuanxianDo/oneqx",{"nowclickid":nowclickid},function(oneqxres){
-				oneqxresarr=oneqxres.split('@@');
-				window.resarr=oneqxresarr[0].split(',');
+				//alert(oneqxres);
+				window.resarr=oneqxres.split(',');
 				window.resarrlength=resarr.length;
 			});
+			//alert(1);
 			for(var aa=0;aa<resarrlength;aa++)
 			{
 				$("#"+resarr[aa]).prop("checked",true);
 			}
-			$("#dataqx"+oneqxresarr[1]).prop("checked",true);
 			form.render();
+			layer.close(jiazai);
 		}
 		//角色名称修改
 		function jsedit(jsid)
@@ -619,29 +537,5 @@
 				}
 			});
 		}
-		//数据权限改变
-		$("input[type='radio']").change(function(){
-
-			window.jiazai= layer.load(2);
-
-			var changeid=nowClcikJueseId;
-			var changeradioval=$(this).val();
-			var thisjsName=$("#qx"+changeid).text();
-			$.get(root_dir+"/index.php/Home/QuanxianDo/dataqxedit",{"changeid":changeid,"changeradioval":changeradioval,"thisjsName":thisjsName},function(dataqxres){
-				if(dataqxres=='1')
-				{
-					layer.close(jiazai);
-					tishi("修改成功");
-				}
-				else if(dataqxres=='2')
-				{
-					tishi("修改失败");
-				}
-				else
-				{
-					tishi("修改失败，请刷新后重试");
-				}
-			});
-		});
 	</script>
 </html>
