@@ -150,9 +150,16 @@
 									for(a=0;a<fornum;a++)
 									{
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
-										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+
+										if(thisdom.prop("name")=='zdy2')
+										{
+											ajaxstr+=thisdom.prop("name")+":"+$('input[name="zdy2"]:checked').val()+",";
+										}else{
+											ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+										}
+										
 									}
-									
+						
 									$.get(rooturl+'/index.php/Home/Lianxirenmingcheng/save',{"id":ajaxstr},
 							        		 function(html){
 									        
@@ -160,9 +167,10 @@
 									        			alert("没有修改信息")
 									        			layer.close(win)
 									        		}else{
-									        			
-									        			$(".save_jb").html(html);
-									        			layer.close(win)
+									        			var lxid=$(".lx_id97").val();
+									        		//alert(lxid)
+									        		//location.href="Lianxirenmingcheng?id"+lxid;
+									        		window.location.href="Lianxirenmingcheng?id="+lxid;
 									        		}
 							                   });
 								},

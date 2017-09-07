@@ -197,7 +197,25 @@ class LianxirenmingchengController extends Controller {
 			$show3.="<tr style='line-height:40px'><td>".$v['name']."：</td>";
 				if($lx_json[$k]!=""){
 					if($k=='zdy1'){
-						$show3.="<td><input type='hidden' name='".$k."' style='width:220px;height:26px;'   value='".$lx_json[$k]."'><span style='margin-left:30px;color:blue'>".$kehu[$lx_json[$k]]['name']."</span></td>";	
+						$show3.="<td><input type='hidden' name='".$k."' style='width:220px;height:26px;'  value='".$lx_json[$k]."'><span style='margin-left:30px;color:blue'>".$kehu[$lx_json[$k]]['name']."</span></td>";	
+					}elseif($k=='zdy2'){
+						
+						$show3.="<td>";
+						if($lx_json[$k]=="男"){
+								$show3.="<input type='radio' name='".$k."' style='width:40px;' checked='checked' value='男' />男";
+						
+								$show3.="<input type='radio' name='".$k."' style='width:40px;' value='女' />女";
+					
+						
+								
+						}else{
+								$show3.="<input type='radio' name='".$k."' style='width:40px;' value='男' />男";
+								$show3.="<input type='radio' name='".$k."' style='width:40px;' checked='checked' value='女' />女";
+							
+						}
+					
+						
+						$show3.="</td>";
 					}else{
 						$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;' value='".$lx_json[$k]."'></td>";
 					}
@@ -207,7 +225,7 @@ class LianxirenmingchengController extends Controller {
 				}
 			$show3.="</tr>";
 		}
-		$show3.="<tr><td></td><td><input type='hidden' name='lx_id' value='".$a."'></td></tr>";
+		$show3.="<tr><td></td><td><input type='hidden' class='lx_id97'  name='lx_id' value='".$a."'></td></tr>";
 	//	echo "<pre>";
 //	var_dump($lx_json);exit;
 		$this->assign('show',$show);

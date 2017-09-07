@@ -190,9 +190,16 @@ class LianxirenController extends Controller {
 			         	$add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
 		 				$add_yw.="</td></tr>";
 					}else{
-						$add_yw.="<tr class='addtr'>";
+						if($vywzd['id']=='zdy2'){
+							$add_yw.="<tr class='addtr'>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input class='danxuan' checked='checked'  name='".$vywzd['id']."' type='radio' value='男' />男<input name='".$vywzd['id']."' class='danxuan'  type='radio' value='女' />女</td>";
+						$add_yw.="</tr>";
+						}else{
+							$add_yw.="<tr class='addtr'>";
 						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required' name='".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
+						}
+						
 					}
 				}elseif($vywzd['cy']==1)
 				{

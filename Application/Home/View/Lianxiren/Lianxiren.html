@@ -79,6 +79,7 @@
 						.kehu{width:auto;height:auto;border:1px solid #ccc;margin-left:3px;} 
 								.layui-btn-primary{width:200px;height:30px;margin-top:-24px;}
 											.panel-title{margin-left:10px;margin-top:9px; font-size:21px; color:#1AA094;}
+											.danxuan{width:40px !important;}
 	th{background-color:#50BBB1;height:30px;color:white;} 
 		</style>      
 	</head>
@@ -296,12 +297,18 @@
 										if(thisdom.prop("name")=='zdy12[]')
 										{	//tishi(thisdom.prop("name"))
 											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
+									
+
 										}else{
-											
+											if(thisdom.prop("name")=='zdy2'){
+												ajaxstr+=thisdom.prop("name")+":"+$('input[name="zdy2"]:checked').val()+",";
+											}else{
 											ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+											}
 										}
 										
 									}
+								
 									if(ajaxstr_kh=='')
 									{
 										$.get(rooturl+'/index.php/Home/Lianxiren/add',{"id":ajaxstr},
