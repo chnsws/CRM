@@ -341,7 +341,7 @@ return $fzr_only;
 
 				$chanpin1.="<tr  class='addtr'>";
 				$chanpin1.="<td><span style='color:red'>*</span>产品名称：</td>";
-					$chanpin1.="<td><select name='cp_id' onchange='cp_aj(this)' class ='clk_fzr' style='width:300px;height:26px;'>";
+					$chanpin1.="<td><select name='cp_id' onchange='cp_aj(this)' class ='clk_fzr' id='xlcp' style='width:300px;height:26px;'>";
 							$chanpin1.="<option value='s'>请选择产品 </option>";
 					foreach ($chanpin as $k=>$v)
 					{
