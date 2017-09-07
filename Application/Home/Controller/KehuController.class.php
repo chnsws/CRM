@@ -995,10 +995,10 @@ class KehuController extends Controller {
 	 		$lxr_base=M('lx');
 	 		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 	 		$tiaojian='"zdy1":"'.$kh_id.'"';
-	 		
-			$sql_lxr=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and lx_data like '%$tiaojian%'");
+	 		$tiaojian1='"zdy1":'.$kh_id.'';
+			$sql_lxr=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and lx_data like '%$tiaojian%' or lx_data like '%$tiaojian1%'");
 			
-		
+	
 			foreach($sql_lxr as $k=>$v)
 			{	
 				foreach($v as $k1 =>$v1)
@@ -1072,7 +1072,8 @@ class KehuController extends Controller {
 			$sj_base=M('shangji');
 	 		$yh_map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 	 		$sj_where='"zdy1":"'.$kh_id.'"';
-			$sql_shangji=$sj_base->query("select * from crm_shangji where sj_yh = '$yh_map' and sj_data like '%$sj_where%'");
+	 			$sj_where1='"zdy1":'.$kh_id.'';
+			$sql_shangji=$sj_base->query("select * from crm_shangji where sj_yh = '$yh_map' and sj_data like '%$sj_where%' or sj_data like '%$sj_where1%'");
 			foreach($sql_shangji as $k=>$v)
 				{	
 					foreach($v as $k1 =>$v1)
@@ -1133,7 +1134,8 @@ class KehuController extends Controller {
 			$ht_base=M('hetong');
 	 		$ht_map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 	 		$ht_where='"zdy1":"'.$kh_id.'"';
-			$sql_ht=$sj_base->query("select * from crm_hetong where ht_yh = '$ht_map'  and ht_fz IN ($xiaji1) and ht_data like '%$ht_where%'");
+	 			$ht_where1='"zdy1":'.$kh_id.'';
+			$sql_ht=$sj_base->query("select * from crm_hetong where ht_yh = '$ht_map'  and ht_fz IN ($xiaji1) and ht_data like '%$ht_where%' or ht_data like '%$ht_where1%'");
 			foreach($sql_ht as $k=>$v)
 			{	
 				foreach($v as $k1 =>$v1)
