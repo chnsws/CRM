@@ -305,8 +305,8 @@ class OptionDoController extends Controller {
 			$bumenNewArr[$bumenArrVal['bm_id']]=array("bm_name"=>$bumenArrVal['bm_name'],"bm_fid"=>$bumenArrVal['bm_fid']);
 		}
 		//查询角色名称
-		$quanxianbase=M("quanxian");
-		$qxNameArr=$quanxianbase->query("select qx_id,qx_name from crm_quanxian where qx_company='".$nowUserId."' or qx_company='0' ");
+		$quanxianbase=M("juesequanxian");
+		$qxNameArr=$quanxianbase->query("select qx_id,qx_name from crm_juesequanxian where qx_yh='".$nowUserId."' or qx_yh='0' ");
 		$zhuguanoption="<option value=''>请选择主管</option>";
 		foreach($qxNameArr as $qxk=>$qxv)
 		{
