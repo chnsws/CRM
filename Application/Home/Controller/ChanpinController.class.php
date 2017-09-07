@@ -472,7 +472,7 @@ class ChanpinController extends DBController {
 			$xxstr=$cpjsonarr[$v];
 			if($v=='zdy0')
 			{
-				$cpname['cp_name']=$cpjsonarr[$v];
+				$cpname['cp_name']=str_replace("\n",'',str_replace("\r",'',$cpjsonarr[$v]));
 			}
 			if($v=='zdy5')//毛利率
 			{
