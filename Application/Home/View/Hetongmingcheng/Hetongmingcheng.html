@@ -23,6 +23,8 @@
 		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
 			<link rel="stylesheet" href="{$_GET['public_dir']}/report/time_axis.css" />
 	<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">	
+		<link href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
+		<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
   		<style>
   			table body,ul,li,tr td{margin:0;padding:0;font-size:14px;}
   		
@@ -76,7 +78,7 @@
 			.gj tr{height:70px;}
 			.woca{display:none;}
 			.ace{width:80px;}
-			
+			.searchable-select-input{width:190px !important ;}
 
   	</style>
 		<script>
@@ -631,6 +633,7 @@
 											});
     		}
 		  function add_cpp(){
+		  	$('#xlcp').searchableSelect();
     				layui.use('layer', function(){
 					//	alert(123)
 							var layer = layui.layer;
@@ -1147,5 +1150,15 @@
 		                   });
 
     		}
+    		var is_one=0;
+     function change_fun(v2)
+				 {
+				 		if(is_one<1)
+					 	{
+					 		is_one++;
+					 		return;
+					 	}
+				}
+
 	</script>
 </html>

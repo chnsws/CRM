@@ -71,6 +71,8 @@
 			.kongzhiyeshu{margin-top:19px;height:40px;font-size:16px;margin-left:20px;}
 			th{background-color:#50BBB1;height:30px;color:white;} 
 			.panel-title{margin-left:2px;margin-top:9px; font-size:21px; color:#1AA094;}
+			.searchable-select-input{width:190px !important ;}
+			
 		</style>  
 				<script type="text/javascript">
 			
@@ -109,6 +111,7 @@ $(function(){
 
 		$('#xl1').searchableSelect();
  $('#xl2').searchableSelect();
+
  });
 
 
@@ -805,6 +808,10 @@ $("#nchangyong").click(function(){
     	</script>
     	<script>
     		function cp_add(){
+    		
+
+					$('.xlcp').searchableSelect();
+
     				layui.use('layer', function(){
 					//	tishi(123)
 							var layer = layui.layer;
@@ -1232,6 +1239,9 @@ $("#nchangyong").click(function(){
 															layer.close(win)
 														});
 				 	}
+
+				
+
 				 } 
 				 function kh_bmo(bm){
     			var user_id=$(bm).val();
