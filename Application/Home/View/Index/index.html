@@ -128,9 +128,10 @@
 			
 			<script type="text/javascript" src="{$_GET['public_dir']}/jquery/jquery.js"></script>
 			<script type="text/javascript" src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"></script>
-			<script type="text/javascript" src="{$_GET['public_dir']}/index_js_css/datas/nav.js"></script>
-			<script>
 			
+			<script>
+				var navs={$navs}
+			//alert(JSON.stringify(navs));
 layui.config({
 	base: "{$_GET[public_dir]}/index_js_css/js/"
 }).use(['element', 'layer', 'navbar', 'tab'], function() {

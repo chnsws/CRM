@@ -191,6 +191,12 @@ function tishi(neirong)
 //上传附件
 function add_fujian()
 {
+    var cookie_qx="{$_COOKIE['qx_cp_edit']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有修改产品的权限");
+        return;
+    }
     window.clickdelnowfile='0';
     var is_upload='';
     //显示文件上传按钮
@@ -308,6 +314,12 @@ function down_fujian(fjid)
 //删除附件
 function del_fujian(thisfjid)
 {
+    var cookie_qx="{$_COOKIE['qx_cp_edit']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有修改产品的权限");
+        return;
+    }
     var fileyname=$("#fujian_table").find("tbody").find("span[onclick='del_fujian("+thisfjid+")']").parent().parent().find("td").eq("1").text();
     layer.msg("确认删除该附件？该操作成功后，将无法恢复", {
         time: 9999999,
@@ -340,6 +352,12 @@ function del_fujian(thisfjid)
 //删除产品
 function del_chanpin()
 {
+    var cookie_qx="{$_COOKIE['qx_cp_del']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有删除产品的权限");
+        return;
+    }
     layer.msg("确认删除产品:"+nowpagename+"？操作成功后，将无法恢复", {
         time: 9999999,
         btn: ['确认删除', '取消'],
@@ -371,6 +389,12 @@ function del_chanpin()
 window.img_up_one='';
 function bj_chanpin()
 {
+    var cookie_qx="{$_COOKIE['qx_cp_edit']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有修改产品的权限");
+        return;
+    }
     var img_is_up='';
     if(img_up_one=='1')
     {
@@ -523,6 +547,12 @@ function xiazai(thisdom)
 //删除图片
 function shanchu(thisdom)
 {
+    var cookie_qx="{$_COOKIE['qx_cp_edit']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有修改产品的权限");
+        return;
+    }
     layer.msg("是否删除产品图片？该操作成功后，将无法恢复", {
         time: 9999999,
         btn: ['删除', '取消'],
@@ -561,6 +591,12 @@ function sc()
 //启用/禁用产品
 function jy_qy_chanpin(qyjyid)
 {
+    var cookie_qx="{$_COOKIE['qx_cp_edit']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有修改产品的权限");
+        return;
+    }
     $.get(root_dir+"/index.php/Home/Chanpin/qy_jy",{"sel_id":nowpageid,"qyjy":qyjyid,"pagename":nowpagename},function(res){
         if(res=='1')
         {

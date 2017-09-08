@@ -609,6 +609,12 @@ function add_diqu_listen()
 //转成客户
 function zhuankehu()
 {
+    var cookie_qx="{$_COOKIE['qx_xs_to_kh']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有将线索转成客户的权限");
+        return;
+    }
      layui.use('layer', function(){
         var layer = layui.layer;
         layer.open({
@@ -649,6 +655,12 @@ function zhuankehu()
 //删除
 function shanchu()
 {
+    var cookie_qx="{$_COOKIE['qx_xs_del']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有删除线索的权限");
+        return;
+    }
     layui.use('layer', function(){
         var layer = layui.layer;
         layer.open({

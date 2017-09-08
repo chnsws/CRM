@@ -7,7 +7,7 @@ class XiansuoController extends DBController {
 	public function index(){
 		parent::is_login();
         $fid=parent::get_fid();
-
+		parent::have_qx("qx_xs_open");
 		//业务参数，用于筛选和展示数据
 		$ywcs=$this->get_xs_zd_canshu($fid);
 		$cs_name=$this->get_cs_name($ywcs);
@@ -383,7 +383,8 @@ class XiansuoController extends DBController {
 	public function xsinfo()
 	{
 		parent::is_login();
-        $fid=parent::get_fid();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_xs_open");
 		//业务字段查询
 		$zdarr=$this->get_xs_ziduan($fid);
 		//业务参数，用于筛选和展示数据
@@ -716,7 +717,8 @@ class XiansuoController extends DBController {
 	public function add_xs()
 	{
 		parent::is_login();
-        $fid=parent::get_fid();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_xs_open");
 		$ajax_str=$_POST['ajax_str'];
 		if($ajax_str=='')
 		{
@@ -742,6 +744,7 @@ class XiansuoController extends DBController {
 			echo 0;
 			die;
 		}
+		parent::have_qx("qx_xs_open");
 		$need_to_user_xs="('".str_replace(',',"','",$need_to_user_xs)."')";
 		$nowdatetime=date("Y-m-d H:i:s",time());
 		$fid=parent::get_fid();
@@ -760,6 +763,7 @@ class XiansuoController extends DBController {
 			echo 0;
 			die;
 		}
+		parent::have_qx("qx_xs_del");
 		$fid=parent::get_fid();
 		$sel_xs="('".str_replace(',',"','",$sel_xs)."')";
 		$xiansuodb=M("crm_xiansuo");
@@ -784,7 +788,7 @@ class XiansuoController extends DBController {
 		}
 		parent::is_login();
 		$fid=parent::get_fid();
-
+		parent::have_qx("qx_xs_open");
 		//修改这条线索的下次跟进时间
 		$xiansuoarr=parent::sel_one_data("crm_xiansuo","xs_data","xs_is_del='0' and xs_yh='$fid' and xs_id='$new_genjin_xiansuo'");
 		if(count($xiansuoarr)<1)
@@ -812,6 +816,7 @@ class XiansuoController extends DBController {
 		$this_canshu_id=addslashes($_GET['this_canshu_id']);
 		parent::is_login();
 		$fid=parent::get_fid();
+		parent::have_qx("qx_xs_open");
 		$this_xs_arr=parent::sel_one_data("crm_xiansuo","xs_data","xs_is_del='0' and xs_yh='$fid' and xs_id='$this_xs_id'");
 		$this_xs_arr=json_decode($this_xs_arr,true);
 		$this_xs_arr['zdy14']='canshu'.$this_canshu_id;
@@ -834,6 +839,7 @@ class XiansuoController extends DBController {
 			echo 0;
 			die;
 		}
+		parent::have_qx("qx_xs_open");
 		$ajax_arr=json_decode($ajax_str,true);
 		$fuzeren=$ajax_arr['fuzeren'];
 		$qfuze=$ajax_arr['fuzeren']==$now_fz?'':",xs_qfz='$now_fz'";//前负责人的判断
@@ -849,7 +855,8 @@ class XiansuoController extends DBController {
 	public function xs_to_kh()
 	{
 		parent::is_login();
-        $fid=parent::get_fid();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_xs_to_kh");
 		$xsid=$_GET['thisxsid'];
 		if($xsid==''||$xsid=='0')
 		{
@@ -917,7 +924,8 @@ class XiansuoController extends DBController {
         {
             echo '{"res":0}';
             die();
-        }
+		}
+		parent::have_qx("qx_xs_open");
 		$getFileArr=$_FILES['xs_file'];
         $fid=parent::get_fid();
 		$oldname=mb_strlen($getFileArr['name'])>15?mb_substr($getFileArr['name'],0,15).'...':$getFileArr['name'];
@@ -956,6 +964,7 @@ class XiansuoController extends DBController {
 			echo 2;
 			die;
 		}
+		parent::have_qx("qx_xs_open");
 		$nowtime=date("Y-m-d H:i:s",time());
 		parent::add_one_data("crm_xiansuo_file","'','$nowtime','$fjmc','$oldoldname','$fjdx','$fjbz','$fjxsid'");
 		$xsname=parent::sel_more_data("crm_xiansuo","xs_data","xs_id='$fjxsid' limit 1");
@@ -977,6 +986,7 @@ class XiansuoController extends DBController {
 		{
 			die;
 		}
+		parent::have_qx("qx_xs_open");
 		$filename=$as[0]['xsf_old_name'];
 		$filepath="./Public/xiansuofile/".$file;
 		header("Content-type:application/octet-stream");
@@ -988,6 +998,7 @@ class XiansuoController extends DBController {
 	//附件删除
 	public function del_fujian()
 	{
+		parent::have_qx("qx_xs_open");
 		$fjid=addslashes($_GET['fjid']);
 		$as=parent::sel_more_data("crm_xiansuo_file","xsf_name,xsf_old_name,xsf_xs_id","xsf_id='$fjid' limit 1");
 		unlink('./Public/xiansuofile/'.$as[0]['xsf_name']);
@@ -1007,7 +1018,8 @@ class XiansuoController extends DBController {
         {
             echo '{"res":0}';
             die();
-        }
+		}
+		parent::have_qx("qx_xs_open");
 		$getFileArr=$_FILES['daoru'];
         $fid=parent::get_fid();
 		$oldname=mb_strlen($getFileArr['name'])>25?mb_substr($getFileArr['name'],0,25).'...':$getFileArr['name'];
@@ -1038,6 +1050,7 @@ class XiansuoController extends DBController {
 		{
 			echo '0';die;
 		}
+		parent::have_qx("qx_xs_open");
 		$hz=substr(strrchr($filename, '.'), 1);
 		//获取文件内容
 		$daoruClass=A("Filedo");
@@ -1120,6 +1133,7 @@ class XiansuoController extends DBController {
 	//导入线索--下载模板
 	public function download_mod()
 	{
+		parent::have_qx("qx_xs_open");
 		$fid=parent::get_fid();
 		//查询字段
 		$zdarr=parent::sel_more_data("crm_yewuziduan","zd_data","zd_yh='3' and zd_yewu='1' limit 1");

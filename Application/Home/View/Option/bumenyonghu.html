@@ -823,6 +823,13 @@
 		//用户编辑
 		function useredit(bj_id,bj_name,bj_sex,bj_phone,bj_email,bj_juese,bj_zhuguan,bj_zhubm,bj_fubm)
 		{
+			var login_user_fid="{$_COOKIE['user_fid']}";
+			login_user_fid=login_user_fid=='0'?"{$_COOKIE['user_id']}":login_user_fid;
+			$("#juese").prop("disabled",false);
+			if(bj_id==login_user_fid)
+			{
+				$("#juese").prop("disabled",true);
+			}
 			//===========修改时的显示操作==============
 			if(bj_sex==1)
 				$("#xingbie").html("<input type='radio' name='xingbie' title='男' id='nan' value='1' checked/><input type='radio' id='nv' name='xingbie' title='女' value='2'/>");

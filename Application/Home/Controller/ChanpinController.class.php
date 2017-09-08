@@ -6,11 +6,9 @@ use Think\Controller;
 class ChanpinController extends DBController {
 	//主页
     public function index(){
-        if(cookie("islogin")!='1')
-		{
-			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
-			die();
-		}
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$get_flid=addslashes($_GET['flid']);
 		$page=addslashes($_GET['page']);
 		if($get_flid=='')
@@ -28,7 +26,6 @@ class ChanpinController extends DBController {
 
 		//echo $page_limit;die;
 		//echo "<script>alert(".$_GET['flid'].")</script>";
-        $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
         //产品分类表操作
 		$cpflbase=M("chanpinfenlei");
 		$cpflarr=$cpflbase->query("select * from crm_chanpinfenlei where cpfl_company='$fid' ");
@@ -405,14 +402,11 @@ class ChanpinController extends DBController {
 	//产品详情
 	public function chanpininfo()
 	{
-		if(cookie("islogin")!='1')
-		{
-			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
-			die();
-		}
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$cpid=addslashes($_GET['cpid']);
 		$flid=addslashes($_GET['flid']);
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 
 		$cpbase=M("chanpin");
 		$cpinfoarr=$cpbase->query("select * from crm_chanpin where cp_id='$cpid' and cp_yh='$fid' and cp_del='0' limit 1");
@@ -574,6 +568,9 @@ class ChanpinController extends DBController {
 	//新增产品
 	public function cp_add()
 	{
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$addstr=addslashes($_POST['addstr']);
 		if($addstr=='')
 		{
@@ -584,8 +581,7 @@ class ChanpinController extends DBController {
 		$kvarr=$this->jiexi($addstr);
 		$jsonstr=json_encode($kvarr);
 		$jsonstr=str_replace('\\','\\\\',$jsonstr);
-		$nowdatetime=date("Y-m-d H:i:s",time());
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）		
+		$nowdatetime=date("Y-m-d H:i:s",time());		
 		$cpbase=M("chanpin");
 		$cpbase->query("insert into crm_chanpin values('','$jsonstr','$nowdatetime','$nowdatetime','1','0','".cookie("user_id")."','$fid')");
 		echo $this->insertrizhi("新增产品：".$kvarr['zdy0']);
@@ -593,7 +589,9 @@ class ChanpinController extends DBController {
 	//新增产品图片
 	public function cp_img_add()
 	{
-		
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		//文件保存
         
         if(count($_FILES['cpimage'])<1)
@@ -602,7 +600,6 @@ class ChanpinController extends DBController {
             die();
         }
 		$getFileArr=$_FILES['cpimage'];
-        $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$user_id=cookie("user_id");
         $oldnamehz=substr(strrchr($getFileArr['name'], '.'), 1);
         $newname=$fid.'_'.$user_id.'_'.time().'.'.$oldnamehz;
@@ -631,6 +628,9 @@ class ChanpinController extends DBController {
 	//批量转移
 	public function zhuanyi()
 	{
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$sel_id=addslashes($_GET['sel_id']);
 		$newflid=addslashes($_GET['newflid']);
 		if($sel_id==''||$newflid=='')
@@ -638,7 +638,6 @@ class ChanpinController extends DBController {
 			echo '2';
 			die;
 		}
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$instr="'".str_replace(',',"','",$sel_id)."'";
 		$instr=str_replace('chid','',$instr);
 		$cpbase=M("chanpin");
@@ -656,7 +655,9 @@ class ChanpinController extends DBController {
 			echo '2';
 			die;
 		}
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$instr="'".str_replace(',',"','",$sel_id)."'";
 		$instr=str_replace('chid','',$instr);
 		$cpbase=M("chanpin");
@@ -675,7 +676,9 @@ class ChanpinController extends DBController {
 			echo '2';
 			die;
 		}
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_del");
 		$instr="'".str_replace(',',"','",$sel_id)."'";
 		$instr=str_replace('chid','',$instr);
 		$cpbase=M("chanpin");
@@ -699,7 +702,9 @@ class ChanpinController extends DBController {
 		$pz=$_POST['pz'];
 		$old_sea_text=$sea_text;
 		$sea_text=str_replace("\\","%",substr(json_encode($sea_text),1,-1));
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$cpbase=M("chanpin");
 		//$fenlei_where=$old_sea_text!=''?"and cp_data like '%\"zdy6\":\"".$flid."\"%' ":'';
 		$newcparr=$cpbase->query("select * from crm_chanpin where  cp_yh='$fid' and cp_del='0' and cp_data like '%\"zdy6\":\"".$flid."\"%' ");
@@ -779,7 +784,9 @@ class ChanpinController extends DBController {
 			echo '2';
 			die;
 		}
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$flbase=M("chanpinfenlei");
 		$flnum=$flbase->query("select cpfl_id from crm_chanpinfenlei where cpfl_name='$newname' and cpfl_company='$fid' limit 1");
 		if(count($flnum)>0)
@@ -800,7 +807,9 @@ class ChanpinController extends DBController {
 			echo '2';
 			die;
 		}
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$flbase=M("chanpinfenlei");
 		$flnum=$flbase->query("select cpfl_id from crm_chanpinfenlei where cpfl_name='$newname' and cpfl_company='$fid' limit 1");
 		if(count($flnum)>0)
@@ -821,7 +830,9 @@ class ChanpinController extends DBController {
 			echo '2';
 			die;
 		}
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$flbase=M("chanpinfenlei");
 		$flarr=$flbase->query("select * from crm_chanpinfenlei where cpfl_company='$fid' ");
 		$inflarr[$delid]=$delid;
@@ -851,7 +862,9 @@ class ChanpinController extends DBController {
             die();
         }
 		$getFileArr=$_FILES['editcpimage'];
-        $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+        parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_edit");
 		$user_id=cookie("user_id");
         $oldnamehz=substr(strrchr($getFileArr['name'], '.'), 1);
         $newname=$fid.'_'.$user_id.'_'.time().'.'.$oldnamehz;
@@ -895,7 +908,9 @@ class ChanpinController extends DBController {
 			$insertarr[$row[0]]=$row[1];
 		}
 		$insertstr=str_replace("\\","\\\\",json_encode($insertarr));
-        $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+        parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$nowtime=date("Y-m-d H:i:s",time());
 		$cpbase=M("chanpin");
 		$cpbase->query("update crm_chanpin set cp_data = '$insertstr',cp_edit_time='$nowtime' where cp_yh='$fid' and cp_id='$nowpageid' limit 1");
@@ -916,7 +931,9 @@ class ChanpinController extends DBController {
 			echo '';
 			die;
 		}
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$cpbase=M("chanpin");
 		$fenlei_where=$clickflid>0?"cp_data like '%\"zdy6\":\"".$clickflid."\"%' and ":'';
 		$newcparr=$cpbase->query("select * from crm_chanpin where $fenlei_where cp_yh='$fid' and cp_del='0' ");
@@ -987,7 +1004,9 @@ class ChanpinController extends DBController {
             die();
         }
 		$getFileArr=$_FILES['cp_file'];
-        $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+        parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
         $oldnamehz=substr(strrchr($getFileArr['name'], '.'), 1);
         $newname=time().$getFileArr['name'];
         $ss=move_uploaded_file($getFileArr['tmp_name'],'./Public/chanpinfile/cpfile/'.$newname);
@@ -1022,7 +1041,9 @@ class ChanpinController extends DBController {
 			echo '2';
 			die;
 		}
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_edit");
 		$fjbase=M("cp_file");
 		$fjbase->query("insert into crm_cp_file values('','$fjmc','$fjdx','$fjbz','$fjcpid','".date("Y-m-d H:i:s",time())."','0','".cookie("user_id")."','$fid')");
 		echo $this->insertrizhi("上传了附件：".$upoldname);
@@ -1031,7 +1052,9 @@ class ChanpinController extends DBController {
 	public function reload_file_list()
 	{
 		$reloadcpid=addslashes($_GET['reloadcpid']);
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$fjbase=M("cp_file");
 		$reloadfjarr=$fjbase->query("select * from crm_cp_file where fj_cp='$reloadcpid' and fj_yh='$fid' and fj_del='0' ");
 		$newfjtable='';
@@ -1052,7 +1075,9 @@ class ChanpinController extends DBController {
 			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
 			die();
 		}
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$cpfjbase=M("cp_file");
 		$fjname=$cpfjbase->query("select fj_name from crm_cp_file where fj_yh='$fid' and fj_id='$fjid' and fj_del='0' limit 1");
 		$file=$fjname[0]['fj_name'];
@@ -1074,6 +1099,7 @@ class ChanpinController extends DBController {
 	{
 		$delfjid=addslashes($_GET['delfjid']);
 		$fjname=addslashes($_GET['fileyname']);
+		parent::have_qx("qx_cp_edit");
 		if($delfjid=='')
 		{
 			echo '2';
@@ -1094,7 +1120,9 @@ class ChanpinController extends DBController {
 		}
 		$name="产品数据导入模板";
 		//$name=iconv("utf-8","gbk//IGNORE",$name);
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$zdbase=M("yewuziduan");
 		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7,".$flid."' limit 1");
 		if(count($zdarr)<=0)
@@ -1176,7 +1204,9 @@ class ChanpinController extends DBController {
 		$cpflbase=M("chanpinfenlei");
 		$flname=$cpflbase->query("select cpfl_name from crm_chanpinfenlei where cpfl_id='$flid' limit 1");
 		$flname=$flname[0]['cpfl_name'];
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		/*
 		//读取文件
 		$file_path="./Public/chanpinfile/cpfile/linshi/".$csvfilename;
@@ -1293,7 +1323,9 @@ class ChanpinController extends DBController {
 	//获取导入记录
 	public function get_dr_history()
 	{
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$rzbase=M("rz");
 		$drarr=$rzbase->query("select rz_time,rz_bz from crm_rz where rz_yh='$fid' and rz_type='1' and rz_mode='7' and rz_bz like '导入了%' order by rz_time desc");
 		$drtable='';
@@ -1317,7 +1349,9 @@ class ChanpinController extends DBController {
 			echo "<script>alert('未获取到产品分类ID');history.go(-1);</script>";
 			die;
 		}
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）		
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");		
 		$name="产品数据";
 		//字段表
 		$zdbase=M("yewuziduan");
@@ -1414,7 +1448,9 @@ class ChanpinController extends DBController {
 	{
 		$cpid=$_GET['delcpid'];
 		$cpname=$_GET['cpname'];
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$cpbase=M("chanpin");
 		$oldcparr=$cpbase->query("select cp_data from crm_chanpin where cp_id='$cpid' and cp_yh='$fid' limit 1");
 		$oldcparr=json_decode($oldcparr[0]['cp_data'],true);
@@ -1436,7 +1472,9 @@ class ChanpinController extends DBController {
 		}
 		$checkid=substr($checkid,0,-1);
 		$checkarr=explode(",",$checkid);
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 
 		foreach($checkarr as $k=>$v)
 		{
@@ -1483,7 +1521,9 @@ class ChanpinController extends DBController {
 			echo '2';
 			die;
 		}
-		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$cpflbase=M("chanpinfeilei");
 		$cpflbasearr=$cpflbase->query("select cpfl_name,cpfl_id from crm_chanpinfenlei where cpfl_company='$fid'");
 		foreach($cpflbasearr as $v)

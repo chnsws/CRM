@@ -1,10 +1,16 @@
 var navs = [{
 	"title": "工作台",
 	"icon": "fa-table",
-	"href": "https://www.baidu.com",
+	"href": "",
 	"spread": false,
 }
-
+, {
+	"title": "线索",
+	"icon": "fa-search",
+	"href": "index.php/Home/Xiansuo/index",
+	"spread": false,
+	
+}
 , {
 	"title": "客户",
 	"icon": "fa-group",
@@ -67,13 +73,7 @@ var navs = [{
 	"spread": false,
 	
 } 
-, {
-	"title": "线索",
-	"icon": "fa-search",
-	"href": "index.php/Home/Xiansuo/index",
-	"spread": false,
-	
-}
+
 , {
 	"title": "报表中心",
 	"icon": "fa-align-left",

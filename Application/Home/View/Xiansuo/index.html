@@ -807,6 +807,12 @@ function piliangzhuanyi()
 //批量删除
 function del_more()
 {
+    var cookie_qx="{$_COOKIE['qx_xs_del']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有删除线索的权限");
+        return;
+    }
     var sel_xs=get_sel_val();
     if(sel_xs=='')
     {

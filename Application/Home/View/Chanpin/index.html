@@ -662,6 +662,12 @@ function daochu()
 //导入
 function daoru()
 {
+    var cookie_qx="{$_COOKIE['qx_cp_add']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有添加产品的权限");
+        return;
+    }
     $("#filebody").hide();    
     var is_upload='';
     window.clickdelnowfile='0';
@@ -802,6 +808,12 @@ function open_dr_history()
 //删除所选
 function sel_del()
 {
+    var cookie_qx="{$_COOKIE['qx_cp_del']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有删除产品的权限");
+        return;
+    }
     var sel_del_num=0;
     var sel_id='';
     $(".tbbox").each(function(){
@@ -845,6 +857,12 @@ function sel_del()
 //批量禁用
 function pl_jinyong()
 {
+    var cookie_qx="{$_COOKIE['qx_cp_edit']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有修改产品的权限");
+        return;
+    }
     var sel_del_num=0;
     var sel_id='';
     $(".tbbox").each(function(){
@@ -887,6 +905,12 @@ function pl_jinyong()
 //批量启用
 function pl_qiyong()
 {
+    var cookie_qx="{$_COOKIE['qx_cp_edit']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有修改产品的权限");
+        return;
+    }
     var sel_del_num=0;
     var sel_id='';
     $(".tbbox").each(function(){
@@ -978,6 +1002,12 @@ function pl_zhuanyi()
 //添加产品
 function cp_add()
 {
+    var cookie_qx="{$_COOKIE['qx_cp_add']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有添加产品的权限");
+        return;
+    }
     var has_old_img='';
     $("#add_yc_div").show();
     $("#add_yc_body").hide();

@@ -485,6 +485,12 @@ function tree_to_chanpin()
 function remove_cpfl()
 {
     $(".fljg_mod").children(".uk-icon-trash-o").on("click",function(){
+        var cookie_qx="{$_COOKIE['qx_cp_edit']}";
+        if(cookie_qx!='1')
+        {
+            tishi("您没有产品模块的删除权限");
+            return;
+        }
         var thisid=$(this).parent().prop("id").substr(6);
         var lsdom=$(this).parent().parent();
         var ls_span_text=lsdom.find("span").eq(0).text();
@@ -529,6 +535,12 @@ function remove_cpfl()
 //添加产品分类
 function add_cpfl()
 {
+    var cookie_qx="{$_COOKIE['qx_cp_add']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有产品模块的添加权限");
+        return;
+    }
     $("#new_fl_name").val('');
     setTimeout(function() {
         $("#new_fl_name").focus();
@@ -557,6 +569,7 @@ function add_cpfl()
                     }
                     else
                     {
+                        
                         $(".uk-nestable").append('<li class="uk-nestable-item"> <div class="uk-nestable-panel"> <div class="uk-nestable-toggle" data-nestable-action="toggle"></div> '+$("#new_fl_name").val()+' <div class="fljg_mod" id="fl_id_'+e2[1]+'"><span style="display:none;">无</span><span style="display:none;">0</span><i class="uk-icon-arrow-right" aria-hidden="true" title="添加快捷方式"></i> <i class="uk-icon-trash-o" aria-hidden="true" title="删除分类"></i> <i class="uk-icon-pencil" aria-hidden="true" title="修改分类名称"></i><i class="uk-icon-folder-open-o" aria-hidden="true" title="查看产品"></i> </div> </div> </li>');
                         //alert(e);
                         save_tree();
@@ -564,6 +577,9 @@ function add_cpfl()
                         $(".fljg_mod").children(".uk-icon-trash-o").off("click");
                         add_link();
                         remove_cpfl();
+                        tuozhuai();
+                        tree_to_chanpin()
+                        //window.location.reload();
                     }
                 });
                 
@@ -599,7 +615,12 @@ function edit_fl_name_fun()
 //修改产品分类名称
 function edit_fl_name_fun2(thisid)
 {
-    
+    var cookie_qx="{$_COOKIE['qx_cp_edit']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有产品模块的修改权限");
+        return;
+    }
     //$("#edit_fl_name").val('');
     layui.use('layer', function(){
         var layer = layui.layer;
@@ -662,6 +683,12 @@ function loadingggg(thisdom)
 //修改产品分类简介
 function edit_fl_jj(thisdom)
 {
+    var cookie_qx="{$_COOKIE['qx_cp_edit']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有产品模块的修改权限");
+        return;
+    }
     var this_id=$(thisdom).parent().parent().parent().parent().parent().parent().parent().prop("id").substr(7);
     var old_jj=$("#fl_id_"+this_id).find("span").eq(0).text();
     $("#edit_jianjie").val(old_jj);
@@ -728,6 +755,12 @@ function link_del_this(thisdom)
 //快捷方式-菜单-删除产品分类
 function link_del_this_fl(thisdom)
 {
+    var cookie_qx="{$_COOKIE['qx_cp_del']}";
+    if(cookie_qx!='1')
+    {
+        tishi("您没有产品模块的删除权限");
+        return;
+    }
     layer.msg("是否删除该产品分类？<br>如果该分类有子分类，那么子分类也会被删除", {
             time: 9999999,
             btn: ['确认删除', '取消'],
