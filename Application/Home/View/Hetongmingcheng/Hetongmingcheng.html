@@ -28,6 +28,7 @@
   		<style>
   			table body,ul,li,tr td{margin:0;padding:0;font-size:14px;}
   		
+i.layui-anim{display:inline-block}
   			.bjwh{width:300px;height:30px}
   			.jibenxinxi{width:50% ;float:left;}
   			.xiegenjin{width:48% ;float:right;}
@@ -79,7 +80,7 @@
 			.woca{display:none;}
 			.ace{width:80px;}
 			.searchable-select-input{width:190px !important ;}
-
+		
   	</style>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
@@ -92,6 +93,7 @@
 		<div style="margin-left:10px"><span  class='name' ><b>{$name}</b></span><span style="margin-left:10px">负责人：<span class="fuzename">	{$fuzeren}</span></span>
 		</div>
 		<input type='hidden' value='{$kh_id}' class='kh_id'>
+		<input type='hidden' value='{$uiid}' class='uiid'>
 		<div style="margin-top:20px;margin-left:8px; height:35px" >
 	   		<button onclick="history.go(-1)"  class="layui-btn layui-btn-primary layui-btn-small">
  				<i class="layui-icon">&#xe603;</i>返回</button>	
@@ -109,16 +111,16 @@
 		    		</div>
 			   	</div>
 		  <ul class="layui-tab-title">
-		    <li class="layui-this">基本信息</li>
+		    <li id='onesh'>基本信息</li>
 		    <li>回款</li>
 		    <li>开票</li>
-		    <li>产品</li>
+		    <li id='twosh'>产品</li>
 		  	<li>附件</li>
 		    <li>操作日志</li>
 		  </ul>
 		  
 			  <div class="layui-tab-content">
-					<div class="layui-tab-item layui-show">
+					<div class="layui-tab-item" id='onesh1'>
 				  	    <table style=" width:100%;">
 				  	    	<tr class='jb_xt'>
 				  	    		<td style="border:1px solid #EEE; width:49%;"  align="left" valign="top">
@@ -431,7 +433,7 @@
 									</tbody>
 							 </table>
 			 		 </div>
-			 		  <div class='layui-tab-item'>
+			 		  <div class='layui-tab-item' id='twosh1' >
 			  			<input type="button" id="dialog-form" onclick="fj_cp()"  class=" layui-btn layui-btn-small" value="+文件上传">
 					   <table class="layui-table" lay-skin="line">
 							  	<thead>
@@ -451,9 +453,14 @@
 				 	<div id="fj_cp"  style="display: none;border:1px;">     
 				  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Hetongmingcheng/fj_shangchuan/id/{$ht_id}" enctype="multipart/form-data" method="post" style="margin:20px;">
 			  					<input type="file" name="wenjian"  >
-			  					<div id="shangc_top" style="margin-top:20px"><span class="top_bz">备&nbsp;&nbsp;&nbsp;&nbsp;注：</span><!-- 第一个是普通textarea -->
+			  					
+			  					<div class='jiu' id="shangc_top" style="margin-top:20px"><span class="top_bz">备&nbsp;&nbsp;&nbsp;&nbsp;注：</span><!-- 第一个是普通textarea -->
+
 							<textarea name="wenbenyu" class="comments" rows="5" cols="30"> </textarea>  </div>
-			  					<div id="shangc_top" ><input type="submit" value="上传附件"  class="layui-btn layui-btn-small ace"></div>
+								
+					
+			  					<div id="shangc_top" class='xuanzhuan'><input type="submit" onclick='xuanzhuan()' value="上传附件"  class="layui-btn layui-btn-small ace"></div>
+			  					<div class='xuanzhuan1' style='display:none'></div>
 			  				</form>
 					</div>	
 			 		 </div>
@@ -552,6 +559,23 @@
 
 	</body>
 	<script>
+	var uiid=$('.uiid').val();
+	if(uiid==5)
+	{
+		
+		$("#twosh").attr('class','layui-this');
+		$("#twosh1").attr('class','layui-tab-item layui-show');
+	}else{
+	
+		$("#onesh").attr('class','layui-this');
+		$("#onesh1").attr('class','layui-tab-item layui-show');
+	}
+	
+	function xuanzhuan(){
+		$('.xuanzhuan').hide();
+		$('.xuanzhuan1').html('<i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop" style="font-size: 40px;color:green ">&#xe63e;</i>');
+			$('.xuanzhuan1').show();
+	}
 	layui.use('upload', function(){
  		 layui.upload(options);
 	});

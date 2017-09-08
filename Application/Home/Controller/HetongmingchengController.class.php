@@ -132,6 +132,16 @@ return $fzr_only;
 			return $sql_sj1;
 		}
 		public function hetongmingcheng(){
+			$uiid=$_GET['uiid'];
+			
+			if($uiid=='' || $uiid==null)
+			{
+				$uiid=1;
+			}else{
+				$uiid=$uiid;
+				
+			}
+			$this->assign('uiid',$uiid);
 				$userqb=$this->userqb();
 
 			$ywzd=$this->ywzd();
@@ -1073,8 +1083,9 @@ return $fzr_only;
        			 {
        			 	//$this->success("上传成功");
        			 	echo '<script>
-       			 				alert("上传成功");
-       			 				window.location="'.$_GET['root_dir'].'/index.php/Home/Hetongmingcheng/Hetongmingcheng/id/'.$ht_id.'";
+       			 		
+       			 				window.location.href="'.$_GET['root_dir'].'/index.php/Home/Hetongmingcheng/Hetongmingcheng/id/'.$ht_id.'/uiid/5"
+       			 				;
        			 				</script>';
        			 	
        			 }else{
