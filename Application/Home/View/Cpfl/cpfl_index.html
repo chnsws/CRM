@@ -798,6 +798,7 @@ function link_del_this_fl(thisdom)
 //拖拽监听事件
 function tuozhuai()
 {
+    /*
     var mouseval='0';
     $(".uk-nestable-panel").on({
         //当鼠标按下时，将鼠标值改为1（标记鼠标已经按下）
@@ -847,6 +848,17 @@ function tuozhuai()
                 }
             });
         }
+    });
+    */
+    $("#ukpaixu").on("change.uk.nestable",function(){
+        window.jiazai= layer.load(2);
+        oldjg=$(".uk-nestable").html();
+        //稍微延迟后保存树形结构
+        setTimeout(function(){
+            //进行ajax提交
+            save_tree();
+            layer.close(jiazai);
+        },200);
     });
 }
 function getMousePos(event) {
