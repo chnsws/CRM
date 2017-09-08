@@ -1044,7 +1044,7 @@ return $fzr_only;
 			    $upload = new \Think\Upload();// 实例化上传类
     			$upload->maxSize   =     3145728 ;// 设置附件上传大小
    				$upload->exts      =     array('jpg', 'gif', 'png', 'jpeg','txt','pptx','xls');// 设置附件上传类型
-    			$upload->rootPath  =     './Uploads/'; // 设置附件上传根目录
+    			$upload->rootPath  =     './Public/chanpinfile/cpfile/linshi'; // 设置附件上传根目录
    				$upload->autoSub = false;
    				$upload->hash = false;
     		// 上传文件 
