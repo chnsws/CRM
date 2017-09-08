@@ -674,7 +674,7 @@ public function kehu(){
         $chanpin=$this->chanpin();
 			$chanpin1.="<tr  class='addtr'>";
 				$chanpin1.="<td><span style='color:red'>*</span>产品名称：</td>";
-					$chanpin1.="<td><select name='cp_id' onchange='cp_aj(this)' class ='clk_fzr xlcp' style='width:300px;height:30px;'>";
+					$chanpin1.="<td><select name='cp_id' onchange='cp_aj(this)' class ='clk_fzr xlcp' id=' xlcp' style='width:300px;height:30px;'>";
 							$chanpin1.="<option value='s'>请选择产品 </option>";
 					foreach ($chanpin as $k=>$v)
 					{
@@ -728,7 +728,6 @@ public function kehu(){
 			echo $sj_th3;
 		}
 		
-
 	}
 	public function get_bm(){
 		$id=$_GET['id'];

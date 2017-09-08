@@ -298,10 +298,11 @@ return $fzr_only;
 			$file['name_id']=$ht_id;
 			$file_base=M('file');
 			$sql_file=$file_base->where($file)->select();
+
 			foreach($sql_file as $k=>$v)
 			{
 				$file_show.="<tr class='".$v['id']."'>
-				  				<td >".date("Y-m-d H:i:s", $v['sc_data'])."</td>
+				  				<td >". $v['sc_data']."</td>
 				  				<td >".$v['fujian_name']."</td>
 				  				<td >".$v['big']."</td>
 				  				<td >".$v['beizhu']."</td>
@@ -1056,7 +1057,7 @@ return $fzr_only;
        						$save_name= 'Uploads/'.$file['savename'];//获取报存路径
        						$save_oldname=$file['name'];//原始吗，
        						$save_size=$file['size'] *'0.0009766';//大小
-       						$sql=substr($save_size,0,3).'kb';//换算
+       						$sql=ceil($save_size/1024).'M';//换算
  
     			 $data['name_id']=$ht_id;
     			 $data['sc_data']= date("Y-m-d h:i:s");
