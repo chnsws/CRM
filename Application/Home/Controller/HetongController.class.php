@@ -256,7 +256,7 @@ public function kehu(){
 		$fenye=$_GET['fenye'];
 		if($fenye==null || $fenye=='')
 		{
-			$list_num=10;
+			$list_num=20;
 		}else{
 			$list_num=$fenye;
 		}

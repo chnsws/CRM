@@ -1042,14 +1042,13 @@ $("#nchangyong").click(function(){
 		    				$.get(rooturl+'/index.php/Home/Shangji/kehu_add',{},
 			        		 				function(html){
 											$(".th_kh").html(html);
-												if(is_one1<1){
-													is_one1++;
+											
 		        		 								$('.xlss2').searchableSelect();
 		        		 								
 		        		 								return;
-		        		 						}
+		        		 			
 		        		 						
-										
+												
 											});
     							
 					layui.use('layer', function(){

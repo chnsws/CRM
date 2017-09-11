@@ -27,7 +27,7 @@ class KehuController extends Controller {
 		$fenye=$_GET['fenye'];
 		if($fenye==null || $fenye=='')
 		{
-			$list_num=5;
+			$list_num=20;
 		}else{
 			$list_num=$fenye;
 		}
@@ -133,7 +133,7 @@ class KehuController extends Controller {
 	 				$show_bt.="</td></tr>";
 				}elseif($v['id']=='zdy15'){
 						$show_bt.="<tr class='addtr' ><td><span style='color:red;width:30px'>*</span>".$v['name']."：</td>";
-						$show_bt.="<td id='zdy15th'><select  class='required1 xlss' name='".$v['id']."'  >";
+						$show_bt.="<td id='zdy15th'><select  class='required xlss' name='".$v['id']."'  >";
 								$show_bt.="<option value=''>--请选择--</option>";
 								$show_bt.="<option value='add_lxr'>新增联系人</option>";
 								
@@ -251,7 +251,12 @@ class KehuController extends Controller {
 			foreach($v as $kk=>$vv)
 			{
 				if($kk!='kh_data')
+					if($kk=='kh_yh')
+					{
+
+					}else{
 					$ronghe[$k][$kk]=$vv;
+					}
 				else
 				{
 					$rowjson=json_decode($vv,true);
@@ -268,7 +273,7 @@ class KehuController extends Controller {
 								}
 									
 							}
-					}else{
+						}else{
 						$ronghe[$k][$kkk]=$vvv;
 
 					}
@@ -343,7 +348,7 @@ class KehuController extends Controller {
 				$new_html.="</div>";
 
 		}
-				   
+			   
 		$this->assign('new_html',$new_html);           //配置信息
 	 	$this->assign('fuzeren',$fzr_only);
 	 	$this->assign("ywcs_biao",$ywcs_sql_json);
@@ -375,7 +380,14 @@ class KehuController extends Controller {
 																$xs123="<span id='wys{$id}'>".$fzr_only[$r_v[$v_biaoti['id']]]['user_name']."</span>";
 											elseif($v_biaoti['id']=="zdy15" )
 												$xs123="<a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$lxr[$r_v[$v_biaoti['id']]]['id']."'>".$lxr[$r_v[$v_biaoti['id']]]['name']."</a>";
-
+											elseif($v_biaoti['id']=="kh_cj_date" ){
+													$xs123="
+												<span id='wys{$id}'>".date('Y-m-d H:i:s',$r_v[$v_biaoti['id']])."</span>";
+												$table.="<td name='$k'>
+													$xs123
+												</td>";
+												}
+											
 											else
 												$xs123="
 												<span id='wys{$id}'>".$r_v[$v_biaoti['id']]."</span>";
@@ -384,7 +396,7 @@ class KehuController extends Controller {
 												</td>";
 									}else{
 												$xs123="
-												<span id='wys{$id}'>---</span>";
+												<span id='wys{$id}'>--</span>";
 												$table.="<td name='$k'>
 													$xs123
 												</td>";

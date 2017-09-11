@@ -716,7 +716,7 @@ function add_yh()
 				var win=layer.open({
 								type:1,
 								offset: 't',
-								area: ['630px', '560px'],
+								area: ['670px', '560px'],
 								fixed: false,
 					title: '新增客户',
 					content:$('#dialog-form'),
@@ -728,7 +728,7 @@ function add_yh()
               				  	tishi('必填项不能为空')
                    			 return false;
               		 	 } 
-									var formdom=$("#ht_form").children("table").find("tr");
+									var formdom=$("#ht_form").children("table").find("tr"); 
 									var fornum=formdom.length;
 									var ajaxstr='';
 									for(a=0;a<fornum;a++)
@@ -736,7 +736,7 @@ function add_yh()
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
 										if(thisdom.prop("name")=='zdy6[]')
 										{	//tishi(thisdom.prop("name"))
-											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
+											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+","; 
 										}else{
 											
 											ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";

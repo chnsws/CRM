@@ -46,7 +46,7 @@ class ShangjiController extends Controller {
 		$fenye=$_GET['fenye'];
 		if($fenye==null || $fenye=='')
 		{
-			$list_num=5;
+			$list_num=20;
 		}else{
 			$list_num=$fenye;
 		}
