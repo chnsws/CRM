@@ -79,8 +79,9 @@ i.layui-anim{display:inline-block}
 			.gj tr{height:70px;}
 			.woca{display:none;}
 			.ace{width:80px;}
-			.searchable-select-input{width:190px !important ;}
 		
+				.searchable-select-input{width:280px !important ;}
+			.searchable-select {min-width:300px;}
   	</style>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
@@ -656,8 +657,13 @@ i.layui-anim{display:inline-block}
 												layer.close(win)
 											});
     		}
+    		var ace=0;
 		  function add_cpp(){
+		  	if(ace<1)
+		  	{
 		  	$('#xlcp').searchableSelect();
+		  	ace++;
+		  	}
     				layui.use('layer', function(){
 					//	alert(123)
 							var layer = layui.layer;
@@ -1182,6 +1188,31 @@ i.layui-anim{display:inline-block}
 					 		is_one++;
 					 		return;
 					 	}
+
+					
+				 		
+				 			window.cp_id= v2.val();
+			    			if(cp_id == 's'){
+			    				$(".cp_yj").val("")
+			    				$(".cp_jy").val("")
+			    				$(".cp_zk").val("-")	
+			    				$(".cp_num1").val("")	
+			    				$(".cp_zj").val("")	
+			    				layer.close(win)
+			    			}
+			    			$.get(rooturl+'/index.php/Home/Shangji/cp_ajax',{"id":cp_id},
+			    										function(html)
+			    										{
+													//	alert(html)
+																$(".cp_yj").val(html)
+																$(".cp_jy").val(html)
+			    												$(".cp_zk").val("100.0%")	
+			    												$(".cp_num1").val(1)	
+			    												$(".cp_zj").val(html)	
+			    													layer.close(win)
+			    										}
+			    				)
+
 				}
 
 	</script>

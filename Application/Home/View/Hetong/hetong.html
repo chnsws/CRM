@@ -71,8 +71,8 @@
 			.kongzhiyeshu{margin-top:19px;height:40px;font-size:16px;margin-left:20px;}
 			th{background-color:#50BBB1;height:30px;color:white;} 
 			.panel-title{margin-left:2px;margin-top:9px; font-size:21px; color:#1AA094;}
-			.searchable-select-input{width:190px !important ;}
-			
+			.searchable-select-input{width:280px !important ;}
+			.searchable-select {min-width:300px;}
 		</style>  
 				<script type="text/javascript">
 			
@@ -498,7 +498,7 @@ $(".yincang").hide()
 								type:1,
 								offset: 't',
 							//	area:'630px',
-								area: ['630px', '560px'],
+								area: ['720px', '560px'],
 								title: '新增合同',
 								content:$('#add_shangji'),
 								btn:['确认添加','取消'],
@@ -807,10 +807,17 @@ $("#nchangyong").click(function(){
 					 }
     	</script>
     	<script>
+    	var xlcp1=0;
     		function cp_add(){
-    		
+    				if(xlcp1<1)
+				 			{
+				 				$('.xlcp').searchableSelect();
 
-					$('.xlcp').searchableSelect();
+				 				xlcp1++;
+					 			
+				 			}
+
+					
 
     				layui.use('layer', function(){
 					//	tishi(123)
@@ -838,7 +845,12 @@ $("#nchangyong").click(function(){
 							        		 function(html){
 									       		 $(".tihuan").html(html);
 									        	$(".cp").show();
-									        		layer.close(win)
+									        		$(".cp_yj").val("")
+								    				$(".cp_jy").val("")
+								    				$(".cp_zk").val("-")	
+								    				$(".cp_num1").val("")	
+								    				$(".cp_zj").val("")	
+								    				layer.close(win)
 							                   });
 									layer.close(win)
 								}
@@ -873,7 +885,13 @@ $("#nchangyong").click(function(){
 							        		 function(html){
 									       		 $(".tihuan").html(html);
 									        	$(".cp").show();
-									        		layer.close(win)
+									        	
+													$(".cp_yj").val("")
+								    				$(".cp_jy").val("")
+								    				$(".cp_zk").val("-")	
+								    				$(".cp_num1").val("")	
+								    				$(".cp_zj").val("")	
+								    				layer.close(win)
 							                   });
 									layer.close(win)
 								}
@@ -1026,6 +1044,39 @@ $("#nchangyong").click(function(){
 					 		is_one++;
 					 		return;
 					 	}
+					 	
+					 	if(v2.prop('id')=="xlcp") //下拉产品
+				 		{
+				 			window.w= v2.val();
+
+				    			if(w == 's'){
+				    				$(".cp_yj").val("")
+				    				$(".cp_jy").val("")
+				    				$(".cp_zk").val("-")	
+				    				$(".cp_num1").val("")	
+				    				$(".cp_zj").val("")	
+				    				
+				    			}
+
+				    			
+				    			$.get(rooturl+'/index.php/Home/Shangji/cp_ajax',{"id":w},
+				    										function(html)
+				    										{
+				    										//	tishi(html)
+				    													$(".cp_yj").val(html)
+				    													$(".cp_jy").val(html)
+				    												$(".cp_zk").val("100.0%")	
+				    												$(".cp_num1").val(1)	
+				    												$(".cp_zj").val(html)	
+				    													layer.close(win)  
+				    										}
+				    				)
+
+
+
+
+
+				 		}
 				 	if(v2.prop('id')=="xl1"){
 				 			window.kh_id12= v2.val();
 				 		if(kh_id12!="xz_kh")
@@ -1239,6 +1290,7 @@ $("#nchangyong").click(function(){
 															layer.close(win)
 														});
 				 	}
+				 	
 
 				
 
