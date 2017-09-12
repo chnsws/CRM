@@ -390,8 +390,11 @@ class CpflController extends Controller {
         {
             $varr=explode(":",$v);
             $sql_str.=" WHEN '".$varr[1]."' THEN '".$varr[0]."' ";
+            $idarr[]=$varr[1];
         }
-        $main_sql="update crm_chanpinfenlei set cpfl_fid = CASE cpfl_id $sql_str END ";
+        $idstr="'".implode("','",$idarr)."'";
+        $main_sql="update crm_chanpinfenlei set cpfl_fid = CASE cpfl_id $sql_str ELSE `cpfl_fid` END where cpfl_id in ($idstr) ";
+        
         $fldb->query($main_sql);
     }
     //修改产品分类的简介

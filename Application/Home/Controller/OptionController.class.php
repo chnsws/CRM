@@ -999,9 +999,42 @@ class OptionController extends DBController {
 			$usernamearr[$v['user_id']]=$v['user_name'];
 		}
 		$spbase=M("shenpi");
-		$sparr1=$spbase->query("select * from crm_shenpi where sp_yh='$fid' and sp_type in ('1','2')");
+		$sparr1=$spbase->query("select * from crm_shenpi where sp_yh='$fid' and sp_type in ('1','2','3')");
+
+		//初始化操作
+		$spTypeArr=array('1'=>'1','2'=>'2','3'=>'3');
+		if(count($sparr1)==0||count($sparr1)<3)
+		{
+			if(count($sparr1)==0)
+			{
+				//如果是个新用户，没有任何配置文件，就生成配置文件
+				foreach($spTypeArr as $v)
+				{
+					$spbase->query("insert into crm_shenpi set sp_yh='$fid',sp_type='$v'");
+				}
+			}
+			if(count($sparr1)<3)
+			{
+				
+				foreach($sparr1 as $v)
+				{
+					unset($spTypeArr[$v['sp_type']]);
+				}
+				foreach($spTypeArr as $v)
+				{
+					$spbase->query("insert into crm_shenpi set sp_yh='$fid',sp_type='$v'");
+				}
+			}
+			unset($sparr1);
+			$sparr1=$spbase->query("select * from crm_shenpi where sp_yh='$fid' and sp_type in ('1','2','3')");
+		}
+
+
+
 		$sparr[$sparr1[0]['sp_type']]=$sparr1[0];
 		$sparr[$sparr1[1]['sp_type']]=$sparr1[1];
+		$sparr[$sparr1[2]['sp_type']]=$sparr1[2];
+
 		
 		
 		//合同审批页--开启或关闭1/2/3级审批人按钮
@@ -1013,8 +1046,17 @@ class OptionController extends DBController {
 				$ischeck='checked';
 			}
 			$checkboxarr[$a]="<input type='checkbox' lay-filter='sp_qy_".$a."' id='sp_qy_".$a."' title='".$a."级审批人' $ischeck />";
+
+			//开票
+			$ischeck='';
+			if($sparr[3]['sp_qy_'.$a]=='1')
+			{
+				$ischeck='checked';
+			}
+			$checkboxarr2[$a]="<input type='checkbox' lay-filter='kpsp_qy_".$a."' id='kpsp_qy_".$a."' title='".$a."级审批人' $ischeck />";
 			
 		}
+		
 		//审批同步按钮
 		foreach($sparr as $k=>$v)
 		{
@@ -1022,7 +1064,7 @@ class OptionController extends DBController {
 			$tbbtn[$k]="<input type='checkbox' id='sptb".$k."' lay-filter='sp_tb".$k."' title='&nbsp;审批同步&nbsp;' $tb>";
 		}
 		//合同审批页--审批人下拉框
-		$optionarr=array("合同提交人上级","固定审批人","超级管理员");
+		$optionarr=array("提交人上级","固定审批人","超级管理员");
 		for($key=1;$key<=3;$key++)
 		{
 			for($a=0;$a<3;$a++)
@@ -1046,7 +1088,30 @@ class OptionController extends DBController {
 				$spsel[$key].="<option value='".($a+1)."' $isselected >$optionarr[$a]</option>";
 			}
 		}
-
+		//开票
+		for($key=1;$key<=3;$key++)
+		{
+			for($a=0;$a<3;$a++)
+			{
+				$isselected='';
+				
+				if($sparr[3]['sp_type_'.$key]==($a+1))
+				{
+					$isselected='selected';
+					if($sparr[3]['sp_type_'.$key]=='2')
+					{
+						$spuserarr=explode(',',$sparr[3]['sp_value_'.$key]);
+						$spanstr2='';
+						foreach($spuserarr as $v)
+						{
+							$spanstr2.="<span style='display:inline-block;border-radius:5px;background-color:#33AB9F;height:20px;margin-bottom:5px;padding:5px;color:#fff;margin-right:10px;' class='span".$v."'>".$usernamearr[$v]."<a onclick=guanbi2(this)  style='color:#fff;margin-left:10px;'>×</a></span>";
+						}
+						$btnstr2[$key]="<button class='layui-btn' style='height:30px;line-height:30px;margin-right:30px;' onclick='spxuanze2(this)'>选择审批人</button>".$spanstr2;
+					}
+				}
+				$spsel2[$key].="<option value='".($a+1)."' $isselected >$optionarr[$a]</option>";
+			}
+		}
 		//合同回款审批--审批人复选框
 		$hkuserarr=array("","超级管理员","提交人上级","固定审批人");
 		for($a=1;$a<=3;$a++)
@@ -1073,10 +1138,14 @@ class OptionController extends DBController {
 		$this->assign("hkspanstr",$hkspanstr);
 		$this->assign("hkboxarr",$hkboxarr);
 		$this->assign("btnstr",$btnstr);
+		$this->assign("btnstr2",$btnstr2);//开票
 		$this->assign("spsel",$spsel);
+		$this->assign("spsel2",$spsel2);//开票
 		$this->assign("checkboxarr",$checkboxarr);
+		$this->assign("checkboxarr2",$checkboxarr2);//开票
 		$this->assign("sparr",$sparr[1]);
 		$this->assign("hksparr",$sparr[2]);
+		$this->assign("kpsparr",$sparr[3]);
 		$this->assign("useroption",$useroption);
 		$this->display();
 	}

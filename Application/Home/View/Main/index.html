@@ -241,6 +241,14 @@ layui.use('element', function(){
 layui.use('layer', function(){
     window.layer = layui.layer;
 });
+//黑色半透明提示
+function tishi(neirong)
+{
+    layer.msg(neirong, {
+        time: 1500, 
+        color:"#fff"
+    });
+}
 $(function(){
   
   
@@ -381,6 +389,13 @@ $(function(){
   });
   //审批跳转
   $(".to_sp").on("click",function(){
+    //权限
+    var sp_qx="{$_COOKIE['qx_sp_open']}";
+    if(sp_qx!='1')
+    {
+      tishi("您当前没有进入审批模块的权限");
+      return;
+    }
     var need_sp_num="{$sp['num']}";
     if(need_sp_num<1)
     {

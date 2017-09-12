@@ -22,8 +22,8 @@ class gonggaoDoController extends Controller {
     public function getjuese()
     {
         $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-        $jsbase=M("quanxian");
-        $juesearr=$jsbase->query("select qx_id,qx_name from crm_quanxian where qx_company='$fid'");
+        $jsbase=M("juesequanxian");
+        $juesearr=$jsbase->query("select qx_id,qx_name from crm_juesequanxian where qx_yh='$fid'");
         $jusestr='';
         foreach($juesearr as $v)
         {
