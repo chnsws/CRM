@@ -160,7 +160,8 @@ return $fzr_only;
 			$lx_base=M("hetong");
 			$sql_lianxi=$lx_base->where($map)->find();
 			$ht_json=json_decode($sql_lianxi['ht_data'],true);
-
+			$ht_zje=$ht_json['zdy3'];
+			$this->assign('ht_zje',$ht_zje);
 			foreach ($ywzd as $k => $v){
 				$show.="<tr style='line-height:40px'><td style='width :150px'>".$v['name']."：</td>";
 				if($ht_json[$k]!=""){
@@ -334,6 +335,7 @@ return $fzr_only;
 				$v['zdy6']=$chanpin[$v['cp_id']]['zdy6'];
 				$cp_new[$v['cp_id1']]=$v;
 			}
+			$zje913=0;
 			foreach ($cp_new as $k=>$v)
 			{
 				$show2.="<tr class='".$v['cp_id1']."'>
@@ -348,8 +350,15 @@ return $fzr_only;
 				<td>".$v['cp_beizhu']."</td>
 				<td><input type='button' name='".$v['cp_id1']."' onclick='cp_del(this)' value='删除'></td>
 				</tr>";
+				$zje913=$zje913+$v['cp_zj'];
 			}
-
+			if($zje913==$ht_zje)
+			{
+				$zje9133="<span style='color:green'>".$zje913."</span>";
+			}else{
+				$zje9133="<span style='color:red'>".$zje913."</span>";
+			}
+			$this->assign('zje9133',$zje9133);
 				$chanpin1.="<tr  class='addtr'>";
 				$chanpin1.="<td><span style='color:red'>*</span>产品名称：</td>";
 					$chanpin1.="<td><select name='cp_id' onchange='cp_aj(this)' class ='clk_fzr' id='xlcp' style='width:300px;height:26px;'>";
