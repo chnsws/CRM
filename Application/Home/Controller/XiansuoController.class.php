@@ -199,7 +199,7 @@ class XiansuoController extends DBController {
 		if($_GET['main_type']=='my_xs')
 		{
 			
-			$lsstr=substr($my_xs_arr,1,-1);
+			$lsstr=substr($myXsStr,1,-1);
 			$lsarr=explode("','",$lsstr);
 			foreach($lsarr as $k=>$v)
 			{
@@ -300,7 +300,7 @@ class XiansuoController extends DBController {
 		$sx_arr=$sx_1.$sx_2.$sx_3.$sx_4.$sx_5.$sx_6.$sx_7.$sx_8.$sx_9.$sx_10.$sx_11.$sx_12.$sx_13.$sx_14.$sx_15.$xs_search;
 
 		$fzwhere=$_GET['main_type']=='my_xs'?'':"and xs_fz in ($myXsStr)";
-
+		//echo "xs_yh='$fid' $fzwhere and xs_is_del='0' and xs_is_to_kh='$tab_val' $sx_arr ";die;
 		$max_number=parent::sel_more_data("crm_xiansuo","count(xs_id)","xs_yh='$fid' $fzwhere and xs_is_del='0' and xs_is_to_kh='$tab_val' $sx_arr ");
 		$max_number=$max_number[0]['count(xs_id)'];
 		$max_page=$max_number<=10?1:ceil($max_number/$page_size);
