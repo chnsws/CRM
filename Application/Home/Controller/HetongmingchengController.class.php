@@ -314,7 +314,7 @@ return $fzr_only;
 			{
 				$file_show.="<tr class='".$v['id']."'>
 				  				<td >". $v['sc_data']."</td>
-				  				<td ><span onclick='fj_xz(this)' class='".$v['lujing']."'>".$v['fujian_name']."</span></td>
+				  				<td ><span onclick='fj_xz(this)' class='".$v['lujing']."' style='color:green;cursor:pointer' title='点击下载' >".$v['fujian_name']."</span></td>
 				  				<td >".$v['big']."</td>
 				  				<td >".$v['beizhu']."</td>
 				  				<td ><input type='button' value='删除' onclick='fujian_del(this)' name='".$v['id']."'></td>
@@ -722,6 +722,7 @@ return $fzr_only;
 										</tr>"; 
 			    	}
 		    	}
+
 		    if($sql_kp4=="" ||  $sql_kp4==null)
 		    {
 					$kp_show3.="	<tr class='qingxuanze'>

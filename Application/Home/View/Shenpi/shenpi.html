@@ -32,6 +32,7 @@
 		th{background-color:#50BBB1;height:30px;color:white;}
 		textarea{margin-left:25%;margin-top:35px;}
 		.fujian1{margin :0 auto;}
+		.gundong{overflow :auto}
 		</style>
 
 	</head>
@@ -51,7 +52,7 @@
 		    			
 		    		</div>
 			 	</div> 
-		<div class="box">
+		<div class="box"  >
 			<div class="layui-tab layui-tab-card">
 				  <ul class="layui-tab-title">
 				    <li class="layui-this">合同审批</li>
@@ -61,7 +62,7 @@
 				    <li>后续添加</li>
 				  </ul>
 				  <div class="layui-tab-content" >
-				    <div class="layui-tab-item layui-show">
+				    <div class="layui-tab-item layui-show" >
 				    	 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 							  <ul class="layui-tab-title">
 							    <li class="layui-this">待审批</li>
@@ -70,10 +71,17 @@
 					 			<li>他人审批</li>
 					
 							  </ul>
-						 		<div class="layui-tab-content">
-							 		 <div class="layui-tab-item layui-show" >
+						 		<div class="layui-tab-content" >
+						 			<div style="overflow:auto">
+							 		 <div class="layui-tab-item layui-show" style='width:2000px;'>
+							 		
 							 			 {$ht_show}
+							 		
+
 							 		 </div>
+							 		  <div/>
+
+							 		
 							 		 <div class="layui-tab-item">
 							 			
 							 			 2
@@ -92,6 +100,7 @@
 								 </div>
 							</div>
 				   		 </div>
+
 				    <div class="layui-tab-item">
 				    	 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 							  <ul class="layui-tab-title">
