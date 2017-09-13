@@ -206,9 +206,15 @@ class CpflController extends DBController {
         foreach($flpxarr as $v)
         {
             $fl_jj[$v]=$fl_jj0[$v];
+            unset($fl_jj0[$v]);
             $bumenNewArr[$v]=$bumenNewArr0[$v];
+            unset($bumenNewArr0[$v]);
         }
-
+        foreach($fl_jj0 as $k=>$v)
+        {
+            $fl_jj[$k]=$v;
+            $bumenNewArr[$k]=$bumenNewArr0[$k];
+        }
 		//产品分类遍历排序
 		foreach($bumenNewArr as $bmNewKey=>$bmNewVal)
 		{

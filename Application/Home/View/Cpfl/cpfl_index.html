@@ -219,8 +219,12 @@ $(function(){
         edit_fl_name_fun();
         oldjg=tree_html;
         $("#cpfl_jiazai").remove();
-        $.getScript("{$_GET['public_dir']}/uikit/js/components/nestable.js");
-        tuozhuai();
+        var can_change="{$_COOKIE['qx_cp_edit']}";
+        if(can_change=='1')
+        {
+            $.getScript("{$_GET['public_dir']}/uikit/js/components/nestable.js");
+            tuozhuai();
+        }
         add_link();
         remove_cpfl();
         create_fl_link();
