@@ -314,7 +314,7 @@ return $fzr_only;
 			{
 				$file_show.="<tr class='".$v['id']."'>
 				  				<td >". $v['sc_data']."</td>
-				  				<td >".$v['fujian_name']."</td>
+				  				<td ><span onclick='fj_xz(this)' class='".$v['lujing']."'>".$v['fujian_name']."</span></td>
 				  				<td >".$v['big']."</td>
 				  				<td >".$v['beizhu']."</td>
 				  				<td ><input type='button' value='删除' onclick='fujian_del(this)' name='".$v['id']."'></td>
@@ -1678,7 +1678,14 @@ return $fzr_only;
 	}
 	//下载文件
 	public function download1(){
-		import("Org.Net.Http");
-		Http::download('./Public/chanpinfile/cpfile/linshi/','a.jpg');
+		$name=$_GET['id'];
+	
+
+		$filepath='./Public/chanpinfile/cpfile/linshi/'.$name;
+		header("Content-type:application/octet-stream");
+		header("Content-disposition:attachment;filename=".$name.";");
+		ob_clean();
+		@readfile($filepath);
+		die;
 	}
 }
