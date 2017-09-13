@@ -7,7 +7,6 @@ class XiansuoController extends DBController {
 	public function index(){
 		parent::is_login();
 		$fid=parent::get_fid();
-		$nowLoginId=cookie("user_id");
 		parent::have_qx("qx_xs_open");
 		//业务参数，用于筛选和展示数据
 		$ywcs=$this->get_xs_zd_canshu($fid);
@@ -194,10 +193,22 @@ class XiansuoController extends DBController {
 			$bmuser=$this->get_bm_user($_GET['suoshubumen'],$fid);
 			$sx_10=" and xs_fz in ($bmuser)";
 		}
+		
 		//----我下属的线索
+		$myXsStr=$this->get_xiashu_id();
 		if($_GET['main_type']=='my_xs')
 		{
-			$my_xs_arr=$this->get_my_xs($fid);
+			
+			$lsstr=substr($my_xs_arr,1,-1);
+			$lsarr=explode("','",$lsstr);
+			foreach($lsarr as $k=>$v)
+			{
+				if($v==$nowLoginId)
+				{
+					unset($lsarr[$k]);//去掉我自己的线索
+				}
+			}
+			$my_xs_arr=$lsarr;
 			$myxs=implode("','",$my_xs_arr);
 			$myxs="'".$myxs."'";
 			$sx_11=" and xs_fz in ($myxs)";
@@ -288,7 +299,7 @@ class XiansuoController extends DBController {
 		}//搜索筛选结束
 		$sx_arr=$sx_1.$sx_2.$sx_3.$sx_4.$sx_5.$sx_6.$sx_7.$sx_8.$sx_9.$sx_10.$sx_11.$sx_12.$sx_13.$sx_14.$sx_15.$xs_search;
 
-		$fzwhere=$_GET['main_type']=='my_xs'?'':"and xs_fz='$nowLoginId'";
+		$fzwhere=$_GET['main_type']=='my_xs'?'':"and xs_fz in ($myXsStr)";
 
 		$max_number=parent::sel_more_data("crm_xiansuo","count(xs_id)","xs_yh='$fid' $fzwhere and xs_is_del='0' and xs_is_to_kh='$tab_val' $sx_arr ");
 		$max_number=$max_number[0]['count(xs_id)'];
@@ -390,7 +401,6 @@ class XiansuoController extends DBController {
 	{
 		parent::is_login();
 		$fid=parent::get_fid();
-		$nowLoginId=cookie("user_id");
 		parent::have_qx("qx_xs_open");
 		//业务字段查询
 		$zdarr=$this->get_xs_ziduan($fid);
@@ -417,7 +427,8 @@ class XiansuoController extends DBController {
 			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Xiansuo/index'</script>";
 			die;
 		}
-		$this_xs_arr=parent::sel_one_data("crm_xiansuo","*","xs_yh='$fid' and xs_fz='$nowLoginId' and xs_id='$xiansuoid'");
+		$myXsStr=$this->get_xiashu_id();
+		$this_xs_arr=parent::sel_one_data("crm_xiansuo","*","xs_yh='$fid' and xs_fz in ($myXsStr) and xs_id='$xiansuoid'");
 		
 		
 		$this_json_data=json_decode($this_xs_arr['xs_data'],true);
@@ -795,10 +806,9 @@ class XiansuoController extends DBController {
 		}
 		parent::is_login();
 		$fid=parent::get_fid();
-		$nowLoginId=cookie("user_id");
 		parent::have_qx("qx_xs_open");
 		//修改这条线索的下次跟进时间
-		$xiansuoarr=parent::sel_one_data("crm_xiansuo","xs_data","xs_is_del='0' and xs_fz='$nowLoginId' and xs_yh='$fid' and xs_id='$new_genjin_xiansuo'");
+		$xiansuoarr=parent::sel_one_data("crm_xiansuo","xs_data","xs_is_del='0' and xs_yh='$fid' and xs_id='$new_genjin_xiansuo'");
 		if(count($xiansuoarr)<1)
 		{
 			echo 0;
@@ -865,7 +875,6 @@ class XiansuoController extends DBController {
 		parent::is_login();
 		$fid=parent::get_fid();
 		parent::have_qx("qx_xs_to_kh");
-		$nowLoginId=cookie("user_id");
 		$xsid=$_GET['thisxsid'];
 		if($xsid==''||$xsid=='0')
 		{
@@ -873,7 +882,8 @@ class XiansuoController extends DBController {
 			die;
 		}
 		//获取本条线索的信息
-		$thisxsarr=parent::sel_one_data("crm_xiansuo","*","xs_id='$xsid' and xs_fz='$nowLoginId' and xs_yh='$fid' and xs_is_del='0' and xs_is_to_kh='0' ");
+		$myXsStr=$this->get_xiashu_id();
+		$thisxsarr=parent::sel_one_data("crm_xiansuo","*","xs_id='$xsid' and xs_fz in ($myXsStr) and xs_yh='$fid' and xs_is_del='0' and xs_is_to_kh='0' ");
 		if(count($thisxsarr)<1)
 		{
 			echo 0;
@@ -1382,6 +1392,73 @@ class XiansuoController extends DBController {
 		$a=implode("','",$a);
 		$a="'".$a."'";
 		return $a;
+	}
+	////
+	public function get_xiashu_id()
+	{
+		$nowloginid=cookie("user_id");
+		$nowloginfid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		$userbase=M("user");
+		$qxbase=M("juesequanxian");
+		$bmbase=M("department");
+		$userarr=$userbase->query("select * from crm_user where (user_fid='$nowloginfid' or user_id='$nowloginfid') and user_del='0'");
+		foreach($userarr as $v)
+		{
+			$userkeyid[$v['user_id']]=$v;
+		}
+		$nowloginqx=$userkeyid[$nowloginid]['user_quanxian'];
+		$nowloginbid=$userkeyid[$nowloginid]['user_zhu_bid'];
+
+		$qxarr=$qxbase->query("select qx_data_qx from crm_juesequanxian where qx_yh='$nowloginfid' and qx_id='$nowloginqx'");
+		$dataqx=$qxarr[0]['qx_data_qx'];
+		$bmbasearr=$bmbase->query("select * from crm_department where bm_company='$nowloginfid'");
+		for($a=0;$a<10;$a++)
+		{
+			foreach($bmbasearr as $v)
+			{
+				if($v['bm_id']==$nowloginbid||in_array($v['bm_fid'],$bmid))
+					$bmid[$v['bm_id']]=$v['bm_id'];
+			}
+		}
+		if($dataqx=='1')
+		{
+			return "'".$nowloginid."'";
+		}
+		$foreachnum=0;
+		foreach($userkeyid as $v)
+		{
+			if($v['user_zhuguan_id']=='0')
+			{
+				continue;
+			}
+			foreach($userkeyid as $kk=>$vv)
+			{
+				if($vv['user_zhuguan_id']==$nowloginid||in_array($vv['user_zhuguan_id'],$nowzgid))
+				{
+					$nowzgid[$vv['user_id']]=$vv['user_id'];
+				}
+			}
+			if($foreachnum=='50')
+			{
+				break;
+			}
+			$foreachnum++;
+		}
+		$nowzgid[$nowloginid]=$nowloginid;
+		foreach($nowzgid as $k=>$v)
+		{
+			if($dataqx=='2')
+			{
+				if($userkeyid[$v]['user_zhu_bid']!=$nowloginbid)
+					unset($nowzgid[$k]);
+			}
+			if($dataqx=='3')
+			{
+				if(!in_array($userkeyid[$v]['user_zhu_bid'],$bmid))
+					unset($nowzgid[$k]);
+			}
+		}
+		return "'".implode("','",$nowzgid)."'";
 	}
 	//插入日志方法
     public function insertrizhi($xsid,$cztype,$con)
