@@ -1677,5 +1677,8 @@ return $fzr_only;
 		
 	}
 	//下载文件
-
+	public function download1(){
+		import("Org.Net.Http");
+		Http::download('./Public/chanpinfile/cpfile/linshi/','a.jpg');
+	}
 }
