@@ -6,7 +6,8 @@ use Think\Controller;
 class XiansuoController extends DBController {
 	public function index(){
 		parent::is_login();
-        $fid=parent::get_fid();
+		$fid=parent::get_fid();
+		$nowLoginId=cookie("user_id");
 		parent::have_qx("qx_xs_open");
 		//业务参数，用于筛选和展示数据
 		$ywcs=$this->get_xs_zd_canshu($fid);
@@ -231,6 +232,7 @@ class XiansuoController extends DBController {
 			$tarr=$this->get_time_mod($_GET['gengxinyu']);
 			$sx_14=" and xs_last_edit_time>='".$tarr['s']."' and xs_last_edit_time<='".$tarr['e']."'";
 		}
+		
 		//----下次跟进时间
 		if($_GET['xiacigenjinshijian']!=''&&$_GET['xiacigenjinshijian']!='1')
 		{
@@ -252,6 +254,7 @@ class XiansuoController extends DBController {
 			$xc_xsid="'".$xc_xsid;
 			$sx_15=" and xs_id in ($xc_xsid)";
 		}
+		
 		//搜索的筛选开始
 		if($_GET['search']!='')
 		{
@@ -284,11 +287,14 @@ class XiansuoController extends DBController {
 			
 		}//搜索筛选结束
 		$sx_arr=$sx_1.$sx_2.$sx_3.$sx_4.$sx_5.$sx_6.$sx_7.$sx_8.$sx_9.$sx_10.$sx_11.$sx_12.$sx_13.$sx_14.$sx_15.$xs_search;
-		$max_number=parent::sel_more_data("crm_xiansuo","count(xs_id)","xs_yh='$fid' and xs_is_del='0' and xs_is_to_kh='$tab_val' $sx_arr ");
+
+		$fzwhere=$_GET['main_type']=='my_xs'?'':"and xs_fz='$nowLoginId'";
+
+		$max_number=parent::sel_more_data("crm_xiansuo","count(xs_id)","xs_yh='$fid' $fzwhere and xs_is_del='0' and xs_is_to_kh='$tab_val' $sx_arr ");
 		$max_number=$max_number[0]['count(xs_id)'];
 		$max_page=$max_number<=10?1:ceil($max_number/$page_size);
 
-		$xiansuo_arr=parent::sel_more_data("crm_xiansuo","*","xs_yh='$fid' and xs_is_del='0' and xs_is_to_kh='$tab_val' $sx_arr order by xs_id desc limit ".$page_db_start.",".$page_size);
+		$xiansuo_arr=parent::sel_more_data("crm_xiansuo","*","xs_yh='$fid' $fzwhere and xs_is_del='0' and xs_is_to_kh='$tab_val' $sx_arr order by xs_id desc limit ".$page_db_start.",".$page_size);
 		
 		$bottomtable='';
 		$bottomtable_have_th=0;
@@ -384,6 +390,7 @@ class XiansuoController extends DBController {
 	{
 		parent::is_login();
 		$fid=parent::get_fid();
+		$nowLoginId=cookie("user_id");
 		parent::have_qx("qx_xs_open");
 		//业务字段查询
 		$zdarr=$this->get_xs_ziduan($fid);
@@ -410,7 +417,7 @@ class XiansuoController extends DBController {
 			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Xiansuo/index'</script>";
 			die;
 		}
-		$this_xs_arr=parent::sel_one_data("crm_xiansuo","*","xs_yh='$fid' and xs_id='$xiansuoid'");
+		$this_xs_arr=parent::sel_one_data("crm_xiansuo","*","xs_yh='$fid' and xs_fz='$nowLoginId' and xs_id='$xiansuoid'");
 		
 		
 		$this_json_data=json_decode($this_xs_arr['xs_data'],true);
@@ -788,9 +795,10 @@ class XiansuoController extends DBController {
 		}
 		parent::is_login();
 		$fid=parent::get_fid();
+		$nowLoginId=cookie("user_id");
 		parent::have_qx("qx_xs_open");
 		//修改这条线索的下次跟进时间
-		$xiansuoarr=parent::sel_one_data("crm_xiansuo","xs_data","xs_is_del='0' and xs_yh='$fid' and xs_id='$new_genjin_xiansuo'");
+		$xiansuoarr=parent::sel_one_data("crm_xiansuo","xs_data","xs_is_del='0' and xs_fz='$nowLoginId' and xs_yh='$fid' and xs_id='$new_genjin_xiansuo'");
 		if(count($xiansuoarr)<1)
 		{
 			echo 0;
@@ -857,6 +865,7 @@ class XiansuoController extends DBController {
 		parent::is_login();
 		$fid=parent::get_fid();
 		parent::have_qx("qx_xs_to_kh");
+		$nowLoginId=cookie("user_id");
 		$xsid=$_GET['thisxsid'];
 		if($xsid==''||$xsid=='0')
 		{
@@ -864,7 +873,7 @@ class XiansuoController extends DBController {
 			die;
 		}
 		//获取本条线索的信息
-		$thisxsarr=parent::sel_one_data("crm_xiansuo","*","xs_id='$xsid' and xs_yh='$fid' and xs_is_del='0' and xs_is_to_kh='0' ");
+		$thisxsarr=parent::sel_one_data("crm_xiansuo","*","xs_id='$xsid' and xs_fz='$nowLoginId' and xs_yh='$fid' and xs_is_del='0' and xs_is_to_kh='0' ");
 		if(count($thisxsarr)<1)
 		{
 			echo 0;
