@@ -48,6 +48,7 @@
     .ggkejian{padding-top:10px;padding-bottom:10px;}
     
     </style>
+</head>
 <body>
     <div id="box" style="display:none;">
         <!--页面名称-->
@@ -89,8 +90,8 @@
                         <td class="ggkejian" valign="top">可见范围<span class="redstar">*</span></td>
                         <td class="ggkejian">
                             <input type="radio" name="kjfw" value="1" title="" checked>全公司（系统中所有人可见）<br /><br />
-                            <input type="radio" name="kjfw" value="2" title="" onclick="zhiding(1)">指定部门（指定哪几个部门可见）<br /><br />
-                            <input type="radio" name="kjfw" value="3" title="" onclick="zhiding(2)">指定角色（指定角色可见）
+                            <input type="radio" name="kjfw" value="2" title="" onclick="zhiding(1,1)">指定部门（指定哪几个部门可见）<br /><br />
+                            <input type="radio" name="kjfw" value="3" title="" onclick="zhiding(2,1)">指定角色（指定角色可见）
                         </td>
                     </tr>
                     <tr>
@@ -275,7 +276,7 @@
     window.bmone='0';
     window.jsone='0';
     //指定角色
-    function zhiding(zd,c='1')
+    function zhiding(zd,c)
     {
         if(zd=='1')
         {
