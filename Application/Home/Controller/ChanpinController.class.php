@@ -1070,11 +1070,6 @@ class ChanpinController extends DBController {
 	public function fujian_download()
 	{
 		$fjid=$_GET['fjid'];
-		if(cookie("islogin")!='1')
-		{
-			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
-			die();
-		}
 		parent::is_login();
 		$fid=parent::get_fid();
 		parent::have_qx("qx_cp_open");
@@ -1338,11 +1333,6 @@ class ChanpinController extends DBController {
 	//导出数据
 	public function daochu_data()
 	{
-		if(cookie("islogin")!='1')
-		{
-			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Login'</script>";
-			die();
-		}
 		$flid=$_GET['flid'];
 		if(!$flid)
 		{
