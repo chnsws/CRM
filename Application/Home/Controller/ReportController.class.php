@@ -1790,10 +1790,7 @@ class ReportController extends DBController {
         {
             $chart2Arr[$a]=$getYjArr[$a]==''?0:$getYjArr[$a];
             $chart3Arr[$a]=$chart2Arr[$a]/$allMonthMb[$a];
-            if($chart3Arr[$a]>1)
-            {
-                $chart3Arr[$a]=1;
-            }
+     
             if($chart3Arr[$a]<0)
             {
                 $chart3Arr[$a]=0;
@@ -1802,8 +1799,8 @@ class ReportController extends DBController {
             //表格数据
             $dataTable.='<tr>
                             <td>'.$a.'月</td>
-                            <td>'.$chart2Arr[$a].'</td>
-                            <td>'.$allMonthMb[$a].'</td>
+                            <td>￥'.number_format($chart2Arr[$a],2).'</td>
+                            <td>￥'.number_format($allMonthMb[$a],2).'</td>
                             <td>'.$chart3Arr[$a].'%</td>
                         </tr>';
             $zongYj+=$allMonthMb[$a];

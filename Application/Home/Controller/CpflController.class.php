@@ -24,7 +24,7 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class CpflController extends Controller {
+class CpflController extends DBController {
     //产品分类主页
 	public function cpfl_index()
 	{
@@ -197,9 +197,18 @@ class CpflController extends Controller {
 
 		foreach($cpflarr as $cpflarrKey=>$cpflarrVal)//格式化产品分类分级
 		{
-            $fl_jj[$cpflarrVal['cpfl_id']]=$cpflarrVal['cpfl_jianjie'];
-			$bumenNewArr[$cpflarrVal['cpfl_id']]=array("cpfl_name"=>$cpflarrVal['cpfl_name'],"cpfl_fid"=>$cpflarrVal['cpfl_fid']);
-		}
+            $fl_jj0[$cpflarrVal['cpfl_id']]=$cpflarrVal['cpfl_jianjie'];
+			$bumenNewArr0[$cpflarrVal['cpfl_id']]=array("cpfl_name"=>$cpflarrVal['cpfl_name'],"cpfl_fid"=>$cpflarrVal['cpfl_fid']);
+        }
+        //产品分类排序
+        $pxConfigArr=parent::sel_more_data("crm_config","config_cp_fl_tree_px","config_name='$fid' limit 1");
+        $flpxarr=explode(',',$pxConfigArr[0]['config_cp_fl_tree_px']);
+        foreach($flpxarr as $v)
+        {
+            $fl_jj[$v]=$fl_jj0[$v];
+            $bumenNewArr[$v]=$bumenNewArr0[$v];
+        }
+
 		//产品分类遍历排序
 		foreach($bumenNewArr as $bmNewKey=>$bmNewVal)
 		{
@@ -410,6 +419,16 @@ class CpflController extends Controller {
         }
         $this->edit_one_data("crm_chanpinfenlei","cpfl_jianjie","$jj_content"," cpfl_id='$cpflid' ");
         echo 1;
+    }
+    //保存产品分类的树形结构顺序
+    public function edit_tree_px()
+    {
+        $getPx=$_POST['jsonstr'];
+        $px=json_decode($getPx,true);
+        $pxstr=implode(',',$px);
+        $fid=parent::get_fid();
+        $configbase=M("config");
+        $configbase->query("update crm_config set config_cp_fl_tree_px='$pxstr' where config_name='$fid' limit 1 ");
     }
     //GET&POST处理方法
     public function getok($var_name)

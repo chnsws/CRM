@@ -144,6 +144,10 @@
                 transform:rotate(360deg);
                 }
         }
+        @media screen and (max-width:1000px)
+        {
+            .fl_mod{width:50%}
+        }
     </style>
 </head>
 <body>
@@ -398,6 +402,9 @@ function save_tree()
     $.post(rooturl+"/index.php/Home/Cpfl/save_tree_html",{"tree_html":tree_html});
     var db_tree_json=save_tree_db();
     $.get(rooturl+"/index.php/Home/Cpfl/edit_db_tree_old",{"json_str":db_tree_json});
+    var tree_px=html_to_px($("#ukpaixu"));
+    //alert(tree_px);
+    $.post(rooturl+"/index.php/Home/Cpfl/edit_tree_px",{"jsonstr":tree_px});
 }
 function save_tree_db()
 {
@@ -423,6 +430,19 @@ function html_to_db_tree(main_ul_dom)
             html_to_db_tree(each_dom);
         }
     });
+}
+
+function html_to_px(m)
+{
+    /*
+        获取树形结构的顺序
+    */
+    var sq=new Array();
+    m.find(".fljg_mod").each(function(){
+        sq.push($(this).prop("id").substr(6));
+    });
+    return JSON.stringify(sq);
+
 }
 //添加快捷方式
 var isclick=0;
