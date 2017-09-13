@@ -1072,7 +1072,7 @@ return $fzr_only;
         		$this->error($upload->getError());
     				}// 上传成功
     					    foreach($info as $file){
-       						$save_name= 'Uploads/'.$file['savename'];//获取报存路径
+       						$save_name= $file['savename'];//获取报存路径
        						$save_oldname=$file['name'];//原始吗，
        						$save_size=$file['size'] *'0.0009766';//大小
        						$sql=ceil($save_size/1024).'M';//换算
