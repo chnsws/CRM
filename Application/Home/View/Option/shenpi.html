@@ -401,7 +401,7 @@
             $("#kplv"+windowkplvid).hide();
         }
     });
-    function spxuanze(thisid='')
+    function spxuanze(thisid)
     {
         window.windowlvid=$(thisid).parent().parent().find("td").eq(1).children("select").prop("id").substr(3,1);
         layui.use('layer', function(){
@@ -421,7 +421,7 @@
             }); 
         });  
     }
-    function spxuanze2(thisid='')
+    function spxuanze2(thisid)
     {
         window.windowlvid=$(thisid).parent().parent().find("td").eq(1).children("select").prop("id").substr(4,1);
         layui.use('layer', function(){
