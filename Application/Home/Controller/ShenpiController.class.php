@@ -1158,7 +1158,7 @@ return $fzr_only;
 				$sql=$base->where($map)->select();
 				foreach($sql as $k=>$v)
 				{
-					$fujian.="<tr><td><span style='cursor:pointer;color:blue' title='点击下载'>".$v['fujian_name']."</span></td></tr>";
+					$fujian.="<tr><td><span style='cursor:pointer;color:blue' title='点击下载' onclick='fj_xz(this)' class='".$v['lujing']."'>".$v['fujian_name']."</span></td></tr>";
 				}
 				echo $fujian;
 			}

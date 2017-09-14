@@ -398,7 +398,22 @@ public function kehu(){
 					}elseif($v['id']=='zdy14')
 					{
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name'].":</td>";
-						$show_bt.="<td><input type='button' value='".$v['id']."' > </td></tr>	";
+						$show_bt.="<li><td><input type='file' lay-type='file' class='layui-upload-file' name='csv_up' > </td></tr>	";
+							
+  							$show_bt.="<tr ><td colspan='2'>";
+							$show_bt.="<table class='layui-table yc_xs' lay-skin='line'>";
+								 	 $show_bt.="<thead>
+								  				<th >附件名字</th>
+						  						<th >大小</th>
+						  						<th >进度</td>
+						  						<th >操作</th>
+											</thead>";
+									$show_bt.="<tbody class='fj_th'>";
+							
+									$show_bt.="</tbody>
+										 </table>";
+						$show_bt.="</td></tr>"; 
+
 
 					}elseif($v['id']=='zdy16')
 					{
@@ -627,6 +642,16 @@ public function kehu(){
 		foreach($hetong as $k=>$v)
 		{
 				$content.="<tr id='".$v['ht_id']."'><td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td>";
+				if($v['ht_sp']==0)
+				{
+						$content.="<td style='color:333'><i><b>审批中</b></i></td>";
+				}elseif($v['ht_sp']==1)
+				{
+						$content.="<td><span style='color:green'>审批通过</span></td>";
+				}else{
+						$content.="<td><span style='color:red'>审批驳回<span style='margin-left:10px'><b>?</b></span></span></td>";
+				}
+				
 			foreach($ht_biaoti1 as $kbt => $vbt)
 			{
 				if($v[$kbt]!="")

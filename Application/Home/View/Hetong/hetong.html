@@ -223,6 +223,7 @@ $(function(){
 									  	<thead>
 									  			<tr>	
 								                		<th><input type="checkbox" onclick="swapCheck()" /></th>
+								                		<th>审批状态</th>
 									               <foreach name="ywzd" item="vo">
 									                    <th>{$vo.name}</th> <!--客户标题-->  
 									                  </foreach>
@@ -902,7 +903,7 @@ $("#nchangyong").click(function(){
     	</script>
     	<script>
     		function cp_aj(a){
-    			alert(1)
+    	
     			var cp_id=$(a).val();
     			if(cp_id == 's'){
     				$(".cp_yj").val("")
