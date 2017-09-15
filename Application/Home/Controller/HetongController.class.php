@@ -640,16 +640,16 @@ public function kehu(){
 		
 		
 		foreach($hetong as $k=>$v)
-		{
-				$content.="<tr id='".$v['ht_id']."'><td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td>";
+		{		
+				$content.="<tr id='".$v['ht_id']."'>";
 				if($v['ht_sp']==0)
 				{
-						$content.="<td style='color:333'><i><b>审批中</b></i></td>";
+						$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td style='color:333'><i><b>审批中</b></i></td>";
 				}elseif($v['ht_sp']==1)
 				{
-						$content.="<td><span style='color:green'>审批通过</span></td>";
+						$content.="<td></td><td><span style='color:green'>审批通过</span></td>";
 				}else{
-						$content.="<td><span style='color:red'>审批驳回<span style='margin-left:10px'><b>?</b></span></span></td>";
+						$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span class='".$v['ht_id']."' style='color:red;cursor:pointer' onclick='bhyy(this)'>审批驳回<span style='margin-left:10px'><b>?</b></span></span></td>";
 				}
 				
 			foreach($ht_biaoti1 as $kbt => $vbt)
@@ -1638,7 +1638,7 @@ public function kehu(){
 			//$shangji="zdy0:标题拍合同,zdy1:104114,zdy2:晓明商机,zdy3:896000,zdy4:2017-7-13 18:11:34,zdy5:2017-7-4 18:11:37,zdy6:2017-7-4 18:11:40,zdy7:canshu1,zdy15:2017-7-4 18:11:42,zdy8:,cpgd:添加产品,undefined:undefined,undefined:undefined,zdy10:,zdy11:,zdy12:,zdy13:,undefined:,undefined:undefined,undefined:undefined,zdy17:,ht_fz:46,ht_department:技术部
 		//	";
 			$kh_id=$_GET['kh_id']; //选的客户
-			$kh_id=104104;
+			//$kh_id=104104;
 		//	$shangji="zdy0:小母牛1,undefined:undefined,zdy2:142,zdy3:60000,zdy4:2017-7-4 18:25:41,sj_fz:46,ht_department:技术部,";
 			$shangji_number=substr($shangji,0,strlen($shangji)-1); 
 			$shangji_arr=explode(',',$shangji_number);
@@ -1711,6 +1711,67 @@ public function kehu(){
 						$sql_add=$cp_sj_base->where($sql12)->save($dat); //应该缺少修改附件
 
 						
+														
+													$spr=$this->shenpi_kp();
+														if($spr!="zidongtongguo")
+														{
+															
+															$dingji=explode("|",$spr);
+															foreach($dingji as $k=>$v)
+															{
+																if($k!=0)
+																{
+
+																	$arr_new[]=$v;
+															
+																}
+															}
+															$gongjj=count($dingji)-1;
+															$fg=explode(",",$dingji[1]); //获取到最顶级一层的审批人
+
+															$sp_kp_base=M('sp');
+															$map_sp_kp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+															$map_sp_kp['sp_sj']=date("Y-m-d h:i:s");
+															$map_sp_kp['sp_sjid']=$ht_sql;//合同ID
+															$map_sp_kp['sp_jg']=0;//未审批\
+
+															$map_sp_kp['sp_yy']=1;//所属应用 3代表开票
+															$map_sp_kp['sp_tp']=$dingji['0'];//开启同步否
+															
+															$map_sp_kp['sp_zg_jj']=$gongjj;
+														
+															
+														$jjjj=1;
+															foreach($arr_new as $k=>$v)
+															{
+																$fg=explode(",",$v); //获取到最顶级一层的审批人
+																foreach($fg as $k1=>$v1)
+																{
+																	if($jjjj==1)
+																	{
+																	$map_sp_kp['sp_jg']=0;
+																	}else{
+																	$map_sp_kp['sp_jg']=128;
+																	}
+																	$map_sp_kp['sp_dq_jj']=$jjjj;
+																	$map_sp_kp['sp_user']=$v1;//回款ID
+																	$sh_end=$sp_kp_base->add($map_sp_kp);
+																}
+																$jjjj++;
+																
+															}
+														}else{ 
+															echo "222";exit;
+															$kp_base=M('kp');     //自动通过
+															$map_kp['wocao']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+															$map_kp['kp_id']=$kp_add;
+															$data_kp['kp_sp']=1;
+															$save_kp=$kp_base->where($map_kp)->save($data_kp);
+
+														}
+
+
+
 					}else{
 						echo "2";
 					}
@@ -1858,7 +1919,13 @@ public function kehu(){
 								$ht_base=M('hetong');
 								$sql_ht=$ht_base->add($ht_data);
 								if($sql_ht)       //合同完成 修改最初的联系人少的客户ID
-								{
+								{	
+									$dat1['name_id']= $sql_ht;
+									$fj_map['yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件   
+									$fj_map['mk']=6;
+									$fj_map['name_id']=0; 
+									$fj_base=M('file');
+									$sql_fj=$fj_base->where($fj_map)->save($dat1);
 									$lx_map['lx_id']=$lxr_add;
 									$lx_map['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 									$lx_base=M('lx');
@@ -1882,6 +1949,65 @@ public function kehu(){
 									//	$dat1['name_id']= $sql_sel;
 										$sql_add=$cp_sj_base->where($sql12)->save($dat); //应该缺少修改附件
 									}
+
+													$spr=$this->shenpi_kp();
+														if($spr!="zidongtongguo")
+														{
+															
+															$dingji=explode("|",$spr);
+															foreach($dingji as $k=>$v)
+															{
+																if($k!=0)
+																{
+
+																	$arr_new[]=$v;
+															
+																}
+															}
+															$gongjj=count($dingji)-1;
+															$fg=explode(",",$dingji[1]); //获取到最顶级一层的审批人
+
+															$sp_kp_base=M('sp');
+															$map_sp_kp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+															$map_sp_kp['sp_sj']=date("Y-m-d h:i:s");
+															$map_sp_kp['sp_sjid']=$sql_ht;//合同ID
+															$map_sp_kp['sp_jg']=0;//未审批\
+
+															$map_sp_kp['sp_yy']=1;//所属应用 3代表开票
+															$map_sp_kp['sp_tp']=$dingji['0'];//开启同步否
+															
+															$map_sp_kp['sp_zg_jj']=$gongjj;
+														
+															
+														$jjjj=1;
+															foreach($arr_new as $k=>$v)
+															{
+																$fg=explode(",",$v); //获取到最顶级一层的审批人
+																foreach($fg as $k1=>$v1)
+																{
+																	if($jjjj==1)
+																	{
+																	$map_sp_kp['sp_jg']=0;
+																	}else{
+																	$map_sp_kp['sp_jg']=128;
+																	}
+																	$map_sp_kp['sp_dq_jj']=$jjjj;
+																	$map_sp_kp['sp_user']=$v1;//回款ID
+																	$sh_end=$sp_kp_base->add($map_sp_kp);
+																}
+																$jjjj++;
+																
+															}
+														}else{ 
+															echo "222";exit;
+															$kp_base=M('kp');     //自动通过
+															$map_kp['wocao']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+															$map_kp['kp_id']=$kp_add;
+															$data_kp['kp_sp']=1;
+															$save_kp=$kp_base->where($map_kp)->save($data_kp);
+
+														}
+
 								}
 							}
 							
@@ -2044,6 +2170,42 @@ public function kehu(){
 
 														}
 
+	}
+	public function userws(){                 //负责人和dddd
+	
+		$fuzeren=M('user');
+
+		
+			$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+	
+	 		$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id = $fid or user_fid=$fid ");//缺少条件
+			foreach ($fuzeren_sql as $k=>$v)
+			{
+				
+						$new_fuzeren['user_id']=$v['user_id'];
+						$new_fuzeren['user_name']=$v['user_name'];
+						
+					
+						$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
+				
+			}  
+
+			return $fzr_only;
+
+
+	}
+	public function bh_yy(){
+		$user=$this->userws();
+		
+		$id['sp_sjid']=$_GET['id'];
+		$id['sp_jg']=2;
+		$id['sp_yy']=1;
+		$id['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+		$m=M('sp');
+		$sql=$m->where($id)->find();
+		echo "<table><tr><td>驳回人：</td><td>".$user[$sql['sp_user']]['user_name']."</td></tr><tr><td>驳回原因：</td><td>".$sql['sp_yuanyin']."</td></tr><tr><td>驳回时间：</td><td>".$sql['sp_sj']."</td></tr></table>";
+
+		
 	}
 }
 

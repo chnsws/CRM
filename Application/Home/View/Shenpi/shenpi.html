@@ -42,6 +42,11 @@
 			<textarea rows="8" id='bhyy' cols="40"></textarea>
 			</div>
 		</div>
+		<div style='display:none' id='htbohuio'>
+			<div style="width:100%;height:100">
+			<textarea rows="8" id='htbhyy' cols="40"></textarea>
+			</div>
+		</div>
 		<div style='display:none;width:800px' id='xiangqing'>
 			<div class = 'xq_s'>
 				
@@ -52,6 +57,11 @@
 		    			
 		    		</div>
 			 	</div> 
+		<div style='display:none' id='ht_tongguo'>
+			<div style="margin-left:30%;margin-top:30px;color:green">
+				提示：合同审批通过后将不可编辑、删除！
+			</div>
+		</div>
 		<div class="box"  >
 			<div class="layui-tab layui-tab-card">
 				  <ul class="layui-tab-title">
@@ -63,6 +73,7 @@
 				  </ul>
 				  <div class="layui-tab-content" >
 				    <div class="layui-tab-item layui-show" >
+				    
 				    	 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 							  <ul class="layui-tab-title">
 							    <li class="layui-this">待审批</li>
@@ -71,36 +82,33 @@
 					 			<li>他人审批</li>
 					
 							  </ul>
-						 		<div class="layui-tab-content" >
-						 			<div style="overflow:auto">
-							 		 <div class="layui-tab-item layui-show" style='width:2000px;'>
-							 		
-							 			 {$ht_show}
-							 		
-
+						 		<div class="layui-tab-content">
+							 		 <div class="layui-tab-item layui-show" style='overflow:auto' >
+							 			 <div style='width:2000px'>	{$ht_show}</div>
 							 		 </div>
-							 		  <div/>
-
-							 		
 							 		 <div class="layui-tab-item">
 							 			
-							 			 2
+							 			 1
 							 			
 							 	    </div>
 							 		 <div class="layui-tab-item">
 							 			 
-							 				3
+							 				2
 							 			
 							 		</div>
 							 		 <div class="layui-tab-item">
 							 			
-							 			 	4
+							 			 	3
 							 			 
 							 		</div>
 								 </div>
-							</div>
-				   		 </div>
+				    
+				 		   </div>
 
+
+
+				   	</div>
+				
 				    <div class="layui-tab-item">
 				    	 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 							  <ul class="layui-tab-title">
@@ -131,7 +139,7 @@
 							 		</div>
 								 </div>
 				    
-				    </div>
+				 		   </div>
 
 				  </div>
 				    <div class="layui-tab-item">
@@ -291,6 +299,68 @@ layui.use('upload', function(){
 							}); 
 						});  
 	}
+	function ht_bohui(sss){
+		var bh_id=$(sss).prop("class");
+		var tb=$(sss).prop("id");
+		var ht_id=$(sss).attr("name");
+
+		layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'630px',
+								fixed: false,
+								title: '驳回原因',
+								content:$('#htbohuio'),
+								btn:['确认驳回'],
+						
+								btn1:function(){
+									
+									var bh_yuanyin=$("#htbhyy").val();
+									$.get(rooturl+'/index.php/Home/Shenpi/ht_bohui',{"id":bh_id,'yuanyin':bh_yuanyin,'tb':tb,'ht_id':ht_id},
+						        		 				function(html){
+															alert(html)
+			        		 								 window.location.href="Shenpi";
+														});
+
+								}
+							}); 
+						});  
+	}
+	
+	function ht_tongguo(sss){
+		var id=$(sss).prop("class");
+		var tb=$(sss).prop("id");
+
+		var ht_id=$(sss).attr("name");
+		var dq=$(sss).parent().parent().children().eq(11).children().text();
+		var zgjj=$(sss).parent().parent().children().eq(12).children().text();
+	//	alert(dq+zgjj);return
+		layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'630px',
+								fixed: false,
+								title: '确认通过',
+								content:$('#ht_tongguo'),
+								btn:['确认通过'],
+						
+								btn1:function(){
+									
+								
+									$.get(rooturl+'/index.php/Home/Shenpi/ht_tongguo',{'id':id,'tb':tb,'ht_id':ht_id,'tjr':dq,'zgjj':zgjj},
+						        		 				function(html){
+														alert(html)
+			        		 								 window.location.href="Shenpi";
+														});
+
+								}
+							}); 
+						});  
+	}
 	function fapiaoxinxi(ss)
 	{
 		var a=$(ss).prop('class');
@@ -412,7 +482,7 @@ function hk_because(ss){
 	function fj_xz(ss)
 				{
 					var s=$(ss).prop('class');
-					alert(s)
+				
 					window.location=rooturl+'/index.php/Home/Hetongmingcheng/download1?id='+s;
 						
 				}   

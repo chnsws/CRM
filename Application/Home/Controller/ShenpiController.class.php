@@ -674,7 +674,7 @@ class ShenpiController extends Controller {
 						{
 							$ht_show.="<tr>
 										<td>";
-											$ht_show.="<span style='color:blue' class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['kp_id']."'  onclick='kp_tongguo(this)'>通过</span><span style='color:blue;margin-left:20px'  class='".$v['sp_id']."' id = '".$v['sp_tp']."' name='".$v['kp_id']."' onclick='kp_bohui(this)'>驳回</span></td>";
+											$ht_show.="<span style='color:blue' class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_tongguo(this)'>通过</span><span style='color:blue;margin-left:20px'  class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_bohui(this)'>驳回</span></td>";
 							
 								$ht_show.="	<td>".$ht_name[$v['sp_sjid']]['name']."</td>
 											<td>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</td>
@@ -1098,6 +1098,134 @@ return $fzr_only;
 			}
 
 		}
+		public function ht_tongguo(){
+			$sp_id=$_GET['id'];
+			$tb=$_GET['tb'];
+			$tongguo['sp_jg']=1;
+			//echo $id.$yuany;
+			$kp_base=M('sp');
+			$map_sp['sp_id']=$sp_id;
+			$map_sp['sp_yy']=1;
+			$map_sp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$kp_save=$kp_base->where($map_sp)->save($tongguo);
+			$tjr=$_GET['tjr'];
+			$zgjj=$_GET['zgjj'];
+			if($tb==1)
+			{
+			
+				//这里判断第一级的x个人是否都过,过了给下一级,直到最后一级全过  才去修改开票信息 的审核状态
+					
+					$map['sp_dq_jj']=$tjr;
+					$map['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+					$map['sp_yy']=1;
+					$map['sp_sjid']=$_GET['ht_id'];
+
+					$base_sp=M('sp');
+					$sql=$base_sp->where($map)->select();
+					$num1=0;
+					$num2=0;
+					foreach($sql as $k=>$v)
+					{
+						$num1++;
+						if($v['sp_jg']==1)
+						{
+							$num2++;
+						}
+					}
+					if($num1==$num2) //当前级别全员通过 继续判断有无下级 有则下级继续 ，没有则修改开票状态
+					{	
+						if($map['sp_dq_jj']==$zgjj)  //当前级别等于最高级别 就是 1 2 3级全部通过 去修改开票状态
+						{
+						
+							$m_ht_base=M('hetong');
+							$m_ap['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+							$m_ap['ht_id']=$_GET['ht_id'];
+							$datass['ht_sp']=1;
+							$sql_saveht=$m_ht_base->where($m_ap)->save($datass);
+							if($sql_saveht){
+								echo "全部人员审批通过";
+							}
+							
+						}else{  
+						                     //x级过了  扔给 x+1 级去审批
+							$map_xiaji['sp_dq_jj']=$map['sp_dq_jj']+1;
+							$map_xiaji['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+							$map_xiaji['sp_yy']=1;
+							$map_xiaji['sp_sjid']=$_GET['ht_id'];
+							$map_xiaji['sp_jg']=128;
+							$data_map['sp_jg']=0;
+							$sal_save=M('sp')->where($map_xiaji)->save($data_map);
+							if($sal_save){
+								echo "已通知下级";
+							}
+						}
+					}else{ //测试 以下删除
+						echo "您已通过  ";
+					}
+
+	
+			}elseif($tb==0){
+							
+
+					/**		$map_xiaji['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+							$map_xiaji['sp_yy']=1;
+							$map_xiaji['sp_sjid']=$_GET['ht_id'];
+						
+							$data_map['sp_jg']=1;
+							$data_map['sp_xgr']=cookie('user_fid');
+							$sal_save=M('sp')->where($map_xiaji)->save($data_map);
+
+							$m_ht_base=M('hetong');
+							$m_ap['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+							$m_ap['ht_id']=$_GET['ht_id'];
+							$datass['ht_sp']=1;
+							$sql_saveht=$m_ht_base->where($m_ap)->save($datass);
+							if($sql_savekp){
+								echo "审批通过";//缺少把他人的给修改了
+									}**/
+											$save_kpsp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //修改同级其他 工作人员的审批为别人已审批
+											$save_kpsp['sp_sjid']=$_GET['ht_id'];
+											$save_kpsp['sp_yy']=1;
+											$save_kpsp['sp_dq_jj']=$tjr;
+											$save_kpsp['sp_jg']=0;
+											$save_kpo['sp_jg']=4;//34为别人已审批
+											$save_kpo['sp_xgr']=cookie('user_id');
+											$sql_spkp_save=$kp_base->where($save_kpsp)->save($save_kpo);
+								if($tjr==$zgjj)  //当前级别等于最高级别 就是 1 2 3级全部通过 去修改开票状态
+									{
+										$m_ht_base=M('hetong');
+										$m_ap['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+										$m_ap['ht_id']=$_GET['ht_id'];
+										$datass['ht_sp']=1;
+										$sql_saveht=$m_ht_base->where($m_ap)->save($datass);
+										if($sql_saveht){
+
+											
+
+											echo "全部人员审批通过";
+										}
+
+									}else{                       //x级过了  扔给 x+1 级去审批
+										$map_xiaji['sp_dq_jj']=$tjr+1;
+										$map_xiaji['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+										$map_xiaji['sp_yy']=1;
+										$map_xiaji['sp_sjid']=$_GET['ht_id'];
+										$map_xiaji['sp_jg']=128;
+										$data_map['sp_jg']=0;
+										$sal_save=M('sp')->where($map_xiaji)->save($data_map);
+										if($sal_save){
+
+
+											
+
+
+											echo "已通知下级";
+										}
+									}
+						
+			}
+
+		}
 		public function xiangqing(){
 			$id=$_GET['id'];
 			//$id=88;
@@ -1162,6 +1290,46 @@ return $fzr_only;
 				}
 				echo $fujian;
 			}
+			public function ht_bohui(){
+			$tb=$_GET['tb'];
+
+			$id=$_GET['id'];
+
+			$yuany['sp_yuanyin']=$_GET['yuanyin'];
+			$yuany['sp_jg']=2;
+			//echo $id.$yuany;
+			$ht_base=M('sp');
+			$map_sp['sp_id']=$id;
+			$map_sp['sp_yy']=1;
+			$map_sp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$ht_save=$ht_base->where($map_sp)->save($yuany);
+			if($ht_save){
+			
+				
+					$save_htsp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //修改同级其他 工作人员的审批为别人已审批
+					$save_htsp['sp_sjid']=$_GET['ht_id'];
+					$save_htsp['sp_yy']=1;
+					$save_htsp['sp_jg']=array("in","0,128");
+			
+					$save_kpo['sp_jg']=3;//3为别人已审批
+					$save_kpo['sp_xgr']=cookie('user_id');
+					$save_kpo['sp_yuanyin']=$_GET['yuanyin'];
+					$sql_spht_save=$ht_base->where($save_htsp)->save($save_kpo);
+					//审批只要遇到一个驳回  这条信息就是驳回 修改信息状态
+					$kp_base=M('hetong');
+					$map_kp['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+					$map_kp['ht_id']=$_GET['ht_id'];
+				//	$map_kp['kp_sp']=0;
+					$data_kp['ht_sp']=2;
+					$kp_sav=$kp_base->where($map_kp)->save($data_kp);
+
+
+			}else{
+				echo "nsave";
+			}
+			//$data['sp_jg']="2";
+			//$sql_save=$sp_base->where($map_sp)->save($data);
+		}
 		
 }
 

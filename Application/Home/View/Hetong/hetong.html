@@ -73,6 +73,7 @@
 			.panel-title{margin-left:2px;margin-top:9px; font-size:21px; color:#1AA094;}
 			.searchable-select-input{width:280px !important ;}
 			.searchable-select {min-width:300px;}
+						.bhyuany1{margin-top:4%;margin-left:35%;}
 		</style>  
 				<script type="text/javascript">
 			
@@ -283,6 +284,11 @@ $(function(){
 								</form>
 								
 				</div>
+	<div class="bhyuany"  style="display: none;border:1px;">
+					    		<div class="bhyuany1" >
+					    			
+					    		</div>
+						 	</div>
   <div id="bj_kehu" style="margin-top:10px;padding-top:20px;display: none;border:1px">
 					<form name="pl_bjform" method="post" >
 						<table class="pl_bj">
@@ -1404,7 +1410,37 @@ $("#nchangyong").click(function(){
 		                isCheckAll = true;  
 		            }  
 		        } 
+		        function bhyy(ss){
+		        	var bh_id=$(ss).prop("class");
+		        	
 
+        				$.get(rooturl+'/index.php/Home/Hetong/bh_yy',{"id":bh_id},
+												function(html){
+												
+													$(".bhyuany1").html(html);
+
+											})
+			        		layui.use('layer', function(){
+
+										var layer = layui.layer;
+										var win=layer.open({
+
+											type:1,
+											offset: 't',
+											area:'750px',
+											title: '驳回原因',
+											content:$('.bhyuany'),
+											btn:['确定'],
+
+											btn1:function(){
+													
+												  layer.close(win)    
+										            
+											}
+										
+										}); 
+									});             
+					        }
 
     	</script>
     	
