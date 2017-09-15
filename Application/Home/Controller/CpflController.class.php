@@ -447,12 +447,21 @@ class CpflController extends DBController {
         {
             $jsonDecode=json_decode($v['cp_data'],true);
             //echo strpos($jsonDecode['zdy0'],$inputText).'-----';
-            if(strpos($jsonDecode['zdy0'],$inputText)=='')
+            $exarr=explode($inputText,$jsonDecode['zdy0']);
+            if(count($exarr)<2)
             {
-                
-                //再次判断产品名称中是否存在搜索的字符串
                 continue;
             }
+            /*
+            if(strpos($jsonDecode['zdy0'],$inputText)=='')
+            {
+                if(strpos($jsonDecode['zdy0'],$inputText)!='0')
+                {
+                    //再次判断产品名称中是否存在搜索的字符串
+                    continue;
+                }
+            }
+            */
             //0:名称    6:分类
             $jsonData[]=array(
                 "id"=>$v['cp_id'],
