@@ -397,6 +397,9 @@ $(function(){
 						</table>
 					</form>
   	</div>
+  	<div class='faqi' style='height:80px;display:none'>
+  		<span style='color:green;margin-left:35%;line-height:70px;height:70px'>发起审批后将不可编辑、删除！</span>
+  	</div>
 	</body>
 	<script>
 
@@ -1441,7 +1444,40 @@ $("#nchangyong").click(function(){
 										}); 
 									});             
 					        }
+			function faqi(ss){
+				var id=$(ss).prop('class');
+				
+					layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'630px',
+								fixed: false,
+								title: '发起审批',
 
+								content:$('.faqi'),
+								btn:['确认发起','取消'],
+								btn1:function(){
+
+										$.get(rooturl+'/index.php/Home/Hetong/faqi',{"id":id},
+												function(html){
+										
+													window.location.href="hetong";
+
+											})
+										
+
+
+								},
+								btn2:function(){
+									layer.close(win)
+									//addshangji()
+								}
+							}); 
+
+						});      		
+			}
     	</script>
     	
 </html>

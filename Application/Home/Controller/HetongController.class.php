@@ -642,14 +642,17 @@ public function kehu(){
 		foreach($hetong as $k=>$v)
 		{		
 				$content.="<tr id='".$v['ht_id']."'>";
-				if($v['ht_sp']==0)
+				if($v['ht_sp']==4)
 				{
-						$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td style='color:333'><i><b>审批中</b></i></td>";
+						$content.="<td></td><td style='color:333'><i><b>审批中</b></i></td>";
 				}elseif($v['ht_sp']==1)
 				{
 						$content.="<td></td><td><span style='color:green'>审批通过</span></td>";
+				}elseif($v['ht_sp']==0)
+				{
+						$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span  class='".$v['ht_id']."' style='color:#50BBB1' onclick='faqi(this)'><i class='layui-icon' style='font-size: 25px; color: #1E9FFF;cursor:pointer' title='发起审批'>&#xe609;</i> </span></td>";
 				}else{
-						$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span class='".$v['ht_id']."' style='color:red;cursor:pointer' onclick='bhyy(this)'>审批驳回<span style='margin-left:10px'><b>?</b></span></span></td>";
+						$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span class='".$v['ht_id']."' style='color:red;cursor:pointer' onclick='bhyy(this)' title='驳回原因'>驳回?</span><span  class='".$v['ht_id']."' style='color:#50BBB1;margin-left:10px' onclick='faqi(this)'><i class='layui-icon' style='font-size: 15px; color: #1E9FFF;cursor:pointer' title='发起审批'>&#xe609;</i> </span></td>";
 				}
 				
 			foreach($ht_biaoti1 as $kbt => $vbt)
@@ -657,13 +660,13 @@ public function kehu(){
 				if($v[$kbt]!="")
 				{
 					if($kbt=='zdy0')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:blue' >".$v[$kbt]."</span></a></td>";
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
 					elseif($kbt=='zdy1'){
 						$kh_mc=$kehu[$v[$kbt]]['name'];
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:blue' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
 						}
 					elseif($kbt=='zdy2')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:blue' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:cursor:#50BBB1' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
 					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
 							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
 					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz' ||$kbt=='zdy13')
@@ -815,64 +818,6 @@ public function kehu(){
 
 
 
-														$spr=$this->shenpi_kp();
-														if($spr!="zidongtongguo")
-														{
-
-															$dingji=explode("|",$spr);
-															foreach($dingji as $k=>$v)
-															{
-																if($k!=0)
-																{
-
-																	$arr_new[]=$v;
-															
-																}
-															}
-															$gongjj=count($dingji)-1;
-															$fg=explode(",",$dingji[1]); //获取到最顶级一层的审批人
-
-															$sp_kp_base=M('sp');
-															$map_sp_kp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
-															$map_sp_kp['sp_sj']=date("Y-m-d h:i:s");
-															$map_sp_kp['sp_sjid']=$sql;//合同ID
-															$map_sp_kp['sp_jg']=0;//未审批\
-
-															$map_sp_kp['sp_yy']=1;//所属应用 3代表开票
-															$map_sp_kp['sp_tp']=$dingji['0'];//开启同步否
-															
-															$map_sp_kp['sp_zg_jj']=$gongjj;
-														
-															
-														$jjjj=1;
-															foreach($arr_new as $k=>$v)
-															{
-																$fg=explode(",",$v); //获取到最顶级一层的审批人
-																foreach($fg as $k1=>$v1)
-																{
-																	if($jjjj==1)
-																	{
-																	$map_sp_kp['sp_jg']=0;
-																	}else{
-																	$map_sp_kp['sp_jg']=128;
-																	}
-																	$map_sp_kp['sp_dq_jj']=$jjjj;
-																	$map_sp_kp['sp_user']=$v1;//回款ID
-																	$sh_end=$sp_kp_base->add($map_sp_kp);
-																}
-																$jjjj++;
-																
-															}
-														}else{ 
-															$kp_base=M('kp');     //自动通过
-															$map_kp['wocao']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
-															$map_kp['kp_id']=$kp_add;
-															$data_kp['kp_sp']=1;
-															$save_kp=$kp_base->where($map_kp)->save($data_kp);
-
-														}
-
-
 
 		}else{
 			echo 2;
@@ -947,13 +892,13 @@ public function kehu(){
 				if($v[$kbt]!="")
 				{
 					if($kbt=='zdy0')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:blue' >".$v[$kbt]."</span></a></td>";
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
 					elseif($kbt=='zdy1'){
 						$kh_mc=$kehu[$v[$kbt]]['name'];
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:blue' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
 						}
 					elseif($kbt=='zdy2')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/$v[$kbt]'><span style='color:blue' >".$v[$kbt]."".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$v[$kbt]."".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
 					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
 							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
 					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz' ||$kbt=='zdy13')
@@ -1323,13 +1268,13 @@ public function kehu(){
 				if($v[$kbt]!="")
 				{
 					if($kbt=='zdy0')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/$id'><span style='color:blue' >".$v[$kbt]."</span></a></td>";
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/$id'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
 					elseif($kbt=='zdy1'){
 						$kh_mc=$kehu[$v[$kbt]]['name'];
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:blue' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
 						}
 					elseif($kbt=='zdy2')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/$v[$kbt]'><span style='color:blue' >".$v[$kbt]."".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$v[$kbt]."".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
 					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
 							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
 					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz'||$kbt=='zdy13')
@@ -1433,13 +1378,13 @@ public function kehu(){
 				if($v[$kbt]!="")
 				{
 					if($kbt=='zdy0')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:blue' >".$v[$kbt]."</span></a></td>";
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
 					elseif($kbt=='zdy1'){
 						$kh_mc=$kehu[$v[$kbt]]['name'];
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:blue' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
 						}
 					elseif($kbt=='zdy2')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:blue' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:cursor:#50BBB1' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
 					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
 							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
 					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz'||$kbt=='zdy13')
@@ -1712,64 +1657,6 @@ public function kehu(){
 
 						
 														
-													$spr=$this->shenpi_kp();
-														if($spr!="zidongtongguo")
-														{
-															
-															$dingji=explode("|",$spr);
-															foreach($dingji as $k=>$v)
-															{
-																if($k!=0)
-																{
-
-																	$arr_new[]=$v;
-															
-																}
-															}
-															$gongjj=count($dingji)-1;
-															$fg=explode(",",$dingji[1]); //获取到最顶级一层的审批人
-
-															$sp_kp_base=M('sp');
-															$map_sp_kp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
-															$map_sp_kp['sp_sj']=date("Y-m-d h:i:s");
-															$map_sp_kp['sp_sjid']=$ht_sql;//合同ID
-															$map_sp_kp['sp_jg']=0;//未审批\
-
-															$map_sp_kp['sp_yy']=1;//所属应用 3代表开票
-															$map_sp_kp['sp_tp']=$dingji['0'];//开启同步否
-															
-															$map_sp_kp['sp_zg_jj']=$gongjj;
-														
-															
-														$jjjj=1;
-															foreach($arr_new as $k=>$v)
-															{
-																$fg=explode(",",$v); //获取到最顶级一层的审批人
-																foreach($fg as $k1=>$v1)
-																{
-																	if($jjjj==1)
-																	{
-																	$map_sp_kp['sp_jg']=0;
-																	}else{
-																	$map_sp_kp['sp_jg']=128;
-																	}
-																	$map_sp_kp['sp_dq_jj']=$jjjj;
-																	$map_sp_kp['sp_user']=$v1;//回款ID
-																	$sh_end=$sp_kp_base->add($map_sp_kp);
-																}
-																$jjjj++;
-																
-															}
-														}else{ 
-															echo "222";exit;
-															$kp_base=M('kp');     //自动通过
-															$map_kp['wocao']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
-															$map_kp['kp_id']=$kp_add;
-															$data_kp['kp_sp']=1;
-															$save_kp=$kp_base->where($map_kp)->save($data_kp);
-
-														}
-
 
 
 					}else{
@@ -1950,63 +1837,7 @@ public function kehu(){
 										$sql_add=$cp_sj_base->where($sql12)->save($dat); //应该缺少修改附件
 									}
 
-													$spr=$this->shenpi_kp();
-														if($spr!="zidongtongguo")
-														{
-															
-															$dingji=explode("|",$spr);
-															foreach($dingji as $k=>$v)
-															{
-																if($k!=0)
-																{
-
-																	$arr_new[]=$v;
-															
-																}
-															}
-															$gongjj=count($dingji)-1;
-															$fg=explode(",",$dingji[1]); //获取到最顶级一层的审批人
-
-															$sp_kp_base=M('sp');
-															$map_sp_kp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
-															$map_sp_kp['sp_sj']=date("Y-m-d h:i:s");
-															$map_sp_kp['sp_sjid']=$sql_ht;//合同ID
-															$map_sp_kp['sp_jg']=0;//未审批\
-
-															$map_sp_kp['sp_yy']=1;//所属应用 3代表开票
-															$map_sp_kp['sp_tp']=$dingji['0'];//开启同步否
-															
-															$map_sp_kp['sp_zg_jj']=$gongjj;
-														
-															
-														$jjjj=1;
-															foreach($arr_new as $k=>$v)
-															{
-																$fg=explode(",",$v); //获取到最顶级一层的审批人
-																foreach($fg as $k1=>$v1)
-																{
-																	if($jjjj==1)
-																	{
-																	$map_sp_kp['sp_jg']=0;
-																	}else{
-																	$map_sp_kp['sp_jg']=128;
-																	}
-																	$map_sp_kp['sp_dq_jj']=$jjjj;
-																	$map_sp_kp['sp_user']=$v1;//回款ID
-																	$sh_end=$sp_kp_base->add($map_sp_kp);
-																}
-																$jjjj++;
-																
-															}
-														}else{ 
-															echo "222";exit;
-															$kp_base=M('kp');     //自动通过
-															$map_kp['wocao']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
-															$map_kp['kp_id']=$kp_add;
-															$data_kp['kp_sp']=1;
-															$save_kp=$kp_base->where($map_kp)->save($data_kp);
-
-														}
+												
 
 								}
 							}
@@ -2206,6 +2037,75 @@ public function kehu(){
 		echo "<table><tr><td>驳回人：</td><td>".$user[$sql['sp_user']]['user_name']."</td></tr><tr><td>驳回原因：</td><td>".$sql['sp_yuanyin']."</td></tr><tr><td>驳回时间：</td><td>".$sql['sp_sj']."</td></tr></table>";
 
 		
+	}
+	public function faqi(){
+
+														$sql=$_GET['id'];
+
+														$spr=$this->shenpi_kp();
+														if($spr!="zidongtongguo")
+														{
+
+															$dingji=explode("|",$spr);
+															foreach($dingji as $k=>$v)
+															{
+																if($k!=0)
+																{
+
+																	$arr_new[]=$v;
+															
+																}
+															}
+															$gongjj=count($dingji)-1;
+															$fg=explode(",",$dingji[1]); //获取到最顶级一层的审批人
+
+															$sp_kp_base=M('sp');
+															$map_sp_kp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+															$map_sp_kp['sp_sj']=date("Y-m-d h:i:s");
+															$map_sp_kp['sp_sjid']=$sql;//合同ID
+															$map_sp_kp['sp_jg']=0;//未审批\
+
+															$map_sp_kp['sp_yy']=1;//所属应用 3代表开票
+															$map_sp_kp['sp_tp']=$dingji['0'];//开启同步否
+															
+															$map_sp_kp['sp_zg_jj']=$gongjj;
+														
+															
+														$jjjj=1;
+															foreach($arr_new as $k=>$v)
+															{
+																$fg=explode(",",$v); //获取到最顶级一层的审批人
+																foreach($fg as $k1=>$v1)
+																{
+																	if($jjjj==1)
+																	{
+																	$map_sp_kp['sp_jg']=0;
+																	}else{
+																	$map_sp_kp['sp_jg']=128;
+																	}
+																	$map_sp_kp['sp_dq_jj']=$jjjj;
+																	$map_sp_kp['sp_user']=$v1;//回款ID
+																	$sh_end=$sp_kp_base->add($map_sp_kp);
+																}
+																$jjjj++;
+																
+															}
+														$ht_base=M('hetong');
+														$map_ht['ht_id']=$sql;	
+														$map_ht['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+														$save_map['ht_sp']=4;
+														$sql_save_ht=$ht_base->where($map_ht)->save($save_map);
+														}else{ 
+															$ht_base=M('hetong');
+														$map_ht['ht_id']=$sql;	
+														$map_ht['ht_qy']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+														$save_map['ht_sp']=1;
+														$sql_save_ht=$ht_base->where($map_ht)->save($save_map);
+
+														}
+
+
+
 	}
 }
 
