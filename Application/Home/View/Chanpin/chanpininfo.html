@@ -65,7 +65,7 @@ textarea{resize:none;}
         {$cpinfoarr['cp_name']}
     </div>
     <div id="cp_btn">
-        <button class="layui-btn layui-btn-primary" onclick="layer.load(2);window.location='{$_GET[root_dir]}/index.php/Home/Chanpin/index/?flid={$_GET[\'flid\']}'"><i class="fa fa-arrow-left" aria-hidden="true"></i>返回</button>
+        <button class="layui-btn layui-btn-primary" onclick="fanhui()"><i class="fa fa-arrow-left" aria-hidden="true"></i>返回</button>
         <button class="layui-btn" onclick="bj_chanpin()"><i class="fa fa-edit" aria-hidden="true"></i>编辑</button>
         <button class="layui-btn" onclick="del_chanpin()"><i class="fa fa-trash" aria-hidden="true"></i>删除</button>
         {$jy_btn}
@@ -627,6 +627,20 @@ function jy_qy_chanpin(qyjyid)
             return false;
         }
     });
+}
+function fanhui()
+{
+    layer.load(2);
+    var fromPage="{$_GET['from']}";
+    if(fromPage=='flpage')
+    {
+        window.location='{$_GET[root_dir]}/index.php/Home/Cpfl/cpfl_index';
+    }
+    else
+    {
+        window.location='{$_GET[root_dir]}/index.php/Home/Chanpin/index/?flid={$_GET[\'flid\']}';
+    }
+    
 }
 function table_px()
 {

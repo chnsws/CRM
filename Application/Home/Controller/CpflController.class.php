@@ -1,25 +1,5 @@
 <?php
-/*
-  ┏┓     ┏┓ 
-┏┛┻━━━┛┻┓ 
-┃             ┃   
-┃     ━      ┃ 
-┃  ┳┛ ┗┳  ┃ 
-┃            ┃ 
-┃    ┻      ┃ 
-┃           ┃ 
-┗━┓   ┏━┛ 
-    ┃   ┃       
-    ┃   ┃ 
-    ┃   ┗━━━━┓ 
-    ┃             ┣┓ 
-    ┃             ┏┛ 
-    ┗┓┓┏━┳┓┏┛ 
-      ┃┫┫  ┃┫┫ 
-      ┗┻┛  ┗┻┛
-      神兽在此
-      不出BUG！
-*/
+
 namespace Home\Controller;
 use Think\Controller;
 
@@ -435,6 +415,56 @@ class CpflController extends DBController {
         $fid=parent::get_fid();
         $configbase=M("config");
         $configbase->query("update crm_config set config_cp_fl_tree_px='$pxstr' where config_name='$fid' limit 1 ");
+    }
+    //产品全局查询
+    public function search_cp_list()
+    {
+        $inputText=addslashes($_GET['searchstr']);
+        $searchJsonStr=json_encode($inputText);
+        $searchJsonStr=substr($searchJsonStr,1,-1);
+        if($searchJsonStr=='')
+        {
+            echo '0';
+            die;
+        }
+        $searchJsonStr=str_replace('\\','\\\\\\\\',$searchJsonStr);
+        $fid=parent::get_fid();
+        $searchDbArr=parent::sel_more_data("crm_chanpin","cp_id,cp_data","cp_yh='$fid' and cp_del='0' and cp_data like '%$searchJsonStr%' ");
+        //parent::rr("cp_yh='$fid' and cp_del='0' and cp_data like '%$searchJsonStr%'");
+        //parent::rr($searchDbArr);
+        if(count($searchDbArr)>0)
+        {
+            $cpflArr=parent::sel_more_data("crm_chanpinfenlei","*","cpfl_company='$fid'");
+            foreach($cpflArr as $v)
+            {
+                $cpfl[$v['cpfl_id']]=$v['cpfl_name'];
+            }
+        }
+        //echo "cp_yh='$fid' and cp_del='0' and cp_data like '$searchJsonStr' ";die;
+        //select cp_data from crm_chanpin where cp_yh='3' and cp_del='0' and cp_data like '\\u4e3a'  
+        $jsonData=array();
+        foreach($searchDbArr as $v)
+        {
+            $jsonDecode=json_decode($v['cp_data'],true);
+            //echo strpos($jsonDecode['zdy0'],$inputText).'-----';
+            if(strpos($jsonDecode['zdy0'],$inputText)=='')
+            {
+                
+                //再次判断产品名称中是否存在搜索的字符串
+                continue;
+            }
+            //0:名称    6:分类
+            $jsonData[]=array(
+                "id"=>$v['cp_id'],
+                "name"=>$jsonDecode['zdy0'],
+                "flid"=>$jsonDecode['zdy6'],
+                "flname"=>($cpfl[$jsonDecode['zdy6']]==''?'--':$cpfl[$jsonDecode['zdy6']])
+            );
+        }
+        $returnJson=json_encode($jsonData);
+        echo $returnJson;
+        
+        
     }
     //GET&POST处理方法
     public function getok($var_name)
