@@ -790,8 +790,8 @@ class ReportController extends DBController {
         $bm_option=$this->get_bm_option($fid);
         $montharr=$this->get_last_month();
 
-        //获取每个用户对应着的部门
-        $user_bm=$this->get_user_bm($fid);
+        //获取部门名称
+        $bm_name=$this->option_to_arr($bm_option);
         $get_stime=0;
         $get_etime=0;
         if($_GET['sx_3'])
@@ -813,7 +813,8 @@ class ReportController extends DBController {
         foreach($user_arr as $v)
         {
             $user_name_arr[$v['user_id']]['name']=$v['user_name'];
-            $user_name_arr[$v['user_id']]['bm']=$user_bm[$v['user_zhu_bid']];
+            $user_name_arr[$v['user_id']]['bm']=$v['user_zhu_bid'];
+            $user_name_arr[$v['user_id']]['bm_name']=$bm_name[$v['user_zhu_bid']];
 
         }
 
@@ -862,14 +863,12 @@ class ReportController extends DBController {
             $data_table.="<tr>
                             <td>".$paiming."</td>
                             <td>".$user_name_arr[$k]['name']."</td>
-                            <td>".($user_name_arr[$k]['bm']==''?'未分配部门':$user_name_arr[$k]['bm'])."</td>
+                            <td>".($user_name_arr[$k]['bm_name']==''?'未分配部门':$user_name_arr[$k]['bm_name'])."</td>
                             <td>".$v."</td>
                         </tr>";
             $zong+=$v;
             $paiming++;
         }
-        
-        
 
         $this->assign("dx",$dx);
         $this->assign("zong",$zong);
@@ -1998,8 +1997,15 @@ class ReportController extends DBController {
                     continue;
                 }
             }
+            
+            if($htuser[$v['hk_ht']]=='')
+            {
+                //如果这个合同已被删除
+                continue;
+            }
             $res[$htuser[$v['hk_ht']]]+=$v['hk_je'];
             $res2[$htuser[$v['hk_ht']]]++;
+            echo $v['hk_ht'];
             
         }
         arsort($res);
@@ -2016,6 +2022,7 @@ class ReportController extends DBController {
             $number++;
             $zong+=$v;
         }
+        $dataTable=$dataTable==''?'<tr><td colspan="5" align="center">暂无数据</td></tr>':$dataTable;
         //parent::rr($res);
         $this->assign("sts",$t[0]);
         $this->assign("ste",$t[1]);

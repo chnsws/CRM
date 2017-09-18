@@ -81,7 +81,8 @@ class FankuiController extends Controller {
             '22'=>'自定义审批',
             '23'=>'自定义筛选',
             '24'=>'日志查询',
-            '25'=>'其他'
+            '25'=>'其他',
+            '26'=>'审批'
         );
         $typearr=array(
             '1'=>'优化建议',
