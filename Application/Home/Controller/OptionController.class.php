@@ -216,92 +216,139 @@ class OptionController extends DBController {
 		//部门表操作
 		$bumenbase=M("department");
 		$bumenArr=$bumenbase->query("select * from crm_department where bm_company='$nowUserFid' ");
-		foreach($bumenArr as $bumenArrKey=>$bumenArrVal)//格式化部门分级
+		foreach($bumenArr as $v)
 		{
-			$bumenNewArr[$bumenArrVal['bm_id']]=array("bm_name"=>$bumenArrVal['bm_name'],"bm_fid"=>$bumenArrVal['bm_fid']);
+			$bumenFname[$v['bm_id']]=$v['bm_name'];
+			$bumenoption.='<option value="'.$v['bm_id'].'">'.$v['bm_name'].'</option>';
+			$bmKeyArr[$v['bm_id']]=$v;
 		}
-		//部门遍历排序
-		foreach($bumenNewArr as $bmNewKey=>$bmNewVal)
+		/*检索部门的排序*/
+		$bmpx=parent::sel_more_data("crm_config","config_option_bm_px","config_name='$nowUserFid'");
+		if($bmpx[0]['config_option_bm_px']!='')
 		{
-			$bumenFname[$bmNewKey]=$bumenNewArr[$bmNewVal['bm_fid']]['bm_name'];
-			if($bmNewVal['bm_fid']=='0')//顶级部门
+			//如果存在排序，就重新排列部门数组
+			$bmPxArr=explode(',',$bmpx[0]['config_option_bm_px']);
+			foreach($bmPxArr as $v)
 			{
-				$bmLvArr[$bmNewKey]['bm_name']=$bmNewVal['bm_name'];
+				$bmarr_have_px[$v]=$bmKeyArr[$v];
+				unset($bmKeyArr[$v]);
 			}
-			else
+			foreach($bmKeyArr as $k=>$v)
 			{
-				if($bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']=='0')
-				{
-					$bmLvArr[$bmNewVal['bm_fid']]["lv2"][$bmNewKey]["bm_name"]=$bmNewVal['bm_name'];
-				}
-				else
-				{
-					if($bumenNewArr[$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['bm_fid']=='0')
-					{
-						$bmLvArr[$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['lv2'][$bmNewVal['bm_fid']]['lv3'][$bmNewKey]["bm_name"]=$bmNewVal['bm_name'];
-					}
-					else
-					{
-						if($bumenNewArr[$bumenNewArr[$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['bm_fid']]['bm_fid']=='0')
-						{
-							$bmLvArr[$bumenNewArr[$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['bm_fid']]['lv2'][$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['lv3'][$bmNewVal['bm_fid']]['lv4'][$bmNewKey]["bm_name"]=$bmNewVal['bm_name'];
-						
-						}
-						else
-						{
-							if($bumenNewArr[$bumenNewArr[$bumenNewArr[$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['bm_fid']]['bm_fid']]['bm_fid']=='0')
-							{
-								$bmLvArr[$bumenNewArr[$bumenNewArr[$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['bm_fid']]['bm_fid']]['lv2'][$bumenNewArr[$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['bm_fid']]['lv3'][$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['lv4'][$bmNewVal['bm_fid']]['lv5'][$bmNewKey]["bm_name"]=$bmNewVal['bm_name'];
-							}
-							else
-							{
-
-							}
-						}
-					}
-				}
+				$bmarr_have_px[$k]=$v;
 			}
+			unset($bumenArr);
+			$bumenArr=$bmarr_have_px;
 		}
-		//部门排序结束 $bmLvArr:部门分级数组
-		$bumenoption="<option value=''>请选择部门</option>";
-		//生成部门结构HTML
+		$bmLvArr=$this->get_bm_tree($bumenArr);
+		$bmLvList='';
+		//构造结构HTML
 		foreach($bmLvArr as $k=>$v)
 		{
-			$bmList.="<li class='lv1 lv-on' id='id".$k."' value='1' name='1'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$v['bm_name']."</span><span class='right-span'><a style='margin-right:5px;'  onclick='bmdel(".$k.")'><i class='fa fa-trash-o' aria-hidden='true'></i></a><a style='margin-right:5px;'  onclick='bmedit(".$k.")'><i class='fa fa-pencil' aria-hidden='true'></i></a><a style='margin-right:5px;' onclick='bmadd(".$k.")'><i class='fa fa-plus' aria-hidden='true'></i></a></span></li>";
-			$bumenoption.="<option value='".$k."'>".$v['bm_name']."</option>";
+            //一级
+           //echo $cp_num;
+           //print_r($fl_cp_num);
+           $bmLvList.=' <li class="uk-nestable-item">
+                            <div class="uk-nestable-panel">
+                                <div class="uk-nestable-toggle" data-nestable-action="toggle"></div>
+                                '.$v['bm_name'].'
+                                <div class="fl_mod" id="bm_id_'.$k.'">
+									<i class="uk-icon-trash-o" onclick="bmdel('.$k.')" aria-hidden="true" title="删除部门"></i>
+									<i class="uk-icon-pencil" onclick="bmedit('.$k.')" aria-hidden="true" title="修改部门名称"></i>
+								</div>
+                            </div>';
 			if(count($v['lv2'])>0)
 			{
+                $bmLvList.='<ul class="uk-nestable-list">';
 				foreach($v['lv2'] as $lv2k=>$lv2v)
 				{
-					$bmList.="<li class='lv2 lv-on lv1".$k."' id='id".$lv2k."' value='1' name='2'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$lv2v['bm_name']."</span><span class='right-span'><a style='margin-right:5px;'  onclick='bmdel(".$lv2k.")'><i class='fa fa-trash-o' aria-hidden='true'></i></a><a style='margin-right:5px;'  onclick='bmedit(".$lv2k.")'><i class='fa fa-pencil' aria-hidden='true'></i></a><a style='margin-right:5px;' onclick='bmadd(".$lv2k.")'><i class='fa fa-plus' aria-hidden='true'></i></a></span></li>";
-					$bumenoption.="<option value='".$lv2k."'>----".$lv2v['bm_name']."</option>";
+                    //二级
+                    $bmLvList.='<li class="uk-nestable-item">
+									<div class="uk-nestable-panel">
+										<div class="uk-nestable-toggle" data-nestable-action="toggle"></div>
+										'.$lv2v['bm_name'].'
+										<div class="fl_mod" id="bm_id_'.$lv2k.'">
+											<i class="uk-icon-trash-o" onclick="bmdel('.$lv2k.')" aria-hidden="true" title="删除部门"></i>
+											<i class="uk-icon-pencil" onclick="bmedit('.$lv2k.')" aria-hidden="true" title="修改部门名称"></i>
+										</div>
+									</div>';
 					if(count($lv2v['lv3'])>0)
 					{
+                        $bmLvList.='<ul class="uk-nestable-list">';
 						foreach($lv2v['lv3'] as $lv3k=>$lv3v)
 						{
-							$bmList.="<li class='lv3 lv-on lv2".$lv2k." lv1".$k."' id='id".$lv3k."' value='1' name='3'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$lv3v['bm_name']."</span><span class='right-span'><a style='margin-right:5px;'  onclick='bmdel(".$lv3k.")'><i class='fa fa-trash-o' aria-hidden='true'></i></a><a style='margin-right:5px;'  onclick='bmedit(".$lv3k.")'><i class='fa fa-pencil' aria-hidden='true'></i></a><a style='margin-right:5px;' onclick='bmadd(".$lv3k.")'><i class='fa fa-plus' aria-hidden='true'></i></a></span></li>";
-							$bumenoption.="<option value='".$lv3k."'>--------".$lv3v['bm_name']."</option>";
+                            //三级
+                            $bmLvList.='<li class="uk-nestable-item">
+											<div class="uk-nestable-panel">
+												<div class="uk-nestable-toggle" data-nestable-action="toggle"></div>
+												'.$lv3v['bm_name'].'
+												<div class="fl_mod" id="bm_id_'.$lv3k.'">
+													<i class="uk-icon-trash-o" onclick="bmdel('.$lv3k.')" aria-hidden="true" title="删除部门"></i>
+													<i class="uk-icon-pencil" onclick="bmedit('.$lv3k.')" aria-hidden="true" title="修改部门名称"></i>
+												</div>
+											</div>';
 							if(count($lv3v['lv4'])>0)
 							{
+                                $bmLvList.='<ul class="uk-nestable-list">';
 								foreach($lv3v['lv4'] as $lv4k=>$lv4v)
 								{
-									$bmList.="<li class='lv4 lv-on lv3".$lv3k." lv2".$lv2k." lv1".$k."' id='id".$lv4k."' value='1' name='4'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$lv4v['bm_name']."</span><span class='right-span'><a style='margin-right:5px;'  onclick='bmdel(".$lv4k.")'><i class='fa fa-trash-o' aria-hidden='true'></i></a><a style='margin-right:5px;'  onclick='bmedit(".$lv4k.")'><i class='fa fa-pencil' aria-hidden='true'></i></a><a style='margin-right:5px;' onclick='bmadd(".$lv4k.")'><i class='fa fa-plus' aria-hidden='true'></i></a></span></li>";
-									$bumenoption.="<option value='".$lv4k."'>------------".$lv4v['bm_name']."</option>";
+                                    //四级
+                                    
+                                    $bmLvList.='<li class="uk-nestable-item">
+													<div class="uk-nestable-panel">
+														<div class="uk-nestable-toggle" data-nestable-action="toggle"></div>
+														'.$lv4v['bm_name'].'
+														<div class="fl_mod" id="bm_id_'.$lv4k.'">
+															<i class="uk-icon-trash-o" onclick="bmdel('.$lv4k.')" aria-hidden="true" title="删除部门"></i>
+															<i class="uk-icon-pencil" onclick="bmedit('.$lv4k.')" aria-hidden="true" title="修改部门名称"></i>
+														</div>
+													</div>';
 									if(count($lv4v['lv5'])>0)
 									{
+                                        $bmLvList.='<ul class="uk-nestable-list">';
 										foreach($lv4v['lv5'] as $lv5k=>$lv5v)
 										{
-											$bmList.="<li class='lv5 lv-on lv4".$lv4k." lv3".$lv3k." lv2".$lv2k." lv1".$k."' id='id".$lv5k."' value='1' name='5'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$lv5v['bm_name']."</span><span class='right-span'><a style='margin-right:5px;'  onclick='bmdel(".$lv5k.")'><i class='fa fa-trash-o' aria-hidden='true'></i></a><a style='margin-right:5px;'  onclick='bmedit(".$lv5k.")'><i class='fa fa-pencil' aria-hidden='true'></i></a></span></li>";
-											$bumenoption.="<option value='".$lv5k."'>----------------".$lv5v['bm_name']."</option>";
+                                            //五级
+                                            $bmLvList.='<li class="uk-nestable-item">
+															<div class="uk-nestable-panel">
+																<div class="uk-nestable-toggle" data-nestable-action="toggle"></div>
+																'.$lv5v['bm_name'].'
+																<div class="fl_mod" id="bm_id_'.$lv5k.'">
+																	<i class="uk-icon-trash-o" onclick="bmdel('.$lv5k.')" aria-hidden="true" title="删除部门"></i>
+																	<i class="uk-icon-pencil" onclick="bmedit('.$lv5k.')" aria-hidden="true" title="修改部门名称"></i>
+																</div>
+															</div>';
 										}
+                                        $bmLvList.='</ul></li>';
 									}
+                                    else
+                                    {
+                                        $bmLvList.='</li>';
+                                    }
 								}
+                                $bmLvList.='</ul></li>';
 							}
+                            else
+                            {
+                                $bmLvList.='</li>';
+                            }
 						}
+                        $bmLvList.='</ul></li>';
 					}
+                    else
+                    {
+                        $bmLvList.='</li>';
+                    }
 				}
+                $bmLvList.='</ul></li>';
 			}
+            else
+            {
+                $bmLvList.='</li>';
+            }
 		}
+		//echo $bmLvList;
+		
 		//查询公司名称
 		$companybase=M("gongsixinxi");
 		$nowCompanyArr=$companybase->query("select `gsxx_name` from crm_gongsixinxi where gsxx_yh='$nowUserId' or gsxx_yh='".cookie("user_fid")."' limit 1");
@@ -346,11 +393,11 @@ class OptionController extends DBController {
 			$caozuoBtn="<div class='uk-button-dropdown' data-uk-dropdown style='overflow:visible;'><button class='layui-btn layui-btn-primary' style='border-radius:90px;height:30px;width:30px;line-height:30px;margin:0;padding:0;' ><i class='uk-icon-cogs'></i></button><div class='uk-dropdown uk-dropdown-small' style='border:1px solid #ccc;'><ul class='uk-nav uk-nav-dropdown'>".$moveList."</ul></div></div>";
 			if($userval['user_act']=='0')
 			{
-				$dongjieList.="<tr style='color:#ccc'><td>$userval[user_name]</td><td>".$userSex[$userval[user_sex]]."</td><td>$userval[user_phone]</td><td>".$qxName[$userval[user_quanxian]]."</td><td>".$userName[$userval['user_zhuguan_id']]."</td><td>".$bumenNewArr[$userval['user_zhu_bid']]['bm_name']."</td><td>".$bumenNewArr[$userval['user_fu_bid']]['bm_name']."</td><td>$userval[user_lastlogintime]</td><td>$caozuoBtn</td></tr>";
+				$dongjieList.="<tr style='color:#ccc'><td>$userval[user_name]</td><td>".$userSex[$userval[user_sex]]."</td><td>$userval[user_phone]</td><td>".$qxName[$userval[user_quanxian]]."</td><td>".$userName[$userval['user_zhuguan_id']]."</td><td>".$bumenFname[$userval['user_zhu_bid']]."</td><td>".$bumenFname[$userval['user_fu_bid']]."</td><td>$userval[user_lastlogintime]</td><td>$caozuoBtn</td></tr>";
 			}
 			else
 			{
-				$userList.="<tr><td>$userval[user_name]</td><td>".$userSex[$userval[user_sex]]."</td><td>$userval[user_phone]</td><td>".$qxName[$userval[user_quanxian]]."</td><td>".$userName[$userval[user_zhuguan_id]]."</td><td>".$bumenNewArr[$userval['user_zhu_bid']]['bm_name']."</td><td>".$bumenNewArr[$userval['user_fu_bid']]['bm_name']."</td><td>$userval[user_lastlogintime]</td><td>$caozuoBtn</td></tr>";
+				$userList.="<tr><td>$userval[user_name]</td><td>".$userSex[$userval[user_sex]]."</td><td>$userval[user_phone]</td><td>".$qxName[$userval[user_quanxian]]."</td><td>".$userName[$userval[user_zhuguan_id]]."</td><td>".$bumenFname[$userval['user_zhu_bid']]."</td><td>".$bumenFname[$userval['user_fu_bid']]."</td><td>$userval[user_lastlogintime]</td><td>$caozuoBtn</td></tr>";
 			}
 		}
 		$userList=$userList.$dongjieList;
@@ -364,7 +411,7 @@ class OptionController extends DBController {
 		$this->assign("userList",$userList);
 		$companyname=$nowCompanyArr[0]['gsxx_name']==''?'（暂无公司名称）':$nowCompanyArr[0]['gsxx_name'];
 		$this->assign("companyName",$companyname);
-		$this->assign("bmList",$bmList);
+		$this->assign("bmList",$bmLvList);
 		$this->display();
 	}
 	//角色和权限设置
@@ -1300,7 +1347,56 @@ class OptionController extends DBController {
 		}
 		return $returnstr;
 	}
+	//构造部门的分级结构
+	public function get_bm_tree($bumenArr)
+	{
+		foreach($bumenArr as $bumenArrKey=>$bumenArrVal)//格式化部门分级
+		{
+			$bumenNewArr[$bumenArrVal['bm_id']]=array("bm_name"=>$bumenArrVal['bm_name'],"bm_fid"=>$bumenArrVal['bm_fid']);
+		}
+		//部门遍历排序
+		foreach($bumenNewArr as $bmNewKey=>$bmNewVal)
+		{
+			if($bmNewVal['bm_fid']=='0')//顶级部门
+			{
+				$bmLvArr[$bmNewKey]['bm_name']=$bmNewVal['bm_name'];
+			}
+			else
+			{
+				if($bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']=='0')
+				{
+					$bmLvArr[$bmNewVal['bm_fid']]["lv2"][$bmNewKey]["bm_name"]=$bmNewVal['bm_name'];
+				}
+				else
+				{
+					if($bumenNewArr[$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['bm_fid']=='0')
+					{
+						$bmLvArr[$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['lv2'][$bmNewVal['bm_fid']]['lv3'][$bmNewKey]["bm_name"]=$bmNewVal['bm_name'];
+					}
+					else
+					{
+						if($bumenNewArr[$bumenNewArr[$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['bm_fid']]['bm_fid']=='0')
+						{
+							$bmLvArr[$bumenNewArr[$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['bm_fid']]['lv2'][$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['lv3'][$bmNewVal['bm_fid']]['lv4'][$bmNewKey]["bm_name"]=$bmNewVal['bm_name'];
+						
+						}
+						else
+						{
+							if($bumenNewArr[$bumenNewArr[$bumenNewArr[$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['bm_fid']]['bm_fid']]['bm_fid']=='0')
+							{
+								$bmLvArr[$bumenNewArr[$bumenNewArr[$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['bm_fid']]['bm_fid']]['lv2'][$bumenNewArr[$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['bm_fid']]['lv3'][$bumenNewArr[$bmNewVal['bm_fid']]['bm_fid']]['lv4'][$bmNewVal['bm_fid']]['lv5'][$bmNewKey]["bm_name"]=$bmNewVal['bm_name'];
+							}
+							else
+							{
 
+							}
+						}
+					}
+				}
+			}
+		}
+		return $bmLvArr;
+	}
 	
 	public function get_xiashu_id()
 	{

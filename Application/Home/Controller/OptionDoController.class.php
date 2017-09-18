@@ -3,7 +3,7 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class OptionDoController extends Controller {
+class OptionDoController extends DBController {
 	//部门添加操作
     public function bumenadd()
     {
@@ -43,8 +43,47 @@ class OptionDoController extends Controller {
 			echo 3;
 		}
 	}
+	//保存部门树形结构
+	function save_bm_tree()
+	{
+		if($_POST['cdd']=='')
+		{
+			echo 0;
+			die;
+		}
+		parent::is_login();
+		$fid=parent::get_fid();
+		$tree_str=substr($_POST['cdd'],0,-1);
+		$treearr=explode(',',str_replace('"','',$tree_str));
+		foreach($treearr as $v)
+        {
+            $varr=explode(":",$v);
+            $sql_str.=" WHEN '".$varr[1]."' THEN '".$varr[0]."' ";
+            $idarr[]=$varr[1];
+        }
+		$idstr="'".implode("','",$idarr)."'";
+		$main_sql="update crm_department set bm_fid = CASE bm_id $sql_str ELSE `bm_fid` END where bm_company='$fid' and bm_id in ($idstr) ";
+		$bmbase=M("department");
+		$bmbase->query($main_sql);
+		echo 1;
+	}
+	//保存部门排序
+	function save_bm_px()
+	{
+		if($_POST['bmpxjson']=='')
+		{
+			echo '0';
+			die;
+		}
+		$bmpxjson=$_POST['bmpxjson'];
+		$bmpxArr=json_decode($bmpxjson,true);
+		$bmpxstr=implode(',',$bmpxArr);
+		$fid=parent::get_fid();
 
-
+		$configbase=M("config");
+		$configbase->query("update crm_config set config_option_bm_px='$bmpxstr' where config_name='$fid' limit 1");
+		echo 1;
+	}
     //部门局部刷新数据
     public function bumenshuaxin()
     {

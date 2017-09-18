@@ -15,24 +15,29 @@
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
 		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
 		<!--UIkit-->
-		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.min.css" />
-        <script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
-		<!--datatable引用文件-->
-		<link href="{$_GET['public_dir']}/datatable/css/dataTables.bootstrap.css" rel="stylesheet">
-		<link href="{$_GET['public_dir']}/bootstrap/css/bootstrap.css" rel="stylesheet">
-		<script src="{$_GET['public_dir']}/datatable/js/jquery.dataTables.min.js"></script>
-		<script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js" ></script>
-		<script src="{$_GET['public_dir']}/datatable/js/dataTables.bootstrap.js"></script>
+		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/sticky.css" />
+		<script src="{$_GET['public_dir']}/uikit/js/components/sticky.js"></script>
+		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/notify.css" />
+		<script src="{$_GET['public_dir']}/uikit/js/components/notify.js"></script>
+		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/sortable.css" />
+		<script src="{$_GET['public_dir']}/uikit/js/components/sortable.js"> </script>
+		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/nestable.css" />
+		<script src="{$_GET['public_dir']}/uikit/js/components/nestable.js"> </script>
+		
 		<!--layUI 插件 --弹窗设计 form表单样式 -->
 		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+
+		
 		
 		<style>
 			*{margin:0;padding:0;}
 			#box div{overflow:hidden;}
 			a{text-decoration:none;cursor:pointer;}
-			ul{list-style:none;}
-			#box{margin-left:10px;margin-right:10px;}
+			ul{padding:0px;}
+			#box{margin-left:10px;margin-right:10px;display:none;}
 			
 			#mod-head{height:100px;font-size:22px;line-height:100px;color:#1AA094;font-weight:bold;}
 			#mod1{background-color:#DFF0D8;height:78px;color:#255B56;padding-left:15px;padding-top:10px;padding-bottom:0px;border-radius:0px;}
@@ -40,18 +45,10 @@
 			#hidden-div{float:right;font-weight:bold;margin-right:15px;font-size:20px;color:#656565;}
 			#mod2-left{width:25%;font-size:14px;float:left;}
 			#left-top{height:40px;line-height:40px;font-weight:bold;color:#676767;border-bottom:1px solid #ccc;margin-bottom:20px;}
-			#left-bottom div{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-top:5px;margin-bottom:5px;padding-left:5px;}
-			#left-bottom li{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-top:5px;margin-bottom:5px;padding-left:5px;}
-			.lv1{margin-left:20px;}
-			.lv2{margin-left:40px;}
-			.lv3{margin-left:60px;}
-			.lv4{margin-left:80px;}
-			.lv5{margin-left:100px;}
-			.left-li{margin-left:5px;}
-			.right-span{float:right;margin-right:5px;}
+		
 			#mod2-right{float:right;width:73%;font-size:14px;}
 			#right-head{height:40px;line-height:40px;font-weight:bold;color:#676767;border-bottom:1px solid #ccc;margin-bottom:20px;}
-			#right-head button{float:right;margin-top:4px;background-color:#1AA094;border:1px solid #1AA094;height:32px;line-height:32px;color:#fff;width:100px;}
+			#right-head button{float:right;margin-top:4px;height:32px;line-height:32px;color:#fff;width:100px;}
 			#right-head button i{margin-right:5px;}
 
 			
@@ -67,11 +64,21 @@
 			
 			#table-head{border:1px solid #E2E2E2;margin-bottom:0px;height:40px;line-height:40px;background-color:#F8F8F8;color:#656565;padding-left:5px;font-weight:bold;}
 
+			/*树形结构样式*/
+			.uk-nestable-panel{border:1px solid #ccc;border-left: 3px solid #1AA094;margin-right:5px;background:#fff;overflow: hidden;line-height: 16px;margin-right:0px;}
+			.fl_mod{float:right;height:19px;line-height: 19px;overflow: hidden;}
+        	.fl_mod i{float:right;height:19px;line-height:19px;margin-right:10px;cursor:pointer;color:#888;}
+			.uk-nestable-toggle{margin-bottom:-5px;}
+			/*新增部门按钮*/
+			#bm_add_btn{width: 100%;margin-top:20px;}
+			#bm_add_btn i{margin-right: 10px;}
 		</style>
 	</head>
 
 	<body>
 	<div id="box">
+			
+		
 		<!--头部文字-->
 		<div id="mod-head">
 		部门和用户设置
@@ -90,22 +97,18 @@
 			<div id="mod2-left">
 				<div id="left-top">公司组织架构</div>
 				<div id="left-bottom">
-					<div id="user_company_name" class="lv-on" value="">
-						<i class="fa fa-folder-open" aria-hidden="true"></i>
-						<span class="left-li">{$companyName}</span>
-						<span class="right-span">
-							<a onclick='bmadd(0)'><i class="fa fa-plus" aria-hidden="true"></i></a>
-						</span>
-					</div>
-					<ul id="bmlistid">
+					<ul class="uk-nestable" id="ukpaixu" data-uk-nestable="maxDepth:5">
 						{$bmList}
 					</ul>
+				</div>
+				<div class="bm_add_idv">
+					<button class="layui-btn layui-btn-primary" id="bm_add_btn" onclick="bmadd(0)"><i class="fa fa-plus"></i>新增部门</button>
 				</div>
 			</div>
 			<!--左边列表结束-->
 			<!--下部右边表格-->
 			<div id="mod2-right">
-				<div id="right-head">用户列表<button onclick="openwindow()"><i class="fa fa-plus" aria-hidden="true"></i>新增用户</button></div>
+				<div id="right-head">用户列表<button onclick="openwindow()" class="layui-btn"><i class="fa fa-plus" aria-hidden="true"></i>新增用户</button></div>
 				<div id="right-list" style="padding-bottom:150px;">
 							<div id="table-head">
 								{$companyName}
@@ -136,7 +139,7 @@
 		<!--下部结束-->
 	</div>
 	</body>
-	<div  id="formdiv">
+	<div  id="formdiv" style="display:none;">
 		<div id="formtishi">
 			<div id="tishi-left">提示：</div>
 			<div id="tishi-right">
@@ -144,108 +147,101 @@
 				2、如通知短信未收到时，建议此用户通过找回密码功能自己设置。
 			</div>
 		</div>
-	<center>
-	<div id="addform" style="padding:10px;" class="layui-form">
-		<table id="formtable">
-			<tr>
-				<td class="redstar">*</td>
-				<td>姓名</td>
-				<td><input type="text" id="xingming" required lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input" /></td>
-			</tr>
-			<tr>
-				<td class="redstar"></td>
-				<td>性别</td>
-				<td id="xingbie"><input type="radio" name="xingbie" title="男" id="nan" value="1" checked/><input type="radio" id="nv" name="xingbie" title="女" value="2"/></td>
-			</tr>
-			<tr>
-				<td class="redstar">*</td>
-				<td>手机号</td>
-				<td><input type="text" id="shoujihao" required lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input"/></td>
-			</tr>
-			<tr>
-				<td class="redstar">*</td>
-				<td>邮箱</td>
-				<td><input type="text" id="youxiang" required lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input"/></td>
-			</tr>
-			<tr>
-				<td class="redstar">*</td>
-				<td>角色</td>
-				<td >
-					<select id="juese" lay-verify="required" class="selectcss" lay-ignore>
-						{$jueseoption}
-					</select>    
-				</td>
-			</tr>
-			<tr>
-				<td class="redstar">*</td>
-				<td>主管</td>
-				<td>
-					<select id="zhuguan" lay-verify="" class="selectcss" lay-ignore>
-						{$zhuguanoption}
-					</select>   
-				</td>
-			</tr>
-			<tr>
-				<td class="redstar">*</td>
-				<td>主部门</td>
-				<td>
-					<select id="zhubumen" lay-verify="" lay-verify="required" class="selectcss" lay-ignore>
-						{$bumenoption}
-					</select>   
-				</td>
-			</tr>
-			<tr>
-				<td class="redstar"></td>
-				<td>辅部门</td>
-				<td>
-					<select id="fubumen"   class="selectcss" lay-ignore>
-						{$bumenoption}
-					</select>   
-				</td>
-			</tr>
-			<tr id="baocunbtn">
-				<td colspan="3"><center><button class="layui-btn" id="adduserbtn" >保存</button></center></td>
-			</tr>
-		</table>
-	</div>
-	</center>
-	</div>
-
-	<div id="bumendiv" class="layui-form">
-	<center>
-		<table id="bumentable" width="500px" style="margin-top:20px;">
-			<tr id="shangji">
-				<td style="width:80px;" >上级部门</td>
-				<td><input type="text"  disabled required lay-verify="required" placeholder="上级部门" autocomplete="off" class="layui-input"/></td>
-			</tr>
-			<tr>
-				<td>部门名称</td>
-				<td><input type="text" id="newBumenName" style="margin-top:10px;" required lay-verify="required" placeholder="请输入部门名称" autocomplete="off" class="layui-input"/></td>
-			</tr>
-		</table>
-	</center>
+		<center>
+		<div id="addform" style="padding:10px;" class="layui-form">
+			<table id="formtable">
+				<tr>
+					<td class="redstar">*</td>
+					<td>姓名</td>
+					<td><input type="text" id="xingming" required lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input" /></td>
+				</tr>
+				<tr>
+					<td class="redstar"></td>
+					<td>性别</td>
+					<td id="xingbie"><input type="radio" name="xingbie" title="男" id="nan" value="1" checked/><input type="radio" id="nv" name="xingbie" title="女" value="2"/></td>
+				</tr>
+				<tr>
+					<td class="redstar">*</td>
+					<td>手机号</td>
+					<td><input type="text" id="shoujihao" required lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input"/></td>
+				</tr>
+				<tr>
+					<td class="redstar">*</td>
+					<td>邮箱</td>
+					<td><input type="text" id="youxiang" required lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input"/></td>
+				</tr>
+				<tr>
+					<td class="redstar">*</td>
+					<td>角色</td>
+					<td >
+						<select id="juese" lay-verify="required" class="selectcss" lay-ignore>
+							{$jueseoption}
+						</select>    
+					</td>
+				</tr>
+				<tr>
+					<td class="redstar">*</td>
+					<td>主管</td>
+					<td>
+						<select id="zhuguan" lay-verify="" class="selectcss" lay-ignore>
+							{$zhuguanoption}
+						</select>   
+					</td>
+				</tr>
+				<tr>
+					<td class="redstar">*</td>
+					<td>主部门</td>
+					<td>
+						<select id="zhubumen" lay-verify="" lay-verify="required" class="selectcss" lay-ignore>
+							{$bumenoption}
+						</select>   
+					</td>
+				</tr>
+				<tr>
+					<td class="redstar"></td>
+					<td>辅部门</td>
+					<td>
+						<select id="fubumen"   class="selectcss" lay-ignore>
+							{$bumenoption}
+						</select>   
+					</td>
+				</tr>
+				<tr id="baocunbtn">
+					<td colspan="3"><center><button class="layui-btn" id="adduserbtn" >保存</button></center></td>
+				</tr>
+			</table>
+		</div>
+		</center>
 	</div>
 
-	<div id="mimadiv" class="layui-form" style="margin-bottom:20px;">
-	<center>
-		<table id="mimatable" width="500px" style="margin-top:20px;">
-			<tr id="">
-				<td style="width:80px;" >登录密码</td>
-				<td><input type="password" id="xinmima"   required lay-verify="required" placeholder="请输入新密码" autocomplete="off" class="layui-input"/></td>
-			</tr>
-			<tr>
-				<td>确认密码</td>
-				<td><input type="password" id="querenmima" style="margin-top:10px;" required lay-verify="required" placeholder="确认新密码" autocomplete="off" class="layui-input"/></td>
-			</tr>
-		</table>
-	</center>
+	<div id="bumendiv" class="layui-form" style="display:none;">
+		<center>
+			<table id="bumentable" width="600px" style="margin-top:20px;">
+				<tr>
+					<td style="width:100px;text-align:center;">部门名称</td>
+					<td><input type="text" id="newBumenName" required lay-verify="required" placeholder="请输入部门名称" autocomplete="off" class="layui-input"  style="width:97%"/></td>
+				</tr>
+			</table>
+		</center>
+	</div>
+
+	<div id="mimadiv" class="layui-form" style="margin-bottom:20px;display:none;">
+		<center>
+			<table id="mimatable" width="500px" style="margin-top:20px;">
+				<tr id="">
+					<td style="width:80px;" >登录密码</td>
+					<td><input type="password" id="xinmima"   required lay-verify="required" placeholder="请输入新密码" autocomplete="off" class="layui-input"/></td>
+				</tr>
+				<tr>
+					<td>确认密码</td>
+					<td><input type="password" id="querenmima" style="margin-top:10px;" required lay-verify="required" placeholder="确认新密码" autocomplete="off" class="layui-input"/></td>
+				</tr>
+			</table>
+		</center>
 	</div>
 
 	<script>
 		
-		$("#formdiv").hide();
-		$("#bumendiv").hide();
-		$('#mimadiv').hide();
 		window.root_dir="{$_GET['root_dir']}";
 		window.nowclick='b';
 		window.addoredit='add';
@@ -262,80 +258,70 @@
 			});
 		}
 		
-		
-		//部门列表上方公司名称点击事件
-		$(".lv-on").on("click",function(){
-			if(nowclick=='a')	return false;
-			var clicktext=$(this).text();
-			$("#table-head").text(clicktext);
-			if($(this).is("div"))//如果点击了DIV
-			{
-				if(!$(this).val())
-				{
-					$(this).children("i").removeClass("fa-folder-open");
-					$(this).children("i").addClass("fa-folder");
-					$(this).val('1');
-					$(this).parent().children("ul").hide("fast");
-				}
-				else
-				{
-					$(this).children("i").removeClass("fa-folder");
-					$(this).children("i").addClass("fa-folder-open");
-					$(this).val('');
-					$(this).parent().children("ul").show("fast");
-				}
-			}
-		});
-		//部门列表点击事件
-		function onshijian()
+		$(function(){
+			$("#box").fadeIn("fast");
+			//监听拖拽排序
+			$("#ukpaixu").on("change.uk.nestable",function(){
+				window.jiazai=layer.load(2);
+				//window.jiazai= layer.load(2);
+				//稍微延迟后保存树形结构
+				setTimeout(function(){
+					window.cdd='';
+					html_to_db_tree($("#ukpaixu"));
+					
+					//进行ajax提交
+					save_tree();
+					layer.close(jiazai);
+					//layer.close(jiazai);
+				},200);
+			});
+		})
+		function html_to_db_tree(main_ul_dom)
 		{
-		$(".lv-on").on("click",function(){
-			if(nowclick=='a')	return false;
-			var clicktext=$(this).text();
-			$("#table-head").text(clicktext);
-			if(!$(this).is("div"))
-			{
-				var thisid=$(this).attr("id").substr(2);
-				var hideFid='fid'+thisid;
-				if($(this).val()=='1')
+			/*
+			将HTML的树形结构转化成数据库的储存结构
+			≡└( 'o')┘≡┌( 'o')┐≡└( 'o')┘≡┌( 'o')┐
+			*/
+			main_ul_dom.children(".uk-nestable-item").each(function(){
+				var noweachid=$(this).parent().parent().children(".uk-nestable-panel").eq(0).children(".fl_mod").prop("id")==undefined?'0':$(this).parent().parent().children(".uk-nestable-panel").eq(0).children(".fl_mod").prop("id").substr(6);
+				cdd+='"'+noweachid+'":"'+$(this).find(".fl_mod").prop("id").substr(6)+'",';
+				if($(this).children("ul").length)
 				{
-					$(this).children("i").removeClass("fa-folder-open");
-					$(this).children("i").addClass("fa-folder");
-					$(this).css('border-left','4px solid #B7B7B7');
-					$(this).val('0');
-					var thislv=$(this).attr("name");
-					$(".lv"+thislv+thisid).hide("fast");
-					$(".lv"+thislv+thisid).val('0');
-					$(".lv"+thislv+thisid).children("i").removeClass("fa-folder-open");
-					$(".lv"+thislv+thisid).children("i").addClass("fa-folder");
-					$(".lv"+thislv+thisid).css('border-left','4px solid #B7B7B7');	
+					var each_dom=$(this).children("ul");
+					html_to_db_tree(each_dom);
 				}
-				else
-				{
-					$(this).children("i").removeClass("fa-folder");
-					$(this).children("i").addClass("fa-folder-open");
-					$(this).css('border-left','4px solid #828282');
-					$(this).val('1');
-					var thislv=$(this).attr("name");
-					$(".lv"+thislv+thisid).show("fast");
-					$(".lv"+thislv+thisid).val('1');
-					$(".lv"+thislv+thisid).children("i").removeClass("fa-folder");
-					$(".lv"+thislv+thisid).children("i").addClass("fa-folder-open");
-					$(".lv"+thislv+thisid).css('border-left','4px solid #828282');
-				
-				}
-			}
-		});
-		return '22';
+			});
 		}
-		onshijian();
-		//部门标签右边小图标的显示和隐藏
-		$(".lv-on").mouseover(function(){
-			$(this).children(".right-span").show();
-		});
-		$(".lv-on").mouseout(function(){
-			$(this).children(".right-span").hide();
-		});
+		//保存树形结构
+		function save_tree()
+		{
+			$.post("__ROOT__/index.php/Home/OptionDo/save_bm_tree",{"cdd":cdd},function(res){
+				if(res!='1')
+				{
+					tishi("保存结构失败，请稍后重试");
+				}
+			});
+			var bmpxjson=get_bm_px($("#ukpaixu"));
+			
+			$.post("__ROOT__/index.php/Home/OptionDo/save_bm_px",{"bmpxjson":bmpxjson},function(res){
+				if(res!='1')
+				{
+					tishi("保存结构失败，请稍后重试");
+				}
+			});
+		}
+		//获得部门的排序
+		function get_bm_px(m)
+		{
+			/*
+				获取树形结构的顺序
+			*/
+			var sq=new Array();
+			m.find(".fl_mod").each(function(){
+				sq.push($(this).prop("id").substr(6));
+			});
+			return JSON.stringify(sq);
+		}
 		//初始化form表单插件
 		layui.use('form', function(){
 		window.form = layui.form();
@@ -389,86 +375,40 @@
 							tishi("部门名称不能为空");
 							return false;
 						}
+						window.jiazai=layer.load(2);
 						$.get(root_dir+'/index.php/Home/OptionDo/bumenadd',{"newname":newBumenName,"fid":thisfid},function(is_ok){
 							if(is_ok=='1')
 							{
-								$.get(root_dir+'/index.php/Home/OptionDo/bumenshuaxin',{"newname":newBumenName,"fid":thisfid},function(searcharr){
-									newbumenlistarr=searcharr.split('@@');
-									//更新部门列表
-									$("#bmlistid").html(newbumenlistarr[0]);
-									//更新添加用户中部门下拉框中的部门
-									$("#zhubumen").html(newbumenlistarr[1]);
-									$("#fubumen").html(newbumenlistarr[1]);
-									//重新监听部门列表右边的按钮事件
-									$(".right-span").hide();
-									$(".lv-on").mouseover(function(){
-										$(this).children(".right-span").show();
-									});
-									$(".lv-on").mouseout(function(){
-										$(this).children(".right-span").hide();
-									});
-									onshijian();
-								});
-								tishi("添加成功");
-								layer.close(index);
-								nowclick='b';
+								location.reload();
 							}
 							else if(is_ok=='2')
 							{
+								layer.close(jiazai);
 								tishi("该部门已存在");
 							}
 							else if(is_ok=='3')
 							{
+								layer.close(jiazai);
 								tishi("输入的内容不合法");
 							}
 							else
 							{
+								layer.close(jiazai);
 								tishi("添加失败，请重试");
 							}
 						});
-                    },
-					cancel: function(){ 
-						nowclick='b';
-					}
+                    }
 				}); 
 			});
 		}
-		//选择主部门后，对应的辅部门变为不可选
-		$("#zhubumen").change(function(){
-			$("#fubumen").children("option").attr("disabled",false);
-			var zhuid=$("#zhubumen").val();
-			$("#fubumen").children("option[value='"+zhuid+"']").attr("disabled",true);
-		});
-		$("#fubumen").change(function(){
-			$("#zhubumen").children("option").attr("disabled",false);
-			var zhuid=$("#fubumen").val();
-			$("#zhubumen").children("option[value='"+zhuid+"']").attr("disabled",true);
-		});
 
 		//修改部门
 		function bmedit(thisid)
 		{
-			var thisname=$("#id"+thisid).text();
 			var bmFnameArr='{$bumenFname}';
 			var fname=jQuery.parseJSON(bmFnameArr);
-
+			var thisname=fname[thisid];//老名字
 			$("#newBumenName").val(thisname);
-			
-			if(this.tagName==undefined)
-			{
-				nowclick='a';
-			}
-			if(fname[thisid]<1)
-			{
-				$("#shangji").hide();
-			}
-			else
-			{
-				$("#shangji").show();
-				$("#shangji").children("td").children("input").val(fname[thisid]);
-			}
-
-
 			layui.use('layer', function(){
 				var layer = layui.layer;
 				layer.open({
@@ -478,6 +418,7 @@
 					content:$('#bumendiv'),
 					btn: '保存',
                		btn1: function(index, layero){
+						window.jiazai=layer.load(2);
 						var namename=$("#newBumenName").val();
 						if(thisname==namename)//如果用户没有修改任何内容，直接点保存，就直接提示修改成功
 						{
@@ -488,35 +429,10 @@
 						else
 						{
 							$.get(root_dir+'/index.php/Home/OptionDo/bumenedit',{"newname":namename,"thisid":thisid},function(is_ok){
+								layer.close(window.jiazai);
 								if(is_ok=='1')
 								{
-									$.get(root_dir+'/index.php/Home/OptionDo/bumenshuaxin',{},function(searcharr){
-										newbumenlistarr=searcharr.split('@@');
-										//更新部门列表
-										$("#bmlistid").html(newbumenlistarr[0]);
-										//更新添加用户中部门下拉框中的部门
-										$("#zhubumen").html(newbumenlistarr[1]);
-										$("#fubumen").html(newbumenlistarr[1]);
-										//重新监听部门列表右边的按钮事件
-										$(".right-span").hide();
-										$(".lv-on").mouseover(function(){
-											$(this).children(".right-span").show();
-										});
-										$(".lv-on").mouseout(function(){
-											$(this).children(".right-span").hide();
-										});
-										onshijian();
-									});
-									$.get(root_dir+'/index.php/Home/OptionDo/usershuaxin',{},function(searcharr){
-										var fhArr=searcharr.split("@@&&");
-										//更新用户表格
-										$("#table_local").children("tbody").html(fhArr[1]);
-										//更新添加用户时的主管下拉框
-										$("#zhuguan").html(fhArr[0]);
-									});
-									tishi("修改成功");
-									layer.close(index);
-									nowclick='b';
+									location.reload();
 								}
 								else if(is_ok=='2')
 								{
@@ -532,69 +448,37 @@
 								}
 							});
 						}
-                    },
-					cancel: function(){ 
-						nowclick='b';
-					}
+                    }
 				}); 
 			});
 		}
 		//删除部门
 		function bmdel(thisid)
 		{
-			//当点击子元素时不触发父元素的事件
-			if(this.tagName==undefined)
-			{
-				nowclick='a';
-			}
-			var thisname=$("#id"+thisid).text();
+			var bmFnameArr='{$bumenFname}';
+			var fname=jQuery.parseJSON(bmFnameArr);
+			var thisname=fname[thisid];//老名字
 			layer.msg('是否确定删除&nbsp;<font color="#f00" style="font-weight:bold">'+thisname+'</font>&nbsp;？<br>确认后将默认删除此部门的所有下级部门<br>所有下级部门的用户将自动移动到主部门', {
 				time: 2000000, //20s后自动关闭
 				btn: ['确认删除', '取消'],
 				btn1: function(index, layero){
+					window.jiazai=layer.load(2);
 					$.get(root_dir+'/index.php/Home/OptionDo/bumendel',{"thisid":thisid,"thisname":thisname},function(is_ok){
 						if(is_ok=='1')
 						{
-							$.get(root_dir+'/index.php/Home/OptionDo/bumenshuaxin',{},function(searcharr){
-								newbumenlistarr=searcharr.split('@@');
-								//更新部门列表
-								$("#bmlistid").html(newbumenlistarr[0]);
-								//更新添加用户中部门下拉框中的部门
-								$("#zhubumen").html(newbumenlistarr[1]);
-								$("#fubumen").html(newbumenlistarr[1]);
-								//重新监听部门列表右边的按钮事件
-								$(".right-span").hide();
-								$(".lv-on").mouseover(function(){
-									$(this).children(".right-span").show();
-								});
-								$(".lv-on").mouseout(function(){
-									$(this).children(".right-span").hide();
-								});
-								onshijian();
-							});
-							$.get(root_dir+'/index.php/Home/OptionDo/usershuaxin',{},function(searcharr){
-								var fhArr=searcharr.split("@@&&");
-								//更新用户表格
-								$("#table_local").children("tbody").html(fhArr[1]);
-								//更新添加用户时的主管下拉框
-								$("#zhuguan").html(fhArr[0]);
-							});
-							tishi("删除成功");
+							location.reload();
 						}
 						else
 						{
+							layer.close(jiazai);
 							tishi("删除失败");
 						}
+						
 					});
-					layer.close(index);
-					nowclick='b';
-				},
-				btn2: function(index, layero){
-					nowclick='b';
 				}
 			});
 		}
-		//添加用户(修改用户)
+		//添加用户
 		$("#adduserbtn").click(function(){
 			if(window.addoredit=='add')
 			{
@@ -653,6 +537,11 @@
 				if(!adduserzhubm)
 				{
 					tishi("主部门不能为空");
+					return false;
+				}
+				if(adduserzhubm==adduserfubm)
+				{
+					tishi("主部门不能与辅部门相同");
 					return false;
 				}
 				$.get(root_dir+'/index.php/Home/OptionDo/useradd',{"addusername":addusername,"addusersex":addusersex,"adduserphone":adduserphone,"adduseremail":adduseremail,"adduserjuese":adduserjuese,"adduserzhuguan":adduserzhuguan,"adduserzhubm":adduserzhubm,"adduserfubm":adduserfubm},function(is_ok){
@@ -844,16 +733,6 @@
 			$("#zhubumen").val(bj_zhubm);
 			$("#fubumen").val(bj_fubm);
 			$("#baocunbtn").hide();
-			if(bj_zhubm=='')//如果主部门不为空，就把辅部门列表中的选中的主部门给屏蔽掉
-			{	
-				$("#fubumen").children("option").attr("disabled",false);
-				$("#fubumen").children("option[value='"+bj_zhubm+"']").attr("disabled",true);
-			}
-			if(bj_fubm=='')//辅部门也是
-			{
-				$("#zhubumen").children("option").attr("disabled",false);
-				$("#zhubumen").children("option[value='"+bj_fubm+"']").attr("disabled",true);
-			}
 			//===========================================
 			layui.use('layer', function(){
 				var layer = layui.layer;
@@ -920,6 +799,11 @@
 						if(!adduserzhubm)
 						{
 							tishi("主部门不能为空");
+							return false;
+						}
+						if(adduserzhubm==adduserfubm)
+						{
+							tishi("主部门不能与辅部门相同");
 							return false;
 						}
 						var editusername=bj_name;
