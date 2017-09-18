@@ -36,7 +36,8 @@
 	#fast_button2{margin-right:2%;margin-left:2%;}
 	#fast_button3{margin-left:2.5%;}
 	#mod4{color:#6D6D6D;line-height:25px;}
-	#mod4 img{width:60%;margin-top:10px;display: none;}
+	#headimgdiv{width:60%;}
+	#mod4 img{margin-top:15px;display: none;}
 
 	#mod3{margin-top:10px;}
 	#mod3 table{width:100%;color:#A7A7A7;}
@@ -48,7 +49,12 @@
 	#mod5{margin-top:20px;}
 	#mod5 table{width:100%;}
 	#mod5 tr td{height:30px;line-height:30px;color:#3A3838;}
-
+	@media screen and (max-width:1100px)
+	{
+		#fast_button1{margin-right:2.3%;}
+		#fast_button2{margin-right:1.7%;margin-left:1.7%;}
+		#fast_button3{margin-left:2.3%;}
+	}
 </style>
 <body>
 <div id="box">
@@ -107,7 +113,7 @@
 	<div id="right-box">
 		<div id="mod4">
 			<div style="height:40%;margin-bottom:0px;padding:0;" >
-				<center>{$_COOKIE['gsimg']}</center>
+				<center><div id="headimgdiv">{$_COOKIE['gsimg']}</div></center>
 			</div>
 			<div style="height:56%;padding:20px;">
 				<p style="height:35px;line-height:35px;text-align:center;border-bottom:1px solid #DEDEDE;">使用账号数：{$usercount}/100</p>
@@ -153,7 +159,7 @@ $(function(){
 		$(this).css({'color':'#868686',"border":"1px solid #CECECE"});
 	});
 	//公司图片处理
-	$("#mod4").find("img").css("height",parseInt((parseInt($("#mod4").css("width"))*6)/10)+'px');
+
 	$("#mod4").find("img").fadeIn();
 	//快捷按钮1
 	$("#fast_button1").on("click",function(){
