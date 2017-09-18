@@ -1691,13 +1691,13 @@ class ChanpinController extends DBController {
 				}
 				$tdclass=$v['cp_qy']=='1'?'':"style='color:#ccc;'";
 				$rowjsonarr[$k]=$k=='zdy6'?$cpflarr[$rowjsonarr[$k]]:$rowjsonarr[$k];
-				$tdstr=mb_strlen($rowjsonarr[$k])>15?mb_substr($rowjsonarr[$k],0,15).'...':$rowjsonarr[$k];
+				$tdstr=mb_strlen($rowjsonarr[$k])>10?mb_substr($rowjsonarr[$k],0,10).'...':$rowjsonarr[$k];
 				$tdstr=$tdstr==''?'-':$tdstr;
 				$left_t='';
 				if($isfirst=='0')
 				{
 					$left_t="class='left_t'";
-					$firsttd="<td $tdclass style='width:200px'  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;'>".$rowjsonarr[$k]."</td>";
+					$firsttd="<td $tdclass style='width:200px'  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;'>".$tdstr."</td>";
 				}
 				$rowtdstr.="<td $tdclass $left_t  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' title='".$rowjsonarr[$k]."'>".$tdstr."</td>".$firsttd;
 				$firsttd='';
