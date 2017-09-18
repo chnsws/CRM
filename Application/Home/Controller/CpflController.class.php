@@ -446,12 +446,15 @@ class CpflController extends DBController {
         foreach($searchDbArr as $v)
         {
             $jsonDecode=json_decode($v['cp_data'],true);
+            //parent::rr($jsonDecode);
             //echo strpos($jsonDecode['zdy0'],$inputText).'-----';
+            /*
             $exarr=explode($inputText,$jsonDecode['zdy0']);
             if(count($exarr)<2)
             {
                 continue;
             }
+            */
             /*
             if(strpos($jsonDecode['zdy0'],$inputText)=='')
             {
@@ -462,10 +465,11 @@ class CpflController extends DBController {
                 }
             }
             */
-            //0:名称    6:分类
+            //0:名称    6:分类    1:编号
             $jsonData[]=array(
                 "id"=>$v['cp_id'],
                 "name"=>$jsonDecode['zdy0'],
+                "number"=>$jsonDecode['zdy1'],
                 "flid"=>$jsonDecode['zdy6'],
                 "flname"=>($cpfl[$jsonDecode['zdy6']]==''?'--':$cpfl[$jsonDecode['zdy6']])
             );

@@ -200,7 +200,7 @@
 <!--产品搜索div-->
 <div id="search_cp_div">
     <div class="searchdiv_top">
-        <input type="text" id="search_cp_input" placeholder="需要搜索的产品名称" />
+        <input type="text" id="search_cp_input" placeholder="请输入需要搜索的产品关键字" />
         <button class="layui-btn" id="search_cp_btn" onclick="search_div_btn()">搜索</button>
     </div>
     <div class="searchdiv_body_tip">
@@ -975,13 +975,13 @@ function search_div_btn()
         {
             $(".searchdiv_body").css("width","490px");
         }
-        var tableHead='<table class="layui-table"><thead><th>产品名称</th><th>产品分类</th></thead><tbody>';
+        var tableHead='<table class="layui-table"><thead><th>产品名称</th><th>所属分类</th></thead><tbody>';
         var tableFoot='</tbody></table>';
         var tableBody='';
         for(row in resArr)
         {
             //alert(resArr[row]['id']);
-            tableBody+='<tr><td><a href="__ROOT__/index.php/Home/Chanpin/chanpininfo?flid='+resArr[row]['flid']+'&cpid='+resArr[row]['id']+'&from=flpage">'+resArr[row]['name']+'</a></td><td><a href="__ROOT__/index.php/Home/Chanpin/index?flid='+resArr[row]['flid']+'">'+resArr[row]['flname']+'</a></td></tr>';
+            tableBody+='<tr><td><a href="__ROOT__/index.php/Home/Chanpin/chanpininfo?flid='+resArr[row]['flid']+'&cpid='+resArr[row]['id']+'&from=flpage">'+resArr[row]['name']+'('+resArr[row]['number']+')'+'</a></td><td><a href="__ROOT__/index.php/Home/Chanpin/index?flid='+resArr[row]['flid']+'">'+resArr[row]['flname']+'</a></td></tr>';
         }
         if(tableBody=='')
         {
