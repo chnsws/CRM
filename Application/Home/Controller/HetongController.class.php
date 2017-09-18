@@ -660,10 +660,27 @@ public function kehu(){
 				if($v[$kbt]!="")
 				{
 					if($kbt=='zdy0')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
+						if($v['ht_sp']==4){//审批中
+							$content.="<td><span style='color:cursor:#50BBB1;cursor:pointer' class='".$v['ht_id']."' onclick='ck_spjd(this)' title='查看审批进度'><b>".$v[$kbt]."</b></span></a></td>";
+						}elseif($v['ht_sp']==0){//刚添加可发起
+							$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
+						}elseif($v['ht_sp']==1){//审批通过
+							$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
+
+						}else{// 审批驳回
+							$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
+						}
+						
 					elseif($kbt=='zdy1'){
 						$kh_mc=$kehu[$v[$kbt]]['name'];
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
+
+					
+							$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
+						
+						
+
+
+						
 						}
 					elseif($kbt=='zdy2')
 						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:cursor:#50BBB1' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
@@ -1591,7 +1608,7 @@ public function kehu(){
 			foreach($shangji_arr as $k=>$v)
 			{
 				$sj_ex=explode(":",$v);
-				if($sj_ex['0']=="sj_fz")
+				if($sj_ex['0']=="")
 				{
 					$sj_data["sj_fz"]=	$sj_ex['1'];//本人ID  ;
 				}elseif($sj_ex['0']=="ht_department")
@@ -1599,6 +1616,8 @@ public function kehu(){
 					$sj_data["sj_bm"]=	$sj_ex['1'];//本人ID  ;
 				
 				}elseif($sj_ex['0']=="undefined"){
+
+				}elseif($sj_ex['0']==""){
 
 				}else{
 					$sj_ex_json[$sj_ex['0']]=$sj_ex['1'];
@@ -2105,6 +2124,97 @@ public function kehu(){
 														}
 
 
+
+	}
+	public function jindu(){
+		$user=$this->user();
+		$map['sp_sjid']=404;
+
+		$map['sp_yy']=1;
+		$map['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		$sp_base=M('sp');
+		$sql=$sp_base->where($map)->select();
+		foreach($sql as $k=>$v)
+		{
+			if($v['sp_dq_jj']=="1")
+			{
+				$one[]=$v;
+			}elseif($v['sp_dq_jj']==2)
+			{
+				$two[]=$v;
+			}elseif($v['sp_dq_jj']==3)
+			{
+				$three[]=$v;
+			}
+		}
+		$new_type=array(0=>"任意一人",1=>"全部人员");
+		if($one !="" || $one!=null)
+		{		
+			if($two['0']['sp_jg']=='128')
+			{
+				$jd_show.="<div style='height:25px;margin-top:35px'><span class='layui-btn layui-btn-normal layui-btn-small'>1级审批</span><i class='layui-icon' style=' color: #1E9FFF;margin:0;padding:0;'>&#xe623;</i> <span style='color:#999'> ".$new_type[$one['0']['sp_tp']]."</span>：";	
+			}else{
+				$jd_show.="<div style='height:25px;margin-top:35px'><span class='layui-btn layui-btn-normal layui-btn-small' style='background-color: green;'>1级审批</span><i class='layui-icon' style=' color: green;margin:0;padding:0;'>&#xe623;</i>  <span style='color:#999'> ".$new_type[$one['0']['sp_tp']]."</span>：";	
+			}
+			
+				foreach($one as $k=>$v)
+				{	
+					if($v['sp_jg']==1)
+					{
+						$jd_show.="<span style='margin-left:10px;color:green'>".$user[$v['sp_user']]['user_name']."</span>";
+					}else{
+						$jd_show.="<span style='margin-left:10px'>".$user[$v['sp_user']]['user_name']."</span>";
+					}	
+				}
+		 	$jd_show.="</div></div><div  style='border-left:1px dashed #999;height:60px;width:30px;margin-left:30px'></div> ";
+		}
+		if($two !="" || $two!=null)
+		{	
+			if($three['0']['sp_jg']=='128'){
+				if($two['0']['sp_jg']=='128')
+				{
+					$jd_show.="<div style='height:25px;'><span class='layui-btn layui-btn-normal layui-btn-small' style='background-color: #999;'>2级审批</span><i class='layui-icon' style=' color: #999;margin:0;padding:0;'>&#xe623;</i>  <span style='color:#999'> ".$new_type[$two['0']['sp_tp']]."</span>：";
+				}else{
+					$jd_show.="<div style='height:25px;'><span class='layui-btn layui-btn-normal layui-btn-small'>2级审批</span><i class='layui-icon' style=' color: #1E9FFF;margin:0;padding:0;'>&#xe623;</i>  <span style='color:#999'> ".$new_type[$two['0']['sp_tp']]."</span>：";
+				}
+			}else{
+				$jd_show.="<div style='height:25px;'><span class='layui-btn layui-btn-normal layui-btn-small' style='background-color: green;'>2级审批</span><i class='layui-icon' style=' color: green;margin:0;padding:0;'>&#xe623;</i>  <span style='color:#999'> ".$new_type[$two['0']['sp_tp']]."</span>：";	
+			}
+			
+				foreach($two as $k=>$v)
+				{
+					if($v['sp_jg']==1)
+					{
+						$jd_show.="<span style='margin-left:10px;color:green'>".$user[$v['sp_user']]['user_name']."</span>";
+					}else{
+						$jd_show.="<span style='margin-left:10px'>".$user[$v['sp_user']]['user_name']."</span>";
+					}	
+				}
+		 	$jd_show.="</div><div  style='border-left:1px dashed #999;height:60px;width:30px;margin-left:30px'></div>";
+		}
+		if($three !="" || $three!=null)
+		{
+			if($three['0']['sp_jg']=='128')
+			{
+					$jd_show.="<div style='height:25px;'><span class='layui-btn layui-btn-normal layui-btn-small' style='background-color: #999;'>3级审批</span><i class='layui-icon' style=' color: #999;margin:0;padding:0;'>&#xe623;</i>  <span style='color:#999'> ".$new_type[$three['0']['sp_tp']]."</span>：";
+			}else{
+						$jd_show.="<div style='height:25px;'><span class='layui-btn layui-btn-normal layui-btn-small'>3级审批</span><i class='layui-icon' style=' color: #1E9FFF;margin:0;padding:0;'>&#xe623;</i> <span style='color:#999'> ".$new_type[$three['0']['sp_tp']]."</span>：";
+			}
+		
+				foreach($three as $k=>$v)
+				{
+					if($v['sp_jg']==1)
+					{
+						$jd_show.="<span style='margin-left:10px;color:green'>".$user[$v['sp_user']]['user_name']."</span>";
+					}else{
+						$jd_show.="<span style='margin-left:10px'>".$user[$v['sp_user']]['user_name']."</span>";
+					}	
+				}
+		 	$jd_show.="</div>";
+		}
+
+		echo $jd_show;
+		
 
 	}
 }

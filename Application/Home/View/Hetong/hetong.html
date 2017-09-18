@@ -400,6 +400,9 @@ $(function(){
   	<div class='faqi' style='height:80px;display:none'>
   		<span style='color:green;margin-left:35%;line-height:70px;height:70px'>发起审批后将不可编辑、删除！</span>
   	</div>
+  	<div class='ck_spjd' style='height:80px;display:none'>
+  		<div class='ck_spjd1' style='margin-left:20%;'></div>
+  	</div>
 	</body>
 	<script>
 
@@ -1477,6 +1480,39 @@ $("#nchangyong").click(function(){
 							}); 
 
 						});      		
+			}
+			function ck_spjd(ss){
+				var id=$(ss).prop("class");
+			
+				$.get(rooturl+'/index.php/Home/Hetong/jindu',{"id":id},
+												function(html){
+										
+											 $(".ck_spjd1").html(html)		
+
+											})
+				
+				layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:['630px','400px'],
+								fixed: false,
+								title: '查看审批进度',
+
+								content:$('.ck_spjd'),
+								btn:['返回'],
+								btn1:function(){
+
+											layer.close(win)
+									//addshangji()
+
+
+								},
+								
+							}); 
+
+						});      	
 			}
     	</script>
     	
