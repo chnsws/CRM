@@ -159,6 +159,9 @@ return $fzr_only;
 			$map['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件          
 			$lx_base=M("hetong");
 			$sql_lianxi=$lx_base->where($map)->find();
+	
+			$ht_sp918=$sql_lianxi['ht_sp'];
+			$this->assign('ht_sp918',$ht_sp918);
 			$ht_json=json_decode($sql_lianxi['ht_data'],true);
 			$ht_zje=$ht_json['zdy3'];
 			$this->assign('ht_zje',$ht_zje);

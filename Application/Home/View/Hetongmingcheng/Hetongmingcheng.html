@@ -96,12 +96,13 @@ i.layui-anim{display:inline-block}
 		</div>
 		<input type='hidden' value='{$kh_id}' class='kh_id'>
 		<input type='hidden' value='{$uiid}' class='uiid'>
+		<input type='hidden' value='{$ht_sp918}' class='ht_sp'>
 		<div style="margin-top:20px;margin-left:8px; height:35px" >
 	   		<button onclick="history.go(-1)"  class="layui-btn layui-btn-primary layui-btn-small">
  				<i class="layui-icon">&#xe603;</i>返回</button>	
-		   	<button onclick="bianji()"  class="layui-btn layui-btn-primary layui-btn-small">
+		   	<button onclick="bianji()"  class="layui-btn layui-btn-primary layui-btn-small bjscyc">
 	 			<i class="layui-icon">&#xe642;</i>编辑</button>
-		   	<button onclick="del_check(this)"  id='{$ht_id}'  class="layui-btn layui-btn-primary layui-btn-small">
+		   	<button onclick="del_check(this)"  id='{$ht_id}'  class="layui-btn layui-btn-primary layui-btn-small bjscyc">
 	 			<i class="layui-icon">&#xe640;</i>删除</button>
 		</div>	
 			<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
@@ -416,7 +417,7 @@ i.layui-anim{display:inline-block}
 
 
 				    <div class='layui-tab-item'>
-			  			  <input type="button"  onclick="add_cpp()" class=" layui-btn layui-btn-small" value="+添加产品">
+			  			  <input type="button"  onclick="add_cpp()" class=" layui-btn layui-btn-small bjscyc" value="+添加产品">
 			  			  <span style='margin-left:60%'><b>合同总金额</b>：￥<span style='color:green'>{$ht_zje}</span><b style='margin-left:15px'>产品总金额</b>：￥{$zje9133}</span>
 							<table class="layui-table" lay-skin="line">
 								  	<thead>
@@ -437,7 +438,7 @@ i.layui-anim{display:inline-block}
 							 </table>
 			 		 </div>
 			 		  <div class='layui-tab-item' id='twosh1' >
-			  			<input type="button" id="dialog-form" onclick="fj_cp()"  class=" layui-btn layui-btn-small" value="+文件上传">
+			  			<input type="button" id="dialog-form" onclick="fj_cp()"  class=" layui-btn layui-btn-small bjscyc" value="+文件上传">
 					   <table class="layui-table" lay-skin="line">
 							  	<thead>
 							  		<th >上传时间</th>
@@ -562,6 +563,11 @@ i.layui-anim{display:inline-block}
 
 	</body>
 	<script>
+	var ht_sp918=$(".ht_sp").val();
+	if(ht_sp918==1)
+	{
+		$('.bjscyc').hide();
+	}
 	var uiid=$('.uiid').val();
 	if(uiid==5)
 	{

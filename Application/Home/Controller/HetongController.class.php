@@ -2060,7 +2060,10 @@ public function kehu(){
 	public function faqi(){
 
 														$sql=$_GET['id'];
-
+														$sp_kp_base=M('sp');
+														$mapdel['sp_sjid']=$sql;
+														$mapdel['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//
+														$sqldel=$sp_kp_base->where($mapdel)->delete();
 														$spr=$this->shenpi_kp();
 														if($spr!="zidongtongguo")
 														{
