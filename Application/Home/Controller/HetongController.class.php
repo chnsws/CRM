@@ -2127,8 +2127,8 @@ public function kehu(){
 
 	}
 	public function jindu(){
-		$user=$this->user();
-		$map['sp_sjid']=404;
+		$user=$this->userqb();
+		$map['sp_sjid']=$_GET['id'];
 
 		$map['sp_yy']=1;
 		$map['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
