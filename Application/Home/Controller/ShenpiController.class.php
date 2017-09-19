@@ -674,7 +674,7 @@ class ShenpiController extends Controller {
 						{
 							$ht_show.="<tr>
 										<td>";
-											$ht_show.="<span style='color:blue' class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_tongguo(this)'>通过</span><span style='color:blue;margin-left:20px'  class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_bohui(this)'>驳回</span></td>";
+											$ht_show.="<span style='color:#07d;cursor:pointer' class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_tongguo(this)'>通过</span><span style='color:#07d;cursor:pointer;margin-left:20px'  class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_bohui(this)'>驳回</span></td>";
 							
 								$ht_show.="	<td>".$ht_name[$v['sp_sjid']]['name']."</td>
 											<td>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</td>
