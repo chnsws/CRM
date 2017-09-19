@@ -236,6 +236,23 @@
     </table>
     </center>
 </div>
+<!--线索转客户要求填入联系人信息-->
+<div id="xs_to_kh_div" class="uk-form">
+    <table>
+        <tr>
+            <td>客户名称：</td>
+            <td><input type="text" id="khname" value="{$kh_name}" /></td>
+        </tr>
+        <tr>
+            <td>联系人姓名：</td>
+            <td><input type="text" id="lxrname" placeholder="" value="{$title_title}" /></td>
+        </tr>
+        <tr>
+            <td>联系人电话：</td>
+            <td><input type="text" id="lxrphone" placeholder="请填写该客户的联系人电话"></td>
+        </tr>
+    </table>
+</div>
 <script>
 //获取URL的绝对路径
 window.root_dir="{$_GET['root_dir']}";
@@ -298,12 +315,15 @@ $(function(){
     //获取当前负责人，用于编辑时比对
     window.now_fz=$("#add_fuzeren").find("select").val();
     //从客户页进来时隐藏一些按钮
-    var main_type="{$_GET['main_type']}";
-    if(main_type=='to_kh')
+    var main_type="{$is_to_kh}";
+    if(main_type=='1')
     {
         $("#btn_div").children("button").eq(1).hide();
         $("#btn_div").children("button").eq(2).hide();
         $("#btn_div").children("button").eq(3).hide();
+        $(".uk-button-dropdown").hide();
+        $("#add_genjin").hide();
+        $("#tab2").find(".layui-btn").hide();
     }
     //如果是附件页面的刷新  就跳到附件页面
     var tofj="{$_GET['tofj']}";
@@ -615,39 +635,73 @@ function zhuankehu()
         tishi("您没有将线索转成客户的权限");
         return;
     }
+    setTimeout(function() {
+        //tishi("请完善客户信息");
+    }, 200);
      layui.use('layer', function(){
         var layer = layui.layer;
-        layer.open({
-            type:0,
-            title: '提示',
+        window.zhuankehudiv=layer.open({
+            type:1,
+            title: '完善客户信息',
             fixed: false,
-            btn:["确定","取消"],
-            content:"确定将此线索转成客户？",
+            area:'500px',
+            btn:["转成客户","取消"],
+            content:$("#xs_to_kh_div"),
             btn1:function(index,layero){
-                window.jiazai=layer.load(2);
-                var thisxsid="{$_GET['xs_id']}";
-                thisxsid=thisxsid.substr(6);
-                $.get(root_dir+"/index.php/Home/Xiansuo/xs_to_kh",{"thisxsid":thisxsid},function(res){
-                    if(res=='1')
-                    {
-                        window.location=root_dir+"/index.php/Home/Xiansuo/index";
+                var zdy0=$("#khname").val();
+                var lxrname=$("#lxrname").val();
+                var lxrphone=$("#lxrphone").val();
+                if(zdy0=='')
+                {
+                    tishi("客户名称不能为空");
+                    return;
+                }
+                if(lxrname=='')
+                {
+                    tishi("联系人姓名不能为空");
+                    return;
+                }
+                if(lxrphone=='')
+                {
+                    tishi("联系人电话不能为空");
+                    return;
+                }
+                layer.open({
+                    type:0,
+                    title: '提示',
+                    fixed: false,
+                    btn:["确定","取消"],
+                    content:"确定将此线索转成客户？",
+                    btn1:function(index,layero){
+                        window.jiazai=layer.load(2);
+                        var thisxsid="{$_GET['xs_id']}";
+                        thisxsid=thisxsid.substr(6);
+                        $.get(root_dir+"/index.php/Home/Xiansuo/xs_to_kh",{"thisxsid":thisxsid,"zdy0":zdy0,"lxrname":lxrname,"lxrphone":lxrphone},function(res){
+                            if(res=='1')
+                            {
+                                window.location=root_dir+"/index.php/Home/Xiansuo/index";
+                            }
+                            else if(res=='2')
+                            {
+                                layer.close(jiazai);
+                                tishi("当前没有设置负责人，无法转为客户");
+                                return false;
+                            }
+                            else
+                            {
+                                tishi("操作失败，请稍后重试");
+                                layer.close(jiazai);
+                                return false;
+                            }
+                        });
+                    },
+                    btn2:function(index,layero){
+                        layer.close(index);
                     }
-                    else if(res=='2')
-                    {
-                        layer.close(jiazai);
-                        tishi("当前没有设置负责人，无法转为客户");
-                        return false;
-                    }
-                    else
-                    {
-                        tishi("操作失败，请稍后重试");
-                        layer.close(jiazai);
-                        return false;
-                    }
-                });
+                }); 
             },
             btn2:function(index,layero){
-                layer.close(index);
+                layer.close(zhuankehudiv);
             }
         }); 
     });

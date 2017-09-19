@@ -110,7 +110,12 @@ td a{color:#1AA094!important;text-decoration: none!important;}
 
 #tab2 table tr>td>a:first-child{margin-right:20px;}
 
-
+/*线索转客户-填写联系人div*/
+#xs_to_kh_div{display:none;margin:10px 20px;width:460px;}
+#xs_to_kh_div>table{width:100%;}
+#xs_to_kh_div tr>td:first-child{width:100px;font-weight: bold;}
+#xs_to_kh_div td{height:40px;}
+#xs_to_kh_div input{width:100%;}
 
 
 

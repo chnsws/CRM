@@ -712,6 +712,11 @@ class XiansuoController extends DBController {
 		//附件
 		$this->assign("fjtable",$fjtable);
 
+		//公司名称
+		$this->assign("kh_name",$this_json_data['zdy1']);
+		//本条线索是否已经转成客户了
+		$this->assign("is_to_kh",$this_xs_arr['xs_is_to_kh']);
+		
 		$this->display();
 	}
 
@@ -908,7 +913,7 @@ class XiansuoController extends DBController {
 		zdy17	zdy14-备注
 		*/
 		$to_kh_data=array(
-			"zdy0"=>$xs_json_arr['zdy1'],
+			"zdy0"=>$_GET['zdy0'],
 			"zdy2"=>$xs_json_arr['zdy4'],
 			"zdy3"=>$xs_json_arr['zdy9'],
 			"zdy5"=>$xs_json_arr['zdy10'],
@@ -923,16 +928,71 @@ class XiansuoController extends DBController {
 		$bm_option=$this->get_bm_option($fid);
 		$bm_name_arr=$this->option_to_arr($bm_option);
 
+		//字段参数
+		$csArr=parent::sel_more_data("crm_ywcs","ywcs_data","ywcs_yh='$fid' and ywcs_yw='7' limit 1");
+		$csArr=json_decode($csArr[0]['ywcs_data'],true);
+		$cs=array();
+		foreach($csArr[0] as $k=>$v)
+		{
+			if(substr($k,0,6)=='canshu')
+			{
+				$cs[$k]=$v;
+			}
+		}
+
 		$this_time=time();
 		$this_time_str=date("Y-m-d H:i:s",$this_time);
 
 		$to_kh_data_json=str_replace("\\","\\\\",json_encode($to_kh_data));
 		$khdb=M("kh");
-		
+		//插入客户
 		$khdb->query("insert into crm_kh set kh_data='$to_kh_data_json',kh_fz='".$thisxsarr['xs_fz']."',kh_bm='".$bm_name_arr[$user_bm_arr[$thisxsarr['xs_fz']]]."',kh_cj='".cookie("user_id")."',kh_old_fz='".$thisxsarr['xs_qfz']."',kh_old_bm='".$bm_name_arr[$user_bm_arr[$thisxsarr['xs_fz']]]."',kh_cj_date='$this_time',kh_yh='$fid' ");
+		//获得刚才插入的id
+		$lastinsert=$khdb->query("select LAST_INSERT_ID()");
+		$last_insert_id=$lastinsert[0]['LAST_INSERT_ID()'];//客户id
+		//基本信息转化完成后，将跟进记录信息转化
+		//跟进记录查询
+		$gjarr=parent::sel_more_data("crm_xiegenjin","*","genjin_yh='$fid' and mode_id='1' and kh_id='$xsid' ");
+		$to_kh_gj=array();
+		$insert_str='';
+		if(count($gjarr)>0)
+		{
+			foreach($gjarr as $v)
+			{
+				$insert_str.="(null,'2','".$last_insert_id."','".$v['user_id']."','".$cs[$v['type']]."','".$v['content']."','".date("Y-m-d H:i:s",$v['date'])."','".date("Y-m-d H:i:s",$v['add_time'])."','$fid',''),";
+			}
+			$insert_str=substr($insert_str,0,-1);
+		}
+		$genjin_base=M("xiegenjin");
+		$genjin_base->query("insert into crm_xiegenjin values $insert_str ");
+		//$a=parent::sel_more_data("crm_yewuziduan",'zd_data',"zd_yh='$fid' and zd_yewu='4' limit 1");
+		//parent::rr(json_decode($a[0]['zd_data'],true));
+		//跟进记录迁移完成--开始添加联系人
+		//0:姓名    1:对应客户id    5:电话
+		$lxrarr=array(
+			"zdy0"=>addslashes($_GET['lxrname']),
+			"zdy1"=>$last_insert_id,
+			"zdy5"=>addslashes($_GET['lxrphone'])
+		);
+		$lxrjson=str_replace('\\','\\\\',json_encode($lxrarr));
+		$lxrbase=M("lx");
+		$lxrbase->query("insert into crm_lx set 
+						lx_data='$lxrjson',
+						lx_cj='".$_COOKIE['user_id']."',
+						lx_cj_date='".time()."',
+						lx_yh='$fid'
+					");
+		//联系人插入完成--需要将刚插入的联系人ID添加到对应的客户中
+		//获得刚才插入的联系人ID
+		$lastinsert=$lxrbase->query("select LAST_INSERT_ID()");
+		$last_insert_lxr_id=$lastinsert[0]['LAST_INSERT_ID()'];//联系人ID
+		//将联系人id添加到对应客户中
+		$to_kh_data['zdy15']=$last_insert_lxr_id;
+		$to_kh_data_json=str_replace("\\","\\\\",json_encode($to_kh_data));
+		$khdb->query("update crm_kh set kh_data='$to_kh_data_json' where kh_id='$last_insert_id' and kh_yh='$fid' limit 1");
 		//将本条线索的状态改为已转客户
 		parent::edit_more_data("crm_xiansuo","xs_is_to_kh='1',xs_to_kh_time='$this_time_str',xs_last_edit_time='$this_time_str'","xs_id='$xsid'");
-		$this->insertrizhi($xsid,'11','将'.$ajax_arr['zdy0'].'转成客户');
+		$this->insertrizhi($xsid,'11','将 '.$to_kh_data['zdy0'].' 转成客户');
 		echo 1;
 	}
 	//上传线索附件
