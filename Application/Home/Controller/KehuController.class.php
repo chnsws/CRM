@@ -1032,7 +1032,7 @@ class KehuController extends Controller {
 			//echo "<pre>";
 		//	var_dump($lx_end);exit;
 		$a=1;
-			$lx_show.="<table class='layui-table' lay-skin='line' >
+			$lx_show.="<table class='layui-table'   >
 							  	<thead>
 							  				<th >姓名</th>
 							  				<th >部门</th>
@@ -1050,7 +1050,7 @@ class KehuController extends Controller {
 					
 					
 					$lx_show.="<tr>
-					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span style='color:blue'>".$v['zdy0']."</span></a></td>
+					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span>".$v['zdy0']."</span></a></td>
 					  				<td >".$v['zdy3']."</td>
 					  				<td >".$v['zdy4']."</td>
 					  				<td >".$v['zdy5']."</td>
@@ -1069,7 +1069,7 @@ class KehuController extends Controller {
 			foreach($lx_end as $k => $v)
 			{
 				$lxr_show.="<tr>
-				  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span style='color:blue'>".$v['zdy0']."</span></a></td>
+				  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span>".$v['zdy0']."</span></a></td>
 				  				<td >".$v['zdy3']."</td>
 				  				<td >".$v['zdy4']."</td>
 				  				<td >".$v['zdy5']."</td>
@@ -1118,7 +1118,7 @@ class KehuController extends Controller {
 							{
 								if($bc<3){
 									$sj_show.="<tr>
-					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1'>".$v['zdy0']."</span></a></td>
+					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span>".$v['zdy0']."</span></a></td>
 					  				<td >".$v['zdy3']."</td>
 					  				<td >".$v['zdy4']."</td>
 					  				<td >".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
@@ -1166,7 +1166,7 @@ class KehuController extends Controller {
 					$ht_end[$v['ht_id']]=$new_hetong;
 				}
 			}
-					$ht_show.="<table class='layui-table' lay-skin='line'>
+					$ht_show.="<table class='layui-table'  >
 						  	<thead>
 						  				<th >合同标题</th>
 						  				<th >合同总金额</th>
@@ -1189,7 +1189,7 @@ class KehuController extends Controller {
 										if($hta<3)
 										{
 											$ht_show.="<tr>
-											  				<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span class='shangji1'>".$v['zdy0']."</span></a></td>
+											  				<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span>".$v['zdy0']."</span></a></td>
 											  				<td >￥:".$v['zdy3']."</td>
 											  				<td >".$v['zdy5']."</td>
 											  	
@@ -1207,7 +1207,7 @@ class KehuController extends Controller {
 			foreach($ht_end as $k=>$v)
 			{
 				$ht_show_much.="<tr>
-					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span class='shangji1'>".$v['zdy0']."</span></a></td>
+					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span>".$v['zdy0']."</span></a></td>
 					  				<td >￥:".$v['zdy3']."</td>
 					  				<td >".$v['zdy5']."</td>
 					  				<td >".$v['zdy6']."</td>

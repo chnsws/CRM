@@ -25,6 +25,7 @@
 </script>
    		<style>
 		body,ul,li,table,tr{margin:0;padding:0;font-family:宋体; color:#333;}
+		a{color:#07d;}
 		.top{ width:100%;} 
 		.top1{  position: relative; left: 10px; top :16px;}
 		.name{font-size:20px; color:#50BBB1;}
@@ -107,9 +108,10 @@ td{padding-top: 13px;}
 .c1{width:94%;height:180px;line-height:180px;}
 .sjsss{height:180px;line-height:180px;width:94%;}
 .htsss{height:180px;line-height:180px;width:94%;}
-th{background-color:#50BBB1;height:30px;color:white;} 
+th{background-color:#50BBB1;height:30px;color:white;border:0px !important;} 
 .ziliao_kh{margin-left:10px;width:35%;}
 #th_onlykh{margin-left:20px;}
+a{color:#07d; text-decoration:none !important;}
 
 
 		</style>
@@ -162,7 +164,7 @@ th{background-color:#50BBB1;height:30px;color:white;}
 								  				</div>
 							  					<div class='c1'>
 
-							  						<table class="layui-table" lay-skin="line">
+							  						<table class="layui-table"  >
 														  	<thead>
 														  				<th >客户类型</th>
 														  				<th >电话</th>
@@ -199,7 +201,7 @@ th{background-color:#50BBB1;height:30px;color:white;}
 							  					<span class="jiben"><b>商机</b></span><span class='ck_lx' id='lxrone' onclick="ck_sj(this)">更多>></span>
 							  				</div>
 						  					<div class='sjsss'>
-						  					<table class='layui-table' lay-skin='line'>
+						  					<table class='layui-table'  >
 											  	<thead>
 											  				<th >商机标题</th>
 											  				<th >预计销售金额</th>
@@ -319,7 +321,7 @@ th{background-color:#50BBB1;height:30px;color:white;}
 				
 					</div>
 				    <div class="layui-tab-item">
-				    	<table class="layui-table" lay-skin="line">
+				    	<table class="layui-table"  >
 							  	<thead>
 							  				<th >姓名</th>
 							  				<th >部门</th>
@@ -337,7 +339,7 @@ th{background-color:#50BBB1;height:30px;color:white;}
 						</table>  
 				    </div>
 				    <div class="layui-tab-item">
-				    	<table class="layui-table" lay-skin="line">
+				    	<table class="layui-table"  >
 						  	<thead>
 						  				<th >商机标题</th>
 						  				<th >预计销售金额</th>
@@ -356,7 +358,7 @@ th{background-color:#50BBB1;height:30px;color:white;}
 						 </table>  
 				    </div>
 				    <div class="layui-tab-item">
-				    	<table class="layui-table" lay-skin="line">
+				    	<table class="layui-table"  >
 						  	<thead>
 						  				<th >合同标题</th>
 						  				<th >合同总金额</th>
@@ -375,7 +377,7 @@ th{background-color:#50BBB1;height:30px;color:white;}
 				    <div class="layui-tab-item">
 				 		   <div >
 				  				<input type="button" id="dialog-form" onclick="openwindow()" class="layui-btn layui-btn-small" value="+文件上传">
-							  		<table class="layui-table" lay-skin="line">
+							  		<table class="layui-table"  >
 							  	<thead>
 							  				<th >ID</th>
 							  				<th >上传时间</th>
@@ -427,7 +429,7 @@ th{background-color:#50BBB1;height:30px;color:white;}
 					  				<span class="rz_sx1"><input type="text" name= "start" value="开始日" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" class="rz_sx rzfour"><span style="margin-left:10px;margin-right:10px">-</span><input type="text" name= "end" class="rz_sx rzfive" value="截止日" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})"></span>
 					  				<button onclick="rz_sx(this)" class="rz_sx1 layui-btn layui-btn-small">查询</button>
 					  			</div>
-					  			<table class="layui-table" lay-skin="line"> 
+					  			<table class="layui-table"  > 
 								  	<thead>
 								  				
 								  				<th >操作时间</th>

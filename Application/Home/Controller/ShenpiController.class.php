@@ -98,7 +98,7 @@ class ShenpiController extends Controller {
 						 foreach($huikuan1 as $k=>$v)
 						 {
 								$hk_show.="<tr>
-										<td><span style='color:blue' class='".$v['sp_id']."' onclick='tongguo(this)'>通过</span><span style='color:blue;margin-left:20px'  class='".$v['sp_id']."' onclick='bohui(this)'>驳回</span></td>
+										<td><span style='color:#079;cursor:pointer' class='".$v['sp_id']."' onclick='tongguo(this)'>通过</span><span style='color:#079;margin-left:20px;cursor:pointer'  class='".$v['sp_id']."' onclick='bohui(this)'>驳回</span></td>
 										<td>第".$v['hk_qici']."期</td>
 										<td>".$ht_name[$v['hk_ht']]['name']."</td>
 										<td>".$user_name[$ht_name[$v['hk_ht']]['fz']]['user_name']."</td>
@@ -394,7 +394,7 @@ class ShenpiController extends Controller {
 								$kp_show.="<tr>
 										<td>";
 									
-									$kp_show.="<span style='color:blue' class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['kp_id']."'  onclick='kp_tongguo(this)'>通过</span><span style='color:blue;margin-left:20px'  class='".$v['sp_id']."' id = '".$v['sp_tp']."' name='".$v['kp_id']."' onclick='kp_bohui(this)'>驳回</span>";
+									$kp_show.="<span style='color:#079;cursor:pointer' class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['kp_id']."'  onclick='kp_tongguo(this)'>通过</span><span style='color:#079;margin-left:20px;cursor:pointer'  class='".$v['sp_id']."' id = '".$v['sp_tp']."' name='".$v['kp_id']."' onclick='kp_bohui(this)'>驳回</span>";
 							
 									
 									$kp_show.="</td>
@@ -406,7 +406,7 @@ class ShenpiController extends Controller {
 										<td>".$v['kp_je']."</td>";
 										if($v['kp_type']==0 || $v['kp_type']==1)
 										{
-											$kp_show.="	<td><span style='color:blue' class='".$v['kp_id']."' onclick='fapiaoxinxi(this)'>".$kp_type_arr[$v['kp_type']]."</span></td>";
+											$kp_show.="	<td><span style='color:#079;cursor:pointer' class='".$v['kp_id']."' onclick='fapiaoxinxi(this)'>".$kp_type_arr[$v['kp_type']]."</span></td>";
 										}else{
 											$kp_show.="	<td>".$kp_type_arr[$v['kp_type']]."</td>";
 										}

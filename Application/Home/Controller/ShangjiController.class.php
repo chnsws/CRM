@@ -175,7 +175,7 @@ class ShangjiController extends Controller {
 			$show.="<tr>";
 			$show.="
 				<td >
-				<input type='checkbox' class='chbox_duoxuan' id='".$v['sj_id']."'>".$v['sj_id']."
+				<input type='checkbox' class='chbox_duoxuan' id='".$v['sj_id']."'>
 				</td>";
 			foreach($biaoti as $k1=>$v1)
 			{
@@ -183,7 +183,7 @@ class ShangjiController extends Controller {
 				{
 					if($k1=="zdy0")    //商机标题  跳转到商机页面
 					{ 
-						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id'>".$v[$k1]." </a></td>"	;
+						$show.="<td style='width:10%'> <a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id'>".$v[$k1]." </a></td>"	;
 					}elseif($k1=="zdy1"){     //k客户标题 跳转到客户页面
 						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/kh_id/$kh_mc'>".$kh_name[$v[$k1]]['name']." </a></td>";
 					}elseif($k1=="zdy2"){
@@ -446,7 +446,7 @@ class ShangjiController extends Controller {
 				
 				}if($vzd['id']=="zdy6"){
 				$table2.="<tr><td colspan='2'>";
-					$table2.="<table class='layui-table' lay-skin='line' style='display: none;border:1px'>";
+					$table2.="<table class='layui-table'   style='display: none;border:1px'>";
 								 	 $table2.="<thead>
 								  				<th >产品名称</th>
 						  						<th >产品原价</th>

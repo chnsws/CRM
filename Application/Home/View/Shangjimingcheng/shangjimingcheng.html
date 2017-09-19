@@ -49,7 +49,8 @@
 			.shiji{float:right;position: relative; right:18px;}
 			.gj td{padding-left:25px;}
 			.gj tr{height:70px;}
-			th{background-color:#50BBB1;height:30px;color:white;} 
+			th{background-color:#50BBB1;height:30px;color:white;border:0px !important;} 
+			a{color:#07d; text-decoration:none !important;}
   		</style>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
@@ -166,7 +167,7 @@
 
 		  	    </div>
 		  	     <div class="layui-tab-item">
-			  	     <table class="layui-table" lay-skin="line">
+			  	     <table class="layui-table"  >
 					  	<thead>
 					  		<th >姓名</th>
 			  				<th >职务</th>
@@ -179,7 +180,7 @@
 						<tbody class="fujian_del">
 							<tr>
 							
-					  				<td ><a href="{$_GET['root_dir']}/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/{$sql_lianxi.lx_id}"><span style="color:blue">{$lx_json.zdy0}</span></a></td>
+					  				<td ><a href="{$_GET['root_dir']}/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/{$sql_lianxi.lx_id}"><span style="color:#079">{$lx_json.zdy0}</span></a></td>
 					  				<td >{$lx_json.zdy4}</td>
 					  				<td >{$lx_json.zdy5}</td>
 					  				<td >{$lx_json.zdy6}</td>
@@ -193,7 +194,7 @@
 					 </table>
 		  	     </div>
 		  	     <div class="layui-tab-item">
-		  	       	<table class="layui-table" lay-skin="line">
+		  	       	<table class="layui-table"  >
 					  	<thead>
 					  		<th >产品名称</th>
 			  				<th >产品编号</th>
@@ -217,7 +218,7 @@
 		  	      <div class="layui-tab-item">
 				  	      <div >
 					  		<input type="button" id="dialog-form" onclick="fj_cp()" class="layui-btn layui-btn-small" value="+文件上传">
-					  		<table class="layui-table" lay-skin="line">
+					  		<table class="layui-table"  >
 								  	<thead>
 								  		
 								  				<th >上传时间</th>
@@ -242,7 +243,7 @@
 						</div>
 		  	      </div>
 		  	      <div class="layui-tab-item">
-		  	       		<table class="layui-table" lay-skin="line"> 
+		  	       		<table class="layui-table"  > 
 								  	<thead>
 								  				
 								  				<th >操作时间</th>
