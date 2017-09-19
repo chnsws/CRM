@@ -635,10 +635,32 @@ public function kehu(){
 					}
 
 		$ht_biaoti1=array_merge_recursive($ywzd,$new_arrayoo);//客户标题名字
+		$wcht_base=M('wcht');
+		$wcht_map['wcht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$sql_wcht=$wcht_base->where($wcht_map)->select();
 
 
+
+		foreach($sql_wcht as $v)
+		{
+			foreach($v as $k1 =>$v1)
+			{
+				
+					$wcht_json=json_decode($v['wcht_data'],true);
+					foreach($wcht_json as $k2=>$v2)
+					{
+						$wcht_sql[$k2]=$v2;
+					}
+				
+				
+			}
+			$wcht_sql2[$v['wcht_ht']]=$wcht_sql;
+			
+		}
+	
+
 		
-		
+			
 		foreach($hetong as $k=>$v)
 		{		
 				$content.="<tr id='".$v['ht_id']."'>";
@@ -661,7 +683,7 @@ public function kehu(){
 				{
 					if($kbt=='zdy0')
 						if($v['ht_sp']==4){//审批中
-							$content.="<td><span style='color:cursor:#50BBB1;cursor:pointer' class='".$v['ht_id']."' onclick='ck_spjd(this)' title='查看审批进度'><b>".$v[$kbt]."</b></span></a></td>";
+							$content.="<td><span style='color:#999;cursor:pointer' class='".$v['ht_id']."' onclick='ck_spjd(this)' title='查看审批进度'>".$v[$kbt]."</span></a></td>";
 						}elseif($v['ht_sp']==0){//刚添加可发起
 							$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
 						}elseif($v['ht_sp']==1){//审批通过
@@ -672,18 +694,25 @@ public function kehu(){
 						}
 						
 					elseif($kbt=='zdy1'){
-						$kh_mc=$kehu[$v[$kbt]]['name'];
-
+					//	echo $v[$kbt];
+					$kh_mc=$kehu[$v[$kbt]]['name'];
+						if($v['ht_sp']==4||$v['ht_sp']==1)//审批中或者审批通过
+							{
+								
+								$content.="<td><a style='color:#999' href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$wcht_sql2[$v['ht_id']]['zdy1']."</span></a></td>";
+							}else{
 					
-							$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
-						
-						
-
-
-						
+								$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
+							}
 						}
 					elseif($kbt=='zdy2')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:cursor:#50BBB1' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
+							if($v['ht_sp']==4||$v['ht_sp']==1)//审批中或者审批通过
+							{
+								$content.="<td><a style='color:#999' href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:cursor:#50BBB1' >".$wcht_sql2[$v['ht_id']]['zdy2']."</span></a></td>";	
+							}else{
+								$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:cursor:#50BBB1' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
+							}
+						
 					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
 							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
 					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz' ||$kbt=='zdy13')
@@ -2060,6 +2089,71 @@ public function kehu(){
 	public function faqi(){
 
 														$sql=$_GET['id'];
+														$ht_base=M('hetong');
+														//此处形成真正的合同
+															$kehu=$this->kehu();
+														$shangji=$this->shangji();
+	
+														$ht_base=M('hetong');
+														$map_htcx['ht_id']=$sql;
+														$map_htcx['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+														$sql_cx=$ht_base->where($map_htcx)->find();
+													
+														foreach($sql_cx as $k1 =>$v1)
+														{
+														
+																
+															if($k1!='ht_data')
+																{	
+
+																	if($k1=='ht_id')
+																	{
+																		$map_add['wcht_ht']=$v1;
+																		//var_dump($map_add);exit;
+																	}else{
+
+																		$ht_sql[$k1]=$v1;
+																	}
+
+																}else{
+																	$ht_json=json_decode($v1,true);
+																	foreach($ht_json as $k2=>$v2)
+																	{
+																		if($k2!="")
+																		{
+																			if($k2=='zdy1')
+																			{	
+																				$ht_sql[$k2]=$kehu[$v2]['name'];		//客户
+																			}elseif($k2=="zdy2")
+																			{
+																				$ht_sql[$k2]=$shangji[$v2]['zdy0'];		//商机
+																			}else{
+																				$ht_sql[$k2]=$v2;
+																			}
+																		}
+																	}
+
+																	
+
+																}
+															}
+															
+															$map_add['wcht_data']=json_encode($ht_sql,true);
+																		$map_add['wcht_date']=time();
+																		$map_add['wcht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+																		$map_add['wcht_zt']=0;
+																		$wcht_base=M('wcht');
+																		$map_del['wcht_ht']=$sql;
+																		$map_del['wcht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+																		$sql_del=$wcht_base->where()->delete();
+																		$add=$wcht_base->add($map_add);
+
+
+
+
+
+
+
 														$sp_kp_base=M('sp');
 														$mapdel['sp_sjid']=$sql;
 														$mapdel['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//
@@ -2112,13 +2206,13 @@ public function kehu(){
 																$jjjj++;
 																
 															}
-														$ht_base=M('hetong');
+														
 														$map_ht['ht_id']=$sql;	
 														$map_ht['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 														$save_map['ht_sp']=4;
 														$sql_save_ht=$ht_base->where($map_ht)->save($save_map);
 														}else{ 
-															$ht_base=M('hetong');
+														
 														$map_ht['ht_id']=$sql;	
 														$map_ht['ht_qy']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 														$save_map['ht_sp']=1;
@@ -2219,6 +2313,62 @@ public function kehu(){
 		echo $jd_show;
 		
 
+	}
+	public function ceshi918(){							$kehu=$this->kehu();
+														$shangji=$this->shangji();
+	
+														$ht_base=M('hetong');
+														$map_htcx['ht_id']="404";
+														$map_htcx['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+														$sql_cx=$ht_base->where($map_htcx)->find();
+													
+														foreach($sql_cx as $k1 =>$v1)
+														{
+														
+																
+															if($k1!='ht_data')
+																{	
+
+																	if($k1=='ht_id')
+																	{
+																		$map_add['wcht_ht']=$v1;
+																		//var_dump($map_add);exit;
+																	}else{
+
+																		$ht_sql[$k1]=$v1;
+																	}
+
+																}else{
+																	$ht_json=json_decode($v1,true);
+																	foreach($ht_json as $k2=>$v2)
+																	{
+																		if($k2!="")
+																		{
+																			if($k2=='zdy1')
+																			{	
+																				$ht_sql[$k2]=$kehu[$v2]['name'];		//客户
+																			}elseif($k2=="zdy2")
+																			{
+																				$ht_sql[$k2]=$shangji[$v2]['zdy0'];		//商机
+																			}else{
+																				$ht_sql[$k2]=$v2;
+																			}
+																		}
+																	}
+
+																	
+
+																}
+															}
+																$map_add['wcht_data']=json_encode($ht_sql,true);
+																		$map_add['wcht_date']=time();
+																		$map_add['wcht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+																		$map_add['wcht_zt']=0;
+																		$wcht_base=M('wcht');
+																		$add=$wcht_base->add($map_add);
+														
+														
+	
 	}
 }
 
