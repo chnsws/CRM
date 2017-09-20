@@ -76,7 +76,7 @@
 			.sxzddiv,span{overflow:hidden;}
 
 			#sxshowbtn{background-color:#fff;width:40px;text-align:center;margin:0 auto;cursor:pointer;}
-			.sxzddiv{width:100%;height:auto;word-break: break-all;word-wrap: break-word;}
+			.sxzddiv{width:100%;height:auto;word-break: break-all;word-wrap: break-word;margin-left: 10px;}
 			.sx_title{float:left;width:80px;height:25px;margin:5px 5px 5px 5px;line-height:25px;}
 			.sx_yes,.sx_no{width:auto;margin:5px 5px 5px 5px;cursor:pointer;padding:0 5px 0 5px;float:left;height:25px;line-height:25px;}
 			.sx_yes{background-color:#1AA094;border-radius:3px;color:#fff;}
@@ -94,18 +94,13 @@
 			.onError{color:red;}
 			.onSuccess{color:green;}
 			.kongzhiyeshu{margin-top:19px;height:40px;font-size:16px;margin-left:20px;}
-			.panel-title{margin-left:10px;margin-top:9px; font-size:21px; color:#1AA094;}
-						.searchable-select-dropdown{z-index:99999990;}
-						th{background-color:#50BBB1;height:30px;color:white;border:0px !important;}
-						a{color:#07d; text-decoration:none !important;}
-						.fa {
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
+			.panel-title{color: #1AA094;font-weight: bold;font-size: 22px;}
+			.panel-heading{
+				height: 60px;line-height: 60px;border-bottom-style:solid;border-width: 1px;border-color: #E0E0E0;margin-left: 15px;
+			}
+			.searchable-select-dropdown{z-index:99999990;}
+			th{background-color:#50BBB1;height:30px;color:white;border:0px !important;}
+			a{color:#07d; text-decoration:none !important;}
 						
    			 </style>
   			
@@ -155,10 +150,11 @@
 		<div id="tabs">
 		<div>
 			  <ul>
-			    <li class="panel-heading"><span class="panel-title"><b>客户</b></span><span class="xinzeng2"><button  onclick="add_yh()" class=" layui-btn " style="height: 30px;line-height: 30px;"><i class="fa fa-plus" style="margin-right: 5px;"></i>新增用户</button><span><button onclick="daoru()"  class="layui-btn" style="border:1px solid #999; background-color:white;color:#222;margin-left:20px;height: 30px;line-height: 30px;">导入客户</button></span></li>
+			    <li class="panel-heading" ><span class="panel-title"><b>客户</b></span><span class="xinzeng2"><button  onclick="add_yh()" class=" layui-btn " style="height: 30px;line-height: 30px;"><i class="fa fa-plus" style="margin-right: 5px;"></i>新增用户</button><span><button onclick="daoru()"  class="layui-btn" style="border:1px solid #999; background-color:white;color:#222;margin-left:20px;height: 30px;line-height: 30px;">导入客户</button></span></li>
 			    
 			  </ul>
 		</div>
+		
   			<div id="tabs-1">
   			
   					<div id="kh_daoru" style="margin-top:40px;display: none;border:1px">
