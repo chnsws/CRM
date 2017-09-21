@@ -383,6 +383,11 @@ layui.use(['laypage', 'layer'], function(){
 });
 layui.use('laydate', function(){});
 $(function(){
+    var main_type="{$_GET['main_type']}";
+    if(main_type=='to_kh')
+    {
+        $("#xinzengxiansuo").hide();
+    }
     //parent.aaload();
     //根据筛选设置显示需要显示的筛选栏
     var sx_config="{$conarr}";
