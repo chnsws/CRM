@@ -1004,6 +1004,7 @@ class KehuController extends Controller {
 	 				$kh_type2=$v[$kh_type];
 	 			}
 	 		}
+
 	 		$lxr_base=M('lx');
 	 		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 	 		$tiaojian='"zdy1":"'.$kh_id.'"';
@@ -1029,8 +1030,7 @@ class KehuController extends Controller {
 					$lx_end[$v['lx_id']]=$new_lxr;
 				}
 			}
-			//echo "<pre>";
-		//	var_dump($lx_end);exit;
+			
 		$a=1;
 			$lx_show.="<table class='layui-table'   >
 							  	<thead>
@@ -1242,6 +1242,7 @@ class KehuController extends Controller {
 				$canm[$v['id']]=$v;
 				}
 			}
+
 			$a_arr=$canm;
 			$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_cj_cp'=>"已经成交产品",'kh_new_gj'=>"最新跟进记录",'kh_sj_gj_date'=>"实际跟进时间",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
 				foreach($array_jiansuo as $k=>$v){
@@ -1252,7 +1253,8 @@ class KehuController extends Controller {
 						$new_array13[$k]=$new_str1;
 					}
 
-	//		$kh_biaoti1=array_merge_recursive($a_arr,$new_array1);//客户标题名字
+	//		$kh_biaoti1=array_merge_recursive($a_arr,$new_array1);//客户标题名字\
+		
 			foreach($neww_kehu as $k =>$v)
 			{
 				if($a_arr[$k]!='')
@@ -1260,6 +1262,9 @@ class KehuController extends Controller {
 					if($k=="zdy1" || $k=="zdy9" || $k=="zdy10" || $k=="zdy11" || $k=="zdy12")
 					{
 						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$ywcs_kh[$k][$v].'</td></tr>';
+					}elseif($k=="zdy15"){
+						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$lx_end[$v]['zdy0'].'</td></tr>';
+
 					}else{
 						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$v.'</td></tr>';
 					}
@@ -1280,34 +1285,107 @@ class KehuController extends Controller {
 					}
 				}
 			}
-			foreach($neww_kehu as $k =>$v)
+			
+			
+		foreach($canm as $k=>$v)
+		{
+
+			if($neww_kehu[$k]!='')
 			{
 
-				if($a_arr[$k]!='')
-				{	
-					
-					if($k=="zdy1" || $k=="zdy9" || $k=="zdy10" || $k=="zdy11" || $k=="zdy12")
-					{
-						$tab3.='<tr c><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td ><select class="bianjiyo" name="'.$k.'" >';
+						if($k=="zdy1" || $k=="zdy9" || $k=="zdy10" || $k=="zdy11" || $k=="zdy12")
+						{
+							$tab3.='<tr c><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td ><select class="bianjiyo" name="'.$k.'" >';
 
-						foreach($ywcs_kh[$k] as $k2=>$v2)
-						{	
-							if($k2==$neww_kehu[$k])
-							{
-								$tab3.="<option value='".$k2."' selected='true'>".$v2."</option>";
-							}else{
-								$tab3.="<option value='".$k2."'>".$v2."</option>";
+							foreach($ywcs_kh[$k] as $k2=>$v2)
+							{	
+								if($k2==$neww_kehu[$k])
+								{
+									$tab3.="<option value='".$k2."' selected='true'>".$v2."</option>";
+								}else{
+									$tab3.="<option value='".$k2."'>".$v2."</option>";
+								}
+								
 							}
-							
-						}
-						$tab3.='</select>
-						</td></tr>';
-					}else{
+							$tab3.='</select>
+							</td></tr>';
 
-						$tab3.='<tr ><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td ><input type="text" class="bianjiyo" name="'.$k.'" value='.$v.'></td></tr>';
-					}
-				}
-			}
+
+
+
+
+					
+						}elseif($k=="zdy6")
+						{
+							$tab3.='<tr   ><td style="width:200px;">'.$v['name'].':</td><td  class="dqth"><input type="text" class="bianjiyo" onclick="diquth()" name="'.$k.'" value="'.$neww_kehu[$k].'"></td></tr>';
+						}elseif($k=="zdy13"){
+							$tab3.="<tr ><td style='width:200px;'>".$v['name'].":</td><td ><input type='text'  class=' bianjiyo text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  name='".$k."' value='".$neww_kehu[$k]."'></td></tr>";	
+					
+						}elseif($k=="zdy15")
+						{
+							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td >
+								<select  class="bianjiyo" name="'.$k.'" >';
+							foreach($lx_end as $klxa=>$vlxa){
+								if($vlxa['lx_id']==$neww_kehu[$k])
+								{
+									$tab3.="<option value='".$vlxa['lx_id']."' selected='true'>".$vlxa['zdy0']."</option>";
+								}else{
+									$tab3.="<option value='".$vlxa['lx_id']."'>".$vlxa['zdy0']."</option>";
+								}
+							}
+						$tab3.='</select></td></tr>';
+						}else{
+
+							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><input type="text" class="bianjiyo" name="'.$k.'" value="'.$neww_kehu[$k].'"></td></tr>';
+						}
+			}else{
+				if($k=="zdy1" || $k=="zdy9" || $k=="zdy10" || $k=="zdy11" || $k=="zdy12")
+						{
+							$tab3.='<tr c><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td ><select class="bianjiyo" name="'.$k.'" >';
+								$tab3.="<option value='' selected='true'>--请选择--</option>";
+
+							foreach($ywcs_kh[$k] as $k2=>$v2)
+							{	
+								if($k2==$neww_kehu[$k])
+								{
+									$tab3.="<option value='".$k2."'>".$v2."</option>";
+								}else{
+									$tab3.="<option value='".$k2."'>".$v2."</option>";
+								}
+								
+							}
+							$tab3.='</select>
+							</td></tr>';
+						}elseif($k=="zdy6")
+						{
+							$tab3.='<tr  data-toggle="distpicker" style="overflow:hidden"><td  class="form-group">'.$v['name'].':</td><td >';
+							$tab3.="<select style='width:100px'  name='".$k."[]' class='form-control diquone'   ></select>";
+				          	$tab3.="<select  style='width:100px' name='".$k."[]' class='form-control diqutwo'   ></select>";
+				         	$tab3.="<select  style='width:100px' name='".$k."[]' class='form-control diquthr'   ></select>";
+							$tab3.='</td></tr>';
+						}elseif($k=="zdy13"){
+							$tab3.="<tr ><td style='width:200px;'>".$v['name'].":</td><td ><input type='text'  class=' required1 text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  name='".$vywzd['id']."'></td></tr>";	
+						}else{
+
+							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><input type="text" class="bianjiyo" name="'.$k.'" value=""></td></tr>';	
+						}
+
+				
+			}	
+			
+		}
+
+
+
+
+ 
+
+
+
+
+
+
+
 			$tab3.='<tr ><td style="width:200px;"></td><td ><input type="hidden" class="bianjiyo" name="kh_id" value='.$kh_id.'></td></tr>';
 			
 			$rz=M('rz');
@@ -2395,7 +2473,7 @@ public function save(){
 		$new_arr=explode(',',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
-			$ex=explode(":",$v);
+			$ex=explode("::",$v);
 			if($ex['0']=="kh_id")
 			{
 				$map['kh_id']=$ex['1'];

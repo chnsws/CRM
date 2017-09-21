@@ -20,6 +20,13 @@
 		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
   		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/css/global.css" media="all">
 <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+		<link href="{$_GET['public_dir']}/diqu/css/main.css" rel="stylesheet">
+		<link href="{$_GET['public_dir']}/diqu/css/css/demo.css" rel="stylesheet">
+
+		<script>window.jQuery || document.write('<script src="{$_GET['public_dir']}/diqu/js/jquery-1.11.0.min.js"><\/script>')</script>
+		<script src="{$_GET['public_dir']}/diqu/js/distpicker.data.js"></script>
+	    <script src="{$_GET['public_dir']}/diqu/js/distpicker.js"></script>
+	    <script src="{$_GET['public_dir']}/diqu/js/main.js"></script>
 <script>
 	window.rooturl="{$_GET['root_dir']}";
 </script>
@@ -570,7 +577,27 @@ a{color:#07d; text-decoration:none !important;}
     			});
 
     		};
+    		function diquth(){
+    			$('.dqth').html("<span data-toggle='distpicker' style='overflow:hidden'><select style='width:100px'  name='zdy6[]' class='form-control diquone' ></select><select  style='width:100px' name='zdy6[]' class='form-control diqutwo'   ></select><select  style='width:100px' name='zdy6[]' class='form-control diquthr'   ></select></span>");
     		
+
+				
+
+    			$.getScript("{$_GET['public_dir']}/diqu/js/jquery-1.11.0.min.js",function(){
+						
+					});
+    			$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.data.js",function(){
+						
+					});
+    			$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.js",function(){
+						
+					});
+    			$.getScript("{$_GET['public_dir']}/diqu/js/main.js",function(){
+						
+					});
+
+
+    		}
     	</script>
 
     	<script><!--编辑-->
@@ -620,7 +647,7 @@ a{color:#07d; text-decoration:none !important;}
 
 								type:1,
 								offset: 't',
-										area: '630px',
+										area: ['630px','520px'],
 								title: '编辑客户',
 								content:$('.bianji'),
 								btn:['确认编辑','取消'],
@@ -631,7 +658,12 @@ a{color:#07d; text-decoration:none !important;}
 									for(a=0;a<fornum;a++)
 									{
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
-										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+										if(thisdom.prop("name")=="zdy6[]")
+										{
+											ajaxstr+="zdy6"+"::"+$('.diquone').val()+"-"+$('.diqutwo').val()+"-"+$('.diquthr').val()+',';
+										}else{
+											ajaxstr+=thisdom.prop("name")+"::"+thisdom.val()+",";
+										}
 									}
 								//	alert (ajaxstr);
 									$.get(rooturl+'/index.php/Home/Kehu/save',{"id":ajaxstr},
