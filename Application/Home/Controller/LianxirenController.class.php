@@ -174,7 +174,7 @@ class LianxirenController extends Controller {
 							 		{
 							 			 $add_yw.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
 							 		} 
-							 $add_yw.=	"</select> <span style='color:blue;margin-right:10px' onclick='kh_add()'>点击添加</span></td>";
+							 $add_yw.=	"</select> <span style='color:#07d;cursor:pointer;margin-right:10px' onclick='kh_add()'>点击添加</span></td>";
 							$add_yw.="</tr>";
 						}
 					}elseif($vywzd['type']==2){
@@ -506,6 +506,11 @@ class LianxirenController extends Controller {
 
 		$lx_biaoti1=array_merge_recursive($ywzd2,$new_array);//联系人标题名字
 							//联系人显示内容
+		if($lianxiren=='' || $lianxiren==null){
+				$content="<span style='height:30px;line-height:30px;margin-left:100px;'>没有这条数据,快去<span onclick='addshangji()' style='color:#07d;cursor:pointer;'>添加</span>一条吧</span>";
+				echo $content;die;
+		}
+		else{
 		foreach($lianxiren as $k=>$v)
 		{
 			$id=$v['lx_id'];
@@ -533,7 +538,7 @@ class LianxirenController extends Controller {
 					}
 				}	
 			$show_bt.="</tr>";
-		}
+		} }
 		echo $show_bt;
 
 	}
