@@ -472,7 +472,7 @@ return $fzr_only;
 											<tr><td colspan='8'  height='120px' >
 												<i class='layui-icon xiaolian' style='font-size:80px;float:left;position:relative;left:50%;margin-left:-200px;'><b>&#xe60c;</b></i>
 
-												<span style='margin-left:45%'>亲~ 还没有数据哦111～ <span style='color:blue;cursor:pointer;' onclick='xzjh(this)'>新增回款记录 >></span></span>
+												<span style='margin-left:45%'>亲~ 还没有数据哦111～ <span style='color:#07d;cursor:pointer;cursor:pointer;' onclick='xzjh(this)'>新增回款记录 >></span></span>
 											</td></tr>  
 											</tbody>";
 								}
@@ -607,7 +607,7 @@ return $fzr_only;
 		    {
 					$kp_show.="	<tr class='qingxuanze'>
 						<td colspan='8'><span>亲~ 还没有数据哦～   ~<span onclick='xzkp()'
-						style='color:blue;font-weight:bold'>新增开票记录>></span></span></td>
+						style='color:#07d;cursor:pointer;font-weight:bold'>新增开票记录>></span></span></td>
 					</tr>";
 					
 
@@ -645,7 +645,7 @@ return $fzr_only;
 		    {
 					$kp_show1.="	<tr class='qingxuanze'>
 						<td colspan='8'><span>亲~ 还没有数据哦～   ~<span onclick='xzkp()'
-						style='color:blue;font-weight:bold'>新增开票记录>></span></span></td>
+						style='color:#07d;cursor:pointer;font-weight:bold'>新增开票记录>></span></span></td>
 					</tr>";
 					
 
@@ -692,7 +692,7 @@ return $fzr_only;
 		    {
 					$kp_show2.="	<tr class='qingxuanze'>
 						<td colspan='8'><span>亲~ 还没有数据哦～   ~<span onclick='xzkp()'
-						style='color:blue;font-weight:bold'>新增开票记录>></span></span></td>
+						style='color:#07d;cursor:pointer;font-weight:bold'>新增开票记录>></span></span></td>
 					</tr>";
 					
 
@@ -730,7 +730,7 @@ return $fzr_only;
 		    {
 					$kp_show3.="	<tr class='qingxuanze'>
 						<td colspan='8'><span>亲~ 还没有数据哦～   ~<span onclick='xzkp()'
-						style='color:blue;font-weight:bold'>新增开票记录>></span></span></td>
+						style='color:#07d;cursor:pointer;font-weight:bold'>新增开票记录>></span></span></td>
 					</tr>";
 					
 
@@ -801,7 +801,7 @@ return $fzr_only;
 								<div class='gj_body_content_head'>
 									<img src='' class='gj_headimg woca'>
 									<span class='user_name'>
-									".$user[$v['user_id']]['user_name']."</span><i class='fa fa-caret-right'></i><span class='gj_fangshi'>".$v['type'].":<span style='color:blue'>".$lx_json['zdy0']."</span>
+									".$user[$v['user_id']]['user_name']."</span><i class='fa fa-caret-right'></i><span class='gj_fangshi'>".$v['type'].":<span style='color:#07d'>".$lx_json['zdy0']."</span>
 									</span>
 								
 								</div>
@@ -1260,7 +1260,7 @@ return $fzr_only;
 			{
 				$peizhi712.="<tr class='qingxuanze'>
 					<td colspan='6' ><span>亲~还没有回款计划哦~<span onclick='hkzb()'
-					style='color:blue;font-weight:bold'>新增回款计划>></span></span></td>
+					style='color:#07d;cursor:pointer;font-weight:bold'>新增回款计划>></span></span></td>
 				</tr>
 				<tr class='add_pz' style='display:none'>
 					<td >1</td>
