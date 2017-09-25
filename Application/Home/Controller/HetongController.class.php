@@ -1306,6 +1306,11 @@ public function kehu(){
 		$ht_biaoti1=array_merge_recursive($ywzd,$new_arrayoo);//客户标题名字
 		$jw.="</tr>";
 		$hetong=$ronghhh; //替换合同
+		if($hetong=='' || $hetong==null)
+		{
+			$content="<span style='height:30px;line-height:30px;margin-left:100px;'>没有这条数据,快去<span onclick='addhetong()' style='color:#07d;cursor:pointer;'>添加</span>一条吧</span>";
+			echo $content;die;
+		}else{
 		foreach($hetong as $k=>$v)
 		{
 				$content.="<tr id='".$v['ht_id']."'><td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td>";
@@ -1331,7 +1336,7 @@ public function kehu(){
 					$content.="<td>---</td>";
 				}
 				
-			}
+			}}
 			$content."</tr>";
 		}
 		echo $content;

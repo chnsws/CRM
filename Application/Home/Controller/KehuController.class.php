@@ -2396,6 +2396,11 @@ class KehuController extends Controller {
 
 		$hetong=$ronghhh; //替换合同
 	$lxr=$this->lxr();
+	if($hetong=='' || $hetong==null)
+	{
+		$content="<span style='height:30px;line-height:30px;margin-left:100px;'>没有这条数据,快去<span onclick='add_yh()' style='color:#07d;cursor:pointer;'>添加</span>一条吧</span>";
+		echo $content;die;
+	}else{
 		foreach($hetong as $k=>$v)
 		{
 				$content.="<tr id='".$v['ht_id']."'><td><input type='checkbox' class='chbox_duoxuan' id='".$v['kh_id']."'></td>";
@@ -2420,7 +2425,7 @@ class KehuController extends Controller {
 					$content.="<td>---</td>";
 				}
 				
-			}
+			}}
 			$content."</tr>";
 		}
 		echo $content;

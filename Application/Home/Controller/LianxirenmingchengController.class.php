@@ -138,7 +138,7 @@ class LianxirenmingchengController extends Controller {
 				{
 					$id_sj=$v['sj_id'];
 					if($k1=="zdy0"){
-						$shangji1.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id_sj'><span style='color:blue'>".$v1."</span></a></td>";
+						$shangji1.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id_sj'><span style='color:#07d'>".$v1."</span></a></td>";
 					}elseif($k1=="zdy3" || $k1=="zdy11"|| $k1=="sj_qiandan"){
 						$shangji1.="<td>".$v1." </td>";
 					}elseif($k1=="zdy4"){
@@ -197,7 +197,7 @@ class LianxirenmingchengController extends Controller {
 			$show3.="<tr style='line-height:40px'><td>".$v['name']."：</td>";
 				if($lx_json[$k]!=""){
 					if($k=='zdy1'){
-						$show3.="<td><input type='hidden' name='".$k."' style='width:220px;height:26px;'  value='".$lx_json[$k]."'><span style='margin-left:30px;color:blue'>".$kehu[$lx_json[$k]]['name']."</span></td>";	
+						$show3.="<td><input type='hidden' name='".$k."' style='width:220px;height:26px;'  value='".$lx_json[$k]."'><span style='margin-left:30px;color:#07d'>".$kehu[$lx_json[$k]]['name']."</span></td>";	
 					}elseif($k=='zdy2'){
 						
 						$show3.="<td>";

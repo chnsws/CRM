@@ -1140,6 +1140,10 @@ class ShangjiController extends Controller {
                $lxr=$this->lxr();   
            //  echo "<pre>";
            //    var_dump($new_ronghe);exit;                                                                //
+		if($new_ronghe==''||$new_ronghe==null){
+			$show="<span style='height:30px;line-height:30px;margin-left:100px;'>没有这条数据,快去<span onclick='addshangji()' style='color:#07d;cursor:pointer;'>添加</span>一条吧</span>";
+			echo $show;die;
+		}else{
 		foreach ($new_ronghe as $k =>$v)    
 		{
 
@@ -1178,7 +1182,7 @@ class ShangjiController extends Controller {
 				}else{
 					$show.="<td> ---- </td>"	;
 				}
-			}
+			}}
 			$show.="</tr>";                                          //显示商机信息模板
 		}
 		//echo $show;
