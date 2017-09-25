@@ -44,9 +44,44 @@ class LianxirenController extends Controller {
 		}
 		return $dpt_arr;
 	}
+	public function userqb(){                 //负责人和部门
+	
 
+	 	$department=M('department');
+		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			//echo $dpmet['bm_company'];exit;
+		$sql_de=$department->where($dpt)->select();
+		foreach($sql_de as $kdpt => $vdpt)
+		{
+			
+			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
+		}
+
+
+		$fuzeren=M('user');
+		
+		$map['user_id']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+	
+	 	$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id = ".$map['user_id']." or user_fid = ".$map['user_id']."");//缺少条件
+			foreach ($fuzeren_sql as $k=>$v)
+			{
+				
+						$new_fuzeren['user_id']=$v['user_id'];
+						$new_fuzeren['user_name']=$v['user_name'];
+						$new_fuzeren['user_zhu_bid']=$v['user_zhu_bid'];
+						$new_fuzeren['department']=$dpt_arr[$v['user_zhu_bid']]['bm_name'];
+						$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
+				
+			} 
+	
+		
+return $fzr_only;
+	}
 	
 	public function lianxiren(){
+		$userqb=$this->userqb();
+		//echo "<pre>";
+	//	var_dump($userqb);exit;
 		$ywzd= $this->ywzd();    //业务字段信息 
 		$kh_name= $this->kehu();    //业务字段信息 
 	//	echo "<pre>";var_dump($kh_name);exit;
@@ -115,10 +150,12 @@ class LianxirenController extends Controller {
 						$new_str1['name']=$v;
 						$new_str1['qy']=1;
 						$new_str1['type']=0;
-						$new_array[$new_str1['id']]=$new_str1;
+						$new_array12[$new_str1['id']]=$new_str1;
 					}
 
-		$lx_biaoti1=array_merge_recursive($ywzd2,$new_array);//联系人标题名字
+		$lx_biaoti1=array_merge_recursive($ywzd2,$new_array12);//联系人标题名字
+		//echo "<pre>";
+		//var_dump($lx_biaoti1);exit;
 		//echo "<pre>";var_dump($lx_biaoti1);exit;					
 				//echo "<pre>";
 			//	var_dump($lianxiren);
@@ -142,6 +179,13 @@ class LianxirenController extends Controller {
 							$kh_id=$v[$k1];
 							$kh_mc=$kh_name[$v[$k1]]['name'];
 							$show_bt.="<td style='width:10%'> <a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/id/$kh_mc/kh_id/$kh_id'>".$kh_name[$v[$k1]]['name']." </a></td>"	;
+						}elseif($k1=="lx_cj")
+						{
+								$show_bt.="<td> ".$userqb[$v[$k1]]['user_name']." </td>"	;
+						}elseif($k1=="lx_cj_date")
+						{
+							$show_bt.="<td> ".date("Y-m-d H:i:s",$v[$k1])."</td>"	;
+
 						}else{
 							$show_bt.="<td> ".$v[$k1]." </td>"	;
 						}
@@ -505,6 +549,7 @@ class LianxirenController extends Controller {
 					}
 
 		$lx_biaoti1=array_merge_recursive($ywzd2,$new_array);//联系人标题名字
+
 							//联系人显示内容
 		foreach($lianxiren as $k=>$v)
 		{

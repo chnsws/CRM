@@ -697,6 +697,122 @@ class ShenpiController extends Controller {
 			</div>
 		</div>";
 		}	
+		if($ht_sp_show1 == "" || $ht_sp_show1==null )
+		{
+			$ht_show1.="暂无记录";
+		}else{
+		$ht_show1.="<div >
+					<div >
+					<table class='layui-table' >
+				  	<thead>
+				  			<tr>	
+			                		<th>操作</th>
+			                		<th>合同标题</th>
+			                		<th>对应客户</th>
+			                		<th>对应商机</th>
+			                		<th>合同总金额</th>
+			                		<th>签约日期</th>
+			                		<th>合同开始日期</th>
+			                		<th>合同结束日期</th>
+			                		<th>合同状态</th>
+			                		<th>附件</th>
+			                		<th>负责人</th>
+			                		<th>当前审批级别</th>
+			                		<th>共几级</th>
+			                		<th>是否开启同步</th>
+
+			                </tr>
+					</thead>
+					 <tbody >";
+					//echo "<pre>";
+					//var_dump($kaipiao);exit;
+						foreach($ht_sp_show1  as $k=>$v)
+						{
+							$ht_show1.="<tr>
+										";
+											$ht_show1.="<td style='color:green'>您已通过</td>";
+							
+								$ht_show1.="<td>".$ht_name[$v['sp_sjid']]['name']."</td>
+											<td>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</td>
+											<td>".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy3']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy4']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy5']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy6']."</td>
+											<td>".$ywcs['zdy7'][$ht_name[$v['sp_sjid']]['zdy7']]."</td>
+											<td><span style='color:blue' class='".$v['sp_sjid']."' onclick='fujian(this)'>点击查看</span></td>
+											<td>".$user_name[$ht_name[$v['sp_sjid']]['fz']]['user_name']."</td>
+											<td>第<span>".$v['sp_dq_jj']."</span>级</td>
+											<td>共<span>".$v['sp_zg_jj']."</span>级</td>
+											<td>".$tongbu[$v['sp_tp']]."</td>
+									</tr>";
+						}
+			            $ht_show1.="</tbody>
+				</table>  
+				
+			</div>
+		</div>";
+		}	
+		if($ht_sp_show2 == "" || $ht_sp_show2==null )
+		{
+			$ht_show2.="暂无记录";
+		}else{
+		$ht_show2.="<div >
+					<div >
+					<table class='layui-table' >
+				  	<thead>
+				  			<tr>	
+			                		<th>操作</th>
+			                		<th>合同标题</th>
+			                		<th>对应客户</th>
+			                		<th>对应商机</th>
+			                		<th>合同总金额</th>
+			                		<th>签约日期</th>
+			                		<th>合同开始日期</th>
+			                		<th>合同结束日期</th>
+			                		<th>合同状态</th>
+			                		<th>附件</th>
+			                		<th>负责人</th>
+			                		<th>当前审批级别</th>
+			                		<th>共几级</th>
+			                		<th>是否开启同步</th>
+
+			                </tr>
+					</thead>
+					 <tbody >";
+					//echo "<pre>";
+					//var_dump($kaipiao);exit;
+						foreach($ht_sp_show2  as $k=>$v)
+						{
+							$ht_show2.="<tr>
+										";
+											$ht_show2.="<td style='color:red'>您已驳回</td>";
+							
+								$ht_show2.="<td>".$ht_name[$v['sp_sjid']]['name']."</td>
+											<td>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</td>
+											<td>".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy3']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy4']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy5']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy6']."</td>
+											<td>".$ywcs['zdy7'][$ht_name[$v['sp_sjid']]['zdy7']]."</td>
+											<td><span style='color:blue' class='".$v['sp_sjid']."' onclick='fujian(this)'>点击查看</span></td>
+											<td>".$user_name[$ht_name[$v['sp_sjid']]['fz']]['user_name']."</td>
+											<td>第<span>".$v['sp_dq_jj']."</span>级</td>
+											<td>共<span>".$v['sp_zg_jj']."</span>级</td>
+											<td>".$tongbu[$v['sp_tp']]."</td>
+									</tr>";
+						}
+			            $ht_show2.="</tbody>
+				</table>  
+				
+			</div>
+		</div>";
+		}	
+		
+	
+			$this->assign('ht_show2',$ht_show2);
+		$this->assign('ht_show1',$ht_show1);
 		$this->assign('ht_show',$ht_show);
 		$this->assign('kp_show3',$kp_show3);
 		$this->assign('kp_show2',$kp_show2);

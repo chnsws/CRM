@@ -1249,6 +1249,7 @@ class KehuController extends Controller {
 						$new_str1['id']=$k;
 						$new_str1['name']=$v;
 						$new_str1['qy']=1;
+						
 						$new_str1['type']=0;
 						$new_array13[$k]=$new_str1;
 					}
