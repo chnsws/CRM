@@ -913,7 +913,7 @@ class ReportController extends DBController {
         $user_arr=parent::sel_more_data("crm_user","user_id,user_name,user_zhu_bid","user_id='$fid' or user_fid='$fid'");
         foreach($user_arr as $v)
         {
-            $user_name_arr[$v['user_id']]['bm']=$user_bm[$v['user_zhu_bid']];
+            $user_name_arr[$v['user_id']]['bm']=$user_bm[$v['user_id']];
 
         }
 
@@ -954,6 +954,7 @@ class ReportController extends DBController {
         $data_table='';
         $paiming=1;
         $zong=0;
+        //parent::rr($user_bm);
         foreach($user_kh as $k=>$v)
         {
             $bmname=$k=='no'?'未分配部门':$bm_arr[$k];
@@ -1622,7 +1623,7 @@ class ReportController extends DBController {
             $modeData[$v['mode_id']]++;//每个模块跟进总次数
             $allData++;//本公司总跟进次数
         }
-        $tableTopData="跟进次数: ".($allData==''?0:$allData)."， 跟进线索次数: ".($modeData[1]==''?0:$modeData[1])."， 跟进客户学生次数: ".($modeData[2]==''?0:$modeData[2])."， 跟进商机次数: ".($modeData[5]==''?0:$modeData[5])."， 跟进合同次数: ".($modeData[6]==''?0:$modeData[6]);
+        $tableTopData="跟进次数: ".($allData==''?0:$allData)."， 跟进线索次数: ".($modeData[1]==''?0:$modeData[1])."， 跟进客户次数: ".($modeData[2]==''?0:$modeData[2])."， 跟进商机次数: ".($modeData[5]==''?0:$modeData[5])."， 跟进合同次数: ".($modeData[6]==''?0:$modeData[6]);
         //获取用户
         $userarr=$this->option_to_arr($user_option);
         //根据用户遍历
