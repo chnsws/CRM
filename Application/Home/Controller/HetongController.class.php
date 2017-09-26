@@ -802,13 +802,41 @@ public function kehu(){
 	}
 	public function cp_ck(){
 			//产品查询
+			$chanpin=$this->chanpin();
 			$cp['cp_mk']=6;
 			$cp['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-			$cp['sj_id']=404;//$_GET['id'];
+			$cp['sj_id']=$_GET['id'];
 			$cp_ht=M('cp_sj');
 			$sql_cp_sql=$cp_ht->where($cp)->select();
-			echo "<pre>";
-			var_dump($sql_cp_sql);
+			
+			foreach($sql_cp_sql as $k=>$v)
+			{
+				$v['zdy0']=$chanpin[$v['cp_id']]['zdy0'];
+				$v['zdy1']=$chanpin[$v['cp_id']]['zdy1'];
+				$v['zdy3']=$chanpin[$v['cp_id']]['zdy3'];
+				$v['zdy6']=$chanpin[$v['cp_id']]['zdy6'];
+				$cp_new[$v['cp_id1']]=$v;
+			}
+			$zje913=0;
+			
+			foreach ($cp_new as $k=>$v)
+			{
+				$show2.="<tr class='".$v['cp_id1']."'>
+				<td align='value'>".$v['zdy0']."</td>
+				<td align='value'>".$v['zdy1']."</td>
+				<td align='value'>".$v['cp_yj']."</td>
+				<td align='value'>".$v['cp_jy']."</td>
+				<td align='value'>".$v['cp_num1']."</td>
+			
+				<td align='value'>".$v['cp_zj']."</td>
+		
+				
+				
+				</tr>";
+				
+			}
+				
+			echo $show2;
 	}
 	public function get_sj(){
 		$id=$_GET['id'];

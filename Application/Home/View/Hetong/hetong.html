@@ -79,6 +79,8 @@
 			.bhyuany1{margin-top:4%;margin-left:35%;}
 			a{ text-decoration:none !important; }
 			.fujian1{margin :0 auto;margin-top:15px;}
+			.chanpin1{width:90%;margin :0 auto;margin-top:15px;}
+
 		</style>  
 				<script type="text/javascript">
 			
@@ -294,8 +296,21 @@ $(function(){
 				</table>
 		</div>
 <div class='chanpina' style="display:none">
-				<table class='fujian1'>
-						我是产品
+				<table class='chanpin1 layui-table' >
+							<thead>
+								  	<tr><th >产品名称</th>
+					  				<th >产品编号</th>
+					  				<th >公开价格</th>
+					  				<th >合同价格</th>
+					  				<th >数量</th>
+					  			
+					  				<th >总价</th>
+					  				</tr>
+
+									</thead>
+									<tbody class="cp_showoo">
+										
+									</tbody>
 				</table>
 		</div>
 	<div id="lxr" style="display: none;border:1px"> <!--新增客户-->
@@ -527,7 +542,7 @@ $(".yincang").hide()
 							                   });
  
 });
-	
+
 	function fj_xz(ss)
 				{
 					var s=$(ss).prop('class');
@@ -567,7 +582,13 @@ $(".yincang").hide()
 	}
 	function ht_cp(ss){
 		var ht_id=$(ss).prop('class');
-	
+		$.get(rooturl+'/index.php/Home/Hetong/cp_ck',{"id": ht_id},
+												function(html){
+												
+													$(".cp_showoo").html(html);
+
+											})
+		
 			layui.use('layer', function(){
 			
 							var layer = layui.layer;
@@ -575,7 +596,7 @@ $(".yincang").hide()
 
 								type:1,
 								offset: 't',
-								area:'750px',
+								area:['1000px','400px'],
 								title: '产品详情',
 								content:$('.chanpina'),
 								btn:['返回'],
