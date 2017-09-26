@@ -643,7 +643,7 @@ public function kehu(){
 			$jw.="<td class='bm_th' ><input type='text' name='ht_department' disabled value='' > </td>";
 	
 
-		$array_jiansuo=array('ht_fz'=>"负责人",'ht_bm'=>"部门",'ht_spzt'=>"审批状态",'ht_new_gj'=>"最新跟进记录",'ht_sj_gj_date'=>"最新跟进时间",'ht_cj'=>"创建人",'ht_old_fz'=>"原负责人",'ht_old_bm'=>"原负责人部门",'ht_cj_date'=>"创建时间","ht_gx_date"=>"更新时间");
+		$array_jiansuo=array('ht_fz'=>"负责人",'ht_bm'=>"部门",'ht_new_gj'=>"最新跟进记录",'ht_sj_gj_date'=>"最新跟进时间",'ht_cj'=>"创建人",'ht_old_fz'=>"原负责人",'ht_old_bm'=>"原负责人部门",'ht_cj_date'=>"创建时间","ht_gx_date"=>"更新时间");
 				foreach($array_jiansuo as $k=>$v){
 						$new_str1['id']=$k;
 						$new_str1['name']=$v;
@@ -738,7 +738,16 @@ public function kehu(){
 					else
 						$content.="<td>".$v[$kbt]."</td>";
 				}else{
-					$content.="<td>---</td>";
+					if($kbt=='zdy14')
+					{
+						$content.="<td  onclick='ht_fj(this)' class='".$v['ht_id']."' title='点击查看产品' style='color:#1AA094;cursor:pointer'>附件</td>";	
+					}elseif($kbt=='zdy9')
+					{
+						$content.="<td onclick='ht_cp(this)' class='".$v['ht_id']."' title='点击查看附件' style='color:#1AA094;cursor:pointer'>产品</td>";	
+					}else{
+						$content.="<td>---</td>";	
+					}
+					
 				}
 				
 			}
@@ -790,6 +799,16 @@ public function kehu(){
 		$this->assign('fuzeren',$user); 
 		
 		$this->display();
+	}
+	public function cp_ck(){
+			//产品查询
+			$cp['cp_mk']=6;
+			$cp['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$cp['sj_id']=404;//$_GET['id'];
+			$cp_ht=M('cp_sj');
+			$sql_cp_sql=$cp_ht->where($cp)->select();
+			echo "<pre>";
+			var_dump($sql_cp_sql);
 	}
 	public function get_sj(){
 		$id=$_GET['id'];

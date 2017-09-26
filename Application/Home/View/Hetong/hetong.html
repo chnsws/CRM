@@ -76,8 +76,9 @@
 			}
 			.searchable-select-input{width:280px !important ;}
 			.searchable-select {min-width:300px;}
-						.bhyuany1{margin-top:4%;margin-left:35%;}
-						a{ text-decoration:none !important; } 
+			.bhyuany1{margin-top:4%;margin-left:35%;}
+			a{ text-decoration:none !important; }
+			.fujian1{margin :0 auto;margin-top:15px;}
 		</style>  
 				<script type="text/javascript">
 			
@@ -287,7 +288,16 @@ $(function(){
 						</table>
 					</form>
 	</div>
+<div class='fujian' style="display:none">
+				<table class='fujian1'>
 
+				</table>
+		</div>
+<div class='chanpina' style="display:none">
+				<table class='fujian1'>
+						我是产品
+				</table>
+		</div>
 	<div id="lxr" style="display: none;border:1px"> <!--新增客户-->
 								<form  name= 'form_kh' method="post" id="myform2" >
 									<table class=" th_lxr addshangji_weizhi uk-form" >
@@ -517,6 +527,69 @@ $(".yincang").hide()
 							                   });
  
 });
+	
+	function fj_xz(ss)
+				{
+					var s=$(ss).prop('class');
+				
+					window.location=rooturl+'/index.php/Home/Hetongmingcheng/download1?id='+s;
+						
+				}   
+	function ht_fj(ss){
+		var ht_id=$(ss).prop('class');
+		$.get(rooturl+'/index.php/Home/Shenpi/fujian',{"id": ht_id},
+												function(html){
+												
+													$(".fujian1").html(html);
+
+											})
+			layui.use('layer', function(){
+			
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'750px',
+								title: '附件详情',
+								content:$('.fujian'),
+								btn:['返回'],
+
+								btn1:function(){
+										
+									  layer.close(win)    
+							            
+								}
+							
+							}); 
+						});      
+
+	}
+	function ht_cp(ss){
+		var ht_id=$(ss).prop('class');
+	
+			layui.use('layer', function(){
+			
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'750px',
+								title: '产品详情',
+								content:$('.chanpina'),
+								btn:['返回'],
+
+								btn1:function(){
+										
+									  layer.close(win)    
+							            
+								}
+							
+							}); 
+						});      
+
+	}
 	var fujian_name='';
 	function addhetong(){
 		
