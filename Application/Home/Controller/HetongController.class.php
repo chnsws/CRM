@@ -268,8 +268,20 @@ public function kehu(){
 		}else{
 			$new=($dijiye-1)*$list_num;
 		}
-		
+		$zhuangtai=$_GET['ht_sp926'];
+		if($zhuangtai=='' || $zhuangtai==null || $zhuangtai=="全部")
+		{
 		$userarr=$ht_base->query("select * from crm_hetong where ht_yh='$data_ht' and ht_fz IN ($xiaji) order by ht_id desc limit ".$new.",".$list_num." ");// 查询商机信息
+		}elseif($zhuangtai=="未发起"){
+			$userarr=$ht_base->query("select * from crm_hetong where ht_yh='$data_ht' and ht_sp='0' and ht_fz IN ($xiaji) order by ht_id desc limit ".$new.",".$list_num." ");
+		}elseif($zhuangtai=="审批中"){
+			$userarr=$ht_base->query("select * from crm_hetong where ht_yh='$data_ht' and ht_sp='4' and ht_fz IN ($xiaji) order by ht_id desc limit ".$new.",".$list_num." ");
+		}elseif($zhuangtai=="审批通过"){
+			$userarr=$ht_base->query("select * from crm_hetong where ht_yh='$data_ht' and ht_sp='1' and ht_fz IN ($xiaji) order by ht_id desc limit ".$new.",".$list_num." ");
+		}elseif($zhuangtai=="审批驳回"){
+			$userarr=$ht_base->query("select * from crm_hetong where ht_yh='$data_ht' and ht_sp='2' and ht_fz IN ($xiaji) order by ht_id desc limit ".$new.",".$list_num." ");
+		}
+		$this->assign('zhuangtai',$zhuangtai);
 		$userarr_count=$ht_base->query("select count(ht_id) from crm_hetong where ht_yh='$data_ht' and ht_fz IN ($xiaji)");
 		
 		$ys= ceil($userarr_count['0']['count(ht_id)']/$list_num);//多少页
@@ -550,8 +562,14 @@ public function kehu(){
 					
 						
 					}else{
-						$show_bt1.="<tr class='addtr '><td>".$v['name'].":</td>";
-						$show_bt1.="<td><input type='text' name='".$v['id']."' value='' > </td></tr>	";		
+						if($v['id']=='zdy8')
+						{
+							$show_bt1.="<tr class='addtr '><td>".$v['name'].":</td>";
+							$show_bt1.="<td><input type='text' name='".$v['id']."' value='' class='bianhao' > </td></tr>	";			
+						}else{
+							$show_bt1.="<tr class='addtr '><td>".$v['name'].":</td>";
+							$show_bt1.="<td><input type='text' name='".$v['id']."' value='' > </td></tr>	";		
+						}
 					}
 				}
 					

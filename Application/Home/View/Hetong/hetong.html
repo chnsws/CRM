@@ -125,6 +125,7 @@ $(function(){
 	<body style="position:relative">
 	
 	<div class="beijing">
+	<input type="hidden" id="zhuangtai" value="{$zhuangtai}">
 	<input type="hidden" id="ys" value="{$ys}">
 	<input type="hidden" id="fenye" value="{$list_num}">
 	 <input type="hidden" id="wocao" value="{$dijiye}">
@@ -144,6 +145,14 @@ $(function(){
       		 </div>
 		         <div id="sxzddiv"  >
 	              		{$peizhi}
+	              		<div class='sxzddiv zhuangtai' id='ht_sp'>
+						<div class='sx_title zhuangtai ' >审批状态：</div>
+							<span class='sx_yes'  id='sp_qb'>全部</span>
+							<span class='sx_no'  id='sp_wfq'>未发起</span>
+							<span class='sx_no'  id='sp_spz'>审批中</span>
+							<span class='sx_no'  id='sp_sptg'>审批通过</span>
+							<span class='sx_no' id='sp_spbh'>审批驳回</span>
+						</div>
    				 </div>
 
 		   </div>
@@ -267,7 +276,7 @@ $(function(){
 												
 						</table>
 					</form>
-					<div id="nchangyong" onselectstart='return false'><span style="color:#07d;cursor:pointer;">展开更多信息>></span></div>
+					<div id="nchangyong" onselectstart='return false'><span style="color:blue">展开更多信息>></span></div>
 	</div>
 	
 	<div id="add_shangji1" style="display: none;border:1px"> <!--新增商机 弹出框-->
@@ -413,6 +422,33 @@ $(function(){
 layui.use('upload', function(){
   layui.upload(options);
 });
+var zhuangtai=$("#zhuangtai").val();
+var lszt='';
+if(zhuangtai=='' || zhuangtai==null ||zhuangtai=="全部")
+{	
+	lszt='sp_qb'
+	
+}else{
+
+	if(zhuangtai=="未发起")
+	{
+		lszt='sp_wfq'
+	}
+	if(zhuangtai=="审批中")
+	{
+		lszt='sp_spz'
+	}	
+	if(zhuangtai=="审批通过")
+	{
+		lszt='sp_sptg'
+	}
+	if(zhuangtai=="审批驳回")
+	{
+		lszt='sp_spbh'
+	}
+	 $(".zhuangtai").children("span").prop("class","sx_no");
+     $("#"+lszt).prop("class","sx_yes");
+}
     
 		window.rooturl="{$_GET['root_dir']}";
 	$("#add_shangji").hide();
@@ -444,6 +480,10 @@ $(".yincang").hide()
 	$(".sxzddiv").children("span").click(function(){          //点击筛选的 选中
 		var tex =$(this).text();
 	    var title=$(this).parent().prop('id');
+	if(title=='ht_sp')
+    {
+    	   	window.location.href="hetong?ht_sp926="+tex;return;
+    }
     $(this).parent().children("span").prop("class","sx_no");
     $(this).prop("class","sx_yes");
     var s=$(this).index();
@@ -467,6 +507,7 @@ $(".yincang").hide()
 		$(".one").text(tex);
 	}
    $(".ycyo").hide();
+
 	$.get(rooturl+'/index.php/Home/Hetong/shaixuan',{"id":id},
 							        		 function(html){
 							        		 	
@@ -661,13 +702,13 @@ $("#nchangyong").click(function(){
 	    if($(this).prop("name")=='0'||$(this).prop("name")==undefined)
 	    {
 	        $(".ncy").show();
-	        $(this).html("<span style='color:#07d;cursor:pointer;'>收起>></span>");
+	        $(this).html("<span style='color:blue'>收起>></span>");
 	        $(this).prop("name",'1');
 	    }
 	    else
 	    {
 	    	 $(".ncy").hide();
-	        $(this).html("<span style='color:#07d;cursor:pointer;'>展开更多信息>></span>");
+	        $(this).html("<span style='color:blue'>展开更多信息>></span>");
 	        $(this).prop("name",'0');
 	    }
 	});

@@ -1286,7 +1286,7 @@ class KehuController extends Controller {
 					}
 				}
 			}
-			
+
 			
 		foreach($canm as $k=>$v)
 		{
@@ -1302,6 +1302,7 @@ class KehuController extends Controller {
 							{	
 								if($k2==$neww_kehu[$k])
 								{
+									
 									$tab3.="<option value='".$k2."' selected='true'>".$v2."</option>";
 								}else{
 									$tab3.="<option value='".$k2."'>".$v2."</option>";
