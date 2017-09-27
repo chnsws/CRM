@@ -146,7 +146,7 @@ class KehuController extends Controller {
 						
 							
 						$show_bt.="</select></td></tr>";
-						//	<input type='text' name='box' id='sss' style='width:200px;position:absolute;left:30.2%;height:31px;line-height:30px;'>	<span style='margin-left:20px;margin-right:24px ;color:blue' onclick='add_lxr()'>点击添加</span></td>	
+						//	<input type='text' name='box' id='sss' style='width:200px;position:absolute;left:30.2%;height:31px;line-height:30px;'>	<span style='margin-left:20px;margin-right:24px ;color:#07d' onclick='add_lxr()'>点击添加</span></td>	
 				
 				}elseif($v['id']=='zdy0'){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
@@ -1515,7 +1515,7 @@ class KehuController extends Controller {
 								<div class='gj_body_content_head'>
 									<img src='' class='gj_headimg woca'>
 									<span class='user_name'>
-									".$user[$v['user_id']]['user_name']."</span><i class='fa fa-caret-right'></i><span class='gj_fangshi'>".$v['type'].":<span style='color:blue'>".$lx_end[$v['xgj_czr']]['zdy0']."</span>
+									".$user[$v['user_id']]['user_name']."</span><i class='fa fa-caret-right'></i><span class='gj_fangshi'>".$v['type'].":<span style='color:#07d'>".$lx_end[$v['xgj_czr']]['zdy0']."</span>
 									</span>
 								
 								</div>
@@ -2411,7 +2411,7 @@ class KehuController extends Controller {
 				if($v[$kbt]!="" && $v[$kbt]!="--请选择--")
 				{
 					if($kbt=='zdy0')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/kh_id/".$v['kh_id']."'><span style='color:blue' >".$v[$kbt]."</span></a></td>";
+						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/kh_id/".$v['kh_id']."'><span style='color:#07d' >".$v[$kbt]."</span></a></td>";
 					elseif($kbt=="zdy1"||$kbt=="zdy9"||$kbt=="zdy10"||$kbt=="zdy11"||$kbt=="zdy12")
 							$content.="<td>".$ywcs_wysend[$kbt][$v[$kbt]]."</td>";
 					elseif($kbt=='kh_fz' || $kbt=='kh_cj' ||$kbt=='kh_old_fz')
