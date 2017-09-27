@@ -1154,7 +1154,7 @@ class ShangjiController extends Controller {
 			$show.="<tr>";
 			$show.="
 				<td >
-				<input type='checkbox' class='chbox_duoxuan' id='".$v['sj_id']."'>".$v['sj_id']."
+				<input type='checkbox' class='chbox_duoxuan' id='".$v['sj_id']."'>
 				</td>";
 			foreach($biaoti as $k1=>$v1)
 			{

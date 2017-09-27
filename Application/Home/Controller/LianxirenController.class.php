@@ -561,7 +561,7 @@ return $fzr_only;
 			$id=$v['lx_id'];
 			//echo "<pre>";
 			//var_dump($lianxiren);exit;
-			$show_bt.="<tr><td ><input type='checkbox' class='chbox_duoxuan' id='".$v['lx_id']."'>".$v['lx_id']."</td>";
+			$show_bt.="<tr><td ><input type='checkbox' class='chbox_duoxuan' id='".$v['lx_id']."'></td>";
 				foreach($lx_biaoti1 as $k1=>$v1)
 				{
 					if($v[$k1]!="")
