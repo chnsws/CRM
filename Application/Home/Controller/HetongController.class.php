@@ -690,7 +690,7 @@ public function kehu(){
 						$content.="<td></td><td><span style='color:green'>审批通过</span></td>";
 				}elseif($v['ht_sp']==0)
 				{
-						$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span  class='".$v['ht_id']."' style='color:#50BBB1' onclick='faqi(this)'><i class='layui-icon' style='font-size: 25px; color: #1E9FFF;cursor:pointer' title='发起审批'>&#xe609;</i> </span></td>";
+						$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span  class='".$v['ht_id']."' style='color:#50BBB1' onclick='faqi(this)'><span style=' color: #09d;cursor:pointer' title='发起审批'>发起审批</span> </span></td>";
 				}else{
 						$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span class='".$v['ht_id']."' style='color:red;cursor:pointer' onclick='bhyy(this)' title='驳回原因'>驳回?</span><span  class='".$v['ht_id']."' style='color:#50BBB1;margin-left:10px' onclick='faqi(this)'><i class='layui-icon' style='font-size: 15px; color: #1E9FFF;cursor:pointer' title='发起审批'>&#xe609;</i> </span></td>";
 				}
@@ -983,7 +983,7 @@ public function kehu(){
 		$ywcs=$this->ywcs();
 		$shangji=$this->shangji();
 		$user=$this->user();
-		$array_jiansuo=array('ht_fz'=>"负责人",'ht_bm'=>"部门",'ht_spzt'=>"审批状态",'ht_new_gj'=>"最新跟进记录",'ht_sj_gj_date'=>"最新跟进时间",'ht_cj'=>"创建人",'ht_old_fz'=>"原负责人",'ht_old_bm'=>"原负责人部门",'ht_cj_date'=>"创建时间","ht_gx_date"=>"更新时间");
+		$array_jiansuo=array('ht_fz'=>"负责人",'ht_bm'=>"部门",'ht_new_gj'=>"最新跟进记录",'ht_sj_gj_date'=>"最新跟进时间",'ht_cj'=>"创建人",'ht_old_fz'=>"原负责人",'ht_old_bm'=>"原负责人部门",'ht_cj_date'=>"创建时间","ht_gx_date"=>"更新时间");
 				foreach($array_jiansuo as $k=>$v){
 						$new_str1['id']=$k;
 						$new_str1['name']=$v;
@@ -1359,7 +1359,7 @@ public function kehu(){
 		$ywcs=$this->ywcs();
 		$shangji=$this->shangji();
 		$user=$this->user();
-		$array_jiansuo=array('ht_fz'=>"负责人",'ht_bm'=>"部门",'ht_spzt'=>"审批状态",'ht_new_gj'=>"最新跟进记录",'ht_sj_gj_date'=>"最新跟进时间",'ht_cj'=>"创建人",'ht_old_fz'=>"原负责人",'ht_old_bm'=>"原负责人部门",'ht_cj_date'=>"创建时间","ht_gx_date"=>"更新时间");
+		$array_jiansuo=array('ht_fz'=>"负责人",'ht_bm'=>"部门",'ht_new_gj'=>"最新跟进记录",'ht_sj_gj_date'=>"最新跟进时间",'ht_cj'=>"创建人",'ht_old_fz'=>"原负责人",'ht_old_bm'=>"原负责人部门",'ht_cj_date'=>"创建时间","ht_gx_date"=>"更新时间");
 				foreach($array_jiansuo as $k=>$v){
 						$new_str1['id']=$k;
 						$new_str1['name']=$v;
@@ -1475,7 +1475,7 @@ public function kehu(){
 
 
 	$ywzd=$this->ywzd();
-		$array_jiansuo=array('ht_fz'=>"负责人",'ht_bm'=>"部门",'ht_spzt'=>"审批状态",'ht_new_gj'=>"最新跟进记录",'ht_sj_gj_date'=>"最新跟进时间",'ht_cj'=>"创建人",'ht_old_fz'=>"原负责人",'ht_old_bm'=>"原负责人部门",'ht_cj_date'=>"创建时间","ht_gx_date"=>"更新时间");
+		$array_jiansuo=array('ht_fz'=>"负责人",'ht_bm'=>"部门",'ht_new_gj'=>"最新跟进记录",'ht_sj_gj_date'=>"最新跟进时间",'ht_cj'=>"创建人",'ht_old_fz'=>"原负责人",'ht_old_bm'=>"原负责人部门",'ht_cj_date'=>"创建时间","ht_gx_date"=>"更新时间");
 				foreach($array_jiansuo as $k=>$v){
 						$new_str1['id']=$k;
 						$new_str1['name']=$v;

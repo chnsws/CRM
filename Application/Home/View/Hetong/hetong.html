@@ -279,7 +279,7 @@ $(function(){
 												
 						</table>
 					</form>
-					<div id="nchangyong" onselectstart='return false'><span style="color:blue">展开更多信息>></span></div>
+					<div id="nchangyong" onselectstart='return false'><span style="color:#07d;cursor:pointer;">展开更多信息>></span></div>
 	</div>
 	
 	<div id="add_shangji1" style="display: none;border:1px"> <!--新增商机 弹出框-->
@@ -796,13 +796,13 @@ $("#nchangyong").click(function(){
 	    if($(this).prop("name")=='0'||$(this).prop("name")==undefined)
 	    {
 	        $(".ncy").show();
-	        $(this).html("<span style='color:blue'>收起>></span>");
+	        $(this).html("<span style='color:#07d;cursor:pointer;'>收起>></span>");
 	        $(this).prop("name",'1');
 	    }
 	    else
 	    {
 	    	 $(".ncy").hide();
-	        $(this).html("<span style='color:blue'>展开更多信息>></span>");
+	        $(this).html("<span style='color:#07d;cursor:pointer;'>展开更多信息>></span>");
 	        $(this).prop("name",'0');
 	    }
 	});
