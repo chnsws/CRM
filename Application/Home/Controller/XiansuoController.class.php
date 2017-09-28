@@ -39,6 +39,7 @@ class XiansuoController extends DBController {
 		$px=$this->get_xs_px($fid);
 		
 		$pxzdarr=$px==''?$zdarr:$this->px_zd($zdarr,$px);
+
 		$add_table_show='';
 		$add_table_hide='';
 		$search_option='';
@@ -1303,12 +1304,17 @@ class XiansuoController extends DBController {
 		$px_arr=explode(',',$px);
 		if(count($px_arr)&&$px!='')
 		{
-			foreach($px_arr as $v)
+			foreach($px_arr as $k=>$v)
 			{
 				if($zd[$v]!='')
 				{
 					$pxzdarr[$v]=$zd[$v];
+					unset($zd[$v]);
 				}
+			}
+			foreach($zd as $k=>$v)
+			{
+				$pxzdarr[$k]=$v;
 			}
 		}
 		else
