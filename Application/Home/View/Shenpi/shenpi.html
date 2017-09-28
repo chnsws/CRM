@@ -138,6 +138,7 @@
 				 		   </div>
 
 				  </div>
+				 
 				    <div class="layui-tab-item">
 
 					 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
@@ -316,7 +317,7 @@ layui.use('upload', function(){
 									var bh_yuanyin=$("#htbhyy").val();
 									$.get(rooturl+'/index.php/Home/Shenpi/ht_bohui',{"id":bh_id,'yuanyin':bh_yuanyin,'tb':tb,'ht_id':ht_id},
 						        		 				function(html){
-															alert(html)
+															
 			        		 								 window.location.href="Shenpi";
 														});
 
@@ -482,6 +483,37 @@ function hk_because(ss){
 					window.location=rooturl+'/index.php/Home/Hetongmingcheng/download1?id='+s;
 						
 				}   
+	  function bhyy(ss){
+		        	var bh_id=$(ss).prop("class");
+		        	
+
+        				$.get(rooturl+'/index.php/Home/Hetong/bh_yy',{"id":bh_id},
+												function(html){
+												
+													$(".bhyuany1").html(html);
+
+											})
+			        		layui.use('layer', function(){
+
+										var layer = layui.layer;
+										var win=layer.open({
+
+											type:1,
+											offset: 't',
+											area:'750px',
+											title: '驳回原因',
+											content:$('.bhyuany'),
+											btn:['确定'],
+
+											btn1:function(){
+													
+												  layer.close(win)    
+										            
+											}
+										
+										}); 
+									});             
+					        }
 </script>
 
 	</html>

@@ -1082,7 +1082,7 @@ return $fzr_only;
        						$sql=ceil($save_size/1024).'M';//换算
  
     			 $data['name_id']=$ht_id;
-    			 $data['sc_data']= date("Y-m-d h:i:s");
+    			 $data['sc_data']= date("Y-m-d G:i:s");
     			 $data['fujian_name']=$save_oldname;
     			 $data['lujing']=$save_name;
     			 $data['big']=$sql;

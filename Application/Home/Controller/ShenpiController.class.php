@@ -625,22 +625,37 @@ class ShenpiController extends Controller {
 	
 		$spht_map['sp_user']=cookie("user_id");
 		$spht_map['sp_yy']=1;//三代表别人审批了
-	//	$sp_map['sp_jg']=0;
+
 		$spht_map['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
-		$spht_sql=$sp_base->where($spht_map)->select();
+		$spht_map1['sp_yy']=1;//三代表别人审批了
+
+		$spht_map1['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+		if(cookie('user_fid')=='0')
+		{
+			$spht_sql=$sp_base->where($spht_map1)->select();
+		}else{
+			$spht_sql=$sp_base->where($spht_map)->select();	
+		}
+		
 		foreach($spht_sql as $k=>$v)
 		{
+
 			if($v['sp_jg']==0) //待审批
-			{
+			{	
 				$ht_sp_show[]=$v;
 			}elseif($v['sp_jg']==1){//已通过
+				if($v['sp_user']==cookie('user_id')){
 				$ht_sp_show1[]=$v;
+				}
 			}elseif($v['sp_jg']==2){//已驳回
+				if($v['sp_user']==cookie('user_id')){
 				$ht_sp_show2[]=$v;
+				}
 			}elseif($v['sp_jg']==3 || $v['sp_jg']==4 ){ //别人已审批
 				$ht_sp_show3[]=$v;
 			}
 		}
+
 		if($ht_sp_show == "" || $ht_sp_show==null )
 		{
 			$ht_show.="暂无记录";
@@ -697,6 +712,120 @@ class ShenpiController extends Controller {
 			</div>
 		</div>";
 		}	
+		if($ht_sp_show1 == "" || $ht_sp_show1==null )
+		{
+			$ht_show1.="暂无记录";
+		}else{
+		$ht_show1.="<div >
+					<div >
+					<table class='layui-table' >
+				  	<thead>
+				  			<tr>	
+			                		<th>操作</th>
+			                		<th>合同标题</th>
+			                		<th>对应客户</th>
+			                		<th>对应商机</th>
+			                		<th>合同总金额</th>
+			                		<th>签约日期</th>
+			                		<th>合同开始日期</th>
+			                		<th>合同结束日期</th>
+			                		<th>合同状态</th>
+			                		<th>附件</th>
+			                		<th>负责人</th>
+			                		<th>当前审批级别</th>
+			                		<th>共几级</th>
+			                		<th>是否开启同步</th>
+
+			                </tr>
+					</thead>
+					 <tbody >";
+					//echo "<pre>";
+					//var_dump($kaipiao);exit;
+						foreach($ht_sp_show1  as $k=>$v)
+						{
+							$ht_show1.="<tr>
+										<td>";
+											$ht_show1.="您已通过</td>";
+							
+								$ht_show1.="	<td>".$ht_name[$v['sp_sjid']]['name']."</td>
+											<td>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</td>
+											<td>".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy3']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy4']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy5']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy6']."</td>
+											<td>".$ywcs['zdy7'][$ht_name[$v['sp_sjid']]['zdy7']]."</td>
+											<td><span style='color:blue' class='".$v['sp_sjid']."' onclick='fujian(this)'>点击查看</span></td>
+											<td>".$user_name[$ht_name[$v['sp_sjid']]['fz']]['user_name']."</td>
+											<td>第<span>".$v['sp_dq_jj']."</span>级</td>
+											<td>共<span>".$v['sp_zg_jj']."</span>级</td>
+											<td>".$tongbu[$v['sp_tp']]."</td>
+									</tr>";
+						}
+			            $ht_show1.="</tbody>
+				</table>  
+				
+			</div>
+		</div>";
+		}	
+			if($ht_sp_show2 == "" || $ht_sp_show2==null )
+		{
+			$ht_show2.="暂无记录";
+		}else{
+		$ht_show2.="<div >
+					<div >
+					<table class='layui-table' >
+				  	<thead>
+				  			<tr>	
+			                		<th>操作</th>
+			                		<th>合同标题</th>
+			                		<th>对应客户</th>
+			                		<th>对应商机</th>
+			                		<th>合同总金额</th>
+			                		<th>签约日期</th>
+			                		<th>合同开始日期</th>
+			                		<th>合同结束日期</th>
+			                		<th>合同状态</th>
+			                		<th>附件</th>
+			                		<th>负责人</th>
+			                		<th>当前审批级别</th>
+			                		<th>共几级</th>
+			                		<th>是否开启同步</th>
+
+			                </tr>
+					</thead>
+					 <tbody >";
+					//echo "<pre>";
+					//var_dump($kaipiao);exit;
+						foreach($ht_sp_show2  as $k=>$v)
+						{
+							$ht_show2.="<tr>
+										<td>";
+											$ht_show2.="您已驳回<span style='margin-left:10px;font-size:20px;color:red' class='".$v['sp_sjid']."' onclick='bhyy(this)'><i class='layui-icon'>&#xe607;</i>  </span></td>";
+							
+								$ht_show2.="	<td>".$ht_name[$v['sp_sjid']]['name']."</td>
+											<td>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</td>
+											<td>".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy3']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy4']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy5']."</td>
+											<td>".$ht_name[$v['sp_sjid']]['zdy6']."</td>
+											<td>".$ywcs['zdy7'][$ht_name[$v['sp_sjid']]['zdy7']]."</td>
+											<td><span style='color:blue' class='".$v['sp_sjid']."' onclick='fujian(this)'>点击查看</span></td>
+											<td>".$user_name[$ht_name[$v['sp_sjid']]['fz']]['user_name']."</td>
+											<td>第<span>".$v['sp_dq_jj']."</span>级</td>
+											<td>共<span>".$v['sp_zg_jj']."</span>级</td>
+											<td>".$tongbu[$v['sp_tp']]."</td>
+									</tr>";
+						}
+			            $ht_show2.="</tbody>
+				</table>  
+				
+			</div>
+		</div>";
+		}
+		$this->assign('ht_show2',$ht_show2);	
+		$this->assign('ht_show1',$ht_show1);
 		$this->assign('ht_show',$ht_show);
 		$this->assign('kp_show3',$kp_show3);
 		$this->assign('kp_show2',$kp_show2);
@@ -1104,125 +1233,151 @@ return $fzr_only;
 			$tongguo['sp_jg']=1;
 			//echo $id.$yuany;
 			$kp_base=M('sp');
-			$map_sp['sp_id']=$sp_id;
+			
+			$map_sp['sp_sjid']=$_GET['ht_id'];
 			$map_sp['sp_yy']=1;
 			$map_sp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			if(cookie('user_fid')=='0')
+			{	
+			
+				$tongguo1['sp_user']=cookie('user_id');
+				$tongguo1['sp_jg']=128;
+				$kp_save1=$kp_base->where($map_sp)->save($tongguo1);
+			}
+			
+				$map_sp['sp_id']=$sp_id;
+
 			$kp_save=$kp_base->where($map_sp)->save($tongguo);
 			$tjr=$_GET['tjr'];
 			$zgjj=$_GET['zgjj'];
-			if($tb==1)
+			if(cookie('user_fid')!='0')
 			{
+
 			
-				//这里判断第一级的x个人是否都过,过了给下一级,直到最后一级全过  才去修改开票信息 的审核状态
-					
-					$map['sp_dq_jj']=$tjr;
-					$map['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-					$map['sp_yy']=1;
-					$map['sp_sjid']=$_GET['ht_id'];
-
-					$base_sp=M('sp');
-					$sql=$base_sp->where($map)->select();
-					$num1=0;
-					$num2=0;
-					foreach($sql as $k=>$v)
+					if($tb==1)
 					{
-						$num1++;
-						if($v['sp_jg']==1)
-						{
-							$num2++;
-						}
-					}
-					if($num1==$num2) //当前级别全员通过 继续判断有无下级 有则下级继续 ，没有则修改开票状态
-					{	
-						if($map['sp_dq_jj']==$zgjj)  //当前级别等于最高级别 就是 1 2 3级全部通过 去修改开票状态
-						{
-						
-							$m_ht_base=M('hetong');
-							$m_ap['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-							$m_ap['ht_id']=$_GET['ht_id'];
-							$datass['ht_sp']=1;
-							$sql_saveht=$m_ht_base->where($m_ap)->save($datass);
-							if($sql_saveht){
-								echo "全部人员审批通过";
-							}
+					
+						//这里判断第一级的x个人是否都过,过了给下一级,直到最后一级全过  才去修改开票信息 的审核状态
 							
-						}else{  
-						                     //x级过了  扔给 x+1 级去审批
-							$map_xiaji['sp_dq_jj']=$map['sp_dq_jj']+1;
-							$map_xiaji['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-							$map_xiaji['sp_yy']=1;
-							$map_xiaji['sp_sjid']=$_GET['ht_id'];
-							$map_xiaji['sp_jg']=128;
-							$data_map['sp_jg']=0;
-							$sal_save=M('sp')->where($map_xiaji)->save($data_map);
-							if($sal_save){
-								echo "已通知下级";
+							$map['sp_dq_jj']=$tjr;
+							$map['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+							$map['sp_yy']=1;
+							$map['sp_sjid']=$_GET['ht_id'];
+
+							$base_sp=M('sp');
+							$sql=$base_sp->where($map)->select();
+							$num1=0;
+							$num2=0;
+							foreach($sql as $k=>$v)
+							{
+								$num1++;
+								if($v['sp_jg']==1)
+								{
+									$num2++;
+								}
 							}
-						}
-					}else{ //测试 以下删除
-						echo "您已通过  ";
-					}
-
-	
-			}elseif($tb==0){
-							
-
-					/**		$map_xiaji['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-							$map_xiaji['sp_yy']=1;
-							$map_xiaji['sp_sjid']=$_GET['ht_id'];
-						
-							$data_map['sp_jg']=1;
-							$data_map['sp_xgr']=cookie('user_fid');
-							$sal_save=M('sp')->where($map_xiaji)->save($data_map);
-
-							$m_ht_base=M('hetong');
-							$m_ap['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-							$m_ap['ht_id']=$_GET['ht_id'];
-							$datass['ht_sp']=1;
-							$sql_saveht=$m_ht_base->where($m_ap)->save($datass);
-							if($sql_savekp){
-								echo "审批通过";//缺少把他人的给修改了
-									}**/
-											$save_kpsp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //修改同级其他 工作人员的审批为别人已审批
-											$save_kpsp['sp_sjid']=$_GET['ht_id'];
-											$save_kpsp['sp_yy']=1;
-											$save_kpsp['sp_dq_jj']=$tjr;
-											$save_kpsp['sp_jg']=0;
-											$save_kpo['sp_jg']=4;//34为别人已审批
-											$save_kpo['sp_xgr']=cookie('user_id');
-											$sql_spkp_save=$kp_base->where($save_kpsp)->save($save_kpo);
-								if($tjr==$zgjj)  //当前级别等于最高级别 就是 1 2 3级全部通过 去修改开票状态
-									{
-										$m_ht_base=M('hetong');
-										$m_ap['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-										$m_ap['ht_id']=$_GET['ht_id'];
-										$datass['ht_sp']=1;
-										$sql_saveht=$m_ht_base->where($m_ap)->save($datass);
-										if($sql_saveht){
-
-											
-
-											echo "全部人员审批通过";
-										}
-
-									}else{                       //x级过了  扔给 x+1 级去审批
-										$map_xiaji['sp_dq_jj']=$tjr+1;
-										$map_xiaji['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-										$map_xiaji['sp_yy']=1;
-										$map_xiaji['sp_sjid']=$_GET['ht_id'];
-										$map_xiaji['sp_jg']=128;
-										$data_map['sp_jg']=0;
-										$sal_save=M('sp')->where($map_xiaji)->save($data_map);
-										if($sal_save){
-
-
-											
-
-
-											echo "已通知下级";
-										}
+							if($num1==$num2) //当前级别全员通过 继续判断有无下级 有则下级继续 ，没有则修改开票状态
+							{	
+								if($map['sp_dq_jj']==$zgjj)  //当前级别等于最高级别 就是 1 2 3级全部通过 去修改开票状态
+								{
+								
+									$m_ht_base=M('hetong');
+									$m_ap['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+									$m_ap['ht_id']=$_GET['ht_id'];
+									$datass['ht_sp']=1;
+									$sql_saveht=$m_ht_base->where($m_ap)->save($datass);
+									if($sql_saveht){
+										echo "全部人员审批通过";
 									}
-						
+									
+								}else{  
+								                     //x级过了  扔给 x+1 级去审批
+									$map_xiaji['sp_dq_jj']=$map['sp_dq_jj']+1;
+									$map_xiaji['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+									$map_xiaji['sp_yy']=1;
+									$map_xiaji['sp_sjid']=$_GET['ht_id'];
+									$map_xiaji['sp_jg']=128;
+									$data_map['sp_jg']=0;
+									$sal_save=M('sp')->where($map_xiaji)->save($data_map);
+									if($sal_save){
+										echo "已通知下级";
+									}
+								}
+							}else{ //测试 以下删除
+								echo "您已通过  ";
+							}
+
+			
+					}elseif($tb==0){
+									
+
+							/**		$map_xiaji['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+									$map_xiaji['sp_yy']=1;
+									$map_xiaji['sp_sjid']=$_GET['ht_id'];
+								
+									$data_map['sp_jg']=1;
+									$data_map['sp_xgr']=cookie('user_fid');
+									$sal_save=M('sp')->where($map_xiaji)->save($data_map);
+
+									$m_ht_base=M('hetong');
+									$m_ap['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+									$m_ap['ht_id']=$_GET['ht_id'];
+									$datass['ht_sp']=1;
+									$sql_saveht=$m_ht_base->where($m_ap)->save($datass);
+									if($sql_savekp){
+										echo "审批通过";//缺少把他人的给修改了
+											}**/
+													$save_kpsp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //修改同级其他 工作人员的审批为别人已审批
+													$save_kpsp['sp_sjid']=$_GET['ht_id'];
+													$save_kpsp['sp_yy']=1;
+													$save_kpsp['sp_dq_jj']=$tjr;
+													$save_kpsp['sp_jg']=0;
+													$save_kpo['sp_jg']=4;//34为别人已审批
+													$save_kpo['sp_xgr']=cookie('user_id');
+													$sql_spkp_save=$kp_base->where($save_kpsp)->save($save_kpo);
+										if($tjr==$zgjj)  //当前级别等于最高级别 就是 1 2 3级全部通过 去修改开票状态
+											{
+												$m_ht_base=M('hetong');
+												$m_ap['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+												$m_ap['ht_id']=$_GET['ht_id'];
+												$datass['ht_sp']=1;
+												$sql_saveht=$m_ht_base->where($m_ap)->save($datass);
+												if($sql_saveht){
+
+													
+
+													echo "全部人员审批通过";
+												}
+
+											}else{                       //x级过了  扔给 x+1 级去审批
+												$map_xiaji['sp_dq_jj']=$tjr+1;
+												$map_xiaji['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+												$map_xiaji['sp_yy']=1;
+												$map_xiaji['sp_sjid']=$_GET['ht_id'];
+												$map_xiaji['sp_jg']=128;
+												$data_map['sp_jg']=0;
+												$sal_save=M('sp')->where($map_xiaji)->save($data_map);
+												if($sal_save){
+
+
+													
+
+
+													echo "已通知下级";
+												}
+											}
+								
+					}
+			}else{
+				$m_ht_base=M('hetong');
+									$m_ap['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+									$m_ap['ht_id']=$_GET['ht_id'];
+									$datass['ht_sp']=1;
+									$sql_saveht=$m_ht_base->where($m_ap)->save($datass);
+									if($sql_saveht){
+										echo "管理员审批通过";
+									}
+
 			}
 
 		}
@@ -1232,12 +1387,13 @@ return $fzr_only;
 			$kp_add_base=M('kp');
 			$kpyh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
 			$kaipiao=$kp_add_base->query("select * from  crm_kp where wocao=$kpyh and  kp_id =$id");
-			if($kaipiao[0]['kp_type']==0)
+			if($kaipiao[0]['kp_type']==0) 
 			{
 				$xq_show.="<table class='uk-form'>";
-					$xq_show.="<tr><td><span class='righ'>发票开头：</span></td><td ><span class='righ1'>".$kaipiao[0]['kp_fp_tt']."</span></td></tr>";
 					$xq_show.="<tr><td><span class='righ'>纳税人识别码：</span></td><td ><span class='righ1'>".$kaipiao[0]['kp_fp_sbm']."</span></td></tr>";
-				$xq_show.="<table>";
+				$xq_show.="<table>";					$xq_show.="<tr><td><span class='righ'>发票开头：</span></td><td ><span class='righ1'>".$kaipiao[0]['kp_fp_tt']."</span></td></tr>";
+
+
 			}elseif($kaipiao[0]['kp_type']==1)
 																	
 			{
@@ -1302,6 +1458,9 @@ return $fzr_only;
 			$map_sp['sp_id']=$id;
 			$map_sp['sp_yy']=1;
 			$map_sp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			if(cookie('user_fid')=='0'){
+				$yuany['sp_user']=cookie('user_id');
+			}
 			$ht_save=$ht_base->where($map_sp)->save($yuany);
 			if($ht_save){
 			
