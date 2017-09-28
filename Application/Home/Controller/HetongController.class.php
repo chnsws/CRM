@@ -242,6 +242,10 @@ public function kehu(){
 		return implode(",",$nowzgid);
 	}
 	public function hetong(){
+				 
+		      
+		      
+		      
 		$ywzd=$this->ywzd();
 		$kehu=$this->kehu();
 		$ywcs=$this->ywcs();
@@ -1227,7 +1231,7 @@ public function kehu(){
 		        
 				$sizestr=$getFileArr['size']>=1048576?round(($getFileArr['size']/1048576),2).'M':round(($getFileArr['size']/1024),2).'K';
 		       
-		       
+
 		        $map['name_id']=0;
 		       	$map['sc_data']=date("Y-m-d G:i:s");
 		       	$map['fujian_name']=$getFileArr['name'];
@@ -2082,7 +2086,7 @@ public function kehu(){
 
 															$sp_kp_base=M('sp');
 															$map_sp_kp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
-															$map_sp_kp['sp_sj']=date("Y-m-d h:i:s");
+															$map_sp_kp['sp_sj']=date("Y-m-d H:i:s");
 															$map_sp_kp['sp_sjid']=$sql;//合同ID
 															$map_sp_kp['sp_jg']=0;//未审批\
 
@@ -2249,7 +2253,7 @@ public function kehu(){
 
 															$sp_kp_base=M('sp');
 															$map_sp_kp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
-															$map_sp_kp['sp_sj']=date("Y-m-d h:i:s");
+															$map_sp_kp['sp_sj']=date("Y-m-d H:i:s");
 															$map_sp_kp['sp_sjid']=$sql;//合同ID
 															$map_sp_kp['sp_jg']=0;//未审批\
 

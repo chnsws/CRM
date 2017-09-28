@@ -1647,7 +1647,7 @@ class KehuController extends Controller {
        						$sql=substr($save_size,0,3).'kb';//换算
  
     			 $data['name_id']=$kh_id;
-    			 $data['sc_data']= date("Y-m-d h:i:s");
+    			 $data['sc_data']= date("Y-m-d H:i:s");
     			 $data['fujian_name']=$save_oldname;
     			 $data['lujing']=$save_name;
     			 $data['big']=$sql;

@@ -636,7 +636,7 @@ class ShenpiController extends Controller {
 		}else{
 			$spht_sql=$sp_base->where($spht_map)->select();	
 		}
-		
+	
 		foreach($spht_sql as $k=>$v)
 		{
 
