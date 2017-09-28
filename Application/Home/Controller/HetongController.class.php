@@ -1229,9 +1229,10 @@ public function kehu(){
 		       
 		       
 		        $map['name_id']=0;
-		       	$map['sc_data']=time();
+		       	$map['sc_data']=date("Y-m-d G:i:s");
 		       	$map['fujian_name']=$getFileArr['name'];
 		       	$map['big']=$sizestr;
+		       	$map['user']=cookie('user_id');
 		       	$map['lujing']=$newname;
 		       	$map['yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件;
 		       	$map['mk']=6;
@@ -1241,6 +1242,7 @@ public function kehu(){
 			}	
 			public function sql_fj(){
 					$mapa['mk']=6;
+					$mapa['user']=cookie('user_id');
 		       		$mapa['name_id']=0;
 		       		$mapa['yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件;
 		       		     	$file_base=M('file');

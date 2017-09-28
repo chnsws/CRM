@@ -1083,6 +1083,7 @@ return $fzr_only;
  
     			 $data['name_id']=$ht_id;
     			 $data['sc_data']= date("Y-m-d G:i:s");
+    			 	 $data['user']=cookie('user_id');
     			 $data['fujian_name']=$save_oldname;
     			 $data['lujing']=$save_name;
     			 $data['big']=$sql;
