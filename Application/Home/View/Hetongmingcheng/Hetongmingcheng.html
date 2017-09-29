@@ -79,7 +79,7 @@ i.layui-anim{display:inline-block}
 			.gj tr{height:70px;}
 			.woca{display:none;}
 			.ace{width:80px;}
-		
+			.fujian1{margin :0 auto;margin-top:15px;}
 				.searchable-select-input{width:280px !important ;}
 			.searchable-select {min-width:300px;}
 			.cd tr{line-height:27px;height:40px}
@@ -105,6 +105,29 @@ i.layui-anim{display:inline-block}
 		   	<button onclick="del_check(this)"  id='{$ht_id}'  class="layui-btn layui-btn-primary layui-btn-small bjscyc">
 	 			<i class="layui-icon">&#xe640;</i>删除</button>
 		</div>	
+		<div class='fujian' style="display:none">
+				<table class='fujian1'>
+
+				</table>
+		</div>
+<div class='chanpina' style="display:none">
+				<table class='chanpin1 layui-table' >
+							<thead>
+								  	<tr><th >产品名称</th>
+					  				<th >产品编号</th>
+					  				<th >公开价格</th>
+					  				<th >合同价格</th>
+					  				<th >数量</th>
+					  			
+					  				<th >总价</th>
+					  				</tr>
+
+									</thead>
+									<tbody class="cp_showoo">
+										
+									</tbody>
+				</table>
+		</div>
 			<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 			<div class="bianji"  style="display: none;border:1px;">
 		    		<div class="bianji_nb" style="width:430px;margin:0 auto">
@@ -600,6 +623,7 @@ i.layui-anim{display:inline-block}
 								content:$('.bianji'),
 								btn:['确认编辑','取消'],
 								btn1:function(){
+
 									var formdom=$("#myform").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';
@@ -685,6 +709,7 @@ i.layui-anim{display:inline-block}
 								btn:['保存'],
 
 								btn1:function(){
+									
 									var formdom=$("#cp_form").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';
@@ -806,7 +831,8 @@ i.layui-anim{display:inline-block}
 
 								btn1:function(){
 								
-									
+									window.jiazai=layer.load(2);
+		
 									var a="";
 									$(".add_pz").each(function(){
 										 a +="hk_qici:"+$(this).children().eq(0).text()+","+"hk_data:"+$(this).children().eq(2).find("input").val()+","+"hk_zb:"+$(this).children().eq(3).find("input").val()+","+"hk_je:"+$(this).children().eq(4).find("input").val()+","+"hk_bz:"+$(this).children().eq(5).find("input").val()+"!";
@@ -994,6 +1020,7 @@ i.layui-anim{display:inline-block}
 		              				  	 tishi('必填项不能为空')
 		                   				 return false;
               		 				 }  /**nnn**/
+              		 				 window.jiazai=layer.load(2);
 									var htid=$(".ht_id").val();
 									var kp_end='';
 									//	var formdom1=$("#hk_add").children("table").find("tr");
@@ -1228,6 +1255,75 @@ i.layui-anim{display:inline-block}
 					window.location=rooturl+'/index.php/Home/Hetongmingcheng/download1?id='+s;
 						
 				}
+					function fj_xz(ss)
+				{
+					var s=$(ss).prop('class');
+				
+					window.location=rooturl+'/index.php/Home/Hetongmingcheng/download1?id='+s;
+						
+				}   
+	function ht_fj(ss){
+		var ht_id=$(ss).prop('class');
+		
+		$.get(rooturl+'/index.php/Home/Shenpi/fujian',{"id": ht_id},
+												function(html){
+												
+													$(".fujian1").html(html);
+
+											})
+			layui.use('layer', function(){
+			
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'750px',
+								title: '附件详情',
+								content:$('.fujian'),
+								btn:['返回'],
+
+								btn1:function(){
+										
+									  layer.close(win)    
+							            
+								}
+							
+							}); 
+						});      
+
+	}
+	function ht_cp(ss){
+		var ht_id=$(ss).prop('class');
+		$.get(rooturl+'/index.php/Home/Hetong/cp_ck',{"id": ht_id},
+												function(html){
+												
+													$(".cp_showoo").html(html);
+
+											})
+		
+			layui.use('layer', function(){
+			
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:['1000px','400px'],
+								title: '产品详情',
+								content:$('.chanpina'),
+								btn:['返回'],
+
+								btn1:function(){
+										
+									  layer.close(win)    
+							            
+								}
+							
+							}); 
+						});      
+
+	}
 
 	</script>
 </html>
