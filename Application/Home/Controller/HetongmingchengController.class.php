@@ -132,7 +132,7 @@ return $fzr_only;
 			return $sql_sj1;
 		}
 		public function hetongmingcheng(){
-			$uiid=$_GET['uiid'];
+			
 			
 			if($uiid=='' || $uiid==null)
 			{
@@ -186,7 +186,18 @@ return $fzr_only;
 						$show.="<td >".$ht_json[$k]."</td>";	
 					}	
 				}else{
-					$show.="<td >未填写</td>";
+					if($k == 'zdy9')
+					{
+						
+						$show.="<td onclick='ht_cp(this)' class='".$ht_id."' title='点击查看附件' style='color:#1AA094;cursor:pointer'>产品</td>";	
+
+					}elseif($k=="zdy14")
+					{
+						$show.="<td  onclick='ht_fj(this)' class='".$ht_id."' title='点击查看产品' style='color:#1AA094;cursor:pointer'>附件</td>";	
+					}else{
+					$show.="<td >未填写</td>";	
+					}
+					
 				}
 				$show.="</tr>";
 			}

@@ -684,20 +684,38 @@ public function kehu(){
 		
 			
 		foreach($hetong as $k=>$v)
-		{		
+		{
 				$content.="<tr id='".$v['ht_id']."'>";
-				if($v['ht_sp']==4)
-				{
-						$content.="<td></td><td style='color:333'><i><b>审批中</b></i></td>";
-				}elseif($v['ht_sp']==1)
-				{
-						$content.="<td></td><td><span style='color:green'>审批通过</span></td>";
-				}elseif($v['ht_sp']==0)
-				{
-						$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span  class='".$v['ht_id']."' style='color:#50BBB1' onclick='faqi(this)'><span style=' color: #09d;cursor:pointer' title='发起审批'>发起审批</span> </span></td>";
+				if(cookie('user_fid')=='0'){
+					if($v['ht_sp']==4)
+					{
+							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td style='color:333'><i><b>审批中</b></i></td>";
+					}elseif($v['ht_sp']==1)
+					{
+							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span style='color:green'>审批通过</span></td>";
+					}elseif($v['ht_sp']==0)
+					{
+							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span  class='".$v['ht_id']."' style='color:#50BBB1' onclick='faqi(this)'><span style=' color: #09d;cursor:pointer' title='发起审批'>发起审批</span> </span></td>";
+					}else{
+							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span class='".$v['ht_id']."' style='color:red;cursor:pointer' onclick='bhyy(this)' title='驳回原因'>驳回?</span><span  class='".$v['ht_id']."' style='color:#50BBB1;margin-left:10px' onclick='faqi(this)'><i class='layui-icon' style='font-size: 15px; color: #1E9FFF;cursor:pointer' title='发起审批'>&#xe609;</i> </span></td>";
+					}
+
 				}else{
-						$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span class='".$v['ht_id']."' style='color:red;cursor:pointer' onclick='bhyy(this)' title='驳回原因'>驳回?</span><span  class='".$v['ht_id']."' style='color:#50BBB1;margin-left:10px' onclick='faqi(this)'><i class='layui-icon' style='font-size: 15px; color: #1E9FFF;cursor:pointer' title='发起审批'>&#xe609;</i> </span></td>";
+					if($v['ht_sp']==4)
+					{
+							$content.="<td></td><td style='color:333'><i><b>审批中</b></i></td>";
+					}elseif($v['ht_sp']==1)
+					{
+							$content.="<td></td><td><span style='color:green'>审批通过</span></td>";
+					}elseif($v['ht_sp']==0)
+					{
+							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span  class='".$v['ht_id']."' style='color:#50BBB1' onclick='faqi(this)'><span style=' color: #09d;cursor:pointer' title='发起审批'>发起审批</span> </span></td>";
+					}else{
+							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span class='".$v['ht_id']."' style='color:red;cursor:pointer' onclick='bhyy(this)' title='驳回原因'>驳回?</span><span  class='".$v['ht_id']."' style='color:#50BBB1;margin-left:10px' onclick='faqi(this)'><i class='layui-icon' style='font-size: 15px; color: #1E9FFF;cursor:pointer' title='发起审批'>&#xe609;</i> </span></td>";
+					}
 				}
+				
+				
 				
 			foreach($ht_biaoti1 as $kbt => $vbt)
 			{
