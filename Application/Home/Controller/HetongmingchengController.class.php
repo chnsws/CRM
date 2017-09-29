@@ -483,7 +483,7 @@ return $fzr_only;
 											<tr><td colspan='8'  height='120px' >
 												<i class='layui-icon xiaolian' style='font-size:80px;float:left;position:relative;left:50%;margin-left:-200px;'><b>&#xe60c;</b></i>
 
-												<span style='margin-left:45%'>亲~ 还没有数据哦111～ <span style='color:#07d;cursor:pointer;cursor:pointer;' onclick='xzjh(this)'>新增回款记录 >></span></span>
+												<span style='margin-left:45%'>亲~ 还没有数据哦～ <span style='color:#07d;cursor:pointer;cursor:pointer;' onclick='xzjh(this)'>新增回款记录 >></span></span>
 											</td></tr>  
 											</tbody>";
 								}
