@@ -360,6 +360,22 @@ class KehuController extends Controller {
 		}
 		$lxr=$this->lxr();
 
+		$wuyong=0;
+		foreach($lxr as $k=>$v)//同公司下多个联系人
+		{	
+			
+		
+				if($v["lx_buwei"]==NULL || $v["lx_buwei"]=='')
+				{
+					if($kh_lxrhq[$v['zdy1']]!=NULL || $kh_lxrhq[$v['zdy1']]!='')
+					{		$wuyong++;
+							$kh_lxrhq[$v['zdy1']][$wuyong]=$v;//$kh_lxrnew[$v[$]];
+					}else{
+						$kh_lxrhq[$v['zdy1']]['0']=$v;//$kh_lxrnew[$v[$]];
+					}
+				}		
+		}
+
 					foreach($ronghe as $r_k=>$r_v)
 					{	
 						$id=$r_v['kh_id'];
@@ -371,15 +387,16 @@ class KehuController extends Controller {
 										</td>";
 								foreach($kh_biaoti1 as $k_biaoti=>$v_biaoti)
 								{	
-									if($r_v[$v_biaoti['id']]!="")	
+									
+									if($r_v[$v_biaoti['id']]!="" && $v_biaoti['id']!="zdy15")	
 									{
+										
 											if($v_biaoti['id']=='zdy0')
 												$xs123="<a href='kehumingcheng/kh_id/$id'>".$r_v[$v_biaoti['id']]."
 												</a>";
 											elseif($v_biaoti['id']=="kh_fz" || $v_biaoti['id']=="kh_old_fz" || $v_biaoti['id']=="kh_cj" )
 																$xs123="<span id='wys{$id}'>".$fzr_only[$r_v[$v_biaoti['id']]]['user_name']."</span>";
-											elseif($v_biaoti['id']=="zdy15" )
-												$xs123="<a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$lxr[$r_v[$v_biaoti['id']]]['id']."'>".$lxr[$r_v[$v_biaoti['id']]]['name']."</a>";
+											
 											elseif($v_biaoti['id']=="kh_cj_date" ){
 													$xs123="
 												<span id='wys{$id}'>".date('Y-m-d H:i:s',$r_v[$v_biaoti['id']])."</span>";
@@ -391,12 +408,25 @@ class KehuController extends Controller {
 											else
 												$xs123="
 												<span id='wys{$id}'>".$r_v[$v_biaoti['id']]."</span>";
+										
 												$table.="<td name='$k'>
 													$xs123
 												</td>";
 									}else{
+											
+											if($v_biaoti['id']=="zdy15" ){
+												$xs123='';
+												foreach($kh_lxrhq[$r_v['kh_id']] as $k=>$vv)
+												{
+												
+															$xs123.="<a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$vv['id']."'><span style='margin-left:5px'>".$vv['name']."</span></a>";
+													
+												}
+												//$xs123="<a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$lxr[$r_v[$v_biaoti['id']]]['id']."'>".$lxr[$r_v[$v_biaoti['id']]]['name']."</a>";
+											}	else{
 												$xs123="
 												<span id='wys{$id}'>--</span>";
+											}
 												$table.="<td name='$k'>
 													$xs123
 												</td>";
@@ -467,6 +497,7 @@ class KehuController extends Controller {
 					$lx['id']=$vkh['lx_id'];
 					$lx['name']=$kh_json['zdy0'];
 					$lx['zdy1']=$kh_json['zdy1'];
+					$lx['lx_buwei']=$vkh['lx_buwei'];
 					$lx_name[$vkh['lx_id']]=$lx;
 		}
 		
