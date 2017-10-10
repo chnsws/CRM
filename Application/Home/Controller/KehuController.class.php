@@ -2825,6 +2825,7 @@ public function save(){
 					$kh_name[$vkh['kh_id']]=$kh;
 		}
 		$name=$_GET['id'];
+		$name=trim($name);
 		foreach($kh_name as $k=>$v)
 		{
 			if($v['name']==$name){
