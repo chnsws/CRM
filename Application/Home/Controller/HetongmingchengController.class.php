@@ -426,13 +426,13 @@ return $fzr_only;
 			}
 
 			
-			//
+			$dinum=1;
 				foreach($sql_hk as $k=>$v)
 				{
 					$weihuikuan=$v['hk_je']-$yihuikuan[$v['hk_qici']];
 					$hk_jihua.="<div class='long'>";  
 						$hk_jihua.="<div class='backg'>";
-							$hk_jihua.="<div class='kongzhi1'><span class='hkshow'>第<b>".$v['hk_qici']."</b>期回款计划：".$v['hk_data']."</span><span class='hkshow'>计划回款总金额：¥<b> ".$v['hk_je']."</b></span><span class='hkshow'>占比：¥<b> ".$v['hk_zb']."%</b></span><span class='hkshow'> 已回款总金额：¥ <b>".$yihuikuan[$v['hk_qici']]."</b></span> <span class='hkshow'>未回款总金额：¥<b>".$weihuikuan."</b></span><span  class='hkshow'>未完成</span><button  id='create-sahngji' onclick='xzjh(this)' class='layui-btn layui-btn-small add_wz' >新增汇款记录</button>
+							$hk_jihua.="<div class='kongzhi1'><span class='hkshow'>第<b>".$dinum."</b>期回款计划：".$v['hk_data']."</span><span class='hkshow'>计划回款总金额：¥<b> ".$v['hk_je']."</b></span><span class='hkshow'>占比：¥<b> ".$v['hk_zb']."%</b></span><span class='hkshow'> 已回款总金额：¥ <b>".$yihuikuan[$v['hk_qici']]."</b></span> <span class='hkshow'>未回款总金额：¥<b>".$weihuikuan."</b></span><span  class='hkshow'>未完成</span> <span class='shet'> <i class='layui-icon xiaoshou' style='font-size: 17px; ' onclick='shanchu_pz(this)' >&#xe640;</i> <i class='layui-icon xiaoshou' onclick='xiugai_pz(this)' style='font-size: 17px; '>&#xe642;</i> </span> <button  id='create-sahngji' onclick='xzjh(this)' class='layui-btn layui-btn-small add_wz' >新增汇款记录</button>
 						  	</div>
 						  </div>";
 					  	$hk_jihua.="<table class='layui-table' lay-skin='line' >
@@ -492,7 +492,15 @@ return $fzr_only;
 							 
 							$hk_jihua.="</table>
 				 	</div>";
+				 	$dinum++;
 				}
+				if($dinum==1)
+				{
+					$mengen=0;
+				}else{
+					$mengen=$dinum-1;
+				}
+				$this->assign('pz_num',$mengen);
 			//这里往下是新增计划、1234567485674896789798789789789
 			
 			$xz_jh.="<table class='uk-form ' >";
@@ -1266,27 +1274,35 @@ return $fzr_only;
 			$hk_base=M('hk');
 			$hk_map['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 			$hk_map['hk_htid']=$_GET['id'];
+			$dijiqia=$_GET['dijiqi'];
+			$dijiqi=$dijiqia+1;
 		//$hk_map['hk_htid']=309;
 			$sql_hk=$hk_base->where($hk_map)->select();
-			if($sql_hk==null || $sql_hk=="")
-			{
+			//if($sql_hk==null || $sql_hk=="")
+		//	{
 				$peizhi712.="<tr class='qingxuanze'>
 					<td colspan='6' ><span>亲~还没有回款计划哦~<span onclick='hkzb()'
 					style='color:#07d;cursor:pointer;font-weight:bold'>新增回款计划>></span></span></td>
 				</tr>
 				<tr class='add_pz' style='display:none'>
-					<td >1</td>
+					<td >".$dijiqi."</td>
 					<td ><span onclick='jia(this)'><i class='layui-icon'  style='color:black'>&#xe61f;</i></span><span class='1' onclick='hkzb1(this)'><i class='layui-icon'   style='font-size:20px'>&#xe640;</i></span></td>
 					<td ><input type='text' style='width:110px'  name ='' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd '".'})"'."></td>
 					<td ><input type='text' style='width:100px' class= 'zbi' onchange='zolop(this)'></td>
 					<td ><input type='text' style='width:100px' class= 'money' value='' onchange='fan(this)' name =''></td>
 					<td ><input type='text' style='width:110px' name =''></td>
 				</tr> ";
-			}else{
+		//	}else{
+				/**$peizhi712.="<tr class='qingxuanze' style='display:none'>
+					<td colspan='6' ><span>亲~还没有回款计划哦~<span onclick='hkzb()'
+					style='color:#07d;cursor:pointer;font-weight:bold'>新增回款计划>></span></span></td>
+				</tr>";
 				foreach($sql_hk as $k=>$v)
 				{
 					
-				$peizhi712.="<tr class='add_pz'>
+				$peizhi712.="
+
+				<tr class='add_pz'>
 								<td >".$v['hk_qici']."</td>
 								<td ><span onclick='jia(this)'><i class='layui-icon'  style='color:black'>&#xe61f;</i></span><span class='1' onclick='hkzb1(this)'><i class='layui-icon'   style='font-size:20px'>&#xe640;</i></span></td>
 								<td ><input type='text' style='width:110px'  name =''  value='".$v['hk_data']."'  onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>
@@ -1297,7 +1313,7 @@ return $fzr_only;
 				}
 				
 			
-			}
+			}**/
 			echo $peizhi712;
 
 	}

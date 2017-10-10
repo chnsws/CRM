@@ -83,6 +83,19 @@ i.layui-anim{display:inline-block}
 				.searchable-select-input{width:280px !important ;}
 			.searchable-select {min-width:300px;}
 			.cd tr{line-height:27px;height:40px}
+			 th{
+        text-align:center;/** 设置水平方向居中 */
+        vertical-align:middle/** 设置垂直方向居中 */
+    }
+     .th_peizhi td{
+        text-align:center;/** 设置水平方向居中 */
+       
+    }
+    .jzhj td{
+    	 text-align:center;
+    }
+    .shet{margin-left:40px;}
+    .xiaoshou{cursor:pointer}
   	</style>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
@@ -95,6 +108,7 @@ i.layui-anim{display:inline-block}
 		<div style="margin-left:10px"><span  class='name' ><b>{$name}</b></span><span style="margin-left:10px">负责人：<span class="fuzename">	{$fuzeren}</span></span>
 		</div>
 		<input type='hidden' value='{$kh_id}' class='kh_id'>
+		<input type='hidden' value='{$pz_num}' class='pz_num'>
 		<input type='hidden' value='{$uiid}' class='uiid'>
 		<input type='hidden' value='{$ht_sp918}' class='ht_sp'>
 		<div style="margin-top:20px;margin-left:8px; height:35px" >
@@ -243,11 +257,11 @@ i.layui-anim{display:inline-block}
 					    				    <tr><td> </td><td> </td></tr>
 								    		<tr style="margin-top:130px">
 								    			<td colspan='2'>
-										    		<table class='uk-form cd' style="width:100%;">
+										    		<table class='uk-form cd' style="width:105%;">
 										    			<thead class="th_hei">
 													  		<th >期次</th>
 											  				<th >操作</th>
-											  				<th >回款日期</th>
+											  				<th >回款日期1</th>
 											  				<th >回款占比(%)</td>
 											  				<th >汇款金额</th>
 											  				<th >备注</th>
@@ -258,7 +272,7 @@ i.layui-anim{display:inline-block}
 																style="color:blue;font-weight:bold">新增回款计划>></span></span></td>
 															</tr>
 															<tr class="add_pz" style="display:none">
-																<td >1</td>
+																<td ><span class='fiseta'>1</span></td>
 																<td ><span onclick="jia(this)"><i class="layui-icon"  style="color:black">&#xe61f;</i></span><span class="1" onclick="hkzb1(this)"><i class="layui-icon"   style="font-size:20px">&#xe640;</i></span></td>
 																<td ><input type="text" style="width:110px"  name =""  onfocus="WdatePicker({dateFmt:'yyyy-M-d'})"></td>
 																<td ><input type="text" style="width:100px" class= "zbi" onchange="zolop(this)"></td>
@@ -271,7 +285,7 @@ i.layui-anim{display:inline-block}
 												</td>
 											</tr> 
 
-										<tr style="padding-top:40px"><td class="shuai" colspan="2"><span style="margin-left:0px;">合计</span><span style="margin-left:80px" class="zhanbi">{$zb}</span><span style="margin-left:70px" class="zongjine">{$zonghkjh}</span></td></tr>
+										<tr style="padding-top:40px" class='jzhj'><td class="shuai" colspan="2"><span style="margin-left:0px;">合计</span><span style="margin-left:80px" class="zhanbi">{$zb}</span><span style="margin-left:70px" class="zongjine">{$zonghkjh}</span></td></tr>
 					    			</table>
 					    			</form>
 					    		</div>
@@ -811,7 +825,8 @@ i.layui-anim{display:inline-block}
 			 function hkpeizhi(){
 
 				var htid=$(".ht_id").val();	 	
-			 	$.get(rooturl+'/index.php/Home/Hetongmingcheng/hkpz_content',{"id":htid},
+				var numa=$('.pz_num').val();
+			 	$.get(rooturl+'/index.php/Home/Hetongmingcheng/hkpz_content',{"id":htid,'dijiqi':numa},
 					 function(html){
 					 //	alert(html)
 		        		$(".th_peizhi").html(html)
@@ -849,29 +864,43 @@ i.layui-anim{display:inline-block}
 						});                  
     			}
     			function hkzb(){
+    				
+    				
+    		
 					$(".add_pz").show();
 					$(".qingxuanze").hide();
     			}
     			function hkzb1(ss){
+					var trdom=$(ss).parent().parent();
+    				
+    				trdom.remove();
+    				
+					var numa=$('.pz_num').val();
+					$(".th_peizhi").children('tr').each(function(){
 
+			
+						$(this).children('td').eq(0).text(numa);
+						numa++;
 
-					$(".add_pz").hide();
-					$(".qingxuanze").show();
+					})
 				
 
 
 
     			}
-    			var jh_num=2;
+    			
+    		
     			function jia(thisdom){
     				
 					var next_tr=$(thisdom).parent().parent();
 					var as=next_tr.html();
-					$(thisdom).parent().parent().parent().append("<tr class='add_pz'>"+as+"</tr>");
-					$(thisdom).parent().parent().parent().children("tr").last().children("td").eq(0).html(jh_num);
-					//$(thisdom).parent().parent().parent().children("tr").last().children("td").eq(1).class(jh_num);
-				
-					jh_num++;
+					$(thisdom).parent().parent().parent().append('<tr class="add_pz" >'+as+'</tr>');
+					var numa=$('.pz_num').val();
+					$(thisdom).parent().parent().parent().children('tr').each(function(){
+						$(this).children('td').eq(0).text(numa);
+						numa++;
+
+					})
 
     			}
     		
@@ -1323,6 +1352,13 @@ i.layui-anim{display:inline-block}
 							}); 
 						});      
 
+	}
+	function shanchu_pz(ss){
+		alert("删除");
+
+	}
+	function xiugai_pz(ss){
+		alert("修改");
 	}
 
 	</script>
