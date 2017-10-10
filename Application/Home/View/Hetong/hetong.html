@@ -500,7 +500,20 @@ $(".yincang").hide()
 	        $(this).prop("name",'0');
 	    }
 	});
+function kh_name_if(e){
+			var a =$(e).val();
+			$.get(rooturl+'/index.php/Home/Kehu/kh_name_if',{"id":a},
+			        		 				function(html){
 
+        		 							if(html){
+												tishi("此客户由"+html+"负责")
+												$('#wyszdy0').val('')
+
+
+        		 							}
+											
+											});
+		}
 	window.id='';
 	$(".sxzddiv").children("span").click(function(){          //点击筛选的 选中
 		var tex =$(this).text();

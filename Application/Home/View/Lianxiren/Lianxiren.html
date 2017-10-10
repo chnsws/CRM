@@ -69,7 +69,7 @@
 			.panel-heading{
 				height: 60px;line-height: 60px;border-bottom-style:solid;border-width: 1px;border-color: #E0E0E0;margin-left:5px;
 			}
-			.addshangji_weizhi{margin:0px auto;margin-top:20px;width:420px;}
+			.addshangji_weizhi{margin:0px auto;margin-top:20px;width:470px;}
 
 			.addtr{line-height:25px;}
 			.addtr td{padding-top:20px;}
@@ -193,6 +193,7 @@
 			<div id="add_shangji" style="display: none;border:1px"> <!--新增商机 弹出框-->
 							<form name="" method="post" id="myform" >
 								<table class="addshangji_weizhi uk-form">
+
 									{$add_yw}
 									{$add_yw1}
 									{$add_yw2}
@@ -512,10 +513,10 @@
 													$parent.find(".formtips").remove();
 													if( $(this).is('.required1') ){
 														if(this.value==""){
-															var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#x1007;</i> ";
+															var error ="<i class='layui-icon' style='font-size: 21px;margin-left:1px'>&#x1007;</i> ";
 															$parent.append('<span class="formtips onError">'+error+'</span>');
 														}else{
-															var error ="<i class='layui-icon' style='font-size: 21px;margin-left:3px'>&#xe616;</i> "
+															var error ="<i class='layui-icon' style='font-size: 21px;margin-left:1px'>&#xe616;</i> "
 															$parent.append('<span class="formtips onSuccess">'+error+'</span>');
 														}
 
@@ -534,7 +535,7 @@
 							var win=layer.open({
 								type:1,
 								offset: 't',
-								area:'630px',
+								area:'670px',
 								fixed: false,
 								title: '新增客户',
 								content:$('#add_kh'),

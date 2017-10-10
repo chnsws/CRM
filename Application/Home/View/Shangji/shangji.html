@@ -1084,6 +1084,20 @@ window.name_lxr="";
     			
     			$(".cp_zj").val(num1)		
     		}
+    		function kh_name_if(e){
+			var a =$(e).val();
+			$.get(rooturl+'/index.php/Home/Kehu/kh_name_if',{"id":a},
+			        		 				function(html){
+
+        		 							if(html){
+												tishi("此客户由"+html+"负责")
+												$('#wyszdy0').val('')
+
+
+        		 							}
+											
+											});
+		}
     		function cp_del(f){
     			var id = $(f).prop('name');
     				$.get(rooturl+'/index.php/Home/Shangji/cp_del',{"id":id},
