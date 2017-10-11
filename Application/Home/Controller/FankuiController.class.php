@@ -10,10 +10,10 @@ class FankuiController extends Controller {
         $mod->is_login();
         $user_id=cookie("user_id");
         $listbtn='';
-        if($user_id<5)
-        {
+        //if($user_id<5)
+        //{
             $listbtn='<input type="button" style="height:40px;line-height: 40px;border-radius: 5px;color:#fff;font-weight: bold;margin-top:10px;width:200px;" onclick="window.location=\''.$_GET['root_dir'].'/index.php/Home/Fankui/fk_list\'" class="layui-btn layui-btn-danger" value="查看已提交反馈" />';
-        }
+        //}
         $this->assign("listbtn",$listbtn);
         $this->display();
     }
@@ -51,11 +51,11 @@ class FankuiController extends Controller {
     public function fk_list()
     {
         $user_id=cookie("user_id");
-        if($user_id>5)
-        {
-            echo "无权限";
-            die;
-        }
+        //if($user_id>5)
+        //{
+        //    echo "无权限";
+        //    die;
+        //}
         $modarr=array(
             '1'=>'线索',
             '2'=>'客户',
@@ -135,6 +135,7 @@ class FankuiController extends Controller {
                             </td>
                         </tr>';
         }
+        $this->assign("user_id",$user_id);
         $this->assign("tablestr",$tablestr);
         $this->display();
     }

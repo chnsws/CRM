@@ -22,7 +22,7 @@
     <script src="{$_GET['public_dir']}/uikit/js/components/lightbox.js"></script>
     <style>
         html,body{margin:0;padding:0;}
-        #box{margin:10px;}
+        #box{margin:10px;display: none;}
         #top{border-bottom:3px solid #1AA094;height:50px;line-height: 50px;font-size: 24px;color:#1AA094;font-weight: bold;margin-bottom:20px;}
        
        #add_beizhu{display:none;}
@@ -105,6 +105,15 @@
 layui.use('layer', function(){
     window.layer = layui.layer;
 });
+var userid="{$user_id}";
+if(userid >5)
+{
+    $("tbody").children("tr").each(function(){
+        $(this).children("td").last().hide();
+    });
+    $("thead").children("tr").children("th").last().hide();
+}
+$("#box").fadeIn();
 //黑色半透明提示
 function tishi(neirong)
 {
