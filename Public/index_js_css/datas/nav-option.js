@@ -47,11 +47,11 @@ var navs = [{
 	"children": [{
 		"title": "自定义业务字段",
 		"icon": "&#xe641;",
-		"href": rootdir+"/index.php/Home/Option/zdyyw_ziduan"
+		"href": rootdir+"/index.php/Home/Yewuziduan/index"
 	}, {
 		"title": "自定义业务参数",
 		"icon": "&#xe63c;",
-		"href": rootdir+"/index.php/Home/Option/zdyyw_canshu"
+		"href": rootdir+"/index.php/Home/Yewucanshu/index"
 	}, {
 		"title": "自定义审批",
 		"icon": "&#xe63c;",

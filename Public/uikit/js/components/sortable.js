@@ -551,7 +551,7 @@
                 return;
             }
 
-            list.css('min-height', list.height());
+            list.css('min-height', (parseInt(list.height())+4)+'px');
 
             children.stop().each(function(){
                 var ele = UI.$(this),

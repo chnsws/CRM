@@ -980,7 +980,8 @@ function search_div_btn()
         for(row in resArr)
         {
             //alert(resArr[row]['id']);
-            tableBody+='<tr><td><a href="__ROOT__/index.php/Home/Chanpin/chanpininfo?flid='+resArr[row]['flid']+'&cpid='+resArr[row]['id']+'&from=flpage">'+resArr[row]['name']+'('+resArr[row]['number']+')'+'</a></td><td><a href="__ROOT__/index.php/Home/Chanpin/index?flid='+resArr[row]['flid']+'">'+resArr[row]['flname']+'</a></td></tr>';
+            var cp_num=resArr[row]['number']==null?'':'('+resArr[row]['number']+')';
+            tableBody+='<tr><td><a href="__ROOT__/index.php/Home/Chanpin/chanpininfo?flid='+resArr[row]['flid']+'&cpid='+resArr[row]['id']+'&from=flpage">'+resArr[row]['name']+cp_num+'</a></td><td><a href="__ROOT__/index.php/Home/Chanpin/index?flid='+resArr[row]['flid']+'">'+resArr[row]['flname']+'</a></td></tr>';
         }
         if(tableBody=='')
         {

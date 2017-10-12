@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>自定义业务参数</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!--jquery-->
+    <script src="__PUBLIC__/jquery/jquery.js"></script>
+    <!--public.js-->
+    <script src="__PUBLIC__/public.js"></script>
+    <!--layui-->
+    <script src="__PUBLIC__/layui2.0/layui.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/layui2.0/css/layui.css">
+    
+    <!--uikit-->
+    <link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+    <script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
+    
+    <link rel="stylesheet" href="__PUBLIC__/uikit/css/components/sortable.css" />
+    <script src="__PUBLIC__/uikit/js/components/sortable.js"></script>
+
+    <link rel="stylesheet" href="__PUBLIC__/uikit/css/components/accordion.css" />
+    <script src="__PUBLIC__/uikit/js/components/accordion.js"></script>
+    <!--yewuziduan.css-->
+    <link rel="stylesheet" href="__PUBLIC__/option/yewucanshu.css">
+</head>
+<body>
+    <div id="box">
+        <!--头部文字-->
+        <div id="mod-head">
+            自定义业务参数
+        </div>
+        <!--头部结束-->
+        <!--中部提示-->
+        <div id="mod1">
+            <div>
+                提示：所有数据系统都设置了默认值，如需修改相关默认值，建议在使用系统前修改
+                <span id="hidden-div">
+                    <a onclick="hidden_div()">×</a>
+                </span>
+            </div>
+        </div>
+        <!--中部结束-->
+        <div id="mod2">
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">线索</li>
+                    <li>客户</li>
+                    <li>商机</li>
+                    <li>合同</li>
+                    <li>其他</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <div class="uk-accordion">
+                            
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <div class="uk-accordion">
+                            
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <div class="uk-accordion">
+                            
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <div class="uk-accordion">
+                            
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <div class="uk-accordion">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>      
+        </div>
+    </div>
+</body>
+<div id="addcsdiv">
+    <div>
+        <span>参 数 名 称:</span>
+        <span><input type="text" placeholder="参数名称（不超过10个字符）" id="csnameinput" /></span>
+    </div>
+    <div>
+        <span>签单可能性:</span>
+        <span><input type="number" max="100" min="0" placeholder="签单可能性(%)" id="knxinput" /></span>
+    </div>
+</div>
+<script>
+window.loadArr=new Array();
+loadArr[1]=0;
+loadArr[2]=0;
+loadArr[5]=0;
+loadArr[6]=0;
+loadArr[7]=0;
+$(function(){
+    //初始化layui
+    layui.use('layer', function(){
+        window.layer = layui.layer;
+        window.jiazai=loading();
+    });
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+    //加载层
+    $("#box").fadeIn("fast");
+    //获取数据
+    get_data('1');
+    //切换选项卡事件
+    $(".layui-tab-title").children("li").click(function(){
+        var thisindex=$(this).index();
+        var thismod=thisindex<2?thisindex+1:thisindex+3;
+        if(loadArr[thismod]=='1')
+        {
+            return;
+        }
+        else
+        {
+            window.jiazai=loading();
+            get_data(thismod);
+        }
+    });
+});
+function get_data(mod)
+{
+    $.get("__ROOT__/index.php/Home/Yewucanshu/get_cs_data",{"mod":mod},function(res){
+        var resarr=JSON.parse(res);
+        var inHtml='';
+        for(zdkey in resarr['name'])
+        {
+            inHtml+='<h3 class="uk-accordion-title" >'+resarr['name'][zdkey]+'</h3><div class="uk-accordion-content" id="'+zdkey+'"><ul class="uk-sortable" >';
+            for(cskey in resarr['data'][zdkey])
+            {
+                var checked='';
+                if(resarr['data'][zdkey][cskey]['qy']=='1')
+                {
+                    checked='checked';
+                }
+                var knx='';
+                if(mod=='5'&&zdkey=='zdy5')
+                {
+                    knx='<span>签单可能性:'+resarr['data'][zdkey][cskey]['knx']+'%</span>';
+                }
+                inHtml+='<li clss="uk-sortable-item" id="'+cskey+'"><div><span><i class="uk-icon-bars"></i></span><span>'+resarr['data'][zdkey][cskey]['name']+'</span><span><input name="qy" type="checkbox" '+checked+' >启用</span>'+knx+'<span><a onclick="bjcs(this)">编辑</a></span></div></li>';
+                
+            }
+            inHtml+="</ul><button class='layui-btn addcsbtn'>新增参数</button></div>";
+        }
+        //替换内容
+        $(".layui-show").children(".uk-accordion").html(inHtml);
+
+        $(".layui-show").find(".uk-accordion").each(function(){
+            UIkit.accordion($(this),{"collapse":false});//初始化手风琴效果
+        });//需要实现手风琴效果的dom
+        $(".layui-show").find(".uk-sortable").each(function(){
+            UIkit.sortable($(this),{"handleClass":'uk-icon-bars'});//初始化拖拽
+        });//需要实现拖拽的dom
+        
+        
+        listen_add_btn();//监听新增参数按钮
+        listen_checkbox();//监听复选框点击
+        listen_move();//监听拖拽排序
+        loadArr[mod]='1';
+        layer.close(jiazai);
+    });
+}
+//隐藏提示框
+function hidden_div()
+{
+    $("#mod1").hide();
+}
+//监听新增参数按钮
+function listen_add_btn()
+{
+    $(".addcsbtn").unbind("click");
+    $(".addcsbtn").bind("click",function(){
+        //清空上次填写的值
+        $("#csnameinput").val('');
+        $("#knxinput").val('');
+        setTimeout(function() {
+            $("#csnameinput").focus();
+        }, 300);
+        //获取当前的模块
+        var thisindex=$(".layui-show").index();
+        var thismod=thisindex<2?thisindex+1:thisindex+3;
+        //获得本字段的id
+        var thiszdid=$(this).parent().prop("id");
+        //判断需不需要显示签单可能性的输入框
+        if(thismod=='5'&&thiszdid=='zdy5')
+        {
+            $("#addcsdiv").children("div").eq(1).show();
+        }
+        else
+        {
+            $("#addcsdiv").children("div").eq(1).hide();
+        }
+        
+        //获取是属于本模块下的哪个字段
+        //var this_ul_index=$(this).parent().parent().index();
+        //this_ul_index=(this_ul_index+1)/2;
+        layer.open({
+            type:1,
+            area:"500px",
+            title: '新增参数',
+            content:$("#addcsdiv"),
+            btn:["保存","取消"],
+            btn1:function(index){
+                var newname=$("#csnameinput").val();
+                if(newname=='')
+                {
+                    tishi("参数名不能为空");
+                    return;
+                }
+                if(newname.length>10)
+                {
+                    tishi("参数名过长");
+                    return;
+                }
+                var ajaxjson;
+                if(thismod=='5'&&thiszdid=='zdy5')
+                {
+                    var newknx=$("#knxinput").val();
+                    if(newknx==''||parseInt(newknx)>100||parseInt(newknx)<0)
+                    {
+                        tishi("签单可能性必须是0-100之间的数字");
+                        return;
+                    }
+                    ajaxjson={
+                        "thismod":thismod,
+                        "thisid":thiszdid,
+                        "name":newname,
+                        "knx":newknx
+                    };
+                }
+                else
+                {
+                    ajaxjson={
+                        "thismod":thismod,
+                        "thisid":thiszdid,
+                        "name":newname
+                    };
+                }
+                window.jiazai=loading();
+                $.get("__ROOT__/index.php/Home/Yewucanshu/addcs",ajaxjson,function(res){
+                    layer.close(jiazai);
+                    var resarr=JSON.parse(res);
+                    if(resarr['res']=='1')
+                    {
+                        tishi("保存成功");
+                        layer.close(index);
+                        var knx='';
+                        if(thismod=='5'&&thiszdid=='zdy5')
+                        {
+                            knx='<span>签单可能性:'+newknx+'%</span>';
+                        }
+                        var newrow='<li clss="uk-sortable-item" id="canshu'+resarr['num']+'"><div><span><i class="uk-icon-bars"></i></span><span>'+newname+'</span><span><input name="qy" type="checkbox" checked >启用</span>'+knx+'<span><a onclick="bjcs(this)">编辑</a></span></div></li>';
+                        $(".layui-show").find("#"+thiszdid).children("ul").append(newrow);
+                    }
+                    else if(resarr['res']=='2')
+                    {
+                        tishi("保存失败，该字段已存在");
+                    }
+                    else
+                    {
+                        tishi("保存失败，请稍后重试");
+                    }
+                    //layer.close(index);
+                });
+            },
+            btn2:function(index){
+                layer.close(index);
+            }
+        }); 
+    });
+}
+//编辑
+function bjcs(thisdom)
+{
+    //获取本条数据的值
+    var oldname=$(thisdom).parent().parent().children("span").eq(1).text();
+    $("#csnameinput").val(oldname);
+    
+    setTimeout(function() {
+        $("#csnameinput").focus();
+    }, 300);
+    //获取当前的模块
+    var thisindex=$(".layui-show").index();
+    var thismod=thisindex<2?thisindex+1:thisindex+3;
+    //获得本字段的id
+    var thiszdid=$(thisdom).parent().parent().parent().parent().parent().prop("id");
+    //获取本参数的id
+    var thiscsid=$(thisdom).parent().parent().parent().prop("id");
+    //alert(thiscsid);return;
+    //判断需不需要显示签单可能性的输入框
+    if(thismod=='5'&&thiszdid=='zdy5')
+    {
+        //获取可能性
+        var oldknx=$(thisdom).parent().parent().children("span").eq(3).text().replace(/[^0-9]/ig, "");
+        $("#knxinput").val(oldknx);
+        $("#addcsdiv").children("div").eq(1).show();
+    }
+    else
+    {
+        $("#addcsdiv").children("div").eq(1).hide();
+    }
+    layer.open({
+        type:1,
+        area:"500px",
+        title: '编辑参数',
+        content:$("#addcsdiv"),
+        btn:["保存","取消"],
+        btn1:function(index){
+            var editsuccess=1;//判断是否更改过参数
+            
+            var newname=$("#csnameinput").val();
+            if(newname!=oldname)
+            {
+                editsuccess=0;
+            }
+            if(newname=='')
+            {
+                tishi("参数名不能为空");
+                return;
+            }
+            if(newname.length>10)
+            {
+                tishi("参数名过长");
+                return;
+            }
+            var ajaxjson;
+            if(thismod=='5'&&thiszdid=='zdy5')
+            {
+                var newknx=$("#knxinput").val();
+                if(newknx!=oldknx)
+                {
+                    editsuccess=0;
+                }
+                if(newknx==''||parseInt(newknx)>100||parseInt(newknx)<0)
+                {
+                    tishi("签单可能性必须是0-100之间的数字");
+                    return;
+                }
+                ajaxjson={
+                    "thismod":thismod,
+                    "thiscsid":thiscsid,
+                    "thisid":thiszdid,
+                    "name":newname,
+                    "knx":newknx
+                };
+            }
+            else
+            {
+                ajaxjson={
+                    "thismod":thismod,
+                    "thiscsid":thiscsid,
+                    "thisid":thiszdid,
+                    "name":newname
+                };
+            }
+            //如果没有进行任何更改，就直接关闭窗口
+            if(editsuccess=='1')
+            {
+                layer.close(index);
+                return;
+            }
+            window.jiazai=loading();
+            $.get("__ROOT__/index.php/Home/Yewucanshu/editcs",ajaxjson,function(res){
+                layer.close(jiazai);
+                if(res=='1')
+                {
+                    tishi("保存成功");
+                    //替换现有的值
+                    $(thisdom).parent().parent().children("span").eq(1).text(newname);
+                    //对存在签单可能性的处理
+                    if(thismod=='5'&&thiszdid=='zdy5')
+                    {
+                        $(thisdom).parent().parent().children("span").eq(3).text('签单可能性:'+newknx+'%');
+                    }
+                }
+                else if(res=='2')
+                {
+                    tishi("保存失败，该字段已存在");
+                }
+                else
+                {
+                    tishi("保存失败，请稍后重试");
+                }
+                layer.close(index);
+            });
+        },
+        btn2:function(index){
+            layer.close(index);
+        }
+    }); 
+}
+//监听复选框的点击
+function listen_checkbox()
+{
+    $("input[type='checkbox']").unbind("click");
+    $("input[type='checkbox']").bind("click",function(){
+        var thiszd=$(this).parent().parent().parent().parent().parent().prop("id");//当前字段
+        var thisid=$(this).parent().parent().parent().prop("id");//当前参数id
+        var thisindex=$(".layui-show").index();
+        var thismod=thisindex<2?thisindex+1:thisindex+3;//当前模块
+        var thisval=$(this).prop("checked")?'1':'0';//当前的值
+
+        window.jiazai=loading();
+        $.get("__ROOT__/index.php/Home/Yewucanshu/change_checkbox",{"thiszd":thiszd,"thisid":thisid,"thismod":thismod,"thisval":thisval},function(res){
+            layer.close(jiazai);
+            if(res=='1')
+            {
+                tishi("修改成功");
+            }
+            else
+            {
+                tishi("修改失败，请稍后重试");
+            }
+        });
+    });
+}
+//拖拽监听
+function listen_move()
+{
+    $(".uk-sortable").unbind("stop.uk.sortable");
+    $(".uk-sortable").bind("stop.uk.sortable",function(){
+        var thisindex=$(".layui-show").index();
+        var thismod=thisindex<2?thisindex+1:thisindex+3;//当前模块
+        var thiszd=$(this).parent().prop("id");
+        //获取顺序
+        var thissx='';
+        $(".layui-show").find("#"+thiszd).find("li").each(function(){
+            thissx+=$(this).prop("id")+',';
+        });
+        thissx=thissx.substr(0,thissx.length-1);
+        window.jiazai=loading();
+        $.post("__ROOT__/index.php/Home/Yewucanshu/change_paixu",{"thismod":thismod,"thiszd":thiszd,"thissx":thissx},function(res){
+            layer.close(jiazai);
+            if(res=='1')
+            {
+                tishi("保存成功");
+            }
+            else
+            {
+                tishi("保存失败，请稍后重试");
+            }
+        });
+    });
+}
+</script>
+</html>
