@@ -5,16 +5,13 @@ use Think\Controller;
 
 class YewuziduanController extends DBController {
 	
-	
+    public $cpfl_key='2';
+    public $cpfl_tree_arr=array();
 	//自定义业务字段
 	public function index(){
 		parent::is_login();//登录
 		parent::have_qx("qx_sys_ywzd");//权限
         $fid=parent::get_fid();
-        
-
-
-
 		$this->display();
     }
     public function get_zd_list()
@@ -85,12 +82,72 @@ class YewuziduanController extends DBController {
         parent::have_qx("qx_sys_ywzd");//权限
         $fid=parent::get_fid();
         
-        $flarr=parent::sel_more_data("crm_chanpinfenlei","cpfl_id,cpfl_name","cpfl_company='$fid' ");
-        $rearr=array();
-        foreach($flarr as $v)
-        {
-            $rearr[$v['cpfl_id']]=$v['cpfl_name'];
+        $cpflarr=parent::sel_more_data("crm_chanpinfenlei","*","cpfl_company='$fid' ");
+        foreach($cpflarr as $cpflarrKey=>$cpflarrVal)//格式化产品分类分级
+		{
+            $fl_jj0[$cpflarrVal['cpfl_id']]=$cpflarrVal['cpfl_jianjie'];
+			$bumenNewArr0[$cpflarrVal['cpfl_id']]=array("cpfl_name"=>$cpflarrVal['cpfl_name'],"cpfl_fid"=>$cpflarrVal['cpfl_fid']);
         }
+        //产品分类排序
+        $pxConfigArr=parent::sel_more_data("crm_config","config_cp_fl_tree_px","config_name='$fid' limit 1");
+        $flpxarr=explode(',',$pxConfigArr[0]['config_cp_fl_tree_px']);
+        foreach($flpxarr as $v)
+        {
+            $fl_jj[$v]=$fl_jj0[$v];
+            unset($fl_jj0[$v]);
+            $bumenNewArr[$v]=$bumenNewArr0[$v];
+            unset($bumenNewArr0[$v]);
+        }
+        foreach($fl_jj0 as $k=>$v)
+        {
+            $fl_jj[$k]=$v;
+            $bumenNewArr[$k]=$bumenNewArr0[$k];
+        }
+		//产品分类遍历排序
+		foreach($bumenNewArr as $bmNewKey=>$bmNewVal)
+		{
+			$bumenFname[$bmNewKey]=$bumenNewArr[$bmNewVal['cpfl_fid']]['cpfl_name'];
+			if($bmNewVal['cpfl_fid']=='0')//1级分类
+			{
+				$bmLvArr[$bmNewKey]['cpfl_name']=$bmNewVal['cpfl_name'];
+			}
+			else
+			{
+				if($bumenNewArr[$bmNewVal['cpfl_fid']]['cpfl_fid']=='0')
+				{
+					$bmLvArr[$bmNewVal['cpfl_fid']]["lv2"][$bmNewKey]["cpfl_name"]=$bmNewVal['cpfl_name'];
+				}
+				else
+				{
+					if($bumenNewArr[$bumenNewArr[$bmNewVal['cpfl_fid']]['cpfl_fid']]['cpfl_fid']=='0')
+					{
+						$bmLvArr[$bumenNewArr[$bmNewVal['cpfl_fid']]['cpfl_fid']]['lv2'][$bmNewVal['cpfl_fid']]['lv3'][$bmNewKey]["cpfl_name"]=$bmNewVal['cpfl_name'];
+					}
+					else
+					{
+						if($bumenNewArr[$bumenNewArr[$bumenNewArr[$bmNewVal['cpfl_fid']]['cpfl_fid']]['cpfl_fid']]['cpfl_fid']=='0')
+						{
+							$bmLvArr[$bumenNewArr[$bumenNewArr[$bmNewVal['cpfl_fid']]['cpfl_fid']]['cpfl_fid']]['lv2'][$bumenNewArr[$bmNewVal['cpfl_fid']]['cpfl_fid']]['lv3'][$bmNewVal['cpfl_fid']]['lv4'][$bmNewKey]["cpfl_name"]=$bmNewVal['cpfl_name'];
+						
+						}
+						else
+						{
+							if($bumenNewArr[$bumenNewArr[$bumenNewArr[$bumenNewArr[$bmNewVal['cpfl_fid']]['cpfl_fid']]['cpfl_fid']]['cpfl_fid']]['cpfl_fid']=='0')
+							{
+								$bmLvArr[$bumenNewArr[$bumenNewArr[$bumenNewArr[$bmNewVal['cpfl_fid']]['cpfl_fid']]['cpfl_fid']]['cpfl_fid']]['lv2'][$bumenNewArr[$bumenNewArr[$bmNewVal['cpfl_fid']]['cpfl_fid']]['cpfl_fid']]['lv3'][$bumenNewArr[$bmNewVal['cpfl_fid']]['cpfl_fid']]['lv4'][$bmNewVal['cpfl_fid']]['lv5'][$bmNewKey]["cpfl_name"]=$bmNewVal['cpfl_name'];
+							}
+							else
+							{
+
+							}
+						}
+					}
+				}
+			}
+        }
+        
+        $rearr=$this->get_cpfl_tree_arr($bmLvArr);
+        
         echo json_encode($rearr);
     }
     //修改排序
@@ -300,6 +357,56 @@ class YewuziduanController extends DBController {
         $zdmod->query("update crm_yewuziduan set zd_data='$jsondata' where zd_yh='$fid' and zd_yewu='$thismod' limit 1 ");
         $this->insertrizhi("将字段 $oldname 改为 $newname ");
         echo 1;
+    }
+    //递归产品分类循环结构
+    protected function get_cpfl_tree_arr($arr)
+    {
+        $a=0;
+        foreach($arr as $k=>$v)
+		{
+            //一级
+            $res[$a]['name']=$v['cpfl_name'];
+            $res[$a]['key']=$k;
+            $a++;
+			if(count($v['lv2'])>0)
+			{
+				foreach($v['lv2'] as $lv2k=>$lv2v)
+				{
+                    //二级
+                    $res[$a]['name']='----'.$lv2v['cpfl_name'];
+                    $res[$a]['key']=$lv2k;
+                    $a++;
+					if(count($lv2v['lv3'])>0)
+					{
+						foreach($lv2v['lv3'] as $lv3k=>$lv3v)
+						{
+                            $res[$a]['name']='--------'.$lv3v['cpfl_name'];
+                            $res[$a]['key']=$lv3k;
+                            $a++;
+							if(count($lv3v['lv4'])>0)
+							{
+								foreach($lv3v['lv4'] as $lv4k=>$lv4v)
+								{
+                                    $res[$a]['name']='------------'.$lv4v['cpfl_name'];
+                                    $res[$a]['key']=$lv4k;
+                                    $a++;
+									if(count($lv4v['lv5'])>0)
+									{
+										foreach($lv4v['lv5'] as $lv5k=>$lv5v)
+										{
+                                            $res[$a]['name']='----------------'.$lv5v['cpfl_name'];
+                                            $res[$a]['key']=$lv5k;
+                                            $a++;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+        }
+        return $res;
     }
 }
 

@@ -168,7 +168,7 @@ $(function(){
                     var cpfl_option='';
                     for(flk in resarr)
                     {
-                        cpfl_option+='<option value="'+flk+'">'+resarr[flk]+'</option>';
+                        cpfl_option+='<option value="'+resarr[flk]['key']+'">'+resarr[flk]['name']+'</option>';
                     }
                     $("#cpfl_select").html(cpfl_option);
                     $("#cpfl_select").show();
