@@ -69,7 +69,7 @@ i.layui-anim{display:inline-block}
 			 	.onError{color:red;}
 			.onSuccess{color:green;}
 			.bhyuany1{margin-top:4%;margin-left:35%;}
-			.bhyuany12{margin-top:4%;margin-left:35%;}
+			.bhyuany12{margin-top:4%;margin-left:35%;}  
 			.name{font-size:20px; color:#50BBB1;}
 			.fuzename{color:#50BBB1;}
 			#th_onlykh {margin-left:20px;}
@@ -96,6 +96,9 @@ i.layui-anim{display:inline-block}
     }
     .shet{margin-left:40px;}
     .xiaoshou{cursor:pointer}
+
+    .sc_hkjl{ margin-left:30%;margin-top:30px;}
+     .sc_hkjla{ margin-left:38%;margin-top:30px;}
   	</style>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
@@ -123,6 +126,19 @@ i.layui-anim{display:inline-block}
 				<table class='fujian1'>
 
 				</table>
+		</div>
+			<div class='del_huikuan' style="display:none;height:60px">
+				<div class='sc_hkjl'>
+					<span >确定删除此条回款计划以及相关回款记录吗？</span>
+				</div>
+		</div>
+		<div class='del_hkjilu' style="display:none;height:60px">
+				<div class='sc_hkjla'>
+					<span >确定删除此条回款记录吗？</span>
+				</div>
+		</div>
+		<div class='save_huikuan' style="display:none;height:60px">
+				123
 		</div>
 <div class='chanpina' style="display:none">
 				<table class='chanpin1 layui-table' >
@@ -152,7 +168,7 @@ i.layui-anim{display:inline-block}
 			   	</div>
 		  <ul class="layui-tab-title">
 		    <li id='onesh'>基本信息</li>
-		    <li>回款</li>
+		    <li  id='er'>回款</li>
 		    <li>开票</li>
 		    <li>产品</li>
 		  	<li  id='twosh'>附件</li>
@@ -230,7 +246,7 @@ i.layui-anim{display:inline-block}
 				  	    </table>
 			  	    </div>
 			  	    
-				    <div class='layui-tab-item'>
+				    <div class='layui-tab-item' id='er1'>
 					  	<div class="bhyuanyyy"  style="display: none;border:1px;">
 				    		<div class="bhyuany12" >
 				    			
@@ -243,7 +259,13 @@ i.layui-anim{display:inline-block}
 						    			</form>
 						    		</div>
 								</div> 
-
+								<div class="save_hk"  style="display: none;border:1px;">
+						    		<div class="bianji_nb" style="width:430px;margin:0 auto">
+						    			<form id="hk_adda">
+						    				
+						    			</form>
+						    		</div>
+								</div> 
 					    		<div id="hkpz"  style="display: none;border:1px;">
 					    		<div class="bianji_nb" style="width:620px;margin:0 auto">
 					    			<form id="myform">
@@ -263,7 +285,7 @@ i.layui-anim{display:inline-block}
 											  				<th >操作</th>
 											  				<th >回款日期1</th>
 											  				<th >回款占比(%)</td>
-											  				<th >汇款金额</th>
+											  				<th >回款金额</th>
 											  				<th >备注</th>
 														</thead>
 														<tbody class="fujian_del th_peizhi">
@@ -611,7 +633,15 @@ i.layui-anim{display:inline-block}
 		
 		$("#twosh").attr('class','layui-this');
 		$("#twosh1").attr('class','layui-tab-item layui-show');
-	}else{
+	}
+	if(uiid==2)
+	{
+		
+		$("#er").attr('class','layui-this');
+		$("#er1").attr('class','layui-tab-item layui-show');
+	}
+	if(uiid==1)
+	{
 	
 		$("#onesh").attr('class','layui-this');
 		$("#onesh1").attr('class','layui-tab-item layui-show');
@@ -892,6 +922,7 @@ i.layui-anim{display:inline-block}
     		
     			function jia(thisdom){
     				
+    				
 					var next_tr=$(thisdom).parent().parent();
 					var as=next_tr.html();
 					$(thisdom).parent().parent().parent().append('<tr class="add_pz" >'+as+'</tr>');
@@ -964,15 +995,20 @@ i.layui-anim{display:inline-block}
     			}
     			function xzjh(thisdom){
     				var qi='';
+    			
+    				
     				if($(thisdom).prop("tagName")=='BUTTON')
     				{
+    						var hk_id=$(thisdom).prop('name');
     					qi=$(thisdom).parent().find("b").eq(0).text();
     				}
     				else
     				{
+    						var hk_id=$(thisdom).prop('id');
     					qi=$(thisdom).parent().parent().parent().parent().parent().prev().find("b").eq(0).text();
     				}
-    				$(".qicia").html("<select name='hk_qici'><option value='"+qi+"'>第"+qi+"期</option></select>")
+
+    				$(".qicia").html("<select name='hk_qici'><option value='"+qi+"'>第"+qi+"期  </option></select>")
     					layui.use('layer', function(){
 			
 							var layer = layui.layer;
@@ -997,9 +1033,10 @@ i.layui-anim{display:inline-block}
 											var thisdom=formdom1.eq(a).find("td").eq(1).children();
 												end_hk+=thisdom.prop("name")+":"+thisdom.val()+",";
 										}
-									
-											$.get(rooturl+'/index.php/Home/Hetongmingcheng/add_huikuan',{"id":end_hk},
+										
+											$.get(rooturl+'/index.php/Home/Hetongmingcheng/add_huikuan',{"id":end_hk,"hk_id":hk_id},
 												 function(html){
+
 									        			window.location.href="Hetongmingcheng?id="+htid;
 							                   });
 
@@ -1008,7 +1045,57 @@ i.layui-anim{display:inline-block}
 							}); 
 						});                  
     			}
+function bjjh(thisdom){
+    				
+    				var hk_id=$(thisdom).prop('id');
+					qi=$(thisdom).parent().parent().parent().parent().prev().find("b").eq(0).text();
+    				$.get(rooturl+'/index.php/Home/Hetongmingcheng/save_hksql',{"hk_id":hk_id,'qi':qi},
+												 function(html){
 
+									        		$('#hk_adda').html(html)		
+							                   });
+    				
+    						
+    						
+    					
+
+    				
+    					layui.use('layer', function(){
+			
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'750px',
+								title: '编辑回款',
+								content:$('.save_hk'),
+				
+								btn:['保存且发起审批','取消'],
+								btn1:function(){
+										
+										var htid=$(".ht_id").val();	 	
+										var formdom1=$("#hk_add").children("table").find("tr");
+										var fornum1=formdom1.length;
+										var end_hk='';
+									//	alert(fornum1)
+										for(a=0;a<fornum1;a++)
+										{
+											var thisdom=formdom1.eq(a).find("td").eq(1).children();
+												end_hk+=thisdom.prop("name")+":"+thisdom.val()+",";
+										}
+										
+											$.get(rooturl+'/index.php/Home/Hetongmingcheng/add_huikuan',{"id":end_hk,"hk_id":hk_id},
+												 function(html){
+
+									        			window.location.href="Hetongmingcheng?id="+htid;
+							                   });
+
+								}
+							
+							}); 
+						});                  
+    			}
     	function xzkp(){
     		$('#kaipiaoadd table :input').blur(function(){
 			var $parent =$(this).parent();
@@ -1228,6 +1315,7 @@ i.layui-anim{display:inline-block}
 						        		 				function(html){
 												
 			        		 								location=rooturl+"/index.php/Home/Hetongmingcheng/hetongmingcheng?id="+$(".ht_id").val();
+			        		 								
 														});
 
 								}
@@ -1354,11 +1442,91 @@ i.layui-anim{display:inline-block}
 
 	}
 	function shanchu_pz(ss){
-		alert("删除");
+		var id=$(ss).prop('id');
+
+		layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'630px',
+								title: '删除回款记录',
+								content:$('.del_huikuan'),
+								btn:['确认删除','取消'],
+								btn1:function(){
+									$.get(rooturl+'/index.php/Home/Hetongmingcheng/del_hkjh',{"id":id},
+												function(html){
+													tishi("删除成功");
+													location=rooturl+"/index.php/Home/Hetongmingcheng/hetongmingcheng?id="+$(".ht_id").val()+"&uiid=2";
+											})
+								},
+								btn2:function(){
+									  layer.close(win)    
+								}
+							}); 
+						});  
 
 	}
 	function xiugai_pz(ss){
-		alert("修改");
+			var id=$(ss).prop('id');
+
+			var qici=$(ss).parent().parent().children().children().eq(0).text();
+			
+			$.get(rooturl+'/index.php/Home/Hetongmingcheng/save_hkjh',{"id":id,'qici':qici},
+													function(html){
+													$('.save_huikuan').html(html);
+												})
+			layui.use('layer', function(){
+								var layer = layui.layer;
+								var win=layer.open({
+									type:1,
+									offset: 't',
+									area:['630px','400px'],
+									title: '编辑回款计划',
+									content:$('.save_huikuan'),
+									btn:['确认编辑','取消'],
+									btn1:function(){
+											content_hk="hk_data!@"+$("#hk_data").val()+"!,"+"hk_zb!@"+$('#hk_zb').val()+"!,"+"hk_je!@"+$('#hk_je').val()+"!,"+"hk_bz!@"+$("#hk_bz").val();
+									
+										$.get(rooturl+'/index.php/Home/Hetongmingcheng/save_hkjhend',{"content":content_hk,'id':id},
+													function(html){
+														tishi(html)
+														
+														location=rooturl+"/index.php/Home/Hetongmingcheng/hetongmingcheng?id="+$(".ht_id").val()+"&uiid=2";
+												})
+									},
+									btn2:function(){
+										  layer.close(win)    
+									}
+								}); 
+							});  
+
+	}
+	function del_hkadd(ss)
+	{
+		var id=$(ss).prop('id');
+
+		layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'630px',
+								title: '删除回款记录',
+								content:$('.del_hkjilu'),
+								btn:['确认删除','取消'],
+								btn1:function(){
+									$.get(rooturl+'/index.php/Home/Hetongmingcheng/del_hkjl',{"id":id},
+												function(html){
+													tishi("删除成功");
+													location=rooturl+"/index.php/Home/Hetongmingcheng/hetongmingcheng?id="+$(".ht_id").val()+"&uiid=2";
+											})
+								},
+								btn2:function(){
+									  layer.close(win)    
+								}
+							}); 
+						});  
 	}
 
 	</script>

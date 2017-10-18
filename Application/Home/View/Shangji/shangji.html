@@ -80,6 +80,8 @@
 					height: 60px;line-height: 60px;border-bottom-style:solid;border-width: 1px;border-color: #E0E0E0;margin-left: 5px;
 				}
 			a{color:#07d; text-decoration:none !important;}
+			.searchable-select-input{width:280px !important ;}
+			.searchable-select {min-width:300px;}
 		</style>   
 		 
   <style>
@@ -304,13 +306,13 @@
 						<table class="addshangji_weizhi">
 						{$chanpin1}
 						<tr class="addtr">
-							<td>产品原价：</td>
+							<td>公开价格：</td>
 								<td>
 									<input type="text" class="cp_yj" name="cp_yj" disabled name="cp_yj" style='width:300px;height:26px;'>		
 								</td>			
 						</tr>
 						<tr class="addtr">
-							<td><span style="color:red">*</span>建议价格：</td>
+							<td><span style="color:red">*</span>合同价格：</td>
 								<td>
 									<input type="number" class="cp_jy"  name="cp_jy" onkeyup='cp_jy_aj(this)'  style='width:300px;height:26px;'>		
 								</td>			
@@ -798,7 +800,7 @@ window.name_lxr="";
     	var is_one1 =0;
     	function change_fun(v2)
 		 {
-		 	if(is_one<2 )
+		 	if(is_one<3 )
 		 	{
 		 		is_one++;
 		 		return;
@@ -1022,6 +1024,33 @@ window.name_lxr="";
 														});
 			  
 					 		}
+					 		if(v2.prop("id")=="cp_caozuo"){
+					 			
+					 				
+									var cp_id=v2.val();
+					    			if(cp_id == 's'){
+					    				$(".cp_yj").val("")
+					    				$(".cp_jy").val("")
+					    				$(".cp_zk").val("-")	
+					    				$(".cp_num1").val("")	
+					    				$(".cp_zj").val("")	
+					    				layer.close(win)
+					    			}
+					    			$.get(rooturl+'/index.php/Home/Shangji/cp_ajax',{"id":cp_id},
+					    										function(html)
+					    										{
+					    										//	tishi(html)
+					    													$(".cp_yj").val(html)
+					    													$(".cp_jy").val(html)
+					    												$(".cp_zk").val("100.0%")	
+					    												$(".cp_num1").val(1)	
+					    												$(".cp_zj").val(html)	
+					    												
+
+					    													layer.close(win)
+					    										}
+					    				)
+					 		}
 
 		 } 
     		
@@ -1037,29 +1066,7 @@ window.name_lxr="";
     		}
     		
     		function cp_aj(a){
-    			var cp_id=$(a).val();
-    			if(cp_id == 's'){
-    				$(".cp_yj").val("")
-    				$(".cp_jy").val("")
-    				$(".cp_zk").val("-")	
-    				$(".cp_num1").val("")	
-    				$(".cp_zj").val("")	
-    				layer.close(win)
-    			}
-    			$.get(rooturl+'/index.php/Home/Shangji/cp_ajax',{"id":cp_id},
-    										function(html)
-    										{
-    										//	tishi(html)
-    													$(".cp_yj").val(html)
-    													$(".cp_jy").val(html)
-    												$(".cp_zk").val("100.0%")	
-    												$(".cp_num1").val(1)	
-    												$(".cp_zj").val(html)	
-    												
-
-    													layer.close(win)
-    										}
-    				)
+    			
     				
     		}
     		function cp_jy_aj(b){

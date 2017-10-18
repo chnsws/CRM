@@ -213,7 +213,7 @@ layui.use('upload', function(){
 		$a=$(ss).prop("class");
 		$.get(rooturl+'/index.php/Home/Shenpi/tongguo',{"id":$a},
 						        		 				function(html){
-						        		 				//	alert(html)
+						        		 					alert(html)
 						        		 					tishi("审批成功")
 			        		 								 window.location.href="Shenpi";
 														});
@@ -236,10 +236,10 @@ layui.use('upload', function(){
 								btn1:function(){
 									
 									var bh_yuanyin=$("#bhyy").val();
-									alert(bh_yuanyin)
+								
 									$.get(rooturl+'/index.php/Home/Shenpi/bohui',{"id":$a,'yuanyin':bh_yuanyin},
 						        		 				function(html){
-														
+															alert(html)
 			        		 								 window.location.href="Shenpi";
 														});
 

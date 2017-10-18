@@ -78,6 +78,7 @@ class ShangjiController extends Controller {
 
 				}
 			}
+			
 			$new_ywcs[$vcs['id']]=$cs_new;            //获取到启用了的参数
 			unset($cs_new);
 			
@@ -509,11 +510,11 @@ class ShangjiController extends Controller {
 
 			$chanpin1.="<tr  class='addtr'>";
 				$chanpin1.="<td><span style='color:red'>*</span>产品名称：</td>";
-					$chanpin1.="<td><select name='cp_id' onchange='cp_aj(this)' class ='clk_fzr' style='width:300px;height:30px;'>";
-							$chanpin1.="<option value='s'>请选择产品 </option>";
+					$chanpin1.="<td><select name='cp_id'  id='cp_caozuo' class ='clk_fzr xlss' style='width:300px;height:30px;'>";
+							$chanpin1.="<option value='s' >请选择产品 </option>";
 					foreach ($chanpin as $k=>$v)
 					{
-							$chanpin1.="<option value='".$v['cp_id']."'>".$v['zdy0']." </option>";
+							$chanpin1.="<option value='".$v['cp_id']."'>".$v['zdy0']."(".$v['zdy1'].") </option>";
 					}
 					$chanpin1.="</select> </td></tr>";
 //var_dump($chanpin1);exit;

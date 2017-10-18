@@ -25,9 +25,13 @@ class HetongmingchengController extends Controller {
 			$data['ywcs_yw']='6';
 			$ywcs_base=M('ywcs');
 			$sql=$ywcs_base->where(array($data))->field('ywcs_data')->find();
+
+
 			$sql_json=json_decode($sql['ywcs_data'],true);
+		
 			foreach($sql_json as $k=>$v)
 			{
+				$sql_json2='';
 					foreach($v['qy'] as $kqy =>$vqy)
 					{
 						if($vqy==1)
@@ -133,7 +137,7 @@ return $fzr_only;
 		}
 		public function hetongmingcheng(){
 			
-			
+			$uiid=$_GET['uiid'];
 			if($uiid=='' || $uiid==null)
 			{
 				$uiid=1;
@@ -150,6 +154,7 @@ return $fzr_only;
 		//	var_dump($user);exit;
 			$kehu=$this->kehu();
 			$ywcs=$this->ywcs();
+		
 
 			$shangji=$this->shangji();
 			$chanpin=$this->chanpin();
@@ -225,7 +230,7 @@ return $fzr_only;
 						}else{
 							$show1.="<td >".date("Y-m-d H:i:s", $sql_lianxi[$k])."</td>";
 						}
-							
+							    
 				}else{
 					$show1.="<td >未填写</td>";
 				}
@@ -387,6 +392,7 @@ return $fzr_only;
 			$hk_map['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 			$hk_map['hk_htid']=$ht_id;
 			$sql_hk=$hk_base->where($hk_map)->select();
+			$sql_hk_count=$hk_base->where($hk_map)->count();
 			$zonghkjh=0;
 					$zb=0;
 			foreach($sql_hk as $k=>$v)
@@ -427,12 +433,13 @@ return $fzr_only;
 
 			
 			$dinum=1;
+		
 				foreach($sql_hk as $k=>$v)
 				{
 					$weihuikuan=$v['hk_je']-$yihuikuan[$v['hk_qici']];
 					$hk_jihua.="<div class='long'>";  
 						$hk_jihua.="<div class='backg'>";
-							$hk_jihua.="<div class='kongzhi1'><span class='hkshow'>第<b>".$dinum."</b>期回款计划：".$v['hk_data']."</span><span class='hkshow'>计划回款总金额：¥<b> ".$v['hk_je']."</b></span><span class='hkshow'>占比：¥<b> ".$v['hk_zb']."%</b></span><span class='hkshow'> 已回款总金额：¥ <b>".$yihuikuan[$v['hk_qici']]."</b></span> <span class='hkshow'>未回款总金额：¥<b>".$weihuikuan."</b></span><span  class='hkshow'>未完成</span> <span class='shet'> <i class='layui-icon xiaoshou' style='font-size: 17px; ' onclick='shanchu_pz(this)' >&#xe640;</i> <i class='layui-icon xiaoshou' onclick='xiugai_pz(this)' style='font-size: 17px; '>&#xe642;</i> </span> <button  id='create-sahngji' onclick='xzjh(this)' class='layui-btn layui-btn-small add_wz' >新增汇款记录</button>
+							$hk_jihua.="<div class='kongzhi1'><span class='hkshow'>第<b>".$sql_hk_count."-".$dinum."</b>期回款计划：".$v['hk_data']."</span><span class='hkshow'>计划回款总金额：¥<b> ".$v['hk_je']."</b></span><span class='hkshow'>占比：¥<b> ".$v['hk_zb']."%</b></span><span class='hkshow'> 已回款总金额：¥ <b>".$yihuikuan[$v['hk_qici']]."</b></span> <span class='hkshow'>未回款总金额：¥<b>".$weihuikuan."</b></span><span  class='hkshow'>未完成</span> <span class='shet'> <i class='layui-icon xiaoshou' id='".$v['hk_id']."' style='font-size: 17px; ' onclick='shanchu_pz(this)' >&#xe640;</i> <i class='layui-icon xiaoshou' id='".$v['hk_id']."' onclick='xiugai_pz(this)' style='font-size: 17px; '>&#xe642;</i> </span> <button  id='create-sahngji' onclick='xzjh(this)' name='".$v['hk_id']."' class='layui-btn layui-btn-small add_wz' >新增回款记录</button>
 						  	</div>
 						  </div>";
 					  	$hk_jihua.="<table class='layui-table' lay-skin='line' >
@@ -447,24 +454,25 @@ return $fzr_only;
 					  				<th >备注</th>
 								</thead>";
 								$abc=0;
+							
 								foreach($sql_hk_add as $k3=>$v3)
 								{
 									
 									
-										if($v['hk_qici']==$v3['hk_qici']){
+										if($v['hk_id']==$v3['hk_qici']){
 											$abc++;
 											$hk_jihua.="<tbody class='fujian_del'>
 												<tr>
-												<td >操作</td>";
+												";
 												if($v3['hk_sp']==0)
 												{
-														$hk_jihua.="<td ><span  >".$shenpi_arr[$v3['hk_sp']]."</span></td>";
+														$hk_jihua.="<td >不可操作</td><td ><span  >".$shenpi_arr[$v3['hk_sp']]."</span></td>";
 												}elseif($v3['hk_sp']==1)
 												{	
-													$hk_jihua.="<td ><span style='color:green' >".$shenpi_arr[$v3['hk_sp']]."</span></td>";
+													$hk_jihua.="<td >不可操作</td><td ><span style='color:green' >".$shenpi_arr[$v3['hk_sp']]."</span></td>";
 												}elseif($v3['hk_sp']==2)
 												{
-													$hk_jihua.="<td ><span style='color:red' onclick='bh_yy1(this)' class='".$v3['hk_id']."'>".$shenpi_arr[$v3['hk_sp']]."</span></td>";
+													$hk_jihua.="<td > <i class='layui-icon' id='".$v3['hk_id']."' style='font-size: 17px;cursor:pointer ' onclick='del_hkadd(this)' >&#xe640;</i> <i class='layui-icon' id='".$v3['hk_id']."' onclick='bjjh(this)' style='font-size: 17px;cursor:pointer '>&#xe642;</i></td><td ><span style='color:red;cursor:pointer' onclick='bh_yy1(this)' class='".$v3['hk_id']."'>".$shenpi_arr[$v3['hk_sp']]."</span></td>";
 												}
 												
 												$hk_jihua.="<td >".$v3['hk_data']."</td>
@@ -483,14 +491,11 @@ return $fzr_only;
 											<tr><td colspan='8'  height='120px' >
 												<i class='layui-icon xiaolian' style='font-size:80px;float:left;position:relative;left:50%;margin-left:-200px;'><b>&#xe60c;</b></i>
 
-												<span style='margin-left:45%'>亲~ 还没有数据哦～ <span style='color:#07d;cursor:pointer;cursor:pointer;' onclick='xzjh(this)'>新增回款记录 >></span></span>
+												<span style='margin-left:45%'>亲~ 还没有数据哦～ <span style='color:#07d;cursor:pointer;cursor:pointer;' id='".$v['hk_id']."' onclick='xzjh(this)'>新增回款记录 >></span></span>
 											</td></tr>  
 											</tbody>";
 								}
-								
-								
-							 
-							$hk_jihua.="</table>
+			 					$hk_jihua.="</table>
 				 	</div>";
 				 	$dinum++;
 				}
@@ -500,8 +505,8 @@ return $fzr_only;
 				}else{
 					$mengen=$dinum-1;
 				}
-				$this->assign('pz_num',$mengen);
-			//这里往下是新增计划、1234567485674896789798789789789
+				$this->assign('pz_num',$mengen);    
+			//这里往下是新增计划、1234567485674896789798789789789 
 			
 			$xz_jh.="<table class='uk-form ' >";
 		    			$xz_jh.="<tr>
@@ -899,6 +904,11 @@ return $fzr_only;
 			$this->assign("ht_data",$ht_json['zdy4']);
 			$this->display();
 		}
+		public function del_hkjh(){
+			$base=M('hk');
+			$id['hk_id']=$_GET['id'];
+			$del_sql=$base->where($id)->delete();
+		}
 		public function userqb(){                 //负责人和部门
 	
 
@@ -1182,21 +1192,30 @@ return $fzr_only;
 	}
 	public function add_huikuan(){
 		$content=$_GET['id'];
+		$hk_ida=$_GET['hk_id'];
+
 		//$content="hk_data:2017-7-28,hk_je:60000,hk_kh:104335,hk_ht:308,hk_qici:1,zdy11:canshu1,hk_type:canshu1,hk_skr:1,hk_bz:0000000,";
 		$hk_number=substr($content,0,strlen($content)-1); 
 		$new_hk=explode(",",$hk_number);
 		foreach($new_hk as $k=>$v)
 		{
 			$baobao=explode(":", $v);
-			$data[$baobao[0]]=$baobao[1];
+			if($baobao[0]=='hk_qici')
+			{
+				$data[$baobao[0]]=$hk_ida;
+			}else{
+				$data[$baobao[0]]=$baobao[1];	
+			}
+			
 
 		}
+		
 		$data['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
 		$data['hk_sp']=0;
 		$data['hk_cj_date']=date("Y-m-d h:i:s");;
 		$data['hk_cj']=cookie("user_id");
 		$hkadd_base=M('hkadd');
-	$hk_sql=$hkadd_base->add($data);
+		$hk_sql=$hkadd_base->add($data);
 		if($hk_sql){
 
 			$shenpiyo=$this->shenpi_hk();
@@ -1719,5 +1738,107 @@ return $fzr_only;
 		ob_clean();
 		@readfile($filepath);
 		die;
+	}
+	public function save_hkjh(){ //编辑回款计划
+		$id=$_GET['id'];
+		$qici=$_GET['qici'];
+		$base=M('hk');
+		$map['hk_id']=$id;
+		$map['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$sql=$base->where($map)->find();
+		$sql_show.="<form class='uk-form' style='margin-left:18%;margin-top:25px'>
+		<table>
+			<tr><td>期次：</td><td>第".$qici."期</td></tr>
+			<tr><td>回款日期：</td><td style='line-height:28px'><input type='text' id='hk_data' value='".$sql['hk_data']."'></td></tr>
+			<tr><td>回款占比：</td><td style='line-height:28px'><input type='text' id='hk_zb' value='".$sql['hk_zb']."'></td></tr>
+			<tr><td>回款金额：</td><td style='line-height:28px'><input type='text' id='hk_je' value='".$sql['hk_je']."'></td></tr>
+			<tr><td>备注：</td><td style='line-height:28px'><textarea style='width:300px;height:90px;line-height:18px' id='hk_bz' >".$sql['hk_bz']."</textarea></td></tr>
+		</table>
+		</form>";
+		echo $sql_show;
+		
+	}
+	public function save_hkjhend(){
+		$id=$_GET['id'];
+		$content=$_GET['content'];
+		//$content="hk_data!@2017-10-12 !,hk_zb!@20!,hk_je!@4000!,hk_bz!@12";
+		$new_a=explode("!,", $content);
+		foreach($new_a as $k=>$v)
+		{
+			$new_b=explode("!@",$v);
+			$new_array[$new_b[0]]=$new_b[1];
+		}
+			$map['hk_id']=$id;
+			$map['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//
+			$base=M('hk');
+			
+			$sql=$base->where($map)->save($new_array);
+			if($sql){
+				echo "修改成功";
+			}else{
+				echo "修改失败";
+			}
+	}
+	public function del_hkjl(){
+		$map['hk_id']=$_GET['id'];
+		$map['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//
+		$base=M('hkadd');
+		$del_sql=$base->where($map)->delete();
+		$base_sp=M('sp');
+		$map_sp['sp_sjid']=$id;
+		$map_sp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//
+		$del_sp=$base_sp->where($map_sp)->delete();
+	}
+	public function save_hksql(){
+		$ywcs=$this->ywcs();
+		$userqb=$this->userqb();
+
+	$map['hk_id']=$_GET['hk_id'];
+	$qici=$_GET['qi'];
+		//$map['hk_id']='81';
+		$base=M('hkadd');
+		$map['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//
+		$sql=$base->where($map)->find();
+		$show.="<table class='uk-form'>
+
+				<tr><td>期次：</td><td>第".$qici."期</td></tr>
+				<tr><td>回款日期：</td><td><input type='text' id='' value='".$sql['hk_data']."'  onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td></tr>
+	
+				<tr><td>回款金额：</td><td><input type='text' id='' value='".$sql['hk_je']."' ></td></tr>
+			<tr><td>付款方式：</td><td><select id='' ' >";
+			foreach($ywcs['zdy11'] as $k=>$v)
+			{	if($sql['zdy11']==$k)
+				{
+					$show.="<option value='".$k."'>".$v."</option>";
+				}else{
+					$show.="<option value='".$k."'>".$v."</option>";
+				}
+				
+			}
+				$show.="	</select></td></tr>
+				<tr><td>回款类型：</td><td><select  id='' >";
+				foreach($ywcs['hktype'] as $k=>$v)
+			{	if($sql['hktype']==$k)
+				{
+					$show.="<option value='".$k."'>".$v."</option>";
+				}else{
+					$show.="<option value='".$k."'>".$v."</option>";
+				}
+				
+			}
+				$show.="</select></td></tr>
+				<tr><td>收款人：</td><td><select  id='' >";
+				foreach($userqb as $k=>$v)
+				{
+					
+					$show.="<option value='".$k."'>".$v['user_name']."</option>";
+				
+				}
+				$show.="</select></td></tr>
+				<tr><td>备注：</td><td><textarea style='width:300px'>".$sql['hk_bz']."</textarea></td></tr>
+				</table>";
+			echo $show;
+	
+
 	}
 }

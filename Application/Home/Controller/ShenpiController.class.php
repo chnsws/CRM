@@ -1025,7 +1025,15 @@ return $fzr_only;
 					$hk_base=M('hkadd');
 					$hk_data['hk_sp']=1;
 					$sqk_kp_save=$hk_base->where($hk)->save($hk_data);
+					if($sqk_kp_save)
+					{
+						echo "1";
+					}else{
+						echo "2";
+					}
 					//echo ""
+				}else{
+					echo "33";
 				}
 				
 			}elseif($sql_sp['sp_tp']==0){//不开启同步
@@ -1042,13 +1050,16 @@ return $fzr_only;
 				$sql_save_taren=$sp_base->where($sp_taren)->save($sp_sql_count);
 					//echo "<pre>";
 				//var_dump($sql_save_taren);exit;
-				if($sql_save_taren)
+				if($sql_save)
 				{
 					$hk['hk_id']=$sql_sp['sp_sjid'];;
 					$hk['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 					$hk_base=M('hkadd');
 					$hk_data['hk_sp']=1;
 					$sqk_kp_save=$hk_base->where($hk)->save($hk_data);
+					echo "123";
+				}else{
+					echo "3";
 				}
 
 
@@ -1076,15 +1087,14 @@ return $fzr_only;
 			$savekk['sp_jg']=3;
 			$savekk['sp_xgr']=cookie('user_id');
 			$sql_taren=$sp_base->where($taren_save)->save($savekk);
-			if($sql_taren)
-			{
+		
 				$hk['hk_id']=$sql['sp_sjid'];
 				$hk['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 				$hk_base=M('hkadd');
 				$hk_data['hk_sp']=2;
 				$sqk_kp_save=$hk_base->where($hk)->save($hk_data);
-			}
-			//var_dump($sql);exit;
+			
+			
 		}
 		public function kp_bohui(){
 			$tb=$_GET['tb'];
