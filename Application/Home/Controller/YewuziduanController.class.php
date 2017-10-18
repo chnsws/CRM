@@ -373,28 +373,28 @@ class YewuziduanController extends DBController {
 				foreach($v['lv2'] as $lv2k=>$lv2v)
 				{
                     //二级
-                    $res[$a]['name']='----'.$lv2v['cpfl_name'];
+                    $res[$a]['name']='&nbsp;&nbsp;&nbsp;&nbsp;'.$lv2v['cpfl_name'];
                     $res[$a]['key']=$lv2k;
                     $a++;
 					if(count($lv2v['lv3'])>0)
 					{
 						foreach($lv2v['lv3'] as $lv3k=>$lv3v)
 						{
-                            $res[$a]['name']='--------'.$lv3v['cpfl_name'];
+                            $res[$a]['name']='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$lv3v['cpfl_name'];
                             $res[$a]['key']=$lv3k;
                             $a++;
 							if(count($lv3v['lv4'])>0)
 							{
 								foreach($lv3v['lv4'] as $lv4k=>$lv4v)
 								{
-                                    $res[$a]['name']='------------'.$lv4v['cpfl_name'];
+                                    $res[$a]['name']='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$lv4v['cpfl_name'];
                                     $res[$a]['key']=$lv4k;
                                     $a++;
 									if(count($lv4v['lv5'])>0)
 									{
 										foreach($lv4v['lv5'] as $lv5k=>$lv5v)
 										{
-                                            $res[$a]['name']='----------------'.$lv5v['cpfl_name'];
+                                            $res[$a]['name']='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$lv5v['cpfl_name'];
                                             $res[$a]['key']=$lv5k;
                                             $a++;
 										}

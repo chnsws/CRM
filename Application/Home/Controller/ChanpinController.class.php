@@ -283,7 +283,7 @@ class ChanpinController extends DBController {
 					}
 					$tddata=$tddata==''?'-':$tddata;
 					$titledata=$tddata;
-					$tddata=mb_strlen($tddata)>14?mb_substr($tddata,0,15).'...':$tddata;
+					$tddata=mb_strlen($tddata)>14?mb_substr($tddata,0,14).'...':$tddata;
 					$left_t='';
 					if($tdnum=='0')
 					{
@@ -743,7 +743,7 @@ class ChanpinController extends DBController {
 				}
 				$tdclass=$v['cp_qy']=='1'?'':"style='color:#ccc;'";
 				$rowjsonarr[$k]=$k=='zdy6'?$cpflarr[$rowjsonarr[$k]]:$rowjsonarr[$k];
-				$tdstr=mb_strlen($rowjsonarr[$k])>15?mb_substr($rowjsonarr[$k],0,15).'...':$rowjsonarr[$k];
+				$tdstr=mb_strlen($rowjsonarr[$k])>14?mb_substr($rowjsonarr[$k],0,14).'...':$rowjsonarr[$k];
 				$tdstr=$tdstr==''?'-':$tdstr;
 				$left_t='';
 				if($isfirst=='0')
@@ -968,7 +968,7 @@ class ChanpinController extends DBController {
 				}
 				$tdclass=$v['cp_qy']=='1'?'':"style='color:#ccc;'";
 				$rowjsonarr[$k]=$k=='zdy6'?$cpflarr[$rowjsonarr[$k]]:$rowjsonarr[$k];
-				$tdstr=mb_strlen($rowjsonarr[$k])>15?mb_substr($rowjsonarr[$k],0,15).'...':$rowjsonarr[$k];
+				$tdstr=mb_strlen($rowjsonarr[$k])>14?mb_substr($rowjsonarr[$k],0,14).'...':$rowjsonarr[$k];
 				$tdstr=$tdstr==''?'-':$tdstr;
 				$left_t='';
 				if($isfirst=='0')
