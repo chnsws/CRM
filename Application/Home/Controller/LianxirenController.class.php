@@ -160,7 +160,9 @@ return $fzr_only;
 				//echo "<pre>";
 			//	var_dump($lianxiren);
 			//	echo "<pre>";
-				//var_dump($lx_biaoti1);exit;														//联系人显示内容
+				//var_dump($lx_biaoti1);exit;														//联系人显示内容'
+				//'
+				
 		foreach($lianxiren as $k=>$v)
 		{
 			$id=$v['lx_id'];

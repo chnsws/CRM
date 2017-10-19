@@ -201,6 +201,7 @@ class LianxirenmingchengController extends Controller {
 					}elseif($k=='zdy2'){
 						
 						$show3.="<td>";
+						
 						if($lx_json[$k]=="男"){
 								$show3.="<input type='radio' name='".$k."' style='width:40px;' checked='checked' value='男' />男";
 						
@@ -213,7 +214,6 @@ class LianxirenmingchengController extends Controller {
 								$show3.="<input type='radio' name='".$k."' style='width:40px;' checked='checked' value='女' />女";
 							
 						}
-					
 						
 						$show3.="</td>";
 					}else{
@@ -221,7 +221,20 @@ class LianxirenmingchengController extends Controller {
 					}
 					
 				}else{
-					$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;' value='未填写' ></td>";
+					if($k=='zdy2'){
+						
+						$show3.="<td>";
+						
+						
+								$show3.="<input type='radio' name='".$k."' style='width:40px;' checked='checked' value='男' />男";
+						
+								$show3.="<input type='radio' name='".$k."' style='width:40px;' value='女' />女</td>";
+					
+						
+								
+						}else{
+							$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;' value='未填写' ></td>";
+						}
 				}
 			$show3.="</tr>";
 		}
