@@ -988,8 +988,14 @@ window.name_lxr="";
 										{	//tishi(thisdom.prop("name"))
 											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
 										}else{
-											
-											ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+											if(thisdom.prop("name")=='zdy2')
+											{
+												ajaxstr+=thisdom.prop("name")+":"+$('input[name="zdy2"]:checked').val()+",";
+												
+											}else{
+
+												ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+											}
 										}
 										
 									}
