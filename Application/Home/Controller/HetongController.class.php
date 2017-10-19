@@ -801,7 +801,7 @@ public function kehu(){
 							$chanpin1.="<option value='s'>请选择产品 </option>";
 					foreach ($chanpin as $k=>$v)
 					{
-							$chanpin1.="<option value='".$v['cp_id']."'>".$v['zdy0'].$v['zdy1']." </option>";
+							$chanpin1.="<option value='".$v['cp_id']."'>".$v['zdy0']."(".$v['zdy1'].") </option>";
 					}
 					$chanpin1.="</select> </td></tr>";
 		$this->assign('ys',$ys);//页数

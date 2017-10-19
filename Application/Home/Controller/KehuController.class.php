@@ -148,6 +148,11 @@ class KehuController extends Controller {
 						$show_bt.="</select></td></tr>";
 						//	<input type='text' name='box' id='sss' style='width:200px;position:absolute;left:30.2%;height:31px;line-height:30px;'>	<span style='margin-left:20px;margin-right:24px ;color:#07d' onclick='add_lxr()'>点击添加</span></td>	
 				
+				}elseif($v['id']=='zdy2'){
+						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
+						$show_bt.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."''></td></tr>";	
+				
+				
 				}elseif($v['id']=='zdy0'){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
 					$show_bt.="<td><input type='text'  class='required' id= 'wyszdy0'onkeyup='kh_name_if(this)' name='".$v['id']."'></td></tr>";	
@@ -173,6 +178,10 @@ class KehuController extends Controller {
 					}elseif($v['id']=='zdy13'){
 						$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
 						$show_bt1.="<td><input type='text' name='".$v['id']."'  class=' ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td></tr>";	
+					}elseif($v['id']=='zdy2'){
+						$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
+						$show_bt1.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."''></td></tr>";	
+				
 					}elseif($v['id']=='zdy6'){
 						$show_bt1.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
 						$show_bt1.="<td>".$v['name'].":</td><td class='form-group' style='width:80%;'>";
@@ -209,6 +218,11 @@ class KehuController extends Controller {
 			          	$show_bt2.="<select name='".$v['id']."[]' class='form-control'   ></select>";
 			         	$show_bt2.="<select name='".$v['id']."[]' class='form-control'   ></select>";
 		 				$show_bt2.="</td></tr>";
+					
+
+		 			}elseif($v['id']=='zdy2'){
+						$show_bt2.="<tr class='addtr'><td>".$v['name']."：</td>";
+						$show_bt2.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."''></td></tr>";	
 					}else{
 						$show_bt2.="<tr class='addtr ncy' style='display: none;border:1px'><td>".$v['name']."：</td>";
 						$show_bt2.="<td><input type='text' name='".$v['id']."' ></td></tr>";	

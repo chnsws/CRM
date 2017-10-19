@@ -739,12 +739,19 @@ function add_yh()
 									for(a=0;a<fornum;a++)
 									{
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
+
 										if(thisdom.prop("name")=='zdy6[]')
 										{	//tishi(thisdom.prop("name"))
-											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+","; 
+											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+","; 
 										}else{
-											
-											ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+											if(thisdom.prop("name")=='zdy2')
+											{ 
+												
+												ajaxstr1+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+","; 
+												
+											}else{
+												ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+											}
 										}
 										
 									}
@@ -1036,4 +1043,11 @@ function add_yh()
 		                isCheckAll = true;  
 		            }  
 		        } 
+		   function checkp(x,y) {  
+		    	
+		      if (y.length == x.maxLength) {  
+		      
+		      $(".jiaodian")[0].focus()
+		       }
+   		 }  
 	</script>
