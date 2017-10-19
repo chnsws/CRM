@@ -233,7 +233,7 @@ class LianxirenmingchengController extends Controller {
 						
 								
 						}else{
-							$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;' value='未填写' ></td>";
+							$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;' placeholder='未填写' ></td>";
 						}
 				}
 			$show3.="</tr>";
