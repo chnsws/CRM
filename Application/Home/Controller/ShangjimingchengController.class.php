@@ -256,60 +256,57 @@ return $fzr_only;
 
 			if($kbt!='zdy2' && $kbt!='zdy1' && $kbt!="zdy6"){
 				$show2.="<tr style='line-height:40px'><td style='width:160px'>".$vbt['name'].":</td>";
-				if($sql_rh[$kbt]=="")
-			{
-				$show2.="<td><input type='text' name='".$kbt."' value='未填写'></td>";
-			}else{
-				if($kbt=="zdy1")
-				{
-					//1就是空
-				}elseif($kbt=="zdy2"){
-					//2就是空
-				}elseif($kbt=="zdy6"){
-						//6就是空
-				}elseif($kbt=="zdy5"){	
-					$show2.="<td><select name='".$kbt."' style='width:175px'>";
-					foreach( $ywcs[$kbt] as $k=>$v)
-					{
-						if($k==$sql_rh[$kbt])
+		
+						if($kbt=="zdy1")
 						{
-							$show2.="<option value='".$k."' selected='selected'>".$ywcs[$kbt][$k]."</option> ";
-						}elseif($k!='id' && $k!="qy" && $k!="knx")
-						$show2.="<option  value='".$k."'>".$ywcs[$kbt][$k]."</option> ";
-					}
-					$show2.="</select></td>";
-				}elseif($kbt=="zdy7"){	
-					
-					$show2.="<td><select name='".$kbt."' style='width:175px'>";
-					foreach( $ywcs[$kbt] as $k=>$v)
-					{
-						if($k==$sql_rh[$kbt])
-						{
-							$show2.="<option  value='".$k."' selected='selected'>".$ywcs[$kbt][$k]."</option> ";
-						}elseif($k!='id' && $k!="qy" && $k!="knx")
-						$show2.="<option  value='".$k."'>".$ywcs[$kbt][$k]."</option> ";
-					}
-					$show2.="</select></td>";
-				}elseif($kbt=="zdy9"){	
+							//1就是空
+						}elseif($kbt=="zdy2"){
+							//2就是空
+						}elseif($kbt=="zdy6"){
+								//6就是空
+						}elseif($kbt=="zdy5"){	
+							$show2.="<td><select name='".$kbt."' style='width:175px'>";
+							foreach( $ywcs[$kbt] as $k=>$v)
+							{
+								if($k==$sql_rh[$kbt])
+								{
+									$show2.="<option value='".$k."' selected='selected'>".$ywcs[$kbt][$k]."</option> ";
+								}elseif($k!='id' && $k!="qy" && $k!="knx")
+								$show2.="<option  value='".$k."'>".$ywcs[$kbt][$k]."</option> ";
+							}
+							$show2.="</select></td>";
+						}elseif($kbt=="zdy7"){	
+							
+							$show2.="<td><select name='".$kbt."' style='width:175px'>";
+							foreach( $ywcs[$kbt] as $k=>$v)
+							{
+								if($k==$sql_rh[$kbt])
+								{
+									$show2.="<option  value='".$k."' selected='selected'>".$ywcs[$kbt][$k]."</option> ";
+								}elseif($k!='id' && $k!="qy" && $k!="knx")
+								$show2.="<option  value='".$k."'>".$ywcs[$kbt][$k]."</option> ";
+							}
+							$show2.="</select></td>";
+						}elseif($kbt=="zdy9"){	
 
-					$show2.="<td><select name='".$kbt."' style='width:175px'>";
-					foreach( $ywcs[$kbt] as $k=>$v)
-					{
-						if($k==$sql_rh[$kbt])
-						{
-							$show2.="<option  value='".$k."' selected='selected'>".$ywcs[$kbt][$k]."</option> ";
-						}elseif($k!='id' && $k!="qy" && $k!="knx")
-						$show2.="<option  value='".$k."'>".$ywcs[$kbt][$k]."</option> ";
-					}
-					$show2.="</select></td>";
-						
-				}elseif($kbt=="zdy4"|| $kbt=="zdy8" ||$kbt=="zdy10"){
-					$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." ></td> ";
-				}else{
-					$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."' ></td> ";
-				}
+							$show2.="<td><select name='".$kbt."' style='width:175px'>";
+							foreach( $ywcs[$kbt] as $k=>$v)
+							{
+								if($k==$sql_rh[$kbt])
+								{
+									$show2.="<option  value='".$k."' selected='selected'>".$ywcs[$kbt][$k]."</option> ";
+								}elseif($k!='id' && $k!="qy" && $k!="knx")
+								$show2.="<option  value='".$k."'>".$ywcs[$kbt][$k]."</option> ";
+							}
+							$show2.="</select></td>";
+								
+						}elseif($kbt=="zdy4"|| $kbt=="zdy8" ||$kbt=="zdy10"){
+							$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." ></td> ";
+						}else{
+							$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."' ></td> ";
+						}
 				
-			}	
+			
 			}
 			
 					$show2.="</tr>";
