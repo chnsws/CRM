@@ -2759,9 +2759,15 @@ public function save(){
 			         	$add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
 		 				$add_yw.="</td></tr>";
 					}else{
+						if($vywzd['id']=='zdy2'){
+							$add_yw.="<tr class='addtr'>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input class='required1' checked='checked'  name='".$vywzd['id']."' type='radio' value='男' style='width:30px'/>男<input name='".$vywzd['id']."' class='required1'  type='radio' value='女' style='width:30px'/>女</td>";
+						$add_yw.="</tr>";
+						}else{
 						$add_yw.="<tr class='addtr'>";
 						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required1' id='".$vywzd['id']."' name='".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
+						}
 					}
 				}
 			}
