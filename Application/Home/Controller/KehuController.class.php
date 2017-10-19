@@ -1165,7 +1165,7 @@ class KehuController extends Controller {
 									$sj_show.="<tr>
 					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span>".$v['zdy0']."</span></a></td>
 					  				<td >".$v['zdy3']."</td>
-					  				<td >".$v['zdy4']."</td>
+					  				<td >".substr($v['zdy4'],0,10)."</td>
 					  				<td >".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
 					  			
 					  			</tr> ";
@@ -1182,7 +1182,7 @@ class KehuController extends Controller {
 				$sj_show_much.="<tr>
 					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1'>".$v['zdy0']."</span></a></td>
 					  				<td >".$v['zdy3']."</td>
-					  				<td >".$v['zdy4']."</td>
+					  				<td >".substr($v['zdy4'],0,10)."</td>
 					  				<td >".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
 					  				<td >".$v['sj-qiandan']."</td>
 					  				<td >".$v['zdy11']."</td>
@@ -1235,7 +1235,7 @@ class KehuController extends Controller {
 										{
 											$ht_show.="<tr>
 											  				<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span>".$v['zdy0']."</span></a></td>
-											  				<td >￥:".$v['zdy3']."</td>
+											  				<td >￥".$v['zdy3']."</td>
 											  				<td >".$v['zdy5']."</td>
 											  	
 											  				<td >".$ywcs_ht['zdy7'][$v['zdy7']]."</td>
@@ -1253,7 +1253,7 @@ class KehuController extends Controller {
 			{
 				$ht_show_much.="<tr>
 					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span>".$v['zdy0']."</span></a></td>
-					  				<td >￥:".$v['zdy3']."</td>
+					  				<td >￥".$v['zdy3']."</td>
 					  				<td >".$v['zdy5']."</td>
 					  				<td >".$v['zdy6']."</td>
 					  				<td >".$ywcs_ht['zdy7'][$v['zdy7']]."</td>
