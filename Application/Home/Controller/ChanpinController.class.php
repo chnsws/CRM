@@ -133,7 +133,7 @@ class ChanpinController extends DBController {
 		//系统规定的字段
 		$old_zd_arr=array(
 			"zdy6"=>"<select id='addflsel'  name='zdy6'>".$cpfloption."</select>",
-			"zdy7"=>"<input type='file' name='cpimage' lay-type='images' class='layui-upload-file' id='imm'  /></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' src='' style='margin-bottom: 10px;'>",
+			"zdy7"=>"<input type='file' name='cpimage' lay-type='images'  id='imm'  /><button class='layui-btn layui-btn-primary' style='height:30px;line-height:30px;' onclick='sel_img(this)' >选择图片</button></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' name='cpimgshow' style='margin-bottom: 10px;'>",
 			"zdy8"=>"<textarea id='cp_jieshao' name='zdy8'></textarea>"
 		);
 
@@ -571,20 +571,57 @@ class ChanpinController extends DBController {
 		parent::is_login();
 		$fid=parent::get_fid();
 		parent::have_qx("qx_cp_open");
-		$addstr=addslashes($_POST['addstr']);
+		$addstr=$_POST['addstr'];
 		if($addstr=='')
 		{
 			echo 2;
 			die;
 		}
+		//获取json里面的图片数据
+		$json_arr=json_decode($addstr,true);
+		$imginfo=$json_arr['zdy7'];
+		if($imginfo!='')
+		{
+			$bcres=$this->Base64ToImg($imginfo);
+			
+			if(!$bcres)
+			{
+				echo '3';
+				die;
+			}
+			$json_arr['zdy7']=$bcres;
+		}
+		//对单引号双引号进行处理
+		foreach($json_arr as $k=>$v)
+		{
+			if($k=='zdy7')
+			{
+				continue;
+			}
+			$thisa=str_replace('"','&quot;',$v);
+			$json_arr[$k]=str_replace("'",'&apos;',$thisa);
+		}
+		$jsonstr=json_encode($json_arr);
+		//parent::rr($json_arr);
+		//转换并保存图片
+		//将新图片的文件名添加到json中
+		//插入数据库
+
+
+
+
+
+		//die;
+
 		//开始解析格式
-		$kvarr=$this->jiexi($addstr);
-		$jsonstr=json_encode($kvarr);
+		//$kvarr=$this->jiexi($addstr);
+		//$jsonstr=json_encode($kvarr);
 		$jsonstr=str_replace('\\','\\\\',$jsonstr);
 		$nowdatetime=date("Y-m-d H:i:s",time());		
 		$cpbase=M("chanpin");
+		//parent::rr("insert into crm_chanpin values('','$jsonstr','$nowdatetime','$nowdatetime','1','0','".cookie("user_id")."','$fid')");
 		$cpbase->query("insert into crm_chanpin values('','$jsonstr','$nowdatetime','$nowdatetime','1','0','".cookie("user_id")."','$fid')");
-		echo $this->insertrizhi("新增产品：".$kvarr['zdy0']);
+		echo $this->insertrizhi("新增产品：".$json_arr['zdy0']);
 	}
 	//新增产品图片
 	public function cp_img_add()
@@ -1743,6 +1780,29 @@ class ChanpinController extends DBController {
 			$rtnarr[$vv[0]]=$vv[1];
 		}
 		return $rtnarr;
+	}
+	//图片储存
+	public function Base64ToImg($imginfo)
+	{
+		$base64_image_content = $imginfo;
+		//匹配出图片的格式
+		if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)){
+			$type = $result[2];
+			$new_file ="./Public/chanpinfile/cpimg/";
+			if(!file_exists($new_file))
+			{
+				//检查是否有该文件夹，如果没有就创建，并给予最高权限
+				mkdir($new_file, 0700);
+			}
+			$rand=rand(1,9);
+			$filename=time().time().$rand.".{$type}";
+			$new_file = $new_file.$filename;
+			if (file_put_contents($new_file, base64_decode(str_replace($result[1], '', $base64_image_content)))){
+				return $filename;
+			}else{
+				return false;
+			}
+		}
 	}
 	//插入日志方法
     public function insertrizhi($con)

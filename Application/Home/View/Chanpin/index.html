@@ -38,6 +38,8 @@ body,html,#box{height:auto;margin:0;background-color:#F7F7F7;}
 #left-div{float:left;width:20%;height:auto;background-color:#fff;}
 #left-top{height:40px;line-height:40px;color:#1AA094;padding-left:10px;font-weight:bold;background-color:#f2f2f2}
 
+#imm{display:none;}
+
 #left-body div{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-top:5px;margin-bottom:5px;padding-left:5px;}
 #fllist li{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-bottom:5px;padding-left:5px;background-color:#fff;}
 .lv1{margin-left:15px;}
@@ -551,6 +553,123 @@ function sxqk()
 }
 //筛选模块结束------------
 
+$(function(){
+    $.fn.localResizeIMG = function(obj) {
+		var btype = '';
+        this.on('change', function() {
+			var str=$(this).val();
+			var strtype = str.substr(str.lastIndexOf('.'),4);
+			strtype = strtype.toLowerCase(); 
+			btype = strtype;
+			if(strtype == '.jpg' || strtype == '.png' || strtype == '.gif'){
+            	var file = this.files[0];
+            	var URL = window.URL || window.webkitURL;
+            	var blob = URL.createObjectURL(file);
+            	// 执行前函数
+            	if ($.isFunction(obj.before)) {
+                	obj.before(this, blob, file)
+            	};
+				_create(blob, file);
+            	
+			}else{
+				obj.errot('图片类型不正确');
+			}
+			this.value = ''; // 清空临时数据
+        });
+
+        /**
+         * 判断类型
+         * @param 类型
+         */
+		function _types(str){
+			var result = 'image/jpg';
+			if(str == '.png'){
+				result = 'image/png';
+			}else if(str == '.gif'){
+				result = 'image/gif';
+			}
+			return result ;
+		 }
+		 /**
+         * 生成base64
+         * @param blob 通过file获得的二进制
+         */
+        function _create(blob) {
+            var img = new Image();
+            img.src = blob;
+			
+            img.onload = function() {
+                var that = this;
+
+				var w = img.width;
+				var h = img.height;
+				if(w > obj.width){
+                	w = that.width
+					h = that.height
+					scale = w / h;
+                	w = obj.width || w;
+                	h = w / scale;
+				}				
+                //生成canvas
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+                $(canvas).attr({
+                    width: w,
+                    height: h
+                });
+                ctx.drawImage(that, 0, 0, w, h);
+				
+                /**
+                 * 生成base64
+                 * 兼容修复移动设备需要引入mobileBUGFix.js
+                 */
+                var base64 = canvas.toDataURL(_types(btype), obj.quality || 0.8);
+
+                // 修复IOS
+                if (navigator.userAgent.match(/iphone/i)) {
+                    var mpImg = new MegaPixImage(img);
+                    mpImg.render(canvas, {
+                        maxWidth: w,
+                        maxHeight: h,
+                        quality: obj.quality || 0.8
+                    });
+                    base64 = canvas.toDataURL(_types(btype), obj.quality || 0.8);
+                }
+
+                // 修复android
+                if (navigator.userAgent.match(/Android/i)) {
+                    var encoder = new JPEGEncoder();
+                    base64 = encoder.encode(ctx.getImageData(0, 0, w, h), obj.quality * 100 || 80);
+                }
+
+                // 生成结果
+                var result = {
+                    base64: base64,
+                    clearBase64: base64.substr(base64.indexOf(',') + 1)
+                };
+                // 执行后函数
+                obj.success(result,btype);
+            };
+        }
+    };
+
+
+    $('input:file').localResizeIMG({
+        width: 500,
+        quality: 0.1,
+        //before: function (that, blob) {},
+        success: function (result) {
+            //var img = new Image();
+            //img.src = result.base64;
+
+            $('#cpimg_show').find("#cpimg").prop("src",result.base64);
+            $('#cpimg_show').find("#cpimg").show();
+            //console.log(result);
+        }
+    });
+});
+
+
 //部门列表上方公司名称点击事件
 $(".lv-on").on("click",function(){
     var clicktext=$(this).text();
@@ -998,7 +1117,11 @@ function pl_zhuanyi()
         }); 
     });  
 }
-
+//选择图片
+function sel_img(thisdom)
+{
+    $(thisdom).prev().click();
+}
 //添加产品
 function cp_add()
 {
@@ -1008,6 +1131,131 @@ function cp_add()
         tishi("您没有添加产品的权限");
         return;
     }
+    //添加前的处理
+    $("#add_yc_div").show();
+    $("#add_yc_body").hide();
+    $("#addcpdiv").find("input").val('');
+    $("#addcpdiv").find("textarea").val('');
+    $("#cpimg").hide();
+    //添加产品时如果有分类id就默认选中该分类
+    var main_flid="{$_GET['flid']}";
+    if(main_flid)
+    {
+        $("#addflsel").attr("disabled",true);
+        $("#addflsel").find("option[value='"+main_flid+"']").attr("selected",true);
+    }
+    else
+    {
+        $("#addcpdiv").find("select").val('0');
+    }
+
+    //弹窗
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        var hisopen=layer.open({
+            type:1,
+            offset: 't',
+            area:"500px",
+            title: '新增产品',
+            fixed: false,
+            content:$("#addcpdiv"),
+            btn:["保存","取消"],
+            btn1:function(){
+                //$("#addcpdiv").find("#imm").show();
+                //alert($("#addcpdiv").find("#imm").val());return;
+                //alert($('#cpimg_show').find("#cpimg").prop("src"));return;
+                window.jiazai=layer.load(2);
+                var addstr='';
+                var trdom=$("#addcpdiv").find("tr");
+                fornum=trdom.length;
+
+                var ajaxarr={};
+                for(a=0;a<fornum;a++)
+                {
+                    var thisdom=$("#addcpdiv").find("tr").eq(a);
+                    var thistagname=thisdom.find("td").eq(1).children().prop("tagName");//标签名
+                    var thiszdyname=thisdom.find("td").eq(1).children().prop("name");//控件name
+                    var thiszdyvalue=thisdom.find("td").eq(1).children().val();//控件值
+                    //alert(thiszdyname);
+                    //必填项
+                    if(thisdom.find("td").eq(0).children("span").attr("class")=="redstart")
+                    {
+                        if(thiszdyname=='cpimage')
+                        {
+                            if(!$('#cpimg_show').find("#cpimg").prop("src"))
+                            {
+                                tishi("必须上传一个产品图片");
+                                layer.close(jiazai);
+                                return false;
+                            }
+                        }
+                        else if(thiszdyname=='cpimgshow')
+                        {
+                            continue;
+                        }
+                        else//text select textarea
+                        {
+                            if(thiszdyvalue=='')
+                            {
+                                
+                                tishi("必填项不能为空");
+                                layer.close(jiazai);
+                                return false;
+                            }
+                        }
+                    }//必填验证结束
+                    if(thiszdyname=='cpimage')
+                    {
+                        ajaxarr['zdy7']=$('#cpimg_show').find("#cpimg").prop("src");
+                    }
+                    else if(thistagname=='IMG')
+                    {
+                        continue;
+                    }
+                    else//text select textarea
+                    {
+                        ajaxarr[thiszdyname]=thiszdyvalue;
+                        //addstr+="["+thiszdyname+"]:["+thiszdyvalue+"],"
+                    }
+                }
+                addstr=JSON.stringify(ajaxarr);
+                //document.write(addstr);return;
+                $.post(root_dir+"/index.php/Home/Chanpin/cp_add",{"addstr":addstr},function(res){
+                    //layer.close(jiazai);
+                    //return;
+                    if(res=='1')
+                    {
+                        location.reload();
+                    }
+                    else if(res=='2')
+                    {
+                        tishi("添加失败");
+                        
+                        return false;
+                    }
+                    else if(res=='3')
+                    {
+                        tishi("添加失败,图片保存失败");
+                        layer.close(jiazai);
+                        return false;
+                    }
+                    else
+                    {
+                        tishi("添加失败，请刷新后重试");
+                        layer.close(jiazai);
+                        return false;
+                    }
+                });
+            },
+            btn2:function(){
+                layer.close(hisopen);
+            }
+        }); 
+    }); 
+
+
+
+    /*
     var has_old_img='';
     $("#add_yc_div").show();
     $("#add_yc_body").hide();
@@ -1057,101 +1305,8 @@ function cp_add()
     });
 
 
-    layui.use('layer', function(){
-        var layer = layui.layer;
-        var hisopen=layer.open({
-            type:1,
-            offset: 't',
-            area:"500px",
-            title: '新增产品',
-            fixed: false,
-            content:$("#addcpdiv"),
-            btn:["保存","取消"],
-            btn1:function(){
-                window.jiazai=layer.load(2);
-                var addstr='';
-                var trdom=$("#addcpdiv").find("tr");
-                fornum=trdom.length;
-
-                for(a=0;a<fornum;a++)
-                {
-                    var thisdom=$("#addcpdiv").find("tr").eq(a);
-                    var thistagname=thisdom.find("td").eq(1).children().prop("tagName");//标签名
-                    var thiszdyname=thisdom.find("td").eq(1).children().prop("name");//控件name
-                    var thiszdyvalue=thisdom.find("td").eq(1).children().val();//控件值
-
-                    //必填项
-                    if(thisdom.find("td").eq(0).children("span").attr("class")=="redstart")
-                    {
-                        if(thistagname=="DIV")//图片上传
-                        {
-                            if(has_old_img=='')
-                            {
-                                tishi("必须上传一个产品图片");
-                                layer.close(jiazai);
-                                return false;
-                            }
-                        }
-                        else//text select textarea
-                        {
-                            if(thiszdyvalue=='')
-                            {
-                                tishi("必填项不能为空");
-                                layer.close(jiazai);
-                                return false;
-                            }
-                        }
-                    }//必填验证结束
-                    if(thistagname=="DIV")//图片上传
-                    {
-                        addstr+="[zdy7]:["+has_old_img+"],";
-                    }
-                    else if(thistagname=='IMG')
-                    {
-                        continue;
-                    }
-                    else//text select textarea
-                    {
-                        addstr+="["+thiszdyname+"]:["+thiszdyvalue+"],"
-                    }
-                }
-                addstr=addstr.substr(0,addstr.length-1);
-                $.post(root_dir+"/index.php/Home/Chanpin/cp_add",{"addstr":addstr},function(res){
-                    if(res=='1')
-                    {
-                        location.reload();
-                    }
-                    else if(res=='2')
-                    {
-                        tishi("添加失败");
-                        layer.close(jiazai);
-                        return false;
-                    }
-                    else
-                    {
-                        tishi("添加失败，请刷新后重试");
-                        layer.close(jiazai);
-                        return false;
-                    }
-                });
-            },
-            btn2:function(){
-                if(has_old_img!='')
-                {
-                    //删除上次上传的图片
-                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_img",{"oldname":has_old_img});
-                }
-                layer.close(hisopen);
-            },
-            cancel: function(index, layero){ 
-                if(has_old_img!='')
-                {
-                    //删除上次上传的图片
-                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_img",{"oldname":has_old_img});
-                }
-            }
-        }); 
-    }); 
+    
+    */
 }
 //搜索
 function searchfun()
