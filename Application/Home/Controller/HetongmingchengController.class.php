@@ -833,7 +833,7 @@ return $fzr_only;
 							
 								<div class='gj_body_content_from'>来自合同：".$ht_json['zdy0']."</div> 
 								<div class='gj_body_content_button'>
-									<button class='layui-btn layui-btn-primary woca'>评论</button>
+									<button class='layui-btn layui-btn-primary' onclick='del_gj(this)' id='".$v['genjin_id']."'>删除</button>
 								</div>
 							</div>
 						</div>
@@ -1840,5 +1840,12 @@ return $fzr_only;
 			echo $show;
 	
 
+	}
+	public function del_gja(){
+		$map['genjin_id']=$_GET['id'];
+		$map['genjin_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//
+		$map['mode_id']=6;
+		$base=M('xiegenjin');
+		$sql=$base->where($map)->delete();
 	}
 }

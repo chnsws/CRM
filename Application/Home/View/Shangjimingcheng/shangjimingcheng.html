@@ -126,7 +126,8 @@
 										  						<option value="短信">短信</option>
 										  						<option value="其他">其他</option>
 										  					</select>
-										  					<input type="text" name="add_time"  class="text ui-widget-content ui-corner-all shiji add_timegj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})" value="{$valav['kh_sj_gj_date']}" style="width:250px;height:40px;margin-top:10px;">
+										  					<input type="text" name="add_time"  class="text ui-widget-content ui-corner-all shiji add_timegj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})" 
+										  					placeholder="实际跟进时间（必填）"  style="width:250px;height:40px;margin-top:10px;">
 										  					<input type="hidden" name="sj_id" class="bingou" value="{$sj_id}">
 										  					
 										  					<textarea name="content" class='contentgj' placeholder=' 勤跟进，多签单........'  style="width:620px;height:260px;margin-top:10px;margin-left:23px";></textarea>
@@ -362,6 +363,11 @@
 								btn:['确认'],
 						
 								btn1:function(){
+									var shiji=$(".add_timegj").val();
+									if(shiji=='' || shiji==null)
+									{
+										tishi("跟进时间必填");return
+									}
 										var content_gj='';
 										content_gj="kh_id!"+$(".bingou").val()+","+"type!"+$('.typegj').val()+","+"content!"+$('.contentgj').val()+","+"xgj_czr!"+$(".lxr_id").val()+","+"add_time!"+$(".add_timegj").val()+","+"date!"+$(".dategj").val();
 										var xgj=$(".gjzt12").val();
@@ -376,5 +382,19 @@
 							}); 
 						});  
 	}
+	function del_gj(ss){
+		 	var gj_id=$(ss).prop('id');
+
+				$.get(rooturl+'/index.php/Home/Shangjimingcheng/del_gja',{"id":gj_id},
+							        		 function(html){
+									        		location=rooturl+"/index.php/Home/Shangjimingcheng/shangjimingcheng?id="+$(".bingou").val();//$(".rz_sxp").html(html);
+							                   });
+		 }
+		 function tishi(neirong)
+			{
+			    layer.msg(neirong, {
+			        time: 1000, 
+			    });
+			}
 	</script>
 </html>
