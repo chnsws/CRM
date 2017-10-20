@@ -272,7 +272,7 @@ a{color:#07d; text-decoration:none !important;}
 								  						<option value="短信">短信</option>
 								  						<option value="其他">其他</option>
 								  					</select>
-								  					<input type="text" name="add_time"  class="text ui-widget-content ui-corner-all shiji add_timegj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})" value="{$valav['kh_sj_gj_date']}" style="width:250px;height:40px;margin-top:10px">
+								  					<input type="text" name="add_time"  class="text ui-widget-content ui-corner-all shiji add_timegj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})" placeholder="实际跟进时间(必填)" style="width:250px;height:40px;margin-top:10px">
 								  					<input type="hidden" name="kh_id" class="bingou" value="{$kh_id}">
 								  					
 								  					<textarea name="content" class='contentgj' placeholder=' 勤跟进，多签单........'  style="width:620px;height:260px;margin-top:10px;margin-left:23px";></textarea>
@@ -459,31 +459,6 @@ a{color:#07d; text-decoration:none !important;}
 				  </div>
 				</div>   
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
   		</div>
 	</body>
 	<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
@@ -541,6 +516,11 @@ a{color:#07d; text-decoration:none !important;}
 								btn:['确认'],
 						
 								btn1:function(){
+									var sjgenjindate=$('.add_timegj').val();
+									if(sjgenjindate=='' || sjgenjindate==null)
+									{
+										tishi("实际跟进时间必填");return
+									}
 										var content_gj='';
 										content_gj="kh_id!"+$(".bingou").val()+","+"type!"+$('.typegj').val()+","+"content!"+$('.contentgj').val()+","+"xgj_czr!"+$(".lxr_id").val()+","+"add_time!"+$(".add_timegj").val()+","+"date!"+$(".dategj").val();
 										var xgj=$(".gjzt12").val();
@@ -754,6 +734,16 @@ a{color:#07d; text-decoration:none !important;}
 			  
 			  //…
 			});
+		 function del_gj(ss){
+		 	var gj_id=$(ss).prop('id');
+
+				$.get(rooturl+'/index.php/Home/Kehu/del_gja',{"id":gj_id},
+							        		 function(html){
+									        		
+									        		location=rooturl+"/index.php/Home/Kehu/kehumingcheng?kh_id="+$(".bingou").val();//$(".rz_sxp").html(html);
+							                   });
+		 }
+
 	</script>
 
 	   

@@ -1550,6 +1550,7 @@ class KehuController extends Controller {
 				$sql_xiegenjin=$xiegenjin_base->where($map_xiegenjin)->order("add_time desc")->select();
 				//echo "<pre>";
 				//var_dump($map_xiegenjin);exit;
+				
 				foreach($sql_xiegenjin as $k=>$v)
 				{
 					$xgj_show.="<div class='gj_mod'>
@@ -1567,8 +1568,8 @@ class KehuController extends Controller {
 								<div class='gj_body_content_content'>".$v['content']."</div>
 							
 								<div class='gj_body_content_from'>来自客户：".$sql_json['zdy0']."</div> 
-								<div class='gj_body_content_button'>
-									<button class='layui-btn layui-btn-primary woca'>评论</button>
+								<div class='gj_body_content_button '>
+									<button class='layui-btn layui-btn-primary ' id='".$v['genjin_id']."' onclick='del_gj(this)'>删除</button>
 								</div>
 							</div>
 						</div>
@@ -3045,6 +3046,11 @@ public function save(){
 		
 		
 	}
-
+	public function del_gja(){
+		$map['genjin_id']=$_GET['id'];
+		$map['genjin_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//
+		$base=M('xiegenjin');
+		$sql=$base->where($map)->delete();
+	}
 
 }
