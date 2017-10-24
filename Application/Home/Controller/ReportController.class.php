@@ -1378,16 +1378,15 @@ class ReportController extends DBController {
 
             $zong_num+=$sj_data[$k]['num'];
             $zong_sum+=$sj_data[$k]['yuji'];
-            $zong_sum_gl=$sj_data[$k]['gailv'];
+            $zong_sum_gl+=$sj_data[$k]['gailv'];
         }
-
         //部门下拉框
         $this->assign("bm_option",($_GET['sx_1']?str_replace("value='".$_GET['sx_1']."'","value='".$_GET['sx_1']."' selected ",$bm_option):$bm_option));
         //用户下拉框
         $this->assign("user_option",($_GET['sx_2']?str_replace("value='".$_GET['sx_2']."'","value='".$_GET['sx_2']."' selected ",$user_option):$user_option));
         $this->assign("zong_num",$zong_num);
-        $this->assign("zong_sum",$zong_sum);
-        $this->assign("zong_sum_gl",$zong_sum_gl);
+        $this->assign("zong_sum",number_format($zong_sum,2));
+        $this->assign("zong_sum_gl",number_format($zong_sum_gl,2));
 
         $this->assign("chart_time",'["'.substr($chart_time,0,-3).'"]');
         $this->assign("chart_sum",'["'.substr($chart_sum,0,-3).'"]');
