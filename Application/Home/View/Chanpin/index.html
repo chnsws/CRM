@@ -101,8 +101,8 @@ body,html,#box{height:auto;margin:0;background-color:#F7F7F7;}
 
 /*筛选*/
 div,span{overflow:hidden;}
-#sxdiv{background-color:#f7f7f7;margin:10px 10px 0px 10px;padding:10px 5px 10px 5px;}
-#sxshowbtn{background-color:#f7f7f7;width:40px;text-align:center;margin:0 auto;cursor:pointer;}
+#sxdiv{background-color:#f7f7f7;margin:10px 10px 0px 10px;padding:10px 5px 10px 5px;display: none;}
+#sxshowbtn{background-color:#f7f7f7;width:40px;text-align:center;margin:0 auto;cursor:pointer;display: none;}
 .sxzddiv{width:100%;height:auto;word-break: break-all;word-wrap: break-word;}
 .sx_title{float:left;width:80px;height:25px;margin:5px 5px 5px 5px;line-height:25px;}
 .sx_yes,.sx_no{width:auto;margin:5px 5px 5px 5px;cursor:pointer;padding:0 5px 0 5px;float:left;height:25px;line-height:25px;}
@@ -346,6 +346,7 @@ layui.use(['laypage', 'layer'], function(){
         }
     });
 });
+/*
 //筛选模块-------------------
 $("#sxdiv").attr("onselectstart",'return false');
 //是否开启
@@ -559,7 +560,7 @@ function sxqk()
     window.location.reload();
 }
 //筛选模块结束------------
-
+*/
 $(function(){
     $.fn.localResizeIMG = function(obj) {
 		var btype = '';

@@ -20,9 +20,13 @@
 <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
 <script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
 <script src="{$_GET['public_dir']}/uikit/js/components/lightbox.min.js"></script>
+<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/sticky.css" />
+<script src="{$_GET['public_dir']}/uikit/js/components/sticky.js"></script>
 <style>
 div,ul,li{border:0;padding:0;}
 #box{height:100%;width:100%;}
+html{background:#f7f7f7;}
+#cp_btn{background: #f7f7f7!important;z-index: 99999;}
 #cp_btn i{margin-right:5px;}
 #cp_btn button{height:30px;line-height:30px;}
 
@@ -59,6 +63,10 @@ textarea{resize:none;}
 
 #jibenpage tr td:first-child{width:100px;}
 #jibenpage table{width:600px;}
+
+.asd{margin-left:0px!important;height:40px;padding-top:10px;border-bottom:1px solid #ccc;}
+.asd i{margin-right:5px;}
+.asd button{height:30px;line-height:30px;}
 </style>
 </head>
 <body>
@@ -66,7 +74,7 @@ textarea{resize:none;}
     <div id="head_cp_name">
         {$cpinfoarr['cp_name']}
     </div>
-    <div id="cp_btn">
+    <div id="cp_btn" data-uk-sticky="{clsactive:'asd'}">
         <button class="layui-btn layui-btn-primary" onclick="fanhui()"><i class="fa fa-arrow-left" aria-hidden="true"></i>返回</button>
         <button class="layui-btn" onclick="bj_chanpin()"><i class="fa fa-edit" aria-hidden="true"></i>编辑</button>
         <button class="layui-btn" onclick="del_chanpin()"><i class="fa fa-trash" aria-hidden="true"></i>删除</button>

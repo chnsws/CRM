@@ -1336,7 +1336,7 @@ class XiansuoController extends DBController {
     //获得用户下拉框内容
     public function get_user_option($fid)
     {
-        $user_arr=parent::sel_more_data("crm_user","user_id,user_name","user_del='0' and (user_fid='$fid' or user_id='$fid')");
+        $user_arr=parent::sel_more_data("crm_user","user_id,user_name","user_del='0' and user_act='1' and (user_fid='$fid' or user_id='$fid')");
         foreach($user_arr as $v)
         {
             $user_option.="<option value='".$v['user_id']."'>".$v['user_name']."</option>";
@@ -1450,7 +1450,7 @@ class XiansuoController extends DBController {
 	//获取该部门下的所有用户
 	public function get_bm_user($bmid,$fid)
 	{
-		$bm_user_arr=parent::sel_more_data("crm_user","user_id","(user_id='$fid' or user_fid='$fid') and user_del='0' and user_zhu_bid='$bmid' ");
+		$bm_user_arr=parent::sel_more_data("crm_user","user_id","(user_id='$fid' or user_fid='$fid') and user_del='0' and user_act='1' and user_zhu_bid='$bmid' ");
 		foreach($bm_user_arr as $v)
 		{
 			$a[]=$v['user_id'];
