@@ -1036,7 +1036,19 @@ class KehuController extends Controller {
 			$kh=M('kh');
 			$kh_map['kh_id']=$kh_id;
 			$sql_kh=$kh->where($kh_map)->find();
-
+			$qxa=0;
+			foreach($new_array1 as $k=>$v)
+			{
+				if($sql_kh['kh_fz']==$v)
+				{
+					$qxa++;
+				}
+			}
+		
+			if($qxa<1)
+			{
+				echo "<script> history.go(-1) </script>";die;
+			}
 			$sql_json=json_decode($sql_kh['kh_data'],true);
 		
 			$kh_type=$sql_json['zdy1'];//客户类型canshu1
