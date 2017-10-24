@@ -38,7 +38,7 @@ body,html,#box{height:auto;margin:0;background-color:#F7F7F7;}
 #left-div{float:left;width:20%;height:auto;background-color:#fff;}
 #left-top{height:40px;line-height:40px;color:#1AA094;padding-left:10px;font-weight:bold;background-color:#f2f2f2}
 
-#imm{display:none;}
+.imm{display:none;}
 
 #left-body div{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-top:5px;margin-bottom:5px;padding-left:5px;}
 #fllist li{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-bottom:5px;padding-left:5px;background-color:#fff;}
@@ -77,7 +77,7 @@ body,html,#box{height:auto;margin:0;background-color:#F7F7F7;}
 #addcpdiv tr{height:50px;line-height:50px;}
 #addcpdiv input{line-height: 30px;}
 #add_yc_div{color:#1AA094;}
-#cpimg{width:120px;height:120px;}
+#cpimg{width:120px;height:auto;}
 
 #addcpdiv table{width:100%;}
 #addcpdiv input{width:100%;}
@@ -118,6 +118,12 @@ div,span{overflow:hidden;}
 #page_div{float:right;}
 
 .layui-layer-btn0{background:#1AA094;}
+
+th{overflow: hidden!important; text-overflow:ellipsis!important; white-space: nowrap!important;max-width:600px!important;min-width:100px!important;}
+td{ overflow: hidden!important; text-overflow:ellipsis!important; white-space: nowrap!important;max-width:600px!important;min-width:100px!important;}
+
+tr>th:nth-child(3){width:200px!important;min-width:200px!important;max-width: 200px!important;}
+tr>td:nth-child(3){width:200px!important;min-width:200px!important;max-width: 200px!important;}
 </style>
 </head>
 <body>
@@ -290,21 +296,22 @@ window.page_nowpage="{$_GET['page']}";
 window.page_maxpage={$page_max_page};
 page_nowpage=page_nowpage?page_nowpage:1;
 
+/*
 //表格自适应
 var maintablewidth=$("#main_table").find("thead").find("th").length;
 maintablewidth=parseInt(maintablewidth)*150;
 $("#main_table").css("width",maintablewidth+'px');
-$("#main_table").show();
 
+*/
+$("#main_table").show();
 $("li").attr("onselectstart","return false");//屏蔽双击选中
+
 //初始化
 layui.use('layer', function(){
     window.layer = layui.layer;
 });
 //上传控件初始化
-layui.use('upload', function(){
-  layui.upload(options);
-});
+layui.use('upload');
 //黑色半透明提示
 function tishi(neirong)
 {
@@ -654,7 +661,7 @@ $(function(){
     };
 
 
-    $('input:file').localResizeIMG({
+    $("#imm").eq(0).localResizeIMG({
         width: 500,
         quality: 0.1,
         //before: function (that, blob) {},
@@ -825,9 +832,9 @@ function daoru()
                 layer.close(jiazai);
                 tishi("文件上传失败，请刷新后重试");
             }
-        },
+        }
     });
-
+    
     layui.use('layer', function(){
         var layer = layui.layer;
         var daoruopen=layer.open({
@@ -1551,6 +1558,7 @@ function to_cpfl()
 {
     window.location=root_dir+"/index.php/Home/Cpfl/cpfl_index";
 }
+
 //表格排序
 function table_px()
 {
@@ -1705,7 +1713,7 @@ function table_px()
         $(this).parent().parent().parent().children("tbody").html(newtable);
     });
 }
-table_px();
+//table_px();
 </script>
 </html>
 

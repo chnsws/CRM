@@ -133,7 +133,7 @@ class ChanpinController extends DBController {
 		//系统规定的字段
 		$old_zd_arr=array(
 			"zdy6"=>"<select id='addflsel'  name='zdy6'>".$cpfloption."</select>",
-			"zdy7"=>"<input type='file' name='cpimage' lay-type='images'  id='imm'  /><button class='layui-btn layui-btn-primary' style='height:30px;line-height:30px;' onclick='sel_img(this)' >选择图片</button></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' name='cpimgshow' style='margin-bottom: 10px;'>",
+			"zdy7"=>"<input type='file' name='cpimage' lay-type='images'  id='imm' class='imm'  /><button class='layui-btn layui-btn-primary' style='height:30px;line-height:30px;' onclick='sel_img(this)' >选择图片</button></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' name='cpimgshow' style='margin-bottom: 10px;'>",
 			"zdy8"=>"<textarea id='cp_jieshao' name='zdy8'></textarea>"
 		);
 
@@ -186,9 +186,9 @@ class ChanpinController extends DBController {
 				if($thnum=='0')
 				{
 					$left_t="class='left_t_th'";
-					$a="<th style='width:200px;' id='thpxid".$zdy_k."'>".$zd_data['name']."<i class='fa fa-sort-down' aria-hidden='true'></i></th>";
+					$a="<th id='thpxid".$zdy_k."'>".$zd_data['name']."</th>";
 				}
-				$thstr.="<th $left_t >".$zd_data['name']."<i class='fa fa-sort-down' aria-hidden='true'></i></th>".$a;
+				$thstr.="<th $left_t >".$zd_data['name']."</th>".$a;
 				$a='';
 				if($zdy_k!='zdy5'&&$zdy_k!='zdy6')
 					$searchoption.="<option value='".$zdy_k."'>".$zd_data['name']."</option>";
@@ -283,11 +283,11 @@ class ChanpinController extends DBController {
 					}
 					$tddata=$tddata==''?'-':$tddata;
 					$titledata=$tddata;
-					$tddata=mb_strlen($tddata)>14?mb_substr($tddata,0,14).'...':$tddata;
+					$tddata=$tddata;
 					$left_t='';
 					if($tdnum=='0')
 					{
-						$tddata=strlen($tddata)>30?mb_substr($tddata,0,10).'...':$tddata;
+						$tddata=$tddata;
 						$left_t="class='left_t'";
 						$b="<td $tdclass  style='width:200px'  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' title='".$titledata."'>".$tddata."</td>";
 						
@@ -512,9 +512,11 @@ class ChanpinController extends DBController {
 		//编辑表单模块
 		$cptp=$cpjsonarr['zdy7']==''?"style='display:none'":"";
 		//系统规定的字段
+		//"zdy7"=>"<input type='file' name='cpimage' lay-type='images' class='layui-upload-file' id='imm'  /></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' $cptp src='".$_GET['public_dir']."/chanpinfile/cpimg/".$cpjsonarr['zdy7']."' style='margin-bottom: 10px;'>",
 		$old_zd_arr=array(
 			"zdy6"=>"<select id='addflsel' name='zdy6' disabled=disabled >".$cpfloption."</select>",
-			"zdy7"=>"<input type='file' name='cpimage' lay-type='images' class='layui-upload-file' id='imm'  /></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' $cptp src='".$_GET['public_dir']."/chanpinfile/cpimg/".$cpjsonarr['zdy7']."' style='margin-bottom: 10px;'>",
+			"zdy7"=>"<input type='file' name='cpimage' lay-type='images'  id='imm' class='imm'  /><button class='layui-btn layui-btn-primary' style='height:30px;line-height:30px;' onclick='sel_img(this)' >选择图片</button></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' $cptp src='".$_GET['public_dir']."/chanpinfile/cpimg/".$cpjsonarr['zdy7']."' name='cpimgshow' style='margin-bottom: 10px;'>",
+
 			"zdy8"=>"<textarea id='cp_jieshao' name='zdy8'>".$cpjsonarr['zdy8'].
 			"</textarea>"
 		);
@@ -780,7 +782,7 @@ class ChanpinController extends DBController {
 				}
 				$tdclass=$v['cp_qy']=='1'?'':"style='color:#ccc;'";
 				$rowjsonarr[$k]=$k=='zdy6'?$cpflarr[$rowjsonarr[$k]]:$rowjsonarr[$k];
-				$tdstr=mb_strlen($rowjsonarr[$k])>14?mb_substr($rowjsonarr[$k],0,14).'...':$rowjsonarr[$k];
+				$tdstr=$rowjsonarr[$k];
 				$tdstr=$tdstr==''?'-':$tdstr;
 				$left_t='';
 				if($isfirst=='0')
@@ -929,33 +931,63 @@ class ChanpinController extends DBController {
 	//修改产品数据
 	public function editcp()
 	{
+		parent::is_login();
+		$fid=parent::get_fid();
+		parent::have_qx("qx_cp_open");
 		$editstr=$_POST['editstr'];
 		$nowpageid=addslashes($_POST['nowpageid']);
+		$oldimgname=addslashes($_POST['oldimgname']);
 		$nowpagename=addslashes($_POST['nowpagename']);
 		if($nowpageid==''||$editstr=='')
 		{
 			echo '2';
 			die;
 		}
-		//处理数据字符串
-		$editstr=explode('],[',substr($editstr,1,-1));
-		foreach($editstr as $v)
+		//判断是否修改了图片
+		
+		
+		$jsondata=json_decode($editstr,true);
+		
+		if(substr($jsondata['zdy7'],0,5)=='http:'||substr($jsondata['zdy7'],0,6)=='https:')
 		{
-			$row=explode(']:[',$v);
-			$insertarr[$row[0]]=$row[1];
+			//如果没修改就截取图片名称
+			$imgname=explode('/',$jsondata['zdy7']);
+			$maxindex=count($imgname)-1;
+			$imgname=$imgname[$maxindex];
+			$jsondata['zdy7']=$imgname;
 		}
-		$insertstr=str_replace("\\","\\\\",json_encode($insertarr));
-        parent::is_login();
-		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
-		$nowtime=date("Y-m-d H:i:s",time());
+		else
+		{
+			//如果修改就生成新图片
+			$jsondata['zdy7']=$this->Base64ToImg($jsondata['zdy7']);
+			//删除旧图片
+			unlink('./Public/chanpinfile/cpimg/'.$oldimgname);
+		}
+		
+
+		
+		//对单引号双引号进行处理
+		foreach($jsondata as $k=>$v)
+		{
+			if($k=='zdy7')
+			{
+				continue;
+			}
+			$thisa=str_replace('"','&quot;',$v);
+			$jsondata[$k]=str_replace("'",'&apos;',$thisa);
+		}
+		$jsonstr=json_encode($jsondata);
+
+
+		//parent::rr($jsondata);
+
+		$jsonstr=str_replace('\\','\\\\',$jsonstr);
+		$nowdatetime=date("Y-m-d H:i:s",time());		
 		$cpbase=M("chanpin");
-		$cpbase->query("update crm_chanpin set cp_data = '$insertstr',cp_edit_time='$nowtime' where cp_yh='$fid' and cp_id='$nowpageid' limit 1");
-
+		//parent::rr("insert into crm_chanpin values('','$jsonstr','$nowdatetime','$nowdatetime','1','0','".cookie("user_id")."','$fid')");
+		$cpbase->query("update crm_chanpin set cp_data = '$jsonstr',cp_edit_time='$nowdatetime' where cp_yh='$fid' and cp_id='$nowpageid' limit 1");
 		echo $this->insertrizhi("修改了产品：".$nowpagename);
-
-
-		//unlink('./Public/chanpinfile/cpimg/'.$oldname);
+		die;
 	}
 	//根据左边产品分类改变右边产品列表
 	public function get_fl_cplist()
@@ -1005,7 +1037,7 @@ class ChanpinController extends DBController {
 				}
 				$tdclass=$v['cp_qy']=='1'?'':"style='color:#ccc;'";
 				$rowjsonarr[$k]=$k=='zdy6'?$cpflarr[$rowjsonarr[$k]]:$rowjsonarr[$k];
-				$tdstr=mb_strlen($rowjsonarr[$k])>14?mb_substr($rowjsonarr[$k],0,14).'...':$rowjsonarr[$k];
+				$tdstr=$rowjsonarr[$k];
 				$tdstr=$tdstr==''?'-':$tdstr;
 				$left_t='';
 				if($isfirst=='0')
@@ -1319,6 +1351,10 @@ class ChanpinController extends DBController {
 				{
 					continue 2;
 				}
+				//将本条中的引号转义
+				$vv=str_replace("'",'&apos;',$vv);
+				$vv=str_replace('"','&quot;',$vv);
+
 				$drarr[$newzdarr[$zdindex]['id']]=$vv;
 				$zdindex++;
 				//echo $k;
@@ -1407,6 +1443,12 @@ class ChanpinController extends DBController {
 		foreach($cparr as $v)
 		{
 			$rowjsonarr=json_decode($v['cp_data'],true);
+			//过滤引号转义字符
+			foreach($rowjsonarr as $k=>$v)
+			{
+				$rowjsonarr[$k]=str_replace('&apos;',"'",$v);
+				$rowjsonarr[$k]=str_replace('&quot;','"',$rowjsonarr[$k]);
+			}
 			$line='';
 			foreach($zdarr as $zdk=>$zdv)
 			{
@@ -1728,7 +1770,7 @@ class ChanpinController extends DBController {
 				}
 				$tdclass=$v['cp_qy']=='1'?'':"style='color:#ccc;'";
 				$rowjsonarr[$k]=$k=='zdy6'?$cpflarr[$rowjsonarr[$k]]:$rowjsonarr[$k];
-				$tdstr=mb_strlen($rowjsonarr[$k])>10?mb_substr($rowjsonarr[$k],0,10).'...':$rowjsonarr[$k];
+				$tdstr=$rowjsonarr[$k];
 				$tdstr=$tdstr==''?'-':$tdstr;
 				$left_t='';
 				if($isfirst=='0')
