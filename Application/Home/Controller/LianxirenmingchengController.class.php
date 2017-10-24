@@ -185,7 +185,7 @@ class LianxirenmingchengController extends Controller {
 					
 						$show1.="<td><span style='margin-left:30px'>".date("Y-m-d H:i:s",$sql_lianxi[$k])."</span></td>";
 					}else{
-					$show1.="<td><span style='margin-left:30px'>".date("Y-m-d H:i:s",$sql_lianxi[$k])."</span></td>";
+					$show1.="<td><span style='margin-left:30px'>".$sql_lianxi[$k]."</span></td>";
 					}
 				}else{
 					$show1.="<td><span style='margin-left:30px'>未填写</span></td>";
@@ -454,6 +454,7 @@ return $fzr_only;
 			}
 		}
 		$data['lx_data']=json_encode($ex1,true);
+		$data['lx_gx_date'] =date('Y-m-d H:i:s');
 		$sj_base=M('lx');
 		$user=$this->user();
 		$sql_save=$sj_base->where($map)->save($data);

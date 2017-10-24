@@ -1326,9 +1326,12 @@ class KehuController extends Controller {
 					if($k=="kh_fz" || $k=="kh_cj" || $k=="kh_old_fz")
 					{
 						$tab2.='<tr class="ways"><td style="width:200px;">'.$new_array13[$k]['name'].':</td><td>'.$user[$v]['user_name'].'</td></tr>';
-					}elseif($k=="kh_sj_gj_date" || $k=="kh_cj_date" || $k=="kh_gx_date" || $k=="kh_gh_date"){
+					}elseif($k=="kh_sj_gj_date" || $k=="kh_cj_date" || $k=="kh_gh_date"){
 						$tab2.='<tr class="ways"><td style="width:200px;">'.$new_array13[$k]['name'].':</td><td>'.date("Y-m-d H:i:s", $v).'</td></tr>';
-					}else{
+					}elseif($k=="kh_gx_date"){
+						$tab2.='<tr class="ways"><td style="width:200px;">'.$new_array13[$k]['name'].':</td><td>'.$v.'</td></tr>';
+					}
+					else{
 						$tab2.='<tr class="ways"><td style="width:200px;">'.$new_array13[$k]['name'].':</td><td>'.$v.'</td></tr>';
 					}
 				}
@@ -1894,6 +1897,7 @@ class KehuController extends Controller {
 					$da=$json;//data替换完成
 					$map['kh_id']=$v['kh_id'];//条件
 					$data['kh_data']=json_encode($da,true);//修改内容
+					$data['kh_gx_date'] = date('Y-m-d H:i:s');//更新时间
 					$save=$kehu_base->where($map)->save($data);
 						if($save)
 						{
@@ -1926,6 +1930,7 @@ class KehuController extends Controller {
 			$data['kh_old_fz']=$sql_sel['kh_fz'];
 			$data['kh_old_bm']=$user[$sql_sel['kh_fz']]['department'];
 			$data['kh_bm']=$user[$fuzeren]['department'];
+			$data['kh_gx_date'] = date('Y-m-d H:i:s');//更新时间
 			$sql_save=$sj_base->where($map)->save($data);
 			if($sql_save)
 			{		

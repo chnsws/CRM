@@ -197,6 +197,9 @@ class ShangjiController extends Controller {
 				
 					}elseif($k1=="sj_bm"){
 						$show.="<td>".$fzr_only[$v["sj_fz"]]["department"]." </td>"	;
+					}
+					elseif($k1=="sj_cj_date"){
+						$show.="<td>".date('Y-m-d H:i:s',$v[$k1])." </td>"	;
 					}else{
 						$show.="<td> ".$v[$k1]." </td>"	;
 					}
@@ -870,6 +873,7 @@ class ShangjiController extends Controller {
 						$da=$json;//data替换完成
 						$map['sj_id']=$v['sj_id'];//条件
 						$data['sj_data']=json_encode($da,true);//修改内容
+						$data['sj_gx_date'] = date('Y-m-d H:i:s');//更新时间
 						$save=$kehu_base->where($map)->save($data);
 						if($save){
 							
@@ -894,6 +898,7 @@ class ShangjiController extends Controller {
 		$sj_base=M('shangji');
 		foreach($idex as $k=>$v){
 			$map['sj_id']=$v;
+			$data['sj_gx_date'] = date('Y-m-d H:i:s');//更新时间
 			$sql_save=$sj_base->where($map)->save($data);
 
 		}

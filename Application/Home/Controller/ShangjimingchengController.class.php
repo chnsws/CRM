@@ -241,7 +241,10 @@ return $fzr_only;
 				}elseif($k=="sj_cj_date"){
 									$show1.="<td>".date('Y-m-d H:i:s',$sql_rh[$k])."</td>";
 
-				}else{}
+				}
+				elseif($k=="sj_gx_date"){
+									$show1.="<td>".$sql_rh[$k]."</td>";
+								}else{}
 				
 			}
 			$show1.="</tr>";
@@ -556,6 +559,7 @@ return $fzr_only;
 
 		}
 		$data['sj_data']=json_encode($ex1,true);
+		$data['sj_gx_date'] = date('Y-m-d H:i:s');
 		//echo "<pre>";
 		//var_dump($data);exit;
 		$sj_base=M('shangji');
