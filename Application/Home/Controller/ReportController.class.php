@@ -86,6 +86,7 @@ class ReportController extends DBController {
         //查询合同-产品||商机-产品 关联表
         $cp_info_arr=parent::sel_more_data("crm_cp_sj","cp_id,cp_num1,cp_zj,sj_id","cp_yh='$fid' and cp_mk='6' and sj_id in ($ht_dbtable_in_str) ");
         //图形数据
+        $cp_sum=[];
         foreach($cp_info_arr as $v)
         {
             if($_GET['sx_2']!=''&&$_GET['sx_2']!='0')
@@ -94,6 +95,10 @@ class ReportController extends DBController {
                 {
                     continue;
                 }
+            }
+            if($v['cp_id']<1)
+            {
+                continue;
             }
             $cp_sum[$v['cp_id']]+=$v['cp_zj'];
             $cp_xiaoliang[$v['cp_id']]+=$v['cp_num1'];
@@ -519,9 +524,9 @@ class ReportController extends DBController {
                             <td>".$k."月</td>
                             <td>".$ht_num[$k]."</td>
                             <td>".$hb_num."</td>
-                            <td>".$v."</td>
+                            <td>￥".number_format($v,2)."</td>
                             <td>".$hb_sum."</td>
-                            <td>".number_format($v/$ht_num[$k],2)."</td>
+                            <td>￥".number_format($v/$ht_num[$k],2)."</td>
                         </tr>";
         }
         //parent::rr($ht_num);
@@ -1794,7 +1799,7 @@ class ReportController extends DBController {
             {
                 $chart3Arr[$a]=0;
             }
-            $chart3Arr[$a]=($chart3Arr[$a]*100);
+            $chart3Arr[$a]=round(($chart3Arr[$a]*100),2);
             //表格数据
             $dataTable.='<tr>
                             <td>'.$a.'月</td>
@@ -1811,7 +1816,7 @@ class ReportController extends DBController {
         $chart3="['".$chart3."']";
 
         //表格上方的完成提示
-        $tableTopTip='销售金额：¥ '.number_format($zongWc,2).'  目标金额：¥ '.number_format($zongYj,2).'完成率：'.((number_format($zongWc,2)/number_format($zongYj,2))*100).'%';
+        $tableTopTip='销售金额：¥ '.number_format($zongWc,2).',  目标金额：¥ '.number_format($zongYj,2).', 总完成率：'.round((($zongWc/$zongYj)*100),2).'%';
 
         //业绩目标类型
         $this->assign("sxName",$sxName);
@@ -2005,7 +2010,7 @@ class ReportController extends DBController {
             }
             $res[$htuser[$v['hk_ht']]]+=$v['hk_je'];
             $res2[$htuser[$v['hk_ht']]]++;
-            echo $v['hk_ht'];
+            //echo $v['hk_ht'];
             
         }
         arsort($res);
@@ -2013,12 +2018,12 @@ class ReportController extends DBController {
         $number=1;
         foreach($res as $k=>$v)
         {
-            $dataTable.='
+            $dataTable.='<tr>
             <td>'.$number.'</td>
             <td>'.$username[$k].'</td>
             <td>'.$userbm[$k].'</td>
             <td>'.$res2[$k].'</td>
-            <td>￥'.number_format($v,2).'</td>';
+            <td>￥'.number_format($v,2).'</td></tr>';
             $number++;
             $zong+=$v;
         }
@@ -2436,8 +2441,8 @@ class ReportController extends DBController {
                 <td>'.$a.'</td>
                 <td>'.$allDataArr[3][$k].'</td>
                 <td>'.$bmnamearr[$userbmid[$k]].'</td>
-                <td>'.number_format($allDataArr[2][$k],2).'</td>
-                <td>'.number_format($allDataArr[1][$k],2).'</td>
+                <td>￥'.number_format($allDataArr[2][$k],2).'</td>
+                <td>￥'.number_format($allDataArr[1][$k],2).'</td>
                 <td>'.$allDataArr[4][$k].'%</td>
             </tr>';
 
