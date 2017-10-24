@@ -93,7 +93,7 @@ return $fzr_only;
 		$new_array=explode(',',$new_xiaji);
 		$kh_base=M('kh');
 		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' ");
 		
 		foreach($kh_sql as $kkh =>$vkh)
 		{
@@ -113,7 +113,7 @@ return $fzr_only;
 			
 			$sj_base=M('shangji');
 			$data_sj=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-			$userarr=$sj_base->query("select * from crm_shangji where sj_yh='$data_sj' and sj_fz IN ($xiaji)");// 查询商机信息
+			$userarr=$sj_base->query("select * from crm_shangji where sj_yh='$data_sj'");// 查询商机信息
 			foreach($userarr as $k => $v)
 			{
 				foreach($v as $k1 => $v1)
