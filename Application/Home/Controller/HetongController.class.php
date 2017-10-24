@@ -99,7 +99,7 @@ public function kehu(){
 		$new_array=explode(',',$new_xiaji);
 		$kh_base=M('kh');
 		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' ");
 		
 		foreach($kh_sql as $kkh =>$vkh)
 		{
@@ -140,7 +140,7 @@ public function kehu(){
 		
 		$sj_base=M('shangji');
 		$data_sj=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$userarr=$sj_base->query("select * from crm_shangji where sj_yh='$data_sj' and sj_fz IN ($xiaji)");// 查询商机信息
+		$userarr=$sj_base->query("select * from crm_shangji where sj_yh='$data_sj' ");// 查询商机信息
 		foreach($userarr as $k => $v)
 		{
 			foreach($v as $k1 => $v1)
@@ -656,6 +656,7 @@ public function kehu(){
 						$new_arrayoo[$k]=$new_str1;
 					}
 
+
 		$ht_biaoti1=array_merge_recursive($ywzd,$new_arrayoo);//客户标题名字
 		$wcht_base=M('wcht');
 		$wcht_map['wcht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
@@ -689,15 +690,15 @@ public function kehu(){
 				if(cookie('user_fid')=='0'){
 					if($v['ht_sp']==4)
 					{
-							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td style='color:333'><i><b>审批中</b></i></td>";
+							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'>".$v['ht_id']."</td><td style='color:333'><i><b>审批中</b></i></td>";
 					}elseif($v['ht_sp']==1)
 					{
-							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span style='color:green'>审批通过</span></td>";
+							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'>".$v['ht_id']."</td><td><span style='color:green'>审批通过</span></td>";
 					}elseif($v['ht_sp']==0)
 					{
-							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span  class='".$v['ht_id']."' style='color:#50BBB1' onclick='faqi(this)'><span style=' color: #09d;cursor:pointer' title='发起审批'>发起审批</span> </span></td>";
+							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'>".$v['ht_id']."</td><td><span  class='".$v['ht_id']."' style='color:#50BBB1' onclick='faqi(this)'><span style=' color: #09d;cursor:pointer' title='发起审批'>发起审批</span> </span></td>";
 					}else{
-							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span class='".$v['ht_id']."' style='color:red;cursor:pointer' onclick='bhyy(this)' title='驳回原因'>驳回?</span><span  class='".$v['ht_id']."' style='color:#50BBB1;margin-left:10px' onclick='faqi(this)'><i class='layui-icon' style='font-size: 15px; color: #1E9FFF;cursor:pointer' title='发起审批'>&#xe609;</i> </span></td>";
+							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'>".$v['ht_id']."</td><td><span class='".$v['ht_id']."' style='color:red;cursor:pointer' onclick='bhyy(this)' title='驳回原因'>驳回?</span><span  class='".$v['ht_id']."' style='color:#50BBB1;margin-left:10px' onclick='faqi(this)'><i class='layui-icon' style='font-size: 15px; color: #1E9FFF;cursor:pointer' title='发起审批'>&#xe609;</i> </span></td>";
 					}
 
 				}else{
@@ -738,11 +739,10 @@ public function kehu(){
 					$kh_mc=$kehu[$v[$kbt]]['name'];
 						if($v['ht_sp']==4||$v['ht_sp']==1)//审批中或者审批通过
 							{
-								
-								$content.="<td><a style='color:#999' href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$wcht_sql2[$v['ht_id']]['zdy1']."</span></a></td>";
+								$content.="<td><a style='color:#999' href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$wcht_sql2[$v['ht_id']]['zdy1']."".$v[$kbt]."</span></a></td>";
 							}else{
 					
-								$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
+								$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$kehu[$v[$kbt]]['name']."".$v[$kbt]."</span></a></td>";
 							}
 						}
 					elseif($kbt=='zdy2')
