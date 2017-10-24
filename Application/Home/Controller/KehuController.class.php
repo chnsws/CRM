@@ -246,7 +246,8 @@ class KehuController extends Controller {
 		$this->assign('show_bt2',$show_bt2);
 		$this->assign("jw",$jw);
 		$this->assign("pl_bj",$pl_bj_arr);
-		$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_cj_cp'=>"已经成交产品",'kh_new_gj'=>"最新跟进记录",'kh_sj_gj_date'=>"实际跟进时间",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
+		$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_cj_cp'=>"已经成交产品",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
+
 				foreach($array_jiansuo as $k=>$v){
 						$new_str1['id']=$k;
 						$new_str1['name']=$v;
@@ -256,6 +257,7 @@ class KehuController extends Controller {
 					}
 
 		$kh_biaoti1=array_merge_recursive($a_arr,$new_array1);//客户标题名字
+
 		$conf=M('config');
 		$conf_sql=$conf->field("config_kh_data")->find();
 		$conf_sql_json=json_decode($conf_sql['config_kh_data'],true);
@@ -390,7 +392,7 @@ class KehuController extends Controller {
 				}		
 		}
 
-					foreach($ronghe as $r_k=>$r_v)
+				foreach($ronghe as $r_k=>$r_v)
 					{	
 						$id=$r_v['kh_id'];
 						$table.="<tr id='tr".$r_v['kh_id']."'>";
@@ -402,7 +404,7 @@ class KehuController extends Controller {
 								foreach($kh_biaoti1 as $k_biaoti=>$v_biaoti)
 								{	
 									
-									if($r_v[$v_biaoti['id']]!="" && $v_biaoti['id']!="zdy15")	
+									if($r_v[$v_biaoti['id']]!="" && $r_v[$v_biaoti['id']]!="zdy15")	
 									{
 										
 											if($v_biaoti['id']=='zdy0')
@@ -437,10 +439,10 @@ class KehuController extends Controller {
 													
 												}
 												//$xs123="<a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$lxr[$r_v[$v_biaoti['id']]]['id']."'>".$lxr[$r_v[$v_biaoti['id']]]['name']."</a>";
-											}	else{
-												$xs123="
-												<span id='wys{$id}'>--</span>";
-											}
+												}else{
+													$xs123="
+													<span id='wys{$id}'>234</span>";
+												}
 												$table.="<td name='$k'>
 													$xs123
 												</td>";
@@ -2430,7 +2432,7 @@ class KehuController extends Controller {
 			
 		}
 		
-		$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_lx'=>"联系人",'kh_cj_cp'=>"已经成交产品",'kh_new_gj'=>"最新跟进记录",'kh_sj_gj_date'=>"实际跟进时间",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
+		$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_lx'=>"联系人",'kh_cj_cp'=>"已经成交产品",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
 				foreach($array_jiansuo as $k=>$v){
 						$new_str1['id']=$k;
 						$new_str1['name']=$v;
