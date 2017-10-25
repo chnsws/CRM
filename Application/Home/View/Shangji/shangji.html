@@ -359,8 +359,8 @@
 											 
 												</td>
 							</tr>
-							 <tr style='line-height:70px'><td><input type="checkbox" name="ched" value="1">同时转移客户下的商机</td></tr>
-											  <tr style='line-height:70px'><td><input type="checkbox" name="ched" value="2">同时转移客户下的合同</td></tr>
+							 <tr style='line-height:70px'><td><input type="checkbox" name="zy_kh" value="ok">同时转移商机对应的客户</td></tr>
+											  <tr style='line-height:70px'><td><input type="checkbox" name="zy_ht" value="ok">同时转移商机对应的合同</td></tr>
 
 						</table>
 					</form>
@@ -779,12 +779,13 @@ window.name_lxr="";
 										var fuzeren1=$("#zhuanyifzr").children("option[value='"+fuzeren+"']").text();//客户名称汉字
 										var shangji_hetong='';//不确定
 										//tishi(fuzeren)
-
-										$.get(rooturl+'/index.php/Home/Shangji/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"sj_id":piliang_str},
+										var kh=$('input[name="zy_kh"]:checked').val();
+										var ht=$('input[name="zy_ht"]:checked').val();
+										$.get(rooturl+'/index.php/Home/Shangji/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"sj_id":piliang_str,"kh":kh,"ht":ht},
 			        		 				function(html){
+
 			        		 					tishi("批量转移成功")
-															$("#jb_bianji").html(html);
-															layer.close(win)
+												 	window.location.href="shangji"			
 											});
 									},
 									btn2:function(){

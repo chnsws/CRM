@@ -896,14 +896,69 @@ class ShangjiController extends Controller {
 		$data['sj_fz']=$fuzeren;
 		$idex=explode(",",$id);
 		$sj_base=M('shangji');
+		$kh = $_GET['kh'];
+		$ht=$_GET['ht'];
+		$ht_base=M('hetong');
+		$data_ht=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$userarr=$ht_base->where($data_ht)->select();
+
+			foreach($userarr as $v3)
+			{
+				foreach($v3 as $k1 =>$v1)
+				{
+					if($k1!='ht_data')
+					{
+						$ht_sql[$k1]=$v1;
+					}else{
+						$ht_json=json_decode($v3[$k1],true);
+						foreach($ht_json as $k2=>$v2)
+						{
+							$ht_sql[$k2]=$v2;
+						}
+					}
+					$ht_sql2[$v3['ht_id']]=$ht_sql;
+				}
+				
+			}
 		foreach($idex as $k=>$v){
 			$map['sj_id']=$v;
+			
+
 			$data['sj_gx_date'] = date('Y-m-d H:i:s');//更新时间
 			$sql_save=$sj_base->where($map)->save($data);
+			$sql_sel=$sj_base->where($map)->find();
+			$sj_idid=json_decode($sql_sel['sj_data'],true);//解析json
+			if($sql_save){
+				if($kh=="ok"){
+					$map_kh['kh_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //所属公司
+					$map_kh['kh_id']=$sj_idid['zdy1'];
+					$where_kh['kh_fz']=$fuzeren;
+					$base_kh=M('kh');
+					$save_kh=$base_kh->where($map_kh)->save($where_kh);
+				}
+				if($ht=="ok")
+				{
+				
+					
+						$map_ht['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+						foreach($ht_sql2 as $k4=>$v4)
+						{
+							if($v4['zdy2']==$map['sj_id'])
+							{
+								$map_ht['ht_id']=$v4['ht_id'];
+								$save_ht['ht_fz']=$fuzeren;
+								$save_sqlht=$ht_base->where($map_ht)->save($save_ht);
+								
+							}
+						}
+				}
+			}
 
 		}
-		$xiaji= $this->gongyou();
-		echo $xiaji;
+		
+	}
+	public function ceshia(){
+	
 	}
 	public function shaixuan(){
 
