@@ -720,12 +720,6 @@
                 ajaxstr=ajaxstr+',sp_value_1:'+spanid;
                 ajaxstr=ajaxstr.substr(0,ajaxstr.length-1);
             }
-            else
-            {
-                layer.close(jiazai);
-                tishi("请选择1级审批人");
-                return false;
-            }
         }
         if(sel2=='2')
         {
@@ -740,12 +734,6 @@
                 ajaxstr=ajaxstr+',sp_value_2:'+spanid;
                 ajaxstr=ajaxstr.substr(0,ajaxstr.length-1);
             }
-            else
-            {
-                layer.close(jiazai);
-                tishi("请选择2级审批人");
-                return false;
-            }
         }
         if(sel3=='2')
         {
@@ -759,12 +747,6 @@
             {
                 ajaxstr=ajaxstr+',sp_value_3:'+spanid;
                 ajaxstr=ajaxstr.substr(0,ajaxstr.length-1);
-            }
-            else
-            {
-                layer.close(jiazai);
-                tishi("请选择3级审批人");
-                return false;
             }
         }
         $.post(root_dir+"/index.php/Home/ShenpiDo/baocun",{"ajaxstr":ajaxstr,"sptype":'1'},function(res){
@@ -805,12 +787,6 @@
                 ajaxstr=ajaxstr+',sp_value_1:'+spanid;
                 ajaxstr=ajaxstr.substr(0,ajaxstr.length-1);
             }
-            else
-            {
-                layer.close(jiazai);
-                tishi("请选择1级审批人");
-                return false;
-            }
         }
         if(sel2=='2')
         {
@@ -825,12 +801,6 @@
                 ajaxstr=ajaxstr+',sp_value_2:'+spanid;
                 ajaxstr=ajaxstr.substr(0,ajaxstr.length-1);
             }
-            else
-            {
-                layer.close(jiazai);
-                tishi("请选择2级审批人");
-                return false;
-            }
         }
         if(sel3=='2')
         {
@@ -844,12 +814,6 @@
             {
                 ajaxstr=ajaxstr+',sp_value_3:'+spanid;
                 ajaxstr=ajaxstr.substr(0,ajaxstr.length-1);
-            }
-            else
-            {
-                layer.close(jiazai);
-                tishi("请选择3级审批人");
-                return false;
             }
         }
         $.post(root_dir+"/index.php/Home/ShenpiDo/baocun",{"ajaxstr":ajaxstr,"sptype":'3'},function(res){
@@ -920,6 +884,7 @@
             ajaxstr+='sp_tb:'+hksptb+',';
         }
         ajaxstr=ajaxstr.substr(0,ajaxstr.length-1);
+
         $.post(root_dir+"/index.php/Home/ShenpiDo/baocun",{"ajaxstr":ajaxstr,"sptype":'2'},function(res){
             if(res=='1')
             {

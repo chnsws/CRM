@@ -3,7 +3,7 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class ShenpiDoController extends Controller {
+class ShenpiDoController extends DBController {
     public function change_on_off()
     {
         $kqval=addslashes($_GET['kqval']);
@@ -49,10 +49,14 @@ class ShenpiDoController extends Controller {
         }
         $ajaxarr=explode(",",$ajaxstr);
         $setstr='';
+        //parent::rr($ajaxarr);
         foreach($ajaxarr as $k=>$v)
         {
             if($v=='sp_qy_1:2'||$v=='sp_qy_2:2'||$v=='sp_qy_3:2'||$v=='sp_tb:2')
+            {
                 continue;
+            }
+            $val='';
             $val=explode(':',$v);
             if(substr($val[0],0,-1)=='sp_qy_'||$val[0]=='sp_tb')
             {
@@ -68,6 +72,7 @@ class ShenpiDoController extends Controller {
         
         $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
         $spbase=M("shenpi");
+        //echo "update crm_shenpi set $setstr where sp_yh='$fid' and sp_type='$sptype'";die;
         $spbase->query("update crm_shenpi set $setstr where sp_yh='$fid' and sp_type='$sptype'");
         
         $hkrz=$sptype=='1'?'':'回款';
