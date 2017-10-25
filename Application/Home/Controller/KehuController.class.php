@@ -1047,7 +1047,9 @@ class KehuController extends Controller {
 		
 			if($qxa<1)
 			{
-				echo "<script> history.go(-1) </script>";die;
+				echo "<script> alert('您没有查看此客户权限~');history.go(-1); 
+				 
+				</script>";die;
 			}
 			$sql_json=json_decode($sql_kh['kh_data'],true);
 		
