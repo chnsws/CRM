@@ -757,6 +757,8 @@ public function kehu(){
 							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
 					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz' ||$kbt=='zdy13')
 						$content.="<td>".$user[$v[$kbt]]['user_name']."</td>";
+					elseif($kbt=='ht_cj_date')
+						$content.="<td>".date("Y-m-d H:i:s",$v[$kbt])."</td>";
 					else
 						$content.="<td>".$v[$kbt]."</td>";
 				}else{
@@ -1071,6 +1073,7 @@ public function kehu(){
 						$da=$json;//data替换完成
 						$map['ht_id']=$v['ht_id'];//条件
 						$data['ht_data']=json_encode($da,true);//修改内容
+						$data['ht_gx_date'] = date('Y-m-d H:i:s');//更新时间
 						$save=$kehu_base->where($map)->save($data);
 						$rz_bz="把合同的".$_GET['xgzd2']."改为了：".$_GET['content2']."";
 						$this->rizhi($json['zdy1'],$rz_bz,"2",$v['ht_id']);//1客户id   2备注    3 操作类型   4合同id  	
@@ -1103,7 +1106,7 @@ public function kehu(){
 			$sql_sel=$sj_base->where($map)->field('ht_fz,ht_data')->find();
 
 			$sj_idid=json_decode($sql_sel['ht_data'],true);//解析json  1
-
+			$data['ht_gx_date'] = date('Y-m-d H:i:s');//更新时间
 			$data['ht_old_fz']=$sql_sel['ht_fz'];
 			$data['ht_old_bm']=$user[$sql_sel['ht_fz']]['department'];
 			$data['ht_bm']=$user[$fuzeren]['department'];

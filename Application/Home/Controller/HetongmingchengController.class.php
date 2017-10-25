@@ -227,7 +227,10 @@ return $fzr_only;
 								$show1.="<td >".$sql_lianxi[$k]."</td>";
 						}elseif($k=='ht_bm'){
 								$show1.="<td >".$sql_lianxi[$k]."</td>";
-						}else{
+						}elseif($k=='ht_gx_date'){
+								$show1.="<td >".$sql_lianxi[$k]."</td>";
+						}
+						else{
 							$show1.="<td >".date("Y-m-d H:i:s", $sql_lianxi[$k])."</td>";
 						}
 							    
@@ -1661,7 +1664,7 @@ return $fzr_only;
 
 		}
 		$data['ht_data']=json_encode($ex1,true);
-		
+		$data['ht_gx_date'] = date('Y-m-d H:i:s');
 	$mapa['ht_id']=$_GET['ht_id'];
 		
 		$kh_base=M('hetong');
