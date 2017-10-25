@@ -1937,8 +1937,57 @@ class KehuController extends Controller {
 		$idex=explode(",",$id);
 		$sj_base=M('kh');
 		$user=$this->user();
-		foreach($idex as $k=>$v){
+		$sj = $_GET['sj'];
+		$ht=$_GET['ht'];
 
+
+		$ht_base=M('hetong');
+		$data_ht=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$userarr=$ht_base->where($data_ht)->select();
+
+			foreach($userarr as $v3)
+			{
+				foreach($v3 as $k1 =>$v1)
+				{
+					if($k1!='ht_data')
+					{
+						$ht_sql[$k1]=$v1;
+					}else{
+						$ht_json=json_decode($v3[$k1],true);
+						foreach($ht_json as $k2=>$v2)
+						{
+							$ht_sql[$k2]=$v2;
+						}
+					}
+					$ht_sql2[$v3['ht_id']]=$ht_sql;
+				}
+				
+			}
+
+
+			$base_sj=M('shangji');
+			$map_sj['sj_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			$sj_sql=$base_sj->where($map_sj)->select();
+			foreach($sj_sql as $ka=>$va){
+				foreach($va as $kb=>$vb){
+					if($kb != "sj_data")
+					{
+						$sqlsj_r[$kb]=$vb;
+					}else{
+						$sj_json=json_decode($va[$kb],true);
+						foreach($sj_json as $kc=>$vc)
+						{
+							$sqlsj_r[$kc]=$vc;
+						}
+
+					}
+					$sj_ronghe[$va['sj_id']]=$sqlsj_r;
+				}
+			}
+
+
+		foreach($idex as $k=>$v){
+			$kkhh=$v;
 			$map['kh_id']=$v;
 			$sql_sel=$sj_base->where($map)->field('kh_fz')->find();
 			$data['kh_old_fz']=$sql_sel['kh_fz'];
@@ -1946,23 +1995,42 @@ class KehuController extends Controller {
 			$data['kh_bm']=$user[$fuzeren]['department'];
 			$data['kh_gx_date'] = date('Y-m-d H:i:s');//更新时间
 			$sql_save=$sj_base->where($map)->save($data);
-			if($sql_save)
-			{	
-					//
-					$sj=$_GET['sj'];
-					$ht=$_GET['ht'];
-					//判断合同下的商机是否转移
-					if($sj=="ok"){
+			if($ht=="ok")
+			{
+			$map_ht['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+				foreach($ht_sql2 as $k4=>$v4)
+				{
+					if($v4['zdy1']==$kkhh)
+					{
+						$map_ht['ht_id']=$v4['ht_id'];
+						$save_ht['ht_fz']=$fuzeren;
+						$save_sqlht=$ht_base->where($map_ht)->save($save_ht);
+						
+					}
+				}
+			}
+			if($sj=="ok")
+			{
+				foreach($sj_ronghe as $kd=>$vd){
+					if($vd['zdy1']=$kkhh)
+					{
+						$map_sj['sj_id']=$vd['sj_id'];
+						$sj_save['sj_fz']=$fuzeren;
+						$save_sj=$base_sj->where($map_sj)->save($sj_save);
 
 					}
-					//判断客户下的合同是否转移
-					if($ht=='ok')
+				}
+			}
+
+			if($sql_save)
+			{		
 					$rz_bz="把客户转移给了".$_GET['ziduan'];
 					$this->rizhi($map['kh_id'],$rz_bz,"2");	
 			}
 		}
 		
 	}
+
 		/**public function pl_zhuany2i(){
 			$fuzeren=$_GET['id'];
 			$rz_fuzeren=$_GET['ziduan'];

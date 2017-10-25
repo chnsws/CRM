@@ -530,19 +530,24 @@ $('#piliangzy').hide();
 								btn1:function(){
 									var fuzeren=$("#zhuanyifzr").val();
 									//var content=$("#"+xgzd).val();
-								
+									
+									if(fuzeren=='请选择新负责人')
+									{
+										tishi("请选择负责人");return
+									}
 									var fuzeren1=$("#zhuanyifzr").children("option[value='"+fuzeren+"']").text();//客户名称汉字
 									//tishi(fuzeren)
 									//tishi(fuzeren1)
 
 									var shangji_hetong='';//不确定
  									var sj=$('input[name="zy_sj"]:checked').val();
-									var ht=$('input[name="zy_kh"]:checked').val();
+									var ht=$('input[name="zy_ht"]:checked').val();
+								
 									//var content2=$("#"+xgzd).children("option[value='"+content+"']").text();//参数汉字
 
 									$.get(rooturl+'/index.php/Home/Kehu/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"kh_id":piliang_str,'sj':sj,'ht':ht},
 		        		 				function(html){
-		        		 					
+		        		 				
 		        		 					tishi("批量转移成功")
 												location.reload();
 										});

@@ -776,6 +776,11 @@ window.name_lxr="";
 									btn:['确认转移','取消'],
 									btn1:function(){
 										var fuzeren=$("#zhuanyifzr").val();
+										
+														if(fuzeren=='请选择新负责人')
+														{
+															tishi("请选择负责人");return
+														}
 										var fuzeren1=$("#zhuanyifzr").children("option[value='"+fuzeren+"']").text();//客户名称汉字
 										var shangji_hetong='';//不确定
 										//tishi(fuzeren)
