@@ -184,6 +184,8 @@ $(function(){
 											  </select>
 												</td>
 							</tr>
+							 <tr style='line-height:70px'><td><input type="checkbox" name="zy_sj" value="ok">同时转移合关联的商机</td></tr>
+						     <tr style='line-height:70px'><td><input type="checkbox" name="zy_kh" value="ok">同时转移合同关联的客户</td></tr>
 						</table>
 					</form>
 					</div>
@@ -954,9 +956,12 @@ $("#nchangyong").click(function(){
 														var fuzeren1=$("#zhuanyifzr").children("option[value='"+fuzeren+"']").text();//客户名称汉字
 														var shangji_hetong='';//不确定
 														//tishi(fuzeren)
-
-														$.get(rooturl+'/index.php/Home/Hetong/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"ht_id":piliang_str},
+														var sj=$('input[name="zy_sj"]:checked').val();
+														var kh=$('input[name="zy_kh"]:checked').val();
+														
+														$.get(rooturl+'/index.php/Home/Hetong/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"ht_id":piliang_str,'sj':sj,'kh':kh},
 							        		 				function(html){
+							        		 					alert(html)
 							        		 					tishi("批量转移成功")
 							        		 					   	window.location.href="hetong"
 																		

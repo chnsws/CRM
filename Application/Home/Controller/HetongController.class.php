@@ -1085,25 +1085,47 @@ public function kehu(){
 	public function pl_zhuanyi(){
 		$fuzeren=$_GET['id']; 
 		$rz_fuzeren=$_GET['ziduan']; 
-		$ht_id=$_GET['ht_id']; //商机ID          //负责人ID
+		$ht_id=$_GET['ht_id']; //
 		$id=substr($ht_id,0,strlen($ht_id)-1); //id
 		$map['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件
 		$data['ht_fz']=$fuzeren;
 		$idex=explode(",",$id);
 		$sj_base=M('hetong');
 		$user=$this->user();
-		//echo "<pre>";
-	//	var_dump($user);exit;
+		
+		$sj=$_GET['sj'];
+		$kh=$_GET['kh'];
+
 		$user=$this->user();
 		foreach($idex as $k=>$v){
 
 			$map['ht_id']=$v;
 			$sql_sel=$sj_base->where($map)->field('ht_fz,ht_data')->find();
-		
+			$sj_idid=json_decode($sql_sel['ht_data'],true);//解析json
+
 			$data['ht_old_fz']=$sql_sel['ht_fz'];
 			$data['ht_old_bm']=$user[$sql_sel['ht_fz']]['department'];
 			$data['ht_bm']=$user[$fuzeren]['department'];
-			$sql_save=$sj_base->where($map)->save($data);
+			$sql_save=$sj_base->where($map)->save($data);//
+			if($sj=="ok")//把这条合同的商机负责人也转给$fuzeren
+			{
+				$map_sj['sj_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //所属公司
+				$map_sj['sj_id']=$sj_idid['zdy2'];
+				$whera['sj_fz']=$fuzeren;
+				$base_sj=M('shangji');
+				$save_sj=$base_sj->where($map_sj)->save($whera);
+				
+			}
+			if($kh=="ok")
+			{
+
+				$map_kh['kh_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //所属公司
+				$map_kh['kh_id']=$sj_idid['zdy1'];
+				$where_kh['kh_fz']=$fuzeren;
+				$base_kh=M('kh');
+				$save_kh=$base_kh->where($map_kh)->save($where_kh);
+
+			}
 					$sql_khid=json_decode($sql_sel['ht_data'],true);
 					$rz_bz="把合同由".$user[$sql_sel['ht_fz']]['user_name']."转移给了：".$rz_fuzeren."";
 					$this->rizhi($sql_khid['zdy1'],$rz_bz,"2",$v);//1客户id   2备注    3 操作类型   4合同id  	
