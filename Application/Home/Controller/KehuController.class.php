@@ -1947,7 +1947,16 @@ class KehuController extends Controller {
 			$data['kh_gx_date'] = date('Y-m-d H:i:s');//更新时间
 			$sql_save=$sj_base->where($map)->save($data);
 			if($sql_save)
-			{		
+			{	
+					//
+					$sj=$_GET['sj'];
+					$ht=$_GET['ht'];
+					//判断合同下的商机是否转移
+					if($sj=="ok"){
+
+					}
+					//判断客户下的合同是否转移
+					if($ht=='ok')
 					$rz_bz="把客户转移给了".$_GET['ziduan'];
 					$this->rizhi($map['kh_id'],$rz_bz,"2");	
 			}

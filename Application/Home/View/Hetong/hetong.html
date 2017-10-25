@@ -953,6 +953,11 @@ $("#nchangyong").click(function(){
 													btn:['确认转移','取消'],
 													btn1:function(){
 														var fuzeren=$("#zhuanyifzr").val();
+														
+														if(fuzeren=='请选择新负责人')
+														{
+															tishi("请选择负责人");return
+														}
 														var fuzeren1=$("#zhuanyifzr").children("option[value='"+fuzeren+"']").text();//客户名称汉字
 														var shangji_hetong='';//不确定
 														//tishi(fuzeren)
@@ -961,7 +966,7 @@ $("#nchangyong").click(function(){
 														
 														$.get(rooturl+'/index.php/Home/Hetong/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"ht_id":piliang_str,'sj':sj,'kh':kh},
 							        		 				function(html){
-							        		 					alert(html)
+
 							        		 					tishi("批量转移成功")
 							        		 					   	window.location.href="hetong"
 																		

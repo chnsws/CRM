@@ -236,8 +236,8 @@
 													 
 														</td>
 									</tr>
-									 <tr style='line-height:70px'><td><input type="checkbox" name="ched" value="1">同时转移客户下的商机</td></tr>
-													  <tr style='line-height:70px'><td><input type="checkbox" name="ched" value="2">同时转移客户下的合同</td></tr>
+									 <tr style='line-height:70px'><td><input type="checkbox" name="zy_sj" value="ok">同时转移客户下的商机</td></tr>
+									 <tr style='line-height:70px'><td><input type="checkbox" name="zy_ht" value="ok">同时转移客户下的合同</td></tr>
 
 								</table>
 							</form>
@@ -536,10 +536,11 @@ $('#piliangzy').hide();
 									//tishi(fuzeren1)
 
 									var shangji_hetong='';//不确定
- 								
+ 									var sj=$('input[name="zy_sj"]:checked').val();
+									var ht=$('input[name="zy_kh"]:checked').val();
 									//var content2=$("#"+xgzd).children("option[value='"+content+"']").text();//参数汉字
 
-									$.get(rooturl+'/index.php/Home/Kehu/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"kh_id":piliang_str},
+									$.get(rooturl+'/index.php/Home/Kehu/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"kh_id":piliang_str,'sj':sj,'ht':ht},
 		        		 				function(html){
 		        		 					
 		        		 					tishi("批量转移成功")

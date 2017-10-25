@@ -1101,12 +1101,14 @@ public function kehu(){
 
 			$map['ht_id']=$v;
 			$sql_sel=$sj_base->where($map)->field('ht_fz,ht_data')->find();
-			$sj_idid=json_decode($sql_sel['ht_data'],true);//解析json
+
+			$sj_idid=json_decode($sql_sel['ht_data'],true);//解析json  1
 
 			$data['ht_old_fz']=$sql_sel['ht_fz'];
 			$data['ht_old_bm']=$user[$sql_sel['ht_fz']]['department'];
 			$data['ht_bm']=$user[$fuzeren]['department'];
 			$sql_save=$sj_base->where($map)->save($data);//
+			
 			if($sj=="ok")//把这条合同的商机负责人也转给$fuzeren
 			{
 				$map_sj['sj_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //所属公司
