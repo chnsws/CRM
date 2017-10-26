@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>工作报告设置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!--jquery-->
+    <script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+    <!--layUI 插件  form表单样式 table样式 -->
+    <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <style>
+        *{margin:0;padding:0}
+        a{text-decoration:none;cursor:pointer;color:#1AA094;margin-right:10px;}
+        a:hover{color:#2F6F69;text-decoration:none;}
+        #box{margin-left: 10px;margin-right: 10px;overflow:hidden;color:#3B3B3B;}
+        /*头部页面名称*/
+        #mod-head{height:100px;font-size:22px;line-height:100px;color:#1AA094;font-weight:bold;}
+        /*中部可关闭的提示框*/
+        #mod1{background-color:#DFF0D8;height:50px;color:#255B56;padding-left:15px;padding-bottom:0px;border-radius:0px;font-size:12px;line-height:50px;}
+        #hidden-div{float:right;font-weight:bold;margin-right:15px;font-size:20px;color:#656565;}
+		/*下部mod2*/
+		#mod2{width:100%;margin-top:20px;}
+		#mod2 table{width:100%;border:1px solid #d8d8d8;margin-bottom:10px;}
+		#mod2 table tr td{height:50px;padding-left:10px;}
+		.chspan{margin-right:10px;}
+		#table-head{background-color:#e8e8e8}
+		#mod2 button{margin-top:10px;}
+    </style>
+</head>
+<body>
+<div id="box">
+    <!--头部文字-->
+    <div id="mod-head">
+    工作报告设置
+    </div>
+    <!--头部结束-->
+    <!--中部提示-->
+    <div id="mod1">
+        <div>
+            提示：企业可以根据自己业务的实际情况，对工作报告设置查看范围。勾选后，可对工作报告查看点评, 非批阅人不起批阅作用。
+            <span id="hidden-div"><a onclick="hidden_div()">×</a></span>
+        </div>
+    </div>
+    <!--中部结束-->
+	<div id="mod2">
+		<table border='1'>
+			<tr>
+				<td id="table-head">设置工作报告查看范围</td>
+			</tr>
+			<tr>
+				<td><span class="chspan"><input name="chaoji" type="checkbox" ></span>超级管理员查看全公司的工作报告</td>
+			</tr>
+			<tr>
+				<td><span class="chspan"><input name="zhuguan" type="checkbox" ></span>主管查看下属的工作报告(包括下属的下属)</td>
+			</tr>
+		</table>
+		
+		<button class="layui-btn" onclick="editbase()">保存</button>
+	</div>
+</div>
+</body>
+
+<script>
+   
+    //上方绿色提示框的关闭效果
+    function hidden_div(){
+        $("#mod1").hide();
+    } 
+    //初始化
+    layui.use('layer', function(){
+        window.layer = layui.layer;
+    });
+    //黑色半透明提示
+    function tishi(neirong)
+    {
+        layer.msg(neirong, {
+            time: 1000, 
+        });
+    }
+    var bgval="{$bgvalue}";
+    window.root_dir="{$_GET['root_dir']}";
+    var bgarr=bgval.split(",");
+    if(bgarr[0]=='1')
+    {
+        $("input[name='chaoji']").prop("checked",true);
+    }
+    else
+    {
+        $("input[name='chaoji']").prop("checked",false);
+    }
+    if(bgarr[1]=='1')
+    {
+        $("input[name='zhuguan']").prop("checked",true);
+    }
+    else
+    {
+        $("input[name='zhuguan']").prop("checked",false);
+    }
+
+    function editbase()
+    {
+        //加载层
+        window.jiazai= layer.load(2);
+        var chaoji=$("input[name='chaoji']").prop("checked");
+        var zhuguan=$("input[name='zhuguan']").prop("checked");
+        if(chaoji)
+        {
+            var chaojival='1';
+        }
+        else
+        {
+            var chaojival='0';
+        }
+        if(zhuguan)
+        {
+            var zhuguanval='1';
+        }
+        else
+        {
+            var zhuguanval='0';
+        }
+        if((chaojival+','+zhuguanval)!=bgval)
+        {
+            $.get(root_dir+"/index.php/Home/Option/gzbgdo",{"bgstr":chaojival+','+zhuguanval},function(res){
+                if(res=='1')
+                {
+                    layer.close(jiazai);
+                    tishi("保存成功");
+                }
+                else if(res=='2')
+                {
+                    layer.close(jiazai);
+                    tishi("保存失败");
+                }
+                else
+                {
+                    layer.close(jiazai);
+                    tishi("保存失败，请稍后重试");
+                }
+            });
+            bgval=chaojival+','+zhuguanval;
+            
+        }
+        else
+        {
+            layer.close(jiazai);
+            tishi("保存成功");
+        }
+    }
+</script>
+</html>

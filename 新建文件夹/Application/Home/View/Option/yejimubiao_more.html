@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>业绩目标设置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+    <!--jquery-->
+    <script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+    <!--layUI 插件  form表单样式 table样式 -->
+    <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <!--datatable引用文件-->
+    <link href="{$_GET['public_dir']}/datatable/css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="{$_GET['public_dir']}/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="{$_GET['public_dir']}/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js" ></script>
+    <script src="{$_GET['public_dir']}/datatable/js/dataTables.bootstrap.js"></script>
+    <style>
+        *{margin:0;padding:0}
+        a{text-decoration:none;cursor:pointer;color:#1AA094;margin-right:10px;}
+        a:hover{color:#2F6F69;text-decoration:none;}
+        #box{margin-left: 10px;margin-right: 10px;overflow:hidden;}
+        /*头部页面名称*/
+        #mod-head{height:100px;font-size:22px;line-height:100px;color:#1AA094;font-weight:bold;}
+
+        /*中部信息*/
+        #mod-center{height:50px;background-color:#F5F5F5;border:0px solid #f00;line-height:50px;}
+        #fanhui{height:30px;line-height:30px;width:70px;padding-left:20;margin-right:20px;}
+
+        #mod2-left{width:25%;font-size:14px;float:left;}
+        #left-top{height:40px;line-height:40px;font-weight:bold;color:#676767;border-bottom:1px solid #ccc;margin-bottom:20px;}
+        #left-bottom div{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-top:5px;margin-bottom:5px;padding-left:5px;}
+        #left-bottom li{border:1px solid #B6B6B6;height:28px;line-height:28px;color:#6B6B6B;border-left:4px solid #828282;margin-top:5px;margin-bottom:5px;padding-left:5px;}
+        .lv1{margin-left:20px;}
+        .lv2{margin-left:40px;}
+        .lv3{margin-left:60px;}
+        .lv4{margin-left:80px;}
+        .lv5{margin-left:100px;}
+        .left-li{margin-left:5px;}
+        .right-span{float:right;margin-right:5px;}
+        #mod2-right{float:right;width:73%;height:600px;font-size:14px;}
+        #right-head{height:40px;line-height:40px;font-weight:bold;color:#676767;border-bottom:1px solid #ccc;margin-bottom:20px;}
+        #right-head button{float:right;margin-top:4px;background-color:#1AA094;border:1px solid #1AA094;height:32px;line-height:32px;color:#fff;width:100px;}
+        #right-head button i{margin-right:5px;}
+        #pagenum{height:30px;}
+        #pagefont{font-weight:bold;font-size:16px;}
+        .change-text{height:30px;}
+    </style>
+    <script type="text/javascript">
+	
+
+        $(function() {
+            $("#table_local").dataTable({
+                //lengthMenu: [5, 10, 20, 30],//这里也可以设置分页，但是不能设置具体内容，只能是一维或二维数组的方式，所以推荐下面language里面的写法。
+   
+                ordering: true,//是否启用排序
+                searching: true,//搜索
+                "sScrollX": "100%",
+                "sScrollXInner": "170%",
+                "bScrollCollapse": true,
+                language: {
+                    lengthMenu: '<span id="pagefont">每页显示：</span><select class="form-control input-xsmall" id="pagenum">' + '<option value="5">5</option>' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">40</option>' + '<option value="50">50</option>' + '</select>',//左上角的分页大小显示。
+                    search: '',//右上角的搜索文本，可以写html标签
+
+                    paginate: {
+                        previous: "首页",
+                        next: "下一页",
+                        first: "第一页",
+                        last: "末页"
+                    },
+
+                    zeroRecords: "没有内容",//table tbody内容为空时，tbody的内容。
+                    //下面三者构成了总体的左下角的内容。
+                    info: "总共_PAGES_ 页",//左下角的信息显示，大写的词为关键字。
+                    infoEmpty: "",//筛选为空时左下角的显示。
+                    infoFiltered: "搜索到 _TOTAL_条记录"//筛选之后的左下角筛选提示，
+                },
+                paging: true,
+                pagingType: "first_last_numbers",//分页样式的类型
+
+            });
+            $("#table_local_filter input[type=search]").css({ width: "auto" });//右上角的默认搜索文本框，不写这个就超出去了。
+        });
+
+
+    </script>
+</head>
+<body>
+<div id="box">
+    <!--头部文字-->
+    <div id="mod-head">
+        {$biaoti}
+    </div>
+    <!--头部结束-->
+    <div id="mod-center">
+        <a href="{$_GET['root_dir']}/index.php/Home/Option/yejimubiao"><button id="fanhui" class="layui-btn layui-btn-primary" >返回</button></a>
+        <span id="center-span1">{$cpname}&nbsp;&nbsp;</span>
+        <span id="center-span2">{$danwei}<b id='zong'>{$companysum}</b></span>
+    </div>
+    <div id="mod-body">
+       <!--下部数据-->
+		<div id="mod2">
+			<!--下部左边列表-->
+			<div id="mod2-left">
+				<div id="left-top">公司组织架构</div>
+				<div id="left-bottom">
+					<div id="user_company_name" class="lv-on" value="">
+						<i class="fa fa-folder-open" aria-hidden="true"></i>
+						<span class="left-li">{$gsname}</span>
+						<span class="right-span" id="rightspansum">
+							{$danwei2}{$companysum}
+						</span>
+					</div>
+					<ul id="bmlistid">
+						{$bmlist}
+					</ul>
+				</div>
+			</div>
+			<!--左边列表结束-->
+			<!--下部右边表格-->
+			<div id="mod2-right" >
+				<div id="right-head">用户列表</div>
+				<div id="right-list">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<table id="table_local" class="table table-bordered table-striped table-hover">
+								<thead>
+									<tr>
+										<th>姓名</th>
+										<th width="100px">业绩汇总(数量)</th>
+										<th>一月</th>
+										<th>二月</th>
+										<th>三月</th>
+										<th>四月</th>
+										<th>五月</th>
+										<th>六月</th>
+                                        <th>七月</th>
+                                        <th>八月</th>
+                                        <th>九月</th>
+                                        <th>十月</th>
+                                        <th>十一月</th>
+                                        <th>十二月</th>
+									</tr>
+								</thead>
+								<tbody>
+									{$tablestr}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--右边表格结束-->
+		</div>
+		<!--下部结束-->
+    </div>
+</div>
+</body>
+<script>
+    window.isclick='0';
+    window.trid='0';
+    window.oldval='';
+    window.root_dir="{$_GET['root_dir']}";
+    //初始化
+    layui.use('layer', function(){
+        window.layer = layui.layer;
+    });
+    //黑色半透明提示
+    function tishi(neirong)
+    {
+        layer.msg(neirong, {
+            time: 1000, 
+        });
+    }
+    //部门列表上方公司名称点击事件
+    $(".lv-on").on("click",function(){
+        var clicktext=$(this).text();
+        $("#table-head").text(clicktext);
+        if($(this).is("div"))//如果点击了DIV
+        {
+            if(!$(this).val())
+            {
+                $(this).children("i").removeClass("fa-folder-open");
+                $(this).children("i").addClass("fa-folder");
+                $(this).val('1');
+                $(this).parent().children("ul").hide("fast");
+            }
+            else
+            {
+                $(this).children("i").removeClass("fa-folder");
+                $(this).children("i").addClass("fa-folder-open");
+                $(this).val('');
+                $(this).parent().children("ul").show("fast");
+            }
+        }
+    });
+    function bmlistfun()
+    {
+        //部门列表点击事件
+        $(".lv-on").on("click",function(){
+            var clicktext=$(this).text();
+            $("#table-head").text(clicktext);
+            if(!$(this).is("div"))
+            {
+                var thisid=$(this).attr("id").substr(2);
+                var hideFid='fid'+thisid;
+                if($(this).val()=='1')
+                {
+                    $(this).children("i").removeClass("fa-folder-open");
+                    $(this).children("i").addClass("fa-folder");
+                    $(this).css('border-left','4px solid #B7B7B7');
+                    $(this).val('0');
+                    var thislv=$(this).attr("name");
+                    $(".lv"+thislv+thisid).hide("fast");
+                    $(".lv"+thislv+thisid).val('0');
+                    $(".lv"+thislv+thisid).children("i").removeClass("fa-folder-open");
+                    $(".lv"+thislv+thisid).children("i").addClass("fa-folder");
+                    $(".lv"+thislv+thisid).css('border-left','4px solid #B7B7B7');	
+                }
+                else
+                {
+                    $(this).children("i").removeClass("fa-folder");
+                    $(this).children("i").addClass("fa-folder-open");
+                    $(this).css('border-left','4px solid #828282');
+                    $(this).val('1');
+                    var thislv=$(this).attr("name");
+                    $(".lv"+thislv+thisid).show("fast");
+                    $(".lv"+thislv+thisid).val('1');
+                    $(".lv"+thislv+thisid).children("i").removeClass("fa-folder");
+                    $(".lv"+thislv+thisid).children("i").addClass("fa-folder-open");
+                    $(".lv"+thislv+thisid).css('border-left','4px solid #828282');
+                
+                }
+            }
+        });
+        //点击表格后表格内增加文本框
+        $(".change-text").click(function(){
+            if(isclick=='0')
+            {
+                window.oldval=$(this).html();
+                $(this).html("<input id='txtinput' type='text' style='width:60px' onblur='inputblur()' value='"+$(this).html()+"'>");
+                document.getElementById("txtinput").focus();
+                window.isclick='1';
+                window.trid=$(this).parent("tr").attr("id").substr(2);
+            }
+        });
+    }
+    bmlistfun();
+    //点击其他位置失去焦点时文本框变回文本
+    function inputblur()
+    {
+        var thisval=$("#txtinput").val();
+        if(thisval=='')
+        {
+            thisval='0';
+        }
+        var zzobj=/^\d+(\.\d+)?$/;
+        if(!zzobj.exec(thisval))
+        {
+            tishi("输入的数字格式错误");
+            return false;
+        }
+        var zzobj=/^([1-9]\d*|0)(\.\d{1,2})?$/;
+        if(!zzobj.exec(thisval))
+        {
+            tishi("最高只支持两位小数");
+            return false;
+        }
+        //如果新值和旧值不一样，就与数据库进行交互
+        if(thisval!=oldval)
+        {
+            //加载层
+            window.jiazai= layer.load(2);
+            var cha=parseFloat(parseFloat(thisval)*1000)-parseFloat(parseFloat(oldval)*1000);
+            var zong=$("#zong").text();
+            zong=parseFloat(zong)*1000;
+            $("#zong").text(((parseFloat(zong)+parseFloat(cha))/1000).toFixed(2));
+            $("#rightspansum").text(((parseFloat(zong)+parseFloat(cha))/1000).toFixed(2));
+            var oldzong=$("#tr"+trid).children(".sumyj").text();
+            oldzong=parseFloat(oldzong)*1000;
+            $("#tr"+trid).children(".sumyj").text((parseFloat(oldzong)+parseFloat(cha))/1000);
+            var biaoti='{$biaoti}';
+            biaoti=biaoti.substr(0,4);
+            var rzbz='{$cpname}';
+            rzbz=biaoti+'年度'+rzbz;
+            var newval=thisval;//新值
+            var mnum= $("#txtinput").parent().index();//获取修改的几月的（此处是+1的，需要在后台处理-1）
+            $.post(root_dir+"/index.php/Home/YejimubiaoDo/edituseryj",{"trid":trid,"rzbz":rzbz,"newval":newval,"mnum":mnum},function(res){
+                bmshuaxin()
+            });
+        }
+        $("#txtinput").parent("td").html(thisval);
+        window.isclick='0';
+    }
+    //按下回车事件
+    $(document).keydown(function(event){ 
+        if(event.keyCode==13){ 
+            inputblur()
+        }    
+    });
+    //刷新部门列表
+    function bmshuaxin()
+    {
+        var pageid='{$pageid}';
+        var pagetype='{$pagetype}';
+        $.get(root_dir+"/index.php/Home/YejimubiaoDo/bmshuaxin",{"pageid":pageid,"pagetype":pagetype},function(res){
+            $("#bmlistid").html(res);
+            bmlistfun();
+            //关闭加载层
+            layer.close(jiazai);
+        });
+    }
+</script>
+</html>

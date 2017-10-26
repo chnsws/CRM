@@ -102,7 +102,15 @@
 			th{background-color:#50BBB1;height:30px;color:white;border:0px !important;}
 			a{color:#07d; text-decoration:none !important;}
 				.searchable-select-input{width:280px !important ;}
-			.searchable-select {min-width:300px;}		
+			.searchable-select {min-width:300px;}	
+			td
+        {
+            white-space: nowrap;
+        }
+        th
+        {
+            white-space: nowrap;
+        }	
    			 </style>
   			
 
@@ -288,8 +296,9 @@
 				   		</div>
 			  		
 			   			<div style="overflow:auto">
-								<div  style="width :5600px;" >
-										<table class="layui-table"   >
+								
+										<table class="layui-table"  width='auto' >
+										<div  style="width :100%;" >
 									  	<thead>
 									  			<tr>	
 								                		<th><input type="checkbox" onclick="swapCheck()" /></th>
@@ -301,9 +310,10 @@
 										<tbody id="jb_bianji">
 														{$table}    <!--客户显示信息-->
 							             </tbody>	
+							             </div>
 									</table>  
 									
-								</div>
+								
 						</div>
 				</div>
 					<div id="demo7" class="ycyo" style="float:right"></div> 

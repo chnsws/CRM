@@ -176,11 +176,11 @@ return $fzr_only;
 
 						if($k1=="zdy0")    //商机标题  跳转到商机页面
 						{ 
-							$show_bt.="<td ><a href='".$_GET['root_dir']."/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/$id'>".$v[$k1]." </a></td>"	;
+							$show_bt.="<td style='width:200px'><a href='".$_GET['root_dir']."/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/$id'>".$v[$k1]." &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></td>"	;
 						}elseif($k1=="zdy1"){     //k客户标题 跳转到客户页面
 							$kh_id=$v[$k1];
 							$kh_mc=$kh_name[$v[$k1]]['name'];
-							$show_bt.="<td style='width:10%'> <a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/id/$kh_mc/kh_id/$kh_id'>".$kh_name[$v[$k1]]['name']." </a></td>"	;
+							$show_bt.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/id/$kh_mc/kh_id/$kh_id'>".$kh_name[$v[$k1]]['name']." </a></td>"	;
 						}elseif($k1=="lx_cj")
 						{
 								$show_bt.="<td> ".$userqb[$v[$k1]]['user_name']." </td>"	;

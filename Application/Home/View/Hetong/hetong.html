@@ -79,7 +79,15 @@
 			.bhyuany1{margin-top:4%;margin-left:35%;}
 			a{ text-decoration:none !important; }
 			.fujian1{margin :0 auto;margin-top:15px;}
-			.chanpin1{width:90%;margin :0 auto;margin-top:15px;;}
+			.chanpin1{width:90%;margin :0 auto;margin-top:15px;}
+				td
+        {
+            white-space: nowrap;
+        }
+        th
+        {
+            white-space: nowrap;
+        }
 			
 		</style>  
 				<script type="text/javascript">
@@ -236,8 +244,9 @@ $(function(){
 				   		</div>
 			  		
 			   			<div style="overflow:auto">
-								<div  style="width :5600px;" >
-										<table class="layui-table"   >
+								
+										<table class="layui-table" style="width:auto"  >
+										<div  style="width :100%;" >
 									  	<thead>
 									  			<tr>	
 								                		<th><input type="checkbox" onclick="swapCheck()" /></th>
@@ -250,9 +259,10 @@ $(function(){
 										 <tbody id="jb_bianji">
 														{$a}
 								                </tbody>
+								                </div>
 									</table>  
 									
-								</div>
+								
 						</div>
 				</div>
 					<div id="demo7" class="ycyo" style="float:right"></div>

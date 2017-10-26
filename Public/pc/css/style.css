@@ -1,0 +1,531 @@
+@charset "utf-8";
+/* CSS Document */
+*{ margin:0; padding:0}
+a{ text-decoration:none;color: #666;}
+ul,li{ list-style:none;}
+img{ border:0}
+.clear{ clear:both;}
+.fl{ float:left}
+.fr{ float:right}
+h1,h2,h3,h4,h5,h6{ font-weight:normal;}
+body{width:100%;min-width:320px;margin:0 auto;font-family:"微软雅黑";-webkit-text-size-adjust:none; font-size:14px; }
+.container{
+	width:100%;
+}
+.topLogo{
+	text-align:center;
+	margin-top:10px;
+}
+.topLogo img{
+	width:40%;
+}
+.ban-img img{
+	    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+}
+.idxList{
+	overflow:hidden;
+	width:90%;
+	margin:auto;
+	margin-top:30px;
+	margin-bottom:30px;
+}
+.idxList li{
+    width: 27%;
+    float: left;
+    margin-right: 9%;
+	margin-bottom:15px;
+}
+.idxList li:nth-child(3),.idxList li:nth-child(6){
+	margin-right:0;
+}
+.idxList li a{
+	display:block;
+	background-color:#D2D2D2;
+}
+.idxList li a img{
+    width: 90%;
+    display: block;
+    margin: auto;
+    padding-top: 5px;
+    margin-bottom: 5px;
+}
+.idxList li a span{
+	display:block;
+	color:#fff;
+	background-color:#E31836;
+	text-align:center;
+	font-size:16px;
+	height:20px;
+	line-height:20px;
+}
+.noteForm{
+	width:80%;
+	margin:auto;
+	margin-top:20px;
+	overflow:hidden;
+}
+.noteTit,.formTel{
+	color:#fff;
+	background-color:#E31836;
+	text-align:center;
+	font-size:18px;
+	height:35px;
+	line-height:35px;
+	margin-bottom:20px;
+	font-weight:normal;	
+}
+.noteForm label{
+	display:block;
+	margin-bottom:8px;
+	border:1px #E9E9E9 solid;
+	border-radius:5px;
+	height:32px;
+	line-height:32px;
+}
+.noteForm label span{
+	float:left;
+	margin-left:15px;
+	color:#999;
+	letter-spacing:1px;
+	width:70px;
+	line-height:32px;
+}
+.noteForm label input{
+	line-height:31px;
+	border:0
+}
+.btn-put{
+	display:block;
+	width:100%;
+	border:0;
+	background-color:#ccc;
+	color:#fff;
+	font-size:16px;
+    height: 35px;
+    border-radius: 4px;
+	margin-bottom:15px;
+}
+.formTel{
+	margin-bottom:0;
+}
+.join{
+	float:right;
+	margin-top:10px;
+	color:#fff;
+	font-size:10px;
+	background-color:#B9CB39;
+	border-radius:20px;
+	height:20px;
+	line-height:20px;
+	text-align:center;
+	width:130px;
+}
+footer{
+	background-color:#E31836;
+	margin-top:40px;
+	height:22px;
+	line-height:22px;
+	text-align:center;
+	color:#fff;
+	font-size:12px;
+}
+/*************品牌故事**************/
+.header{
+	height:40px;
+	line-height:40px;
+	background-color:#E31836;
+	text-align:center;
+	color:#fff;
+	position:relative;
+	font-size:18px;
+}
+.icon{
+	position:absolute;
+	height:20px;
+	top:1px;
+}
+.icon img{
+	height:100%;
+}
+.headBack{
+	left:10px;
+}
+.headMenu{
+	right:10px;
+}
+.bs-text{
+	width:85%;
+	margin:auto;
+	margin-top:20px;
+	text-indent:2em;
+	line-height:25px;
+}
+.bs-img{ 
+	width:80%;
+	margin:auto;
+	margin-top:20px;
+	padding:10px 0;
+	border:1px #E6E6E6 solid;
+}
+.bs-img img{
+    width: 92%;
+    margin: auto;
+    display: block;
+}
+/************产品中心************/
+.proBox{
+	overflow:hidden;
+	width:90%;
+	margin:auto;
+}
+.proTit{
+	margin-top:20px;
+	margin-bottom:30px;
+}
+.proTit img{
+	width:100%;
+}
+.proList{
+	overflow:hidden;
+	margin-top:20px;
+}
+.proList:nth-child(){
+	margin-top:0;}
+.proImg{
+	float:left;
+	width:120px;
+	height:120px;
+	border-radius:50%;
+	margin-top:15px
+	
+}
+.proText{
+	float:left;
+	margin-left:15px;
+	width: 63%;
+}
+.proTitle{
+	color:#E11936;
+	font-weight:bold;
+	font-size:22px;
+	font-style:italic;
+}
+.protext{
+	line-height:20px;
+	font-size:12px;
+}
+.red{
+	margin-top:0;
+	color:#e11936
+}
+.proLine{
+    margin-top: 30px;
+    background: url(../images/prolistbg.png) no-repeat bottom;
+    background-size: 100%;
+    height: 35px;
+    font-size: 16px;
+}
+.proLine span{
+	color:#e11936;
+	font-style:italic;
+}
+#menu{
+	position: absolute;
+    font-size: 13px;
+    line-height: 1.7;
+    right: 10px;
+    background-color: #EBEEF3;
+    width: 30%;
+    padding: 7px;
+    top: 50px;
+	display:none;
+}
+#menu li{
+	border-bottom:1px #D7D8D9 solid;
+}
+#menu li:last-child{
+	border-bottom:0;
+}
+#menu img{
+	width:30px;
+}
+#menu p{
+	line-height: 1;
+    margin-top: -27px;
+    text-align: right;
+}
+
+
+/***********联系我们***********/
+.contTop{
+	text-align:center;
+	padding:40px 0;
+	color:#999;
+	font-size:12px;
+	line-height:1.7
+}
+.contTop h3{
+	font-size:14px;
+	font-weight:bold;
+}
+.contTit{
+	color:#E31836;
+	overflow:hidden
+}
+.contTit h3{
+    float: left;
+    padding-top: 30px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.contTit img{
+	float:right;
+	width:70px;
+}
+.contBox{
+	width:90%;
+	margin:auto;
+	overflow:hidden;
+}
+.contText{
+	border:1px #DDDDDD solid;
+	margin-top:20px;
+
+}
+.contlist{
+	padding:20px 10px;
+	width:90%;
+	margin:auto;
+	overflow:hidden;
+	border-bottom:1px #ddd solid;
+}
+.contlist:last-child{
+	border-bottom:0;
+}
+.contText .contlist img{
+	width:10%;
+}
+.contlist p{
+	width:83%;
+	margin-left:10px;
+}
+.contlist p strong,.contlist span{
+	display:block;
+}
+.contlist span{
+    font-size: 12px;
+    color: #666;
+    line-height: 1.8;
+}
+
+
+/************企业资讯***********/
+.newsList{
+	overflow:hidden;
+	border-bottom:1px #ddd solid;
+	padding:20px;
+}
+.newsList img.fl{
+	width:95px;
+}
+.nlText{
+	width:70%;
+	margin-left:15px;
+	position:relative;
+	float:left
+}
+.nlText h3.red{
+	margin-bottom:10px;
+}
+.nlText p{
+	 color: #000000;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+	margin-bottom:10px;
+}
+.nlText a.red{
+	display:block;
+	text-align:right
+}
+/***********资讯详情************/
+.newdBox{
+	padding:20px;
+}
+.newTit{
+	font-size:16px;
+	text-align:center;
+}
+.newtext{
+	text-indent:2em;
+	line-height:2;
+	margin:15px 0;
+}
+.newsImg img{
+	display:block;
+	width:90%;
+	margin:auto;
+}
+/************全球门店*************/
+.shopTilt{
+	font-size: 16px;
+    font-weight: bold;
+    height: 40px;
+    color: #666;
+    background: url(../images/prolistbg2.png) no-repeat bottom;
+    background-size: 100%;
+    padding-left: 25px;
+}
+.shopBox{
+	padding:20px;
+}
+.shopImg{
+	overflow:hidden;
+	border:1px #F2F2F2 solid;
+	padding:5px;
+    box-shadow: 5px 5px 10px #ccc;
+	margin-top:20px;
+}
+.shopImg h3 span{
+    color: #666;
+    font-weight: normal;
+    font-size: 12px;
+    text-align: center;
+    display: block;
+}
+.shopImg h3:first-child{
+	float:left;
+	width:49.5%;
+}
+.shopImg h3:last-child{
+	float:right;
+	width:49.5%;
+}
+.shopImg img{
+	width:100%;
+}
+/************招商加盟***************/
+.joinBox{
+	padding:20px;
+	overflow:hidden;
+}
+.joinTit{
+	font-size:22px;
+	font-weight:bold;
+	background:url(../images/joinlistb.png) no-repeat right center;
+	background-size:50%;
+	font-style:italic
+}
+.joinTit span{
+	font-size:16px;
+	color:#666;	
+}
+.join_list {
+    overflow: hidden;
+    margin-top: 20px;
+}
+.join_list1, .join_list2, .join_list3 {
+    overflow: hidden;
+	margin-top: -5px;
+}
+.joinl_img {
+    margin-right: 10px;
+	width:12%;
+}
+.joinl_img img{
+	width:100%;
+}
+.joinl_text {
+    width: 44.5%;
+    overflow: hidden;
+}
+.joinl_tit {
+    font-weight: bold;
+    font-size: 16px;
+    color: #E31836;
+    margin-top: 20px;
+}
+.joinl_textp {
+    line-height: 1.5;
+    color: #666;
+    margin-top: 10px;
+	font-size:14px;
+    width: 95%;
+}
+.joinl_textp img{
+	width:60%}
+.join_list1 .joinl_trans {
+    margin-top: 15px;
+}
+.joinl_trans {
+    margin-top: 50px;
+    width: 85%;
+    float: right;
+}
+.joinl_trans h3 {
+    margin-left: 30px;
+    color: #999;
+    font-size: 12px;
+}
+.joinr_img {
+    width: 40%;
+    margin-top: 105px;
+}
+.joinr_img img{
+	width:100%;
+}
+.join_list2 .joinl_trans{
+	margin-top:5px;
+}
+.join_list2 .joinr_img {
+	margin-top:110px;
+}
+.join_list2 .joinl_trans{
+	margin-top:5px;
+}
+.join_list3 .joinr_img {
+	margin-top:150px;
+}
+.joinCue{
+	overflow:hidden;
+}
+.CueList{
+	overflow:hidden;
+	margin-top:30px;
+}
+.cimg{
+	width:45px;
+}
+.cimg img{
+	width:100%;
+}
+.ctext{
+	width:70%;
+	margin-left:40px;
+	color:#666;
+}
+.ctTit{
+	font-size:18px;
+	font-weight:bold;
+	height:30px;
+}
+.ctext p{
+	line-height:1.5
+}
+
+
+
+
+
+
+
+
+
+
