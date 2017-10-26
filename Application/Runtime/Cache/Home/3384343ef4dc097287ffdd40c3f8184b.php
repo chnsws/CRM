@@ -69,7 +69,7 @@ i.layui-anim{display:inline-block}
 			 	.onError{color:red;}
 			.onSuccess{color:green;}
 			.bhyuany1{margin-top:4%;margin-left:35%;}
-			.bhyuany12{margin-top:4%;margin-left:35%;}
+			.bhyuany12{margin-top:4%;margin-left:35%;}  
 			.name{font-size:20px; color:#50BBB1;}
 			.fuzename{color:#50BBB1;}
 			#th_onlykh {margin-left:20px;}
@@ -214,7 +214,7 @@ i.layui-anim{display:inline-block}
 														  						<option value="短信">短信</option>
 														  						<option value="其他">其他</option>
 														  					</select>
-														  					<input type="text" name="add_time"  class="text ui-widget-content ui-corner-all shiji add_timegj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})" value="<?php echo ($valav['kh_sj_gj_date']); ?>" style="width:250px;height:40px;margin-top:10px;margin-left:17.5%">
+														  					<input type="text" name="add_time"  class="text ui-widget-content ui-corner-all shiji add_timegj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})" placeholder="实际跟进时间（必填）" style="width:250px;height:40px;margin-top:10px;margin-left:17.5%">
 														  					<input type="hidden" name="sj_id" class="bingou" value="<?php echo ($sj_id); ?>">
 														  					
 														  					<textarea name="content" class='contentgj' placeholder=' 勤跟进，多签单........'  style="width:620px;height:260px;margin-top:10px;margin-left:23px";></textarea>
@@ -259,7 +259,13 @@ i.layui-anim{display:inline-block}
 						    			</form>
 						    		</div>
 								</div> 
-
+								<div class="save_hk"  style="display: none;border:1px;">
+						    		<div class="bianji_nb" style="width:430px;margin:0 auto">
+						    			<form id="hk_adda">
+						    				
+						    			</form>
+						    		</div>
+								</div> 
 					    		<div id="hkpz"  style="display: none;border:1px;">
 					    		<div class="bianji_nb" style="width:620px;margin:0 auto">
 					    			<form id="myform">
@@ -1041,15 +1047,19 @@ i.layui-anim{display:inline-block}
     			}
 function bjjh(thisdom){
     				
-    			
-    				
-    				
-    						var hk_id=$(thisdom).prop('id');
-    						
-    					qi=$(thisdom).parent().parent().parent().parent().prev().find("b").eq(0).text();
-    		
+    				var hk_id=$(thisdom).prop('id');
+					qi=$(thisdom).parent().parent().parent().parent().prev().find("b").eq(0).text();
+    				$.get(rooturl+'/index.php/Home/Hetongmingcheng/save_hksql',{"hk_id":hk_id,'qi':qi},
+												 function(html){
 
-    				$(".qicia").html("<select name='hk_qici'><option value='"+qi+"'>第"+qi+"期  </option></select>")
+									        		$('#hk_adda').html(html)		
+							                   });
+    				
+    						
+    						
+    					
+
+    				
     					layui.use('layer', function(){
 			
 							var layer = layui.layer;
@@ -1059,9 +1069,9 @@ function bjjh(thisdom){
 								offset: 't',
 								area:'750px',
 								title: '编辑回款',
-								content:$('.add_hk'),
+								content:$('.save_hk'),
 				
-								btn:['保存','取消'],
+								btn:['保存且发起审批','取消'],
 								btn1:function(){
 										
 										var htid=$(".ht_id").val();	 	
@@ -1296,6 +1306,11 @@ function bjjh(thisdom){
 								btn:['确认'],
 						
 								btn1:function(){
+										var shiji=$(".add_timegj").val();
+										if(shiji=='' || shiji==null)
+										{
+											tishi("跟进时间必填");return
+										}
 										var content_gj='';
 										content_gj="kh_id!"+$(".ht_id").val()+","+"type!"+$('.typegj').val()+","+"content!"+$('.contentgj').val()+","+"add_time!"+$(".add_timegj").val()+","+"date!"+$(".dategj").val();
 										var xgj=$(".gjzt12").val();
@@ -1518,6 +1533,12 @@ function bjjh(thisdom){
 							}); 
 						});  
 	}
-
+	function del_gj(ss){
+		 	var gj_id=$(ss).prop('id');
+				$.get(rooturl+'/index.php/Home/Hetongmingcheng/del_gja',{"id":gj_id},
+							        		 function(html){
+									        		location=rooturl+"/index.php/Home/Hetongmingcheng/hetongmingcheng?id="+$(".ht_id").val();//$(".rz_sxp").html(html);
+							                   });
+		 }
 	</script>
 </html>
