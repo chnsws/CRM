@@ -403,31 +403,30 @@ class KehuController extends Controller {
 										</td>";
 								foreach($kh_biaoti1 as $k_biaoti=>$v_biaoti)
 								{	
-									
+									//echo $v_biaoti['id'];echo "<br/>";
 									if($r_v[$v_biaoti['id']]!="" && $r_v[$v_biaoti['id']]!="zdy15")	
 									{
+
 										
-											if($v_biaoti['id']=='zdy0')
+											if($v_biaoti['id']=='zdy0'){
 												$xs123="<a href='kehumingcheng/kh_id/$id'>".$r_v[$v_biaoti['id']]."
 												</a>";
-											elseif($v_biaoti['id']=="kh_fz" || $v_biaoti['id']=="kh_old_fz" || $v_biaoti['id']=="kh_cj" )
+											}elseif($v_biaoti['id']=="kh_fz" || $v_biaoti['id']=="kh_old_fz" || $v_biaoti['id']=="kh_cj" ){
 																$xs123="<span id='wys{$id}'>".$fzr_only[$r_v[$v_biaoti['id']]]['user_name']."</span>";
 											
-											elseif($v_biaoti['id']=="kh_cj_date" ){
+											}elseif($v_biaoti['id']=="kh_cj_date" ){
 													$xs123="
 												<span id='wys{$id}'>".date('Y-m-d H:i:s',$r_v[$v_biaoti['id']])."</span>";
-												$table.="<td name='$k'>
-													$xs123
-												</td>";
-												}
+												
+												
 											
-											else
+											}else{
 												$xs123="
 												<span id='wys{$id}'>".$r_v[$v_biaoti['id']]."</span>";
-										
-												$table.="<td name='$k'>
-													$xs123
-												</td>";
+											}
+										$table.="<td name='$k'>
+											$xs123
+										</td>";
 									}else{
 											
 											if($v_biaoti['id']=="zdy15" ){
@@ -441,7 +440,7 @@ class KehuController extends Controller {
 												//$xs123="<a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$lxr[$r_v[$v_biaoti['id']]]['id']."'>".$lxr[$r_v[$v_biaoti['id']]]['name']."</a>";
 												}else{
 													$xs123="
-													<span id='wys{$id}'>234</span>";
+													<span id='wys{$id}'>---</span>";
 												}
 												$table.="<td name='$k'>
 													$xs123
