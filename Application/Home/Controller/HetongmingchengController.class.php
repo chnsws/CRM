@@ -164,7 +164,7 @@ return $fzr_only;
 			$map['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件          
 			$lx_base=M("hetong");
 			$sql_lianxi=$lx_base->where($map)->find();
-			
+	
 			$ht_sp918=$sql_lianxi['ht_sp'];
 			$this->assign('ht_sp918',$ht_sp918);
 			$ht_json=json_decode($sql_lianxi['ht_data'],true);
@@ -1577,7 +1577,7 @@ return $fzr_only;
 	}
 	public function xgj(){
 		$id=$_GET['id'];
-
+		$kh_id = $_GET['kh_id'];
 	//	$id="kh_id!276,type!拜访,content!123456,add_time!2017-08-22 10:53:01,date!2017-08-23 10:53:06";
 		$ex_id_arr=explode(',',$id);
 		foreach($ex_id_arr as $k=>$v)
@@ -1589,6 +1589,7 @@ return $fzr_only;
 	
 		$array['mode_id']=6;
 		$array['user_id']=cookie('user_id');
+		$array['gl_khid']=$kh_id;
 		$array['genjin_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//这里通过查询获得
 		$xgj_base=M('xiegenjin');
 		$add_xgj=$xgj_base->add($array);

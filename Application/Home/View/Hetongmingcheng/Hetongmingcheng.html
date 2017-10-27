@@ -1314,9 +1314,10 @@ function bjjh(thisdom){
 										var content_gj='';
 										content_gj="kh_id!"+$(".ht_id").val()+","+"type!"+$('.typegj').val()+","+"content!"+$('.contentgj').val()+","+"add_time!"+$(".add_timegj").val()+","+"date!"+$(".dategj").val();
 										var xgj=$(".gjzt12").val();
+										var kh_id=$(".kh_id").val();
 									//	alert(content_gj)
 									//	alert(xgj);return;
-									$.get(rooturl+'/index.php/Home/Hetongmingcheng/xgj',{"id":content_gj,'xgj':xgj},
+									$.get(rooturl+'/index.php/Home/Hetongmingcheng/xgj',{"id":content_gj,'xgj':xgj,'kh_id':kh_id},
 						        		 				function(html){
 												
 			        		 								location=rooturl+"/index.php/Home/Hetongmingcheng/hetongmingcheng?id="+$(".ht_id").val();

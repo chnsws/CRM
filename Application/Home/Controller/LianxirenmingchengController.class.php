@@ -88,7 +88,7 @@ class LianxirenmingchengController extends Controller {
 		$user=$this->user();
 	
 		$kh_id=$lx_json['zdy1'];
-		//var_dump($kh_id);exit
+		//var_dump($kh_id);exit;
 		$kehu=$this->kehu();//echo "<pre>";var_dump($kehu);exit;
 		//$xg_lx['lx_data']=array('like','% \\"zdy1\\":\\"'.$kh_id.'\\" %');//var_dump($xg_lx['lx_data']);exit;
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
