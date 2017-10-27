@@ -1560,14 +1560,39 @@ class KehuController extends Controller {
 			  								
 	  							$gj_lxr.="</select>";//这里是写跟进的 联系人\
 
-	  		$xiegenjin_base=M('xiegenjin');
+
+	  			$xiegenjin_base=M('xiegenjin');
+	  		//查询商机跟进
+	  			$kh_id=$_GET['kh_id'];
+	  			$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+				$tiaojian_sj='"zdy1":"'.$kh_id.'"';
+	 			$tiaojian1_sj='"zdy1":'.$kh_id.'';
+	 			$sj_basexgj=M('shangji');
+				$sql_sjid=$sj_basexgj->query("select * from crm_shangji where sj_yh = '$yh' and sj_data like '%$tiaojian%' or sj_data like '%$tiaojian1%' ");
+				$sj_lsid='';
+				foreach($sql_sjid as $v)
+				{
+					$sj_lsid.=$v['sj_id'].",";
+				}
+				$sj_idend=substr($sj_lsid, 0,-1);
+
+				$sql_sjgj=$xiegenjin_base->query("select * from crm_xiegenjin where kh_id in(".$sj_idend.") and genjin_yh =".$yh."  and mode_id=5  "  );//客户对应商机的跟进出来了
+				
+				//此客户的跟进
+	  		
 	  			$map_xiegenjin['genjin_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 				$map_xiegenjin['mode_id']=2;
 				$map_xiegenjin['kh_id']=$_GET['kh_id'];
-				$sql_xiegenjin=$xiegenjin_base->where($map_xiegenjin)->order("add_time desc")->select();
-				//echo "<pre>";
-				//var_dump($map_xiegenjin);exit;
+				$sql_xiegenjina=$xiegenjin_base->where($map_xiegenjin)->order("add_time desc")->select();//此客户的跟进
+				$ccc=array(0=>array(1,2,3),1=>array(1,2,3),2=>array(1,2,3),);
+				$bbb=array(0=>array(666),1=>array(777),2=>array(888),);
+				if($sql_xiegenjina!=null )
+				$ac=array_merge($ccc,$sql_sjgj);
+				echo "<pre>";
+				var_dump($ac);exit;
 				
+				//var_dump($map_xiegenjin);exit;
+
 				foreach($sql_xiegenjin as $k=>$v)
 				{
 					$xgj_show.="<div class='gj_mod'>
@@ -1580,7 +1605,7 @@ class KehuController extends Controller {
 									<span class='user_name'>
 									".$user[$v['user_id']]['user_name']."</span><i class='fa fa-caret-right'></i><span class='gj_fangshi'>".$v['type'].":<span style='color:#07d'>".$lx_end[$v['xgj_czr']]['zdy0']."</span>
 									</span>
-								
+								 
 								</div>
 								<div class='gj_body_content_content'>".$v['content']."</div>
 							
@@ -1593,6 +1618,7 @@ class KehuController extends Controller {
 					</div>";
 				}//客户模块下跟进记录必须是当前客户  其他模块再继续查询
 
+				
 				$jbxx_show.="<tr><td>".$ywcs_kh['zdy1'][$sql_json['zdy1']]."</td><td>".$sql_json['zdy3']."</td><td>".$sql_json['zdy3']."</td><td>".$ywcs_kh['zdy9'][$sql_json['zdy9']]."</td></tr>";
 			
 			$this->assign('jbxx_show',$jbxx_show);
@@ -2029,6 +2055,7 @@ class KehuController extends Controller {
 		
 	}
 
+	
 		/**public function pl_zhuany2i(){
 			$fuzeren=$_GET['id'];
 			$rz_fuzeren=$_GET['ziduan'];

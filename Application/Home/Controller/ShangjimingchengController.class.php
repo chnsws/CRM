@@ -141,7 +141,7 @@ return $fzr_only;
 			}
 
 		}    //商机信息查询
-
+		$this->assign('kh_id27',$sql_rh['zdy1']);
 		$biaoti=$this->ywzd(); //标题过来了
 		$ywcs=$this->ywcs(); //参数过来了
 
@@ -677,6 +677,7 @@ return $fzr_only;
 		$array['mode_id']=5;
 		$array['user_id']=cookie('user_id');
 		$array['genjin_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//这里通过查询获得
+		$array['gl_khid']=$_GET['kh_id'];
 		$xgj_base=M('xiegenjin');
 		$add_xgj=$xgj_base->add($array);
 
