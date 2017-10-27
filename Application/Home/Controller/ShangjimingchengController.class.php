@@ -120,10 +120,30 @@ return $fzr_only;
 				$new_arrayoo[$k]=$new_str1;
 			}
 		$sj_id=$_GET['id'];
+
+		
+		$xiaji1= $this->get_xiashu_id();//  查询用户
+		$new_xiaji1=$xiaji1; 
+		$new_array1=explode(',',$new_xiaji1);	
 		//echo $sj_id;exit;
 		$sj_base=M('shangji');
 		$map_sj['sj_id']=$sj_id;
 		$sql_sj=$sj_base->where($map_sj)->find();
+		$qxa=0;
+			foreach($new_array1 as $k=>$v)
+			{
+				if($sql_sj['sj_fz']==$v)
+				{
+					$qxa++;
+				}
+			}
+		
+			if($qxa<1)
+			{
+				echo "<script> alert('您没有查看此商机权限~');history.go(-1); 
+				 
+				</script>";die;
+			}
 		foreach($sql_sj as $k=>$v)
 		{
 			if($k!='sj_data')

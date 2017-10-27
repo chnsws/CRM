@@ -11,7 +11,7 @@ class ShangjiController extends Controller {
 		$new_array=explode(',',$new_xiaji);
 		$kh_base=M('kh');
 		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' ");
 		
 		foreach($kh_sql as $kkh =>$vkh)
 		{
