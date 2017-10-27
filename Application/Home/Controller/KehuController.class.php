@@ -1559,37 +1559,18 @@ class KehuController extends Controller {
 	  								}
 			  								
 	  							$gj_lxr.="</select>";//这里是写跟进的 联系人\
-
-
-	  			$xiegenjin_base=M('xiegenjin');
 	  		//查询商机跟进
-	  			$kh_id=$_GET['kh_id'];
-	  			$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-				$tiaojian_sj='"zdy1":"'.$kh_id.'"';
-	 			$tiaojian1_sj='"zdy1":'.$kh_id.'';
-	 			$sj_basexgj=M('shangji');
-				$sql_sjid=$sj_basexgj->query("select * from crm_shangji where sj_yh = '$yh' and sj_data like '%$tiaojian%' or sj_data like '%$tiaojian1%' ");
-				$sj_lsid='';
-				foreach($sql_sjid as $v)
-				{
-					$sj_lsid.=$v['sj_id'].",";
-				}
-				$sj_idend=substr($sj_lsid, 0,-1);
+	  			
+				//echo "<pre>";
 
-				$sql_sjgj=$xiegenjin_base->query("select * from crm_xiegenjin where kh_id in(".$sj_idend.") and genjin_yh =".$yh."  and mode_id=5  "  );//客户对应商机的跟进出来了
-				
-				//此客户的跟进
-	  		
-	  			$map_xiegenjin['genjin_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-				$map_xiegenjin['mode_id']=2;
-				$map_xiegenjin['kh_id']=$_GET['kh_id'];
-				$sql_xiegenjina=$xiegenjin_base->where($map_xiegenjin)->order("add_time desc")->select();//此客户的跟进
-				$ccc=array(0=>array(1,2,3),1=>array(1,2,3),2=>array(1,2,3),);
-				$bbb=array(0=>array(666),1=>array(777),2=>array(888),);
-				if($sql_xiegenjina!=null )
-				$ac=array_merge($ccc,$sql_sjgj);
-				echo "<pre>";
-				var_dump($ac);exit;
+	  		$xiegenjin_base=M('xiegenjin');
+	  			$yh_gj=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+				$kh_idaa=$_GET['kh_id'];
+			
+				$sql_xiegenjin=$xiegenjin_base->query("select * from crm_xiegenjin where (gl_khid='$kh_idaa' or kh_id = $kh_idaa) and genjin_yh= '$yh_gj'  order by add_time desc ");
+			
+
+
 				
 				//var_dump($map_xiegenjin);exit;
 
@@ -1605,12 +1586,30 @@ class KehuController extends Controller {
 									<span class='user_name'>
 									".$user[$v['user_id']]['user_name']."</span><i class='fa fa-caret-right'></i><span class='gj_fangshi'>".$v['type'].":<span style='color:#07d'>".$lx_end[$v['xgj_czr']]['zdy0']."</span>
 									</span>
-								 
+								
 								</div>
-								<div class='gj_body_content_content'>".$v['content']."</div>
-							
-								<div class='gj_body_content_from'>来自客户：".$sql_json['zdy0']."</div> 
-								<div class='gj_body_content_button '>
+								<div class='gj_body_content_content'>".$v['content']."</div>";
+								if($v['mode_id']==2)
+								{
+									$xgj_show.="<div class='gj_body_content_from'>来自客户：".$sql_json['zdy0']." </div>";
+								}elseif($v['mode_id']==5){
+									$base_sj=M('shangji');
+									$map_sj['sj_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+									$map_sj['sj_id']=$v['kh_id'];
+									$sql_sja=$base_sj->where($map_sj)->find();
+									$json_sj=json_decode($sql_sja['sj_data'],true);
+									$xgj_show.="<div class='gj_body_content_from'>来自商机：".$json_sj['zdy0']." </div>";
+								}elseif($v['mode_id']==6){
+									$base_ht=M('hetong');
+									$map_ht['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+									$map_ht['ht_id']=$v['kh_id'];
+									$sql_hta=$base_ht->where($map_ht)->find();
+									$json_ht=json_decode($sql_hta['ht_data'],true);
+								
+									$xgj_show.="<div class='gj_body_content_from'>来自合同：".$json_ht['zdy0']." </div>";
+								}
+						
+							$xgj_show.="<div class='gj_body_content_button '>
 									<button class='layui-btn layui-btn-primary ' id='".$v['genjin_id']."' onclick='del_gj(this)'>删除</button>
 								</div>
 							</div>
