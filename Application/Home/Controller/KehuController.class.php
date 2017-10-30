@@ -1207,16 +1207,24 @@ class KehuController extends Controller {
 	 		$ht_where='"zdy1":"'.$kh_id.'"';
 	 			$ht_where1='"zdy1":'.$kh_id.'';
 			$sql_ht=$sj_base->query("select * from crm_hetong where ht_yh = '$ht_map'  and ht_fz IN ($xiaji1) and ht_data like '%$ht_where%' or ht_data like '%$ht_where1%'");
+			$aa=0;
+			$ht_idhk="";
+			
 			foreach($sql_ht as $k=>$v)
 			{	
+				$ht_idhk.=$v['ht_id'].",";
 				foreach($v as $k1 =>$v1)
 				{	
+
 					if($k1 != 'ht_data')
 					{
 						$new_hetong[$k1]=$v1;
 					}else{
 						$ht_json=json_decode($v[$k1],true);
-						
+						//获取审批通过合同的金额
+						if($v['ht_sp']==1){
+							$aa=$aa+$ht_json['zdy3'];
+						}
 						foreach($ht_json as $kjson =>$vjson)
 						{
 							$new_hetong[$kjson]=$vjson;
@@ -1225,6 +1233,23 @@ class KehuController extends Controller {
 					$ht_end[$v['ht_id']]=$new_hetong;
 				}
 			}
+			if($aa==0){
+				$aa='暂无';
+			}
+			$ht_idhk1=substr($ht_idhk,0,-1);
+			//总回款查询$userarr=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
+			$hkyh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			$hkbase=M('hkadd');
+			$sql_hk=$hkbase->query("select * from  crm_hkadd where hk_ht IN ($ht_idhk1) and hk_yh = '$hkyh' and hk_sp=1");
+			$hkaa=0;
+			foreach($sql_hk as $k=>$v){
+				$hkaa=$hkaa+$v['hk_je'];
+			}
+			if($hkaa==0){
+				$hkaa='暂无';
+			}
+			$this->assign('hkaa',$hkaa);
+			$this->assign('aa',$aa);
 					$ht_show.="<table class='layui-table'  >
 						  	<thead>
 						  				<th >合同标题</th>
@@ -1584,9 +1609,11 @@ class KehuController extends Controller {
 								<div class='gj_body_content_head'>
 									<img src='' class='gj_headimg woca'>
 									<span class='user_name'>
-									".$user[$v['user_id']]['user_name']."</span><i class='fa fa-caret-right'></i><span class='gj_fangshi'>".$v['type'].":<span style='color:#07d'>".$lx_end[$v['xgj_czr']]['zdy0']."</span>
+									".$user[$v['user_id']]['user_name']."</span>
+									<i class='fa fa-caret-right'></i>
+									<span class='gj_fangshi'>".$v['type'].":<span style='color:#07d'>".$lx_end[$v['xgj_czr']]['zdy0']."</span>
 									</span>
-								
+									<span style='float:right;cursor:pointer;' id='".$v['genjin_id']."' title='点击删除' onclick='del_gj(this)' ><i class='layui-icon'>&#xe640;</i>  </span>
 								</div>
 								<div class='gj_body_content_content'>".$v['content']."</div>";
 								if($v['mode_id']==2)
@@ -1609,9 +1636,7 @@ class KehuController extends Controller {
 									$xgj_show.="<div class='gj_body_content_from'>来自合同：".$json_ht['zdy0']." </div>";
 								}
 						
-							$xgj_show.="<div class='gj_body_content_button '>
-									<button class='layui-btn layui-btn-primary ' id='".$v['genjin_id']."' onclick='del_gj(this)'>删除</button>
-								</div>
+							$xgj_show.="
 							</div>
 						</div>
 					</div>";
