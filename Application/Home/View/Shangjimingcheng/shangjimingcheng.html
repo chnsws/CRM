@@ -72,7 +72,7 @@
 			<span  class='name'><b>{$sql_rh.zdy0}</b></span><span class="fuzeren">负责人：<span class="fuzename">{$fuzeren}</span></span>
 		</div>
 		<div style="margin-top:15px;margin-left:8px; height:30px" >
-	   		<button onclick="history.go(-1)"  class="layui-btn layui-btn-primary layui-btn-small">
+	   		<button onclick="fanhui()"  class="layui-btn layui-btn-primary layui-btn-small">
  				<i class="layui-icon">&#xe603;</i>返回</button>	
 		   	<button onclick="bianji()"  class="layui-btn layui-btn-primary layui-btn-small">
 	 			<i class="layui-icon">&#xe642;</i>编辑</button>
@@ -398,5 +398,8 @@
 			        time: 1000, 
 			    });
 			}
+		function fanhui(){
+			window.location.href=rooturl+'/index.php/Home/Shangji/Shangji';
+		}
 	</script>
 </html>

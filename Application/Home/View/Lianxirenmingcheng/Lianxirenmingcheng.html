@@ -50,7 +50,7 @@
 		    		</div>
 			   	</div>
 		<div style="margin-top:20px;margin-left:8px; height:50px" >
-	   		<button onclick="history.go(-1)"  class="layui-btn layui-btn-primary layui-btn-small">
+	   		<button onclick="fanhui()"  class="layui-btn layui-btn-primary layui-btn-small">
  				<i class="layui-icon">&#xe603;</i>返回</button>	
 		   	<button onclick="bianji()"  class="layui-btn layui-btn-primary layui-btn-small">
 	 			<i class="layui-icon">&#xe642;</i>编辑</button>
@@ -186,8 +186,11 @@
 
 		}
 		layui.use('element', function(){
-  var element = layui.element();
-  
-  //…
-});
+		  var element = layui.element();
+		  
+		  //…
+		});
+		function fanhui(){
+			window.location.href=rooturl+'/index.php/Home/Lianxiren/Lianxiren';
+		}
 	</script>

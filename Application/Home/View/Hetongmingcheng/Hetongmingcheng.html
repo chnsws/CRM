@@ -115,7 +115,7 @@ i.layui-anim{display:inline-block}
 		<input type='hidden' value='{$uiid}' class='uiid'>
 		<input type='hidden' value='{$ht_sp918}' class='ht_sp'>
 		<div style="margin-top:20px;margin-left:8px; height:35px" >
-	   		<button onclick="history.go(-1)"  class="layui-btn layui-btn-primary layui-btn-small">
+	   		<button onclick="fanhui()"  class="layui-btn layui-btn-primary layui-btn-small">
  				<i class="layui-icon">&#xe603;</i>返回</button>	
 		   	<button onclick="bianji()"  class="layui-btn layui-btn-primary layui-btn-small bjscyc">
 	 			<i class="layui-icon">&#xe642;</i>编辑</button>
@@ -1541,5 +1541,8 @@ function bjjh(thisdom){
 									        		location=rooturl+"/index.php/Home/Hetongmingcheng/hetongmingcheng?id="+$(".ht_id").val();//$(".rz_sxp").html(html);
 							                   });
 		 }
+	function fanhui(){
+			window.location.href=rooturl+'/index.php/Home/Hetong/Hetong';
+	}
 	</script>
 </html>
