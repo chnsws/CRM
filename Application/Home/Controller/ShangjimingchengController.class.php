@@ -426,13 +426,13 @@ return $fzr_only;
 									<span class='user_name'>
 									".$user_dpment[$v['user_id']]['user_name']."</span><i class='fa fa-caret-right'></i><span class='gj_fangshi'>".$v['type'].":<span style='color:blue'>".$lx_json['zdy0']."</span>
 									</span>
-								
+								<span style='float:right;cursor:pointer;' id='".$v['genjin_id']."' title='点击删除' onclick='del_gj(this)' ><i class='layui-icon'>&#xe640;</i>  </span>
 								</div>
 								<div class='gj_body_content_content'>".$v['content']."</div>
 							
 								<div class='gj_body_content_from'>来自商机：".$sj_json['zdy0']."</div> 
 								<div class='gj_body_content_button'>
-									<button class='layui-btn layui-btn-primary' onclick='del_gj(this)' id='".$v['genjin_id']."'>删除</button>
+									
 								</div>
 							</div>
 						</div>
