@@ -1637,6 +1637,7 @@ class KehuController extends Controller {
 								}
 						
 							$xgj_show.="
+							
 							</div>
 						</div>
 					</div>";

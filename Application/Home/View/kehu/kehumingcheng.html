@@ -134,7 +134,7 @@ a{color:#07d; text-decoration:none !important;}
    		
 		</div>		
 		<div style="margin-top:30px;margin-left:8px; height:30px" >
-	   		<button onclick="history.go(-1)"  class="layui-btn layui-btn-primary layui-btn-small">
+	   		<button onclick="fanhui()"  class="layui-btn layui-btn-primary layui-btn-small">
  				<i class="layui-icon">&#xe603;</i>返回</button>	
 		   	<button onclick="bianji()"  class="layui-btn layui-btn-primary layui-btn-small">
 	 			<i class="layui-icon">&#xe642;</i>编辑</button>
@@ -743,7 +743,9 @@ a{color:#07d; text-decoration:none !important;}
 									        		location=rooturl+"/index.php/Home/Kehu/kehumingcheng?kh_id="+$(".bingou").val();//$(".rz_sxp").html(html);
 							                   });
 		 }
-
+		 function fanhui(){
+		 	window.location.href=rooturl+'/index.php/Home/Kehu/kehu';
+		 }
 	</script>
 
 	   
