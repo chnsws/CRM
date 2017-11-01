@@ -569,7 +569,10 @@
 										if(thisdom.prop("name")=='zdy12[]')
 										{	//tishi(thisdom.prop("name"))
 											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
-										}else{
+										}else if(thisdom.prop("name")=='zdy2'){
+												ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+",";
+										}
+										else{
 											
 											ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
 										}

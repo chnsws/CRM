@@ -872,11 +872,12 @@ window.name_lxr="";
 												for(a=0;a<fornum;a++)
 												{
 													var thisdom=formdom.eq(a).find("td").eq(1).children();
-													
-														
+													if(thisdom.prop("name")=='zdy2'){
+														ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+",";
+													}
+													else{
 														ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
-											
-													
+													}
 												}
 												window.ajaxstr_kh=ajaxstr;
 												window.name_kh =$("#kh").find("#wyszdy0").val();
