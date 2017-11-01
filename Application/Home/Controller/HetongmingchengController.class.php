@@ -436,13 +436,26 @@ return $fzr_only;
 
 			
 			$dinum=1;
-		
+		//echo "<pre>";
+		//	var_dump($sql_hk_add);exit;
+
+				
 				foreach($sql_hk as $k=>$v)
 				{
-					$weihuikuan=$v['hk_je']-$yihuikuan[$v['hk_qici']];
+					$yhk[$v['hk_id']]=0;
+					foreach($sql_hk_add as $k7=>$v7)
+					{
+						if($v7['hk_sp']=="1" && $v['hk_id']==$v7['hk_qici'])
+						{
+							$yhk[$v['hk_id']]=$v7['hk_je']+$yhk[$v['hk_id']];
+						}
+						
+					}
+
+					$weihuikuan=$v['hk_je']-$yhk[$v['hk_id']];
 					$hk_jihua.="<div class='long'>";  
 						$hk_jihua.="<div class='backg'>";
-							$hk_jihua.="<div class='kongzhi1'><span class='hkshow'>第<b>".$sql_hk_count."-".$dinum."</b>期回款计划：".$v['hk_data']."</span><span class='hkshow'>计划回款总金额：¥<b> ".$v['hk_je']."</b></span><span class='hkshow'>占比：¥<b> ".$v['hk_zb']."%</b></span><span class='hkshow'> 已回款总金额：¥ <b>".$yihuikuan[$v['hk_qici']]."</b></span> <span class='hkshow'>未回款总金额：¥<b>".$weihuikuan."</b></span><span  class='hkshow'>未完成</span> <span class='shet'> <i class='layui-icon xiaoshou' id='".$v['hk_id']."' style='font-size: 17px; ' onclick='shanchu_pz(this)' >&#xe640;</i> <i class='layui-icon xiaoshou' id='".$v['hk_id']."' onclick='xiugai_pz(this)' style='font-size: 17px; '>&#xe642;</i> </span> <button  id='create-sahngji' onclick='xzjh(this)' name='".$v['hk_id']."' class='layui-btn layui-btn-small add_wz' >新增回款记录</button>
+							$hk_jihua.="<div class='kongzhi1'><span class='hkshow'>第<b>".$sql_hk_count."-".$dinum."</b>期回款计划：".$v['hk_data']."</span><span class='hkshow'>计划回款总金额：¥<b> ".$v['hk_je']."</b></span><span class='hkshow'>占比：¥<b> ".$v['hk_zb']."%</b></span><span class='hkshow'> 已回款总金额：¥ <b>".$yhk[$v['hk_id']]."</b></span> <span class='hkshow'>未回款总金额：¥<b>".$weihuikuan."</b></span><span  class='hkshow'>未完成</span> <span class='shet'> <i class='layui-icon xiaoshou' id='".$v['hk_id']."' style='font-size: 17px; ' onclick='shanchu_pz(this)' >&#xe640;</i> <i class='layui-icon xiaoshou' id='".$v['hk_id']."' onclick='xiugai_pz(this)' style='font-size: 17px; '>&#xe642;</i> </span> <button  id='create-sahngji' onclick='xzjh(this)' name='".$v['hk_id']."' class='layui-btn layui-btn-small add_wz' >新增回款记录</button>
 						  	</div>
 						  </div>";
 					  	$hk_jihua.="<table class='layui-table' lay-skin='line' >
@@ -861,9 +874,9 @@ return $fzr_only;
 			$rz_type=array(
 				"1"=>"添加",
 				"2"=>"编辑",
-				"3"=>"删除"
-				
-				);
+				"3"=>"删除"  
+
+ 				);
 			foreach($rz_sql as $k=>$v)
 			{
 		  		$rz_jl.="<tr>
