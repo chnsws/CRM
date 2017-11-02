@@ -110,6 +110,7 @@ i.layui-anim{display:inline-block}
 	<body>
 		<div style="margin-left:10px"><span  class='name' ><b>{$name}</b></span><span style="margin-left:10px">负责人：<span class="fuzename">	{$fuzeren}</span></span>
 		</div>
+		<input type='hidden' value='{$yi}' class='kpxs'>
 		<input type='hidden' value='{$kh_id}' class='kh_id'>
 		<input type='hidden' value='{$pz_num}' class='pz_num'>
 		<input type='hidden' value='{$uiid}' class='uiid'>
@@ -169,14 +170,14 @@ i.layui-anim{display:inline-block}
 		  <ul class="layui-tab-title">
 		    <li id='onesh'>基本信息</li>
 		    <li  id='er'>回款</li>
-		    <li>开票</li>
+		    <li >开票</li>
 		    <li>产品</li>
 		  	<li  id='twosh'>附件</li>
 		    <li>操作日志</li>
 		  </ul>
 		  
 			  <div class="layui-tab-content">
-					<div class="layui-tab-item" id='onesh1'>
+					<div class="layui-tab-item " id='onesh1'>
 				  	    <table style=" width:100%;">
 				  	    	<tr class='jb_xt'>
 				  	    		<td style="border:1px solid #EEE; width:49%;"  align="left" valign="top">
@@ -343,18 +344,18 @@ i.layui-anim{display:inline-block}
 						 	</div>
 							<div class="hk_wh">
 										<div class="hkauto" >
-									  		合同总金额：¥ <b>{$hkzje}</b><span class="hkshow"> 已开票总金额：¥<b> {$zonghk}</b></span> <span class="hkshow">未开票总金额：¥ <b>{$weihka}</b></span> <span  class="pz_wz"><button  id='create-sahngji' onclick='xzkp()' class='layui-btn layui-btn-small add_wz' >新增开票记录</button></span>
+									  		合同总金额：¥ <b>{$hkzje}</b><span class="hkshow"> 已开票总金额：¥<b> {$sq_kp}</b></span> <span class="hkshow">未开票总金额：¥ <b>{$wkp}</b></span> <span  class="pz_wz"><button  id='create-sahngji' onclick='xzkp()' class='layui-btn layui-btn-small add_wz' >新增开票记录</button></span>
 									  	</div >
 							</div>
 						<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 									  <ul class="layui-tab-title">
-									    <li class="layui-this">增值税普通发票</li>
-									    <li>增值税专用发票</li>
-									    <li>国税通用机打发票</li>
-									    <li>地税通用机打发票</li>
+									    <li id="yi">增值税普通发票</li>
+									    <li id="er">增值税专用发票</li>
+									    <li id="san">国税通用机打发票</li>
+									    <li id="si">地税通用机打发票</li>
 									  </ul>
 								 		<div class="layui-tab-content">
-								 			 <div class="layui-tab-item layui-show">
+								 			 <div class="layui-tab-item" id="yi1">
 								 			 		<div>
 														  <table class='layui-table' lay-skin='line' style="margin-top:20px" >
 																  	<thead >
@@ -378,8 +379,8 @@ i.layui-anim{display:inline-block}
 													      </table>
 													</div>
 								 			 </div>
-								 			  <div class="layui-tab-item" >
-									    	 <div class="layui-tab-item layui-show"  >
+								 			
+									    	 <div class="layui-tab-item"  id="er1">
 							 			 		<div style='overflow :auto;width:99%'>
 													  <table class='layui-table' lay-skin='line' style="margin-top:20px;width:3000px" >
 															  	<thead >
@@ -412,9 +413,8 @@ i.layui-anim{display:inline-block}
 													</table>
 												</div>
 						 					 </div>
-									    </div>
-									    <div class="layui-tab-item">
-									    	<div class="layui-tab-item layui-show">
+								
+									    	<div class="layui-tab-item " id='san1'>
 							 			 		<div>
 													  <table class='layui-table' lay-skin='line' style="margin-top:20px" >
 															  	<thead >
@@ -437,9 +437,8 @@ i.layui-anim{display:inline-block}
 													</table>
 												</div>
 						 					 </div>
-									    </div>
-									    <div class="layui-tab-item">
-									    	<div class="layui-tab-item layui-show">
+									   
+									    	<div class="layui-tab-item " id="si1">
 							 			 		<div>
 													  <table class='layui-table' lay-skin='line' style="margin-top:20px" >
 															  	<thead >
@@ -463,7 +462,7 @@ i.layui-anim{display:inline-block}
 												</div>
 						 					 </div>
 
-									    </div>
+									
 
 								 		</div>
 						</div>
@@ -614,7 +613,7 @@ i.layui-anim{display:inline-block}
 
 
 
-
+<div id='aaa'></div>
 
 
 
@@ -627,6 +626,12 @@ i.layui-anim{display:inline-block}
 	{
 		$('.bjscyc').hide();
 	}
+	var kpxs=$('.kpxs').val();
+
+		
+		$("#"+kpxs).attr('class','layui-this');
+		$("#"+kpxs+"1").attr('class','layui-tab-item layui-show');
+	
 	var uiid=$('.uiid').val();
 	if(uiid==5)
 	{
@@ -886,7 +891,7 @@ i.layui-anim{display:inline-block}
 									$.get(rooturl+'/index.php/Home/Hetongmingcheng/peizhi_hk',{"id":htid,"content":a},
 												 function(html){
 
-									        			 	window.location.href="Hetongmingcheng?id="+htid;
+									        			 	window.location.href="Hetongmingcheng?id="+htid+"&uiid=2";
 							                   });
 
 								}
@@ -1037,7 +1042,7 @@ i.layui-anim{display:inline-block}
 											$.get(rooturl+'/index.php/Home/Hetongmingcheng/add_huikuan',{"id":end_hk,"hk_id":hk_id},
 												 function(html){
 
-									        			window.location.href="Hetongmingcheng?id="+htid;
+									        			window.location.href="Hetongmingcheng?id="+htid+"&uiid=2";;
 							                   });
 
 								}

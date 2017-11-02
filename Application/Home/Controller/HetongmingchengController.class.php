@@ -406,8 +406,10 @@ return $fzr_only;
 			$this->assign('zonghkjh',$zonghkjh);
 			$this->assign('zb',$zb);
 			$hkzje=0;
+
 			foreach($sql_hk as $k=>$v)
-			{
+			{	
+
 				$hkzje=$hkzje+$v['hk_je'];  //计划回款总金额
 
 			}
@@ -424,12 +426,14 @@ return $fzr_only;
 			}
 			$yihuikuan[$v1['hk_qici']]=0;
 			$zonghk=0;
+			
 			foreach($count as $k=>$v)
 			{
 				foreach($v as $k1=>$v1)
-				{
+				{	if($v1['hk_sp']==1)
+					{
 					$yihuikuan[$v1['hk_qici']]=$v1['hk_je']+$yihuikuan[$v1['hk_qici']];
-				
+				}
 				}
 				$zonghk=$zonghk+$yihuikuan[$v1['hk_qici']];//全部回款$zonghk；
 			}
@@ -445,7 +449,7 @@ return $fzr_only;
 					$yhk[$v['hk_id']]=0;
 					foreach($sql_hk_add as $k7=>$v7)
 					{
-						if($v7['hk_sp']=="1" && $v['hk_id']==$v7['hk_qici'])
+						if($v7['hk_sp']==1 && $v['hk_id']==$v7['hk_qici'])
 						{
 							$yhk[$v['hk_id']]=$v7['hk_je']+$yhk[$v['hk_id']];
 						}
@@ -626,9 +630,13 @@ return $fzr_only;
 
 		    $kp_map['wocao']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 		    $sql_kp= $kp_base->where($kp_map)->select();
-		   	
+			
+			$sq_kp=0;
 		   	foreach ($sql_kp as $k=>$v)
-		   	{
+		   	{	if($v['kp_sp']==1){
+		   		$sq_kp=$sq_kp+$v['kp_je'];
+		   	}
+
 		   		if($v['kp_type']==0)
 		   		{
 		   			$sql_kp1[]=$v;
@@ -641,8 +649,22 @@ return $fzr_only;
 		   		}elseif($v['kp_type']==3){
 		   			$sql_kp4[]=$v;
 		   		}
-		   	} 	
-
+		   	} 
+		   	if($sql_kp1!="")
+		   	{
+		   		$this->assign('yi','yi');
+		   	}elseif($sql_kp2!=""){
+		   		$this->assign('yi','er');
+		   	}elseif($sql_kp3!=""){
+		   		$this->assign('yi','san');
+		   	}elseif($sql_kp4!=""){
+		   		$this->assign('yi','si');
+		   	}else{
+		   		$this->assign('yi','yi');
+		   	}
+		   	$wkp=$hkzje-$sq_kp;
+		   	$this->assign('wkp',$wkp);	
+		   	$this->assign('sq_kp',$sq_kp);
 		    if($sql_kp1=="" ||  $sql_kp1==null)
 		    {
 					$kp_show.="	<tr class='qingxuanze'>
