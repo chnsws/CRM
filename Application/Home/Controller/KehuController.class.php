@@ -1404,6 +1404,14 @@ class KehuController extends Controller {
 
 
 					
+						}elseif($k=="zdy2")
+						{	$zuoji = explode('-',$neww_kehu[$k]);
+							if($zuoji[1]==''||$zuoji[1]==null){
+								$zuoji[1]=$zuoji[0];
+								$zuoji[0]='';
+							}
+							$tab3.='<tr   ><td style="width:200px;">'.$v['name'].':</td>';
+							$tab3.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' value='".$zuoji[0]."' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:224px' value='".$zuoji[1]."' class='jiaodian' name='".$v['id']."''></td></tr>";
 						}elseif($k=="zdy6")
 						{
 							$tab3.='<tr   ><td style="width:200px;">'.$v['name'].':</td><td  class="dqth"><input type="text" class="bianjiyo" onclick="diquth()" name="'.$k.'" value="'.$neww_kehu[$k].'"></td></tr>';
@@ -1445,6 +1453,14 @@ class KehuController extends Controller {
 							}
 							$tab3.='</select>
 							</td></tr>';
+						}elseif($k=="zdy2")
+						{	$zuoji = explode('-',$neww_kehu[$k]);
+							if($zuoji[1]==''||$zuoji[1]==null){
+								$zuoji[1]=$zuoji[0];
+								$zuoji[0]='';
+							}
+							$tab3.='<tr   ><td style="width:200px;">'.$v['name'].':</td>';
+							$tab3.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' value='".$zuoji[0]."' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:224px' value='".$zuoji[1]."' class='jiaodian' name='".$v['id']."''></td></tr>";
 						}elseif($k=="zdy6")
 						{
 							$tab3.='<tr  data-toggle="distpicker" style="overflow:hidden"><td  class="form-group">'.$v['name'].':</td><td >';
@@ -2695,6 +2711,7 @@ public function save(){
 		$sql_save=$kh_base->where($map)->save($data);
 
 		if($sql_save){
+			echo 1;
 			$ywcs_kh=$this->ywcs_kh();
 			$xiaji1= $this->get_xiashu_id();//  查询用户
 			$kh=M('kh');

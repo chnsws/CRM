@@ -641,14 +641,16 @@ a{color:#07d; text-decoration:none !important;}
 										if(thisdom.prop("name")=="zdy6[]")
 										{
 											ajaxstr+="zdy6"+"::"+$('.diquone').val()+"-"+$('.diqutwo').val()+"-"+$('.diquthr').val()+',';
-										}else{
+										}else if(thisdom.prop("name")=="zdy2"){
+											ajaxstr+=thisdom.prop("name")+"::"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+",";
+										}
+										else{
 											ajaxstr+=thisdom.prop("name")+"::"+thisdom.val()+",";
 										}
 									}
-								//	alert (ajaxstr);
 									$.get(rooturl+'/index.php/Home/Kehu/save',{"id":ajaxstr},
 							        		 function(html){
-									        		// alert(html)
+									        
 									        		if(html=="no"){
 									        			tishi("没有修改信息")
 									        			layer.close(win)
@@ -746,6 +748,11 @@ a{color:#07d; text-decoration:none !important;}
 		 function fanhui(){
 		 	window.location.href=rooturl+'/index.php/Home/Kehu/kehu';
 		 }
+		 function checkp(x,y) {  
+			    	if (y.length == x.maxLength) {  
+			    	$(".jiaodian")[0].focus()
+			      	}
+   		 		}  
 	</script>
 
 	   
