@@ -76,6 +76,9 @@ i.layui-anim{display:inline-block}
 				.genjinjilu{float:right;}
 			.genjinjilu{position: relative; right:8px;top :4px;color:white;}
 				.gj td{padding-left:25px;}
+
+
+
 			.gj tr{height:70px;}
 			.woca{display:none;}
 			.ace{width:80px;}
@@ -1071,6 +1074,11 @@ function bjjh(thisdom){
 							var win=layer.open({
 
 								type:1,
+						
+
+
+
+
 								offset: 't',
 								area:'750px',
 								title: '编辑回款',
@@ -1455,28 +1463,37 @@ function bjjh(thisdom){
 	function shanchu_pz(ss){
 		var id=$(ss).prop('id');
 
-		layui.use('layer', function(){
-							var layer = layui.layer;
-							var win=layer.open({
-								type:1,
-								offset: 't',
-								area:'630px',
-								title: '删除回款记录',
-								content:$('.del_huikuan'),
-								btn:['确认删除','取消'],
-								btn1:function(){
-									$.get(rooturl+'/index.php/Home/Hetongmingcheng/del_hkjh',{"id":id},
+				$.get(rooturl+'/index.php/Home/Hetongmingcheng/jiancha_tg',{"id":id},
 												function(html){
-													tishi("删除成功");
-													location=rooturl+"/index.php/Home/Hetongmingcheng/hetongmingcheng?id="+$(".ht_id").val()+"&uiid=2";
-											})
-								},
-								btn2:function(){
-									  layer.close(win)    
-								}
-							}); 
-						});  
+													if(html==1)
+													{
+														layui.use('layer', function(){
+																	var layer = layui.layer;
+																	var win=layer.open({
+																		type:1,
+																		offset: 't',
+																		area:'630px',
+																		title: '删除回款记录',
+																		content:$('.del_huikuan'),
+																		btn:['确认删除','取消'],
+																		btn1:function(){
+																			$.get(rooturl+'/index.php/Home/Hetongmingcheng/del_hkjh',{"id":id},
+																						function(html){
+																							tishi("删除成功");
+																							location=rooturl+"/index.php/Home/Hetongmingcheng/hetongmingcheng?id="+$(".ht_id").val()+"&uiid=2";
+																					})
+																		},
+																		btn2:function(){
+																			  layer.close(win)    
+																		}
+																	}); 
+																});  
 
+													}else{
+														tishi("不可删除");return;
+													}
+											})
+		
 	}
 	function xiugai_pz(ss){
 			var id=$(ss).prop('id');

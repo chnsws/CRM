@@ -440,8 +440,7 @@ return $fzr_only;
 
 			
 			$dinum=1;
-		//echo "<pre>";
-		//	var_dump($sql_hk_add);exit;
+			
 
 				
 				foreach($sql_hk as $k=>$v)
@@ -1886,5 +1885,19 @@ return $fzr_only;
 		$map['mode_id']=6;
 		$base=M('xiegenjin');
 		$sql=$base->where($map)->delete();
+	}
+	public function jiancha_tg(){
+		$id=$_GET['id'];
+		$base=M('hk_add');
+		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//
+		$qici=$id;
+		$sqla=$base->query("select * from crm_hkadd where hk_yh = '$yh' and hk_qici= $qici and (hk_sp =1 or hk_sp =0)");
+		if($sqla == "" || $sqla == null)
+		{
+			echo "1";
+		}else{
+			echo "no";
+		}
+		
 	}
 }

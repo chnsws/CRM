@@ -1209,15 +1209,7 @@ $("#nchangyong").click(function(){
 										                  });
 				}
 					function sousuo1(){
-					$(".ycyo").hide();
-					var name= "";
-					 $("#sousuo").val("");
-					 $.get(rooturl+'/index.php/Home/hetong/sousuo',{"id":name},
-										        		 function(lxrid){
-
-										        		$("#jb_bianji").html(lxrid);
-												        	
-										                  });
+					window.location.href="hetong";
 				}
 				var is_one="0";
 				var is_one1="0";
