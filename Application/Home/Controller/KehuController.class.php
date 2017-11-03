@@ -2707,6 +2707,7 @@ public function save(){
 		
 		
 		$data['kh_data']=json_encode($ex1,true);
+		$data['kh_gx_date']=date("Y-m-d H:i:s");
 		$kh_base=M('kh');
 		$sql_save=$kh_base->where($map)->save($data);
 
