@@ -12,7 +12,7 @@
 /* 头部 */
 .header{height: 65px; border-bottom: 1px solid #404553;  background-color: #393D49; color: #fff;}
 .logo{position: absolute; left: 0; top: 18px;width:500px;height:35px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
-.logo img{width: 31px; height: 31px;}
+.logo img{max-width: 300px; max-height: 31px;}
 
 .header .layui-nav{position: absolute; right: 0; top: 0; padding: 0; background: none;}
 .header .layui-nav .layui-nav-item{margin: 0 20px; line-height: 66px;}

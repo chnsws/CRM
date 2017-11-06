@@ -140,6 +140,7 @@ class OptionController extends DBController {
     //设置中心
     public function optioncenter(){
 		//echo "<pre>";print_r($_COOKIE);
+		//parent::rr($_COOKIE);
 		parent::is_login2(2);
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$userbase=M("user");
@@ -153,7 +154,9 @@ class OptionController extends DBController {
 			$a++;
 			if($a==5) break;
 		}
+		$gsimg=str_replace('Public',"/Public",$_COOKIE['gsimg']);
 		$this->assign("gg_str",$gg_str);
+		$this->assign("gsimg",$gsimg);
 		$this->assign("usercount",$usercount[0]['count(user_id)']);
 		$this->assign("stime",substr($f_user_info[0]['user_sign_time'],0,10));
 		$this->assign("etime",substr($f_user_info[0]['user_youxiaoqi'],0,10));
