@@ -7,8 +7,8 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<title>登录</title>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all" />
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/css/login.css" />
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/css/login.css" />
 	</head>
 
 	<body class="beg-login-bg">
@@ -26,18 +26,29 @@
 					</div>
 					<div class="layui-form-item">
 						<label class="beg-login-icon">
-                        <i class="layui-icon">&#xe642;</i>
-                    </label>
+							<i class="layui-icon">&#xe642;</i>
+						</label>
 						<input type="password" name="password" lay-verify="password" autocomplete="off" placeholder="这里输入密码" class="layui-input">
 					</div>
 					<div class="layui-form-item">
+							<div class="yzmdiv">
+									<input type="text" placeholder="验证码" id="codeinput" class="layui-input" >
+								</div>
+						<div class="yzmdiv">
+							<img src="__PUBLIC__/code/code.php" id="code" onclick="changecode()" title="点击更换验证码">
+						</div>
+						
+					</div>
+					<div class="layui-form-item">
+						<!--
 						<div class="beg-pull-left beg-login-remember">
 							<label>记住帐号？</label>
 							<input type="checkbox" name="rememberMe" value="true" lay-skin="switch" lay-filter='switchTest' checked title="记住帐号">
 						</div>
+						-->
 						<div class="beg-pull-right">
 							<button class="layui-btn layui-btn-primary" id="loginbtn" lay-submit lay-filter="login">
-                            	<i class="layui-icon">&#xe650;</i> 登录
+                            	<!--<i class="layui-icon">&#xe650;</i>-->登 录
                         	</button>
 						</div>
 						<div class="beg-clear"></div>
@@ -48,13 +59,13 @@
 				<p>2017 © 中软远景 版权所有</p>
 			</footer>
 		</div>
-		<script type="text/javascript" src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"></script>
-		<script type="text/javascript" src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-		<script type="text/javascript" src="{$_GET['public_dir']}/jquery-md5/jquery.md5.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/index_js_css/plugins/layui/layui.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/jquery/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/jquery-md5/jquery.md5.js"></script>
 		<script>
 		if(!navigator.cookieEnabled)//判断是否开启COOKIE
 		{
-			alert("您尚未开启浏览器的COOKIE，这将导致您不能正常使用系统。")
+			alert("您尚未开启浏览器的COOKIE，这将导致您可能无法正常使用系统。")
 		}
 		//判断是否记住用户名
 		var jizhuname="{$_COOKIE['jizhu']}";
@@ -91,12 +102,14 @@
 		$("#loginbtn").click(function(){
 			var username=$("input[name='userName']").val();
 			var userpwd	=$.md5($("input[name='password']").val());
+			var codeval=$("#codeinput").val();
 			if(username==''){tishi("用户名不能为空");return false;}
 			if($("input[name='password']").val()==''){tishi("密码不能为空");return false;}
-			$.post(root_dir+'/index.php/Home/Login/yanzheng',{name:username,pwd:userpwd,jizhu:swithstaus},function(is_success){
+			if(codeval==''){tishi("请输入验证码");return false;}
+			$.post('__ROOT__/index.php/Home/Login/yanzheng',{name:username,pwd:userpwd,code:codeval,jizhu:swithstaus},function(is_success){
 				if(is_success=='1')
 				{
-					location.href="{$_GET['root_dir']}/index.php";
+					location.href="__ROOT__/index.php";
 				}
 				else if(is_success=='3')
 				{
@@ -106,6 +119,16 @@
 				{
 					tishi("您的账户已被冻结，请联系公司管理员进行解冻。");
 				}
+				else if(is_success=='5')
+				{
+					tishi("验证码错误，请重新输入");
+					changecode();
+				}
+				else if(is_success=='6')
+				{
+					tishi("当前验证码已失效，请重新输入");
+					changecode();
+				}
 				else
 				{
 					tishi("用户名或密码错误，请查证后重试。");
@@ -113,6 +136,12 @@
 			});
 			return false;
 		});
+		function changecode()
+		{
+			document.getElementById("code").src="__PUBLIC__/code/code.php";
+			$("#codeinput").val('');
+			$("#codeinput").select();
+		}
 		</script>
 	</body>
 

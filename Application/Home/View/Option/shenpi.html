@@ -286,6 +286,7 @@
     <div id="kaipiaoshowshenpidiv3" style="margin-bottom:10px;float:left;margin-left:10px;width:400px;">
     </div>
 </div>
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
     window.root_dir="{$_GET['root_dir']}";
     window.windowlvid='';
@@ -562,6 +563,7 @@
         if(val=='0')
         {
             $.get(root_dir+"/index.php/Home/ShenpiDo/change_on_off",{"kqval":'0',"kqtype":'1'},function(res){
+                errorFun(res);
                 layer.close(jiazai);
                 tishi("合同审批已关闭");
             });
@@ -571,6 +573,7 @@
         else
         {
             $.get(root_dir+"/index.php/Home/ShenpiDo/change_on_off",{"kqval":'1',"kqtype":'1'},function(res){
+                errorFun(res);
                 layer.close(jiazai);
                 tishi("合同审批已开启");
             });
@@ -597,6 +600,7 @@
         {
             $("#huikuan-body").hide();
             $.get(root_dir+"/index.php/Home/ShenpiDo/change_on_off",{"kqval":'0',"kqtype":'2'},function(res){
+                errorFun(res);
                 layer.close(jiazai);
                 tishi("合同回款审批已关闭");
             });
@@ -607,6 +611,7 @@
         {
             $("#huikuan-body").show();
             $.get(root_dir+"/index.php/Home/ShenpiDo/change_on_off",{"kqval":'1',"kqtype":'2'},function(res){
+                errorFun(res);
                 layer.close(jiazai);
                 tishi("合同回款审批已开启");
             });
@@ -633,6 +638,7 @@
         {
             $("#kaipiao-body").hide();
             $.get(root_dir+"/index.php/Home/ShenpiDo/change_on_off",{"kqval":'0',"kqtype":'3'},function(res){
+                errorFun(res);
                 layer.close(jiazai);
                 tishi("开票审批已关闭");
             });
@@ -643,6 +649,7 @@
         {
             $("#kaipiao-body").show();
             $.get(root_dir+"/index.php/Home/ShenpiDo/change_on_off",{"kqval":'1',"kqtype":'3'},function(res){
+                errorFun(res);
                 layer.close(jiazai);
                 tishi("开票审批已开启");
             });
@@ -750,6 +757,7 @@
             }
         }
         $.post(root_dir+"/index.php/Home/ShenpiDo/baocun",{"ajaxstr":ajaxstr,"sptype":'1'},function(res){
+            errorFun(res);
             if(res=='1')
             {
                 tishi("保存成功");
@@ -817,6 +825,7 @@
             }
         }
         $.post(root_dir+"/index.php/Home/ShenpiDo/baocun",{"ajaxstr":ajaxstr,"sptype":'3'},function(res){
+            errorFun(res);
             if(res=='1')
             {
                 tishi("保存成功");
@@ -886,6 +895,7 @@
         ajaxstr=ajaxstr.substr(0,ajaxstr.length-1);
 
         $.post(root_dir+"/index.php/Home/ShenpiDo/baocun",{"ajaxstr":ajaxstr,"sptype":'2'},function(res){
+            errorFun(res);
             if(res=='1')
             {
                 tishi("保存成功");

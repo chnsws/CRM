@@ -331,6 +331,7 @@
         <span id="filesize" style="float:right;margin-right:40px;">223.0K</span>
     </div>
 </div>
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
 //获取URL的绝对路径
 window.root_dir="{$_GET['root_dir']}";
@@ -377,7 +378,7 @@ layui.use(['laypage', 'layer'], function(){
             layer.load(2);
             var now_url=get_url_val("page");
 
-            window.location=root_dir+'/index.php/Home/Xiansuo/index?page='+check_page+now_url;
+            window.location='__ROOT__/index.php/Home/Xiansuo/index?page='+check_page+now_url;
         }
     });
 });
@@ -482,7 +483,7 @@ $(function(){
         {
             to_url='?main_type=to_kh';
         }
-        window.location=root_dir+"/index.php/Home/Xiansuo/index"+to_url;
+        window.location="__ROOT__/index.php/Home/Xiansuo/index"+to_url;
     });
     //处理单项筛选的选中状态
     $(".textalign").each(function(){
@@ -578,7 +579,7 @@ $(function(){
                     return;
                 }
                 thisval=st+','+et;
-                window.location=root_dir+"/index.php/Home/Xiansuo/index?"+this_sx_name+"="+thisval+now_sx;
+                window.location="__ROOT__/index.php/Home/Xiansuo/index?"+this_sx_name+"="+thisval+now_sx;
             });
             
             
@@ -593,7 +594,7 @@ $(function(){
             {
                 thisval=$(this).index();
             }
-            window.location=root_dir+"/index.php/Home/Xiansuo/index?"+this_sx_name+"="+thisval+now_sx;
+            window.location="__ROOT__/index.php/Home/Xiansuo/index?"+this_sx_name+"="+thisval+now_sx;
         }
         
     });
@@ -609,7 +610,7 @@ $(function(){
         }
         var now_sx=get_url_val(0);
         var xs_id=$(this).parent().prop("class");
-        window.location=root_dir+"/index.php/Home/Xiansuo/xsinfo?xs_id="+xs_id+now_sx;
+        window.location="__ROOT__/index.php/Home/Xiansuo/xsinfo?xs_id="+xs_id+now_sx;
     });
     //监听表头中的全选全不选
     $(".cctable").find("th").eq(0).children("input[type='checkbox']").on("change",function(){
@@ -678,7 +679,7 @@ function change_fun(dom)
     var thisid=dom.prop("id");
     var thisval=dom.val();
     var now_sx=get_url_val(thisid);
-    window.location=root_dir+"/index.php/Home/Xiansuo/index?"+thisid+"="+thisval+now_sx;
+    window.location="__ROOT__/index.php/Home/Xiansuo/index?"+thisid+"="+thisval+now_sx;
 }
 //字段配置弹出层
 function sx_setting()
@@ -709,10 +710,11 @@ function sx_setting()
                     return;
                 }
                 sel_str=sel_str.substr(0,sel_str.length-1);
-                $.get(root_dir+"/index.php/Home/Xiansuo/change_sx",{"sel_str":sel_str},function(res){
+                $.get("__ROOT__/index.php/Home/Xiansuo/change_sx",{"sel_str":sel_str},function(res){
+                    errorFun(res);
                     if(res==1)
                     {
-                        window.location=root_dir+"/index.php/Home/Xiansuo/index";
+                        window.location="__ROOT__/index.php/Home/Xiansuo/index";
                     }
                     else
                     {
@@ -789,7 +791,8 @@ function piliangzhuanyi()
                 }
                 
                 window.jiazai=layer.load(2);
-                $.get(root_dir+"/index.php/Home/Xiansuo/change_fuzeren",{"to_user_id":to_user_id,"need_to_user_xs":need_to_user_xs},function(res){
+                $.get("__ROOT__/index.php/Home/Xiansuo/change_fuzeren",{"to_user_id":to_user_id,"need_to_user_xs":need_to_user_xs},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
                         window.location.reload();
@@ -829,7 +832,8 @@ function del_more()
         btn: ['确认删除', '取消'],
         btn1: function(index, layero){
             window.jiazai=layer.load(2);
-            $.get(root_dir+"/index.php/Home/Xiansuo/del_more",{"sel_xs":sel_xs},function(res){
+            $.get("__ROOT__/index.php/Home/Xiansuo/del_more",{"sel_xs":sel_xs},function(res){
+                errorFun(res);
                 if(res=='1')
                 {
                     location.reload();
@@ -901,6 +905,7 @@ function xinzengxiansuo_show()
             btn1:function(index,layero){
                 window.jiazai=layer.load(2);
                 var ajax_str='';
+                var asd={};
                 var have_diqu=0;
                 var need_stop=0;
                 $("#xinzengxiansuodiv").find("tbody").children("tr").each(function(){
@@ -912,6 +917,7 @@ function xinzengxiansuo_show()
                     var this_zd_val='';
                     if(this_zd_id=='zdy11')
                     {
+                        //地区
                         this_zd_val=$(this).children("td").eq(1).children("select").eq(0).val()+','+$(this).children("td").eq(1).children("select").eq(1).val()+','+$(this).children("td").eq(1).children("select").eq(2).val();
                         have_diqu=1;
                     }
@@ -980,10 +986,11 @@ function xinzengxiansuo_show()
                     return false;
                 }
                 ajax_str='{'+ajax_str.substr(0,ajax_str.length-1)+'}';
-                $.post(root_dir+"/index.php/Home/Xiansuo/add_xs",{"ajax_str":ajax_str},function(res){
+                $.post("__ROOT__/index.php/Home/Xiansuo/add_xs",{"ajax_str":ajax_str},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
-                        location=root_dir+"/index.php/Home/Xiansuo/index";
+                        location="__ROOT__/index.php/Home/Xiansuo/index";
                     }
                     else
                     {
@@ -1008,7 +1015,7 @@ function daoru()
 {
     var upname='';
     layui.upload({
-        url: root_dir+"/index.php/Home/Xiansuo/daoru_upload",
+        url: "__ROOT__/index.php/Home/Xiansuo/daoru_upload",
         title:"选择文件",
         before: function(input){
             //返回的参数item，即为当前的input DOM对象
@@ -1047,10 +1054,11 @@ function daoru()
             btn:["开始导入","下载模板","取消"],
             content:$("#daorudiv"),
             btn1:function(index,layero){
-                $.get(root_dir+"/index.php/Home/Xiansuo/daoru_start",{"upname":upname},function(res){
+                $.get("__ROOT__/index.php/Home/Xiansuo/daoru_start",{"upname":upname},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
-                        window.location=root_dir+"/index.php/Home/Xiansuo/index";
+                        window.location="__ROOT__/index.php/Home/Xiansuo/index";
                     }
                     else if(res=='2')
                     {
@@ -1072,7 +1080,7 @@ function daoru()
                 layer.close(index);
             },
             btn2:function(index,layero){
-                window.location=root_dir+"/index.php/Home/Xiansuo/download_mod";
+                window.location="__ROOT__/index.php/Home/Xiansuo/download_mod";
             },
             btn3:function(index,layero){
                 layer.close(index);
@@ -1176,7 +1184,7 @@ function table_top_search()
     var search_content=$("#table_top_search_input").val();
     search_content=search_content==''?search_content:search_type+','+search_content;
     var now_url=get_url_val("search");
-    window.location=root_dir+"/index.php/Home/Xiansuo/index?search="+search_content+now_url;
+    window.location="__ROOT__/index.php/Home/Xiansuo/index?search="+search_content+now_url;
 }
 //获取URL中剩余的值，可以删除一个值
 function get_url_val(without)

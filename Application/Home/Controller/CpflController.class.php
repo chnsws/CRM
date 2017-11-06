@@ -1,21 +1,20 @@
 <?php
-
 namespace Home\Controller;
 use Think\Controller;
-
 
 class CpflController extends DBController {
     //产品分类主页
 	public function cpfl_index()
 	{
-        $this->is_login();
+        parent::is_login2(2);
+        parent::have_qx2("qx_cp_open");
 		$this->display();
 	}
     //获得产品分类树形结构
     public function get_fl_level_html()
     {
-        $this->is_login();
-        $fid=$this->get_fid();
+        parent::is_login();
+        $fid=parent::get_fid();
         $back_html=$this->sel_one_data("crm_config","config_cp_fl_tree","config_name='$fid'");
         if($back_html)
         {
@@ -35,16 +34,17 @@ class CpflController extends DBController {
     //保存当前分类结构
     public function save_tree_html()
     {
-        $this->is_login();
-        $fid=$this->get_fid();
+        parent::is_login();
+        parent::have_qx("qx_cp_edit");
+        $fid=parent::get_fid();
         $tree_html=addslashes($_POST['tree_html']);
         $this->edit_one_data("crm_config","config_cp_fl_tree",$tree_html,"config_name='$fid'");
     }
     //添加一条新的分类
     public function add_new_fl()
     {
-        $this->is_login();
-        $fid=$this->get_fid();
+        parent::is_login();
+        $fid=parent::get_fid();
         $flname=addslashes($_GET['flname']);
         if($flname=='')
         {
@@ -68,16 +68,16 @@ class CpflController extends DBController {
     //保存快捷方式
     public function edit_cpfl_link()
     {
-        $this->is_login();
-        $fid=$this->get_fid();
+        parent::is_login();
+        $fid=parent::get_fid();
         $link_id_str=addslashes($_GET['link_id_str']);
         $this->edit_one_data("crm_config","config_cp_fl_link","$link_id_str"," config_name='$fid' ");
     }
     //获取产品分类的快捷方式
     public function get_fl_link()
     {
-        $this->is_login();
-        $fid=$this->get_fid();
+        parent::is_login();
+        $fid=parent::get_fid();
         echo $this->sel_one_data("crm_config","config_cp_fl_link","config_name='$fid'");
     }
     //查询一个
@@ -130,35 +130,15 @@ class CpflController extends DBController {
     //获取父id
     public function get_fid()
     {
-        $this->is_login();
         $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
         return $fid;
     }
-    //验证登录
-    public function is_login()
-    {
-        if(cookie("islogin")!='1')
-		{
-			$this->main_gotopage($_GET['root_dir'].'/index.php/Home/Login');
-			die();
-		}
-    }
-    //窗口跳转
-    public function main_gotopage($pageurl)
-    {
-        echo "<script>window.parent.location='".$pageurl."'</script>";
-        die;
-    }
-    public function self_gotopage($pageurl)
-    {
-        echo "<script>window.location='".$pageurl."'</script>";
-        die;
-    }
     //根据数据库中储存的分类结构来构造html结构
     public function old_fl(){
-        $this->is_login();
-		//echo "<script>alert(".$_GET['flid'].")</script>";
-        $fid=$this->get_fid();
+        parent::is_login();
+        //echo "<script>alert(".$_GET['flid'].")</script>";
+        parent::have_qx("qx_cp_open");
+        $fid=parent::get_fid();
         //产品表操作，根据产品分类统计产品数量
         $cp_all_arr=$this->sel_more_data("crm_chanpin","cp_data,cp_id"," cp_yh='$fid' and cp_del='0' ");
         $fl_cp_num=array();
@@ -375,8 +355,9 @@ class CpflController extends DBController {
     //改变数据库中产品分类的结构数据
     public function edit_db_tree_old()
     {
-        $this->is_login();
-        $fid=$this->get_fid();
+        parent::is_login();
+        parent::have_qx("qx_cp_edit");
+        $fid=parent::get_fid();
         $get_jg=$_GET['json_str'];
         $get_jg=explode(',',substr(str_replace('"','',$get_jg),1,-1));
         $sql_str='';
@@ -395,8 +376,9 @@ class CpflController extends DBController {
     //修改产品分类的简介
     public function edit_fl_jj()
     {
-        $this->is_login();
-        $fid=$this->get_fid();
+        parent::is_login();
+        parent::have_qx("qx_cp_edit");
+        $fid=parent::get_fid();
         $cpflid=$this->getok("cpflid");
         $jj_content=$this->getok("jj_content");
         if($cpflid==''||$jj_content=='')
@@ -409,6 +391,8 @@ class CpflController extends DBController {
     //保存产品分类的树形结构顺序
     public function edit_tree_px()
     {
+        parent::is_login();
+        parent::have_qx("qx_cp_edit");
         $getPx=$_POST['jsonstr'];
         $px=json_decode($getPx,true);
         $pxstr=implode(',',$px);
@@ -419,6 +403,8 @@ class CpflController extends DBController {
     //产品全局查询
     public function search_cp_list()
     {
+        parent::is_login();
+        parent::have_qx("qx_cp_open");
         $inputText=addslashes($_GET['searchstr']);
         $searchJsonStr=json_encode($inputText);
         $searchJsonStr=substr($searchJsonStr,1,-1);
@@ -494,7 +480,7 @@ class CpflController extends DBController {
         //更新系统日志 	操作时间	操作人员	模块	操作内容	操作设备	操作设备IP
 		$xitongrizhibase=M("rz");
 		$loginIp=$_SERVER['REMOTE_ADDR'];//IP 
-        $fid=$this->get_fid();
+        $fid=parent::get_fid();
 		//登录地点
 		$addressArr=getCity($nowip);
 		$loginDidianStr=$addressArr["country"].$addressArr["region"].$addressArr["city"];

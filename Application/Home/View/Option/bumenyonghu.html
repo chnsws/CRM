@@ -239,7 +239,7 @@
 			</table>
 		</center>
 	</div>
-
+	<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 	<script>
 		
 		window.root_dir="{$_GET['root_dir']}";
@@ -296,6 +296,7 @@
 		function save_tree()
 		{
 			$.post("__ROOT__/index.php/Home/OptionDo/save_bm_tree",{"cdd":cdd},function(res){
+				errorFun(res);
 				if(res!='1')
 				{
 					tishi("保存结构失败，请稍后重试");
@@ -304,6 +305,7 @@
 			var bmpxjson=get_bm_px($("#ukpaixu"));
 			
 			$.post("__ROOT__/index.php/Home/OptionDo/save_bm_px",{"bmpxjson":bmpxjson},function(res){
+				errorFun(res);
 				if(res!='1')
 				{
 					tishi("保存结构失败，请稍后重试");
@@ -377,6 +379,7 @@
 						}
 						window.jiazai=layer.load(2);
 						$.get(root_dir+'/index.php/Home/OptionDo/bumenadd',{"newname":newBumenName,"fid":thisfid},function(is_ok){
+							errorFun(is_ok);
 							if(is_ok=='1')
 							{
 								location.reload();
@@ -429,6 +432,7 @@
 						else
 						{
 							$.get(root_dir+'/index.php/Home/OptionDo/bumenedit',{"newname":namename,"thisid":thisid},function(is_ok){
+								errorFun(is_ok);
 								layer.close(window.jiazai);
 								if(is_ok=='1')
 								{
@@ -464,6 +468,7 @@
 				btn1: function(index, layero){
 					window.jiazai=layer.load(2);
 					$.get(root_dir+'/index.php/Home/OptionDo/bumendel',{"thisid":thisid,"thisname":thisname},function(is_ok){
+						errorFun(is_ok);
 						if(is_ok=='1')
 						{
 							location.reload();
@@ -545,10 +550,12 @@
 					return false;
 				}
 				$.get(root_dir+'/index.php/Home/OptionDo/useradd',{"addusername":addusername,"addusersex":addusersex,"adduserphone":adduserphone,"adduseremail":adduseremail,"adduserjuese":adduserjuese,"adduserzhuguan":adduserzhuguan,"adduserzhubm":adduserzhubm,"adduserfubm":adduserfubm},function(is_ok){
+					errorFun(is_ok);
 					var fanhuiArr=is_ok.split('&&');
 					if(fanhuiArr[0]=='1')
 					{
 						$.get(root_dir+'/index.php/Home/OptionDo/usershuaxin',{},function(searcharr){
+							errorFun(searcharr);
 							var fhArr=searcharr.split("@@&&");
 							//更新用户表格
 							$("#table_local").children("tbody").html(fhArr[1]);
@@ -597,9 +604,11 @@
 				btn: ['确定', '取消'],
 				btn1: function(index, layero){
 					$.get(root_dir+'/index.php/Home/OptionDo/dongjie',{"thisTrId":thisTrId,"DJtype":thisType},function(FH){
+						errorFun(FH);
 						if(FH=='1')
 						{
 							$.get(root_dir+'/index.php/Home/OptionDo/usershuaxin',{},function(searcharr){
+								errorFun(searcharr);
 								var fhArr=searcharr.split("@@&&");
 								//更新用户表格
 								$("#table_local").children("tbody").html(fhArr[1]);
@@ -650,6 +659,7 @@
 							return false;
 						}
 						$.get(root_dir+'/index.php/Home/OptionDo/pwdedit',{"editid":thisTrId,"pwd":newpwd},function(XG){
+							errorFun(XG);
 							if(XG==1)
 							{
 								tishi("修改成功");
@@ -681,10 +691,12 @@
 				btn: ['确认删除', '取消'],
 				btn1: function(index, layero){
 					$.get(root_dir+'/index.php/Home/OptionDo/userdel',{"deluserid":thisuserid,"delusername":thisusername},function(is_del){
+						errorFun(is_del);
 						
 						if(is_del=='1')
 						{
 							$.get(root_dir+'/index.php/Home/OptionDo/usershuaxin',{},function(searcharr){
+								errorFun(searcharr);
 								var fhArr=searcharr.split("@@&&");
 								//更新用户表格
 								$("#table_local").children("tbody").html(fhArr[1]);
@@ -845,9 +857,11 @@
 						if(updatestr!='')
 						{
 							$.get(root_dir+'/index.php/Home/OptionDo/useredit',{"usereditid":bj_id,"usereditdata":updatestr,"editusername":editusername},function(usereditres){
+								errorFun(usereditres);
 								if(usereditres=='1')
 								{
 									$.get(root_dir+'/index.php/Home/OptionDo/usershuaxin',{},function(searcharr){
+										errorFun(searcharr);
 										var fhArr=searcharr.split("@@&&");
 										//更新用户表格
 										$("#table_local").children("tbody").html(fhArr[1]);

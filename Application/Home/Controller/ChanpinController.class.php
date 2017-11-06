@@ -6,9 +6,9 @@ use Think\Controller;
 class ChanpinController extends DBController {
 	//主页
     public function index(){
-		parent::is_login();
+		parent::is_login2(2);
+		parent::have_qx2("qx_cp_open");
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
 		$get_flid=addslashes($_GET['flid']);
 		$page=addslashes($_GET['page']);
 		if($get_flid=='')
@@ -402,9 +402,9 @@ class ChanpinController extends DBController {
 	//产品详情
 	public function chanpininfo()
 	{
-		parent::is_login();
+		parent::is_login2(2);
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
+		parent::have_qx2("qx_cp_open");
 		$cpid=addslashes($_GET['cpid']);
 		$flid=addslashes($_GET['flid']);
 
@@ -563,16 +563,12 @@ class ChanpinController extends DBController {
 		$this->assign("oldimgname",$cpjsonarr['zdy7']);
 		$this->display();
 	}
-	public function hahaha()
-	{
-		echo phpinfo();
-	}
 	//新增产品
 	public function cp_add()
 	{
 		parent::is_login();
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
+		parent::have_qx("qx_cp_add");
 		$addstr=$_POST['addstr'];
 		if($addstr=='')
 		{
@@ -630,7 +626,7 @@ class ChanpinController extends DBController {
 	{
 		parent::is_login();
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
+		parent::have_qx("qx_cp_add");
 		//文件保存
         
         if(count($_FILES['cpimage'])<1)
@@ -660,6 +656,8 @@ class ChanpinController extends DBController {
 	//删除旧图片
 	public function del_old_img()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_open");
 		$oldname=addslashes($_GET['oldname']);
 		if($oldname=='')die;
 		unlink('./Public/chanpinfile/cpimg/'.$oldname);
@@ -669,7 +667,7 @@ class ChanpinController extends DBController {
 	{
 		parent::is_login();
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
+		parent::have_qx("qx_cp_edit");
 		$sel_id=addslashes($_GET['sel_id']);
 		$newflid=addslashes($_GET['newflid']);
 		if($sel_id==''||$newflid=='')
@@ -686,6 +684,8 @@ class ChanpinController extends DBController {
 	//批量启用、禁用
 	public function qy_jy()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_open");
 		$sel_id=addslashes($_GET['sel_id']);
 		$qyjy=addslashes($_GET['qyjy']);
 		$pagename=addslashes($_GET['pagename']);
@@ -694,9 +694,7 @@ class ChanpinController extends DBController {
 			echo '2';
 			die;
 		}
-		parent::is_login();
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
 		$instr="'".str_replace(',',"','",$sel_id)."'";
 		$instr=str_replace('chid','',$instr);
 		$cpbase=M("chanpin");
@@ -708,6 +706,8 @@ class ChanpinController extends DBController {
 	//多选删除
 	public function del_more()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_del");
 		$sel_id=addslashes($_GET['sel_id']);
 		$delname=addslashes($_GET['delname']);
 		if($sel_id=='')
@@ -715,9 +715,8 @@ class ChanpinController extends DBController {
 			echo '2';
 			die;
 		}
-		parent::is_login();
+		
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_del");
 		$instr="'".str_replace(',',"','",$sel_id)."'";
 		$instr=str_replace('chid','',$instr);
 		$cpbase=M("chanpin");
@@ -734,6 +733,8 @@ class ChanpinController extends DBController {
 	//搜索
 	public function searchfun()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_open");
 		$sea_type=addslashes($_POST['sea_type']);
 		$sea_text=addslashes($_POST['sea_text']);
 		$flid=addslashes($_POST['flid']);
@@ -741,9 +742,9 @@ class ChanpinController extends DBController {
 		$pz=$_POST['pz'];
 		$old_sea_text=$sea_text;
 		$sea_text=str_replace("\\","%",substr(json_encode($sea_text),1,-1));
-		parent::is_login();
+		
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
+		
 		$cpbase=M("chanpin");
 		//$fenlei_where=$old_sea_text!=''?"and cp_data like '%\"zdy6\":\"".$flid."\"%' ":'';
 		$newcparr=$cpbase->query("select * from crm_chanpin where  cp_yh='$fid' and cp_del='0' and cp_data like '%\"zdy6\":\"".$flid."\"%' ");
@@ -816,6 +817,8 @@ class ChanpinController extends DBController {
 	//添加产品分类
 	public function addfl()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_add");
 		$addfid=addslashes($_GET['addfid']);
 		$newname=addslashes($_GET['newname']);
 		if($addfid==''||$newname=='')
@@ -823,9 +826,9 @@ class ChanpinController extends DBController {
 			echo '2';
 			die;
 		}
-		parent::is_login();
+		
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
+		
 		$flbase=M("chanpinfenlei");
 		$flnum=$flbase->query("select cpfl_id from crm_chanpinfenlei where cpfl_name='$newname' and cpfl_company='$fid' limit 1");
 		if(count($flnum)>0)
@@ -839,6 +842,8 @@ class ChanpinController extends DBController {
 	//修改产品分类
 	public function editfl()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_edit");
 		$editid=addslashes($_GET['editid']);
 		$newname=addslashes($_GET['newname']);
 		if($editid==''||$newname=='')
@@ -846,9 +851,9 @@ class ChanpinController extends DBController {
 			echo '2';
 			die;
 		}
-		parent::is_login();
+		
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
+		
 		$flbase=M("chanpinfenlei");
 		$flnum=$flbase->query("select cpfl_id from crm_chanpinfenlei where cpfl_name='$newname' and cpfl_company='$fid' limit 1");
 		if(count($flnum)>0)
@@ -862,6 +867,8 @@ class ChanpinController extends DBController {
 	//删除产品分类
 	public function delfl()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_del");
 		$delid=addslashes($_GET['delid']);
 		$delname=addslashes($_GET['delname']);
 		if($delid=='')
@@ -869,9 +876,8 @@ class ChanpinController extends DBController {
 			echo '2';
 			die;
 		}
-		parent::is_login();
+		
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
 		$flbase=M("chanpinfenlei");
 		$flarr=$flbase->query("select * from crm_chanpinfenlei where cpfl_company='$fid' ");
 		$inflarr[$delid]=$delid;
@@ -893,7 +899,9 @@ class ChanpinController extends DBController {
 	//修改产品文件
 	public function editimg()
 	{
-			//文件保存
+		parent::is_login();
+		parent::have_qx("qx_cp_edit");
+		//文件保存
         
         if(count($_FILES['editcpimage'])<1)
         {
@@ -901,9 +909,9 @@ class ChanpinController extends DBController {
             die();
         }
 		$getFileArr=$_FILES['editcpimage'];
-        parent::is_login();
+		
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_edit");
+		
 		$user_id=cookie("user_id");
         $oldnamehz=substr(strrchr($getFileArr['name'], '.'), 1);
         $newname=$fid.'_'.$user_id.'_'.time().'.'.$oldnamehz;
@@ -932,8 +940,8 @@ class ChanpinController extends DBController {
 	public function editcp()
 	{
 		parent::is_login();
+		parent::have_qx("qx_cp_edit");
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
 		$editstr=$_POST['editstr'];
 		$nowpageid=addslashes($_POST['nowpageid']);
 		$oldimgname=addslashes($_POST['oldimgname']);
@@ -989,83 +997,11 @@ class ChanpinController extends DBController {
 		echo $this->insertrizhi("修改了产品：".$nowpagename);
 		die;
 	}
-	//根据左边产品分类改变右边产品列表
-	public function get_fl_cplist()
-	{
-		$clickflid=addslashes($_POST['clickflid']);
-		$px=$_POST['px'];//排序
-		$pz=$_POST['pz'];//配置隐藏
-		if($clickflid=='')
-		{
-			echo '';
-			die;
-		}
-		parent::is_login();
-		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
-		$cpbase=M("chanpin");
-		$fenlei_where=$clickflid>0?"cp_data like '%\"zdy6\":\"".$clickflid."\"%' and ":'';
-		$newcparr=$cpbase->query("select * from crm_chanpin where $fenlei_where cp_yh='$fid' and cp_del='0' ");
-		
-		//解析当前页面的配置数据
-		$pxarr=json_decode($px,true);
-		$pzarr=json_decode($pz,true);
-		if(count($newcparr)<1)
-		{
-			echo "<tr><td colspan='100'><center>没有产品数据</center></td></tr>";
-			die;
-		}
-		//分类查询
-		$cpflbase=M("chanpinfenlei");
-		$cpflbasearr=$cpflbase->query("select cpfl_id,cpfl_name from crm_chanpinfenlei where cpfl_company='$fid' ");
-		foreach($cpflbasearr as $v)
-		{
-			$cpflarr[$v['cpfl_id']]=$v['cpfl_name'];
-		}
-		//分类结束
-		$newtablestr='';//新表格数据字符串
-		foreach($newcparr as $v)
-		{
-			$rowjsonarr=json_decode($v['cp_data'],true);
-			$isfirst='0';
-			$rowtdstr='';
-			foreach($pxarr as $k=>$vv)
-			{
-				if($k=='zdy7'||$pzarr[$k]=='1'||$vv['qy']!='1')
-				{
-					continue;
-				}
-				$tdclass=$v['cp_qy']=='1'?'':"style='color:#ccc;'";
-				$rowjsonarr[$k]=$k=='zdy6'?$cpflarr[$rowjsonarr[$k]]:$rowjsonarr[$k];
-				$tdstr=$rowjsonarr[$k];
-				$tdstr=$tdstr==''?'-':$tdstr;
-				$left_t='';
-				if($isfirst=='0')
-				{
-					$left_t="class='left_t'";
-					$firsttd="<td $tdclass style='width:200px'  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;'>".$rowjsonarr[$k]."</td>";
-				}
-				$rowtdstr.="<td $tdclass $left_t  onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' title='".$rowjsonarr[$k]."'>".$tdstr."</td>".$firsttd;
-				$firsttd='';
-				$isfirst++;
-			}
-			$checkboxstr="<td id='checkboxcss2'><input  type='checkbox' class='tbbox' id='chid".$v['cp_id']."'></td>";
-			$add_edit_date="<td $tdclass onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' >".$v['cp_add_time']."</td><td $tdclass onclick='link_info(".$v['cp_id'].")' style='cursor:pointer;' >".$v['cp_edit_time']."</td>";
-			if($v['qy']=='1')
-			{
-				$qytr.="<tr>".$checkboxstr.$rowtdstr.$add_edit_date."</tr>";
-			}
-			else
-			{
-				$jytr.="<tr>".$checkboxstr.$rowtdstr.$add_edit_date."</tr>";
-			}
-		}
-		$newtablestr=$qytr.$jytr;
-		echo $newtablestr;
-	}
 	//上传产品附件
 	public function cp_file()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_edit");
 		//文件保存
         if(count($_FILES['cp_file'])<1)
         {
@@ -1073,9 +1009,9 @@ class ChanpinController extends DBController {
             die();
         }
 		$getFileArr=$_FILES['cp_file'];
-        parent::is_login();
+		
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
+		
         $oldnamehz=substr(strrchr($getFileArr['name'], '.'), 1);
         $newname=time().$getFileArr['name'];
         $ss=move_uploaded_file($getFileArr['tmp_name'],'./Public/chanpinfile/cpfile/'.$newname);
@@ -1093,6 +1029,8 @@ class ChanpinController extends DBController {
 	//删除旧附件
 	public function del_old_file()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_edit");
 		$oldname=addslashes($_GET['oldname']);
 		if($oldname=='')die;
 		unlink('./Public/chanpinfile/cpfile/'.$oldname);
@@ -1100,6 +1038,8 @@ class ChanpinController extends DBController {
 	//保存产品附件
 	public function bt_cpfj()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_edit");
 		$fjbz=addslashes($_GET['fjbz']);
 		$fjmc=addslashes($_GET['fjmc']);
 		$fjdx=addslashes($_GET['fjdx']);
@@ -1110,9 +1050,9 @@ class ChanpinController extends DBController {
 			echo '2';
 			die;
 		}
-		parent::is_login();
+		
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_edit");
+		
 		$fjbase=M("cp_file");
 		$fjbase->query("insert into crm_cp_file values('','$fjmc','$fjdx','$fjbz','$fjcpid','".date("Y-m-d H:i:s",time())."','0','".cookie("user_id")."','$fid')");
 		echo $this->insertrizhi("上传了附件：".$upoldname);
@@ -1120,10 +1060,12 @@ class ChanpinController extends DBController {
 	//重载附件列表
 	public function reload_file_list()
 	{
-		$reloadcpid=addslashes($_GET['reloadcpid']);
 		parent::is_login();
-		$fid=parent::get_fid();
 		parent::have_qx("qx_cp_open");
+		$reloadcpid=addslashes($_GET['reloadcpid']);
+		
+		$fid=parent::get_fid();
+		
 		$fjbase=M("cp_file");
 		$reloadfjarr=$fjbase->query("select * from crm_cp_file where fj_cp='$reloadcpid' and fj_yh='$fid' and fj_del='0' ");
 		$newfjtable='';
@@ -1138,10 +1080,12 @@ class ChanpinController extends DBController {
 	//下载附件
 	public function fujian_download()
 	{
-		$fjid=$_GET['fjid'];
 		parent::is_login();
-		$fid=parent::get_fid();
 		parent::have_qx("qx_cp_open");
+		$fjid=$_GET['fjid'];
+		
+		$fid=parent::get_fid();
+		
 		$cpfjbase=M("cp_file");
 		$fjname=$cpfjbase->query("select fj_name from crm_cp_file where fj_yh='$fid' and fj_id='$fjid' and fj_del='0' limit 1");
 		$file=$fjname[0]['fj_name'];
@@ -1161,9 +1105,11 @@ class ChanpinController extends DBController {
 	//根据附件id删除附件
 	public function del_fj()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_edit");
 		$delfjid=addslashes($_GET['delfjid']);
 		$fjname=addslashes($_GET['fileyname']);
-		parent::have_qx("qx_cp_edit");
+		
 		if($delfjid=='')
 		{
 			echo '2';
@@ -1176,6 +1122,8 @@ class ChanpinController extends DBController {
 	//导入模板下载
 	public function get_muban()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_open");
 		$flid=$_GET['flid'];
 		if(!$flid)
 		{
@@ -1184,9 +1132,9 @@ class ChanpinController extends DBController {
 		}
 		$name="产品数据导入模板";
 		//$name=iconv("utf-8","gbk//IGNORE",$name);
-		parent::is_login();
+		
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
+		
 		$zdbase=M("yewuziduan");
 		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7,".$flid."' limit 1");
 		if(count($zdarr)<=0)
@@ -1227,6 +1175,8 @@ class ChanpinController extends DBController {
 	//上传csv文件
 	public function chanpin_csv_upload()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_add");
 		//文件保存
         if(count($_FILES['csv_up'])<1)
         {
@@ -1258,6 +1208,8 @@ class ChanpinController extends DBController {
 	//开始导入产品信息
 	public function daoru_chanpin()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_add");
 		$csvfilename=addslashes($_GET['csvfilename']);
 		$flid=addslashes($_GET['flid']);
 		if($csvfilename==''||$flid=='')
@@ -1268,9 +1220,9 @@ class ChanpinController extends DBController {
 		$cpflbase=M("chanpinfenlei");
 		$flname=$cpflbase->query("select cpfl_name from crm_chanpinfenlei where cpfl_id='$flid' limit 1");
 		$flname=$flname[0]['cpfl_name'];
-		parent::is_login();
+		
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
+		
 		/*
 		//读取文件
 		$file_path="./Public/chanpinfile/cpfile/linshi/".$csvfilename;
@@ -1406,15 +1358,17 @@ class ChanpinController extends DBController {
 	//导出数据
 	public function daochu_data()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_open");
 		$flid=$_GET['flid'];
 		if(!$flid)
 		{
 			echo "<script>alert('未获取到产品分类ID');history.go(-1);</script>";
 			die;
 		}
-		parent::is_login();
+		
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");		
+				
 		$name="产品数据";
 		//字段表
 		$zdbase=M("yewuziduan");
@@ -1499,6 +1453,8 @@ class ChanpinController extends DBController {
 	//产品图片下载
 	public function img_download()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_open");
 		$file = $_GET['file'];
 		if($file=='')
 		{
@@ -1515,11 +1471,13 @@ class ChanpinController extends DBController {
 	//删除产品图片
 	public function img_del()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_edit");
 		$cpid=$_GET['delcpid'];
 		$cpname=$_GET['cpname'];
-		parent::is_login();
+		
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
+		
 		$cpbase=M("chanpin");
 		$oldcparr=$cpbase->query("select cp_data from crm_chanpin where cp_id='$cpid' and cp_yh='$fid' limit 1");
 		$oldcparr=json_decode($oldcparr[0]['cp_data'],true);
@@ -1532,6 +1490,8 @@ class ChanpinController extends DBController {
 	//修改表格的隐藏与显示（存的是隐藏的）
 	public function show_option()
 	{
+		parent::is_login();
+		parent::have_qx("qx_cp_open");
 		$checkid=addslashes($_POST['checkid']);
 		$flid=addslashes($_POST['flid']);
 		if($checkid==''||$flid=='')
@@ -1541,9 +1501,9 @@ class ChanpinController extends DBController {
 		}
 		$checkid=substr($checkid,0,-1);
 		$checkarr=explode(",",$checkid);
-		parent::is_login();
+		
 		$fid=parent::get_fid();
-		parent::have_qx("qx_cp_open");
+		
 
 		foreach($checkarr as $k=>$v)
 		{

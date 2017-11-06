@@ -96,6 +96,7 @@
     <!--数据模块结束-->
 </div>
 </body>
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
 window.root_dir="{$_GET['root_dir']}";
 window.this_page_cpfl_id="{$_GET['cpflid']}";
@@ -176,6 +177,7 @@ function kqgb(thisdom)
     if(thistext=='开启筛选')//当前是关闭状态需要开启
     {
         $.get(root_dir+"/index.php/Home/ShaixuanDo/sxqy",{"cval":'1',"thisyewu":thisyewu,"flid":this_page_cpfl_id,"flname":flname},function(res){
+            errorFun(res);
             layer.close(jiazai);
             if(res!='1')
             {
@@ -189,6 +191,7 @@ function kqgb(thisdom)
     else
     {
         $.get(root_dir+"/index.php/Home/ShaixuanDo/sxqy",{"cval":'0',"thisyewu":thisyewu,"flid":this_page_cpfl_id,"flname":flname},function(res){
+            errorFun(res);
             layer.close(jiazai);
             if(res!='1')
             {
@@ -240,6 +243,7 @@ function bcbtn(thisdom)
     selectval=selectval.substr(0,selectval.length-1);//123
     qjnum=qjnum.substr(0,qjnum.length-1);//123
     $.get(root_dir+"/index.php/Home/ShaixuanDo/bcsz",{"qyid":qyid,"selectval":selectval,"yewu":thisyewu,"qjnum":qjnum,"flid":this_page_cpfl_id,"flname":flname},function(res){
+        errorFun(res);
         layer.close(jiazai);
         if(res!="1")
         {
@@ -256,6 +260,7 @@ function createmb(thisdom)
     var thisyewu=thisid.substr(4);//业务号
 
     $.get(root_dir+"/index.php/Home/ShaixuanDo/createmb",{"thisyewu":thisyewu,"flid":this_page_cpfl_id,"flname":flname},function(res){
+        errorFun(res);
         //document.write(res);return;
         layer.close(jiazai);
         resarr=res.split("#");

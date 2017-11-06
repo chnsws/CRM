@@ -6,6 +6,8 @@ use Think\Controller;
 class ShenpiDoController extends DBController {
     public function change_on_off()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_sp");
         $kqval=addslashes($_GET['kqval']);
         $kqtype=addslashes($_GET['kqtype']);
         if($kqtype==''||$kqval=='')
@@ -26,6 +28,8 @@ class ShenpiDoController extends DBController {
     //开启或关闭审批人
     public function change_ck_onoff()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_sp");
         $ckid=addslashes($_GET['ckid']);
         $ckval=addslashes($_GET['ckval']);
         if($ckid==''||$ckval=='')
@@ -40,6 +44,8 @@ class ShenpiDoController extends DBController {
     //审批保存
     public function baocun()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_sp");
         $ajaxstr=addslashes($_POST['ajaxstr']);
         $sptype=addslashes($_POST['sptype']);
         if($ajaxstr=='')

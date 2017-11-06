@@ -3,7 +3,7 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class YewucanshuDoController extends Controller {
+class YewucanshuDoController extends DBController {
     public $pageidarr=array(
             "paixu_xiansuo"=>"1",
             "paixu_kehu"=>"2",
@@ -15,6 +15,8 @@ class YewucanshuDoController extends Controller {
     //修改排序
     public function editpaixu()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_ywcs");
         $thistableid=addslashes($_POST['thistableid']);
         $shunxu=addslashes(substr($_POST['shunxu'],0,-1));
         if($thistableid==''||$shunxu=='')
@@ -44,6 +46,8 @@ class YewucanshuDoController extends Controller {
     //修改参数值
     public function editcsval()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_ywcs");
         $nowpageid=addslashes($_GET['nowpageid']);
         $newval=addslashes($_GET['newval']);
         $trid=addslashes($_GET['trid']);
@@ -87,6 +91,8 @@ class YewucanshuDoController extends Controller {
     //添加新参数
     public function addnewval()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_ywcs");
         $nowpageid=addslashes($_GET['nowpageid']);
         $thistagname=addslashes($_GET['thistagname']);
         $newval1=addslashes($_GET['newval1']);

@@ -113,6 +113,7 @@
 <div id='msg'></div>
 </body>
 <script src="{$_GET['root_dir']}/Public/index_js_css/datas/area_data.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
     window.root_dir="{$_GET['root_dir']}";
     //加载lay上传样式
@@ -315,6 +316,7 @@
         else
         {
             $.get(root_dir+"/index.php/Home/CompanyinfoDo/companyinfoedit",{"editinfo":neededit},function(res){
+                errorFun(res);
                 if(res==1)
                 {
                     location.reload();

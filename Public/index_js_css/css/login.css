@@ -5,7 +5,7 @@
 
 .beg-login-box {
 	width: 450px;
-	height: 330px;
+	height: 350px;
 	margin: 10% auto;
 	background-color: rgba(255, 255, 255, 0.407843);
 	border-radius: 10px;
@@ -25,7 +25,7 @@
 }
 
 .beg-login-box .beg-login-main {
-	height: 185px;
+	height: 205px;
 	padding: 30px 90px 0;
 }
 
@@ -54,6 +54,8 @@
 	text-align: center;
 }
 
+/*
+记住用户部分
 .beg-pull-left {
 	float: left !important;
 }
@@ -61,7 +63,7 @@
 .beg-pull-right {
 	float: right !important;
 }
-
+*/
 .beg-clear {
 	clear: both;
 }
@@ -89,4 +91,28 @@
 	position: absolute;
 	left: 115px;
 	height: 38px;
+}
+.yzmdiv:first-child{width:60%;}
+.yzmdiv:last-child{width:40%;}
+.yzmdiv{
+	float: left;
+	
+	height:38px;
+	margin: 0px;
+	padding:0px;
+	overflow: hidden;
+}
+.yzmdiv img{
+	width:90%;
+	height:100%;
+	cursor: pointer;
+	float: right;
+}
+.yzmdiv input{
+	padding-left: 10px!important;
+}
+#loginbtn{
+	width:100%;
+	border-radius: 30px;
+	margin-top:10px;
 }

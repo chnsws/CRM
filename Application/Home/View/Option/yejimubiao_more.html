@@ -164,6 +164,7 @@
     </div>
 </div>
 </body>
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
     window.isclick='0';
     window.trid='0';
@@ -234,6 +235,7 @@
             var newval=thisval;//新值
             var mnum= $("#txtinput").parent().index();//获取修改的几月的（此处是+1的，需要在后台处理-1）
             $.post(root_dir+"/index.php/Home/YejimubiaoDo/edituseryj",{"trid":trid,"rzbz":rzbz,"newval":newval,"mnum":mnum},function(res){
+                errorFun(res);
                 //bmshuaxin()
                 window.location.reload();
             });
@@ -261,6 +263,7 @@
         var pageid='{$pageid}';
         var pagetype='{$pagetype}';
         $.get(root_dir+"/index.php/Home/YejimubiaoDo/bmshuaxin",{"pageid":pageid,"pagetype":pagetype},function(res){
+            errorFun(res);
             $("#bmlistid").html(res);
             bmlistfun();
             //关闭加载层

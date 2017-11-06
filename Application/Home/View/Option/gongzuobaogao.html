@@ -67,7 +67,7 @@
 	</div>
 </div>
 </body>
-
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
    
     //上方绿色提示框的关闭效果
@@ -130,6 +130,7 @@
         if((chaojival+','+zhuguanval)!=bgval)
         {
             $.get(root_dir+"/index.php/Home/Option/gzbgdo",{"bgstr":chaojival+','+zhuguanval},function(res){
+                errorFun(res);
                 if(res=='1')
                 {
                     layer.close(jiazai);

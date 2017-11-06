@@ -209,6 +209,7 @@
 			</form>
 		</center>
 	</div>
+	<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 	<script>
 		window.nowClcikJueseId='0';
 		window.root_dir="{$_GET['root_dir']}";
@@ -301,6 +302,7 @@
 				//改变数据库的该权限的值
 				//alert(changefiledname);return;
 				$.get(root_dir+"/index.php/Home/QuanxianDo/changeqxval",{"changefiled":changefiled,"changejuese":changejuese,"changefiledvalue":changefiledvalue,"changefiledname":changefiledname},function(cqvres){
+					errorFun(cqvres);
 					if(cqvres=='1')
 					{
 						layer.close(jiazai);
@@ -340,6 +342,7 @@
 		{
 			//获取最新的角色列表
 			$.get(root_dir+"/index.php/Home/QuanxianDo/newjslist",{},function(jsselectstr){
+				errorFun(jsselectstr);
 				$("#copyselect").html(jsselectstr);
 			});
 			layui.use('layer', function(){
@@ -376,6 +379,7 @@
 			});
 			//alert(nowclickid);
 			$.get(root_dir+"/index.php/Home/QuanxianDo/oneqx",{"nowclickid":nowclickid},function(oneqxres){
+				errorFun(oneqxres);
 				//alert(oneqxres);
 				window.resarr=oneqxres.split(',');
 				window.resarrlength=resarr.length;
@@ -418,7 +422,7 @@
 						async : false
 					});
 					$.get(root_dir+"/index.php/Home/QuanxianDo/jsdel",{"jsid":jsid,"jsname":jsname},function(jsdelres){
-						
+						errorFun(jsdelres);
 					});
 					location.reload(true);
 					layer.close(index);
@@ -464,6 +468,7 @@
 					return false;
 				}
 				$.get(root_dir+"/index.php/Home/QuanxianDo/jsedit",{"editjsid":editjsid,"editnewname":editnewname},function(oneqxres){
+					errorFun(oneqxres);
 					if(oneqxres=='1')
 					{
 						tishi("修改成功");
@@ -497,6 +502,7 @@
 					return false;
 				}
 				$.get(root_dir+"/index.php/Home/QuanxianDo/jsadd",{"addnewname":editnewname},function(oneqxres){
+					errorFun(oneqxres);
 					if(oneqxres=='1')
 					{
 						location.reload(true);
@@ -523,6 +529,7 @@
 				return false;
 			}
 			$.get(root_dir+"/index.php/Home/QuanxianDo/jscopy",{"copyfromid":copyfromid,"copyjsnameinput":copyjsnameinput},function(oneqxres){
+				errorFun(oneqxres);
 				if(oneqxres=='1')
 				{
 					location.reload(true);

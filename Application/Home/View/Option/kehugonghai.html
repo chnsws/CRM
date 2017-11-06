@@ -73,7 +73,7 @@
 	</div>
 </div>
 </body>
-
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
    
     //上方绿色提示框的关闭效果
@@ -115,6 +115,7 @@
             return;
         }
         $.get("__ROOT__/index.php/Home/OptionDo/changeopen",{"ts":ts},function(res){
+            errorFun(res);
             if(res=='1')
             {
                 window.location.reload();
@@ -131,7 +132,7 @@
     {
         window.jiazai= layer.load(2);
         $.get("__ROOT__/index.php/Home/OptionDo/changestatus",{"sta":sta},function(res){
-   
+            errorFun(res);
             if(res=='1')
             {
                 window.location.reload();

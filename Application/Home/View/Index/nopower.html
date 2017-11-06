@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>没有访问权限</title>
+        <meta charset="utf-8">
+        <script src="__PUBLIC__/jquery/jquery.js"></script>
+        <link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+        <script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
+        <style>
+               html{color:#555;}
+               .top,.bottom{text-align: center;}
+               .uk-icon-ban{font-size: 150px;margin-top:10%;}
+               .bottom div{margin-top:30px;font-size: 30px;}
+        </style>
+    </head>
+    <body>
+        <div id="box">
+            <div class="top">
+                <i class="uk-icon-ban"></i>
+            </div>
+            <div class="bottom">
+                <div>无权访问</div>
+                <div>将在 <span class="time">5</span> 秒后返回首页</div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
+    <script>
+        $(function(){
+            setInterval(function(){
+                var thistime=$(".time").text();
+                if(thistime=='0')
+                {
+                    window.parent.location="__ROOT__/index.php";
+                    return;
+                }
+                thistime=parseInt(thistime)-1;
+                $(".time").text(thistime);
+            },1000);
+        });
+    </script>
+</html>

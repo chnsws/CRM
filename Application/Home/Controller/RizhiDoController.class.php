@@ -3,9 +3,11 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class RizhiDoController extends Controller {
+class RizhiDoController extends DBController {
 	//模板框架
     public function shaixuan(){
+		parent::is_login();
+        parent::have_qx("qx_sys_rz");
         //echo $_GET['rz_type'].'----'.$_GET['rz_mode'].'----'.$_GET['rz_cz_type'].'----'.$_GET['rz_user'].'----'.$_GET['stime'].'----'.$_GET['etime'];
         $rz_type=addslashes($_GET['rz_type']);
         $rz_mode=addslashes($_GET['rz_mode']);

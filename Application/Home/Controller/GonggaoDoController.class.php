@@ -3,10 +3,12 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class gonggaoDoController extends Controller {
+class gonggaoDoController extends DBController {
     //获得部门列表
     public function getbumen()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_gsxx");
         $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
         $bmbase=M("department");
         $bmarr=$bmbase->query("select bm_id,bm_name from crm_department where bm_company='$fid'");
@@ -21,6 +23,8 @@ class gonggaoDoController extends Controller {
     //获得角色列表
     public function getjuese()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_gsxx");
         $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
         $jsbase=M("juesequanxian");
         $juesearr=$jsbase->query("select qx_id,qx_name from crm_juesequanxian where qx_yh='$fid'");
@@ -34,6 +38,8 @@ class gonggaoDoController extends Controller {
     //公告发布
     public function gonggaoadd()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_gsxx");
         $ggname=addslashes($_POST['ggname']);
         $ggfanwei=addslashes($_POST['ggfanwei']);
         $ggneirong=addslashes($_POST['ggneirong']);
@@ -61,6 +67,8 @@ class gonggaoDoController extends Controller {
     //编辑时获取公告的详细信息
     public function getgginfo()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_gsxx");
         $thisggid=addslashes($_GET['ggid']);
         if($thisggid=='')
         {
@@ -76,6 +84,8 @@ class gonggaoDoController extends Controller {
     //公告修改
     public function ggedit()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_gsxx");
         $ggeditid=addslashes($_GET['ggeditid']);
         $ggeditstr=addslashes(substr($_GET['ggeditstr'],0,-3));
         if($ggeditid==''||$ggeditstr=='')
@@ -114,6 +124,8 @@ class gonggaoDoController extends Controller {
     //删除公告
     public function ggdel()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_gsxx");
         $delstr=addslashes($_GET['delstr']);
         $deltype=addslashes($_GET['deltype']);
         $delggname=addslashes($_GET['delggname']);
@@ -160,6 +172,8 @@ class gonggaoDoController extends Controller {
     //公告置顶的操作
     public function ggzd()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_gsxx");
         $zdid=addslashes($_GET['zdid']);
         $zdval=addslashes($_GET['zdval']);
         if($zdid==''||$zdval=='')

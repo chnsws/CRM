@@ -209,6 +209,7 @@
         
     </div>
 </div>
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
 //初始化
 layui.use('layer', function(){
@@ -238,6 +239,7 @@ $(function(){
     //获取产品分类树形结构
     //$.get(rooturl+"/index.php/Home/Cpfl/get_fl_level_html",function(tree_html){
     $.get(rooturl+"/index.php/Home/Cpfl/old_fl",function(tree_html){
+        errorFun(tree_html);
         $(".uk-nestable").html(tree_html);
         edit_fl_name_fun();
         oldjg=tree_html;
@@ -343,6 +345,7 @@ function create_fl_link()
     
     //产品分类快捷方式数据
     $.get(rooturl+"/index.php/Home/Cpfl/get_fl_link",function(link_str){
+        errorFun(link_str);
         //alert(link_str)
         if(!link_str)
         {
@@ -432,7 +435,8 @@ function baocun_link(isreload)
         });
         link_id_str=link_id_str.substr(0,link_id_str.length-1);
     }
-    $.get(rooturl+"/index.php/Home/Cpfl/edit_cpfl_link",{"link_id_str":link_id_str},function(){
+    $.get(rooturl+"/index.php/Home/Cpfl/edit_cpfl_link",{"link_id_str":link_id_str},function(res){
+        errorFun(res);
         if(!isreload)
         {
             location.reload();
@@ -444,12 +448,18 @@ function save_tree()
 {
    
     var tree_html=$(".uk-nestable").html();
-    $.post(rooturl+"/index.php/Home/Cpfl/save_tree_html",{"tree_html":tree_html});
+    $.post(rooturl+"/index.php/Home/Cpfl/save_tree_html",{"tree_html":tree_html},function(res){
+        errorFun(res);
+    });
     var db_tree_json=save_tree_db();
-    $.get(rooturl+"/index.php/Home/Cpfl/edit_db_tree_old",{"json_str":db_tree_json});
+    $.get(rooturl+"/index.php/Home/Cpfl/edit_db_tree_old",{"json_str":db_tree_json},function(res){
+        errorFun(res);
+    });
     var tree_px=html_to_px($("#ukpaixu"));
     //alert(tree_px);
-    $.post(rooturl+"/index.php/Home/Cpfl/edit_tree_px",{"jsonstr":tree_px});
+    $.post(rooturl+"/index.php/Home/Cpfl/edit_tree_px",{"jsonstr":tree_px},function(res){
+        errorFun(res);
+    });
 }
 function save_tree_db()
 {
@@ -572,6 +582,7 @@ function remove_cpfl()
             btn1: function(index, layero){
                 window.jiazai=layer.load(2);
                 $.get(rooturl+"/index.php/Home/Chanpin/delfl",{"delid":thisid,"delname":thistext},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
                         save_tree();
@@ -627,6 +638,7 @@ function add_cpfl()
                 layer.close(index);
                 
                 $.get(rooturl+"/index.php/Home/Cpfl/add_new_fl",{"flname":$("#new_fl_name").val()},function(e){
+                    errorFun(e);
                     var e2=e.split(',');
                     if(e2[0]=='2')
                     {
@@ -703,6 +715,7 @@ function edit_fl_name_fun2(thisid)
                     return;
                 }
                 $.get(rooturl+"/index.php/Home/Chanpin/editfl",{"editid":thisid,"newname":newname},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
                         location.reload();
@@ -780,6 +793,7 @@ function edit_fl_jj(thisdom)
                 }
                 window.jiazai=layer.load(2);
                 $.get(rooturl+"/index.php/Home/Cpfl/edit_fl_jj",{"cpflid":this_id,"jj_content":new_jj},function(res){
+                    errorFun(res);
                     layer.close(jiazai);
                     if(res=='1')
                     {
@@ -838,6 +852,7 @@ function link_del_this_fl(thisdom)
                 link_del_this(thisdom);//删除本快捷方式的显示，并保存
                 //删除数据库中的分类
                 $.get(rooturl+"/index.php/Home/Chanpin/delfl",{"delid":this_fl_id,"delname":this_fl_name},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
                         //save_tree();
@@ -965,6 +980,7 @@ function search_div_btn()
     }
     window.jiazai=layer.load(2);
     $.get("__ROOT__/index.php/Home/Cpfl/search_cp_list",{"searchstr":inputText},function(res){
+        errorFun(res);
         var resArr=JSON.parse(res);
         if(resArr.length>8)
         {

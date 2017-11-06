@@ -7,7 +7,7 @@ class MainController extends DBController {
     public $no_mb='<div class="no_mb">未设置业绩目标<br />无法计算排名<br /><span class="no_mb_ts">可在设置中心设置业绩目标</span></div>';
     public $no_mb2='<div class="no_mb">无排名</div>';
     public function index(){
-        parent::is_login();
+        parent::is_login2(2);
         $fid=parent::get_fid();
         //公告查询
         $gonggao=parent::sel_more_data("crm_ggshezhi","ggsz_id,ggsz_name,ggsz_kjfw,ggsz_kjid,ggsz_fbsj,ggsz_fbr,ggsz_zd,ggsz_zd_sj","ggsz_yh='$fid' order by ggsz_id desc");
@@ -109,12 +109,6 @@ class MainController extends DBController {
 
             $mbinfo=$this->get_yjmb($yj1,$yjm1,$yjt1,$yji1);
             //parent::rr($mbinfo);
-            
-
-
-            
-
-
             //销售排名
             $get_paihangtype=$_GET['paihangtype'];
             $paihang_yj1=$get_paihangtype==''?$yjselarr[0]['yjmb_type']:$mbid_to_type[$get_paihangtype];

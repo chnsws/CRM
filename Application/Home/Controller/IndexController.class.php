@@ -5,7 +5,7 @@ use Think\Controller;
 
 class IndexController extends DBController {
     public function index(){
-        parent::is_login();
+        parent::is_login2(1);
         $fid=parent::get_fid();
         $navs='[{"title":"工作台","icon":"fa-table","href":"","spread":false},{"title":"线索","icon":"fa-search","href":"index.php/Home/Xiansuo/index","spread":false},{"title":"客户","icon":"fa-group","href":"index.php/Home/Kehu/kehu","spread":false},{"title":"联系人","icon":"fa-address-book","href":"index.php/Home/Lianxiren/lianxiren","spread":false},{"title":"商机","icon":"fa-money","href":"index.php/Home/Shangji/shangji","spread":false},{"title":"合同","icon":"fa-file","href":"index.php/Home/Hetong/hetong","spread":false},{"title":"产品","icon":"fa-book","href":"index.php/Home/Cpfl/cpfl_index","spread":false},{"title":"审批","icon":"fa-search","href":"index.php/Home/Shenpi/shenpi","spread":false},{"title":"报表中心","icon":"fa-align-left","href":"index.php/Home/Report/index","spread":false},{"title":"问题反馈","icon":"fa-envelope","href":"index.php/Home/Fankui/index","spread":false},{"title":"收起","icon":"fa-chevron-left","href":"#","spread":false}]';
         $newnavjson=$navs;
@@ -58,8 +58,20 @@ class IndexController extends DBController {
     //安全退出
     public function tuichu()
     {
-        cookie("islogin",0);
+        $time=time()-(3600*3);
+        //unset($_COOKIE);
+        //parent::rr(cookie("user_id"));
+        //parent::rr($_COOKIE);
+        //setCookie('qx_name','999999',$time);
+        foreach($_COOKIE as $key=>$value){
+            cookie($key,null,$time);
+        }
         echo "<script>window.location='$_GET[root_dir]/index.php/Home/Login'</script>";
     }
-
+    //无权页面
+    public function nopower()
+    {
+        $this->display();
+    }
 }
+

@@ -98,6 +98,7 @@
         <span><input type="number" max="100" min="0" placeholder="签单可能性(%)" id="knxinput" /></span>
     </div>
 </div>
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
 window.loadArr=new Array();
 loadArr[1]=0;
@@ -136,6 +137,7 @@ $(function(){
 function get_data(mod)
 {
     $.get("__ROOT__/index.php/Home/Yewucanshu/get_cs_data",{"mod":mod},function(res){
+        errorFun(res);
         var resarr=JSON.parse(res);
         var inHtml='';
         for(zdkey in resarr['name'])
@@ -254,6 +256,7 @@ function listen_add_btn()
                 }
                 window.jiazai=loading();
                 $.get("__ROOT__/index.php/Home/Yewucanshu/addcs",ajaxjson,function(res){
+                    errorFun(res);
                     layer.close(jiazai);
                     var resarr=JSON.parse(res);
                     if(resarr['res']=='1')
@@ -377,6 +380,7 @@ function bjcs(thisdom)
             }
             window.jiazai=loading();
             $.get("__ROOT__/index.php/Home/Yewucanshu/editcs",ajaxjson,function(res){
+                errorFun(res);
                 layer.close(jiazai);
                 if(res=='1')
                 {
@@ -418,6 +422,7 @@ function listen_checkbox()
 
         window.jiazai=loading();
         $.get("__ROOT__/index.php/Home/Yewucanshu/change_checkbox",{"thiszd":thiszd,"thisid":thisid,"thismod":thismod,"thisval":thisval},function(res){
+            errorFun(res);
             layer.close(jiazai);
             if(res=='1')
             {
@@ -446,6 +451,7 @@ function listen_move()
         thissx=thissx.substr(0,thissx.length-1);
         window.jiazai=loading();
         $.post("__ROOT__/index.php/Home/Yewucanshu/change_paixu",{"thismod":thismod,"thiszd":thiszd,"thissx":thissx},function(res){
+            errorFun(res);
             layer.close(jiazai);
             if(res=='1')
             {

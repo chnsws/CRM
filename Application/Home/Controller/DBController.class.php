@@ -63,18 +63,78 @@ class DBController extends Controller {
     //获取父id
     public function get_fid()
     {
-        $this->is_login();
         $fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
         return $fid;
     }
-    //验证登录
+    //验证登录--需要返回码的登录
     public function is_login()
     {
-        if(cookie("islogin")!='1')
-		{
-			$this->main_gotopage($_GET['root_dir'].'/index.php/Home/Login');
-			die();
-		}
+        //判断是否存在token的cookie
+        $token=addslashes(cookie("user_pwd"));
+        //如果存在就获取cookie中的userid
+        if($token!='')
+        {
+            $user_id=addslashes(cookie("user_id"));
+            $fid=$this->get_fid();
+            $Model=M("user");
+            $query=$Model->query("select user_id from crm_user where user_id='$user_id' and user_pwd='$token' and (user_fid='$fid' or user_id='$fid') limit 1");
+            if(!count($query))
+            {
+                die("error:1");
+            }
+        }
+        else
+        {
+            die("error:1");
+        }
+        //如果不需要跳转，就重置cookie时间
+        $this->recookie();
+    } 
+    //验证登录--需要跳转的登录
+    public function is_login2($type)
+    {
+        //判断是否存在token的cookie
+        $token=addslashes(cookie("user_pwd"));
+        $islogin=1;
+        //如果存在就获取cookie中的userid
+        if($token!='')
+        {
+            $user_id=addslashes(cookie("user_id"));
+            $fid=$this->get_fid();
+            $Model=M("user");
+            $query=$Model->query("select user_id from crm_user where user_id='$user_id' and user_pwd='$token' and (user_fid='$fid' or user_id='$fid') limit 1");
+            if(!count($query))
+            {
+                $islogin=0;
+            }
+        }
+        else
+        {
+            $islogin=0;
+        }
+        if($islogin==0)
+        {
+            if($type=='1')
+            {
+                $this->self_gotopage(__ROOT__."/index.php/Home/Login/");
+            }
+            else if($type=='3')
+            {
+                //父级的父级跳到登录页
+                echo "<script>window.parent.parent.location='".__ROOT__."/index.php/Home/Login/"."'</script>";
+                die;
+            }
+            else
+            {
+                $this->main_gotopage(__ROOT__."/index.php/Home/Login/");
+            }
+            die;
+        }
+        else
+        {
+            //如果不需要跳转，就重置cookie时间
+            $this->recookie();
+        }
     }
     //窗口跳转
     public function main_gotopage($pageurl)
@@ -157,14 +217,58 @@ class DBController extends Controller {
             return 365; 
         }  
     }
-    //判断权限
+    //判断权限--返回码
     public function have_qx($qx_name)
     {
-        $qxvalue=cookie($qx_name);
+        //判断cookie中是否有权限
+        $qxvalue=addslashes(cookie($qx_name));
         if($qxvalue=='0')
         {
-            $this->main_gotopage($_GET['root_dir'].'/index.php');
-            die;
+            die("error:0");
+        }
+        else
+        {
+            //如果cookie中储存的权限通过，防止恶意修改cookie,需要查询一次数据库
+            $fid=$this->get_fid();
+            $user_id=addslashes(cookie("user_id"));
+            $Model =M();
+            $query=$Model->query("select $qx_name from crm_juesequanxian where qx_id=(select user_quanxian from crm_user where user_id='$user_id' and (user_fid='$fid' or user_id='$fid') limit 1) limit 1");
+            $qxvalue=$query[0][$qx_name];
+            if($qxvalue=='0')
+            {
+                die("error:0");
+            }
+        }
+    }
+    //判断权限--跳转页面
+    public function have_qx2($qx_name)
+    {
+        //判断cookie中是否有权限
+        $qxvalue=addslashes(cookie($qx_name));
+        if($qxvalue=='0')
+        {
+            $this->self_gotopage(__ROOT__."/index.php/Home/Index/nopower");
+        }
+        else
+        {
+            //如果cookie中储存的权限通过，防止恶意修改cookie,需要查询一次数据库
+            $fid=$this->get_fid();
+            $user_id=addslashes(cookie("user_id"));
+            $Model =M();
+            $query=$Model->query("select $qx_name from crm_juesequanxian where qx_id=(select user_quanxian from crm_user where user_id='$user_id' and (user_fid='$fid' or user_id='$fid') limit 1) limit 1");
+            $qxvalue=$query[0][$qx_name];
+            if($qxvalue=='0')
+            {
+                $this->self_gotopage(__ROOT__."/index.php/Home/Index/nopower");
+            }
+        }
+    }
+    //重新设置cookie时间，避免操作时刷新
+    protected function recookie()
+    {
+        $time=time()+(3600*3);
+        foreach($_COOKIE as $key=>$value){
+            cookie($key,$value,$time);
         }
     }
 }

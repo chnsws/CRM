@@ -5,9 +5,9 @@ use Think\Controller;
 
 class XiansuoController extends DBController {
 	public function index(){
-		parent::is_login();
+		parent::is_login2(2);
 		$fid=parent::get_fid();
-		parent::have_qx("qx_xs_open");
+		parent::have_qx2("qx_xs_open");
 		//业务参数，用于筛选和展示数据
 		$ywcs=$this->get_xs_zd_canshu($fid);
 		$cs_name=$this->get_cs_name($ywcs);
@@ -400,9 +400,9 @@ class XiansuoController extends DBController {
 	//线索详情展示页
 	public function xsinfo()
 	{
-		parent::is_login();
+		parent::is_login2(2);
 		$fid=parent::get_fid();
-		parent::have_qx("qx_xs_open");
+		parent::have_qx2("qx_xs_open");
 		//业务字段查询
 		$zdarr=$this->get_xs_ziduan($fid);
 		//业务参数，用于筛选和展示数据
@@ -724,6 +724,7 @@ class XiansuoController extends DBController {
 	//保存筛选设置
 	public function change_sx()
 	{
+		parent::is_login();
 		$sel_str=addslashes($_GET['sel_str']);
 		$iscz=parent::sel_one_data("crm_config","config_xs_sx_config","config_name='".cookie("user_id")."'");
 		if(count($iscz))
@@ -761,6 +762,7 @@ class XiansuoController extends DBController {
 	//批量转移线索
 	public function change_fuzeren()
 	{
+		parent::is_login();
 		$touser=$_GET['to_user_id'];
 		$need_to_user_xs=$_GET['need_to_user_xs'];
 		if($touser==''||$need_to_user_xs=='')
@@ -781,6 +783,7 @@ class XiansuoController extends DBController {
 	//批量删除
 	public function del_more()
 	{
+		parent::is_login();
 		$sel_xs=$_GET['sel_xs'];
 		if($sel_xs=='')
 		{
@@ -799,6 +802,7 @@ class XiansuoController extends DBController {
 	//写跟进
 	public function add_new_genjin()
 	{
+		parent::is_login();
 		$new_genjin_fangshi=addslashes($_POST['new_genjin_fangshi']);
 		$new_genjin_time=addslashes($_POST['new_genjin_time']);
 		$new_genjin_content=addslashes($_POST['new_genjin_content']);
@@ -810,7 +814,6 @@ class XiansuoController extends DBController {
 			echo '0';
 			die;
 		}
-		parent::is_login();
 		$fid=parent::get_fid();
 		parent::have_qx("qx_xs_open");
 		//修改这条线索的下次跟进时间
@@ -829,13 +832,14 @@ class XiansuoController extends DBController {
 		//插入跟进表
 		$new_genjin_time=strtotime($new_genjin_time);
 		$new_genjin_next_genjin_time=strtotime($new_genjin_next_genjin_time);
-		parent::add_one_data("crm_xiegenjin","'','1','$new_genjin_xiansuo','".cookie("user_id")."','$new_genjin_fangshi','$new_genjin_content','$new_genjin_next_genjin_time','$new_genjin_time','$fid',''");
+		parent::add_one_data("crm_xiegenjin","'','1','$new_genjin_xiansuo','".cookie("user_id")."','$new_genjin_fangshi','$new_genjin_content','$new_genjin_next_genjin_time','$new_genjin_time','$fid','',''");
 		
 		echo 1;
 	}
 	//右上角修改状态按钮
 	public function change_zhuangtai()
 	{
+		parent::is_login();
 		$this_xs_id=addslashes($_GET['this_xs_id']);
 		$this_canshu_id=addslashes($_GET['this_canshu_id']);
 		parent::is_login();
@@ -903,15 +907,15 @@ class XiansuoController extends DBController {
 		$xs_json_arr=json_decode($thisxsarr['xs_data'],true);
 		//将本条线索的信息填写到一个新客户中
 		/*
-		xs-     kh-
-		zdy1	zdy0-公司名称
-		zdy4	zdy2-电话
-		zdy9	zdy3-邮箱
-		zdy10	zdy5-网址
+		xs-     	kh-
+		zdy1		zdy0-公司名称
+		zdy4		zdy2-电话
+		zdy9		zdy3-邮箱
+		zdy10		zdy5-网址
 		diquname	zdy6-地区
-		zdy14	zdy9-跟进状态
-		zdy16	zdy13-下次跟进时间
-		zdy17	zdy14-备注
+		zdy14		zdy9-跟进状态
+		zdy16		zdy13-下次跟进时间
+		zdy17		zdy14-备注
 		*/
 		$to_kh_data=array(
 			"zdy0"=>$_GET['zdy0'],
@@ -1027,6 +1031,7 @@ class XiansuoController extends DBController {
 	//删除旧文件
 	public function del_old_file()
 	{
+		parent::is_login();
 		$oldname=$_GET['oldname'];
 		if($oldname=='')die;
 		unlink('./Public/xiansuofile/'.$oldname);
@@ -1034,6 +1039,7 @@ class XiansuoController extends DBController {
 	//保存线索附件的文件信息
 	public function add_xsfile_info()
 	{
+		parent::is_login();
 		$fjbz=$_POST['fjbz'];
 		$fjmc=$_POST['fjmc'];
 		$fjdx=$_POST['fjdx'];
@@ -1125,6 +1131,7 @@ class XiansuoController extends DBController {
 	//导入线索--解析文件并插入数据库
 	public function daoru_start()
 	{
+		parent::is_login();
 		$filename=$_GET['upname'];
 		if($filename=='')
 		{
@@ -1324,7 +1331,7 @@ class XiansuoController extends DBController {
 		return $pxzdarr;
 	}
 	//获得部门下拉内容
-    public function get_bm_option($fid)
+    protected function get_bm_option($fid)
     {
         $bm_arr=parent::sel_more_data("crm_department","bm_id,bm_name","bm_company='$fid'");
         foreach($bm_arr as $v)
@@ -1334,7 +1341,7 @@ class XiansuoController extends DBController {
         return $bm_option;
     }
     //获得用户下拉框内容
-    public function get_user_option($fid)
+    protected function get_user_option($fid)
     {
         $user_arr=parent::sel_more_data("crm_user","user_id,user_name","user_del='0' and user_act='1' and (user_fid='$fid' or user_id='$fid')");
         foreach($user_arr as $v)
@@ -1344,7 +1351,7 @@ class XiansuoController extends DBController {
         return $user_option;
     }
     //获得用户的部门
-    public function get_user_bm($fid)
+    protected function get_user_bm($fid)
     {
         $user_arr=parent::sel_more_data("crm_user","user_id,user_zhu_bid","user_del='0' and (user_fid='$fid' or user_id='$fid')");
         foreach($user_arr as $v)
@@ -1354,7 +1361,7 @@ class XiansuoController extends DBController {
         return $user_bm;
     }
 	//根据用户id获得用户名称
-    public function get_user_id_name($fid)
+    protected function get_user_id_name($fid)
     {
         $userarr=parent::sel_more_data("crm_user","user_id,user_name","(user_id='$fid' or user_fid='$fid') and user_del='0'");
         foreach($userarr as $v)
@@ -1364,7 +1371,7 @@ class XiansuoController extends DBController {
         return $rarr;
     }
 	//将返回的下拉框处理成数组格式，优化重复查数据库的问题
-    public function option_to_arr($op)
+    protected function option_to_arr($op)
     {
         $c=explode("</option><option value='",$op);
         foreach($c as $v)

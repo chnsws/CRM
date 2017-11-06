@@ -253,6 +253,7 @@
         </tr>
     </table>
 </div>
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
 //获取URL的绝对路径
 window.root_dir="{$_GET['root_dir']}";
@@ -271,7 +272,7 @@ function tishi(neirong)
 }
 //上传控件初始化
 layui.use('upload', function(){
-  layui.upload(options);
+  layui.upload();
 });
 layui.use('element', function(){
   var element = layui.element();
@@ -300,6 +301,7 @@ $(function(){
         var this_xs_id="{$_GET['xs_id']}";
         this_xs_id=this_xs_id.substr(6);
         $.get(root_dir+"/index.php/Home/Xiansuo/change_zhuangtai",{"this_xs_id":this_xs_id,"this_canshu_id":this_canshu_id},function(res){
+            errorFun(res);
             if(res=='1')
             {
                 location.reload();
@@ -381,6 +383,7 @@ function xiegenjin()
                     return;
                 }
                 $.post(root_dir+"/index.php/Home/Xiansuo/add_new_genjin",{"new_genjin_fangshi":new_genjin_fangshi,"new_genjin_time":new_genjin_time,"new_genjin_content":new_genjin_content,"new_genjin_xiansuo":new_genjin_xiansuo,"new_genjin_zhuangtai":new_genjin_zhuangtai,"new_genjin_next_genjin_time":new_genjin_next_genjin_time},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
                         location.reload();
@@ -514,6 +517,7 @@ function bianji()
                 var this_xs_id="{$_GET['xs_id']}";
                 this_xs_id=this_xs_id.substr(6);
                 $.post(root_dir+"/index.php/Home/Xiansuo/edit_xs",{"ajax_str":ajax_str,"this_xs_id":this_xs_id,"now_fz":now_fz},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
                         location.reload();
@@ -559,9 +563,10 @@ function zhuanyi()
                    return;
                }
                $.get(root_dir+"/index.php/Home/Xiansuo/change_fuzeren",{to_user_id:to_user_id,"need_to_user_xs":need_to_user_xs},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
-                        window.location.reload();
+                        window.location="__ROOT__/index.php/Home/Xiansuo/index";
                     }
                     else
                     {
@@ -677,6 +682,7 @@ function zhuankehu()
                         var thisxsid="{$_GET['xs_id']}";
                         thisxsid=thisxsid.substr(6);
                         $.get(root_dir+"/index.php/Home/Xiansuo/xs_to_kh",{"thisxsid":thisxsid,"zdy0":zdy0,"lxrname":lxrname,"lxrphone":lxrphone},function(res){
+                            errorFun(res);
                             if(res=='1')
                             {
                                 window.location=root_dir+"/index.php/Home/Xiansuo/index";
@@ -728,6 +734,7 @@ function shanchu()
                 var xsid="{$_GET['xs_id']}";
                 xsid=xsid.substr(6);
                 $.get(root_dir+"/index.php/Home/Xiansuo/del_more",{"sel_xs":xsid},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
                         var now_page_url=get_url_val("none");
@@ -805,6 +812,7 @@ function add_fujian()
                     return false;
                 }
                 $.post(root_dir+"/index.php/Home/Xiansuo/add_xsfile_info",{"fjbz":fj_bz,"fjmc":is_upload,"fjdx":fj_size,"fjxsid":thisxsid,"oldoldname":oldoldname},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
                         tishi("上传成功");
@@ -853,7 +861,8 @@ function delnowfile(thisdom)
     var nowupfilename=$(thisdom).prop("name");
     if(nowupfilename!='')
     {
-        $.get(root_dir+"/index.php/Home/Xiansuo/del_old_file",{"oldname":nowupfilename},function(){
+        $.get(root_dir+"/index.php/Home/Xiansuo/del_old_file",{"oldname":nowupfilename},function(res){
+            errorFun(res);
             layer.close(jiazai);
         });
         
@@ -879,6 +888,7 @@ function file_shanchu(fjid)
             btn1:function(index,layero){
                 window.jiazai=layer.load(2);
                 $.get(root_dir+"/index.php/Home/Xiansuo/del_fujian",{"fjid":fjid},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
                         reload_to_fujian()

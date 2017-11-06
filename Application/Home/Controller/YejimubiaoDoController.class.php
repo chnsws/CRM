@@ -3,9 +3,11 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class YejimubiaoDoController extends Controller {
+class YejimubiaoDoController extends DBController {
 	//模板框架
     public function chanpinload(){
+        parent::is_login();
+        parent::have_qx("qx_sys_yjmb");
         $cploadtype=addslashes($_GET['cploadtype']);
         if($cploadtype=='')
         {
@@ -39,6 +41,8 @@ class YejimubiaoDoController extends Controller {
     //新增业绩目标
     public function yjmbadd()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_yjmb");
         $addniandu=addslashes($_GET['addniandu']);
         $addyejitype=addslashes($_GET['addyejitype']);
         $yjmbtypemore=addslashes($_GET['yjmbtypemore']);
@@ -122,6 +126,8 @@ class YejimubiaoDoController extends Controller {
     //复制业绩目标
     public function yjmbcopy()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_yjmb");
         $yjid=addslashes($_GET['yjid']);
         $addniandu=addslashes($_GET['addniandu']);
         $addyejitype=addslashes($_GET['addyejitype']);
@@ -222,6 +228,8 @@ class YejimubiaoDoController extends Controller {
     //删除业绩目标
     public function yjmbdel()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_yjmb");
         $yjid=addslashes($_GET['yjid']);
         if($yjid=='')
         {
@@ -260,6 +268,8 @@ class YejimubiaoDoController extends Controller {
     //业绩详情里面对用户的单月业绩进行修改
     public function edituseryj()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_yjmb");
         //数据接收
         $trid=addslashes($_POST['trid']);
         $rzbz=addslashes($_POST['rzbz']);
@@ -294,6 +304,8 @@ class YejimubiaoDoController extends Controller {
     //重新载入部门列表
     public function bmshuaxin()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_yjmb");
 		$moreyjid=addslashes($_GET['pageid']);
         $pagetype=addslashes($_GET['pagetype']);
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）

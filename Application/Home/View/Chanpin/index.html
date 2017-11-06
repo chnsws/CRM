@@ -275,6 +275,7 @@ tr>td:nth-child(3){width:200px!important;min-width:200px!important;max-width: 20
         {$pxdiv}
     </div>
 </div>
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
 $(".right-span").hide();
 $("#daorudiv").hide();
@@ -747,15 +748,7 @@ $(".lv-on").mouseout(function(){
     $(this).children(".right-span").hide();
 });
 
-//显示该分类的产品
-function cpflshowlist(flid)
-{
-    var px=JSON.stringify(nowpagepx);
-    var pz=JSON.stringify(nowpagepz);
-    $.post(root_dir+"/index.php/Home/Chanpin/get_fl_cplist",{"clickflid":flid,"px":px,"pz":pz},function(res){
-       $("#right-body-body").children("table").find("tbody").html(res);
-    });
-}
+
 
 //全选/反选
 $("#checkall").click(function(e){
@@ -817,7 +810,9 @@ function daoru()
                 $("#fileclose").prop("name",res['newname']);
                 if(is_upload!='')
                 {
-                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload});
+                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload},function(res){
+                        errorFun(res);
+                    });
                 }
                 is_upload=res['newname'];
                 layer.close(jiazai);
@@ -856,9 +851,12 @@ function daoru()
                 }
                 $.get(root_dir+"/index.php/Home/Chanpin/daoru_chanpin",{"csvfilename":is_upload,"flid":page_fl_id},function(res){
                     //alert(res);
+                    errorFun(res);
                     if(res=='1')
                     {
-                        $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload});
+                        $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload},function(res){
+                            errorFun(res);
+                        });
                         location.reload();
                     }
                     else if(res=='4')
@@ -877,14 +875,18 @@ function daoru()
             btn3:function(index,layero){
                 if(is_upload!=''&&clickdelnowfile=='0')
                 {
-                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload});
+                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload},function(res){
+                        errorFun(res);
+                    });
                 }
                 layer.close(index);
             },
             cancel: function(index, layero){ 
                 if(is_upload!=''&&clickdelnowfile=='0')
                 {
-                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload});
+                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+is_upload},function(res){
+                        errorFun(res);
+                    });
                 }
                 layer.close(index);                
             }
@@ -910,7 +912,9 @@ function delnowfile(thisdom)
 {
     clickdelnowfile='1';
     var thisdelname=$(thisdom).prop("name");
-    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+thisdelname});
+    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":"linshi/"+thisdelname},function(res){
+        errorFun(res);
+    });
     $(thisdom).parent().hide();
 }
 
@@ -958,6 +962,7 @@ function sel_del()
         btn: ['确认删除', '取消'],
         btn1: function(index, layero){
             $.get(root_dir+"/index.php/Home/Chanpin/del_more",{"sel_id":sel_id},function(res){
+                errorFun(res);
                 if(res=='1')
                 {
                     location.reload();
@@ -1007,6 +1012,7 @@ function pl_jinyong()
         btn: ['禁用', '取消'],
         btn1: function(index, layero){
             $.get(root_dir+"/index.php/Home/Chanpin/qy_jy",{"qyjy":0,"sel_id":sel_id},function(res){
+                errorFun(res);
                 if(res=='1')
                 {
                     location.reload();
@@ -1055,6 +1061,7 @@ function pl_qiyong()
         btn: ['启用', '取消'],
         btn1: function(index, layero){
             $.get(root_dir+"/index.php/Home/Chanpin/qy_jy",{"qyjy":1,"sel_id":sel_id},function(res){
+                errorFun(res);
                 if(res=='1')
                 {
                     location.reload();
@@ -1102,6 +1109,7 @@ function pl_zhuanyi()
             btn1:function(){
                 var newflid=$("#fenleisel").val();
                 $.get(root_dir+"/index.php/Home/Chanpin/zhuanyi",{"newflid":newflid,"sel_id":sel_id},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
                         location.reload();
@@ -1229,6 +1237,7 @@ function cp_add()
                 addstr=JSON.stringify(ajaxarr);
                 //document.write(addstr);return;
                 $.post(root_dir+"/index.php/Home/Chanpin/cp_add",{"addstr":addstr},function(res){
+                    errorFun(res);
                     //layer.close(jiazai);
                     //return;
                     if(res=='1')
@@ -1328,6 +1337,7 @@ function searchfun()
     //alert(sea_text+sea_type);return false;
     //alert(page_fl_id);
     $.post(root_dir+"/index.php/Home/Chanpin/searchfun",{"sea_type":sea_type,"sea_text":sea_text,"px":px,"pz":pz,"flid":page_fl_id},function(res){
+        errorFun(res);
         $("#right-body-body").children("table").find("tbody").html(res);
         if(sea_text=='')
         {
@@ -1379,6 +1389,7 @@ function cpfladd(addfid)
                     return false;
                 }
                 $.get(root_dir+"/index.php/Home/Chanpin/addfl",{"addfid":addfid,"newname":newname},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
                         location.reload();
@@ -1432,6 +1443,7 @@ function cpfledit(thisid)
                     return false;
                 }
                 $.get(root_dir+"/index.php/Home/Chanpin/editfl",{"editid":thisid,"newname":newname},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
                         location.reload();
@@ -1468,6 +1480,7 @@ function cpfldel(thisid)
         btn: ['删除', '取消'],
         btn1: function(index, layero){
             $.get(root_dir+"/index.php/Home/Chanpin/delfl",{"delid":thisid,"delname":thistext},function(res){
+                errorFun(res);
                 if(res=='1')
                 {
                     location.reload();
@@ -1494,6 +1507,7 @@ function cpfldel(thisid)
 function get_dr_history()
 {
     $.get(root_dir+"/index.php/Home/Chanpin/get_dr_history",function(res){
+        errorFun(res);
         $("#daoru_history").children("table").find("tbody").html(res);
     });
 }
@@ -1533,6 +1547,7 @@ function show_option()
                     return false;
                 }
                 $.post(root_dir+"/index.php/Home/Chanpin/show_option",{"checkid":checkid,"flid":page_fl_id},function(res){
+                    errorFun(res);
                     if(res=='1')
                     {
                         location.reload();

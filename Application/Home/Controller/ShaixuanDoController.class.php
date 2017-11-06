@@ -3,12 +3,14 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class ShaixuanDoController extends Controller {
+class ShaixuanDoController extends DBController {
     public $ywarr=array(
             '7'=>"客户"
         );
     //启用禁用
     public function sxqy(){
+        parent::is_login();
+        parent::have_qx("qx_sys_sx");
         $cval=addslashes($_GET['cval']);
         $thisyewu=addslashes($_GET['thisyewu']);
         $flid=addslashes($_GET['flid']);
@@ -48,6 +50,8 @@ class ShaixuanDoController extends Controller {
     //保存设置
     public function bcsz()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_sx");
         $qyid=addslashes($_GET['qyid']);
         $selectval=addslashes($_GET['selectval']);
         $qjnum=addslashes($_GET['qjnum']);
@@ -95,6 +99,8 @@ class ShaixuanDoController extends Controller {
     //生成模板
     public function createmb()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_sx");
         $yewu=addslashes($_GET['thisyewu']);
         $flid=addslashes($_GET['flid']);
         $flname=addslashes($_GET['flname']);

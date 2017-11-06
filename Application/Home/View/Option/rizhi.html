@@ -218,6 +218,7 @@
         </div>
     </div>
 </body>
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
     window.loginrzshow='0';
     window.sysrzshow='0';
@@ -345,6 +346,7 @@
             async : false
         });
         $.get(root_dir+"/index.php/Home/RizhiDo/shaixuan",{"rz_type":rizhitype,"rz_mode":xitongmokuai,"rz_cz_type":caozuoleibie,"rz_user":caozuorenyuan,"stime":timestart,"etime":timeend},function(res){
+            errorFun(res);
             dttable = $('#'+nowtableid).dataTable();
             dttable.fnClearTable(); //清空一下table
             dttable.fnDestroy(); //还原初始化了的datatable

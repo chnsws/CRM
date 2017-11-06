@@ -3,7 +3,7 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class YewuziduanDoController extends Controller {
+class YewuziduanDoController extends DBController {
     public $pageidarr=array(
             "paixu_xiansuo"=>'1',
             "paixu_kehu"=>'2',            
@@ -24,6 +24,8 @@ class YewuziduanDoController extends Controller {
 	//业务字段排序
     public function paixu()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_ywzd");
         $thispage=addslashes($_POST['thispage']);
         $shunxu=addslashes(substr($_POST['shunxu'],0,-1));
         if($thispage==''||$shunxu=='')
@@ -57,6 +59,8 @@ class YewuziduanDoController extends Controller {
     //添加字段
     public function addziduan()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_ywzd");
         $thispage=addslashes($_GET['thispage']);
         $ziduanname=addslashes($_GET['ziduanname']);
         $thisflname=addslashes($_GET['thisflname']);
@@ -129,6 +133,8 @@ class YewuziduanDoController extends Controller {
     //修改值（启用、必填、常用）时执行的方法
     public function changecheckbox()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_ywzd");
         $nowpage=addslashes($_GET['nowpage']);
         $thisflname=addslashes($_GET['thisflname']);
         $changeval=addslashes($_GET['changeval']);
@@ -177,6 +183,8 @@ class YewuziduanDoController extends Controller {
     //修改字段名称方法
     public function changename()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_ywzd");
         $nowpage=addslashes($_GET['nowpage']);
         $newname=addslashes($_GET['newname']);
         $changeid=addslashes($_GET['changeid']);
@@ -210,6 +218,8 @@ class YewuziduanDoController extends Controller {
     //延迟加载其他页面
     public function loadpage()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_ywzd");
         $nowpage=addslashes($_GET['thispage']);
         $pageidarr=$this->pageidarr;
         $pageval=$pageidarr[$nowpage];
@@ -280,6 +290,8 @@ class YewuziduanDoController extends Controller {
     //删除字段方法
     public function delzd()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_ywzd");
         $nowpage=addslashes($_GET['nowpage']);
         $changeid=addslashes($_GET['changeid']);
         $flname=addslashes($_GET['flname']);
@@ -328,6 +340,8 @@ class YewuziduanDoController extends Controller {
     //根据产品分类获取产品字段
 	public function zd_for_chanpin()
 	{
+        parent::is_login();
+        parent::have_qx("qx_sys_ywzd");
 		$mod=A("Cpfl");
 		$mod->is_login();
 		$fid=$mod->get_fid();
@@ -429,9 +443,5 @@ class YewuziduanDoController extends Controller {
 		$xitongrizhibase->query("insert into crm_rz values('','3','8','".cookie("user_id")."','0','0','0','0','0','$con','$loginIp','$loginDidianStr','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','$fid','".time()."')");
 
         return '1';
-    }
-    public function sss()
-    {
-        echo json_encode("毛利率");
     }
 }

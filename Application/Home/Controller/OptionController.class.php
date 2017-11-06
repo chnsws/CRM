@@ -7,7 +7,7 @@ class OptionController extends DBController {
 	
 	//模板框架
     public function index(){
-		parent::is_login();
+		parent::is_login2(2);
 		$fid=parent::get_fid();
 
 		//$nav='[{"title":"设置中心","icon":"fa-table","href":"","spread":true},{"title":"系统设置","icon":"fa-search","href":"","spread":true,"children":[{"title":"部门和用户设置","icon":"&#xe641;","href":"'.__ROOT__.'/index.php/Home/Option/bumenyonghu"},{"title":"角色和权限设置","icon":"&#xe63c;","href":"'.__ROOT__.'/index.php/Home/Option/juesequanxian"},{"title":"公司信息","icon":"&#xe63c;","href":"'.__ROOT__.'/index.php/Home/Option/companyinfo"},{"title":"公告管理","icon":"&#xe609;","href":"'.__ROOT__.'/index.php/Home/Option/gonggaoguanli"}]},{"title":"业务设置","icon":"fa-group","href":"","spread":true,"children":[{"title":"业绩目标","icon":"&#xe641;","href":"'.__ROOT__.'/index.php/Home/Option/yejimubiao"},{"title":"客户公海","icon":"&#xe63c;","href":"'.__ROOT__.'/index.php/Home/Option/kehugonghai"}]},{"title":"自定义设置","icon":"fa-address-book","href":"","spread":true,"children":[{"title":"自定义业务字段","icon":"&#xe641;","href":"'.__ROOT__.'/index.php/Home/Yewuziduan/index"},{"title":"自定义业务参数","icon":"&#xe63c;","href":"'.__ROOT__.'/index.php/Home/Yewucanshu/index"},{"title":"自定义审批","icon":"&#xe63c;","href":"'.__ROOT__.'/index.php/Home/Option/shenpi"},{"title":"产品筛选设置","icon":"&#xe63c;","href":"'.__ROOT__.'/index.php/Home/Option/shaixuan"}]},{"title":"查询","icon":"fa-money","href":"","spread":true,"children":[{"title":"日志查询","icon":"&#xe641;","href":"'.__ROOT__.'/index.php/Home/Option/rizhi"}]}]';
@@ -140,7 +140,7 @@ class OptionController extends DBController {
     //设置中心
     public function optioncenter(){
 		//echo "<pre>";print_r($_COOKIE);
-		parent::is_login();
+		parent::is_login2(2);
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$userbase=M("user");
 		$f_user_info=$userbase->query("select user_sign_time,user_youxiaoqi from crm_user where user_id='$fid' limit 1");
@@ -205,8 +205,8 @@ class OptionController extends DBController {
 	//部门和用户设置
 	public function bumenyonghu(){
 		//是否已经登录
-		parent::is_login();
-		parent::have_qx("qx_sys_bmyh");
+		parent::is_login2(2);
+		parent::have_qx2("qx_sys_bmyh");
 		//获取当前登录用户的信息（在cookie中）
 		$nowUserId=cookie("user_id");
 		//所属用户
@@ -417,8 +417,8 @@ class OptionController extends DBController {
 	}
 	//角色和权限设置
 	public function juesequanxian(){
-		parent::is_login();
-		parent::have_qx("qx_sys_jsqx");
+		parent::is_login2(2);
+		parent::have_qx2("qx_sys_jsqx");
 		$fid=parent::get_fid();
 		$loginuserid=cookie("user_id");
 
@@ -442,8 +442,8 @@ class OptionController extends DBController {
 	}
 	//公司信息设置
 	public function companyinfo(){
-		parent::is_login();
-		parent::have_qx("qx_sys_gsxx");
+		parent::is_login2(2);
+		parent::have_qx2("qx_sys_gsxx");
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$gsbase=M("gongsixinxi");
 		$gsxxarr=$gsbase->query("select * from crm_gongsixinxi where gsxx_yh='$fid' limit 1");
@@ -465,8 +465,8 @@ class OptionController extends DBController {
 	}
 	//公告管理
 	public function gonggaoguanli(){
-		parent::is_login();
-		parent::have_qx("qx_sys_gggl");
+		parent::is_login2(2);
+		parent::have_qx2("qx_sys_gggl");
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$ggbase=M("ggshezhi");
 		$ggarr=$ggbase->query("select ggsz_id,ggsz_name,ggsz_ydcs,ggsz_fbsj,ggsz_zd,user_name from crm_ggshezhi left join crm_user on ggsz_yh=user_id where ggsz_yh='$fid' order by ggsz_zd_sj desc,ggsz_fbsj desc");
@@ -491,8 +491,8 @@ class OptionController extends DBController {
 	//公告详情页
 	public function gonggaomore()
 	{
-		parent::is_login();
-		parent::have_qx("qx_sys_gggl");
+		parent::is_login2(2);
+		parent::have_qx2("qx_sys_gggl");
 		$ggid=addslashes($_GET['ggid']);
 		if($ggid=='')
 		{
@@ -510,8 +510,8 @@ class OptionController extends DBController {
 	}
 	//业绩目标
 	public function yejimubiao(){
-		parent::is_login();
-		parent::have_qx("qx_sys_yjmb");
+		parent::is_login2(2);
+		parent::have_qx2("qx_sys_yjmb");
 		$mbname=array(
             '1'=>'赢单商机金额',
             '2'=>'赢单商机数',
@@ -596,8 +596,8 @@ class OptionController extends DBController {
 	//客户公海
 	public function kehugonghai()
 	{
-		parent::is_login();
-		parent::have_qx("qx_sys_khgh");
+		parent::is_login2(2);
+		parent::have_qx2("qx_sys_khgh");
 		$fid=parent::get_fid();
 		$gharr=parent::sel_more_data("crm_gonghaishezhi","*","gh_yh='$fid' limit 1");
 		if(!count($gharr))
@@ -617,8 +617,8 @@ class OptionController extends DBController {
 	}
 	//业绩目标详细
 	public function yejimubiao_more(){
-		parent::is_login();
-		parent::have_qx("qx_sys_yjmb");
+		parent::is_login2(2);
+		parent::have_qx2("qx_sys_yjmb");
 		$moreyjid=addslashes($_GET['yjid']);
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$yjbase=M("yjmb");
@@ -841,7 +841,7 @@ class OptionController extends DBController {
 	}
 	//工作报告
 	public function gongzuobaogao(){
-		parent::is_login();
+		parent::is_login2(2);
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$baogaobase=M("gzbg");
 		$bgval=$baogaobase->query("select * from crm_gzbg where gzbg_yh='$fid' limit 1");
@@ -851,7 +851,7 @@ class OptionController extends DBController {
 	//工作报告
 	public function gzbgdo()
 	{
-		parent::is_login();
+		parent::is_login2(2);
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$bgstr=addslashes($_GET['bgstr']);
 		if($bgstr=='')
@@ -875,8 +875,8 @@ class OptionController extends DBController {
 	}
 	//自定义业务字段
 	public function zdyyw_ziduan(){
-		parent::is_login();
-		parent::have_qx("qx_sys_ywzd");
+		parent::is_login2(2);
+		parent::have_qx2("qx_sys_ywzd");
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$pxbase=M("paixu");
 		$pxarr=$pxbase->query("select px_px from crm_paixu where px_yh='$fid' and px_mod='1'");
@@ -943,8 +943,8 @@ class OptionController extends DBController {
 	}
 	//自定义业务参数
 	public function zdyyw_canshu(){
-		parent::is_login();
-		parent::have_qx("qx_sys_ywcs");
+		parent::is_login2(2);
+		parent::have_qx2("qx_sys_ywcs");
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$zdbase=M("yewuziduan");
 		$zdarr=$zdbase->query("select * from crm_yewuziduan where zd_yh='$fid' and zd_yewu!='7' ");
@@ -1036,8 +1036,8 @@ class OptionController extends DBController {
 	}
 	//自定审批
 	public function shenpi(){
-		parent::is_login();
-		parent::have_qx("qx_sys_sp");
+		parent::is_login2(2);
+		parent::have_qx2("qx_sys_sp");
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$userbase=M("user");
 		$userarr=$userbase->query("select user_name,user_id from crm_user where user_fid='$fid' or user_id='$fid'");
@@ -1200,8 +1200,8 @@ class OptionController extends DBController {
 	//自定义筛选
 	public function shaixuan()
 	{
-		parent::is_login();
-		parent::have_qx("qx_sys_sx");
+		parent::is_login2(2);
+		parent::have_qx2("qx_sys_sx");
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		//筛选条件html结构
 		$sxtjoption="<select><option value='1'>单条件筛选</option><option value='2'>多条件筛选</option><option value='3'>文本筛选</option><option value='4'>文本区间</option><option value='5'>自动区间</option></select>";
@@ -1257,8 +1257,8 @@ class OptionController extends DBController {
 	}
 	//日志
 	public function rizhi(){
-		parent::is_login();
-		parent::have_qx("qx_sys_rz");
+		parent::is_login2(2);
+		parent::have_qx2("qx_sys_rz");
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$rzbase=M("rz");
 		$czrzarr=$rzbase->query("select rz_id,rz_time,rz_user,rz_mode,rz_cz_type,rz_bz from crm_rz where rz_yh='$fid' and rz_type='1' order by rz_time desc");

@@ -46,6 +46,7 @@
         </div>
     </div>
 </body>
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
     window.root_dir="{$_GET['root_dir']}";
     window.as="{$_GET['center']}";
@@ -109,6 +110,7 @@
 				btn: ['确认删除', '取消'],
 				btn1: function(index, layero){
                     $.get(root_dir+"/index.php/Home/GonggaoDo/ggdel",{"delstr":delggid,"deltype":'1',"delggname":delggname},function(res){
+                        errorFun(res);
                         if(res=='1')
                         {
                             window.location=root_dir+"/index.php/Home/Option/gonggaoguanli";
@@ -132,6 +134,7 @@
     function ggzhiding(zdid,zdval)
     {
         $.get(root_dir+"/index.php/Home/GonggaoDo/ggzd",{"zdid":zdid,"zdval":zdval},function(res){
+            errorFun(res);
             if(res=='1')
             {
                 tishi("置顶成功");

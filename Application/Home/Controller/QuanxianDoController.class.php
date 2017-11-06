@@ -8,6 +8,7 @@ class QuanxianDoController extends DBController {
     public function oneqx()
     {
         parent::is_login();
+        parent::have_qx("qx_sys_jsqx");
         $fid=parent::get_fid();
 
         $jueseid=addslashes($_GET['nowclickid']);
@@ -36,6 +37,8 @@ class QuanxianDoController extends DBController {
     //改变权限状态
     public function changeqxval()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_jsqx");
         $changefiled=addslashes($_GET['changefiled']);//字段名
         $changejuese=addslashes($_GET['changejuese']);//角色id
         $changefiledvalue=addslashes($_GET['changefiledvalue']);//修改成的值 true/false
@@ -97,6 +100,7 @@ class QuanxianDoController extends DBController {
     public function jsedit()
     {
         parent::is_login();
+        parent::have_qx("qx_sys_jsqx");
         $fid=parent::get_fid();
         $editjsid=addslashes($_GET['editjsid']);
         $editnewname=addslashes($_GET['editnewname']);
@@ -130,6 +134,7 @@ class QuanxianDoController extends DBController {
     public function jsdel()
     {
         parent::is_login();
+        parent::have_qx("qx_sys_jsqx");
         $fid=parent::get_fid();
         $deljsid=addslashes($_GET['jsid']);
         $deljsname=addslashes($_GET['jsname']);
@@ -157,6 +162,7 @@ class QuanxianDoController extends DBController {
     public function jsadd()
     {
         parent::is_login();
+        parent::have_qx("qx_sys_jsqx");
         $fid=parent::get_fid();
         $addnewname=addslashes($_GET['addnewname']);
         if($addnewname=='')
@@ -190,6 +196,7 @@ class QuanxianDoController extends DBController {
     public function newjslist()
     {
         parent::is_login();
+        parent::have_qx("qx_sys_jsqx");
         $fid=parent::get_fid();
         
         $qxbase=M("juesequanxian");
@@ -205,6 +212,7 @@ class QuanxianDoController extends DBController {
     public function jscopy()
     {
         parent::is_login();
+        parent::have_qx("qx_sys_jsqx");
         $fid=parent::get_fid();
 
         $copyfromid=addslashes($_GET['copyfromid']);

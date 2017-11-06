@@ -9,8 +9,8 @@ class YewuziduanController extends DBController {
     public $cpfl_tree_arr=array();
 	//自定义业务字段
 	public function index(){
-		parent::is_login();//登录
-		parent::have_qx("qx_sys_ywzd");//权限
+		parent::is_login2(2);//登录
+		parent::have_qx2("qx_sys_ywzd");//权限
         $fid=parent::get_fid();
 		$this->display();
     }

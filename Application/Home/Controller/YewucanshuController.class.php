@@ -8,8 +8,8 @@ class YewucanshuController extends DBController {
 	
 	//自定义业务参数
 	public function index(){
-		parent::is_login();//登录
-		parent::have_qx("qx_sys_ywcs");//权限
+		parent::is_login2(2);//登录
+		parent::have_qx2("qx_sys_ywcs");//权限
 		$fid=parent::get_fid();
 		
 		$this->display();

@@ -7,6 +7,8 @@ class OptionDoController extends DBController {
 	//部门添加操作
     public function bumenadd()
     {
+		parent::is_login();
+		parent::have_qx("qx_sys_bmyh");
         $ajaxName=addslashes($_GET['newname']);
         $ajaxFid=addslashes($_GET['fid']);
         $nowloguser=cookie("user_id");
@@ -52,6 +54,7 @@ class OptionDoController extends DBController {
 			die;
 		}
 		parent::is_login();
+		parent::have_qx("qx_sys_bmyh");
 		$fid=parent::get_fid();
 		$tree_str=substr($_POST['cdd'],0,-1);
 		$treearr=explode(',',str_replace('"','',$tree_str));
@@ -70,6 +73,8 @@ class OptionDoController extends DBController {
 	//保存部门排序
 	function save_bm_px()
 	{
+		parent::is_login();
+		parent::have_qx("qx_sys_bmyh");
 		if($_POST['bmpxjson']=='')
 		{
 			echo '0';
@@ -88,6 +93,8 @@ class OptionDoController extends DBController {
 	//修改部门名称
 	public function bumenedit()
 	{
+		parent::is_login();
+		parent::have_qx("qx_sys_bmyh");
 		$thisBmId=addslashes($_GET['thisid']);
 		$thisNewName=addslashes($_GET['newname']);
 		if($thisBmId!=''&&$thisNewName!='')
@@ -122,6 +129,8 @@ class OptionDoController extends DBController {
 	//删除部门
 	public function bumendel()
 	{
+		parent::is_login();
+		parent::have_qx("qx_sys_bmyh");
 		$thisBmId=addslashes($_GET['thisid']);
 		$thisName=addslashes($_GET['thisname']);
 		if($thisBmId!='')
@@ -160,6 +169,8 @@ class OptionDoController extends DBController {
 	//用户添加
 	public function useradd()
 	{
+		parent::is_login();
+		parent::have_qx("qx_sys_bmyh");
 		$addusername    =addslashes($_GET['addusername']);//用户名
 		$addusersex     =addslashes($_GET['addusersex']);//性别
 		$adduserphone   =addslashes($_GET['adduserphone']);//手机号
@@ -183,7 +194,7 @@ class OptionDoController extends DBController {
 			//随机6位数密码
 			$chars = '0123456789';
 			$suijipassword = '';
-			for ( $i = 0; $i < 6; $i++ ) 
+			for ( $i = 0; $i < 6; $i++ )
 			{
 				$suijipassword .= $chars[ mt_rand(0, strlen($chars) - 1) ];
 			}
@@ -229,6 +240,8 @@ class OptionDoController extends DBController {
 	//添加或修改后刷新用户列表
 	public function usershuaxin()
 	{
+		parent::is_login();
+		parent::have_qx("qx_sys_bmyh");
 		//获取当前登录用户的信息（在cookie中）
 		$nowUserId=cookie("user_id");
 		//所属用户
@@ -295,6 +308,8 @@ class OptionDoController extends DBController {
 	//冻结
 	public function dongjie()
 	{
+		parent::is_login();
+		parent::have_qx("qx_sys_bmyh");
 		$dongjieid=addslashes($_GET['thisTrId']);
 		$dongjietype=addslashes($_GET['DJtype']);
 		if(!$dongjieid||$dongjietype=='')
@@ -326,6 +341,8 @@ class OptionDoController extends DBController {
 	//修改密码
 	public function pwdedit()
 	{
+		parent::is_login();
+		parent::have_qx("qx_sys_bmyh");
 		$newpwd=addslashes($_GET['pwd']);
 		$thisId=addslashes($_GET['editid']);
 		if($newpwd!='')
@@ -334,7 +351,7 @@ class OptionDoController extends DBController {
 			$relfid=$thisId==$fid?'0':$fid;
 			$md5newpwd=md5($newpwd);
 			$userbase=M("user");
-			$userbase->query("update crm_user set user_pwd_md5='$md5newpwd',user_pwd='$newpwd' where user_id='$thisId'  and user_fid='$relfid' limit 1");
+			$userbase->query("update crm_user set user_pwd_md5='$md5newpwd' where user_id='$thisId'  and user_fid='$relfid' limit 1");
 			$xgname=$userbase->query("select user_name from crm_user where user_id='$dongjieid' limit 1");
 			//更新系统日志 	操作时间	操作人员	模块	操作内容	操作设备	操作设备IP
 			$xitongrizhibase=M("rz");
@@ -355,6 +372,8 @@ class OptionDoController extends DBController {
 	//删除用户
 	public function userdel()
 	{
+		parent::is_login();
+		parent::have_qx("qx_sys_bmyh");
 		//删除用户操作并不是真正的删除操作，而是把用户的状态改为已删除，以免引起误操作而引起的重大损失
 		$deluserid=addslashes($_GET['deluserid']);
 		$delusername=addslashes($_GET['delusername']);
@@ -383,6 +402,8 @@ class OptionDoController extends DBController {
 	//用户修改
 	public function useredit()
 	{
+		parent::is_login();
+		parent::have_qx("qx_sys_bmyh");
 		$edituserid=addslashes($_GET['usereditid']);
 		$edituserdata=addslashes($_GET['usereditdata']);
 		$editusername=addslashes($_GET['editusername']);
@@ -420,6 +441,8 @@ class OptionDoController extends DBController {
 	//修改客户公海设置开启或关闭状态
 	public function changestatus()
 	{
+		parent::is_login();
+		parent::have_qx("qx_sys_khgh");
 		if($_GET['sta']=='')
 		{
 			die("error");
@@ -434,6 +457,8 @@ class OptionDoController extends DBController {
 	//保存客户公海设置的天数
 	public function changeopen()
 	{
+		parent::is_login();
+		parent::have_qx("qx_sys_khgh");
 		if($_GET['ts']=='')
 		{
 			die("error");

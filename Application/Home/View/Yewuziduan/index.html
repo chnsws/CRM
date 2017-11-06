@@ -121,6 +121,7 @@
         <span><input type="text" placeholder="字段名称（不超过10个字符）" id="zdnameinput" /></span>
     </div>
 </div>
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
 window.loadArr=new Array();
 loadArr[1]=0;
@@ -164,6 +165,7 @@ $(function(){
                 window.jiazai=loading();
                 //获得产品分类下拉框
                 $.get("__ROOT__/index.php/Home/Yewuziduan/get_cpfl_option",function(res){
+                    errorFun(res);
                     var resarr=JSON.parse(res);
                     var cpfl_option='';
                     for(flk in resarr)
@@ -212,6 +214,7 @@ $(function(){
                 }
                 window.jiazai=loading();
                 $.get("__ROOT__/index.php/Home/Yewuziduan/addzd",{"thismod":thismod,"newname":newname},function(res){
+                    errorFun(res);
                     layer.close(jiazai);
                     if(res=='1')
                     {
@@ -239,6 +242,7 @@ function getData(type)
 {
     //获取数据
     $.get("__ROOT__/index.php/Home/Yewuziduan/get_zd_list",{"zdtype":type},function(res){
+        errorFun(res);
         layer.close(jiazai);
         var zdarr=JSON.parse(res);
         var zdstr='';
@@ -281,6 +285,7 @@ function moveListen()
             thismod=thismod+','+flid;
         }
         $.post("__ROOT__/index.php/Home/Yewuziduan/changepx",{"pxstr":pxstr,"thismod":thismod},function(res){
+            errorFun(res);
             layer.close(jiazai);
             if(res=='1')
             {
@@ -311,6 +316,7 @@ function checkboxListen()
         var thisid=$(this).parent().parent().parent().prop("id");
         var thisname=$(this).attr("name");
         $.get("__ROOT__/index.php/Home/Yewuziduan/changecheckbox",{"thismod":thismod,"thisval":thisval,"thisid":thisid,"thisname":thisname},function(res){
+            errorFun(res);
             layer.close(jiazai);
             if(res=='1')
             {
@@ -343,6 +349,7 @@ function scListen()
             btn1:function(){
                 window.jiazai=loading();
                 $.get("__ROOT__/index.php/Home/Yewuziduan/zd_del",{"thisid":thisid,"thismod":thismod},function(res){
+                    errorFun(res);
                     layer.close(jiazai);
                     if(res=='1')
                     {
@@ -402,6 +409,7 @@ function bjListen()
                 }
                 window.jiazai=loading();
                 $.get("__ROOT__/index.php/Home/Yewuziduan/editzd",{"thismod":thismod,"newname":newname,"thisid":thisid},function(res){
+                    errorFun(res);
                     layer.close(jiazai);
                     if(res=='1')
                     {

@@ -5,6 +5,9 @@ class ReportController extends DBController {
     //首页默认显示跟进记录的报表，并且是今日的
 	public function index()
     {
+        //接入权限
+        parent::is_login2(2);
+        parent::have_qx2("qx_bb_open");
         //首页默认显示跟进记录的报表
         $this->display();
     }
@@ -15,7 +18,8 @@ class ReportController extends DBController {
     //产品销售汇总表-按产品汇总
     public function chanpinxiaoshouhuizong()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //今日、本周、本月、本季度、本年
         $timearr=parent::time_more();
@@ -129,7 +133,8 @@ class ReportController extends DBController {
     //产品销售汇总表-按分类汇总
     public function chanpinxiaoshouhuizong2()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //今日、本周、本月、本季度、本年
         $timearr=parent::time_more();
@@ -244,7 +249,8 @@ class ReportController extends DBController {
     //产品销售汇总表-按时间汇总
     public function chanpinxiaoshouhuizong3()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         $now_year=$_GET['sx_1']?$_GET['sx_1']:date("Y",time());//今年
         $last_year=($now_year-1).'-12';
@@ -406,7 +412,8 @@ class ReportController extends DBController {
     //合同汇总报表
     public function hetonghuizong()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //当前年度
         $now_year=$_GET['sx_1']==''?date("Y",time()):$_GET['sx_1'];
@@ -548,7 +555,8 @@ class ReportController extends DBController {
     //赢单商机汇总报表
     public function yingdanshangjihuizong()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //当前年度
         $now_year=$_GET['sx_1']==''?date("Y",time()):$_GET['sx_1'];
@@ -675,7 +683,8 @@ class ReportController extends DBController {
     //客户类型统计报表
     public function kehuleixingtongji()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
 
         //部门下拉框
@@ -789,7 +798,8 @@ class ReportController extends DBController {
     //客户数量排名报表
     public function kehushuliangpaiming()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //部门下拉框
         $bm_option=$this->get_bm_option($fid);
@@ -888,7 +898,8 @@ class ReportController extends DBController {
     //客户数量排名报表
     public function kehushuliangpaiming2()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //部门下拉框
         $bm_option=$this->get_bm_option($fid);
@@ -987,7 +998,8 @@ class ReportController extends DBController {
     //销售额排名报表-合同金额
     public function xiaoshouepaiming()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //部门下拉框
         $bm_option=$this->get_bm_option($fid);
@@ -1086,7 +1098,8 @@ class ReportController extends DBController {
     //销售额排名-赢单商机金额
     public function xiaoshouepaiming2()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //部门下拉框
         $bm_option=$this->get_bm_option($fid);
@@ -1185,7 +1198,8 @@ class ReportController extends DBController {
     //销售漏斗报表
     public function xiaoshouloudou()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //部门下拉框
         $bm_option=$this->get_bm_option($fid);
@@ -1297,7 +1311,8 @@ class ReportController extends DBController {
     //销售预测报表
     public function xiaoshouyuce()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //部门下拉框
         $bm_option=$this->get_bm_option($fid);
@@ -1404,7 +1419,8 @@ class ReportController extends DBController {
     //业务新增汇总报表
     public function yewuxinzenghuizong()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //时间判断
         $tarr=parent::time_more();
@@ -1507,7 +1523,8 @@ class ReportController extends DBController {
     //业务新增汇总报表---按创建人汇总
     public function yewuxinzenghuizong2()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //获得用户下拉框
         $user_option=$this->get_user_option($fid);
@@ -1591,7 +1608,8 @@ class ReportController extends DBController {
     //跟进记录报表
     public function genjinjilu()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //部门，用户下拉框
         $user_option=$this->get_user_option($fid);
@@ -1690,7 +1708,8 @@ class ReportController extends DBController {
     //业绩目标完成度报表
     public function yejimubiaowanchengdu()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //部门，用户下拉框
         $user_option=$this->get_user_option($fid);
@@ -1839,7 +1858,8 @@ class ReportController extends DBController {
     //回款计划汇总报表
     public function huikuanjihuahuizong()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //部门，用户下拉框
         $user_option=$this->get_user_option($fid);
@@ -1965,7 +1985,8 @@ class ReportController extends DBController {
     //销售回款排名报表
     public function xiaoshouhuikuanpaiming()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //部门下拉框
         $bmarr=parent::sel_more_data("crm_department","bm_id,bm_name","bm_company='$fid'");
@@ -2039,7 +2060,8 @@ class ReportController extends DBController {
     //线索转化率报表--转化率
     public function xiansuozhuanhualv()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //部门，用户下拉框
         $user_option=$this->get_user_option($fid);
@@ -2140,7 +2162,8 @@ class ReportController extends DBController {
     //线索转化率报表--转化时长
     public function xiansuozhuanhualv2()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //部门，用户下拉框
         $user_option=$this->get_user_option($fid);
@@ -2283,7 +2306,8 @@ class ReportController extends DBController {
     //业绩目标完成度排名报表
     public function yejimubiaowanchengdupaiming()
     {
-        parent::is_login();
+        parent::is_login2(3);
+        parent::have_qx2("qx_bb_open");
         $fid=parent::get_fid();
         //部门，用户下拉框
         $user_option=$this->get_user_option($fid);

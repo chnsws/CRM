@@ -3,9 +3,11 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class CompanyinfoDoController extends Controller {
+class CompanyinfoDoController extends DBController {
     public function imageuplode()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_gsxx");
         //文件保存
         $getFileArr=$_FILES['headimg'];
         if(count($_FILES['headimg'])<1)
@@ -48,6 +50,8 @@ class CompanyinfoDoController extends Controller {
     //公司信息修改
     public function companyinfoedit()
     {
+        parent::is_login();
+        parent::have_qx("qx_sys_gsxx");
         $neededitstr=substr($_GET["editinfo"],0,-2);
         if($neededitstr=='')
         {
