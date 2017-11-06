@@ -460,6 +460,9 @@ a{color:#07d; text-decoration:none !important;}
 				</div>   
 
   		</div>
+  		<div class='ck_spjd' style='height:80px;display:none'>
+  		<div class='ck_spjd1' style='margin-left:20%;'></div>
+  	</div>
 	</body>
 	<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
  		<script>0
@@ -753,6 +756,39 @@ a{color:#07d; text-decoration:none !important;}
 			    	$(".jiaodian")[0].focus()
 			      	}
    		 		}  
+   		 			function ck_spjd(ss){
+				var id=$(ss).prop("class");
+			
+				$.get(rooturl+'/index.php/Home/Hetong/jindu',{"id":id},
+												function(html){
+										
+											 $(".ck_spjd1").html(html)		
+
+											})
+				
+				layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:['630px','400px'],
+								fixed: false,
+								title: '查看审批进度',
+
+								content:$('.ck_spjd'),
+								btn:['返回'],
+								btn1:function(){
+
+											layer.close(win)
+									//addshangji()
+
+
+								},
+								
+							}); 
+
+						});      	
+			}
 	</script>
 
 	   

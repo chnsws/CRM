@@ -164,7 +164,24 @@ return $fzr_only;
 			$map['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件          
 			$lx_base=M("hetong");
 			$sql_lianxi=$lx_base->where($map)->find();
-	
+			$xiaji1= $this->get_xiashu_id();//  查询用户
+			$new_xiaji1=$xiaji1; 
+			$new_array1=explode(',',$new_xiaji1);
+			$qxa=0;
+			foreach($new_array1 as $k=>$v)
+			{
+				if(	$sql_lianxi['ht_fz']==$v)
+				{
+					$qxa++;
+				}
+			}
+		
+			if($qxa<1)
+			{
+				echo "<script> alert('您没有查看此客户权限~');history.go(-1); 
+				 
+				</script>";die;
+			}
 			$ht_sp918=$sql_lianxi['ht_sp'];
 			$this->assign('ht_sp918',$ht_sp918);
 			$ht_json=json_decode($sql_lianxi['ht_data'],true);

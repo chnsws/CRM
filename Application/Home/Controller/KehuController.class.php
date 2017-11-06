@@ -156,6 +156,9 @@ class KehuController extends Controller {
 				}elseif($v['id']=='zdy0'){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
 					$show_bt.="<td><input type='text'  class='required' id= 'wyszdy0'onkeyup='kh_name_if(this)' name='".$v['id']."'></td></tr>";	
+				}elseif($v['id']=="zdy3"){
+					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
+					$show_bt.="<td><input type='text'  class='qingyx' onchange='yxyz(this) name='".$v['id']."'></td></tr>";	
 				}else{
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
 					$show_bt.="<td><input type='text'  class='required' name='".$v['id']."'></td></tr>";	
@@ -190,6 +193,10 @@ class KehuController extends Controller {
 			          	$show_bt1.="<select name='".$v['id']."[]' class='form-control'   ></select>";
 			         	$show_bt1.="<select name='".$v['id']."[]' class='form-control'   ></select>";
 		 				$show_bt1.="</td></tr>";
+					}elseif($v['id']=="zdy3"){
+					$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
+					$show_bt1.="<td><input type='text'   class='qingyx' name='".$v['id']."' onchange='yxyz(this)'></td></tr>";	
+				
 					}else{
 						$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
 						$show_bt1.="<td><input type='text' name='".$v['id']."' ></td></tr>";	
@@ -223,6 +230,10 @@ class KehuController extends Controller {
 		 			}elseif($v['id']=='zdy2'){
 						$show_bt2.="<tr class='addtr'><td>".$v['name']."：</td>";
 						$show_bt2.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."''></td></tr>";	
+					
+					}elseif($v['id']=="zdy3"){
+					$show_bt2.="<tr class='addtr'><td>".$v['name']."：</td>";
+					$show_bt2.="<td><input type='text'  class='qingyx'  onchange='yxyz(this) name='".$v['id']."'></td></tr>";	
 					}else{
 						$show_bt2.="<tr class='addtr ncy' style='display: none;border:1px'><td>".$v['name']."：</td>";
 						$show_bt2.="<td><input type='text' name='".$v['id']."' ></td></tr>";	
@@ -418,7 +429,19 @@ class KehuController extends Controller {
 												<span id='wys{$id}'>".date('Y-m-d H:i:s',$r_v[$v_biaoti['id']])."</span>";
 												
 												}
-											
+											elseif($v_biaoti['id']=="zdy2"){
+													$afirst=substr($r_v[$v_biaoti['id']],0,1);
+
+															if($afirst=="-")
+															{
+																$acc=substr($r_v[$v_biaoti['id']],1);
+																$xs123="
+																<span id='wys{$id}'>".$acc."</span>";
+															}else{
+																$xs123="
+																	<span id='wys{$id}'>".$r_v[$v_biaoti['id']]."</span>";
+															}
+											}
 											else
 												$xs123="
 												<span id='wys{$id}'>".$r_v[$v_biaoti['id']]."</span>";
@@ -1015,6 +1038,7 @@ class KehuController extends Controller {
 			//var_dump($user);exit;
 			$fuzeren1=M('user');
 	 		$fuzeren_sql1=$fuzeren1->select();
+
 			$new_xiaji1=$xiaji1; 
 			$new_array1=explode(',',$new_xiaji1);
 			foreach ($fuzeren_sql1 as $k=>$v)
@@ -1206,7 +1230,7 @@ class KehuController extends Controller {
 	 		$ht_map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 	 		$ht_where='"zdy1":"'.$kh_id.'"';
 	 			$ht_where1='"zdy1":'.$kh_id.'';
-			$sql_ht=$sj_base->query("select * from crm_hetong where ht_yh = '$ht_map'  and ht_fz IN ($xiaji1) and ht_data like '%$ht_where%' or ht_data like '%$ht_where1%'");
+			$sql_ht=$sj_base->query("select * from crm_hetong where ht_yh = '$ht_map'  and ht_data like '%$ht_where%' or ht_data like '%$ht_where1%'");
 			$aa=0;
 			$ht_idhk="";
 			
@@ -1268,13 +1292,20 @@ class KehuController extends Controller {
 							}else{
 
 							$hta=1;
+							
+						
 									foreach($ht_end as $k=>$v)
 									{
 										if($hta<3)
 										{
-											$ht_show.="<tr>
-											  				<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span>".$v['zdy0']."</span></a></td>
-											  				<td >￥".$v['zdy3']."</td>
+											$ht_show.="<tr>";
+														if($v['ht_sp']==4){
+															$ht_show.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."'>".$v['zdy0']."</a></td>";
+														}else{
+														$ht_show.="	<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span>".$v['zdy0']."</span></a></td>";
+														}
+											  				
+											  			$ht_show.="	<td >￥".$v['zdy3']."</td>
 											  				<td >".$v['zdy5']."</td>
 											  	
 											  				<td >".$ywcs_ht['zdy7'][$v['zdy7']]."</td>
@@ -1290,9 +1321,13 @@ class KehuController extends Controller {
 		
 			foreach($ht_end as $k=>$v)
 			{
-				$ht_show_much.="<tr>
-					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span>".$v['zdy0']."</span></a></td>
-					  				<td >￥".$v['zdy3']."</td>
+				$ht_show_much.="<tr>";
+								if($v['ht_sp']==4){
+									$ht_show_much.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."'>".$v['zdy0']."</a></td>";
+								}else{
+					  				$ht_show_much.="<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span>".$v['zdy0']."</span></a></td>";
+					  				}
+					  			$ht_show_much.="	<td >￥".$v['zdy3']."</td>
 					  				<td >".$v['zdy5']."</td>
 					  				<td >".$v['zdy6']."</td>
 					  				<td >".$ywcs_ht['zdy7'][$v['zdy7']]."</td>
@@ -1658,9 +1693,13 @@ class KehuController extends Controller {
 						</div>
 					</div>";
 				}//客户模块下跟进记录必须是当前客户  其他模块再继续查询
+				$afirst=substr($sql_json['zdy2'],0,1);
 
-				
-				$jbxx_show.="<tr><td>".$ywcs_kh['zdy1'][$sql_json['zdy1']]."</td><td>".$sql_json['zdy3']."</td><td>".$sql_json['zdy3']."</td><td>".$ywcs_kh['zdy9'][$sql_json['zdy9']]."</td></tr>";
+				if($afirst=="-")
+				{
+					$sql_json['zdy2']=substr($sql_json['zdy2'],1);
+				}
+				$jbxx_show.="<tr><td>".$ywcs_kh['zdy1'][$sql_json['zdy1']]."</td><td>".$sql_json['zdy2']."</td><td>".$sql_json['zdy3']."</td><td>".$ywcs_kh['zdy9'][$sql_json['zdy9']]."</td></tr>";
 			
 			$this->assign('jbxx_show',$jbxx_show);
 	  		$this->assign('xgj_show',$xgj_show);

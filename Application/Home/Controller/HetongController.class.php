@@ -285,6 +285,9 @@ public function kehu(){
 		}elseif($zhuangtai=="审批驳回"){
 			$userarr=$ht_base->query("select * from crm_hetong where ht_yh='$data_ht' and ht_sp='2' and ht_fz IN ($xiaji) order by ht_id desc limit ".$new.",".$list_num." ");
 		}
+		
+
+		
 		$this->assign('zhuangtai',$zhuangtai);
 		$userarr_count=$ht_base->query("select count(ht_id) from crm_hetong where ht_yh='$data_ht' and ht_fz IN ($xiaji)");
 		

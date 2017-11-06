@@ -290,7 +290,7 @@
 				   					
 				   					</span>
 				   					 		<span style="float:right; margin-right:2%" ><input type="text" height=26px; id="sousuo" value="">
-				   					 <span onclick="sousuo1()" style="margin-left:-25px">	<i class="layui-icon" >&#x1006;</i></span>
+				   					 <span onclick="sousuo1()" style="margin-left:-25px;cursor:pointer;">	<i class="layui-icon" >&#x1006;</i></span>
 				   					 		<span  style="width:60px; margin-left:15px" class=" layui-btn layui-btn-small "  onclick="sousuo()">搜索</span>
 				   				</span>
 				   		</div>
@@ -1071,4 +1071,13 @@ function add_yh()
 		      $(".jiaodian")[0].focus()
 		       }
    		 }  
+   		 function yxyz(ss){
+   		 	var a=$(ss).val();
+   		 	 if(!a.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/))
+			  {
+			   tishi("格式不正确！请重新输入");
+			   $(".qingyx").val('');
+			  }
+
+   		 }
 	</script>
