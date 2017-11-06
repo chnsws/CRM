@@ -1034,8 +1034,12 @@ class KehuController extends Controller {
 			$ywcs_ht=$this->ywcs_ht();
 			$xiaji1= $this->get_xiashu_id();//  查询用户
 			$user=$this->user();
-			//	//echo "<pre>";
-			//var_dump($user);exit;
+			$uid=$_GET['uid'];
+			if($uid=="")
+			{
+				$uid="1";
+			}
+			$this->assign('uid',$uid);
 			$fuzeren1=M('user');
 	 		$fuzeren_sql1=$fuzeren1->select();
 
@@ -1385,6 +1389,16 @@ class KehuController extends Controller {
 					}elseif($k=="zdy15"){
 						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$lx_end[$v]['zdy0'].'</td></tr>';
 
+					}elseif($k=="zdy2"){
+						$afirst=substr($v,0,1);
+
+															if($afirst=="-")
+															{
+																$acc=substr($v,1);
+																$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$acc.'</td></tr>';
+															}else{
+																$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$v.'</td></tr>';
+															}
 					}else{
 						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$v.'</td></tr>';
 					}
@@ -1596,16 +1610,24 @@ class KehuController extends Controller {
 							foreach($v as $k_a=>$v_a)
 								
 							{
+								if($k_a!="id"){
+								$table_fj.="<td name='$k'>";
+								if($k_a=="fujian_name")
+								{
+									$table_fj.="<span onclick='fj_xz(this)' class='".$v['lujing']."' style='color:green;cursor:pointer' title='点击下载' >".$v['fujian_name']."</span>";
+								}else{
+
+									$table_fj.="".$v_a."";
+								}
+
+
 								
-								$table_fj.="<td name='$k'>
-
-
-								{$v_a}
 
 										
-								</td>";
+								$table_fj.="</td>";
+								}
 							}
-							$table_fj.="<td>预览|<span class='del' id=".$id.">删除</span></td></tr>";
+							$table_fj.="<td><a class='del' id=".$id." style='cursor:pointer'>删除</a></td></tr>";
 							
 				}
 							
@@ -1759,49 +1781,16 @@ class KehuController extends Controller {
 
 				$sql_file_select=$sql_delete->where($sql)->delete();
 
-       		if($sql_file_select){
-			
-			  			$sql=M('file');
-				  		$fujian_map['yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-				  		$fujian_map['mk']=2;
-				  		$fujian_map['name_id']=$fujian['name_id'];
-					$sql_select=$sql->where($fujian_map)->field('id,sc_data,fujian_name,big,beizhu')->select();
-
-				foreach($sql_select as $k=>$v)
-							{
-								$id=$v['id'];
-								
-								
-					$table.="<tr>";
-							foreach($v as $k_a=>$v_a)
-								
-							{
-								
-								$table.="<td name='$k'>
-
-
-								{$v_a}
-
-										
-								</td>";
-							}
-							$table.="<td>预览|<span class='del' id=".$id.">删除</span></td></tr>";
-							
-						}
-							
-
-							echo $table ;
-
-					}
+       		
 		}
 		public function upload(){//http://www.jb51.net/article/74353.htm   筛选第二天要看的
 
 
 				$kh_id=$_GET['id'];
 			    $upload = new \Think\Upload();// 实例化上传类
-    			$upload->maxSize   =     3145728 ;// 设置附件上传大小
-   				$upload->exts      =     array('jpg', 'gif', 'png', 'jpeg','txt','pptx','xls');// 设置附件上传类型
-    			$upload->rootPath  =     './Uploads/'; // 设置附件上传根目录
+    			$upload->maxSize   =    52428800 ;// 设置附件上传大小
+   				$upload->exts      =     array('jpg', 'gif', 'png', 'jpeg','txt','pptx','xls','pdf');// 设置附件上传类型
+    			$upload->rootPath  =      './Public/chanpinfile/cpfile/linshi/'; // 设置附件上传根目录
    				$upload->autoSub = false;
    				$upload->hash = false;
     		// 上传文件 
@@ -1810,10 +1799,10 @@ class KehuController extends Controller {
         		$this->error($upload->getError());
     				}// 上传成功
     					    foreach($info as $file){
-       						$save_name= 'Uploads/'.$file['savename'];//获取报存路径
+       						$save_name= $file['savename'];//获取报存路径
        						$save_oldname=$file['name'];//原始吗，
        						$save_size=$file['size'] *'0.0009766';//大小
-       						$sql=substr($save_size,0,3).'kb';//换算
+       						$sql=ceil($save_size/1024).'M';//换算
  
     			 $data['name_id']=$kh_id;
     			 $data['sc_data']= date("Y-m-d H:i:s");
@@ -1855,7 +1844,7 @@ class KehuController extends Controller {
        			 {
        			 	//$this->success("上传成功");
        			 	echo '<script> 
-       			 				window.location="'.$_GET['root_dir'].'/index.php/Home/Kehu/kehumingcheng/kh_id/'.$kh_id.'";
+       			 				window.location="'.$_GET['root_dir'].'/index.php/Home/Kehu/kehumingcheng/uid/6/kh_id/'.$kh_id.'";
        			 		</script>';
        			 	
        			 }else{

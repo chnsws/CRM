@@ -125,6 +125,7 @@ a{color:#07d; text-decoration:none !important;}
 
 	</head>
 	<body >
+	<input type="hidden" value='{$uid}' class='uii'>
 		<div class="top">
 			<div class="top1">
 				
@@ -154,16 +155,16 @@ a{color:#07d; text-decoration:none !important;}
 			   
 				<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 				  <ul class="layui-tab-title" >
-				   <li class="layui-this">客户全景</li>
+				        <li id="onesh">客户全景</li>
 					    <li>客户资料</li>
 					    <li class='lxrone' >联系人</li>
 					    <li class='sjrone' >商机</li>
 					    <li  class='htrone'>合同</li>
-					    <li>附件</li>
+					    <li id='six'>附件</li>
 					    <li>操作日志</li>
 				  </ul>
 				  <div class="layui-tab-content" >
-				    <div class="layui-tab-item layui-show">
+				    <div class="layui-tab-item "  id="onesh1">
 									    	<div class="quanjing_left" style="width:50%; float:left">
 						  					<div class="dan1">
 								  				<div class="ziliao">
@@ -381,12 +382,12 @@ a{color:#07d; text-decoration:none !important;}
 							</tbody>
 						  </table>  
 				    </div>
-				    <div class="layui-tab-item">
+				    <div class="layui-tab-item " id="six1">
 				 		   <div >
 				  				<input type="button" id="dialog-form" onclick="openwindow()" class="layui-btn layui-btn-small" value="+文件上传">
 							  		<table class="layui-table"  >
 							  	<thead>
-							  				<th >ID</th>
+							  				
 							  				<th >上传时间</th>
 							  				<th >附件名称</th>
 							  				<th >大小</td>
@@ -397,7 +398,7 @@ a{color:#07d; text-decoration:none !important;}
 								<tbody class="fujian_del">
 								{$table_fj}
 								</tbody>
-							  		</table>       
+							  		</table>      
 								  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Kehu/upload/id/{$kh_id}/pageid/{$_GET['id']}/fuzeren/{$_GET['fuzeren']}/id1/{$_GET['id1']}/kh_id/{$_GET['kh_id']}" enctype="multipart/form-data" method="post" style="margin:20px;">
 							  					<input type="file" name="wenjian"  >
 							  					<div id="shangc_top" style="margin-top:30px">备&nbsp;&nbsp;&nbsp;&nbsp;注：<!-- 第一个是普通textarea -->
@@ -465,7 +466,20 @@ a{color:#07d; text-decoration:none !important;}
   	</div>
 	</body>
 	<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
- 		<script>0
+ 		<script>
+ 		var uiid=$(".uii").val();
+ 		if(uiid==1)
+	   {
+	
+		$("#onesh").attr('class','layui-this');
+		$("#onesh1").attr('class','layui-tab-item layui-show');
+	   }
+	   if(uiid==6)
+	{
+	
+		$("#six").attr('class','layui-this');
+		$("#six1").attr('class','layui-tab-item layui-show');
+	}
  		$("#uploadform").hide();
 			window.rooturl="{$_GET['root_dir']}";
 		  $(function() {
@@ -552,8 +566,7 @@ a{color:#07d; text-decoration:none !important;}
     				$.get(rooturl+'/index.php/Home/Kehu/delete_fj',{"id":$(this).attr("id")},
 							        		 				function(html){
 							        		 				//	alert(html)
-															$(".fujian_del").html(html);
-															blurfun();
+															location=rooturl+"/index.php/Home/Kehu/kehumingcheng?kh_id="+$(".bingou").val()+"&uid=6";
 
 															});
 
@@ -789,6 +802,12 @@ a{color:#07d; text-decoration:none !important;}
 
 						});      	
 			}
+			function fj_xz(ss)
+				{
+					var s=$(ss).prop('class');
+					window.location=rooturl+'/index.php/Home/Hetongmingcheng/download1?id='+s;
+						
+				}
 	</script>
 
 	   
