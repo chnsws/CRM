@@ -122,7 +122,7 @@ class KehuController extends Controller {
 					$show_bt.="</tr>";
 				}elseif($v['id']=='zdy13'){
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-						$show_bt.="<td><input type='text' name='".$v['id']."'  class='ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td></tr>";	
+						$show_bt.="<td><input type='text' name='".$v['id']."'  class='ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd HH:mm:ss'".'})"'."></td></tr>";	
 				}elseif($v['id']=='zdy6'){
 					$show_bt.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
 					$show_bt.="<td><span style='color:red'>*</span>".$v['name'].":</td><td class='form-group' style='width:80%;'>";
@@ -246,7 +246,7 @@ class KehuController extends Controller {
 		$this->assign('show_bt2',$show_bt2);
 		$this->assign("jw",$jw);
 		$this->assign("pl_bj",$pl_bj_arr);
-		$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_cj_cp'=>"已经成交产品",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
+		$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_lx'=>"联系人",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
 
 				foreach($array_jiansuo as $k=>$v){
 						$new_str1['id']=$k;
@@ -525,7 +525,7 @@ class KehuController extends Controller {
 		$new_arr=explode(',',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
-			$ex=explode(":",$v);
+			$ex=explode(":￥￥",$v);
 			if($ex['0']=="zdy6[]")
 			{
 				$substr=substr($ex['0'],0,strlen($ex['0'])-2); //id
@@ -607,7 +607,7 @@ class KehuController extends Controller {
 		$new_arr=explode(',',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
-			$ex=explode(":",$v);
+			$ex=explode(":￥￥",$v);
 			if($ex['0']=="zdy6[]")
 			{
 				$substr=substr($ex['0'],0,strlen($ex['0'])-2); //id
@@ -1328,7 +1328,7 @@ class KehuController extends Controller {
 			}
 
 			$a_arr=$canm;
-			$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_cj_cp'=>"已经成交产品",'kh_new_gj'=>"最新跟进记录",'kh_sj_gj_date'=>"实际跟进时间",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
+			$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_lx'=>"联系人",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
 				foreach($array_jiansuo as $k=>$v){
 						$new_str1['id']=$k;
 						$new_str1['name']=$v;
@@ -2489,8 +2489,9 @@ class KehuController extends Controller {
 			}
 		}
 		$id=$_GET['id'];
-		$new_id=substr($id,0,strlen($id)-1); 
-		//$new_id="zdy1,4|kehujibie,1|zdy9,2";
+	$new_id=substr($id,0,strlen($id)-1); 
+		//$new_ida="kehujibie,2|zdy1,2|zdy10,4|zdy11,6|zdy11,1|zdy10,1|zdy1,1|kehujibie,1|zdy10,2|zdy10,1|zdy10,2|zdy10,3|";
+		//$new_id=substr($new_ida,0,strlen($new_ida)-1); 
 		$new_arr=explode("|",$new_id);
 		foreach($new_arr as $k=>$v)
 		{
@@ -2503,7 +2504,7 @@ class KehuController extends Controller {
 		{
 			$get[$vget[0]]=$vget;         //  zdy0   dom 下标4   求完每个标题的唯一了
 		}
-		
+	
 		foreach($get as $kqb=>$vqb)
 		{
 			if($kqb!='kehujibie')
@@ -2517,6 +2518,34 @@ class KehuController extends Controller {
 				}
 			}
 		}
+		foreach($get as $kqb=>$vqb)
+		{
+			if($kqb!='kehujibie')
+			{
+				
+					if($vqb['1']!='1')
+					{
+						$get1[$vqb['0']]=$vqb;
+					}
+				
+			}
+		}
+		$anum=0;
+		foreach($get as $kqb=>$vqb)
+		{
+			
+				
+					if($vqb['1']!='1')
+					{
+						$anum++;
+					}
+				
+			
+		}
+if($anum==0)
+{
+	echo "quanbu";die;
+}
 
 		$get2=$get1;
 		$av=1;
@@ -2594,7 +2623,7 @@ class KehuController extends Controller {
 			
 		}
 		
-		$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_lx'=>"联系人",'kh_cj_cp'=>"已经成交产品",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
+		$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_lx'=>"联系人",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
 				foreach($array_jiansuo as $k=>$v){
 						$new_str1['id']=$k;
 						$new_str1['name']=$v;
@@ -2609,7 +2638,7 @@ class KehuController extends Controller {
 	$lxr=$this->lxr();
 	if($hetong=='' || $hetong==null)
 	{
-		$content="<span style='height:30px;line-height:30px;margin-left:100px;'>没有这条数据,快去<span onclick='add_yh()' style='color:#07d;cursor:pointer;'>添加</span>一条吧</span>";
+		$content="<tr><td colspan='30'><span style='height:30px;line-height:30px;margin-left:100px;'>没有这条数据,快去<span onclick='add_yh()' style='color:#07d;cursor:pointer;'>添加</span>一条吧</span></td></tr>";
 		echo $content;die;
 	}else{
 		foreach($hetong as $k=>$v)
@@ -3101,7 +3130,7 @@ public function save(){
   		$map['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//这里通过查询获得
   		$sql=$a->where($map)->field('zd_data')->find();
 		$a_arr=json_decode($sql['zd_data'],true);
-		$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_cj_cp'=>"已经成交产品",'kh_new_gj'=>"最新跟进记录",'kh_sj_gj_date'=>"实际跟进时间",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
+		$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_lx'=>"联系人",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
 		foreach($array_jiansuo as $k=>$v){
 				$new_str1['id']=$k;
 				$new_str1['name']=$v;

@@ -433,6 +433,7 @@ function yc_file(thisdom){
   	
   function kehujibie(thisa){
   	var kehu=$(thisa).prop('id');
+
   		$.get(rooturl+'/index.php/Home/Kehu/shaixuan',{"kehu":"mykehu"},
 							        		 function(html){
 							        		 		tishi(html)
@@ -690,6 +691,7 @@ window.id='';
 $(".sxzddiv").children("span").click(function(){
 		var tex =$(this).text();
 	    var title=$(this).parent().prop('id');
+
     $(this).parent().children("span").prop("class","sx_no");
     $(this).prop("class","sx_yes");
     var s=$(this).index();
@@ -721,8 +723,13 @@ $(".sxzddiv").children("span").click(function(){
 			$(".six").text(tex); //23
 		}
 		$(".ycyo").hide();
+		
 	$.get(rooturl+'/index.php/Home/Kehu/shaixuan',{"id":id},
 							        		 function(html){
+							        		 	if(html=="quanbu")
+							        		 	{
+							        		 		   	window.location.href="kehu";return;
+							        		 	}
 							        		 	//tishi(html)
 							        			$("#jb_bianji").html(html);
 							        			$('.bianji_hide').hide();
@@ -759,16 +766,16 @@ function add_yh()
 
 										if(thisdom.prop("name")=='zdy6[]')
 										{	//tishi(thisdom.prop("name"))
-											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+","; 
+											ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+","; 
 										}else{
 											if(thisdom.prop("name")=='zdy2')
 											{ 
 												
-												ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+","; 
+												ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+","; 
 											
 												
 											}else{
-												ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+												ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",";
 											}
 										}
 										
