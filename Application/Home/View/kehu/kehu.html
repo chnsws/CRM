@@ -114,39 +114,7 @@
    			 </style>
   			
 
-		<script type="text/javascript">
-			$(function(){
-				$('.xlss').searchableSelect();
- 			});
-		window.ajaxstr_lxr='';
-		window.lxr_id='';
-
-	      layui.use(['laypage', 'layer'], function(){
-		  var laypage = layui.laypage
-		  ,layer = layui.layer;
-		  
-		 var ys=$("#ys").val();
-		 var wocao=$("#wocao").val();
-		  laypage({
-		    cont: 'demo7'
-		    ,pages: ys
-		    ,curr:wocao
-		    ,skip: true,
-
-		    jump: function(obj, first){
-		      if(!first){
-		      	var fenye=$("#fenye").val();
-		      
-		      	window.location.href="kehu?dijiye="+obj.curr+"&fenye="+fenye;
-		       tishi('第 '+ obj.curr +' 页');
-
-		      }
-		  	}
-		  });
-		});
-
-
-    	</script>
+		
     	
 
 	</head>
@@ -316,7 +284,8 @@
 								
 						</div>
 				</div>
-					<div id="demo7" class="ycyo" style="float:right"></div> 
+					<div id="demo7"  class="ycyo" style="float:right;margin-right:2%;height:10px">1222222</div>
+				
 			</div>
 					<div id="dialog-form" style="display: none;border:1px;"> <!--新增弹出框-->
 						<form id="ht_form" style="border:1px; method="post" class="uk-form " >
@@ -1080,4 +1049,34 @@ function add_yh()
 			  }
 
    		 }
+   		 	$(function(){
+				$('.xlss').searchableSelect();
+ 			});
+		window.ajaxstr_lxr='';
+		window.lxr_id='';
+
+	      layui.use(['laypage', 'layer'], function(){
+		  var laypage = layui.laypage
+		  ,layer = layui.layer;
+		  
+		 var ys=$("#ys").val();
+		 var wocao=$("#wocao").val();
+		  laypage({
+		    cont: 'demo7'
+		    ,pages: ys
+		    ,curr:wocao
+		    ,skip: true,
+
+		    jump: function(obj, first){
+		      if(!first){
+		      	var fenye=$("#fenye").val();
+		      
+		      	window.location.href="kehu?dijiye="+obj.curr+"&fenye="+fenye;
+		       tishi('第 '+ obj.curr +' 页');
+
+		      }
+		  	}
+		  });
+		});
+
 	</script>
