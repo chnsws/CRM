@@ -42,13 +42,32 @@ class KehuController extends Controller {
 			$new=($dijiye-1)*$list_num;
 		}
 		
-		$datakh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-		$ht_base=M('kh');
-		$kehu=$ht_base->query("select * from crm_kh where kh_yh='$datakh' and kh_fz IN ($xiaji) order by kh_id desc limit ".$new.",".$list_num." ");
-		
-		$kehu_count=$ht_base->query("select count(kh_id) from crm_kh where kh_yh='$datakh' and kh_fz IN ($xiaji)");
-		$ys= ceil($kehu_count['0']['count(kh_id)']/$list_num);//多少页
 
+		$namess=$_GET['sousuo'];
+		if($namess!="")
+		{
+		
+		$json_name=json_encode($namess,true);
+		$newstr = substr($json_name,0,strlen($json_name)-1); 
+		$first =substr($newstr,1);  
+		$tihuan= str_replace("\\", "\\\\\\\\", $first);
+		$kh_base=M('kh');
+		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kehu=$kh_base->query("select * from crm_kh where kh_yh = '$yh' and kh_fz IN ($xiaji) and  kh_data like '%".$tihuan."%'");
+		$this->assign('namess',$namess);
+		}else{
+			$datakh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$ht_base=M('kh');
+
+			$kehu=$ht_base->query("select * from crm_kh where kh_yh='$datakh' and kh_fz IN ($xiaji) order by kh_id desc limit ".$new.",".$list_num." ");
+			
+			$kehu_count=$ht_base->query("select count(kh_id) from crm_kh where kh_yh='$datakh' and kh_fz IN ($xiaji)");
+			$ys= ceil($kehu_count['0']['count(kh_id)']/$list_num);//多少页
+	
+		}
+
+
+		
 
 
 

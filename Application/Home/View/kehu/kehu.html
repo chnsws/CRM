@@ -257,7 +257,7 @@
 
 				   					
 				   					</span>
-				   					 		<span style="float:right; margin-right:2%" ><input type="text" height=26px; id="sousuo" value="">
+				   					 		<span style="float:right; margin-right:2%" ><input type="text" height=26px; id="sousuo" value="{$namess}">
 				   					 <span onclick="sousuo1()" style="margin-left:-25px;cursor:pointer;">	<i class="layui-icon" >&#x1006;</i></span>
 				   					 		<span  style="width:60px; margin-left:15px" class=" layui-btn layui-btn-small "  onclick="sousuo()">搜索</span>
 				   				</span>
@@ -284,7 +284,7 @@
 								
 						</div>
 				</div>
-					<div id="demo7"  class="ycyo" style="float:right;margin-right:2%;height:10px">1222222</div>
+					<div id="demo7"  class="ycyo" style="float:right;margin-right:2%;height:10px"></div>
 				
 			</div>
 					<div id="dialog-form" style="display: none;border:1px;"> <!--新增弹出框-->
@@ -316,7 +316,11 @@
 
 </html>
 <script>
-
+var ssa=$("#sousuo").val();
+if(ssa!='')
+{
+	$(".ycyo").hide();
+}
 $('#bj_kehu').hide();
 $('#yincang_bj').hide();
 $('.bianji_hide').hide();
@@ -909,13 +913,7 @@ function add_yh()
 		}
 		function sousuo(){
 			var name= $("#sousuo").val();
-		$(".ycyo").hide();
-			 $.get(rooturl+'/index.php/Home/Kehu/sousuo',{"id":name},
-								        		 function(lxrid){
-
-								        		$("#jb_bianji").html(lxrid);
-										        	
-								                  });
+			window.location.href="kehu?sousuo="+name;
 		}
 			function sousuo1(){
 					window.location.href="kehu";
