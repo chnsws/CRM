@@ -12,12 +12,14 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="format-detection" content="telephone=no">
 	  		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+			<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
 			<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
 		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/jquery-ui/jquery-ui.css">
 		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
 		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+			
+<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
 			 $(function() {
@@ -156,9 +158,9 @@
 
 										if(thisdom.prop("name")=='zdy2')
 										{
-											ajaxstr+=thisdom.prop("name")+":"+$('input[name="zdy2"]:checked').val()+",";
+											ajaxstr+=thisdom.prop("name")+":￥￥"+$('input[name="zdy2"]:checked').val()+",";
 										}else{
-											ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+											ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",";
 										}
 										
 									}
@@ -193,4 +195,19 @@
 		function fanhui(){
 			window.location.href=rooturl+'/index.php/Home/Lianxiren/Lianxiren';
 		}
+			function yxyz(ss){
+		   		 	var a=$(ss).val();
+		   		 	 if(!a.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/))
+					  {
+					   tishi("格式不正确！请重新输入");
+					   $(".qingyx").val('');
+					  }
+
+		   		 }
+		   	function tishi(neirong)
+			{
+			    layer.msg(neirong, {
+			        time: 1000, 
+			    });
+			}
 	</script>

@@ -201,6 +201,7 @@ return $fzr_only;
 		
 		//echo "<pre>";
 		//var_dump($ywzd);exit;
+
 		foreach($ywzd as $kywzd=>$vywzd)
 		{
 			if($vywzd['qy']==1)
@@ -223,6 +224,7 @@ return $fzr_only;
 							 $add_yw.=	"</select> <span style='color:#07d;cursor:pointer;margin-right:10px' onclick='kh_add()'>点击添加</span></td>";
 							$add_yw.="</tr>";
 						}
+					
 					}elseif($vywzd['type']==2){
 						$add_yw.="<tr class='addtr'>";
 						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text'  class=' required text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  name='".$vywzd['id']."'></td>";
@@ -235,13 +237,21 @@ return $fzr_only;
 			          	$add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
 			         	$add_yw.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
 		 				$add_yw.="</td></tr>";
+					}elseif($vywzd['id']=='zdy15'){
+						$add_yw.="<tr class='addtr'>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." name='".$vywzd['id']."'></td>";
+						$add_yw.="</tr>";
+					}elseif($vywzd['id']=='zdy10'){
+						$add_yw.="<tr class='addtr'>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='qingyx'  onchange='yxyz(this)' name='".$vywzd['id']."'></td>";
+						$add_yw.="</tr>";
 					}else{
 						if($vywzd['id']=='zdy2'){
 							$add_yw.="<tr class='addtr'>";
 						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input class='danxuan' checked='checked'  name='".$vywzd['id']."' type='radio' value='男' />男<input name='".$vywzd['id']."' class='danxuan'  type='radio' value='女' />女</td>";
 						$add_yw.="</tr>";
 						}else{
-							$add_yw.="<tr class='addtr'>";
+						$add_yw.="<tr class='addtr'>";
 						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required' name='".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
 						}
@@ -264,6 +274,14 @@ return $fzr_only;
 			          	$add_yw1.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
 			         	$add_yw1.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
 		 				$add_yw1.="</td></tr>";
+					}elseif($vywzd['id']=='zdy15'){
+						$add_yw1.="<tr class='addtr'>";
+						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." name='".$vywzd['id']."'></td>";
+						$add_yw1.="</tr>";
+					}elseif($vywzd['id']=='zdy10'){
+						$add_yw1.="<tr class='addtr'>";
+						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' class='qingyx'  onchange='yxyz(this)' name='".$vywzd['id']."'></td>";
+						$add_yw1.="</tr>";
 					}else{
 						$add_yw1.="<tr class='addtr'>";
 						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'></td>";
@@ -299,6 +317,15 @@ return $fzr_only;
 			          	$add_yw2.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
 			         	$add_yw2.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
 		 				$add_yw2.="</td></tr>";
+					
+		 			}elseif($vywzd['id']=='zdy15'){
+		 				$add_yw2.="<tr class='addtr ncy'>";
+						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." name='".$vywzd['id']."'></td>";
+						$add_yw2.="</tr>";
+					}elseif($vywzd['id']=='zdy10'){
+						$add_yw2.="<tr class='addtr ncy'>";
+						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text'  class='qingyx'  onchange='yxyz(this)'  name='".$vywzd['id']."'></td>";
+						$add_yw2.="</tr>";
 					}else{
 						$add_yw2.="<tr class='addtr ncy'>";
 						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'></td>";
@@ -391,7 +418,7 @@ return $fzr_only;
 		$new_arr=explode(',',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
-			$ex=explode(":",$v);
+			$ex=explode(":￥￥",$v);
 			if($ex['0']=="zdy12[]")
 			{
 				$substr=substr($ex['0'],0,strlen($ex['0'])-2); //id
@@ -498,7 +525,7 @@ return $fzr_only;
 	//	echo "<pre>";
 	//	var_dump($xs);exit;  
 		if($get['kehujibie']['1']=="0"){
-			$sql=$lx_base->query("select * from `crm_lx` where `lx_yh` = $fid  and  `lx_cj` in ($xiashu)"); //全部
+			echo "quanbu";die;
 			
 		}elseif($get['kehujibie']['1']=="1"){
 			$sql=$lx_base->query("select * from `crm_lx` where `lx_yh` = $fid  and  `lx_cj` = $my");        //我的
@@ -738,7 +765,7 @@ return $fzr_only;
 		$new_arr=explode(',',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
-			$ex=explode(":",$v);
+			$ex=explode(":￥￥",$v);
 			if($ex['0']=="zdy6[]")
 			{
 				$substr=substr($ex['0'],0,strlen($ex['0'])-2); //id

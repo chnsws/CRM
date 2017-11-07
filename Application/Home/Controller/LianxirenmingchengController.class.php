@@ -216,6 +216,13 @@ class LianxirenmingchengController extends Controller {
 						}
 						
 						$show3.="</td>";
+					}elseif($k=='zdy15'){
+						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  style='width:220px;height:26px;' value='".$lx_json[$k]."'></td>";
+
+					
+					}elseif($k=='zdy10'){
+
+						$show3.="<td><input type='text' name='".$k."'  class='qingyx'  onchange='yxyz(this)' style='width:220px;height:26px;' value='".$lx_json[$k]."'></td>";
 					}else{
 						$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;' value='".$lx_json[$k]."'></td>";
 					}
@@ -231,7 +238,13 @@ class LianxirenmingchengController extends Controller {
 								$show3.="<input type='radio' name='".$k."' style='width:40px;' value='女' />女</td>";
 					
 						
-								
+						}elseif($k=='zdy15'){
+						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  style='width:220px;height:26px;' placeholder='未填写22'></td>";
+
+					
+						}elseif($k=='zdy10'){
+
+						$show3.="<td><input type='text' name='".$k."'  class='qingyx'  onchange='yxyz(this)' style='width:220px;height:26px;' placeholder='未填写11'></td>";		
 						}else{
 							$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;' placeholder='未填写' ></td>";
 						}
@@ -443,7 +456,7 @@ return $fzr_only;
 		$new_arr=explode(',',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
-			$ex=explode(":",$v);
+			$ex=explode(":￥￥",$v);
 			if($ex['0']=="lx_id")
 			{
 				$map['lx_id']=$ex['1'];
