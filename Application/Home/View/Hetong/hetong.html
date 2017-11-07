@@ -90,48 +90,12 @@
         }
 			
 		</style>  
-				<script type="text/javascript">
+				
 			
-		window.ajaxstr_lxr='';
-		window.lxr_id='';
-		window.ajaxstr_kh='';
-		window.ajaxstr_sj='';
-		window.name_lxr='';
-	      layui.use(['laypage', 'layer'], function(){
-		  var laypage = layui.laypage
-		  ,layer = layui.layer;
-		  
-		 var ys=$("#ys").val();
 	
 
-		 var wocao=$("#wocao").val();
-		 
-		  laypage({
-		    cont: 'demo7'
-		    ,pages:ys
-		    ,curr:wocao
-		    ,skip: true,
 
-		    jump: function(obj, first){
-		      if(!first){
-		      	var fenye=$("#fenye").val();
-		      
-		      	window.location.href="hetong?dijiye="+obj.curr+"&fenye="+fenye;
-		       tishi('第 '+ obj.curr +' 页');
-
-		      }
-		  	}
-		  });
-		});
-$(function(){
-
-		$('#xl1').searchableSelect();
- $('#xl2').searchableSelect();
-
- });
-
-
-    	</script>    
+    	
 	</head>
 	<body style="position:relative">
 	
@@ -1684,6 +1648,44 @@ $("#nchangyong").click(function(){
 			    	$(".jiaodian")[0].focus()
 			      	}
    		 		}  
+   		 	//分页必须在最下面
+   		 		window.ajaxstr_lxr='';
+		window.lxr_id='';
+		window.ajaxstr_kh='';
+		window.ajaxstr_sj='';
+		window.name_lxr='';
+	      layui.use(['laypage', 'layer'], function(){
+		  var laypage = layui.laypage
+		  ,layer = layui.layer;
+		  
+		 var ys=$("#ys").val();
+	
+
+		 var wocao=$("#wocao").val();
+		 
+		  laypage({
+		    cont: 'demo7'
+		    ,pages:ys
+		    ,curr:wocao
+		    ,skip: true,
+
+		    jump: function(obj, first){
+		      if(!first){
+		      	var fenye=$("#fenye").val();
+		      
+		      	window.location.href="hetong?dijiye="+obj.curr+"&fenye="+fenye;
+		       tishi('第 '+ obj.curr +' 页');
+
+		      }
+		  	}
+		  });
+		});
+$(function(){
+
+		$('#xl1').searchableSelect();
+ $('#xl2').searchableSelect();
+
+ });
     	</script>
     	
 </html>
