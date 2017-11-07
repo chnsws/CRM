@@ -172,9 +172,11 @@ return $fzr_only;
 			{
 				if(	$sql_lianxi['ht_fz']==$v)
 				{
+
 					$qxa++;
 				}
 			}
+			
 		
 			if($qxa<1)
 			{
