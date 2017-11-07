@@ -6,6 +6,8 @@ use Think\Controller;
 class KehuController extends Controller {
 
     public function kehu(){
+
+    
     	$xiaji= $this->get_xiashu_id();//  查询下级ID\
     	//$kehuname=$this->kehuname();
     	$lxr=$this->lxr();
@@ -1598,7 +1600,7 @@ class KehuController extends Controller {
 	  		$fujian_map['yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 	  		$fujian_map['mk']=2;
 	  		$fujian_map['name_id']=$kh_id;
-			$sql_select=$sql->where($fujian_map)->field('id,sc_data,fujian_name,big,beizhu')->select();
+			$sql_select=$sql->where($fujian_map)->field('id,sc_data,fujian_name,big,beizhu,lujing')->select();
 
 
 				foreach($sql_select as $k=>$v)
@@ -1610,7 +1612,7 @@ class KehuController extends Controller {
 							foreach($v as $k_a=>$v_a)
 								
 							{
-								if($k_a!="id"){
+								if($k_a!="id" && $k_a!="lujing" ){
 								$table_fj.="<td name='$k'>";
 								if($k_a=="fujian_name")
 								{
