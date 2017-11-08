@@ -1578,7 +1578,8 @@ public function kehu(){
 			$lxr_base=M('lx');
 	 		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 	 		$tiaojian='"zdy1":"'.$kh_id_sj.'"';
-			$sql_lxr=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and lx_data like '%$tiaojian%'");
+	 		$tiaojian1='"zdy1":'.$kh_id_sj.'';
+			$sql_lxr=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and (lx_data like '%$tiaojian%' or lx_data like '%$tiaojian1%')");
 				foreach($sql_lxr as $k=>$v)
 				{
 					foreach($v as $k1=>$v1)

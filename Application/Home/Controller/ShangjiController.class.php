@@ -228,7 +228,7 @@ class ShangjiController extends Controller {
 							if($vzd['id']=="zdy1")
 							{
 								$table.="<td id='sj_zdy1'>";
-								$table.="<select id='ss1' class='required lxr_ajax xlss' id='ac' name='".$vzd['id']."' onchange='get_lx(this)' style='width:230px;height:30px;'>";
+								$table.="<select id='ss1' class='required lxr_ajax xlss' id='ac' name='".$vzd['id']."'  style='width:230px;height:30px;'>";
 										$table.="<option value=''>--请选择--</option>";
 										$table.="<option value='tiaozhuan' style='color:red'>点我添加新客户</option>";
 								foreach($kh_name as $k=>$v)
@@ -1257,8 +1257,8 @@ class ShangjiController extends Controller {
 			$lxr_base=M('lx');
 	 		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 	 		$tiaojian='"zdy1":"'.$a.'"';
-	 		
-			$sql=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and lx_data like '%$tiaojian%'");
+	 		$tiaojian1='"zdy1":'.$a.'';
+			$sql=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and (lx_data like '%$tiaojian%' or lx_data like '%$tiaojian1%' )");
 
 
 
