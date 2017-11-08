@@ -660,7 +660,7 @@ var is_upload='';
 });
 
 //筛选的选项
-window.id='';
+window.sxaaa='';
 $(".sxzddiv").children("span").click(function(){
 		var tex =$(this).text();
 	    var title=$(this).parent().prop('id');
@@ -669,7 +669,8 @@ $(".sxzddiv").children("span").click(function(){
     $(this).prop("class","sx_yes");
     var s=$(this).index();
 
-	id+=title+","+s+"|";
+	 sxaaa+=title+","+s+"|";
+	 
 
 		if(title=="zdy1")
 		{
@@ -697,13 +698,13 @@ $(".sxzddiv").children("span").click(function(){
 		}
 		$(".ycyo").hide();
 		
-	$.get(rooturl+'/index.php/Home/Kehu/shaixuan',{"id":id},
+	$.get(rooturl+'/index.php/Home/Kehu/kehu',{"sxaaa":sxaaa},
 							        		 function(html){
 							        		 	if(html=="quanbu")
 							        		 	{
 							        		 		   	window.location.href="kehu";return;
 							        		 	}
-							        		 	//tishi(html)
+							        		 	
 							        			$("#jb_bianji").html(html);
 							        			$('.bianji_hide').hide();
 							      
