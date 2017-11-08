@@ -1361,19 +1361,23 @@ class KehuController extends Controller {
 			}
 	$lx_show.="</tbody>
 							</table> "; 
-			foreach($lx_end as $k => $v)
-			{
-				$lxr_show.="<tr>
-				  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span>".$v['zdy0']."</span></a></td>
-				  				<td >".$v['zdy3']."</td>
-				  				<td >".$v['zdy4']."</td>
-				  				<td >".$v['zdy5']."</td>
-				  				<td >".$v['zdy6']."</td>
-				  				<td >".$v['zdy10']."</td>
-				  				<td >".$v['zdy16']."</td>
-				  				
-				  			</tr>"; 
+			if($lx_end==''||$lx_end==null){
+				$lxr_show.="<tr><td colspan='30'><span style='margin-left:180px'>亲~没有数据哟！请新增联系人</td></tr>";
+			}else{
+				foreach($lx_end as $k => $v)
+				{
+					$lxr_show.="<tr>
+					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span>".$v['zdy0']."</span></a></td>
+					  				<td >".$v['zdy3']."</td>
+					  				<td >".$v['zdy4']."</td>
+					  				<td >".$v['zdy5']."</td>
+					  				<td >".$v['zdy6']."</td>
+					  				<td >".$v['zdy10']."</td>
+					  				<td >".$v['zdy16']."</td>
+					  				
+					  			</tr>"; 
 
+				}
 			}
 		//	echo $lxr_show;exit;
 			$sj_base=M('shangji');
@@ -1426,17 +1430,20 @@ class KehuController extends Controller {
 					
 
 				}
-		
-			foreach($sj_end as $k=>$v)
-			{
-				$sj_show_much.="<tr>
-					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1'>".$v['zdy0']."</span></a></td>
-					  				<td >".$v['zdy3']."</td>
-					  				<td >".substr($v['zdy4'],0,10)."</td>
-					  				<td >".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
-					  				<td >".$v['sj-qiandan']."</td>
-					  				<td >".$v['zdy11']."</td>
-					  			</tr> ";
+			if($sj_end==''||$sj_end==null){
+				$sj_show_much.="<tr><td colspan='30'><span style='margin-left:180px'>亲~没有数据哟！请新增商机</td></tr>";
+			}else{
+				foreach($sj_end as $k=>$v)
+				{
+					$sj_show_much.="<tr>
+						  				<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1'>".$v['zdy0']."</span></a></td>
+						  				<td >".$v['zdy3']."</td>
+						  				<td >".substr($v['zdy4'],0,10)."</td>
+						  				<td >".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
+						  				<td >".$v['sj-qiandan']."</td>
+						  				<td >".$v['zdy11']."</td>
+						  			</tr> ";
+				}
 			}
 			$ht_base=M('hetong');
 	 		$ht_map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
@@ -1530,22 +1537,27 @@ class KehuController extends Controller {
 									
 							$ht_show.="</tbody>
 					</table>  ";
-		
-			foreach($ht_end as $k=>$v)
-			{
-				$ht_show_much.="<tr>";
-								if($v['ht_sp']==4){
-									$ht_show_much.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."'>".$v['zdy0']."</a></td>";
-								}else{
-					  				$ht_show_much.="<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span>".$v['zdy0']."</span></a></td>";
-					  				}
-					  			$ht_show_much.="	<td >￥".$v['zdy3']."</td>
-					  				<td >".$v['zdy5']."</td>
-					  				<td >".$v['zdy6']."</td>
-					  				<td >".$ywcs_ht['zdy7'][$v['zdy7']]."</td>
-					  				<td >".$v['zdy17']."</td>
-					  			</tr> ";
+			if($ht_end==''||$ht_end==null){
+				$ht_show_much.="<tr><td colspan='30'><span style='margin-left:180px'>亲~没有数据哟！请新增合同</td></tr>";
 			}
+			else{
+				foreach($ht_end as $k=>$v)
+				{
+					$ht_show_much.="<tr>";
+									if($v['ht_sp']==4){
+										$ht_show_much.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."'>".$v['zdy0']."</a></td>";
+									}else{
+						  				$ht_show_much.="<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span>".$v['zdy0']."</span></a></td>";
+						  				}
+						  			$ht_show_much.="	<td >￥".$v['zdy3']."</td>
+						  				<td >".$v['zdy5']."</td>
+						  				<td >".$v['zdy6']."</td>
+						  				<td >".$ywcs_ht['zdy7'][$v['zdy7']]."</td>
+						  				<td >".$v['zdy17']."</td>
+						  			</tr> ";
+				}
+			}
+			
 			
 			foreach($sql_kh as $k=>$v)
 			{	
@@ -1813,7 +1825,9 @@ class KehuController extends Controller {
 	  		$fujian_map['name_id']=$kh_id;
 			$sql_select=$sql->where($fujian_map)->field('id,sc_data,fujian_name,big,beizhu,lujing')->select();
 
-
+			if($sql_select==''||$sql_select==null){
+				$table_fj.="<tr><td colspan='30'><span style='margin-left:180px'>亲~没有数据哟！请上传附件</td></tr>";
+			}else{
 				foreach($sql_select as $k=>$v)
 				{
 								$id=$v['id'];
@@ -1843,6 +1857,7 @@ class KehuController extends Controller {
 							$table_fj.="<td><a class='del' id=".$id." style='cursor:pointer'>删除</a></td></tr>";
 							
 				}
+			}
 							
 								$gj_xgj.="<select name='genjinzhuantai' class='gjzt12' style='width:190px;height:40px'>";
 									if($neww_kehu['zdy9']=='' || $neww_kehu['zdy9']==null)
