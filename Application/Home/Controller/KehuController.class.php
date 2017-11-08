@@ -274,7 +274,8 @@ class KehuController extends Controller {
 					$show_bt.="<td><input type='text'  class='required' id= 'wyszdy0'onkeyup='kh_name_if(this)' name='".$v['id']."'></td></tr>";	
 				}elseif($v['id']=="zdy3"){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-					$show_bt.="<td><input type='text'  class='qingyx' onchange='yxyz(this) name='".$v['id']."'></td></tr>";	
+					$show_bt.="<td><input type='text'   class='qingyx' name='".$v['id']."'  onchange='yxyz(this)'></td></tr>";
+
 				}else{
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
 					$show_bt.="<td><input type='text'  class='required' name='".$v['id']."'></td></tr>";	
@@ -349,7 +350,7 @@ class KehuController extends Controller {
 					
 					}elseif($v['id']=="zdy3"){
 					$show_bt2.="<tr class='addtr'><td>".$v['name']."：</td>";
-					$show_bt2.="<td><input type='text'  class='qingyx'  onchange='yxyz(this) name='".$v['id']."'></td></tr>";	
+					$show_bt2.="<td><input type='text'   class='qingyx' name='".$v['id']."'  onchange='yxyz(this)'></td></tr>";	
 					}else{
 						$show_bt2.="<tr class='addtr ncy' style='display: none;border:1px'><td>".$v['name']."：</td>";
 						$show_bt2.="<td><input type='text' name='".$v['id']."' ></td></tr>";	
