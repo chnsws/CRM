@@ -602,7 +602,10 @@ class KehuController extends Controller {
 					}
 				}		
 		}
-
+				if($ronghe=="" || $ronghe==null)
+				{
+					$table.="<tr><td colspan='30'><span style='margin-left:80px'>亲~没有数据哟！请<span  onclick='add_yh()'style='color:#1AA094;cursor:pointer;' >新增</span>客户</td></tr>";
+				}else{
 				foreach($ronghe as $r_k=>$r_v)
 					{	
 						$id=$r_v['kh_id'];
@@ -670,7 +673,8 @@ class KehuController extends Controller {
 									}	
 								}
 						$table.="</tr>";				
-		}
+					}
+				}
 		if($sxaaa!="")
 		{
 			echo $table;exit;
@@ -2686,182 +2690,7 @@ class KehuController extends Controller {
 		
 		//echo $this->insertrizhi("导入了".count($basearr)."条产品数据");
 	}
-	public function shaixuan(){
-		
-		$a1=M('yewuziduan');                   //新增客户所需字段     
-  		$map1['zd_yewu']="2";
-  		$map1['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//这里通过查询获得
-  		$sql1=$a1->where($map1)->field('zd_data')->find();
-		$cnm=json_decode($sql1['zd_data'],true);
-		 $ywcs=M('ywcs');                 //获取ywcs表中的 数据
- 		$yw_cs['ywcs_yw']="2";
- 		$yw_cs['ywcs_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
- 		$ywcs_sql=$ywcs->where($yw_cs)->field('ywcs_data')->find();
- 		$ywcs_sql_json=json_decode($ywcs_sql['ywcs_data'],true);
- 		foreach($ywcs_sql_json as $kywcs=>$vywcs)
-			{
-				$ywcs_new[$vywcs['id']]=$vywcs;
-			}
-			
-		foreach($ywcs_new as $k=>$v)
-		{
-			foreach($v['qy'] as $k1=>$v1)
-			{
-				if($v1==1){
-					$ywcs_wys[$k1]=$v[$k1];
-				}
 
-			}
-			$ywcs_wysend[$k]=$ywcs_wys;
-		}
-
-		foreach($cnm as $k=>$v)
-		{	if($v['qy']==1){
-			$canm[$v['id']]=$v;
-			}
-		}
-		$id=$_GET['id'];
-		$new_id=substr($id,0,strlen($id)-1); 
-		//$new_ida="kehujibie,2|zdy1,2|zdy10,4|zdy11,6|zdy11,1|zdy10,1|zdy1,1|kehujibie,1|zdy10,2|zdy10,1|zdy10,2|zdy10,3|";
-		//$new_id=substr($new_ida,0,strlen($new_ida)-1); 
-		$new_arr=explode("|",$new_id);
-		foreach($new_arr as $k=>$v)
-		{
-			$new_arr2=explode(",",$v);
-			$new_arr3[]=$new_arr2;
-		}
-
-		//$new_arr_daoxu=array_reverse($new_arr3);
-		foreach($new_arr3 as $kget=>$vget)
-		{
-			$get[$vget[0]]=$vget;         //  zdy0   dom 下标4   求完每个标题的唯一了
-		}
-	
-		foreach($get as $kqb=>$vqb)
-		{
-			if($kqb!='kehujibie')
-			{
-				if($kqb!='')
-				{
-					if($vqb['1']!='1')
-					{
-						$get1[$vqb['0']]=$vqb;
-					}
-				}
-			}
-		}
-		foreach($get as $kqb=>$vqb)
-		{
-			if($kqb!='kehujibie')
-			{
-				
-					if($vqb['1']!='1')
-					{
-						$get1[$vqb['0']]=$vqb;
-					}
-				
-			}
-		}
-		$anum=0;
-		foreach($get as $kqb=>$vqb)
-		{
-			
-				
-					if($vqb['1']!='1')
-					{
-						$anum++;
-					}
-				
-			
-		}
-if($anum==0)
-{
-	echo "quanbu";die;
-}
-
-		$get2=$get1;
-		$av=1;
-		foreach ($get2 as $k=>$v)
-		{
-			
-			$get3[$v['0']]="canshu".($v['1']-$av);       //把 2替换成canshu1
-
-		}
-		foreach($get as $kkh =>$vkh)
-		{
-			if($kkh=="kehujibie")
-			{
-				$kehu_jibie=$vkh['1'];                  //判断商机 是全部商机  我的商机还是 我下属的商机       //zh这里通用
-			}
-		}
-	
-		
-		$kh_base=M('kh');
-		$user=$this->user();
-		$xiaji= $this->get_xiashu_id();// 全部商机
-		$myid=cookie('user_id');//本人ID  
-		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件
-		$new_number=substr($xiaji,0,-(strlen($myid)+1));
-
-		if($kehu_jibie=="3"){ 
-			$userarr=$kh_base->query("select * from crm_kh where kh_yh='$map' and kh_fz IN ($new_number)");                  //全部客户
-			
-		}elseif($kehu_jibie=="2"){               //我的客户
-			$userarr=$kh_base->query("select * from crm_kh where kh_yh='$map' and kh_fz ='$myid' ");
-
-		}else{                                   //我下属的客户
-			$userarr=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
-		}
-		
-		
-		
-		$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_lx'=>"联系人",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
-				foreach($array_jiansuo as $k=>$v){
-						$new_str1['id']=$k;
-						$new_str1['name']=$v;
-						$new_str1['qy']=1;
-						$new_str1['type']=0;
-						$new_array1[$k]=$new_str1;
-					}
-
-		$kh_biaoti1=array_merge_recursive($canm,$new_array1);//客户标题名字
-
-		$hetong=$ronghhh; //替换合同
-	$lxr=$this->lxr();
-	if($hetong=='' || $hetong==null)
-	{
-		$content="<tr><td colspan='30'><span style='height:30px;line-height:30px;margin-left:100px;'>没有这条数据,快去<span onclick='add_yh()' style='color:#07d;cursor:pointer;'>添加</span>一条吧</span></td></tr>";
-		echo $content;die;
-	}else{
-		foreach($hetong as $k=>$v)
-		{
-				$content.="<tr id='".$v['ht_id']."'><td><input type='checkbox' class='chbox_duoxuan' id='".$v['kh_id']."'></td>";
-			foreach($kh_biaoti1 as $kbt => $vbt)
-			{
-				
-				if($v[$kbt]!="" && $v[$kbt]!="--请选择--")
-				{
-					if($kbt=='zdy0')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/kh_id/".$v['kh_id']."'><span style='color:#07d' >".$v[$kbt]."</span></a></td>";
-					elseif($kbt=="zdy1"||$kbt=="zdy9"||$kbt=="zdy10"||$kbt=="zdy11"||$kbt=="zdy12")
-							$content.="<td>".$ywcs_wysend[$kbt][$v[$kbt]]."</td>";
-					elseif($kbt=='kh_fz' || $kbt=='kh_cj' ||$kbt=='kh_old_fz')
-						$content.="<td>".$user[$v[$kbt]]['user_name']."</td>";
-					elseif($kbt=="zdy15" )
-									$xs123="<a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$lxr[$r_v[$v_biaoti['id']]]['id']."'>".$lxr[$vbt]['name']."</a>";
-					elseif($kbt=='zdy14')
-								$content.="<td>".$v[$kbt]."</td>";
-					else
-						$content.="<td>".$v[$kbt]."</td>";
-				}else{
-					$content.="<td>---</td>";
-				}
-				
-			}}
-			$content."</tr>";
-		}
-		echo $content;
-	}
 	public function user(){                 //负责人和部门
 		$xiaji= $this->get_xiashu_id();;//  查询下级ID
 		$new_xiaji=$xiaji;          
