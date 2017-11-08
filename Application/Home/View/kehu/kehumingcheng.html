@@ -156,7 +156,7 @@ a{color:#07d; text-decoration:none !important;}
 				<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 				  <ul class="layui-tab-title" >
 				        <li id="onesh">客户全景</li>
-					    <li>客户资料</li>
+					    <li id='twoaa'>客户资料</li>
 					    <li class='lxrone' >联系人</li>
 					    <li class='sjrone' >商机</li>
 					    <li  class='htrone'>合同</li>
@@ -310,7 +310,7 @@ a{color:#07d; text-decoration:none !important;}
 						  		</div>
 						  	</div>
 				    </div>
-				    <div class="layui-tab-item">
+				    <div class="layui-tab-item " id="twotwo">
 				    	<div class='ziliao_kh'  style="border:1px solid #fff" >
 					
 				  					<div   style=" height:30px;line-height:30px;background-color:#50BBB1;color:white"><span style="margin-left:10px">基本信息</span></div>
@@ -473,6 +473,12 @@ a{color:#07d; text-decoration:none !important;}
 	
 		$("#onesh").attr('class','layui-this');
 		$("#onesh1").attr('class','layui-tab-item layui-show');
+	   }
+	   if(uiid==2)
+	   {
+	
+		$("#twoaa").attr('class','layui-this');
+		$("#twotwo").attr('class','layui-tab-item layui-show');
 	   }
 	   if(uiid==6)
 	{
@@ -671,9 +677,7 @@ a{color:#07d; text-decoration:none !important;}
 									        			tishi("没有修改信息")
 									        			layer.close(win)
 									        		}else{
-									        			
-									        			$("#th_onlykh").html(html);
-									        			layer.close(win)
+									        			window.location.href='kehumingcheng?uid=2&kh_id='+$('.bingou').val();
 									        		}
 							                   });
 								},

@@ -97,6 +97,9 @@
 
 											</thead>
 											<tbody class="fujian_del">
+											<if condition="$kh eq ''OR $kh eq null">
+											<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关联系人</td></tr>
+											<else />
 												<foreach name="kh" item="vo">
 												<tr>
 										  				<td ><a href="{$_GET['root_dir']}/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/{$vo.lx_id}"><span>{$vo.zdy0}</span></a></td>
@@ -106,6 +109,7 @@
 										  				<td >{$vo.zdy13}</td>
 												</tr> 
 												</foreach>	
+											</if>
 											</tbody>
 									 </table>
 							 			

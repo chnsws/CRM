@@ -2818,30 +2818,7 @@ public function save(){
 			$a_arr=$canm;
 		//	echo "<pre>";
 	  	//	var_dump($a_arr);exit;
-			foreach($neww_kehu as $k =>$v)
-			{
-				if($a_arr[$k]!='')
-				{	
-					if($k=="zdy1" || $k=="zdy9" || $k=="zdy10" || $k=="zdy11" || $k=="zdy12")
-					{
-						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$ywcs_kh[$k][$v].'</td></tr>';
-					}elseif($k=="zdy2"){
-						
-						$afirst=substr($v,0,1);
-
-						if($afirst=="-")
-						{
-							$vs=substr($v,1);;
-							$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$vs.'</td></tr>';
-						}else{
-							$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$v.'</td></tr>';
-						}
-						
-					}else{
-						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$v.'</td></tr>';
-					}
-				}
-			}
+		
 			foreach($ex1 as $knew=>$vnew)
 			{
 				if($ex1[$knew] != $kh_old_json[$knew])
@@ -2859,7 +2836,7 @@ public function save(){
 			}
 		//	$kh_rz_new=
 		
-			echo $tabl;
+		
 			
 		}else{
 			echo "no";
