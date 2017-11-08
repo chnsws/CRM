@@ -98,7 +98,7 @@
 		</style> 
 	</head>
 	<body style="position:relative">
-	
+
 	 <input type="hidden" id="ys" value="{$ys}">
 	<input type="hidden" id="fenye" value="{$list_num}">
 	 <input type="hidden" id="wocao" value="{$dijiye}">
@@ -180,7 +180,7 @@
 				  		
 				   			<div style="overflow:auto">  
 									
-											<table class="layui-table" style="width:auto">
+											<table class="layui-table" style="width:100%">
 											<div style="width:100%">
 										  	<thead>
 										  			<tr>	
@@ -277,10 +277,9 @@
     var s=$(this).index();
 
 	id+=title+","+s+"|";
-	//tishi(id);
-   //tishi(id);
+alert(id)
    $(".ycyo").hide();
-	$.get(rooturl+'/index.php/Home/Lianxiren/shaixuan',{"id":id},
+	$.get(rooturl+'/index.php/Home/Lianxiren/lianxiren',{"sxaaa":id},
 							        		 function(html){
 							        		 	if(html=="quanbu")
 							        		 	{
