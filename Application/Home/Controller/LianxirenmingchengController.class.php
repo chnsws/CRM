@@ -113,7 +113,7 @@ class LianxirenmingchengController extends Controller {
 			}
 		}
 		$shangji_base=M('shangji');
-		$sql_shangji=$shangji_base->query("select * from crm_shangji where sj_yh ='$fid' and sj_data like '%\"zdy2\":\"".$a."\"%' ");
+		$sql_shangji=$shangji_base->query("select * from crm_shangji where sj_yh ='$fid' and (sj_data like '%\"zdy2\":\"".$a."\"%' or sj_data like '%\"zdy2\":".$a."%') ");
 		foreach($sql_shangji as $k=>$v)
 		{
 				foreach($v as $k1=>$v1)
@@ -132,23 +132,27 @@ class LianxirenmingchengController extends Controller {
 
 		}
 	//	echo "<pre>";var_dump($sj_rh);exit;
-		foreach ($sj_rh as $k=>$v){
-			$shangji1.="<tr>";
-				foreach($v as $k1=>$v1)
-				{
-					$id_sj=$v['sj_id'];
-					if($k1=="zdy0"){
-						$shangji1.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id_sj'><span style='color:#07d'>".$v1."</span></a></td>";
-					}elseif($k1=="zdy3" || $k1=="zdy11"|| $k1=="sj_qiandan"){
-						$shangji1.="<td>".$v1." </td>";
-					}elseif($k1=="zdy4"){
-						$shangji1.="<td>".$v1." </td>";
-					}elseif($k1=="zdy5"){
-						$ywcs=$this->ywcs();
-						$shangji1.="<td>".$ywcs['1'][$v1]." </td>";
+		if($sj_rh==''||$sj_rh==null){
+			$shangji1.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关联系人</td></tr>";
+		}else{
+			foreach ($sj_rh as $k=>$v){
+				$shangji1.="<tr>";
+					foreach($v as $k1=>$v1)
+					{
+						$id_sj=$v['sj_id'];
+						if($k1=="zdy0"){
+							$shangji1.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id_sj'><span style='color:#07d'>".$v1."</span></a></td>";
+						}elseif($k1=="zdy3" || $k1=="zdy11"|| $k1=="sj_qiandan"){
+							$shangji1.="<td>".$v1." </td>";
+						}elseif($k1=="zdy4"){
+							$shangji1.="<td>".$v1." </td>";
+						}elseif($k1=="zdy5"){
+							$ywcs=$this->ywcs();
+							$shangji1.="<td>".$ywcs['1'][$v1]." </td>";
+						}
 					}
-				}
-			$shangji1.="</tr>";
+				$shangji1.="</tr>";
+			}
 		}
 	//	var_dump($shangji);exit;
 		

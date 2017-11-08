@@ -1362,7 +1362,7 @@ class KehuController extends Controller {
 	$lx_show.="</tbody>
 							</table> "; 
 			if($lx_end==''||$lx_end==null){
-				$lxr_show.="<tr><td colspan='30'><span style='margin-left:180px'>亲~没有数据哟！请新增联系人</td></tr>";
+				$lxr_show.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请新增联系人</td></tr>";
 			}else{
 				foreach($lx_end as $k => $v)
 				{
@@ -1431,7 +1431,7 @@ class KehuController extends Controller {
 
 				}
 			if($sj_end==''||$sj_end==null){
-				$sj_show_much.="<tr><td colspan='30'><span style='margin-left:180px'>亲~没有数据哟！请新增商机</td></tr>";
+				$sj_show_much.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请新增商机</td></tr>";
 			}else{
 				foreach($sj_end as $k=>$v)
 				{
@@ -1538,7 +1538,7 @@ class KehuController extends Controller {
 							$ht_show.="</tbody>
 					</table>  ";
 			if($ht_end==''||$ht_end==null){
-				$ht_show_much.="<tr><td colspan='30'><span style='margin-left:180px'>亲~没有数据哟！请新增合同</td></tr>";
+				$ht_show_much.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请新增合同</td></tr>";
 			}
 			else{
 				foreach($ht_end as $k=>$v)
@@ -1826,9 +1826,9 @@ class KehuController extends Controller {
 			$sql_select=$sql->where($fujian_map)->field('id,sc_data,fujian_name,big,beizhu,lujing')->select();
 
 			if($sql_select==''||$sql_select==null){
-				$table_fj.="<tr><td colspan='30'><span style='margin-left:180px'>亲~没有数据哟！请上传附件</td></tr>";
+				$table_fj.="<tr><td colspan='30' align='center'><span >亲~没有数据哟！请上传附件</td></tr>";
 			}else{
-				foreach($sql_select as $k=>$v)
+				foreach($sql_select as $k=>$v)  
 				{
 								$id=$v['id'];
 							//	echo $id;
