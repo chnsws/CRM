@@ -98,6 +98,7 @@
 		</style> 
 	</head>
 	<body style="position:relative">
+	
 	 <input type="hidden" id="ys" value="{$ys}">
 	<input type="hidden" id="fenye" value="{$list_num}">
 	 <input type="hidden" id="wocao" value="{$dijiye}">
@@ -170,7 +171,7 @@
 						   						</if>
 						   					</select>条
 						   	</span>
-						   					 			<span style="float:right; margin-right:2%" ><input type="text" height=26px; id="sousuo" value="">
+						   					 			<span style="float:right; margin-right:2%" ><input type="text" height=26px; id="sousuo" value="{$namess}">
 				   					 <span onclick="sousuo1()" style="margin-left:-25px;cursor:pointer">	<i class="layui-icon" >&#x1006;</i></span>
 				   					 		<span  style="width:60px; margin-left:15px" class=" layui-btn layui-btn-small "  onclick="sousuo()">搜索</span>
 				   				</span>
@@ -239,6 +240,10 @@
   	</div>
 	</body>
 	<script>
+	var ssa=$("#sousuo").val();
+	if(ssa != ""){
+		$('.ycyo').hide();
+	}
 	window.ajaxstr_kh='';
 		window.rooturl="{$_GET['root_dir']}";
 	$("#add_shangji").hide();
@@ -654,16 +659,11 @@
 		window.location.href="lianxiren?fenye="+yeshu;
 	
 	}
-		function sousuo(){
-			$(".ycyo").hide();
+			function sousuo(){
+				$(".ycyo").hide();
 					var name= $("#sousuo").val();
-				
-					 $.get(rooturl+'/index.php/Home/Lianxiren/sousuo',{"id":name},
-										        		 function(lxrid){
-
-										        		$("#jb_bianji").html(lxrid);
-												        	
-										                  });
+			
+					window.location.href="lianxiren?sousuo="+name;
 				}
 					function sousuo1(){
 						window.location.href="lianxiren";

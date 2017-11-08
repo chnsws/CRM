@@ -239,12 +239,12 @@ class LianxirenmingchengController extends Controller {
 					
 						
 						}elseif($k=='zdy15'){
-						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  style='width:220px;height:26px;' placeholder='未填写22'></td>";
+						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  style='width:220px;height:26px;' placeholder='未填写'></td>";
 
 					
 						}elseif($k=='zdy10'){
 
-						$show3.="<td><input type='text' name='".$k."'  class='qingyx'  onchange='yxyz(this)' style='width:220px;height:26px;' placeholder='未填写11'></td>";		
+						$show3.="<td><input type='text' name='".$k."'  class='qingyx'  onchange='yxyz(this)' style='width:220px;height:26px;' placeholder='未填写'></td>";		
 						}else{
 							$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;' placeholder='未填写' ></td>";
 						}

@@ -106,14 +106,25 @@ return $fzr_only;
 		}else{
 			$new=($dijiye-1)*$list_num;
 		}
-
-		$lxr_base=M('lx');
-		$map['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司
-		$map['lx_cj']=array('in',$new_array);//cid在这个数组中，
-		$lx_count=$lxr_base->where($map)->count(); 
-		$lxr_sql=$lxr_base->where($map)->limit($new,$list_num)->order("lx_cj_date desc")->select();  //查询出我的我的下级联系人
-		$ys= ceil((int)$lx_count/$list_num);//多少页
-		
+		$namess=$_GET['sousuo'];
+		if($namess!="")
+		{
+				$json_name=json_encode($namess,true);
+				$newstr = substr($json_name,0,strlen($json_name)-1); 
+				$first =substr($newstr,1);  
+				$tihuan= str_replace("\\", "\\\\\\\\", $first);
+				$kh_base=M('lx');
+				$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+				$lxr_sql=$kh_base->query("select * from crm_lx where lx_yh = '$yh' and lx_cj IN ($xiaji) and  lx_data like '%".$tihuan."%'");
+				$this->assign('namess',$namess);
+		}else{
+			$lxr_base=M('lx');
+			$map['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司
+			$map['lx_cj']=array('in',$new_array);//cid在这个数组中，
+			$lx_count=$lxr_base->where($map)->count(); 
+			$lxr_sql=$lxr_base->where($map)->limit($new,$list_num)->order("lx_cj_date desc")->select();  //查询出我的我的下级联系人
+			$ys= ceil((int)$lx_count/$list_num);//多少页
+		}
 		foreach($lxr_sql as $k=>$v)
 		{
 			foreach($v as $k1 =>$v1)
