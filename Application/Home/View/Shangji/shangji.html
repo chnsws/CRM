@@ -489,7 +489,7 @@ window.name_lxr="";
 									for(a=0;a<fornum;a++)
 									{
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
-										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+										ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",";
 									}
 
 									if(ajaxstr_kh=='')
@@ -688,7 +688,7 @@ window.name_lxr="";
 
 				$.get(rooturl+'/index.php/Home/Shangji/del_shangji',{"id":checked_str},
 										        		 function(html){
-										        				$("#jb_bianji").html(html);
+										        				window.location.href="shangji";
 										                   });
 			}
 
@@ -737,8 +737,7 @@ window.name_lxr="";
 												$.get(rooturl+'/index.php/Home/Shangji/pl_bianji',{"id":bianji_str,"ziduan":xgzd,"content":content,"xgzd2":xgzd2,"content2":content2},
 					        		 				function(html){
 					        		 					tishi("批量修改成功")
-															$("#jb_bianji").html(html);
-															layer.close(win)
+															window.location.href="shangji";
 													});
 
 
@@ -873,10 +872,10 @@ window.name_lxr="";
 												{
 													var thisdom=formdom.eq(a).find("td").eq(1).children();
 													if(thisdom.prop("name")=='zdy2'){
-														ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+",";
+														ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+",";
 													}
 													else{
-														ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+														ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",";
 													}
 												}
 												window.ajaxstr_kh=ajaxstr;
@@ -1003,15 +1002,15 @@ window.name_lxr="";
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
 										if(thisdom.prop("name")=='zdy12[]')
 										{	//tishi(thisdom.prop("name"))
-											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
+											ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
 										}else{
 											if(thisdom.prop("name")=='zdy2')
 											{
-												ajaxstr+=thisdom.prop("name")+":"+$('input[name="zdy2"]:checked').val()+",";
+												ajaxstr+=thisdom.prop("name")+":￥￥"+$('input[name="zdy2"]:checked').val()+",";
 												
 											}else{
 
-												ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+												ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",";
 											}
 										}
 										

@@ -741,7 +741,7 @@ class ShangjiController extends Controller {
 		$new_arr=explode(',',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
-			$ex=explode(":",$v);
+			$ex=explode(":￥￥",$v);
 	//	echo $ex['0'];
 			if($ex['0']=="fuzeren")
 			{
@@ -847,8 +847,7 @@ class ShangjiController extends Controller {
 			$mapid=$_GET['id'];
 			$shangjidel_base=M('shangji');
 			$sql_del=$shangjidel_base->query("delete from `crm_shangji` where `sj_id` in ($mapid)");
-			$xiaji= $this->gongyou();
-			echo $xiaji;
+		
 			
 	}
 	public function pl_bianji(){
@@ -883,8 +882,7 @@ class ShangjiController extends Controller {
 			
 				
 			}
-			$xiaji= $this->gongyou();
-							echo $xiaji;
+			
 
 	}
 	public function pl_zhuanyi(){
@@ -1799,7 +1797,7 @@ return $fzr_only;
 		$new_arr=explode(',',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
-			$ex=explode(":",$v);
+			$ex=explode(":￥￥",$v);
 			if($ex['0']=="kh_fz")
 			{
 				$data["kh_fz"]=	$ex['1'];//本人ID  ;
@@ -1844,7 +1842,7 @@ return $fzr_only;
 				$lxr_ex=explode(',',$lxr_number);
 				foreach($lxr_ex as $k=>$v)
 				{
-					$exv=explode(":",$v);
+					$exv=explode(":￥￥",$v);
 					if($exv['0']=="zdy12[]")
 					{
 					$exv1['zdy12']=$exv['1'];
@@ -1898,7 +1896,7 @@ return $fzr_only;
 				$shangji_qd=substr($shangji,0,strlen($shangji)-1); 
 				$shangji_arr=explode(",", $shangji_qd);
 				foreach($shangji_arr as $k=>$v){
-					$sj_ex=explode(":",$v);
+					$sj_ex=explode(":￥￥",$v);
 					if($sj_ex['0']=="fuzeren")
 					{
 						$data_sj_map['sj_fz']=$sj_ex['1'];
