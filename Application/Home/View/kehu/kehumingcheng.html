@@ -809,6 +809,15 @@ a{color:#07d; text-decoration:none !important;}
 					window.location=rooturl+'/index.php/Home/Hetongmingcheng/download1?id='+s;
 						
 				}
+			 function yxyz(ss){
+   		 	var a=$(ss).val();
+   		 	 if(!a.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/))
+			  {
+			   tishi("格式不正确！请重新输入");
+			   $(".qingyx").val('');
+			  }
+
+   		 }
 	</script>
 
 	   
