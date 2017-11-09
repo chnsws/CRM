@@ -25,29 +25,49 @@ class FiledoController extends DBController {
         $objProps = $objPHPExcel->getProperties();  
 
         //设置表头  
-        $key = ord("A");  
-        //print_r($headArr);exit;  
+        $key = ord("A");//A--65  
+        $key2 = ord("@");//@--64
         foreach($headArr as $v){  
-            $colum = chr($key);  
-            $objPHPExcel->setActiveSheetIndex(0) ->setCellValue($colum.'1', $v);  
+            if($key>ord("Z")){  
+                $key2 += 1;  
+                $key = ord("A");  
+                $colum = chr($key2).chr($key);//超过26个字母时才会启用  dingling 20150626  
+            }else{  
+                if($key2>=ord("A")){  
+                    $colum = chr($key2).chr($key);  
+                }else{  
+                    $colum = chr($key);  
+                }  
+            } 
             $objPHPExcel->setActiveSheetIndex(0) ->setCellValue($colum.'1', $v);  
             $key += 1;  
         }  
 
         $column = 2;  
         $objActSheet = $objPHPExcel->getActiveSheet();  
-
-        //print_r($data);exit;  
         foreach($data as $key => $rows){ //行写入  
             $span = ord("A");  
-            foreach($rows as $keyName=>$value){// 列写入  
-                $j = chr($span);  
-                $objActSheet->setCellValue($j.$column, $value);  
+            $span2 = ord("@");
+            foreach($rows as $k=>$v){  
+                
+                if($span>ord("Z")){  
+                    $span2 += 1;  
+                    $span = ord("A");  
+                    $j = chr($span2).chr($span);//超过26个字母时才会启用  dingling 20150626  
+                }else{  
+                    if($span2>=ord("A")){  
+                        $j = chr($span2).chr($span);  
+                    }else{  
+                        $j = chr($span);  
+                    }  
+                }
+                //echo $rows[$v['FIELD']];
+                //$j = chr($span);  
+                $objActSheet->setCellValue($j.$column, strip_tags($v));  
                 $span++;  
             }  
             $column++;  
-        }  
-
+        }   
         $fileName = iconv("utf-8", "gb2312", $fileName);  
 
         //重命名表  

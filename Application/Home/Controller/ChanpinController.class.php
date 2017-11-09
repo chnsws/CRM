@@ -1396,12 +1396,13 @@ class ChanpinController extends DBController {
 		$body='';
 		foreach($cparr as $v)
 		{
+			
 			$rowjsonarr=json_decode($v['cp_data'],true);
 			//过滤引号转义字符
-			foreach($rowjsonarr as $k=>$v)
+			foreach($rowjsonarr as $rk=>$rv)
 			{
-				$rowjsonarr[$k]=str_replace('&apos;',"'",$v);
-				$rowjsonarr[$k]=str_replace('&quot;','"',$rowjsonarr[$k]);
+				$rowjsonarr[$rk]=str_replace('&apos;',"'",$rv);
+				$rowjsonarr[$rk]=str_replace('&quot;','"',$rowjsonarr[$rk]);
 			}
 			$line='';
 			foreach($zdarr as $zdk=>$zdv)
