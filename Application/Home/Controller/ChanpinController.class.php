@@ -1242,6 +1242,7 @@ class ChanpinController extends DBController {
 		$filedo=A("Filedo");
 		
 		$filearr=$filedo->getdata("./Public/chanpinfile/cpfile/linshi/".$csvfilename,'xls');
+		$filearr=$this->ChangeXls($filearr);
 		//parent::rr($aqw);
 		foreach($filearr as $v)
 		{
@@ -1822,6 +1823,14 @@ class ChanpinController extends DBController {
 		$xitongrizhibase->query("insert into crm_rz values('','1','7','".cookie("user_id")."','0','0','0','0','0','$con','$loginIp','$loginDidianStr','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','$fid','".time()."')");
 
         return '1';
-    }
-	
+	}
+	//xls的倒序处理
+	public function ChangeXls($filearr)
+	{
+		$n[]=$filearr[1];
+		unset($filearr[1]);
+		$filearr=array_reverse($filearr);
+		$filearr=array_merge($n,$filearr);
+		return $filearr;
+	}
 }
