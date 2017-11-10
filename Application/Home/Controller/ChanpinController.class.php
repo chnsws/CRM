@@ -1192,8 +1192,9 @@ class ChanpinController extends DBController {
 			die();
 		}
 		*/
-        $newname=time().$getFileArr['name'];
-        $ss=move_uploaded_file($getFileArr['tmp_name'],'./Public/chanpinfile/cpfile/linshi/'.$newname);
+        $newname=time().rand(100,999).'.'.$oldnamehz;
+		$ss=move_uploaded_file($getFileArr['tmp_name'],'./Public/chanpinfile/cpfile/linshi/'.$newname);
+		//echo './Public/chanpinfile/cpfile/linshi/'.$newname;die;
         if(!file_exists('./Public/chanpinfile/cpfile/linshi/'.$newname))//验证上传是否成功
         {
             echo '{"res":0}';
