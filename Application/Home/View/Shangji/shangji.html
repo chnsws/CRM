@@ -213,7 +213,7 @@
 				   						</if>
 				   					</select>条
 				   					</span>
-				   					 		<span style="float:right; margin-right:2%" ><input type="text" height=26px; id="sousuo" value="">
+				   					 		<span style="float:right; margin-right:2%" ><input type="text" height=26px; id="sousuo" value="{$ssaaa}">
 				   					 <span onclick="sousuo1()" style="margin-left:-25px">	<i class="layui-icon" >&#x1006;</i></span>
 				   					 		<span  style="width:60px; margin-left:15px" class=" layui-btn layui-btn-small "  onclick="sousuo()">搜索</span>
 				   				</span>
@@ -378,7 +378,11 @@
 					</div>
 				</body>
 	<script>
-		
+		var ssa=$("#sousuo").val();
+if(ssa!='')
+{
+	$(".ycyo").hide();
+}
 	
 window.ajaxstr_kh="";
 window.name_kh="";
@@ -445,7 +449,8 @@ window.name_lxr="";
 		$(".one").text(tex);
 	}
 	$(".ycyo").hide();
-	$.get(rooturl+'/index.php/Home/Shangji/shaixuan',{"id":id},
+	alert(id)
+	$.get(rooturl+'/index.php/Home/Shangji/shangji',{"sxab":id},
 							        		 function(html){
 							        			$("#jb_bianji").html(html);
 							        			$('.bianji_hide').hide();
@@ -1230,11 +1235,7 @@ window.name_lxr="";
 			$(".ycyo").hide();
 					var name= $("#sousuo").val();
 				
-					 $.get(rooturl+'/index.php/Home/Shangji/sousuo',{"id":name},
-										        		 function(lxrid){
-
-										        		$("#jb_bianji").html(lxrid);
-										                  });
+					window.location.href="shangji?sousuo="+name;
 				}
 					function sousuo1(){
 						window.location.href="shangji";
