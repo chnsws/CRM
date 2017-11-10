@@ -142,7 +142,7 @@ $(function(){
     });
     //加载层
     $("#box").fadeIn("fast");
-    getData(1);
+    getData(1,0);
     $(".layui-tab-title").children("li").on("click",function(){
         var thisindex=$(this).index("li");
         var thismod=thisindex<2?thisindex+1:thisindex+2;
@@ -155,7 +155,7 @@ $(function(){
             else
             {
                 window.jiazai=loading();
-                getData(thismod);
+                getData(thismod,0);
             }
         }
         else
@@ -177,11 +177,11 @@ $(function(){
                     $("#cpfl_select").on("change",function(){
                         window.jiazai=loading();
                         var flid=$(this).val();
-                        getData('7,'+flid);
+                        getData('7,'+flid,0);
                     });
                     cpfl=1;
                     var first_fl=$("#cpfl_select").val();
-                    getData('7,'+first_fl);
+                    getData('7,'+first_fl,0);
                 });
             }
         }
@@ -215,19 +215,19 @@ $(function(){
                 window.jiazai=loading();
                 $.get("__ROOT__/index.php/Home/Yewuziduan/addzd",{"thismod":thismod,"newname":newname},function(res){
                     errorFun(res);
-                    layer.close(jiazai);
                     if(res=='1')
                     {
-                        tishi("保存成功");
-                        getData(thismod);
+                        getData(thismod,1);
                     }
                     else if(res=='2')
                     {
                         tishi("保存失败，该字段已存在");
+                        layer.close(jiazai);
                     }
                     else
                     {
                         tishi("保存失败，请稍后重试");
+                        layer.close(jiazai);
                     }
                     layer.close(index);
                 });
@@ -238,12 +238,15 @@ $(function(){
         }); 
     });
 });
-function getData(type)
+function getData(type,savepx)
 {
     //获取数据
     $.get("__ROOT__/index.php/Home/Yewuziduan/get_zd_list",{"zdtype":type},function(res){
         errorFun(res);
-        layer.close(jiazai);
+        if(savepx!='1')
+        {
+            layer.close(jiazai);
+        }
         var zdarr=JSON.parse(res);
         var zdstr='';
         for(zdk in zdarr)
@@ -263,6 +266,10 @@ function getData(type)
         checkboxListen();//复选框监听
         scListen();//删除按钮监听
         bjListen();//编辑按钮监听
+        if(savepx=='1')
+        {
+            save_px();
+        }
     });
 }
 //拖拽监听
@@ -271,32 +278,37 @@ function moveListen()
     $(".uk-sortable").unbind("stop.uk.sortable");
     $(".uk-sortable").bind("stop.uk.sortable",function(){
         window.jiazai=loading();
-        var thisindex=$(this).parent().index();
-        var thismod=thisindex<2?thisindex+1:thisindex+2;
-        var pxstr='';
-        $(".layui-show").find("li").each(function(){
-            pxstr+=$(this).prop("id")+',';
-        });
-        pxstr=pxstr.substr(0,pxstr.length-1);
-        //判断是否是产品，如果是产品就进行特殊处理
-        if(thismod=='7')
-        {
-            var flid=$("#cpfl_select").val();
-            thismod=thismod+','+flid;
-        }
-        $.post("__ROOT__/index.php/Home/Yewuziduan/changepx",{"pxstr":pxstr,"thismod":thismod},function(res){
-            errorFun(res);
-            layer.close(jiazai);
-            if(res=='1')
-            {
-                tishi("保存成功");
-            }
-            else
-            {
-                tishi("保存失败，请稍后重试");
-            }
-        })
+        save_px();
         //alert(pxstr+'===='+thismod);
+    });
+}
+//保存排序信息
+function save_px()
+{
+    var thisindex=$(".layui-show").index();
+    var thismod=thisindex<2?thisindex+1:thisindex+2;
+    var pxstr='';
+    $(".layui-show").find("li").each(function(){
+        pxstr+=$(this).prop("id")+',';
+    });
+    pxstr=pxstr.substr(0,pxstr.length-1);
+    //判断是否是产品，如果是产品就进行特殊处理
+    if(thismod=='7')
+    {
+        var flid=$("#cpfl_select").val();
+        thismod=thismod+','+flid;
+    }
+    $.post("__ROOT__/index.php/Home/Yewuziduan/changepx",{"pxstr":pxstr,"thismod":thismod},function(res){
+        errorFun(res);
+        layer.close(jiazai);
+        if(res=='1')
+        {
+            tishi("保存成功");
+        }
+        else
+        {
+            tishi("保存失败，请稍后重试");
+        }
     });
 }
 //复选框监听
@@ -414,7 +426,7 @@ function bjListen()
                     if(res=='1')
                     {
                         tishi("保存成功");
-                        getData(thismod);
+                        getData(thismod,0);
                     }
                     else if(res=='2')
                     {
