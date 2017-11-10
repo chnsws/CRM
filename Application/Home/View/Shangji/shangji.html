@@ -148,8 +148,7 @@
    			 			<i class="layui-icon">&#xe642;</i>批量编辑</button>
 					   	<button onclick="del_check()"  class="layui-btn layui-btn-primary layui-btn-small">
    			 			<i class="layui-icon">&#xe642;</i>删除所选</button>
-   			 			<button onclick="piliangzhuanyi()"  class="layui-btn layui-btn-primary layui-btn-small">
-   			 			<i class="layui-icon">&#xe642;</i>转移至客户公海</button>	
+   			 			
 					</span>
 					
 					<div id="bj_kehu" style="margin-top:10px;padding-top:20px;display: none;border:1px" >
@@ -214,7 +213,7 @@
 				   					</select>条
 				   					</span>
 				   					 		<span style="float:right; margin-right:2%" ><input type="text" height=26px; id="sousuo" value="{$ssaaa}">
-				   					 <span onclick="sousuo1()" style="margin-left:-25px">	<i class="layui-icon" >&#x1006;</i></span>
+				   					 <span onclick="sousuo1()" style="margin-left:-25px">	<i class="layui-icon" style='cursor:pointer'>&#x1006;</i></span>
 				   					 		<span  style="width:60px; margin-left:15px" class=" layui-btn layui-btn-small "  onclick="sousuo()">搜索</span>
 				   				</span>
 				   		</div>
@@ -449,9 +448,13 @@ window.name_lxr="";
 		$(".one").text(tex);
 	}
 	$(".ycyo").hide();
-	alert(id)
+
 	$.get(rooturl+'/index.php/Home/Shangji/shangji',{"sxab":id},
 							        		 function(html){
+							        		 	if(html=="quanbu")
+							        		 	{
+							        		 		   	window.location.href="shangji";return;
+							        		 	}
 							        			$("#jb_bianji").html(html);
 							        			$('.bianji_hide').hide();
 							      
