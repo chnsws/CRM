@@ -1397,8 +1397,13 @@ $("#nchangyong").click(function(){
 										{	//tishi(thisdom.prop("name"))
 											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
 										}else{
+											if(thisdom.prop("name")=='zdy5')
+											{ 
+												ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+","; 
 											
-											ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+											}else{
+												ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+											}
 										}
 										
 									}
@@ -1644,10 +1649,23 @@ $("#nchangyong").click(function(){
 						});      	
 			}
 			function checkp(x,y) {  
-			    	if (y.length == x.maxLength) {  
-			    	$(".jiaodian")[0].focus()
-			      	}
-   		 		}  
+		    	if (y.length == x.maxLength) {  
+		    		$(".jiaodian")[0].focus()
+		      	}
+   		 	}  
+   		 	function checkpa(x,y) {
+		        if (y.length == x.maxLength) {  
+		      		$(".jiaodiana")[0].focus()
+	   		    }
+   		 	}  
+   		 	function yxyz(ss){
+   		 			var a=$(ss).val();
+   		 	 		if(!a.match(/^([a-zA-Z0-9\u4e00-\u9fa5\_\-\.])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,5}){1,2})$/))
+					  {
+					   tishi("格式不正确！请重新输入");
+					   $(".qingyx").val('');
+					  }
+   		 }
    		 	//分页必须在最下面
    		 		window.ajaxstr_lxr='';
 		window.lxr_id='';
