@@ -271,7 +271,7 @@ class KehuController extends Controller {
 				
 				}elseif($v['id']=='zdy0'){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-					$show_bt.="<td><input type='text'  class=' required' id= 'wyszdy0'onkeyup='kh_name_if(this)' name='".$v['id']."'></td></tr>";	
+					$show_bt.="<td><input type='text'  class=' required' id= 'wyszdy0' onkeyup='kh_name_if(this)' name='".$v['id']."'></td></tr>";	
 				}elseif($v['id']=="zdy3"){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
 					$show_bt.="<td><input type='text'   class='required qingyx' name='".$v['id']."'  onchange='yxyz(this)'></td></tr>";
@@ -3063,7 +3063,7 @@ public function save(){
 		$new_array=explode(',',$new_xiaji);
 		$kh_base=M('kh');
 		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' ");
 		
 		foreach($kh_sql as $kkh =>$vkh)
 		{
