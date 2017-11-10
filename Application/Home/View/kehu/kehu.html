@@ -979,9 +979,11 @@ function add_yh()
 									var formdom=$("#lxr").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';
+
 									for(a=0;a<fornum;a++)
-									{
+									{	
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
+										
 										if(thisdom.prop("name")=='zdy12[]')
 										{	//tishi(thisdom.prop("name"))
 											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
@@ -989,12 +991,17 @@ function add_yh()
 											if(thisdom.prop("name")=='zdy2')
 											{
 												ajaxstr+=thisdom.prop("name")+":"+$('input[name="zdy2"]:checked').val()+",";
+											}else if(thisdom.prop("name")=='zdy5')
+											{ 
+												ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+","; 
+											
 											}else{
 												ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
 											}
 										}
 										
 									}
+					
 									window.ajaxstr_lxr=ajaxstr;//alert(ajaxstr)
 									var name =$("#lxr").find("#zdy0").val();
 									$("#zdy15th").html("<select name='zdy15'><option value='linshi'>"+name+"</option></select> ")
@@ -1037,6 +1044,13 @@ function add_yh()
 		      if (y.length == x.maxLength) {  
 		      
 		      $(".jiaodian")[0].focus()
+		       }
+   		 }  
+   		   function checkpa(x,y) {  
+		    	
+		      if (y.length == x.maxLength) {  
+		      
+		      $(".jiaodiana")[0].focus()
 		       }
    		 }  
    		 function yxyz(ss){

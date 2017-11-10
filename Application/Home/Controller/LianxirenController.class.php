@@ -315,7 +315,12 @@ return $fzr_only;
 						$add_yw.="<tr class='addtr'>";
 						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='qingyx'  onchange='yxyz(this)' name='".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
-					}else{
+					}
+					elseif($vywzd['id']=='zdy5'){
+							$add_yw.="<tr class='addtr'><td><span style='color:red'>*</span>".$vywzd['name'].":</td>";
+							$add_yw.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$vywzd['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodiana' name='".$vywzd['id']."'></td></tr>";	
+					}
+					else{
 						if($vywzd['id']=='zdy2'){
 							$add_yw.="<tr class='addtr'>";
 						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input class='danxuan' checked='checked'  name='".$vywzd['id']."' type='radio' value='男' />男<input name='".$vywzd['id']."' class='danxuan'  type='radio' value='女' />女</td>";
