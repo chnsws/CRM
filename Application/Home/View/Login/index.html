@@ -106,7 +106,14 @@
 			if(username==''){tishi("用户名不能为空");return false;}
 			if($("input[name='password']").val()==''){tishi("密码不能为空");return false;}
 			if(codeval==''){tishi("请输入验证码");return false;}
+			var obj=layer.msg('正在登录', {
+				icon: 16,
+				shade:0.01,
+				area:'100px',
+				time:99999999
+			});
 			$.post('__ROOT__/index.php/Home/Login/yanzheng',{name:username,pwd:userpwd,code:codeval,jizhu:swithstaus},function(is_success){
+				layer.close(obj);
 				if(is_success=='1')
 				{
 					location.href="__ROOT__/index.php";
