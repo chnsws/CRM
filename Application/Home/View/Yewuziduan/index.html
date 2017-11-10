@@ -118,7 +118,7 @@
 <div id="addzddiv">
     <div>
         <span>字段名称:</span>
-        <span><input type="text" placeholder="字段名称（不超过10个字符）" id="zdnameinput" /></span>
+        <span><input type="text" placeholder="字段名称（不超过20个字符）" id="zdnameinput" /></span>
     </div>
 </div>
 <script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
@@ -207,7 +207,7 @@ $(function(){
                     tishi("字段名不能为空");
                     return;
                 }
-                if(newname.length>10)
+                if(newname.length>20)
                 {
                     tishi("字段名过长");
                     return;
@@ -414,7 +414,7 @@ function bjListen()
                     tishi("字段名不能为空");
                     return;
                 }
-                if(newname.length>10)
+                if(newname.length>20)
                 {
                     tishi("字段名过长");
                     return;
