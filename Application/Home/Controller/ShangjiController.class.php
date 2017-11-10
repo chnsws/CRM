@@ -21,8 +21,7 @@ class ShangjiController extends Controller {
 					$kh['name']=$kh_json['zdy0'];
 					$kh_name[$vkh['kh_id']]=$kh;
 		}
-		//echo "<pre>";
-		//var_dump($kh_name);exit;
+	
 		return $kh_name;
 	}
 	public function shangji(){
