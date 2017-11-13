@@ -10,7 +10,7 @@
 .gj_body_content{margin-left:25px;background:#F1F9FE;border:1px solid #50BBB1;margin-right:10px;border-radius:10px;padding:10px;overflow: hidden;}
 .gj_headimg{height:25px;width:25px;margin-right:5px;border-radius:15px}
 .gj_body_content_head i{margin:0px 5px;color:#1AA094;}
-.gj_body_content_content{line-height: 26px;margin:10px 0px; word-wrap: break-word;max-width:400px;}
+.gj_body_content_content{line-height: 26px;margin:10px 0px!important; word-wrap: break-word;width:100%;}
 .gj_body_content_time,.gj_body_content_from{height:26px;line-height: 26px;}
 /*隐藏评论按钮
 .gj_body_content_button{display: none;}
