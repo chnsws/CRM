@@ -284,14 +284,15 @@ return $fzr_only;
 						{
 							$add_yw.="<tr class='addtr'>";
 							$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td>";
-									$add_yw.="<td>
-							 		<select  name='".$vywzd['id']."' class='required kh_ls' style='width:230px;height:30px;'>
-							 			<option value=''>--请选择--</option>";
+									$add_yw.="<td class='ssaa'>
+							 		<select  name='".$vywzd['id']."' class='required kh_ls xlss'>
+							 			<option value=''>--请选择--</option>
+							 			<option value='kh_add'>--点击添加--</option>";
 							 		foreach ($kh_name as $kkh => $vkh)
 							 		{
 							 			 $add_yw.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
 							 		} 
-							 $add_yw.=	"</select> <span style='color:#07d;cursor:pointer;margin-right:10px' onclick='kh_add()'>点击添加</span></td>";
+							 $add_yw.=	"</select>";
 							$add_yw.="</tr>";
 						}
 					
@@ -523,7 +524,7 @@ return $fzr_only;
 		$new_arr=explode(',',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
-			$ex=explode(":",$v);
+			$ex=explode(":￥￥",$v);
 			if($ex['0']=="zdy12[]")
 			{
 				$substr=substr($ex['0'],0,strlen($ex['0'])-2); //id
@@ -800,6 +801,9 @@ return $fzr_only;
 				}elseif($v['id']=='zdy15'){
 					
 				
+				}elseif($v['id']=='zdy3'){
+					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
+					$show_bt.="<td><input type='text'  class='required1 qingyx' name='".$v['id']."'  onchange='yxyz(this)'</td></tr>";	
 				}elseif($v['id']=='zdy0'){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
 					$show_bt.="<td><input type='text'  class='required1' id= 'wyszdy0' onkeyup='kh_name_if(this)' name='".$v['id']."'></td></tr>";	

@@ -19,7 +19,8 @@
 		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
 <script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
-
+		<link href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
+		<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
 		<!--下面   地区插件-->
 	
 		<link href="{$_GET['public_dir']}/diqu/css/main.css" rel="stylesheet">
@@ -38,7 +39,7 @@
 
 			.big{width:99%;height:100%;margin: 0px auto;}
 			.xinzeng{float:right;margin-right:2%;} /* 新增 导入*/
-			div,span{overflow:hidden;}
+		
 			#sxdiv{background-color:#fff;margin:10px 10px 0px 10px;padding:10px 5px 10px 5px;}
 			#sxshowbtn{background-color:#fff;width:40px;text-align:center;margin:0 auto;cursor:pointer;}
 			.sxzddiv{width:100%;height:auto;word-break: break-all;word-wrap: break-word;margin-top:15px;}
@@ -54,7 +55,7 @@
     			.label-success{ height:28px;line-height:16px;width:60px; text-align: center;font-size:14px; }
 #table_local_filter label{width:300px;}
 
-			div,span{overflow:hidden;}
+		
 			#sxdiv{background-color:#fff;margin:10px 10px 0px 10px;padding:10px 5px 10px 5px;}
 			#sxshowbtn{background-color:#fff;width:40px;text-align:center;margin:0 auto;cursor:pointer;}
 			.sxzddiv{width:100%;height:auto;word-break: break-all;word-wrap: break-word;}
@@ -87,6 +88,7 @@
 	a{color:#07d; text-decoration:none !important;}
 	.searchable-select-input{width:280px !important ;}
 			.searchable-select {min-width:300px;}
+			.searchable-select-items{z-index:99999990;}
 		td
         {
             white-space: nowrap;
@@ -240,6 +242,115 @@
   	</div>
 	</body>
 	<script>
+	 function yxyz(ss){
+   		 	var a=$(ss).val();
+   		 	 if(!a.match(/^([a-zA-Z0-9\u4e00-\u9fa5\_\-\.])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,5}){1,2})$/))
+			  {
+			   tishi("格式不正确！请重新输入");
+			   $(".qingyx").val('');
+			  }
+
+   		 }
+		$(function(){
+
+				$('.xlss').searchableSelect();
+
+ 			});
+
+		var is_one=0;
+		function change_fun(v2){
+			
+			if(is_one<1 )
+		 	{
+		 		is_one++;
+		 		return;
+		 	}
+		 	if(v2.val()=="kh_add")
+		 	{
+		 		$.get(rooturl+'/index.php/Home/lianxiren/kehu_add',{},
+			        		 				function(html){
+			        		 					$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.js");
+		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/main.js");
+		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.data.js");
+											$(".th_kh").html(html);
+											$('#kh table :input').blur(function(){
+									    	
+													var $parent =$(this).parent();
+													$parent.find(".formtips").remove();
+													if( $(this).is('.required1') ){
+														if(this.value==""){
+															var error ="<i class='layui-icon' style='font-size: 21px;margin-left:1px'>&#x1007;</i> ";
+															$parent.append('<span class="formtips onError">'+error+'</span>');
+														}else{
+															var error ="<i class='layui-icon' style='font-size: 21px;margin-left:1px'>&#xe616;</i> "
+															$parent.append('<span class="formtips onSuccess">'+error+'</span>');
+														}
+
+													}
+			
+														}).keyup(function(){
+												           $(this).triggerHandler("blur");
+												        }).focus(function(){
+												             $(this).triggerHandler("blur");
+												        });//end blur
+												layer.close(win)
+											});
+    	
+		layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'670px',
+								fixed: false,
+								title: '新增客户',
+								content:$('#add_kh'),
+								btn:['确认添加','取消'],
+								btn1:function(){
+									 $("#kh :input.required1").trigger('blur');
+			             				  var numError = $('#kh .onError').length;
+			             				
+			              				  if(numError){
+			              				  	tishi('必填项不能为空')
+					                   			 return false;
+					              		 	 } 
+									var formdom=$("#kh").children("table").find("tr");
+									var fornum=formdom.length;
+									var ajaxstr='';
+									for(a=0;a<fornum;a++)
+									{
+										var thisdom=formdom.eq(a).find("td").eq(1).children();
+										if(thisdom.prop("name")=='zdy12[]')
+										{	//tishi(thisdom.prop("name"))
+											ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
+										}else if(thisdom.prop("name")=='zdy2'){
+												ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+",";
+										}
+										else{
+											
+											ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",";
+										}
+										
+									}
+									window.ajaxstr_kh=ajaxstr;
+									
+									var name =$("#kh").find("#wyszdy0").val();
+								
+									 $(".ssaa").html(" <select name='zdy1'><option value='"+name+"' selected='selected'>"+name+"</option></select>");
+								
+									        		layer.close(win)
+							  
+
+								},
+								btn2:function(){
+									layer.close(win)
+									//addshangji()
+								}
+							}); 
+						});  
+		 	}
+		 	
+		}
 	var ssa=$("#sousuo").val();
 	if(ssa != ""){
 		$('.ycyo').hide();
@@ -350,6 +461,7 @@
 										$.get(rooturl+'/index.php/Home/Lianxiren/add_kh',{"id":ajaxstr_kh},
 								        		 function(khid){
 								        		 	window.kh_id=khid;
+								        		 	alert(kh_id)
 								        		 	$.get(rooturl+'/index.php/Home/Lianxiren/adda',{"id":ajaxstr,"id2":kh_id},
 										        		 function(html){
 												        		 tishi("添加成功");
@@ -526,86 +638,7 @@
 			    });
 			}
 			    function kh_add(){
-	$.get(rooturl+'/index.php/Home/lianxiren/kehu_add',{},
-			        		 				function(html){
-			        		 					$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.js");
-		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/main.js");
-		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.data.js");
-											$(".th_kh").html(html);
-											$('#kh table :input').blur(function(){
-									    	
-													var $parent =$(this).parent();
-													$parent.find(".formtips").remove();
-													if( $(this).is('.required1') ){
-														if(this.value==""){
-															var error ="<i class='layui-icon' style='font-size: 21px;margin-left:1px'>&#x1007;</i> ";
-															$parent.append('<span class="formtips onError">'+error+'</span>');
-														}else{
-															var error ="<i class='layui-icon' style='font-size: 21px;margin-left:1px'>&#xe616;</i> "
-															$parent.append('<span class="formtips onSuccess">'+error+'</span>');
-														}
-
-													}
-			
-														}).keyup(function(){
-												           $(this).triggerHandler("blur");
-												        }).focus(function(){
-												             $(this).triggerHandler("blur");
-												        });//end blur
-												layer.close(win)
-											});
-    	
-		layui.use('layer', function(){
-							var layer = layui.layer;
-							var win=layer.open({
-								type:1,
-								offset: 't',
-								area:'670px',
-								fixed: false,
-								title: '新增客户',
-								content:$('#add_kh'),
-								btn:['确认添加','取消'],
-								btn1:function(){
-									 $("#kh :input.required1").trigger('blur');
-			             				  var numError = $('#kh .onError').length;
-			             				
-			              				  if(numError){
-			              				  	tishi('必填项不能为空')
-					                   			 return false;
-					              		 	 } 
-									var formdom=$("#kh").children("table").find("tr");
-									var fornum=formdom.length;
-									var ajaxstr='';
-									for(a=0;a<fornum;a++)
-									{
-										var thisdom=formdom.eq(a).find("td").eq(1).children();
-										if(thisdom.prop("name")=='zdy12[]')
-										{	//tishi(thisdom.prop("name"))
-											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
-										}else if(thisdom.prop("name")=='zdy2'){
-												ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+",";
-										}
-										else{
-											
-											ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
-										}
-										
-									}
-									window.ajaxstr_kh=ajaxstr;
-									var name =$("#kh").find("#wyszdy0").val();
-								
-									 $(".kh_ls").html("<option value='001' selected='selected'>"+name+"</option>");
-								
-									        		layer.close(win)
-							  
-
-								},
-								btn2:function(){
-									layer.close(win)
-									//addshangji()
-								}
-							}); 
-						});  
+	
 
 	}
 	function get_bm(bm){

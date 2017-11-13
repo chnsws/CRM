@@ -3072,7 +3072,7 @@ public function save(){
 					$kh['id']=$vkh['kh_id'];
 					$kh['name']=$kh_json['zdy0'];
 					$kh['kh_fz']=$vkh['kh_fz'];
-					$kh_name[$vkh['kh_id']]=$kh;00
+					$kh_name[$vkh['kh_id']]=$kh;
 		}
 		$name=$_GET['id'];
 		$name=trim($name);
