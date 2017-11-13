@@ -198,7 +198,7 @@ class LianxirenmingchengController extends Controller {
 		}
 		//	echo "<pre>";var_dump($show1);exit;
 		foreach ($ywzd as $k => $v){
-			$show3.="<tr style='line-height:40px'><td>".$v['name']."：</td>";
+			$show3.="<tr ><td>".$v['name']."：</td>";
 				if($lx_json[$k]!=""){
 					if($k=='zdy1'){
 						$show3.="<td><input type='hidden' name='".$k."' style='width:220px;height:26px;'  value='".$lx_json[$k]."'><span style='margin-left:30px;color:#07d'>".$kehu[$lx_json[$k]]['name']."</span></td>";	
