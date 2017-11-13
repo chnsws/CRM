@@ -198,7 +198,7 @@ class LianxirenmingchengController extends Controller {
 		}
 		//	echo "<pre>";var_dump($show1);exit;
 		foreach ($ywzd as $k => $v){
-			$show3.="<tr ><td>".$v['name']."：</td>";
+			$show3.="<tr style='line-height:30px;height:40px'><td>".$v['name']."：</td>";
 				if($lx_json[$k]!=""){
 					if($k=='zdy1'){
 						$show3.="<td><input type='hidden' name='".$k."' style='width:220px;height:26px;'  value='".$lx_json[$k]."'><span style='margin-left:30px;color:#07d'>".$kehu[$lx_json[$k]]['name']."</span></td>";	
@@ -224,7 +224,7 @@ class LianxirenmingchengController extends Controller {
 						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  style='width:220px;height:26px;' value='".$lx_json[$k]."'></td>";
 
 					}elseif($k=='zdy6'){
-						$show3.="<td><input type='text' name='".$k."' class='required1 qingyx1 ' onchange='sjyz(this)' value='".$lx_json[$k]."'></td>";
+						$show3.="<td><input type='text' name='".$k."' class='required1 qingyx1 ' style='width:220px;height:26px;' onchange='sjyz(this)' value='".$lx_json[$k]."'></td>";
 
 					
 					}elseif($k=='zdy10'){
