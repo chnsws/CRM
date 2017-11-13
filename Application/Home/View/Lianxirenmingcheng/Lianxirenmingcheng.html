@@ -142,6 +142,15 @@
 	</body>
 </html>
 	<script>
+	 function sjyz(ss){
+   		 	var a=$(ss).val();
+   		 	 if(!a.match(/^([1])+(([a-zA-Z0-9\u4e00-\u9fa5\_\-\.]){10})$/))
+			  {
+			   tishi("请输入正确的十一位手机号");
+			   $(".qingyx1").val('');
+			  }
+
+   		 }
 		function bianji(){
 			layui.use('layer', function(){
 							var layer = layui.layer;
