@@ -142,15 +142,7 @@
 	</body>
 </html>
 	<script>
-	 function sjyz(ss){
-   		 	var a=$(ss).val();
-   		 	 if(!a.match(/^([1])+(([0-9]){10})$/))
-			  {
-			   tishi("请输入正确的十一位手机号");
-			   $(".qingyx1").val('');
-			  }
-
-   		 }
+	
 		function bianji(){
 			layui.use('layer', function(){
 							var layer = layui.layer;
@@ -210,6 +202,15 @@
 		  
 		  //…
 		});
+		 function sjyz(ss){
+   		 	var a=$(ss).val();
+   		 	 if(!a.match(/^([1])+(([0-9]){10})$/))
+			  {
+			   tishi("请输入正确的十一位手机号");
+			   $(".qingyx1").val('');
+			  }
+
+   		 }
 		function fanhui(){
 			window.location.href=rooturl+'/index.php/Home/Lianxiren/Lianxiren';
 		}
