@@ -316,6 +316,11 @@ return $fzr_only;
 						$add_yw.="<tr class='addtr'>";
 						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='qingyx'  onchange='yxyz(this)' name='".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
+					}elseif($vywzd['id']=='zdy6'){
+						$add_yw.="<tr class='addtr'>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='number' class='qingyx' value='1' onchange='' name='".$vywzd['id']."'></td>";
+						$add_yw.="</tr>";
+					
 					}
 					elseif($vywzd['id']=='zdy5'){
 							$add_yw.="<tr class='addtr'><td><span style='color:red'>*</span>".$vywzd['name'].":</td>";
