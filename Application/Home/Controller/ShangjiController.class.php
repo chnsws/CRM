@@ -1383,6 +1383,11 @@ return $fzr_only;
 						}elseif($vywzd['id']=='zdy5'){
 								$add_yw.="<tr class='addtr'><td><span style='color:red'>*</span>".$vywzd['name'].":</td>";
 								$add_yw.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$vywzd['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodiana' name='".$vywzd['id']."''></td></tr>";	
+						
+						}elseif($vywzd['id']=='zdy6'){
+						$add_yw.="<tr class='addtr'>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='required1 qingyx1' onchange='sjyz(this)'  id='lxr".$vywzd['id']."'></td>";
+						$add_yw.="</tr>";
 						}else{
 						$add_yw.="<tr class='addtr'>";
 						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='required1'   id='lxr".$vywzd['id']."'></td>";
