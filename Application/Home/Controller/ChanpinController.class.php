@@ -1139,10 +1139,32 @@ class ChanpinController extends DBController {
 		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='7,".$flid."' limit 1");
 		if(count($zdarr)<=0)
 		{
-			echo "<script>alert('未获取到产品分类ID');history.go(-1);</script>";
+			echo "<script>alert('没有字段可下载');history.go(-1);</script>";
 			die;
 		}
 		$zdarr=json_decode($zdarr[0]['zd_data'],true);
+		$px=parent::sel_more_data("crm_paixu","px_px","px_yh='$fid' and px_mod='7,".$flid."' limit 1");
+		$px=explode(',',$px[0]['px_px']);
+		foreach($zdarr as $k=>$v)
+		{
+			$zdarr[$v['id']]=$v;
+			unset($zdarr[$k]);
+		}
+		foreach($px as $v)
+		{
+			$nzd[$v]=$zdarr[$v];
+			unset($zdarr[$v]);
+		}
+		if(count($zdarr)>0)
+		{
+			foreach($zdarr as $v)
+			{
+				$nzd[$v['id']]=$v;
+			}
+		}
+		unset($zdarr);
+		$zdarr=$nzd;
+		//parent::rr($zdarr);
 		foreach($zdarr as $v)
 		{
 			if($v['qy']!='1'||$v['id']=='zdy5'||$v['id']=='zdy6'||$v['id']=='zdy7')
@@ -1236,6 +1258,29 @@ class ChanpinController extends DBController {
 		$zdbase=M("yewuziduan");
 		$zdarr=$zdbase->query("select zd_data from crm_yewuziduan where zd_yewu='7,".$flid."' and zd_yh='$fid' limit 1");
 		$zdarr=json_decode($zdarr[0]['zd_data'],true);
+
+		$px=parent::sel_more_data("crm_paixu","px_px","px_yh='$fid' and px_mod='7,".$flid."' limit 1");
+		$px=explode(',',$px[0]['px_px']);
+		foreach($zdarr as $k=>$v)
+		{
+			$zdarr[$v['id']]=$v;
+			unset($zdarr[$k]);
+		}
+		foreach($px as $v)
+		{
+			$nzd[$v]=$zdarr[$v];
+			unset($zdarr[$v]);
+		}
+		if(count($zdarr)>0)
+		{
+			foreach($zdarr as $v)
+			{
+				$nzd[$v['id']]=$v;
+			}
+		}
+		unset($zdarr);
+		$zdarr=$nzd;
+		
 		$first='0';
 		$insertstr='';
 		$filerowsnum=0;
