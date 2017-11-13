@@ -3063,7 +3063,7 @@ public function save(){
 		$new_array=explode(',',$new_xiaji);
 		$kh_base=M('kh');
 		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' ");
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map'");
 		
 		foreach($kh_sql as $kkh =>$vkh)
 		{
@@ -3072,7 +3072,7 @@ public function save(){
 					$kh['id']=$vkh['kh_id'];
 					$kh['name']=$kh_json['zdy0'];
 					$kh['kh_fz']=$vkh['kh_fz'];
-					$kh_name[$vkh['kh_id']]=$kh;
+					$kh_name[$vkh['kh_id']]=$kh;00
 		}
 		$name=$_GET['id'];
 		$name=trim($name);
