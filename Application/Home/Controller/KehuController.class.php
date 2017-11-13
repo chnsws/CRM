@@ -1348,9 +1348,18 @@ class KehuController extends Controller {
 					$lx_show.="<tr>
 					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span>".$v['zdy0']."</span></a></td>
 					  				<td >".$v['zdy3']."</td>
-					  				<td >".$v['zdy4']."</td>
-					  				<td >".$v['zdy5']."</td>
-					  				<td >".$v['zdy6']."</td>
+					  				<td >".$v['zdy4']."</td>";
+					  				$afirst=substr($v['zdy5'],0,1);
+
+									if($afirst=="-")
+									{
+										$lx_show.="<td> ".substr($v['zdy5'],1)." </td>"	;
+										
+									}else{
+										$lx_show.="<td> ".$v['zdy5']." </td>"	;
+									}
+					  			
+					  				$lx_show.="<td >".$v['zdy6']."</td>
 					  				<td >".$v['zdy10']."</td>
 					  				
 					  			</tr>"; 
@@ -1370,9 +1379,17 @@ class KehuController extends Controller {
 					$lxr_show.="<tr>
 					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span>".$v['zdy0']."</span></a></td>
 					  				<td >".$v['zdy3']."</td>
-					  				<td >".$v['zdy4']."</td>
-					  				<td >".$v['zdy5']."</td>
-					  				<td >".$v['zdy6']."</td>
+					  				<td >".$v['zdy4']."</td>";
+
+									if($afirst=="-")
+									{
+										$lxr_show.="<td> ".substr($v['zdy5'],1)." </td>"	;
+										
+									}else{
+										$lxr_show.="<td> ".$v['zdy5']." </td>"	;
+									}
+					  				
+					  				$lxr_show.="<td >".$v['zdy6']."</td>
 					  				<td >".$v['zdy10']."</td>
 					  				<td >".$v['zdy16']."</td>
 					  				

@@ -249,6 +249,18 @@ return $fzr_only;
 						}elseif($k1=="lx_cj")
 						{
 								$show_bt.="<td> ".$userqb[$v[$k1]]['user_name']." </td>"	;
+						}elseif($k1=="zdy5")
+						{
+							$afirst=substr($v[$k1],0,1);
+
+							if($afirst=="-")
+							{
+								$show_bt.="<td> ".substr($v[$k1],1)." </td>"	;
+							
+							}else{
+								$show_bt.="<td> ".$v[$k1]." </td>"	;
+							}
+								
 						}elseif($k1=="lx_cj_date")
 						{
 							$show_bt.="<td> ".date("Y-m-d H:i:s",$v[$k1])."</td>"	;

@@ -163,6 +163,19 @@ class LianxirenmingchengController extends Controller {
 						$kehu_nm=$kehu[$lx_json[$k]]['name'];
 					//	var_dump($kehu);exit;
 						$show.="<td><span style='margin-left:30px'>".$kehu[$lx_json[$k]]['name']."</span></td>";	
+					}elseif($k=='zdy5'){
+							$afirst=substr($lx_json[$k],0,1);
+
+							if($afirst=="-")
+							{
+								
+							$show.="<td><span style='margin-left:30px'>".substr($lx_json[$k],1)."</span></td>";
+							}else{
+								$show.="<td><span style='margin-left:30px'>".$lx_json[$k]."</span></td>";
+							}
+						
+					//	var_dump($kehu);exit;
+						
 					}else{
 						$show.="<td><span style='margin-left:30px'>".$lx_json[$k]."</span></td>";
 					}
