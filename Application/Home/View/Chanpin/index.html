@@ -849,6 +849,7 @@ function daoru()
                     tishi("请先选择需要导入的文件");
                     return false;
                 }
+                window.jiazai=layer.load(2);
                 $.get(root_dir+"/index.php/Home/Chanpin/daoru_chanpin",{"csvfilename":is_upload,"flid":page_fl_id},function(res){
                     //alert(res);
                     errorFun(res);
