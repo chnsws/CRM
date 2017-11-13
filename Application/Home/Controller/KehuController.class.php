@@ -1903,16 +1903,22 @@ class KehuController extends Controller {
 
 				foreach($sql_xiegenjin as $k=>$v)
 				{
-					$xgj_show.="<div class='gj_mod'>
-						<div class='gj_head'><div class='gj_head_point'></div><div class='gj_head_date'>".$v['add_time']."</div></div>
-						<div class='gj_body'>
+					$xgj_show.="<div class='gj_mod'>";
+						$da[$k] =substr($v['add_time'],0,10);
+							$daa[$k] =substr($v['add_time'],11,5);
+						if($da[$k]==$da[$k-1]){
+
+						}else{
+						$xgj_show.="<div class='gj_head'><div class='gj_head_point'></div><div class='gj_head_date'>".$da[$k]."</div></div>";
+						}
+						$xgj_show.="<div class='gj_body'>
 							<div class='gj_body_icon'><i class='fa fa-pencil'></i></div>
 							<div class='gj_body_content'>
 								<div class='gj_body_content_head'>
 									<img src='' class='gj_headimg woca'>
 									<span class='user_name'>
 									".$user[$v['user_id']]['user_name']."</span>
-									<i class='fa fa-caret-right'></i>
+								".$daa[$k]."
 									<span class='gj_fangshi'>".$v['type'].":<span style='color:#07d'>".$lx_end[$v['xgj_czr']]['zdy0']."</span>
 									</span>
 									<span style='float:right;cursor:pointer;' id='".$v['genjin_id']."' title='点击删除' onclick='del_gj(this)' ><i class='layui-icon'>&#xe640;</i>  </span>

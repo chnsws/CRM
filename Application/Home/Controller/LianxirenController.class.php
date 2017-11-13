@@ -357,7 +357,11 @@ return $fzr_only;
 		 				$add_yw1.="</td></tr>";
 					}elseif($vywzd['id']=='zdy15'){
 						$add_yw1.="<tr class='addtr'>";
-						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." name='".$vywzd['id']."'></td>";
+						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' class=' ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." name='".$vywzd['id']."'></td>";
+						$add_yw1.="</tr>";
+					}elseif($vywzd['id']=='zdy6'){
+						$add_yw1.="<tr class='addtr'>";
+						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='number' class='qingyx1'  onchange='sjyz(this)' name='".$vywzd['id']."'></td>";
 						$add_yw1.="</tr>";
 					}elseif($vywzd['id']=='zdy10'){
 						$add_yw1.="<tr class='addtr'>";
@@ -399,9 +403,13 @@ return $fzr_only;
 			         	$add_yw2.="<select name='".$vywzd['id']."[]' class='form-control'   ></select>";
 		 				$add_yw2.="</td></tr>";
 					
+		 			}elseif($vywzd['id']=='zdy6'){
+						$add_yw2.="<tr class='addtr'>";
+						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='number' class='qingyx1'  onchange='sjyz(this)' name='".$vywzd['id']."'></td>";
+						$add_yw2.="</tr>";
 		 			}elseif($vywzd['id']=='zdy15'){
 		 				$add_yw2.="<tr class='addtr ncy'>";
-						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." name='".$vywzd['id']."'></td>";
+						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' class='ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." name='".$vywzd['id']."'></td>";
 						$add_yw2.="</tr>";
 					}elseif($vywzd['id']=='zdy10'){
 						$add_yw2.="<tr class='addtr ncy'>";
