@@ -10,21 +10,21 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta charset="utf-8">
-<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
-<link rel="stylesheet" href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" media="all">
-<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="{$_GET['public_dir']}/xiansuo/main.css">
-<link rel="stylesheet" href="{$_GET['public_dir']}/cctable/cctable.css">
+<script src="__PUBLIC__/jquery/jquery.js"></script>
+<script src="__PUBLIC__/jquery/searchable/jquery.searchableSelect.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/jquery/searchable/jquery.searchableSelect.css" media="all">
+<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="__PUBLIC__/xiansuo/main.css">
+<link rel="stylesheet" href="__PUBLIC__/cctable/cctable.css">
 <!--layUI-->
-<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+<script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
 <!--UIkit-->
-<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+<script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
 <!--UIKIT时间-->
-<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/datepicker.css" />
-<script src="{$_GET['public_dir']}/uikit/js/components/datepicker.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/uikit/css/components/datepicker.css" />
+<script src="__PUBLIC__/uikit/js/components/datepicker.js"></script>
 <style>
 </style>
 </head>
@@ -418,8 +418,8 @@ $(function(){
     {
         if(diqu_is_load==0)
         {
-            jQuery.getScript("{$_GET['public_dir']}/index_js_css/datas/area_data.js", function(data, status, jqxhr) {
-                jQuery.getScript("{$_GET['public_dir']}/xiansuo/diqu.js", function(data, status, jqxhr) {
+            jQuery.getScript("__PUBLIC__/index_js_css/datas/area_data.js", function(data, status, jqxhr) {
+                jQuery.getScript("__PUBLIC__/xiansuo/diqu.js", function(data, status, jqxhr) {
                     var sheng_id="{$_GET['sheng']}"==''?0:"{$_GET['sheng']}";
                     //替换省
                     var sheng=get_diqu1();
@@ -897,7 +897,7 @@ function xinzengxiansuo_show()
         layer.open({
             type:1,
             title: '新增线索',
-            area:"600px",
+            area:["600px","60%"],
             offset:'t',
             fixed: false,
             btn:["确定","取消"],
@@ -1132,8 +1132,8 @@ function add_diqu_listen()
     var sheng='0';
     if(diqu_is_load==0)
     {
-        jQuery.getScript("{$_GET['public_dir']}/index_js_css/datas/area_data.js", function(data, status, jqxhr) {
-            jQuery.getScript("{$_GET['public_dir']}/xiansuo/diqu.js", function(data, status, jqxhr) {
+        jQuery.getScript("__PUBLIC__/index_js_css/datas/area_data.js", function(data, status, jqxhr) {
+            jQuery.getScript("__PUBLIC__/xiansuo/diqu.js", function(data, status, jqxhr) {
                 layer.close(jiazai);
                 $("#xinzengxiansuodiv").find(".add_diqu").eq(0).on("change",function(){
                     if($(this).val()!=0)
