@@ -20,7 +20,7 @@ button>i{margin-right:5px;}
 .sx_setting>i{float:right;font-size: 18px;color:#1AA094;cursor:pointer;margin-right:10px;}
 .sx_title{padding-right:0px!important;margin-right: 0px!important;}
 #shaixuan *{font-size:13px;}
-#shaixuan>div{height:40px;display: none;}
+#shaixuan>div{min-height:40px;overflow: hidden;display: none;}
 #shaixuan>div>span{float:left;height:26px;line-height:26px;padding:0px 10px;margin-right:10px;margin-top:7px;cursor:pointer;}
 .sx_this{background:#50BBB1;color:#fff;border-radius:5px;}
 #shaixuan>div>span:first-child{width:110px;padding-left:0px;cursor:default;}
@@ -59,7 +59,7 @@ button>i{margin-right:5px;}
 .input_clear{font-weight:bold;position:relative;margin-left:-20px;margin-right:7px;cursor:pointer;font-size:16px;top:2px;color:#777;}
 
 /*表格样式*/
-.cctable td{cursor:pointer;}
+.cctable td{cursor:pointer;max-width:400px;overflow: hidden;text-overflow:ellipsis;}
 .cctable tbody>tr>td:nth-child(1){cursor:default;}
 input[type='checkbox']{cursor:pointer;}
 /*分页*/
