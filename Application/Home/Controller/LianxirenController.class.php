@@ -333,7 +333,7 @@ return $fzr_only;
 		 				$add_yw.="</td></tr>";
 					}elseif($vywzd['id']=='zdy15'){
 						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." name='".$vywzd['id']."'></td>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'." name='".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
 					}elseif($vywzd['id']=='zdy10'){
 						$add_yw.="<tr class='addtr'>";
@@ -382,7 +382,7 @@ return $fzr_only;
 		 				$add_yw1.="</td></tr>";
 					}elseif($vywzd['id']=='zdy15'){
 						$add_yw1.="<tr class='addtr'>";
-						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' class=' ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." name='".$vywzd['id']."'></td>";
+						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' class=' ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'." name='".$vywzd['id']."'></td>";
 						$add_yw1.="</tr>";
 					}elseif($vywzd['id']=='zdy6'){
 						$add_yw1.="<tr class='addtr'>";
@@ -445,7 +445,7 @@ return $fzr_only;
 							$add_yw.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$vywzd['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodiana' name='".$vywzd['id']."' maxlength='25'></td></tr>";	
 					}elseif($vywzd['id']=='zdy15'){
 		 				$add_yw2.="<tr class='addtr ncy'>";
-						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' class='ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." name='".$vywzd['id']."'></td>";
+						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' class='ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'." name='".$vywzd['id']."'></td>";
 						$add_yw2.="</tr>";
 					}elseif($vywzd['id']=='zdy10'){
 						$add_yw2.="<tr class='addtr  ncy'>";

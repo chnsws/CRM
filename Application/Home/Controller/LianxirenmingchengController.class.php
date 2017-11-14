@@ -133,7 +133,7 @@ class LianxirenmingchengController extends Controller {
 		}
 	//	echo "<pre>";var_dump($sj_rh);exit;
 		if($sj_rh==''||$sj_rh==null){
-			$shangji1.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关联系人</td></tr>";
+			$shangji1.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关商机</td></tr>";
 		}else{
 			foreach ($sj_rh as $k=>$v){
 				$shangji1.="<tr>";
@@ -245,7 +245,7 @@ class LianxirenmingchengController extends Controller {
 						
 						$show3.="</td>";
 					}elseif($k=='zdy15'){
-						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  style='width:220px;height:26px;' value='".$lx_json[$k]."'></td>";
+						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."  style='width:220px;height:26px;' value='".$lx_json[$k]."'></td>";
 
 					}elseif($k=='zdy6'){
 						$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;'  class='required1 qingyx1 ' onchange='sjyz(this)' value='".$lx_json[$k]."'></td>";
