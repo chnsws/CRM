@@ -117,7 +117,12 @@
 			       
 			<div class="sxdiv">
 					
+						<div id="sxhidestr"  style='display: none;border:1px'>
+	          
+				            <span class="sx_tj_margain sx_yes one">全部联系人</span>
+				           
 
+	        			</div>
 				         <div id="sxzddiv"  >
 			              		<div class='sxzddiv' id='kehujibie'>
 								 	<span class='sx_yes'>全部联系人</span>
@@ -128,7 +133,8 @@
 		   				 </div>
 
 		   </div>
-		   <div id="sxshowbtn" onselectstart='return false'><i class='fa fa-chevron-down' aria-hidden='true'></i></div>
+			<input type='hidden' name='a' class='sxa'>
+		    <div id="sxshowbtn" onselectstart='return false'><i class='fa fa-chevron-up' aria-hidden='true'></i></div>
 		 	 	<div class="anniu">		
 					<span style="margin-top:-8px;margin-left:1%"  class="anniudw">
 					   		 <button onclick="del_check()"  class="layui-btn layui-btn-primary layui-btn-small">
@@ -242,6 +248,25 @@
   	</div>
 	</body>
 	<script>
+	
+	$("#sxshowbtn").click(function(){
+		
+	
+    if($('.sxa').prop("name")=='a')
+    {
+        $("#sxhidestr").show("fast");
+        $("#sxzddiv").hide("fast");
+        $(this).html("<i class='fa fa-chevron-down' aria-hidden='true'></i>");
+        $('.sxa').prop("name",'aa');return
+    }
+    else
+    {
+        $("#sxzddiv").show("fast");
+        $("#sxhidestr").hide("fast");
+        $(this).html("<i class='fa fa-chevron-up' aria-hidden='true'></i>");
+        $('.sxa').prop("name",'a');return
+    }
+});
 	 function yxyz(ss){
    		 	var a=$(ss).val();
    		 	 if(!a.match(/^([a-zA-Z0-9\u4e00-\u9fa5\_\-\.])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,5}){1,2})$/))
@@ -372,25 +397,11 @@
 	layui.use('upload', function(){
   		layui.upload(options);
 		});
-	$("#sxshowbtn").click(function(){         //控制 、筛选的隐藏与显示
-	    if($(this).prop("name")=='0'||$(this).prop("name")==undefined)
-	    {
-	    	
-	        $("#sxhidestr").hide("fast");
-	        $("#sxzddiv").show("fast");
-	        $(this).html("<i class='fa fa-chevron-up' aria-hidden='true'></i>");
-	        $(this).prop("name",'1');
-	    }
-	    else
-	    {
-	        $("#sxzddiv").hide("fast");
-	        $("#sxhidestr").show("fast");
-	        $(this).html("<i class='fa fa-chevron-down' aria-hidden='true'></i>");
-	        $(this).prop("name",'0');
-	    }
-	});
+	
 	window.id='';
-	$(".sxzddiv").children("span").click(function(){          //点击筛选的 选中
+	$(".sxzddiv").children("span").click(function(){  
+	var tex =$(this).text();
+	$(".one").text(tex);   //点击筛选的 选中
 	    var title=$(this).parent().prop('id');
     $(this).parent().children("span").prop("class","sx_no");
     $(this).prop("class","sx_yes");
