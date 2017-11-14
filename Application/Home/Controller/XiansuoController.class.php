@@ -726,7 +726,7 @@ class XiansuoController extends DBController {
 	{
 		parent::is_login();
 		$sel_str=addslashes($_GET['sel_str']);
-		$iscz=parent::sel_one_data("crm_config","config_xs_sx_config","config_name='".cookie("user_id")."'");
+		$iscz=parent::sel_more_data("crm_config","*","config_name='".cookie("user_id")."'");
 		if(count($iscz))
 		{
 			parent::edit_one_data("crm_config","config_xs_sx_config",$sel_str,"config_name='".cookie("user_id")."'");
