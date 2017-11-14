@@ -278,7 +278,7 @@ return $fzr_only;
 		{
 
 			if($kbt!='zdy2' && $kbt!='zdy1' && $kbt!="zdy6"){
-				$show2.="<tr style='line-height:40px'><td style='width:160px'>".$vbt['name'].":</td>";
+				$show2.="<tr style='line-height:30px;height:40px'><td style='width:160px'>".$vbt['name'].":</td>";
 		
 						if($kbt=="zdy1")
 						{
