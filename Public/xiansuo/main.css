@@ -62,6 +62,7 @@ button>i{margin-right:5px;}
 .cctable td{cursor:pointer;max-width:400px;overflow: hidden;text-overflow:ellipsis;}
 .cctable tbody>tr>td:nth-child(1){cursor:default;}
 input[type='checkbox']{cursor:pointer;}
+#table_top_search_input{line-height: 30px;}
 /*分页*/
 #fy_div{float: right;}
 
