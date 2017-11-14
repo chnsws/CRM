@@ -381,7 +381,7 @@ return $fzr_only;
 		$sql_file_sj=$file_sj_base->where($file_sj)->select();
 		foreach($sql_file_sj as $k=>$v)
 		{
-			$file_sj_show.="<tr class='".$v['id']."'><td>".$v['sc_data']."</td><td>".$v['fujian_name']."</td><td>".$v['big']."</td><td>".$v['beizhu']."</td><td><button onclick='fujian_del(this)' name='".$v['id']."' class='layui-btn layui-btn-primary layui-btn-small'>
+			$file_sj_show.="<tr class='".$v['id']."'><td>".$v['sc_data']."</td><td><span onclick='fj_xz(this)' class='".$v['lujing']."' style='color:green;cursor:pointer' title='点击下载' >".$v['fujian_name']."</span></td><td>".$v['big']."</td><td>".$v['beizhu']."</td><td><button onclick='fujian_del(this)' name='".$v['id']."' class='layui-btn layui-btn-primary layui-btn-small'>
     <i class='layui-icon'>&#xe642;</i>删除
   </button></td>";
 			$file_sj_show.="</tr>";
@@ -632,9 +632,9 @@ return $fzr_only;
 				$sj_id=$_GET['id'];
 				//echo $sj_id;exit;
 			    $upload = new \Think\Upload();// 实例化上传类
-    			$upload->maxSize   =     3145728 ;// 设置附件上传大小
-   				$upload->exts      =     array('jpg', 'gif', 'png', 'jpeg','txt','pptx','xls');// 设置附件上传类型
-    			$upload->rootPath  =     './Uploads/'; // 设置附件上传根目录
+    			$upload->maxSize   =    52428800 ;// 设置附件上传大小
+   				$upload->exts      =     array('jpg', 'gif', 'png', 'jpeg','txt','pptx','xls','pdf');// 设置附件上传类型
+    			$upload->rootPath  =     './Public/chanpinfile/cpfile/linshi/'; // 设置附件上传根目录
    				$upload->autoSub = false;
    				$upload->hash = false;
     		// 上传文件 
@@ -643,10 +643,10 @@ return $fzr_only;
         		$this->error($upload->getError());
     				}// 上传成功
     					    foreach($info as $file){
-       						$save_name= 'Uploads/'.$file['savename'];//获取报存路径
+       						$save_name= $file['savename'];//获取报存路径
        						$save_oldname=$file['name'];//原始吗，
-       						$save_size=$file['size'] *'0.0009766';//大小
-       						$sql=substr($save_size,0,3).'kb';//换算
+       					$save_size=$file['size'] *'0.0009766';//大小
+       						$sql=ceil($save_size/1024).'M';//换算
  
     			 $data['name_id']=$sj_id;
     			 $data['sc_data']= date("Y-m-d h:i:s");

@@ -60,7 +60,7 @@
 		</script>
 	</head>
 	<body>
-	<input type="hidden" class='kh_id27' value="{$kh_id27}">
+	<input type="hidden"  class='kh_id27' value="{$kh_id27}">
 	<div class="bianji"  style="display: none;border:1px;" >
 		    		<div class="bianji_nb" style="width:330px;margin:0 auto">
 		    			<form id="myform" class="uk-form" >
@@ -270,6 +270,13 @@
 
 	</body>
 	<script>
+	function fj_xz(ss)
+				{
+					var s=$(ss).prop('class');
+				
+					window.location=rooturl+'/index.php/Home/Hetongmingcheng/download1?id='+s;
+						
+				}
 	$(".woca").hide();
 	layui.use('upload', function(){
  		 layui.upload(options);

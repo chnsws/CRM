@@ -276,10 +276,14 @@ class KehuController extends Controller {
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
 					$show_bt.="<td><input type='text'   class='required qingyx' name='".$v['id']."'  onchange='yxyz(this)'></td></tr>";
 
+				}elseif($v['id']=="zdy14"){
+						$show_bt.="<tr class='addtr ' style='display: none;border:1px'><td><span style='color:red'>*</span>".$v['name']."：</td>";
+						$show_bt.="<td><textarea name='".$v['id']."' style='width:300px'   class='required' placeholder='最大长度400' maxlength='400'></textarea></td></tr>";	
 				}else{
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
 					$show_bt.="<td><input type='text'  class='required' name='".$v['id']."'></td></tr>";	
-				}	
+				}
+
 			}else{
 				if($v['cy']==1)
 				{
@@ -313,7 +317,9 @@ class KehuController extends Controller {
 					}elseif($v['id']=="zdy3"){
 					$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
 					$show_bt1.="<td><input type='text'   class='qingyx' name='".$v['id']."' onchange='yxyz(this)'></td></tr>";	
-				
+					}elseif($v['id']=="zdy14"){
+						$show_bt1.="<tr class='addtr ' style='display: none;border:1px'><td>".$v['name']."：</td>";
+						$show_bt1.="<td><textarea name='".$v['id']."' style='width:300px' placeholder='最大长度400' maxlength='400'></textarea></td></tr>";	
 					}else{
 						$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
 						$show_bt1.="<td><input type='text' name='".$v['id']."' ></td></tr>";	
@@ -351,6 +357,9 @@ class KehuController extends Controller {
 					}elseif($v['id']=="zdy3"){
 					$show_bt2.="<tr class='addtr'><td>".$v['name']."：</td>";
 					$show_bt2.="<td><input type='text'   class='qingyx' name='".$v['id']."'  onchange='yxyz(this)'></td></tr>";	
+					}elseif($v['id']=="zdy14"){
+						$show_bt2.="<tr class='addtr ncy' style='display: none;border:1px'><td>".$v['name']."：</td>";
+						$show_bt2.="<td><textarea name='".$v['id']."' style='width:300px' placeholder='最大长度400' maxlength='400'></textarea></td></tr>";	
 					}else{
 						$show_bt2.="<tr class='addtr ncy' style='display: none;border:1px'><td>".$v['name']."：</td>";
 						$show_bt2.="<td><input type='text' name='".$v['id']."' ></td></tr>";	
@@ -645,8 +654,17 @@ class KehuController extends Controller {
 																$xs123="
 																	<span id='wys{$id}'>".$r_v[$v_biaoti['id']]."</span>";
 															}
-											}
-											else
+											}elseif($v_biaoti['id']=='zdy14'){
+												$count=strlen($r_v[$v_biaoti['id']]);
+												if($count>40)
+												{
+													$aaaa=mb_substr($r_v[$v_biaoti['id']],0,40)."....";
+												}else{
+													$aaaa=$r_v[$v_biaoti['id']];
+												}
+												$xs123="<span id='wys{$id}' title='".$r_v[$v_biaoti['id']]."' style='cursor:pointer; '>".$aaaa."</span>";	
+
+											}else
 												$xs123="
 												<span id='wys{$id}'>".$r_v[$v_biaoti['id']]."</span>";
 										
@@ -1637,6 +1655,14 @@ class KehuController extends Controller {
 															}else{
 																$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$v.'</td></tr>';
 															}
+					}elseif($k=="zdy14"){
+						$count=strlen($v);
+						if($count>40){
+							$newbz=mb_substr($v,0,40)."....";
+						}else{
+							$newbz=$v;
+						}
+						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td><span title="'.$v.'" style="cursor:pointer ">'.$newbz.'</span></td></tr>';
 					}else{
 						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$v.'</td></tr>';
 					}
@@ -1720,7 +1746,8 @@ class KehuController extends Controller {
 						$tab3.='</select></td></tr>';
 						}elseif($k=="zdy3"){
 							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><input type="text" class="bianjiyo qingyx "  onchange="yxyz(this)" name="'.$k.'" value="'.$neww_kehu[$k].'"></td></tr>';
-						
+						}elseif($k=="zdy14"){
+							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><textarea type="text" class="bianjiyo" placeholder="最大长度400" maxlength="400" name="'.$k.'" style="50px">'.$neww_kehu[$k].'</textarea></tr>';
 						}else{
 
 							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><input type="text" class="bianjiyo" name="'.$k.'" value="'.$neww_kehu[$k].'"></td></tr>';
@@ -1762,6 +1789,9 @@ class KehuController extends Controller {
 							$tab3.="<tr ><td style='width:200px;'>".$v['name'].":</td><td ><input type='text'  class=' required1 text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  name='".$vywzd['id']."'></td></tr>";	
 						}elseif($k=="zdy3"){
 							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><input type="text" class="bianjiyo qingyx "  onchange="yxyz(this)" name="'.$k.'" value="'.$neww_kehu[$k].'"></td></tr>';
+						
+						}elseif($k=="zdy14"){
+							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><textarea type="text" class="bianjiyo" placeholder="最大长度400" maxlength="400" name="'.$k.'" value="'.$neww_kehu[$k].'"></textarea></tr>';
 						}else{
 
 							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><input type="text" class="bianjiyo" name="'.$k.'" value=""></td></tr>';	
