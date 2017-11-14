@@ -176,7 +176,17 @@ class LianxirenmingchengController extends Controller {
 						
 					//	var_dump($kehu);exit;
 						
-					}else{
+					}elseif($k=='zdy16'){
+							$aaa=strlen($lx_json[$k]);
+							if($aaa>40)
+							{
+								$bzhu=mb_substr($lx_json[$k],0,40,'utf-8')."···";	
+							}else{
+								$bzhu=$lx_json[$k];
+							}
+								$show.="<td> <span title=".$lx_json[$k]." style='cursor:pointer;margin-left:30px'>".$bzhu." </span></td>"	;
+							}
+							else{
 						$show.="<td><span style='margin-left:30px'>".$lx_json[$k]."</span></td>";
 					}
 					
@@ -193,6 +203,7 @@ class LianxirenmingchengController extends Controller {
 						$new_str1['type']=0;
 						$new_array[$new_str1['id']]=$new_str1;
 					}
+					//echo "<pre>";var_dump($new_array);exit;
 		foreach ($new_array as $k => $v){
 			$show1.="<tr style='line-height:40px'><td>".$v['name']."：</td>";
 				if($sql_lianxi[$k]!=""){
@@ -242,16 +253,18 @@ class LianxirenmingchengController extends Controller {
 					
 					}elseif($k=='zdy10'){
 
-						$show3.="<td><input type='text' name='".$k."'  class='qingyx'  onchange='yxyz(this)' style='width:220px;height:26px;' value='".$lx_json[$k]."'></td>";
+						$show3.="<td><input type='text' name='".$k."'  class='qingyx'  onchange='yxyz(this)' style='width:220px;height:26px;' value='".$lx_json[$k]."' maxlength='40'></td>";
+					}elseif($k=='zdy16'){
+						$show3.="<td><textarea name='".$k."' class='required' maxlength='400' style='width:220px' rows='4' cols='38' placeholder='最大长度400'>".$lx_json[$k]."</textarea></td>";
 					}elseif($k=='zdy5'){
 								$zuoji = explode('-',$lx_json[$k]);
 								if($zuoji[1]==''||$zuoji[1]==null){
 									$zuoji[1]=$zuoji[0];
 									$zuoji[0]='';
 								}
-								$show3.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$k."'' style='width:48px;height:26px;' value='".$zuoji[0]."'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:148px;height:26px;' class='jiaodiana' name='".$k."' value='".$zuoji[1]."'></td>";	
+								$show3.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$k."'' style='width:48px;height:26px;' value='".$zuoji[0]."'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:148px;height:26px;' maxlength='30' class='jiaodiana' name='".$k."' value='".$zuoji[1]."'></td>";	
 					}else{
-						$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;' value='".$lx_json[$k]."'></td>";
+						$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;' value='".$lx_json[$k]."' maxlength='40'></td>";
 					}
 					
 				}else{
@@ -271,14 +284,16 @@ class LianxirenmingchengController extends Controller {
 					
 						}elseif($k=='zdy10'){
 
-						$show3.="<td><input type='text' name='".$k."'  class='qingyx'  onchange='yxyz(this)' style='width:220px;height:26px;' placeholder='未填写'></td>";
+						$show3.="<td><input type='text' name='".$k."'  class='qingyx'  onchange='yxyz(this)' style='width:220px;height:26px;' placeholder='未填写' maxlength='40'></td>";
 						}elseif($k=='zdy6'){
 						$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;'  class=' qingyx1 ' onchange='sjyz(this)' placeholder='未填写'></td>";
 		
 						}elseif($k=='zdy5'){
-								$show3.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$k."'' style='width:48px;height:26px;' value='".$zuoji[0]."'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:148px;height:26px;' class='jiaodiana' name='".$k."' value='".$zuoji[1]."'></td>";	
+								$show3.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$k."'' style='width:48px;height:26px;' value='".$zuoji[0]."'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:148px;height:26px;' class='jiaodiana' name='".$k."' value='".$zuoji[1]."' maxlength='30'></td>";	
+						}elseif($k=='zdy16'){
+						$show3.="<td><textarea name='".$k."' class='required' maxlength='400' style='width:220px' rows='4' cols='38' placeholder='最大长度400'>".$lx_json[$k]."</textarea></td>";
 						}else{
-							$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;' placeholder='未填写' ></td>";
+							$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;' placeholder='未填写' maxlength='40'></td>";
 						}
 				}
 			$show3.="</tr>";

@@ -261,6 +261,17 @@ return $fzr_only;
 								$show_bt.="<td> ".$v[$k1]." </td>"	;
 							}
 								
+						}elseif($k1=="zdy16")
+						{
+							$aaa=strlen($v[$k1]);
+							if($aaa>40)
+							{
+								$bzhu=mb_substr($v[$k1],0,40,'utf-8')."···";	
+							}else{
+								$bzhu=$v[$k1];
+							}
+								$show_bt.="<td> <span title=".$v[$k1]." style='cursor:pointer'>".$bzhu." </span></td>"	;
+								
 						}elseif($k1=="lx_cj_date")
 						{
 							$show_bt.="<td> ".date("Y-m-d H:i:s",$v[$k1])."</td>"	;
@@ -326,7 +337,7 @@ return $fzr_only;
 						$add_yw.="</tr>";
 					}elseif($vywzd['id']=='zdy10'){
 						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='qingyx'  onchange='yxyz(this)' name='".$vywzd['id']."'></td>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='qingyx'  onchange='yxyz(this)' name='".$vywzd['id']."'  maxlength='40'></td>";
 						$add_yw.="</tr>";
 					}elseif($vywzd['id']=='zdy6'){
 						$add_yw.="<tr class='addtr'>";
@@ -336,18 +347,20 @@ return $fzr_only;
 					}
 					elseif($vywzd['id']=='zdy5'){
 							$add_yw.="<tr class='addtr'><td><span style='color:red'>*</span>".$vywzd['name'].":</td>";
-							$add_yw.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$vywzd['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodiana' name='".$vywzd['id']."'></td></tr>";	
-					}
-					else{
-						if($vywzd['id']=='zdy2'){
+							$add_yw.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$vywzd['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodiana' name='".$vywzd['id']."' maxlength='25'></td></tr>";	
+					}elseif($vywzd['id']=='zdy2'){
 							$add_yw.="<tr class='addtr'>";
 						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input class='danxuan' checked='checked'  name='".$vywzd['id']."' type='radio' value='男' />男<input name='".$vywzd['id']."' class='danxuan'  type='radio' value='女' />女</td>";
 						$add_yw.="</tr>";
-						}else{
+					}elseif($vywzd['id']=='zdy16'){
 						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required' name='".$vywzd['id']."'></td>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><textarea name='".$vywzd['id']."' class='required' maxlength='400' style='width:300px' rows='4' cols='38' placeholder='最大长度400'></textarea></td>";
 						$add_yw.="</tr>";
-						}
+					}
+					else{
+						$add_yw.="<tr class='addtr'>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required' name='".$vywzd['id']."' maxlength='50'></td>";
+						$add_yw.="</tr>";
 						
 					}
 				}elseif($vywzd['cy']==1)
@@ -375,13 +388,21 @@ return $fzr_only;
 						$add_yw1.="<tr class='addtr'>";
 						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='number' class='qingyx1'  onchange='sjyz(this)' name='".$vywzd['id']."'></td>";
 						$add_yw1.="</tr>";
+					}elseif($vywzd['id']=='zdy5'){
+							$add_yw.="<tr class='addtr'><td>".$vywzd['name'].":</td>";
+							$add_yw.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$vywzd['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodiana' name='".$vywzd['id']."' maxlength='25'></td></tr>";	
 					}elseif($vywzd['id']=='zdy10'){
 						$add_yw1.="<tr class='addtr'>";
-						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' class='qingyx'  onchange='yxyz(this)' name='".$vywzd['id']."'></td>";
+						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' class='qingyx'  onchange='yxyz(this)' name='".$vywzd['id']."' maxlength='40'></td>";
+						$add_yw1.="</tr>";
+					}
+					elseif($vywzd['id']=='zdy16'){
+						$add_yw1.="<tr class='addtr'>";
+						$add_yw1.="<td>".$vywzd['name'].":</td> <td><textarea name='".$vywzd['id']."' maxlength='400' style='width:300px' rows='4' cols='38' placeholder='最大长度400'></textarea></td>";
 						$add_yw1.="</tr>";
 					}else{
 						$add_yw1.="<tr class='addtr'>";
-						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'></td>";
+						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."' maxlength='50'></td>";
 						$add_yw1.="</tr>";
 					}
 				}else
@@ -416,20 +437,27 @@ return $fzr_only;
 		 				$add_yw2.="</td></tr>";
 					
 		 			}elseif($vywzd['id']=='zdy6'){
-						$add_yw2.="<tr class='addtr'>";
+						$add_yw2.="<tr class='addtr  ncy'>";
 						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='number' class='qingyx1'  onchange='sjyz(this)' name='".$vywzd['id']."'></td>";
 						$add_yw2.="</tr>";
-		 			}elseif($vywzd['id']=='zdy15'){
+		 			}elseif($vywzd['id']=='zdy5  ncy'){
+							$add_yw.="<tr class='addtr'><td><span style='color:red'>*</span>".$vywzd['name'].":</td>";
+							$add_yw.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$vywzd['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodiana' name='".$vywzd['id']."' maxlength='25'></td></tr>";	
+					}elseif($vywzd['id']=='zdy15'){
 		 				$add_yw2.="<tr class='addtr ncy'>";
 						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' class='ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." name='".$vywzd['id']."'></td>";
 						$add_yw2.="</tr>";
 					}elseif($vywzd['id']=='zdy10'){
-						$add_yw2.="<tr class='addtr ncy'>";
-						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text'  class='qingyx'  onchange='yxyz(this)'  name='".$vywzd['id']."'></td>";
+						$add_yw2.="<tr class='addtr  ncy'>";
+						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text'  class='qingyx'  onchange='yxyz(this)'  name='".$vywzd['id']."' maxlength='40'></td>";
+						$add_yw2.="</tr>";
+					}elseif($vywzd['id']=='zdy16'){
+						$add_yw2.="<tr class='addtr  ncy'>";
+						$add_yw2.="<td>".$vywzd['name'].":</td> <td><textarea name='".$vywzd['id']."' maxlength='400' style='width:300px' rows='4' cols='38' placeholder='最大长度400'></textarea></td>";
 						$add_yw2.="</tr>";
 					}else{
 						$add_yw2.="<tr class='addtr ncy'>";
-						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'></td>";
+						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."' maxlength='50'></td>";
 						$add_yw2.="</tr>";
 					}
 				}
@@ -796,6 +824,8 @@ return $fzr_only;
 				$new_qy[]=$qy_arr;
 			}
 		}
+		// echo "<pre>";
+		// var_dump($new_qy);exit;
 		$a_arr=$new_qy;
 		foreach($a_arr as $k=>$v)
 		{
@@ -828,17 +858,19 @@ return $fzr_only;
 				
 				}elseif($v['id']=='zdy3'){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-					$show_bt.="<td><input type='text'  class='required1 qingyx' name='".$v['id']."'  onchange='yxyz(this)'</td></tr>";	
+					$show_bt.="<td><input type='text'  class='required1 qingyx' name='".$v['id']."'  onchange='yxyz(this)' maxlength='35'></td></tr>";	
 				}elseif($v['id']=='zdy0'){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-					$show_bt.="<td><input type='text'  class='required1' id= 'wyszdy0' onkeyup='kh_name_if(this)' name='".$v['id']."'></td></tr>";	
+					$show_bt.="<td><input type='text'  class='required1' id= 'wyszdy0' onkeyup='kh_name_if(this)' name='".$v['id']."' maxlength='50'></td></tr>";	
 				}elseif($v['id']=='zdy2'){
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-						$show_bt.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."''></td></tr>";
-				}
-					else{
+						$show_bt.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."' maxlength='25'></td></tr>";
+				}elseif($v['id']=='zdy14'){
+						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
+						$show_bt.="<td><textarea name='".$v['id']."' maxlength='400' style='width:300px' rows='4' cols='38' placeholder='最大长度400'></textarea></td></tr>";
+				}else{
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-					$show_bt.="<td><input type='text'  class='required1' name='".$v['id']."'></td></tr>";	
+					$show_bt.="<td><input type='text'  class='required1' name='".$v['id']."' maxlength='50'></td></tr>";	
 				}	
 			}
 	
