@@ -221,6 +221,7 @@ class KehuController extends Controller {
 				$pl_bj_arr[]=$pl_bj;
 			}
 		}
+		//echo "<pre>";var_dump($a_arr);exit;
 		foreach($a_arr as $k=>$v)
 		{
 			if($v['bt']==1)
@@ -266,22 +267,22 @@ class KehuController extends Controller {
 				
 				}elseif($v['id']=='zdy2'){
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-						$show_bt.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."''></td></tr>";	
+						$show_bt.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."'' maxlength='25'></td></tr>";	
 				
 				
 				}elseif($v['id']=='zdy0'){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-					$show_bt.="<td><input type='text'  class=' required' id= 'wyszdy0' onkeyup='kh_name_if(this)' name='".$v['id']."'></td></tr>";	
+					$show_bt.="<td><input type='text'  class=' required' id= 'wyszdy0' onkeyup='kh_name_if(this)' name='".$v['id']."' maxlength='40'></td></tr>";	
 				}elseif($v['id']=="zdy3"){
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-					$show_bt.="<td><input type='text'   class='required qingyx' name='".$v['id']."'  onchange='yxyz(this)'></td></tr>";
+					$show_bt.="<td><input type='text'   class='required qingyx' name='".$v['id']."'  onchange='yxyz(this)' maxlength='40'></td></tr>";
 
 				}elseif($v['id']=="zdy14"){
 						$show_bt.="<tr class='addtr ' style='display: none;border:1px'><td><span style='color:red'>*</span>".$v['name']."：</td>";
 						$show_bt.="<td><textarea name='".$v['id']."' style='width:300px'   class='required' placeholder='最大长度400' maxlength='400'></textarea></td></tr>";	
 				}else{
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-					$show_bt.="<td><input type='text'  class='required' name='".$v['id']."'></td></tr>";	
+					$show_bt.="<td><input type='text'  class='required' name='".$v['id']."' maxlength='40'></td></tr>";	
 				}
 
 			}else{
@@ -304,7 +305,7 @@ class KehuController extends Controller {
 						$show_bt1.="<td><input type='text' name='".$v['id']."'  class=' ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td></tr>";	
 					}elseif($v['id']=='zdy2'){
 						$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
-						$show_bt1.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."''></td></tr>";	
+						$show_bt1.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."' maxlength='25'></td></tr>";	
 				
 					}elseif($v['id']=='zdy6'){
 						$show_bt1.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
@@ -316,13 +317,13 @@ class KehuController extends Controller {
 		 				$show_bt1.="</td></tr>";
 					}elseif($v['id']=="zdy3"){
 					$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
-					$show_bt1.="<td><input type='text'   class='qingyx' name='".$v['id']."' onchange='yxyz(this)'></td></tr>";	
+					$show_bt1.="<td><input type='text'   class='qingyx' name='".$v['id']."' onchange='yxyz(this)' maxlength='40'></td></tr>";	
 					}elseif($v['id']=="zdy14"){
 						$show_bt1.="<tr class='addtr ' style='display: none;border:1px'><td>".$v['name']."：</td>";
 						$show_bt1.="<td><textarea name='".$v['id']."' style='width:300px' placeholder='最大长度400' maxlength='400'></textarea></td></tr>";	
 					}else{
 						$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
-						$show_bt1.="<td><input type='text' name='".$v['id']."' ></td></tr>";	
+						$show_bt1.="<td><input type='text' name='".$v['id']."' maxlength='40'></td></tr>";	
 					}		
 				}else{
 					
@@ -352,17 +353,17 @@ class KehuController extends Controller {
 
 		 			}elseif($v['id']=='zdy2'){
 						$show_bt2.="<tr class='addtr'><td>".$v['name']."：</td>";
-						$show_bt2.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."''></td></tr>";	
+						$show_bt2.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."' maxlength='25'></td></tr>";	
 					
 					}elseif($v['id']=="zdy3"){
 					$show_bt2.="<tr class='addtr'><td>".$v['name']."：</td>";
-					$show_bt2.="<td><input type='text'   class='qingyx' name='".$v['id']."'  onchange='yxyz(this)'></td></tr>";	
+					$show_bt2.="<td><input type='text'   class='qingyx' name='".$v['id']."'  onchange='yxyz(this)' maxlength='40'></td></tr>";	
 					}elseif($v['id']=="zdy14"){
 						$show_bt2.="<tr class='addtr ncy' style='display: none;border:1px'><td>".$v['name']."：</td>";
 						$show_bt2.="<td><textarea name='".$v['id']."' style='width:300px' placeholder='最大长度400' maxlength='400'></textarea></td></tr>";	
 					}else{
 						$show_bt2.="<tr class='addtr ncy' style='display: none;border:1px'><td>".$v['name']."：</td>";
-						$show_bt2.="<td><input type='text' name='".$v['id']."' ></td></tr>";	
+						$show_bt2.="<td><input type='text' name='".$v['id']."' maxlength='40'></td></tr>";	
 					}	
 				}
 			}
@@ -3043,16 +3044,20 @@ public function save(){
 							$add_yw.="<tr class='addtr'>";
 						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input class='required1' checked='checked'  name='".$vywzd['id']."' type='radio' value='男' style='width:30px'/>男<input name='".$vywzd['id']."' class='required1'  type='radio' value='女' style='width:30px'/>女</td>";
 						$add_yw.="</tr>";
+						}elseif($vywzd['id']=='zdy15'){
+						$add_yw.="<tr class='addtr'>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d'".'})"'." name='".$vywzd['id']."'></td>";
+						$add_yw.="</tr>";
 						}elseif($vywzd['id']=='zdy5'){
 								$add_yw.="<tr class='addtr'><td><span style='color:red'>*</span>".$vywzd['name'].":</td>";
-								$add_yw.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$vywzd['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodiana' name='".$vywzd['id']."''></td></tr>";	
+								$add_yw.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$vywzd['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodiana' name='".$vywzd['id']."' maxlength='25'></td></tr>";	
 						}elseif($vywzd['id']=='zdy6'){
 						$add_yw.="<tr class='addtr'>";
 						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='number' class='required1 qingyx1' id='".$vywzd['id']."' name='".$vywzd['id']."' onchange='sjyz(this)' ></td>";
 						$add_yw.="</tr>";
 						}else{
 						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required1' id='".$vywzd['id']."' name='".$vywzd['id']."'></td>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required1' id='".$vywzd['id']."' name='".$vywzd['id']."' maxlength='40'></td>";
 						$add_yw.="</tr>";
 						}
 					}
