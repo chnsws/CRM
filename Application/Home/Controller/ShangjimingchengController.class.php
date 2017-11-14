@@ -175,10 +175,10 @@ return $fzr_only;
 		foreach($biaoti as $kbt=>$vbt)
 		{
 			
-			if($kbt!='zdy2'){
+			if($kbt!='zdy2' && $kbt!='zdy6'){
 				$show.="<tr class='ways'><td width='200xp'>".$vbt['name'].":</td>";
 				if($sql_rh[$kbt]=="")
-				{
+				{	
 					$show.="<td>未填写</td>";
 				}else{
 					if($kbt=="zdy1")
@@ -193,7 +193,10 @@ return $fzr_only;
 						}
 						
 					}elseif($kbt=="zdy2"){
+					
 						//2就是空
+						}elseif($kbt=="zdy6"){
+						//4就是空
 					}elseif($kbt=="zdy5"){	
 						
 						foreach( $ywcs[$kbt] as $k=>$v)
