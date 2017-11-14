@@ -278,7 +278,7 @@ class KehuController extends Controller {
 					$show_bt.="<td><input type='text'   class='required qingyx' name='".$v['id']."'  onchange='yxyz(this)' maxlength='40'></td></tr>";
 
 				}elseif($v['id']=="zdy14"){
-						$show_bt.="<tr class='addtr ' style='display: none;border:1px'><td><span style='color:red'>*</span>".$v['name']."：</td>";
+						$show_bt.="<tr class='addtr ' ><td><span style='color:red'>*</span>".$v['name']."：</td>";
 						$show_bt.="<td><textarea name='".$v['id']."' style='width:300px'   class='required' placeholder='最大长度400' maxlength='400'></textarea></td></tr>";	
 				}else{
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
@@ -319,7 +319,7 @@ class KehuController extends Controller {
 					$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
 					$show_bt1.="<td><input type='text'   class='qingyx' name='".$v['id']."' onchange='yxyz(this)' maxlength='40'></td></tr>";	
 					}elseif($v['id']=="zdy14"){
-						$show_bt1.="<tr class='addtr ' style='display: none;border:1px'><td>".$v['name']."：</td>";
+						$show_bt1.="<tr class='addtr '><td>".$v['name']."：</td>";
 						$show_bt1.="<td><textarea name='".$v['id']."' style='width:300px' placeholder='最大长度400' maxlength='400'></textarea></td></tr>";	
 					}else{
 						$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
