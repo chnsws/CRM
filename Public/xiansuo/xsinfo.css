@@ -31,8 +31,8 @@ td a{color:#1AA094!important;text-decoration: none!important;}
 #jibenxinxi .xxtitle{height:30px; line-height: 20px;border-bottom:1px solid #ccc;color:#666;font-weight:bold;margin-right:-10px;}
 #jibenxinxi table{margin-bottom:20px;}
 #jibenxinxi table td{height:50px;line-height: 50px;}
-#jibenxinxi table tr>td:first-child{font-weight:bold;}
-#jibenxinxi table tr>td:last-child{text-indent:2em;max-width:100%;}
+#jibenxinxi table tr>td:first-child{font-weight:bold;min-width:100px;width:10%;vertical-align: top;}
+#jibenxinxi table tr>td:last-child{text-indent:2em;}
 
 
 #add_genjin{height:28px;line-height: 28px;float:right;padding-left:10px!important;padding-right:10px!important;}
@@ -91,7 +91,7 @@ td a{color:#1AA094!important;text-decoration: none!important;}
 #tab2 div{margin-top:10px;}
 #tab2 div i{margin-right:5px;}
 #tab2 div>table>thead>tr>th{background:#50BBB1;color:#fff;border:none;}
-
+#tab2 .layui-btn{height: 30px;line-height: 30px;font-size: 14px;}
 /*跟进记录-暂无跟进记录*/
 
 

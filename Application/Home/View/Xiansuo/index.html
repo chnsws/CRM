@@ -908,6 +908,7 @@ function xinzengxiansuo_show()
                 var asd={};
                 var have_diqu=0;
                 var need_stop=0;
+                var patrn = /^[0-9]*$/;  
                 $("#xinzengxiansuodiv").find("tbody").children("tr").each(function(){
                     if($(this).children("td").eq(1).html()=='')
                     {
@@ -932,6 +933,36 @@ function xinzengxiansuo_show()
                     else if(this_zd_id=='fuzeren')
                     {
                         this_zd_val=$(this).children("td").eq(1).children("select").val();
+                    }
+                    else if(this_zd_id=='zdy5')
+                    { 
+                        this_zd_val=$(this).children("td").eq(1).children("input").val();
+                        if(this_zd_val!='')
+                        {
+                            if(!patrn.test(this_zd_val)||this_zd_val.length!=11)
+                            {
+                                need_stop="手机号格式错误";
+                            }
+                        }
+                    }
+                    else if(this_zd_id=='zdy4')
+                    { 
+                        if($(this).children("td").eq(1).children("input").eq(0).val()!=''||$(this).children("td").eq(1).children("input").eq(1).val()!='')
+                        {
+                            if (!patrn.test($(this).children("td").eq(1).children("input").eq(0).val())||!patrn.test($(this).children("td").eq(1).children("input").eq(1).val())) {
+                                need_stop="电话必须为数字";
+                            }  
+                        }
+                        this_zd_val=$(this).children("td").eq(1).children("input").eq(0).val()==''?$(this).children("td").eq(1).children("input").eq(1).val():$(this).children("td").eq(1).children("input").eq(0).val()+'-'+$(this).children("td").eq(1).children("input").eq(1).val();
+                    }
+                    else if(this_zd_id=='zdy9')
+                    {
+                        this_zd_val=$(this).children("td").eq(1).children("input").val();
+                        var reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/; 
+                        if(this_zd_val!=''&&!reg.test(this_zd_val))
+                        {
+                            need_stop="邮箱格式不正确";
+                        }
                     }
                     else
                     {
@@ -972,11 +1003,16 @@ function xinzengxiansuo_show()
                     var diquname=diquname1+diquname2+diquname3;
                     ajax_str+='"diquname":"'+diquname+'",';
                 }
-                
                 if(need_stop==1)
                 {
                     layer.close(jiazai);
                     tishi("必填项不能为空");
+                    return false;
+                }
+                if(need_stop!=0)
+                {
+                    layer.close(jiazai);
+                    tishi(need_stop);
                     return false;
                 }
                 if($("#add_fuzeren").children("td").eq(1).children("select").val()=='0'||$("#add_fuzeren").children("td").eq(1).children("select").val()=='')

@@ -10,27 +10,28 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta charset="utf-8">
-<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
-<link rel="stylesheet" href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" media="all">
-<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="{$_GET['public_dir']}/xiansuo/xsinfo.css">
-<link rel="stylesheet" href="{$_GET['public_dir']}/report/time_axis.css">
+<script src="__PUBLIC__/jquery/jquery.js"></script>
+<script src="__PUBLIC__/jquery/searchable/jquery.searchableSelect.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/jquery/searchable/jquery.searchableSelect.css" media="all">
+<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="__PUBLIC__/xiansuo/xsinfo.css">
+<link rel="stylesheet" href="__PUBLIC__/report/time_axis.css">
 <!--layUI-->
-<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+<script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
 <!--UIkit-->
-<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+<script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
 <!--select2-->
-<link rel="stylesheet" href="{$_GET['public_dir']}/select2/css/select2.min.css" />
-<script src="{$_GET['public_dir']}/select2/js/select2.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/select2/css/select2.min.css" />
+<script src="__PUBLIC__/select2/js/select2.min.js"></script>
 <!--UIKIT时间-->
-<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/datepicker.css" />
-<script src="{$_GET['public_dir']}/uikit/js/components/datepicker.js"></script>
-<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/sticky.css" />
-<script src="{$_GET['public_dir']}/uikit/js/components/sticky.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/uikit/css/components/datepicker.css" />
+<script src="__PUBLIC__/uikit/js/components/datepicker.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/uikit/css/components/sticky.css" />
+<script src="__PUBLIC__/uikit/js/components/sticky.js"></script>
 <style>
+    .timestyle{font-size: 12px;}
 </style>
 </head>
 <body>
@@ -249,7 +250,7 @@
         </tr>
         <tr>
             <td>联系人电话：</td>
-            <td><input type="text" id="lxrphone" placeholder="请填写该客户的联系人电话"></td>
+            <td><input type="text" id="lxrphone" value="{$lxphone}" placeholder="请填写该客户的联系人电话"></td>
         </tr>
     </table>
 </div>
@@ -443,6 +444,7 @@ function bianji()
                 var ajax_str='';
                 var have_diqu=0;
                 var need_stop=0;
+                var patrn = /^[0-9]*$/;  
                 $("#xinzengxiansuodiv").find("tbody").children("tr").each(function(){
                     if($(this).children("td").eq(1).html()=='')
                     {
@@ -458,6 +460,37 @@ function bianji()
                     else if(this_zd_id=='zdy17')
                     {
                         this_zd_val=$(this).children("td").eq(1).children("textarea").val();
+                    }
+                    else if(this_zd_id=='zdy5')
+                    { 
+                        this_zd_val=$(this).children("td").eq(1).children("input").val();
+                        if(this_zd_val!='')
+                        {
+                            if(!patrn.test(this_zd_val)||this_zd_val.length!=11)
+                            {
+                                need_stop="手机号格式错误";
+                            }
+                        }
+                    }
+                    else if(this_zd_id=='zdy4')
+                    {
+                        if($(this).children("td").eq(1).children("input").eq(0).val()!=''||$(this).children("td").eq(1).children("input").eq(1).val()!='')
+                        {
+                            if (!patrn.test($(this).children("td").eq(1).children("input").eq(0).val())||!patrn.test($(this).children("td").eq(1).children("input").eq(1).val())) {  
+                                need_stop="电话必须为数字";
+                            } 
+                        }
+                        this_zd_val=$(this).children("td").eq(1).children("input").eq(0).val()==''?$(this).children("td").eq(1).children("input").eq(1).val():$(this).children("td").eq(1).children("input").eq(0).val()+'-'+$(this).children("td").eq(1).children("input").eq(1).val();
+                    }
+                    
+                    else if(this_zd_id=='zdy9')
+                    {
+                        this_zd_val=$(this).children("td").eq(1).children("input").val();
+                        var reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/; 
+                        if(this_zd_val!=''&&!reg.test(this_zd_val))
+                        {
+                            need_stop="邮箱格式不正确";
+                        }
                     }
                     else if(this_zd_id=='zdy14'||this_zd_id=='zdy15')
                     {
@@ -511,6 +544,12 @@ function bianji()
                 {
                     layer.close(jiazai);
                     tishi("必填项不能为空");
+                    return false;
+                }
+                if(need_stop!=0)
+                {
+                    layer.close(jiazai);
+                    tishi(need_stop);
                     return false;
                 }
                 ajax_str='{'+ajax_str.substr(0,ajax_str.length-1)+'}';
@@ -589,8 +628,8 @@ function add_diqu_listen()
     var sheng='0';
     if(diqu_is_load==0)
     {
-        jQuery.getScript("{$_GET['public_dir']}/index_js_css/datas/area_data.js", function(data, status, jqxhr) {
-            jQuery.getScript("{$_GET['public_dir']}/xiansuo/diqu.js", function(data, status, jqxhr) {
+        jQuery.getScript("__PUBLIC__/index_js_css/datas/area_data.js", function(data, status, jqxhr) {
+            jQuery.getScript("__PUBLIC__/xiansuo/diqu.js", function(data, status, jqxhr) {
                 $("#xinzengxiansuodiv").find(".add_diqu").eq(0).on("change",function(){
                     if($(this).val()!=0)
                     {
@@ -671,40 +710,58 @@ function zhuankehu()
                     tishi("联系人电话不能为空");
                     return;
                 }
-                layer.open({
-                    type:0,
-                    title: '提示',
-                    fixed: false,
-                    btn:["确定","取消"],
-                    content:"确定将此线索转成客户？",
-                    btn1:function(index,layero){
-                        window.jiazai=layer.load(2);
-                        var thisxsid="{$_GET['xs_id']}";
-                        thisxsid=thisxsid.substr(6);
-                        $.get(root_dir+"/index.php/Home/Xiansuo/xs_to_kh",{"thisxsid":thisxsid,"zdy0":zdy0,"lxrname":lxrname,"lxrphone":lxrphone},function(res){
-                            errorFun(res);
-                            if(res=='1')
-                            {
-                                window.location=root_dir+"/index.php/Home/Xiansuo/index";
-                            }
-                            else if(res=='2')
-                            {
-                                layer.close(jiazai);
-                                tishi("当前没有设置负责人，无法转为客户");
-                                return false;
-                            }
-                            else
-                            {
-                                tishi("操作失败，请稍后重试");
-                                layer.close(jiazai);
-                                return false;
-                            }
-                        });
-                    },
-                    btn2:function(index,layero){
-                        layer.close(index);
+                var obj=layer.msg('正在验证，请稍后...', {
+                    icon: 16,
+                    shade:0.01,
+                    area:'200px',
+                    time:99999999
+                });
+                //判断此客户是否存在
+                $.get("__ROOT__/index.php/Home/Kehu/kh_name_if",{"id":zdy0},function(res){
+                    errorFun(res);
+                    if(res!='')
+                    {
+                        tishi("客户："+zdy0+"  已存在");
                     }
-                }); 
+                    else
+                    {
+                        layer.open({
+                            type:0,
+                            title: '提示',
+                            fixed: false,
+                            btn:["确定","取消"],
+                            content:"确定将此线索转成客户？",
+                            btn1:function(index,layero){
+                                window.jiazai=layer.load(2);
+                                var thisxsid="{$_GET['xs_id']}";
+                                thisxsid=thisxsid.substr(6);
+                                $.get(root_dir+"/index.php/Home/Xiansuo/xs_to_kh",{"thisxsid":thisxsid,"zdy0":zdy0,"lxrname":lxrname,"lxrphone":lxrphone},function(res){
+                                    errorFun(res);
+                                    if(res=='1')
+                                    {
+                                        window.location=root_dir+"/index.php/Home/Xiansuo/index";
+                                    }
+                                    else if(res=='2')
+                                    {
+                                        layer.close(jiazai);
+                                        tishi("当前没有设置负责人，无法转为客户");
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        tishi("操作失败，请稍后重试");
+                                        layer.close(jiazai);
+                                        return false;
+                                    }
+                                });
+                            },
+                            btn2:function(index,layero){
+                                layer.close(index);
+                            }
+                        }); 
+                    }
+                });
+                
             },
             btn2:function(index,layero){
                 layer.close(zhuankehudiv);
@@ -912,6 +969,35 @@ function reload_to_fujian()
     var xsid="{$_GET['xs_id']}";
     var now_page_url=get_url_val("none");
     window.location=root_dir+"/index.php/Home/Xiansuo/xsinfo?tofj=1&xs_id="+xsid+now_page_url;
+}
+//删除跟进记录
+function del_gj(gj_id)
+{
+    var thisxsid="{$_GET['xs_id']}";
+    layer.msg('确认删除？', {
+      icon: 3,
+      btn: ['确认','取消'],
+      time:18000,
+      btn1:function(){
+        window.jiazai=layer.msg('正在删除，请稍后...', {
+            icon: 16,
+            shade:0.01,
+            area:'200px',
+            time:99999999
+        });
+        $.get("__ROOT__/index.php/Home/Xiansuo/delgenjin",{xsid:thisxsid,gjid:gj_id},function(res){
+            errorFun(res);
+            if(res=='1')
+            {
+                window.location.reload();
+            }
+            else
+            {
+                tishi("删除失败，轻稍后重试");
+            }
+        });
+      }
+    });
 }
 //获取URL中剩余的值，可以删除一个值
 function get_url_val(without)

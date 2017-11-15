@@ -81,6 +81,13 @@ class XiansuoController extends DBController {
 								</td>
 							</tr>';
 			}
+			else if($k=='zdy4')
+			{
+				$add_table='<tr id="add_zdy4">
+								<td>'.$bt.$v['name'].'</td>
+								<td><input type="text" style="width:60px;"><span style="display:inline-block;width:10px;text-align:center;">-</span><input type="text" style="width:280px;float:right;"></td>
+							</tr>';
+			}
 			//备注特殊处理
 			else if($k=='zdy17')
 			{
@@ -431,7 +438,7 @@ class XiansuoController extends DBController {
 		$myXsStr=$this->get_xiashu_id();
 		$this_xs_arr=parent::sel_one_data("crm_xiansuo","*","xs_yh='$fid' and xs_fz in ($myXsStr) and xs_id='$xiansuoid'");
 		
-		
+
 		$this_json_data=json_decode($this_xs_arr['xs_data'],true);
 		foreach($this_xs_arr as $k=>$v)
 		{
@@ -441,7 +448,6 @@ class XiansuoController extends DBController {
 			}
 			$this_json_data[$k]=$v;
 		}
-		
 		//添加弹出框内容查询
 		$px=$this->get_xs_px($fid);
 		$pxzdarr=$this->px_zd($zdarr,$px);
@@ -521,6 +527,20 @@ class XiansuoController extends DBController {
 										'.$opt3.'
 									</select>
 								</td>
+							</tr>';
+			}
+			else if($k=='zdy4')
+			{
+				$xinxi_table.='<tr><td>'.$v['name'].'</td><td>'.$this_json_data[$k].'</td></tr>';
+				$phone=explode("-",$this_json_data[$k]);
+				if(count($phone)<2)
+				{
+					$phone[1]=$phone[0];
+					$phone[0]='';
+				}
+				$add_table='<tr id="add_zdy4">
+								<td>'.$bt.$v['name'].'</td>
+								<td><input type="text" style="width:60px;" value="'.$phone[0].'"><span style="display:inline-block;width:10px;text-align:center;">-</span><input type="text" style="width:280px;float:right;" value="'.$phone[1].'"></td>
 							</tr>';
 			}
 			//备注特殊处理
@@ -621,7 +641,7 @@ class XiansuoController extends DBController {
 			$genjinfangshi_name_arr[$k]=$v;
 		}
 		//跟进记录的查询
-		$genjinarr=parent::sel_more_data("crm_xiegenjin","user_id,type,content,date,add_time","mode_id='1' and genjin_yh='$fid' and kh_id='$xiansuoid' order by add_time desc");
+		$genjinarr=parent::sel_more_data("crm_xiegenjin","genjin_id,user_id,type,content,date,add_time","mode_id='1' and genjin_yh='$fid' and kh_id='$xiansuoid' order by add_time desc");
 		$genjin_str='';
 		if(count($genjinarr)>0)
 		{
@@ -643,9 +663,9 @@ class XiansuoController extends DBController {
 													<img src="" class="gj_headimg" />
 													<span class="user_name">
 													'.$username_arr[$v['user_id']].
-													'</span><i class="fa fa-caret-right"></i><span class="gj_fangshi">'.$genjinfangshi_name_arr[$v['type']].'
+													'</span>：<span class="timestyle">'.$add_time_time.'</span><i class="fa fa-caret-right"></i><span class="gj_fangshi">'.$genjinfangshi_name_arr[$v['type']].'
 													</span>
-													<span class="gj_body_content_shiji_time">'.$add_time_time.'</span>
+													<span class="gj_body_content_shiji_time"><a onclick="del_gj('.$v['genjin_id'].')" class="uk-icon-hover uk-icon-trash"></a></span>
 												</div>
 												<div class="gj_body_content_content">'.$v['content'].'</div>
 												<div class="gj_body_content_time">下次跟进时间：'.$v['date'].'</div>
@@ -717,6 +737,8 @@ class XiansuoController extends DBController {
 		$this->assign("kh_name",$this_json_data['zdy1']);
 		//本条线索是否已经转成客户了
 		$this->assign("is_to_kh",$this_xs_arr['xs_is_to_kh']);
+		//本条线索转客户时的电话
+		$this->assign("lxphone",$this_json_data['zdy4']);
 		
 		$this->display();
 	}
@@ -964,7 +986,7 @@ class XiansuoController extends DBController {
 		{
 			foreach($gjarr as $v)
 			{
-				$insert_str.="(null,'2','".$last_insert_id."','".$v['user_id']."','".$cs[$v['type']]."','".$v['content']."','".date("Y-m-d H:i:s",$v['date'])."','".date("Y-m-d H:i:s",$v['add_time'])."','$fid',''),";
+				$insert_str.="(null,'2','".$last_insert_id."','".$v['user_id']."','".$cs[$v['type']]."','".$v['content']."','".date("Y-m-d H:i:s",$v['date'])."','".date("Y-m-d H:i:s",$v['add_time'])."','$fid','',''),";
 			}
 			$insert_str=substr($insert_str,0,-1);
 		}
@@ -1251,6 +1273,27 @@ class XiansuoController extends DBController {
 		}
 		$f=A("Filedo");
 		$f->getExcel("线索导入模板",$head,$data);
+	}
+	//删除线索中的跟进记录
+	public function delgenjin()
+	{
+		parent::is_login();
+		parent::have_qx("qx_xs_del");
+		$fid=parent::get_fid();
+		$xsid=addslashes($_GET['xsid']);
+		$gjid=addslashes($_GET['gjid']);
+		if($xsid==''||$gjid=='')
+		{
+			echo 0;die;
+		}
+		$genjin=M("xiegenjin");
+		$genjin->query("delete from crm_xiegenjin where genjin_id='$gjid' limit 1");
+		//查询线索名称
+		$xs=parent::sel_more_data("crm_xiansuo","xs_data","xs_id='".substr($xsid,6)."' limit 1");
+		$json=json_decode($xs[0]['xs_data'],true);
+		$xsname=$json['zdy0'];
+		//parent::rr($json);
+		echo $this->insertrizhi('0','3','删除了线索：'.$xsname.'中的跟进记录');
 	}
 	/*
 	======================================
