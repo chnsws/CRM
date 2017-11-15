@@ -226,7 +226,17 @@ return $fzr_only;
 							}
 						}
 							
-					}else{
+					}elseif($kbt=='zdy11'){
+							$aaa=strlen($sql_rh[$kbt]);
+							if($aaa>40)
+							{
+								$bzhu=mb_substr($sql_rh[$kbt],0,40,'utf-8')."···";	
+							}else{
+								$bzhu=$sql_rh[$kbt];
+							}
+								$show.="<td> <span title=".$sql_rh[$kbt]." style='cursor:pointer;'>".$bzhu." </span></td>"	;
+					}
+					else{
 						$show.="<td>".$sql_rh[$kbt]."</td> ";
 					}
 					
@@ -328,7 +338,10 @@ return $fzr_only;
 								
 						}elseif($kbt=="zdy4"|| $kbt=="zdy8" ||$kbt=="zdy10"){
 							$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." ></td> ";
-						}else{
+						}elseif($kbt=='zdy11'){
+							$show2.="<td><textarea name='".$kbt."'  maxlength='400' style='width:185px' rows='2' cols='38' placeholder='最大长度400'>".$sql_rh[$kbt]."</textarea></td>";
+						}
+						else{
 							$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."' ></td> ";
 						}
 				
