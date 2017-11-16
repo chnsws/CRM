@@ -86,15 +86,15 @@
 		</div>	
 		<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 		  <ul class="layui-tab-title">
-		    <li class="layui-this">基本信息</li>
+		    <li id='onese'>基本信息</li>
 		    <li>联系人</li>
-		    <li id="onese">产品</li>
-		    <li id="twose">附件</li>
+		    <li id="twose">产品</li>
+		    <li id="three">附件</li>
 		    <li>操作日志</li>
 		  </ul>
 		  </ul>
 		  <div class="layui-tab-content">
-		  	    <div class="layui-tab-item layui-show">
+		  	    <div class="layui-tab-item " id="onesh">
 		  	    <table style="margin-top:10px; border:1px solid #EEE; width:100%;">
 		  	    	<tr>
 		  	    		<td style="border:1px solid #EEE; width:49%;"  align="left" valign="top">
@@ -200,7 +200,7 @@
 						</tbody>
 					 </table>
 		  	     </div>
-		  	     <div class="layui-tab-item">
+		  	     <div class="layui-tab-item" id="twoth">
 		  	     	<input type="button" id="dialog-form" onclick="add_cp()" class="layui-btn layui-btn-small" value="+添加产品">
 		  	       	<table class="layui-table"  >
 					  	<thead>
@@ -265,7 +265,7 @@
 							</table>
 						</form>
 			  	  </div>
-		  	      <div class="layui-tab-item">
+		  	      <div class="layui-tab-item" id="threesh">
 				  	      <div >
 					  		<input type="button" id="dialog-form" onclick="fj_cp()" class="layui-btn layui-btn-small" value="+文件上传">
 					  		<table class="layui-table"  >
@@ -322,17 +322,21 @@
 		$('.xlss').searchableSelect();
  });
 	var uiid=$('.uiid').val();
-	if(uiid==2)
-	{
-		
-		$("#twose").attr('class','layui-this');
-		$("#er1").attr('class','layui-tab-item layui-show');
-	}
 	if(uiid==1)
 	{
 	
 		$("#onese").attr('class','layui-this');
-		$("#onesh1").attr('class','layui-tab-item layui-show');
+		$("#onesh").attr('class','layui-tab-item layui-show');
+	}if(uiid==3)
+	{
+		
+		$("#twose").attr('class','layui-this');
+		$("#twoth").attr('class','layui-tab-item layui-show');
+	}if(uiid==4)
+	{
+		
+		$("#three").attr('class','layui-this');
+		$("#threesh").attr('class','layui-tab-item layui-show');
 	}
 	function cp_jy_aj(b){
     			var jy = $(b).val();	
@@ -435,7 +439,7 @@
 									
 									$.get(rooturl+'/index.php/Home/Shangjimingcheng/add_cpa',{"id":vstr,'sj_id':$(".bingou").val()},
 							        		 function(html){
-									       		window.location.href="Hetongmingcheng?id="+$(".bingou").val()+"&uiid=2";
+									       		window.location.href="Hetongmingcheng?id="+$(".bingou").val()+"&uiid=3";
 							                   });
 									layer.close(win)
 								}

@@ -120,8 +120,11 @@ return $fzr_only;
 				$new_arrayoo[$k]=$new_str1;
 			}
 		$sj_id=$_GET['id'];
-
-		
+		$uiid=$_GET['uiid'];
+		if($uiid==""||$uiid==null){
+			$uiid=1;
+		}
+		$this->assign('uiid',$uiid);
 		$xiaji1= $this->get_xiashu_id();//  查询用户
 		$new_xiaji1=$xiaji1; 
 		$new_array1=explode(',',$new_xiaji1);	
@@ -434,17 +437,26 @@ return $fzr_only;
 					$xgj_show.="<table  style='margin-left:40%;margin-top:20%'><tr><td><i class='layui-icon' style='font-size: 140px; color: #999;'>&#xe64d;</i></td></tr>
 						 <tr><td ><span style='margin-left:25px;color:#999'>暂无跟进记录</span></tr> </table>";
 				}
+			//	echo "<pre>";
+			//	var_dump($sql_xiegenjin);exit;
 				foreach($sql_xiegenjin as $k=>$v)
 				{
-					$xgj_show.="<div class='gj_mod'>
-						<div class='gj_head'><div class='gj_head_point'></div><div class='gj_head_date'>".$v['add_time']."</div></div>
-						<div class='gj_body'>
+					$xgj_show.="<div class='gj_mod'>";
+						$da[$k] =substr($v['add_time'],0,10);
+							$daa[$k] =substr($v['add_time'],11,5);
+						if($da[$k]==$da[$k-1]){
+
+						}else{
+						$xgj_show.="<div class='gj_head'><div class='gj_head_point'></div><div class='gj_head_date'>".$da[$k]."</div></div>";
+						}
+				//	$xgj_show.=	"<div class='gj_head'><div class='gj_head_point'></div><div class='gj_head_date'>".$v['add_time']."</div></div>";
+					$xgj_show.=	"	<div class='gj_body'>
 							<div class='gj_body_icon'><i class='fa fa-pencil'></i></div>
 							<div class='gj_body_content'>
 								<div class='gj_body_content_head'>
 									<img src='' class='gj_headimg woca'>
 									<span class='user_name'>
-									".$user_dpment[$v['user_id']]['user_name']."</span><i class='fa fa-caret-right'></i><span class='gj_fangshi'>".$v['type'].":<span style='color:blue'>".$lx_json['zdy0']."</span>
+									".$user_dpment[$v['user_id']]['user_name']."</span>".$daa[$k]."<span class='gj_fangshi'>".$v['type'].":<span style='color:blue'>".$lx_json['zdy0']."</span>
 									</span>
 								<span style='float:right;cursor:pointer;' id='".$v['genjin_id']."' title='点击删除' onclick='del_gj(this)' ><i class='layui-icon'>&#xe640;</i>  </span>
 								</div>
@@ -725,7 +737,7 @@ return $fzr_only;
        			 	//$this->success("上传成功");
        			 	echo '<script>
        			 				alert("上传成功");
-       			 				window.location="'.$_GET['root_dir'].'/index.php/Home/Shangjimingcheng/shangjimingcheng/id/'.$sj_id.'";
+       			 				window.location="'.$_GET['root_dir'].'/index.php/Home/Shangjimingcheng/shangjimingcheng/id/'.$sj_id.'/uiid/4";
        			 				</script>';
        			 	
        			 }else{
