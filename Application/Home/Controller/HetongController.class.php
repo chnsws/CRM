@@ -1045,10 +1045,10 @@ public function kehu(){
 	public function add_ht(){
 		$id=$_GET['id'];
 	//	$id="zdy0:驱蚊器群,zdy1:277,zdy2:155,zdy3:444444,zdy4:2017-6-2 15:59:38,yyyy:2017-6-2 15:59:44,zdy6:2017-6-2 15:59:47,zdy7:canshu1,zdy15:2017-6-2 15:59:50,zdy8:00041,cpgd:添加产品,undefined:undefined,undefined:undefined,zdy10:,zdy11:,zdy12:,zdy13:,undefined:,undefined:undefined,undefined:undefined,zdy17:,zdy18:,ht_fz:1,ht_department:项目部-上海";
-		$new_arr=explode(',',$id);
+		$new_arr=explode(',￥￥',$id);
 		foreach($new_arr as $k=>$v)
 		{
-			$ex=explode(":",$v);
+			$ex=explode(":￥￥",$v);
 			if($ex['0']=="ht_fz")
 			{
 				$data['ht_fz']=$ex['1'];
@@ -1097,9 +1097,8 @@ public function kehu(){
 		}else{
 			echo 2;
 		}
-	
 	}
-	public function htselect(){
+		public function htselect(){
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
 		$ht_base=M('hetong');
 		$data_ht=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
@@ -1448,155 +1447,7 @@ public function kehu(){
 					echo $sql_fujian;
 			}
 
-	public function shaixuan(){
 
-		$id=$_GET['id'];
-		$new_id=substr($id,0,strlen($id)-1); 
-	//	$new_id="zdy7,2|kehujibie,1|zdy10,3|";
-		$new_arr=explode("|",$new_id);
-		foreach($new_arr as $k=>$v)
-		{
-			$new_arr2=explode(",",$v);
-			$new_arr3[]=$new_arr2;
-		}
-
-		//$new_arr_daoxu=array_reverse($new_arr3);
-		foreach($new_arr3 as $kget=>$vget)
-		{
-			$get[$vget[0]]=$vget;         //  zdy0   dom 下标4   求完每个标题的唯一了
-		}
-		
-		foreach($get as $kqb=>$vqb)
-		{
-			if($kqb!='kehujibie')
-			{
-				if($kqb!=''){
-					if($vqb['1']!='1')
-					{
-						$get1[$vqb['0']]=$vqb;
-					}
-				}
-			}
-		}
-
-		$get2=$get1;
-		$av=1;
-		foreach ($get2 as $k=>$v)
-		{
-			
-			$get3[$v['0']]="canshu".($v['1']-$av);       //把 2替换成canshu1
-
-		}
-		foreach($get as $kkh =>$vkh)
-		{
-			if($kkh=="kehujibie")
-			{
-				$kehu_jibie=$vkh['1'];                  //判断商机 是全部商机  我的商机还是 我下属的商机       //zh这里通用
-			}
-		}
-	
-		
-		$sj_base=M('hetong');
-		$xiaji= $this->get_xiashu_id();// 全部商机
-		$myid=cookie('user_id');//本人ID  
-		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件
-		$new_number=substr($xiaji,0,-(strlen($myid)+1));
-
-		if($kehu_jibie=="3"){ 
-			$userarr=$sj_base->query("select * from crm_hetong where ht_yh='$map' and ht_fz IN ($new_number)");                  //全部客户
-			
-		}elseif($kehu_jibie=="2"){               //我的客户
-			$userarr=$sj_base->query("select * from crm_hetong where ht_yh='$map' and ht_fz ='$myid' ");
-
-		}else{                                   //我下属的客户
-			$userarr=$sj_base->query("select * from  crm_hetong where ht_yh='$map' and ht_fz IN ($xiaji)");
-		}
-		foreach($userarr as $v)
-		{
-			foreach($v as $k1 =>$v1)
-			{
-				if($k1!='ht_data')
-				{
-					$ht_sql[$k1]=$v1;
-				}else{
-					$ht_json=json_decode($v[$k1],true);
-					foreach($ht_json as $k2=>$v2)
-					{
-						$ht_sql[$k2]=$v2;
-					}
-				}
-				$ht_sql2[$v['ht_id']]=$ht_sql;
-			}
-			
-		}
-		foreach($ht_sql2 as $k=>$v)
-		{
-				if($v['zdy7']==$get3['zdy7'] || $get3['zdy7']=='' )
-				{
-					if($v['zdy10']==$get3['zdy10'] || $get3['zdy10']=='' )
-					{
-						if($v['zdy11']==$get3['zdy11'] || $get3['zdy11']=='' )
-						{
-							$ronghhh[]=$v;
-						}
-					}
-				}
-			
-		}
-		//echo "<pre>";
-		//var_dump($get3);exit;
-		$ywzd=$this->ywzd();
-		$kehu=$this->kehu();
-		$ywcs=$this->ywcs();
-		$shangji=$this->shangji();
-		$user=$this->user();
-		$array_jiansuo=array('ht_fz'=>"负责人",'ht_bm'=>"部门",'ht_new_gj'=>"最新跟进记录",'ht_sj_gj_date'=>"最新跟进时间",'ht_cj'=>"创建人",'ht_old_fz'=>"原负责人",'ht_old_bm'=>"原负责人部门",'ht_cj_date'=>"创建时间","ht_gx_date"=>"更新时间");
-				foreach($array_jiansuo as $k=>$v){
-						$new_str1['id']=$k;
-						$new_str1['name']=$v;
-						$new_str1['qy']=1;
-						$new_str1['type']=0;
-						$new_arrayoo[$k]=$new_str1;
-					}
-
-		$ht_biaoti1=array_merge_recursive($ywzd,$new_arrayoo);//客户标题名字
-		$jw.="</tr>";
-		$hetong=$ronghhh; //替换合同
-		if($hetong=='' || $hetong==null)
-		{
-			$content="<span style='height:30px;line-height:30px;margin-left:100px;'>没有这条数据,快去<span onclick='addhetong()' style='color:#07d;cursor:pointer;'>添加</span>一条吧</span>";
-			echo $content;die;
-		}else{
-		foreach($hetong as $k=>$v)
-		{
-				$content.="<tr id='".$v['ht_id']."'><td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td>";
-			foreach($ht_biaoti1 as $kbt => $vbt)
-			{
-				if($v[$kbt]!="")
-				{
-					if($kbt=='zdy0')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/$id'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
-					elseif($kbt=='zdy1'){
-						$kh_mc=$kehu[$v[$kbt]]['name'];
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
-						}
-					elseif($kbt=='zdy2')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$v[$kbt]."".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
-					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
-							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
-					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz'||$kbt=='zdy13')
-						$content.="<td>".$user[$v[$kbt]]['user_name']."</td>";
-					else
-						$content.="<td>".$v[$kbt]."</td>";
-				}else{
-					$content.="<td>---</td>";
-				}
-				
-			}}
-			$content."</tr>";
-		}
-		echo $content;
-	}
 	public function rizhi($one="",$two="",$three="",$four="")
 	{
 		$sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
@@ -1619,84 +1470,7 @@ public function kehu(){
 		$rz_sql=$rz->add($rz_map);//查'			//删除增加日志
 		
 	}
-	public function sousuo(){
-		
-		$xiaji= $this->get_xiashu_id();//  查询下级ID
-		$kehu= $this->kehu();//  查询下
-		$shangji= $this->shangji();//  查询下
-		$user= $this->user();//  查询下
-		$ywcs= $this->ywcs();//  查询下
-		$name=$_GET['id'];
-		//$name="二级";
-		$json_name=json_encode($name,true);
-		$newstr = substr($json_name,0,strlen($json_name)-1); 
-		$first =substr($newstr,1);  
-		$tihuan= str_replace("\\", "\\\\\\\\", $first);
-		$ht_base=M('hetong');
-		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$hetong=$ht_base->query("select * from crm_hetong where ht_yh = '$yh' and ht_fz IN ($xiaji) and  ht_data like '%".$tihuan."%'");
-		
-			foreach($hetong as $k=>$v)
-				{
-					foreach($v as $kk=>$vv)
-					{
-						if($kk!='ht_data')
-							$ronghe[$k][$kk]=$vv;
-						else
-						{
-							$rowjson=json_decode($vv,true);
-							foreach($rowjson as $kkk=>$vvv)
-							{	
-								$ronghe[$k][$kkk]=$vvv;
-
-							}
-						}
-					}
-				}
-
-
-	$ywzd=$this->ywzd();
-		$array_jiansuo=array('ht_fz'=>"负责人",'ht_bm'=>"部门",'ht_new_gj'=>"最新跟进记录",'ht_sj_gj_date'=>"最新跟进时间",'ht_cj'=>"创建人",'ht_old_fz'=>"原负责人",'ht_old_bm'=>"原负责人部门",'ht_cj_date'=>"创建时间","ht_gx_date"=>"更新时间");
-				foreach($array_jiansuo as $k=>$v){
-						$new_str1['id']=$k;
-						$new_str1['name']=$v;
-						$new_str1['qy']=1;
-						$new_str1['type']=0;
-						$new_arrayoo[$k]=$new_str1;
-					}
-
-		$ht_biaoti1=array_merge_recursive($ywzd,$new_arrayoo);//客户标题名
 	
-		foreach($ronghe as $k=>$v)
-		{
-				$content.="<tr id='".$v['ht_id']."'><td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td>";
-			foreach($ht_biaoti1 as $kbt => $vbt)
-			{
-				if($v[$kbt]!="")
-				{
-					if($kbt=='zdy0')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
-					elseif($kbt=='zdy1'){
-						$kh_mc=$kehu[$v[$kbt]]['name'];
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
-						}
-					elseif($kbt=='zdy2')
-						$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:cursor:#50BBB1' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
-					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
-							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
-					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz'||$kbt=='zdy13')
-						$content.="<td>".$user[$v[$kbt]]['user_name']."</td>";
-					else
-						$content.="<td>".$v[$kbt]."</td>";
-				}else{
-					$content.="<td>---</td>";
-				}
-				
-			}
-			$content."</tr>";
-		}
-		echo $content;
-	}
 	public function add_shangji(){
 		$kh_id_sj=$_GET['id'];
 		//$kh_id_sj= "xz_kh";
@@ -1883,13 +1657,13 @@ public function kehu(){
 			$kh_id=$_GET['kh_id']; //选的客户
 			//$kh_id=104104;
 		//	$shangji="zdy0:小母牛1,undefined:undefined,zdy2:142,zdy3:60000,zdy4:2017-7-4 18:25:41,sj_fz:46,ht_department:技术部,";
-			$shangji_number=substr($shangji,0,strlen($shangji)-1); 
-			$shangji_arr=explode(',',$shangji_number);
+			$shangji_number=substr($shangji,0,strlen($shangji)-3); 
+			$shangji_arr=explode(',￥￥',$shangji_number);
 			
 			foreach($shangji_arr as $k=>$v)
 			{
-				$sj_ex=explode(":",$v);
-				if($sj_ex['0']=="")
+				$sj_ex=explode(":￥￥",$v);
+				if($sj_ex['0']=="sj_fz")
 				{
 					$sj_data["sj_fz"]=	$sj_ex['1'];//本人ID  ;
 				}elseif($sj_ex['0']=="ht_department")
@@ -1915,10 +1689,10 @@ public function kehu(){
 			{
 				$hetong=$_GET['ht'];
 			//	$hetong="zdy0:标题拍合同1,zdy1:104114,zdy2:晓明商机,zdy3:896000,zdy4:2017-7-13 18:11:34,zdy5:2017-7-4 18:11:37,zdy6:2017-7-4 18:11:40,zdy7:canshu1,zdy15:2017-7-4 18:11:42,zdy8:,cpgd:添加产品,undefined:undefined,undefined:undefined,zdy10:,zdy11:,zdy12:,zdy13:,undefined:,undefined:undefined,undefined:undefined,zdy17:,ht_fz:46,ht_department:技术部";
-					$ht_new_arr=explode(',',$hetong);
+					$ht_new_arr=explode(',￥￥',$hetong);
 					foreach($ht_new_arr as $k=>$v)
 					{
-						$ht_ex=explode(":",$v);
+						$ht_ex=explode(":￥￥",$v);
 						if($ht_ex['0']=="ht_fz")
 						{
 							$ht_data['ht_fz']=$ht_ex['1'];
@@ -1971,12 +1745,12 @@ public function kehu(){
 				if($lxr_id_sel=="lslxr"){     //先添加联系人 这里是  新增的 else 是选择的
 					$lxr75=$_GET['lxr'];
 					//$lxr75="zdy0:我收,zdy2:lxrzdy2,zdy4:lxrzdy4,zdy6:lxrzdy6,zdy10:lxrzdy10,zdy12[]:北京市-北京市市辖区-东城区,";
-					$lxr_number=substr($lxr75,0,strlen($lxr75)-1); 
+					$lxr_number=substr($lxr75,0,strlen($lxr75)-3); 
 
-					$lxr_ex=explode(',',$lxr_number);
+					$lxr_ex=explode(',￥￥',$lxr_number);
 					foreach($lxr_ex as $k=>$v)
-					{
-						$exv=explode(":",$v);
+					{ 
+						$exv=explode(":￥￥",$v);
 						if($exv['0']=="zdy12[]")
 						{
 						$exv1['zdy12']=$exv['1'];
@@ -2011,10 +1785,10 @@ public function kehu(){
 						$kehu75=$_GET['kh'];
 						//$kehu75="zdy0:新的客户1,zdy1:canshu1,zdy2:4545,zdy3:45,zdy4:4545,zdy5:45,zdy15:lslxr,kh_fz:47,ht_department:技术部,";
 						$kh_number=substr($kehu75,0,strlen($kehu75)-1); 
-						$kh_ex=explode(',',$kh_number);
+						$kh_ex=explode(',￥￥',$kh_number);
 						foreach($kh_ex as $k=>$v)
 						{
-							$kh_ex=explode(":",$v);
+							$kh_ex=explode(":￥￥",$v);
 							if($kh_ex['0']=="kh_fz")
 							{
 								$data_kh75["kh_fz"]=$kh_ex['1'];//本人ID  ;
@@ -2047,9 +1821,9 @@ public function kehu(){
 							$shangji=$_GET['sj'];
 							//$shangji="zdy0:安慰法1,undefined:undefined,zdy2:281,zdy3:2333333,zdy4:2017-7-5 17:37:46,sj_fz:46,ht_department:技术部,";
 							$sj_number=substr($shangji,0,strlen($shangji)-1); 
-							$sj_ex=explode(",",$sj_number);
+							$sj_ex=explode(",￥￥",$sj_number);
 							foreach($sj_ex as $k=>$v){
-								$sj_ex=explode(":",$v);
+								$sj_ex=explode(":￥￥",$v);
 								if($sj_ex["0"]=="sj_fz")
 								{
 									$sj_data['sj_fz']=$sj_ex["1"];
@@ -2077,10 +1851,10 @@ public function kehu(){
 							if($sj_add){
 								$hetong=$_GET['ht'];
 								//$hetong="zdy0:真的合同,zdy1:合同公司,zdy2:即可看看,zdy3:45656,zdy4:2017-12-5 18:02:07,zdy5:2017-7-14 18:02:10,zdy6:2017-7-20 18:02:16,zdy7:canshu4,zdy15:2017-7-24 18:02:20,zdy8:,cpgd:添加产品,undefined:undefined,undefined:undefined,zdy10:,zdy11:,zdy12:,zdy13:,undefined:,undefined:undefined,undefined:undefined,zdy17:,ht_fz:46,ht_department:技术部";
-							$ht_ex=explode(",",$hetong);
+							$ht_ex=explode(",￥￥",$hetong);
 								foreach($ht_ex as $k=>$v)
 								{
-									$ht_ex=explode(":",$v);
+									$ht_ex=explode(":￥￥",$v);
 									if($ht_ex["0"]=="ht_fz")
 									{
 										$ht_data['ht_fz']=$ht_ex["1"];

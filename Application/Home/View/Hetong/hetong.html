@@ -534,6 +534,10 @@ function kh_name_if(e){
 
 							        			$("#jb_bianji").html(html);
 							        	
+
+
+
+							        	
 							        			blurfun();
 							        			}
 							                   });
@@ -662,14 +666,14 @@ function kh_name_if(e){
 									var formdom=$("#ht_form").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';
-								
+								 
 									for(a=0;a<fornum;a++)
 									{
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
-										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+										ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",￥￥";
 									}
 
-									var vstr=ajaxstr.substr(0,ajaxstr.length-1);
+									var vstr=ajaxstr.substr(0,ajaxstr.length-3);
 									
 									
 									if(ajaxstr_kh=="" && ajaxstr_sj == "")
@@ -1272,10 +1276,10 @@ $("#nchangyong").click(function(){
 												{
 													var thisdom=formdom.eq(a).find("td").eq(1).children();
 													if(thisdom.prop("name")=='zdy2'){
-														ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+",";
+														ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+",￥￥";
 													}
 													else{
-														ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+														ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",￥￥";
 													}
 													
 												}
@@ -1399,14 +1403,14 @@ $("#nchangyong").click(function(){
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
 										if(thisdom.prop("name")=='zdy12[]')
 										{	//tishi(thisdom.prop("name"))
-											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
+											ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",￥￥";
 										}else{
 											if(thisdom.prop("name")=='zdy5')
 											{ 
-												ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+","; 
+												ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+",￥￥"; 
 											
 											}else{
-												ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+												ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",￥￥";
 											}
 										}
 										
@@ -1519,7 +1523,7 @@ $("#nchangyong").click(function(){
 									for(a=0;a<fornum;a++)
 									{
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
-											ajaxstr_sj1+=thisdom.prop("name")+":"+thisdom.val()+",";	
+											ajaxstr_sj1+=thisdom.prop("name")+":￥￥"+thisdom.val()+",￥￥";	
 									}
 								
 										window.ajaxstr_sj=ajaxstr_sj1;//
