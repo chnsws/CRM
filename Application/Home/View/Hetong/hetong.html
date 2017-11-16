@@ -201,9 +201,9 @@
 				   						</if>
 				   					</select>条
 				   					</span>
-				   					 		<span style="float:right; margin-right:2%" ><input type="text" height=26px; id="sousuo" value="">
-				   					 <span onclick="sousuo1()" style="margin-left:-25px">	<i class="layui-icon" >&#x1006;</i></span>
-				   					 		<span  style="width:60px; margin-left:15px" class=" layui-btn layui-btn-small "  onclick="sousuo()">搜索</span>
+				   					 		<span style="float:right; margin-right:2%" ><input type="text" height=26px; id="sousuo" value="{$ssaa}">
+				   					 <span onclick="sousuo1()" style="margin-left:-25px">	<i class="layui-icon" style=" cursor:pointer" >&#x1006;</i></span>
+				   					 		<span  style="width:60px; margin-left:15px; ; " class=" layui-btn layui-btn-small "  onclick="sousuo()">搜索</span>
 				   				</span>
 				   		</div>
 			  		
@@ -418,7 +418,11 @@
   	</div>
 	</body>
 	<script>
-
+var ssa=$("#sousuo").val();
+if(ssa!='')
+{
+	$(".ycyo").hide();
+}
 layui.use('upload', function(){
   layui.upload(options);
 });
@@ -520,13 +524,18 @@ function kh_name_if(e){
 		$(".one").text(tex);
 	}
    $(".ycyo").hide();
-
-	$.get(rooturl+'/index.php/Home/Hetong/shaixuan',{"id":id},
+	
+	$.get(rooturl+'/index.php/Home/Hetong/hetong',{'sxa':id},
 							        		 function(html){
-							        		 	
+							        		 	if(html=="quanbu")
+							        		 	{
+							        		 		   	window.location.href="hetong";return;
+							        		 	}else{
+
 							        			$("#jb_bianji").html(html);
 							        	
 							        			blurfun();
+							        			}
 							                   });
  
 });
@@ -1162,15 +1171,10 @@ $("#nchangyong").click(function(){
 	
 	}
 	function sousuo(){
-			$(".ycyo").hide();
+			//$(".ycyo").hide();
 					var name= $("#sousuo").val();
-
-					 $.get(rooturl+'/index.php/Home/hetong/sousuo',{"id":name},
-										        		 function(ht_id){
-										        		
-										        		$("#jb_bianji").html(ht_id);
-												        	
-										                  });
+						window.location.href="hetong?sousuo="+name;
+					
 				}
 					function sousuo1(){
 					window.location.href="hetong";
