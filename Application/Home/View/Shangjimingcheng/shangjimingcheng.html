@@ -23,6 +23,8 @@
 		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
 	<link rel="stylesheet" href="{$_GET['public_dir']}/report/time_axis.css" />
 	<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">	
+	<link href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
+		<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
   		<style>
   			body,ul,li,tr{margin:0;padding:0;font-size:14px;}
   		
@@ -51,6 +53,8 @@
 			.gj tr{height:70px;}
 			th{background-color:#50BBB1;height:30px;color:white;border:0px !important;} 
 			a{color:#07d; text-decoration:none !important;}
+						.addshangji_weizhi{margin:0px auto;margin-top:20px;}
+							.searchable-select {min-width:300px;}
   		</style>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
@@ -61,6 +65,7 @@
 	</head>
 	<body>
 	<input type="hidden"  class='kh_id27' value="{$kh_id27}">
+	<input type='hidden' value='{$uiid}' class='uiid'>
 	<div class="bianji"  style="display: none;border:1px;" >
 		    		<div class="bianji_nb" style="width:330px;margin:0 auto">
 		    			<form id="myform" class="uk-form" >
@@ -83,8 +88,8 @@
 		  <ul class="layui-tab-title">
 		    <li class="layui-this">基本信息</li>
 		    <li>联系人</li>
-		    <li>产品</li>
-		    <li>附件</li>
+		    <li id="onese">产品</li>
+		    <li id="twose">附件</li>
 		    <li>操作日志</li>
 		  </ul>
 		  </ul>
@@ -180,22 +185,23 @@
 
 						</thead>
 						<tbody class="fujian_del">
+							<if condition="$lx_json eq ''OR $kh eq null">
+								<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关联系人</td></tr>
+							<else/>
 							<tr>
-							
 					  				<td ><a href="{$_GET['root_dir']}/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/{$sql_lianxi.lx_id}"><span style="color:#079">{$lx_json.zdy0}</span></a></td>
 					  				<td >{$lx_json.zdy4}</td>
 					  				<td >{$lx_json.zdy5}</td>
 					  				<td >{$lx_json.zdy6}</td>
 					  				<td >{$lx_json.zdy10}</td>
 					  				<td >{$lx_json.zdy16}</td>
-					  			
-					  		
-						
 							</tr> 	
+							</if>
 						</tbody>
 					 </table>
 		  	     </div>
 		  	     <div class="layui-tab-item">
+		  	     	<input type="button" id="dialog-form" onclick="add_cp()" class="layui-btn layui-btn-small" value="+添加产品">
 		  	       	<table class="layui-table"  >
 					  	<thead>
 					  		<th >产品名称</th>
@@ -205,8 +211,6 @@
 			  				<th >数量</th>
 			  				<th >折扣</th>
 			  				<th >总价</th>
-			  				<th >销售单位</th>
-			  				<th >产品分类</th>
 			  				<th >备注</th>
 			  				<th >操作</th>
 
@@ -217,6 +221,50 @@
 					</tbody>
 					 </table>
 		  	     </div>
+		  	     <div id="addcp" style="display: none;border:1px">
+			  		<form id="cp_form" method="post" class="uk-form" >
+							<table class="addshangji_weizhi">
+							{$chanpin1}
+							<tr class="addtr">
+								<td>公开价格：</td>
+									<td>
+										<input type="text" class="cp_yj" name="cp_yj" disabled name="cp_yj" style='width:300px;height:26px;'>		
+									</td>			
+							</tr>
+							<tr class="addtr">
+								<td><span style="color:red">*</span>合同价格：</td>
+									<td>
+										<input type="number" class="cp_jy"  name="cp_jy" onkeyup='cp_jy_aj(this)'  style='width:300px;height:26px;'>		
+									</td>			
+							</tr>
+							<tr class="addtr">
+								<td><span style="color:red">*</span>数量：</td>
+									<td>
+									<input type="number" class="cp_num1" name="cp_num1" onkeyup='cp_num(this)'  style='width:300px;height:26px;'>		
+									</td>			
+							</tr>
+							<tr class="addtr">
+								<td>折扣：</td>
+									<td>
+										<input type="text" class="cp_zk"  name="cp_zk" value="-"  disabled style='width:300px;height:26px;'>		
+									</td>			
+							</tr>
+							<tr class="addtr">
+								<td>总价：</td>
+									<td>
+										<input type="text" class="cp_zj" name="cp_zj" disabled style='width:300px;height:26px;'>		
+									</td>			
+							</tr>
+							<tr class="addtr">
+								<td>备注：</td>
+									<td>
+										<textarea name="cp_beizhu" rows="4" cols="40">
+										</textarea>		
+									</td>			
+							</tr>
+							</table>
+						</form>
+			  	  </div>
 		  	      <div class="layui-tab-item">
 				  	      <div >
 					  		<input type="button" id="dialog-form" onclick="fj_cp()" class="layui-btn layui-btn-small" value="+文件上传">
@@ -270,6 +318,44 @@
 
 	</body>
 	<script>
+	$(function(){
+		$('.xlss').searchableSelect();
+ });
+	var uiid=$('.uiid').val();
+	if(uiid==2)
+	{
+		
+		$("#twose").attr('class','layui-this');
+		$("#er1").attr('class','layui-tab-item layui-show');
+	}
+	if(uiid==1)
+	{
+	
+		$("#onese").attr('class','layui-this');
+		$("#onesh1").attr('class','layui-tab-item layui-show');
+	}
+	function cp_jy_aj(b){
+    			var jy = $(b).val();	
+    			var yj = $(".cp_yj").val();	
+    			/**用  100 除  原价  得出的值 乘 建议 价格**/
+    		
+    			var baifenbi=(100 /  yj *  jy );
+    			var jiequ =	baifenbi.toFixed(2);
+    		
+    			var end = jiequ +"%";
+    			var num=$('.cp_num1').val();
+    			var num1=(num * jy);
+    			$(".cp_zk").val(end);
+    			$(".cp_zj").val(num1)		
+    			//tishi(yj);
+    		}
+    		function cp_num(w){
+    			var num2 = $(w).val();	
+    			var jy = $(".cp_jy").val();	
+    			var num1=(num2 * jy);
+    			
+    			$(".cp_zj").val(num1)		
+    		}
 	function fj_xz(ss)
 				{
 					var s=$(ss).prop('class');
@@ -321,8 +407,85 @@
 						});  
 
 		}
+		function add_cp(){
+    			
+					layui.use('layer', function(){
+					//	tishi(123)
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'630px',
+									fixed: false,
+								title: '添加产品',
+								content:$('#addcp'),
+								btn:['保存'],
+
+								btn1:function(){
+									var formdom=$("#cp_form").children("table").find("tr");
+									var fornum=formdom.length;
+									var ajaxstr='';
+									for(a=0;a<fornum;a++)
+									{
+										var thisdom=formdom.eq(a).find("td").eq(1).children();
+										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+									}
+									var vstr=ajaxstr.substr(0,ajaxstr.length-1);
+									
+									$.get(rooturl+'/index.php/Home/Shangjimingcheng/add_cpa',{"id":vstr,'sj_id':$(".bingou").val()},
+							        		 function(html){
+									       		window.location.href="Hetongmingcheng?id="+$(".bingou").val()+"&uiid=2";
+							                   });
+									layer.close(win)
+								}
+							}); 
+						});   
+    				
+
+    		}
 	</script>
+
 	<script>
+	var xassone=0;
+    	function change_fun(v2)
+		 {
+		 	if( xassone<1)
+		 	{
+		 		xassone++;
+		 		return;
+		 	}
+		 	if(v2.prop("id")=="cp_caozuo"){
+					 			
+					 				
+									var cp_id=v2.val();
+					    			if(cp_id == 's'){
+					    				$(".cp_yj").val("")
+					    				$(".cp_jy").val("")
+					    				$(".cp_zk").val("-")	
+					    				$(".cp_num1").val("")	
+					    				$(".cp_zj").val("")	
+					    				layer.close(win)
+					    			}
+					    			$.get(rooturl+'/index.php/Home/Shangji/cp_ajax',{"id":cp_id},
+					    										function(html)
+					    										{
+					    										//	tishi(html)
+					    													$(".cp_yj").val(html)
+					    													$(".cp_jy").val(html)
+					    												$(".cp_zk").val("100.0%")	
+					    												$(".cp_num1").val(1)	
+					    												$(".cp_zj").val(html)	
+					    												
+
+					    													layer.close(win)
+					    										}
+					    				)
+					 		}
+		 	
+	
+		 		
+		    	}
 		function cp_sj_del(e){
 				var id=$(e).prop('name');
 				$.get(rooturl+'/index.php/Home/Shangjimingcheng/cp_sj_del',{"id":id},

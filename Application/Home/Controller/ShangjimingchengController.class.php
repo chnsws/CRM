@@ -374,33 +374,37 @@ return $fzr_only;
 			$chanpin_rh['zdy4']=$chanpin[$v['cp_id']]['zdy4'];
 			$chanpin_rh['zdy5']=$chanpin[$v['cp_id']]['zdy5'];
 			$cp_rh[]=$chanpin_rh;
-		}
-		foreach($cp_rh as $k=>$v){
-			$cp_show.="<tr class='".$v['cp_id1']."'><td >".$v['zdy0']."</td>
-					  <td >".$v['zdy1']."</td>
-					  <td >".$v['cp_yj']."</td>
-					  <td >".$v['cp_jy']."</td>
-					  <td >".$v['cp_num1']."</td>
-					  <td >".$v['cp_zk']."</td>
-					  <td >".$v['cp_zj']."</td>
-					  <td >".$v['zdy4']."</td>
-					  <td >".$v['zdy5']."</td>
-					  <td >".$v['cp_beizhu']."</td>
-					  	<td ><input type='button' name='".$v['cp_id1']."' onclick='cp_sj_del(this)' value='删除'></td>
-					 </tr> ";
-
+		}if($cp_rh==''||$cp_rh==null){
+			$cp_show.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关产品</td></tr>";
+		}else{
+			foreach($cp_rh as $k=>$v){
+				$cp_show.="<tr class='".$v['cp_id1']."'><td >".$v['zdy0']."</td>
+						  <td >".$v['zdy1']."</td>
+						  <td >".$v['cp_yj']."</td>
+						  <td >".$v['cp_jy']."</td>
+						  <td >".$v['cp_num1']."</td>
+						  <td >".$v['cp_zk']."</td>
+						  <td >".$v['cp_zj']."</td>
+						  <td >".$v['cp_beizhu']."</td>
+						  	<td ><input type='button' name='".$v['cp_id1']."' onclick='cp_sj_del(this)' value='删除'></td>
+						 </tr> ";
+			}
 		}
 		$file_sj['name_id']=$sj_id;
 		$file_sj['yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 		$file_sj['mk']='5';
 		$file_sj_base=M('file');
 		$sql_file_sj=$file_sj_base->where($file_sj)->select();
-		foreach($sql_file_sj as $k=>$v)
-		{
-			$file_sj_show.="<tr class='".$v['id']."'><td>".$v['sc_data']."</td><td><span onclick='fj_xz(this)' class='".$v['lujing']."' style='color:green;cursor:pointer' title='点击下载' >".$v['fujian_name']."</span></td><td>".$v['big']."</td><td>".$v['beizhu']."</td><td><button onclick='fujian_del(this)' name='".$v['id']."' class='layui-btn layui-btn-primary layui-btn-small'>
-    <i class='layui-icon'>&#xe642;</i>删除
-  </button></td>";
-			$file_sj_show.="</tr>";
+		if($sql_file_sj==''||$sql_file_sj==null){
+			$file_sj_show.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关附件</td></tr>";
+		}else{
+			foreach($sql_file_sj as $k=>$v)
+			{
+				$file_sj_show.="<tr class='".$v['id']."'><td>".$v['sc_data']."</td><td><span onclick='fj_xz(this)' class='".$v['lujing']."' style='color:green;cursor:pointer' title='点击下载' >".$v['fujian_name']."</span></td><td>".$v['big']."</td><td>".$v['beizhu']."</td><td><button onclick='fujian_del(this)' name='".$v['id']."' class='layui-btn layui-btn-primary layui-btn-small'>
+	    			<i class='layui-icon'>&#xe642;</i>删除
+	  				</button></td>";
+				$file_sj_show.="</tr>";
+			}
 		}
 
 								$gj_xgj.="<select name='genjinzhuantai' class='gjzt12' style='width:190px;height:40px'>";
@@ -477,20 +481,34 @@ return $fzr_only;
 				"3"=>"删除"
 				
 				);
-			foreach($rz_sql as $k=>$v)
-			{
-		  		$rz_jl.="<tr>
-	  					<td >".date('Y-m-d H:i:s',$v['rz_time'])."</td>
-	  					<td >".$user_dpment[$v['rz_user']]['user_name']."</td>";
-	  					$rz_jl.="<td >".$rz_mk_a[$v['rz_mode']]."</td>";
-	  					$rz_jl.="
-	  							 <td >".$v['rz_bz']."</td>";
-	  				
-	  					$rz_jl.="<td >".$rz_type[$v['rz_cz_type']]."</td>";
-	  				
-	  				
-	  			$rz_jl.="</tr>";
+			if($rz_sql==''||$rz_sql==null){
+			$rz_jl.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！</td></tr>";
+			}else{
+				foreach($rz_sql as $k=>$v)
+				{
+			  		$rz_jl.="<tr>
+		  					<td >".date('Y-m-d H:i:s',$v['rz_time'])."</td>
+		  					<td >".$user_dpment[$v['rz_user']]['user_name']."</td>";
+		  					$rz_jl.="<td >".$rz_mk_a[$v['rz_mode']]."</td>";
+		  					$rz_jl.="
+		  							 <td >".$v['rz_bz']."</td>";
+		  				
+		  					$rz_jl.="<td >".$rz_type[$v['rz_cz_type']]."</td>";
+		  				
+		  				
+		  			$rz_jl.="</tr>";
+		  		}
 	  		}
+	  		
+				$chanpin1.="<tr  class='addtr'>";
+				$chanpin1.="<td><span style='color:red'>*</span>产品名称：</td>";
+					$chanpin1.="<td><select name='cp_id'  id='cp_caozuo' class ='clk_fzr xlss' style='width:300px;height:30px;'>";
+							$chanpin1.="<option value='s' >请选择产品 </option>";
+					foreach ($chanpin as $k=>$v)
+					{
+							$chanpin1.="<option value='".$v['cp_id']."'>".$v['zdy0']."(".$v['zdy1'].") </option>";
+					}
+					$chanpin1.="</select> </td></tr>";
 	  		$this->assign('rz_jl',$rz_jl);				
 	  	$this->assign('xgj_show',$xgj_show);					
 	  	$this->assign('gj_xgj',$gj_xgj);
@@ -502,13 +520,41 @@ return $fzr_only;
 		$this->assign('show',$show);
 		$this->assign('show1',$show1);
 		$this->assign('sj_id',$sj_id);
-
+		$this->assign('chanpin1',$chanpin1); 
 		$this->assign('sql_rh',$sql_rh);
 		$this->assign('lx_json',$lx_json);
 		$this->assign('sql_lianxi',$sql_lianxi);
 	$this->display();
 	}
+	public function add_cpa(){
 	
+		//echo "<pre>";
+		//var_dump($chanpin);exit;
+		$id=$_GET['id'];
+
+		//$id= "cp_id:140156,cp_yj:20800,cp_jy:20800,cp_num1:1,cp_zk:100.0%,cp_zj:20800,cp_beizhu:	1										,sj_id:335";
+		$ex=explode(',',$id);
+		foreach($ex as $v)
+		{
+			$a=explode(":",$v);
+			$sql[$a['0']]=$a['1'];
+		}
+		$sql['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
+		$sql['cp_sj_cj']=cookie('user_id'); //通用条件   
+		$sql['cp_mk']=5;
+		$sql['sj_id']=$_GET['sj_id'];
+		$cp_sj_base=M('cp_sj');
+
+		$sql_add=$cp_sj_base->add($sql);
+		if($sql_add){
+			echo "ok";
+		
+			 						
+		} else{
+			echo "2";
+		}
+	
+		}
 	public function get_xiashu_id()
 	{
 		$nowloginid=cookie("user_id");

@@ -1988,7 +1988,7 @@ class KehuController extends Controller {
 									$map_ht['ht_id']=$v['kh_id'];
 									$sql_hta=$base_ht->where($map_ht)->find();
 									$json_ht=json_decode($sql_hta['ht_data'],true);
-								
+								 
 									$xgj_show.="<div class='gj_body_content_from'>来自合同：".$json_ht['zdy0']." </div>";
 								}
 						
