@@ -437,8 +437,8 @@ public function kehu(){
 			$bj_tab.="</tr>";    
 		}
 		//新增
-	//	echo "<pre>";
-		//var_dump($ywzd)e
+		//echo "<pre>";
+		//var_dump($ywzd);exit;
 		foreach($ywzd as $k=>$v)
 		{
 			if($v['bt']=="1")
@@ -548,9 +548,13 @@ public function kehu(){
 										$show_bt.="	</select>
 									 </td></tr>	";		
 			
+					}elseif($v['id']=='zdy17'){
+						$show_bt.="<tr class='addtr'>";
+						$show_bt.="<td><span style='color:red'>*</span>".$v['name'].":</td> <td><textarea name='".$v['id']."' class='required' maxlength='400' style='width:300px' rows='4' cols='38' placeholder='最大长度400'></textarea></td>";
+						$show_bt.="</tr>";
 					}else{
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name'].":</td>";
-						$show_bt.="<td><input type='text' class='required' name='".$v['id']."' value='' > </td></tr>	";		
+						$show_bt.="<td><input type='text' class='required' name='".$v['id']."' value='' maxlength='40'> </td></tr>	";		
 					}
 		
 				}
@@ -664,14 +668,17 @@ public function kehu(){
 					{
 					
 						
+					}elseif($v['id']=='zdy17'){
+						$show_bt1.="<tr class='addtr '><td>".$v['name'].":</td>"; 
+						$show_bt1.="<td><textarea name='".$v['id']."'  maxlength='400' style='width:300px' rows='4' cols='38' placeholder='最大长度400'></textarea></td></tr>";
 					}else{
 						if($v['id']=='zdy8')
 						{
 							$show_bt1.="<tr class='addtr '><td>".$v['name'].":</td>";
-							$show_bt1.="<td><input type='text' name='".$v['id']."' value='' class='bianhao' > </td></tr>	";			
+							$show_bt1.="<td><input type='text' name='".$v['id']."' value='' class='bianhao' maxlength='40'> </td></tr>	";			
 						}else{
 							$show_bt1.="<tr class='addtr '><td>".$v['name'].":</td>";
-							$show_bt1.="<td><input type='text' name='".$v['id']."' value='' > </td></tr>	";		
+							$show_bt1.="<td><input type='text' name='".$v['id']."' value=''  maxlength='40'> </td></tr>	";		
 						}
 					}
 				}
@@ -726,9 +733,12 @@ public function kehu(){
 					{
 						
 						
+					}elseif($v['id']=='zdy17'){
+						$show_ncy.="<tr class='addtr ncy'><td>".$v['name'].":</td>"; 
+						$show_ncy.="<td><textarea name='".$v['id']."' class='required' maxlength='400' style='width:300px' rows='4' cols='38' placeholder='最大长度400'></textarea></td></tr>";
 					}else{
 						$show_ncy.="<tr class='addtr ncy'><td>".$v['name'].":</td>";
-						$show_ncy.="<td><input type='text'  name='".$v['id']."' value='' > </td></tr>	";		
+						$show_ncy.="<td><input type='text'  name='".$v['id']."' value='' maxlength='40'> </td></tr>	";		
 					}
 			}
 		}
@@ -888,7 +898,16 @@ public function kehu(){
 							}else{
 								$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:cursor:#50BBB1' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
 							}
-						
+					elseif($kbt=="zdy17"){
+							$aaa=strlen($v[$kbt]);
+							if($aaa>40)
+							{
+								$bzhu=mb_substr($v[$kbt],0,40,'utf-8')."···";	
+							}else{
+								$bzhu=$v[$kbt];
+							}
+							$content.="<td> <span title='".$v[$kbt]."' style='cursor:pointer'>".$bzhu." </span></td>";
+				}
 					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
 							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
 					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz' ||$kbt=='zdy13')
@@ -1549,7 +1568,11 @@ public function kehu(){
 						{
 						$table.="<td><span style='color:red'>*</span>".$vzd['name'].":</td>";
 						if($vzd['type']=="0") 
-							$table.="<td><input type='text' class='required' id='wy".$vzd['id']."' name='".$vzd['id']."'  ></td>";   //  0文本框
+							if($vzd['id']=='zdy11'){
+								$table.="<td><textarea name='".$vzd['id']."' class='required' maxlength='400' style='width:300px' rows='4' cols='38' placeholder='最大长度400'></textarea></td>";
+							}else{
+								$table.="<td><input type='text' class='required' id='wy".$vzd['id']."' name='".$vzd['id']."' maxlength='40'></td>";   //  0文本框
+							}
 						elseif($vzd['type']=="2")
 							$table.="<td><input type='text' class='required' name='".$vzd['id']."'   class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";   //  2 日期 
 						elseif($vzd['type']=="3")

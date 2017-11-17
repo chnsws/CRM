@@ -206,9 +206,18 @@ return $fzr_only;
 
 					$show.="<td >".$userqb[$ht_json[$k]]['user_name']."</td>";	
 			
+					}elseif($k=="zdy17"){
+							$aaa=strlen($ht_json[$k]);
+							if($aaa>40)
+							{
+								$bzhu=mb_substr($ht_json[$k],0,40,'utf-8')."···";	
+							}else{
+								$bzhu=$ht_json[$k];
+							}
+							$show.="<td> <span title='".$ht_json[$k]."' style='cursor:pointer'>".$bzhu." </span></td>";
 					}else{
-						$show.="<td >".$ht_json[$k]."</td>";	
-					}	
+							$show.="<td >".$ht_json[$k]."</td>";	
+						}	
 				}else{
 					if($k == 'zdy9')
 					{
@@ -218,8 +227,17 @@ return $fzr_only;
 					}elseif($k=="zdy14")
 					{
 						$show.="<td  onclick='ht_fj(this)' class='".$ht_id."' title='点击查看产品' style='color:#1AA094;cursor:pointer'>附件</td>";	
+					}elseif($k=="zdy17"){
+							$aaa=strlen($ht_json[$k]);
+							if($aaa>40)
+							{
+								$bzhu=mb_substr($ht_json[$k],0,40,'utf-8')."···";	
+							}else{
+								$bzhu=$ht_json[$k];
+							}
+							$show.="<td> <span title='".$ht_json[$k]."' style='cursor:pointer'>".$bzhu." </span></td>";
 					}else{
-					$show.="<td >未填写</td>";	
+						$show.="<td >未填写</td>";	
 					}
 					
 				}
@@ -336,8 +354,10 @@ return $fzr_only;
 
 							}
 						$show3.="</select></td>";	
-					}else{
-						$show3.="<td ><input type='text' class='bjwh' name='$k' value='".$ht_json[$k]."'></td>";	
+					}elseif($k=='zdy17'){
+								$show3.="<td><textarea name='".$k."'  maxlength='400' style='width:300px' rows='4' cols='38' placeholder='最大长度400' >'".$ht_json[$k]."'</textarea></td>";
+							}else{
+						$show3.="<td ><input type='text' class='bjwh' name='$k' value='".$ht_json[$k]."' maxlength='40'></td>";	
 					}	
 				
 				$show3.="</tr>";;
@@ -350,16 +370,19 @@ return $fzr_only;
 			$file['name_id']=$ht_id;
 			$file_base=M('file');
 			$sql_file=$file_base->where($file)->select();
-
-			foreach($sql_file as $k=>$v)
-			{
-				$file_show.="<tr class='".$v['id']."'>
-				  				<td >". $v['sc_data']."</td>
-				  				<td ><span onclick='fj_xz(this)' class='".$v['lujing']."' style='color:green;cursor:pointer' title='点击下载' >".$v['fujian_name']."</span></td>
-				  				<td >".$v['big']."</td>
-				  				<td >".$v['beizhu']."</td>
-				  				<td ><input type='button' value='删除' onclick='fujian_del(this)' name='".$v['id']."'></td>
-							</tr> ";
+			if($sql_file==''||$sql_file==null){
+				$file_show.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请上传附件</td></tr>";
+			}else{
+				foreach($sql_file as $k=>$v)
+				{
+					$file_show.="<tr class='".$v['id']."'>
+					  				<td >". $v['sc_data']."</td>
+					  				<td ><span onclick='fj_xz(this)' class='".$v['lujing']."' style='color:green;cursor:pointer' title='点击下载' >".$v['fujian_name']."</span></td>
+					  				<td >".$v['big']."</td>
+					  				<td >".$v['beizhu']."</td>
+					  				<td ><input type='button' value='删除' onclick='fujian_del(this)' name='".$v['id']."'></td>
+								</tr> ";
+				}
 			}
 			//产品查询
 			$cp['cp_mk']=6;
@@ -377,21 +400,25 @@ return $fzr_only;
 				$cp_new[$v['cp_id1']]=$v;
 			}
 			$zje913=0;
-			foreach ($cp_new as $k=>$v)
-			{
-				$show2.="<tr class='".$v['cp_id1']."'>
-				<td>".$v['zdy0']."</td>
-				<td>".$v['zdy1']."</td>
-				<td>".$v['cp_yj']."</td>
-				<td>".$v['cp_jy']."</td>
-				<td>".$v['cp_num1']."</td>
-				<td>".$v['cp_zk']."</td>
-				<td>".$v['cp_zj']."</td>
-		
-				<td>".$v['cp_beizhu']."</td>
-				<td><input type='button' name='".$v['cp_id1']."' onclick='cp_del(this)' value='删除'></td>
-				</tr>";
-				$zje913=$zje913+$v['cp_zj'];
+			if($cp_new==''||$cp_new==null){
+				$show2.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关产品</td></tr>";
+			}else{
+				foreach ($cp_new as $k=>$v)
+				{
+					$show2.="<tr class='".$v['cp_id1']."'>
+					<td>".$v['zdy0']."</td>
+					<td>".$v['zdy1']."</td>
+					<td>".$v['cp_yj']."</td>
+					<td>".$v['cp_jy']."</td>
+					<td>".$v['cp_num1']."</td>
+					<td>".$v['cp_zk']."</td>
+					<td>".$v['cp_zj']."</td>
+			
+					<td>".$v['cp_beizhu']."</td>
+					<td><input type='button' name='".$v['cp_id1']."' onclick='cp_del(this)' value='删除'></td>
+					</tr>";
+					$zje913=$zje913+$v['cp_zj'];
+				}
 			}
 			if($zje913==$ht_zje)
 			{
@@ -917,21 +944,25 @@ return $fzr_only;
 				"3"=>"删除"  
 
  				);
-			foreach($rz_sql as $k=>$v)
-			{
-		  		$rz_jl.="<tr>
-	  					<td >".date('Y-m-d H:i:s',$v['rz_time'])."</td>
-	  					<td >".$user[$v['rz_user']]['user_name']."</td>";
-	  					$rz_jl.="<td >".$rz_mk_a[$v['rz_mode']]."</td>";
-	  					$rz_jl.="
-	  							 <td >".$v['rz_bz']."</td>";
-	  				
-	  					$rz_jl.="<td >".$rz_type[$v['rz_cz_type']]."</td>";
-	  				
-	  				
-	  			$rz_jl.="</tr>";
-	  		}
-	  			$this->assign("rz_jl",$rz_jl);		
+			if($rz_sql==''||$rz_sql==null){
+				$rz_jl.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！</td></tr>";
+			}else{
+				foreach($rz_sql as $k=>$v)
+				{
+			  		$rz_jl.="<tr>
+		  					<td >".date('Y-m-d H:i:s',$v['rz_time'])."</td>
+		  					<td >".$user[$v['rz_user']]['user_name']."</td>";
+		  					$rz_jl.="<td >".$rz_mk_a[$v['rz_mode']]."</td>";
+		  					$rz_jl.="
+		  							 <td >".$v['rz_bz']."</td>";
+		  				
+		  					$rz_jl.="<td >".$rz_type[$v['rz_cz_type']]."</td>";
+		  				
+		  				
+		  			$rz_jl.="</tr>";
+		  		}
+		  	}
+	  		$this->assign("rz_jl",$rz_jl);		
 			$this->assign("xgj_show",$xgj_show);		
 			$this->assign("gj_xgj",$gj_xgj);		
     	    $this->assign("kp_show3",$kp_show3);		
