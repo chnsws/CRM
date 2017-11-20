@@ -262,7 +262,7 @@ class LianxirenmingchengController extends Controller {
 									$zuoji[1]=$zuoji[0];
 									$zuoji[0]='';
 								}
-								$show3.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$k."'' style='width:48px;height:26px;' value='".$zuoji[0]."'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px;height:26px;' maxlength='30' class='jiaodiana' name='".$k."' value='".$zuoji[1]."'></td>";	
+								$show3.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$k."'' style='width:48px;height:26px;' value='".$zuoji[0]."'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:223px;height:26px;' maxlength='30' class='jiaodiana' name='".$k."' value='".$zuoji[1]."'></td>";	
 					}else{
 						$show3.="<td><input type='text' name='".$k."' style='width:300px;height:26px;' value='".$lx_json[$k]."' maxlength='40'></td>";
 					}
@@ -289,7 +289,7 @@ class LianxirenmingchengController extends Controller {
 						$show3.="<td><input type='text' name='".$k."' style='width:300px;height:26px;'  class=' qingyx1 ' onchange='sjyz(this)' placeholder='未填写'></td>";
 		
 						}elseif($k=='zdy5'){
-								$show3.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$k."'' style='width:48px;height:26px;' value='".$zuoji[0]."'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px;height:26px;' class='jiaodiana' name='".$k."' value='".$zuoji[1]."' maxlength='30'></td>";	
+								$show3.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$k."'' style='width:48px;height:26px;' value='".$zuoji[0]."'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:223px;height:26px;' class='jiaodiana' name='".$k."' value='".$zuoji[1]."' maxlength='30'></td>";	
 						}elseif($k=='zdy16'){
 						$show3.="<td><textarea name='".$k."' class='required' maxlength='400' style='width:300px' rows='2' cols='38' placeholder='最大长度400'>".$lx_json[$k]."</textarea></td>";
 						}else{
