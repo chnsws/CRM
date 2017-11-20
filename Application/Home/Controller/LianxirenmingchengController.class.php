@@ -131,19 +131,43 @@ class LianxirenmingchengController extends Controller {
 				$sj_rh[]=$shangji;       //相关联系人
 
 		}
-	//	echo "<pre>";var_dump($sj_rh);exit;
-		if($sj_rh==''||$sj_rh==null){
+		foreach($sj_rh as $k=>$v)
+		{
+			foreach($v as $k1=>$v1)
+			{	$sj_rha[$k]['id']=$v['sj_id'];	
+				$sj_rha[$k]['zdy0']=$v['zdy0'];	
+				$sj_rha[$k]['zdy3']=$v['zdy3'];	
+			
+			
+				$sj_rha[$k]['zdy4']=$v['zdy4'];	
+					$sj_rha[$k]['zdy5']=$v['zdy5'];	
+				$sj_rha[$k]['zdy11']=$v['zdy11'];	
+				
+			}
+			
+		}
+	
+		if($sj_rha==''||$sj_rha==null){
 			$shangji1.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关商机</td></tr>";
 		}else{
-			foreach ($sj_rh as $k=>$v){
+			foreach ($sj_rha as $k=>$v){
 				$shangji1.="<tr>";
 					foreach($v as $k1=>$v1)
 					{
-						$id_sj=$v['sj_id'];
-						if($k1=="zdy0"){
+						$id_sj=$v['id'];
+						if($k1=="zdy0"  ){
 							$shangji1.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id_sj'><span style='color:#07d'>".$v1."</span></a></td>";
-						}elseif($k1=="zdy3" || $k1=="zdy11"|| $k1=="sj_qiandan"){
+						}elseif($k1=="zdy3" ){
 							$shangji1.="<td>".$v1." </td>";
+						}elseif($k1=="zdy11"){
+											$count=strlen($v1);
+						  					if($count>20){
+												$newbz=mb_substr($v1,0,20)."....";
+											}else{
+												$newbz=$v1;
+											}
+
+							$shangji1.="<td><span title='".$v1."' style='cursor:pointer'>".$newbz." </td>";
 						}elseif($k1=="zdy4"){
 							$shangji1.="<td>".$v1." </td>";
 						}elseif($k1=="zdy5"){

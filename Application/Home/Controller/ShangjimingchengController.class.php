@@ -535,6 +535,7 @@ return $fzr_only;
 		$this->assign('chanpin1',$chanpin1); 
 		$this->assign('sql_rh',$sql_rh);
 		$this->assign('lx_json',$lx_json);
+		
 		$this->assign('sql_lianxi',$sql_lianxi);
 	$this->display();
 	}
