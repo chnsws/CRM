@@ -222,10 +222,10 @@ class LianxirenmingchengController extends Controller {
 		}
 		//	echo "<pre>";var_dump($show1);exit;
 		foreach ($ywzd as $k => $v){
-			$show3.="<tr style='height:40px'><td>".$v['name']."：</td>";
+			$show3.="<tr ><td style='height:40px;width:20%'>".$v['name']."：</td>";
 				if($lx_json[$k]!=""){
 					if($k=='zdy1'){
-						$show3.="<td><input type='hidden' name='".$k."' style='width:220px;height:26px;'  value='".$lx_json[$k]."'><span style='margin-left:30px;color:#07d'>".$kehu[$lx_json[$k]]['name']."</span></td>";	
+						$show3.="<td style='width:80%'><input type='hidden' name='".$k."' style='width:300px;height:26px;'  value='".$lx_json[$k]."'><span style='margin-left:5px;color:#07d'>".$kehu[$lx_json[$k]]['name']."</span></td>";	
 					}elseif($k=='zdy2'){
 						
 						$show3.="<td>";
@@ -245,26 +245,26 @@ class LianxirenmingchengController extends Controller {
 						
 						$show3.="</td>";
 					}elseif($k=='zdy15'){
-						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."  style='width:220px;height:26px;' value='".$lx_json[$k]."'></td>";
+						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."  style='width:300px;height:26px;' value='".$lx_json[$k]."'></td>";
 
 					}elseif($k=='zdy6'){
-						$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;'  class='required1 qingyx1 ' onchange='sjyz(this)' value='".$lx_json[$k]."'></td>";
+						$show3.="<td><input type='text' name='".$k."' style='width:300px;height:26px;'  class='required1 qingyx1 ' onchange='sjyz(this)' value='".$lx_json[$k]."'></td>";
 
 					
 					}elseif($k=='zdy10'){
 
-						$show3.="<td><input type='text' name='".$k."'  class='qingyx'  onchange='yxyz(this)' style='width:220px;height:26px;' value='".$lx_json[$k]."' maxlength='40'></td>";
+						$show3.="<td><input type='text' name='".$k."'  class='qingyx'  onchange='yxyz(this)' style='width:300px;height:26px;' value='".$lx_json[$k]."' maxlength='40'></td>";
 					}elseif($k=='zdy16'){
-						$show3.="<td><textarea name='".$k."' class='required' maxlength='400' style='width:220px' rows='2' cols='38' placeholder='最大长度400'>".$lx_json[$k]."</textarea></td>";
+						$show3.="<td><textarea name='".$k."' class='required' maxlength='400' style='width:300px' rows='2' cols='38' placeholder='最大长度400'>".$lx_json[$k]."</textarea></td>";
 					}elseif($k=='zdy5'){
 								$zuoji = explode('-',$lx_json[$k]);
 								if($zuoji[1]==''||$zuoji[1]==null){
 									$zuoji[1]=$zuoji[0];
 									$zuoji[0]='';
 								}
-								$show3.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$k."'' style='width:48px;height:26px;' value='".$zuoji[0]."'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:148px;height:26px;' maxlength='30' class='jiaodiana' name='".$k."' value='".$zuoji[1]."'></td>";	
+								$show3.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$k."'' style='width:48px;height:26px;' value='".$zuoji[0]."'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px;height:26px;' maxlength='30' class='jiaodiana' name='".$k."' value='".$zuoji[1]."'></td>";	
 					}else{
-						$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;' value='".$lx_json[$k]."' maxlength='40'></td>";
+						$show3.="<td><input type='text' name='".$k."' style='width:300px;height:26px;' value='".$lx_json[$k]."' maxlength='40'></td>";
 					}
 					
 				}else{
@@ -279,21 +279,21 @@ class LianxirenmingchengController extends Controller {
 					
 						
 						}elseif($k=='zdy15'){
-						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  style='width:220px;height:26px;' placeholder='未填写'></td>";
+						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  style='width:300px;height:26px;' placeholder='未填写'></td>";
 
 					
 						}elseif($k=='zdy10'){
 
-						$show3.="<td><input type='text' name='".$k."'  class='qingyx'  onchange='yxyz(this)' style='width:220px;height:26px;' placeholder='未填写' maxlength='40'></td>";
+						$show3.="<td><input type='text' name='".$k."'  class='qingyx'  onchange='yxyz(this)' style='width:300px;height:26px;' placeholder='未填写' maxlength='40'></td>";
 						}elseif($k=='zdy6'){
-						$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;'  class=' qingyx1 ' onchange='sjyz(this)' placeholder='未填写'></td>";
+						$show3.="<td><input type='text' name='".$k."' style='width:300px;height:26px;'  class=' qingyx1 ' onchange='sjyz(this)' placeholder='未填写'></td>";
 		
 						}elseif($k=='zdy5'){
-								$show3.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$k."'' style='width:48px;height:26px;' value='".$zuoji[0]."'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:148px;height:26px;' class='jiaodiana' name='".$k."' value='".$zuoji[1]."' maxlength='30'></td>";	
+								$show3.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$k."'' style='width:48px;height:26px;' value='".$zuoji[0]."'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px;height:26px;' class='jiaodiana' name='".$k."' value='".$zuoji[1]."' maxlength='30'></td>";	
 						}elseif($k=='zdy16'){
-						$show3.="<td><textarea name='".$k."' class='required' maxlength='400' style='width:220px' rows='2' cols='38' placeholder='最大长度400'>".$lx_json[$k]."</textarea></td>";
+						$show3.="<td><textarea name='".$k."' class='required' maxlength='400' style='width:300px' rows='2' cols='38' placeholder='最大长度400'>".$lx_json[$k]."</textarea></td>";
 						}else{
-							$show3.="<td><input type='text' name='".$k."' style='width:220px;height:26px;' placeholder='未填写' maxlength='40'></td>";
+							$show3.="<td><input type='text' name='".$k."' style='width:300px;height:26px;' placeholder='未填写' maxlength='40'></td>";
 						}
 				}
 			$show3.="</tr>";

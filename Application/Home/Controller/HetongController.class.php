@@ -1768,7 +1768,7 @@ public function kehu(){
 				if($lxr_id_sel=="lslxr"){     //先添加联系人 这里是  新增的 else 是选择的
 					$lxr75=$_GET['lxr'];
 					//$lxr75="zdy0:我收,zdy2:lxrzdy2,zdy4:lxrzdy4,zdy6:lxrzdy6,zdy10:lxrzdy10,zdy12[]:北京市-北京市市辖区-东城区,";
-					$lxr_number=substr($lxr75,0,strlen($lxr75)-3); 
+					$lxr_number=$lxr75; 
 
 					$lxr_ex=explode(',￥￥',$lxr_number);
 					foreach($lxr_ex as $k=>$v)
@@ -1807,7 +1807,7 @@ public function kehu(){
 				
 						$kehu75=$_GET['kh'];
 						//$kehu75="zdy0:新的客户1,zdy1:canshu1,zdy2:4545,zdy3:45,zdy4:4545,zdy5:45,zdy15:lslxr,kh_fz:47,ht_department:技术部,";
-						$kh_number=substr($kehu75,0,strlen($kehu75)-1); 
+						$kh_number=$kehu75; 
 						$kh_ex=explode(',￥￥',$kh_number);
 						foreach($kh_ex as $k=>$v)
 						{
@@ -1843,7 +1843,7 @@ public function kehu(){
 						{
 							$shangji=$_GET['sj'];
 							//$shangji="zdy0:安慰法1,undefined:undefined,zdy2:281,zdy3:2333333,zdy4:2017-7-5 17:37:46,sj_fz:46,ht_department:技术部,";
-							$sj_number=substr($shangji,0,strlen($shangji)-1); 
+							$sj_number=substr($shangji,0,strlen($shangji)-3); 
 							$sj_ex=explode(",￥￥",$sj_number);
 							foreach($sj_ex as $k=>$v){
 								$sj_ex=explode(":￥￥",$v);

@@ -1283,7 +1283,9 @@ $("#nchangyong").click(function(){
 													}
 													
 												}
-												window.ajaxstr_kh=ajaxstr;
+
+												window.ajaxstr_kh=ajaxstr.substr(0,ajaxstr.length-3);
+											
 												window.name_kh =$("#kh").find("#wyszdy0").val();
 											
 												if(name_lxr==''){
@@ -1415,8 +1417,8 @@ $("#nchangyong").click(function(){
 										}
 										
 									}
-								
-										window.ajaxstr_lxr=ajaxstr;//alert(ajaxstr)
+											window.ajaxstr_lxr=ajaxstr.substr(0,ajaxstr.length-3);
+									
 								
 
 									window.name_lxr =$("#lxr").find("#lxrzdy0").val();

@@ -119,7 +119,14 @@ th{background-color:#50BBB1;height:30px;color:white;border:0px !important;}
 .ziliao_kh{margin-left:10px;width:35%;}
 #th_onlykh{margin-left:20px;}
 a{color:#07d; text-decoration:none !important;}
-
+.lll td
+        {
+            white-space: nowrap;
+        }
+        .lll th
+        {
+            white-space: nowrap;
+        }	
 
 		</style>
 
@@ -328,8 +335,9 @@ a{color:#07d; text-decoration:none !important;}
 							</div>
 				
 					</div>
-				    <div class="layui-tab-item">
-				    	<table class="layui-table"  >
+				    <div class="layui-tab-item" >
+				    	<table class="layui-table lll"  width="auto">
+				    	
 							  	<thead>
 							  				<th >姓名</th>
 							  				<th >部门</th>
@@ -344,10 +352,12 @@ a{color:#07d; text-decoration:none !important;}
 							  			{$lxr_show}
 								
 								</tbody>
+						
 						</table>  
 				    </div>
-				    <div class="layui-tab-item">
-				    	<table class="layui-table"  >
+				    <div class="layui-tab-item" >
+				    	<table class="layui-table lll" width="auto" >
+				    		
 						  	<thead>
 						  				<th >商机标题</th>
 						  				<th >预计销售金额</th>
@@ -363,10 +373,12 @@ a{color:#07d; text-decoration:none !important;}
 						  		{$sj_show_much}
 						
 							</tbody>
+						
 						 </table>  
 				    </div>
-				    <div class="layui-tab-item">
-				    	<table class="layui-table"  >
+				    <div class="layui-tab-item" >
+				    	<table class="layui-table lll"   width="auto">
+				    		
 						  	<thead>
 						  				<th >合同标题</th>
 						  				<th >合同总金额</th>
@@ -380,6 +392,7 @@ a{color:#07d; text-decoration:none !important;}
 							<tbody class="fujian_del">
 									{$ht_show_much}
 							</tbody>
+							
 						  </table>  
 				    </div>
 				    <div class="layui-tab-item " id="six1">
