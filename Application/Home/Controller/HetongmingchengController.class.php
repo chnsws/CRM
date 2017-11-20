@@ -1736,11 +1736,11 @@ return $fzr_only;
 		
 		$a=$_GET['id'];
 		
-		$new_number=substr($a,0,strlen($a)-1); 
-		$new_arr=explode(',',$new_number);
+		$new_number=substr($a,0,strlen($a)-3); 
+		$new_arr=explode(',￥￥',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
-			$ex=explode(":",$v);
+			$ex=explode(":￥￥",$v);
 			
 			
 				$ex1[$ex['0']]=$ex['1'];               //提交过来的数据
