@@ -773,7 +773,7 @@ class KehuController extends Controller {
 		$b=$_GET['id2'];
 	
 		$new_number=substr($a,0,strlen($a)-1); 
-		$new_arr=explode(',',$new_number);
+		$new_arr=explode(',￥￥',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
 			$ex=explode(":￥￥",$v);
@@ -855,7 +855,7 @@ class KehuController extends Controller {
 		$a=$_GET['id'];
 		//$a="zdy0:哥哥哥,zdy1:canshu1,zdy2:5565656,zdy3:54454,zdy4:55,zdy5:6,zdy15:142,zdy8:,zdy12:--请选择--,zdy13:,zdy6[]:北京市-北京市市辖区-东城区,zdy7:,zdy9:--请选择--,zdy10:--请选择--,zdy11:--请选择--,zdy14:,ht_fz:45,ht_department:销售部-国贸1,";
 		$new_number=substr($a,0,strlen($a)-1); 
-		$new_arr=explode(',',$new_number);
+		$new_arr=explode(',￥￥',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
 			$ex=explode(":￥￥",$v);
@@ -867,7 +867,7 @@ class KehuController extends Controller {
 			{
 				$data['kh_fz']=$ex['1'];
 			}elseif($ex['0']=="ht_department")
-			{
+			{ 
 				$data['kh_bm']=$ex['1'];
 			}else{
 				$ex1[$ex['0']]=$ex['1'];
@@ -937,7 +937,7 @@ class KehuController extends Controller {
 			$bianji_val= $_GET['bianji_val'];//修改内容
 			$sql=substr($bianji_name,0,3);
 			$kehus=M('kh'); 
-
+                                                                         
 		if($sql=='zdy'){
 			$ywzd=M('yewuziduan');              //只是为了获取  zd0   的中文名字放备注中
 				$yw_cs['zd_yewu']="2";
@@ -3093,10 +3093,10 @@ public function save(){
 		$a=$_GET['id'];
 		//$a="zdy0:王玉帅,zdy1:公司二,zdy2:男,zdy3:技术部,zdy4:程序员,zdy5:15101574324,zdy6:1510157324,zdy7:guanzhuwoba666,zdy8:792732447,zdy9:没有,zdy10:792732447@qq.com,zdy11:www.nmm.com,zdy12[]:北京市-北京市市辖区-东城区,zdy13:劲松富顿中心C座1201,zdy14:548976,zdy15:2017-4-27 17:11:46,zdy16:2222,";
 		$new_number=substr($a,0,strlen($a)-1); 
-		$new_arr=explode(',',$new_number);
+		$new_arr=explode(',￥￥',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
-			$ex=explode(":",$v);
+			$ex=explode(":￥￥",$v);
 			if($ex['0']=="zdy12[]")
 			{
 				$substr=substr($ex['0'],0,strlen($ex['0'])-2); //id

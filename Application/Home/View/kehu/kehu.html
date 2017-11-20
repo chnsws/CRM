@@ -740,16 +740,16 @@ function add_yh()
 
 										if(thisdom.prop("name")=='zdy6[]')
 										{	//tishi(thisdom.prop("name"))
-											ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+","; 
+											ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+",￥￥"; 
 										}else{
 											if(thisdom.prop("name")=='zdy2')
 											{ 
 												
-												ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+","; 
+												ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+",￥￥"; 
 											
 												
 											}else{
-												ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",";
+												ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",￥￥";
 											}
 										}
 										
@@ -995,17 +995,17 @@ function add_yh()
 										
 										if(thisdom.prop("name")=='zdy12[]')
 										{	//tishi(thisdom.prop("name"))
-											ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",";
+											ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(1).val()+"-"+thisdom.eq(2).val()+",￥￥";
 										}else{
 											if(thisdom.prop("name")=='zdy2')
 											{
-												ajaxstr+=thisdom.prop("name")+":"+$('input[name="zdy2"]:checked').val()+",";
+												ajaxstr+=thisdom.prop("name")+":￥￥"+$('input[name="zdy2"]:checked').val()+",￥￥";
 											}else if(thisdom.prop("name")=='zdy5')
 											{ 
-												ajaxstr+=thisdom.prop("name")+":"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+","; 
+												ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.eq(0).val()+"-"+thisdom.eq(2).val()+",￥￥"; 
 											
 											}else{
-												ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+												ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",￥￥";
 											}
 										}
 										
