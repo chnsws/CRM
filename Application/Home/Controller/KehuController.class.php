@@ -1414,7 +1414,7 @@ class KehuController extends Controller {
 						  					if($count>40){
 												$newbz=mb_substr($v['zdy16'],0,40)."....";
 											}else{
-												$newbz=$v;
+												$newbz=$v['zdy16'];
 											}
 					  			$lxr_show.="<td ><span title='".$v['zdy16']."' style='cursor:pointer'>".$newbz."</td>
 					  				
@@ -1495,7 +1495,7 @@ class KehuController extends Controller {
 						  					if($count>40){
 												$newbz=mb_substr($v['zdy11'],0,40)."....";
 											}else{
-												$newbz=$v;
+												$newbz=$v['zdy11'];
 											}
 
 						  			$sj_show_much.="<td > <span title='".$v['zdy11']."' style='cursor:pointer '>".$newbz."</span></td>
@@ -1621,7 +1621,7 @@ class KehuController extends Controller {
 						  					if($count>40){
 												$newbz=mb_substr($v['zdy17'],0,40)."....";
 											}else{
-												$newbz=$v;
+												$newbz=$v['zdy17'];
 											}
 						  				$ht_show_much.="<td > <span title='".$v['zdy17']."' style='cursor:pointer '>".$newbz."</span></td>
 						  			</tr> ";
