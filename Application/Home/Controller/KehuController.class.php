@@ -1461,8 +1461,8 @@ class KehuController extends Controller {
 								if($bc<3){
 									$sj_show.="<tr>";
 									$count=strlen($v['zdy0']);
-						  					if($count>15){
-												$newbz=mb_substr($v['zdy0'],0,15)."....";
+						  					if($count>13){
+												$newbz=mb_substr($v['zdy0'],0,13)."....";
 											}else{
 												$newbz=$v;
 											}
@@ -1576,8 +1576,8 @@ class KehuController extends Controller {
 										{
 											$ht_show.="<tr>";
 													$count=strlen($v['zdy0']);
-								  					if($count>15){
-														$newbz=mb_substr($v['zdy0'],0,15)."....";
+								  					if($count>13){
+														$newbz=mb_substr($v['zdy0'],0,13)."....";
 													}else{
 														$newbz=$v;
 													}
