@@ -345,7 +345,7 @@ return $fzr_only;
 							$show2.="<td><textarea name='".$kbt."'  maxlength='400' style='width:185px' rows='2' cols='38' placeholder='最大长度400'>".$sql_rh[$kbt]."</textarea></td>";
 						}
 						else{
-							$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."' ></td> ";
+							$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."' maxlength='40'></td> ";
 						}
 				
 			

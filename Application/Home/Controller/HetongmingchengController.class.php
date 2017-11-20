@@ -355,7 +355,7 @@ return $fzr_only;
 							}
 						$show3.="</select></td>";	
 					}elseif($k=='zdy17'){
-								$show3.="<td><textarea name='".$k."'  maxlength='400' style='width:300px' rows='4' cols='38' placeholder='最大长度400' >'".$ht_json[$k]."'</textarea></td>";
+								$show3.="<td><textarea name='".$k."'  maxlength='400' style='width:300px' rows='4' cols='38' placeholder='最大长度400' >".$ht_json[$k]."</textarea></td>";
 							}else{
 						$show3.="<td ><input type='text' class='bjwh' name='$k' value='".$ht_json[$k]."' maxlength='40'></td>";	
 					}	
