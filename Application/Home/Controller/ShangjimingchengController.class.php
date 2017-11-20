@@ -535,7 +535,7 @@ return $fzr_only;
 		$this->assign('chanpin1',$chanpin1); 
 		$this->assign('sql_rh',$sql_rh);
 		$this->assign('lx_json',$lx_json);
-		
+
 		$this->assign('sql_lianxi',$sql_lianxi);
 	$this->display();
 	}
@@ -637,11 +637,11 @@ return $fzr_only;
 	public function save(){
 		$a=$_GET['id'];
 		//$a="sj_id:60,zdy1:247,zdy2:1,zdy0:中软远景,zdy3:898989,zdy4:2017-5-4 10,zdy5:canshu2,zdy7:canshu2,zdy8:2017-5-4 10,zdy9:canshu3,zdy10:2017-5-4 10,zdy11:545,zdy12:54,zdy13:5,";
-		$new_number=substr($a,0,strlen($a)-1); 
-		$new_arr=explode(',',$new_number);
+		$new_number=substr($a,0,strlen($a)-3); 
+		$new_arr=explode(',￥￥',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
-			$ex=explode(":",$v);
+			$ex=explode(":￥￥",$v);
 			if($ex['0']=="sj_id")
 			{
 				$map['sj_id']=$ex['1'];

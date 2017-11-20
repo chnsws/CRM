@@ -390,7 +390,7 @@
 									for(a=0;a<fornum;a++)
 									{
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
-										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
+										ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",￥￥";
 									}
 									//alert (ajaxstr);
 									$.get(rooturl+'/index.php/Home/Shangjimingcheng/save',{"id":ajaxstr},
