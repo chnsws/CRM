@@ -89,6 +89,13 @@
         {
             white-space: nowrap;
         }
+         .sja table th:first-child{position:absolute;left:10px;background: #50BBB1;width:30px;margin-top:4px;}
+		.sja table th:nth-child(2){position:absolute;left:55px;background: #50BBB1;margin-top:4px;width:200px;overflow: hidden;text-overflow: ellipsis;}
+		.sja table th:nth-child(3){padding-left:330px;}
+		
+		.sja table tr>td:first-child{position:absolute;left:10px;background: #fff;width:30px;}
+		.sja table tr>td:nth-child(2){position:absolute;left:56px;background: #fff;width:200px;overflow: hidden;text-overflow: ellipsis;}
+		.sja table tr>td:nth-child(3){padding-left:330px;}
 		</style>   
 		 
   <style>
@@ -175,7 +182,7 @@
 
 
 
-			<div class="kehu2" >   
+			<div class="kehu2 sja" >   
 		   		<div class="kehu">   
 				   		<div class='kongzhiyeshu uk-form '><span class="ycyo">每页显示<select  onchange="kongzhiyeshu(this)">
 

@@ -96,6 +96,13 @@
         {
             white-space: nowrap;
         }
+         .lxra table th:first-child{position:absolute;left:12px;background: #50BBB1;width:30px;margin-top:4px;}
+		.lxra table th:nth-child(2){position:absolute;left:55px;background: #50BBB1;margin-top:4px;width:200px;overflow: hidden;text-overflow: ellipsis;}
+		.lxra table th:nth-child(3){padding-left:330px;}
+		
+		.lxra table tr>td:first-child{position:absolute;left:12px;background: #fff;width:30px;}
+		.lxra table tr>td:nth-child(2){position:absolute;left:56px;background: #fff;width:200px;overflow: hidden;text-overflow: ellipsis;}
+		.lxra table tr>td:nth-child(3){padding-left:330px;}
 		</style> 
 	</head>
 	<body style="position:relative">
@@ -141,7 +148,7 @@
   					</button>
 					</span>
    				</div>
-		   			<div class="kehu">   
+		   			<div class="kehu lxra">   
 						   	<div class='kongzhiyeshu uk-form '>
 						   	<span class="ycyo">
 						   				每页显示<select  onchange="kongzhiyeshu(this)">
