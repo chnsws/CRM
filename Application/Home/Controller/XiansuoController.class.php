@@ -1169,6 +1169,28 @@ class XiansuoController extends DBController {
 		$zdarr=parent::sel_more_data("crm_yewuziduan","zd_data"," zd_yh='$fid' and zd_yewu='1' limit 1");
 		$zdarr=json_decode($zdarr[0]['zd_data'],true);
 
+		$px=parent::sel_more_data("crm_paixu","px_px","px_yh='$fid' and px_mod='1' limit 1");
+		$px=explode(',',$px[0]['px_px']);
+		foreach($zdarr as $k=>$v)
+		{
+			$zdarr[$v['id']]=$v;
+			unset($zdarr[$k]);
+		}
+		foreach($px as $v)
+		{
+			$nzd[$v]=$zdarr[$v];
+			unset($zdarr[$v]);
+		}
+		if(count($zdarr)>0)
+		{
+			foreach($zdarr as $v)
+			{
+				$nzd[$v['id']]=$v;
+			}
+		}
+		unset($zdarr);
+		$zdarr=$nzd;
+
 		foreach($file_content_arr[1] as $v)
 		{
 			$file_head[]=$v;
@@ -1225,7 +1247,7 @@ class XiansuoController extends DBController {
 				continue;
 			}
 			$cot++;
-			$insertdbstr.="('','".str_replace('\\','\\\\',$row_str)."','0','0','$nowtime','".cookie("user_id")."','$nowtime','0','','$fid','0'),";
+			$insertdbstr.="('','".str_replace('\\','\\\\',$row_str)."','".addslashes(cookie("user_id"))."','0','$nowtime','".cookie("user_id")."','$nowtime','0','','$fid','0'),";
 		}
 		$insertdbstr=substr($insertdbstr,0,-1);//去掉最后一个逗号
 		if($insertdbstr=='')
@@ -1245,8 +1267,29 @@ class XiansuoController extends DBController {
 		parent::have_qx("qx_xs_open");
 		$fid=parent::get_fid();
 		//查询字段
-		$zdarr=parent::sel_more_data("crm_yewuziduan","zd_data","zd_yh='3' and zd_yewu='1' limit 1");
+		$zdarr=parent::sel_more_data("crm_yewuziduan","zd_data","zd_yh='$fid' and zd_yewu='1' limit 1");
 		$zdarr=json_decode($zdarr[0]['zd_data'],true);
+		$px=parent::sel_more_data("crm_paixu","px_px","px_yh='$fid' and px_mod='1' limit 1");
+		$px=explode(',',$px[0]['px_px']);
+		foreach($zdarr as $k=>$v)
+		{
+			$zdarr[$v['id']]=$v;
+			unset($zdarr[$k]);
+		}
+		foreach($px as $v)
+		{
+			$nzd[$v]=$zdarr[$v];
+			unset($zdarr[$v]);
+		}
+		if(count($zdarr)>0)
+		{
+			foreach($zdarr as $v)
+			{
+				$nzd[$v['id']]=$v;
+			}
+		}
+		unset($zdarr);
+		$zdarr=$nzd;
 		$head=array();
 		foreach($zdarr as $v)
 		{
