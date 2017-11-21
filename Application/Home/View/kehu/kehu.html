@@ -112,9 +112,16 @@
         {
             white-space: nowrap;
         }	
+        .kehu table th:first-child{position:absolute;left:14px;background: #50BBB1;width:30px;margin-top:4px;}
+		.kehu table th:nth-child(2){position:absolute;left:55px;background: #50BBB1;margin-top:4px;width:300px;overflow: hidden;text-overflow: ellipsis;}
+		.kehu table th:nth-child(3){padding-left:430px;}
+		
+		.kehu table tr>td:first-child{position:absolute;left:14px;background: #fff;width:30px;}
+		.kehu table tr>td:nth-child(2){position:absolute;left:56px;background: #fff;width:300px;overflow: hidden;text-overflow: ellipsis;}
+		.kehu table tr>td:nth-child(3){padding-left:430px;}
    			 </style>
   			
-
+	
 		
     	
 
@@ -722,8 +729,10 @@ function add_yh()
 				var win=layer.open({
 								type:1,
 								offset: 't',
-								area: '670px',
+								area: ['670px','60%'],
+
 								moveOut: true,
+
 								fixed: false,
 					title: '新增客户',
 					content:$('#dialog-form'),
