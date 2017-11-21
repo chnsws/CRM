@@ -3,14 +3,14 @@ namespace Home\Controller;
 use Think\Controller;
 
 
-class KehuController extends Controller {
+class GonghaiController extends Controller {
 
 	public function jsonaa(){
 		$array=array("a","b","c","d","e");
 		$sl=json_encode($array,true);
 		echo $sl;
 	}
-    public function kehu(){
+    public function gonghai(){
 
     
     	$xiaji= $this->get_xiashu_id();//  查询下级ID\
@@ -572,12 +572,7 @@ class KehuController extends Controller {
 			$bj_tab.="</tr>";    //多条编辑 弹出框对应数据
 		}
 		$this->assign('bj_tab',$bj_tab);
-		$new_html.="<div class='sxzddiv' id='kehujibie'>";
-					$new_html.=" <div class='sx_title' >客户范围：</div>";
-							$new_html.=" <span class='sx_yes'>全部客户</span>";
-							$new_html.="<span class='sx_no'>我的客户</span>";
-							$new_html.="<span class='sx_no'>我下属的客户</span>";					
-				$new_html.="</div>";
+	
 		foreach($sql_peizhi as $v)
 		{
 				$new_html.="<div class='sxzddiv' id='".$v['id']."'>";
@@ -1127,7 +1122,7 @@ class KehuController extends Controller {
 		$userbase=M("user");
 		$qxbase=M("quanxian");
 		$bmbase=M("department");
-		$userarr=$userbase->query("select * from crm_user where (user_fid='$nowloginfid' or user_id='$nowloginfid') and user_del='0' and user_act!='0' " );
+		$userarr=$userbase->query("select * from crm_user where (user_fid='$nowloginfid' or user_id='$nowloginfid') and user_del='0'");
 		foreach($userarr as $v)
 		{
 			$userkeyid[$v['user_id']]=$v;
@@ -1135,7 +1130,7 @@ class KehuController extends Controller {
 		$nowloginqx=$userkeyid[$nowloginid]['user_quanxian'];
 		$nowloginbid=$userkeyid[$nowloginid]['user_zhu_bid'];
 
-		$qxarr=$qxbase->query("select qx_data_qx from crm_quanxian where qx_company='$nowloginfid' and qx_id='$nowloginqx' ");
+		$qxarr=$qxbase->query("select qx_data_qx from crm_quanxian where qx_company='$nowloginfid' and qx_id='$nowloginqx'");
 		$dataqx=$qxarr[0]['qx_data_qx'];
 		$bmbasearr=$bmbase->query("select * from crm_department where bm_company='$nowloginfid'");
 		for($a=0;$a<10;$a++)
