@@ -575,7 +575,7 @@ return $fzr_only;
 		$userbase=M("user");
 		$qxbase=M("quanxian");
 		$bmbase=M("department");
-		$userarr=$userbase->query("select * from crm_user where (user_fid='$nowloginfid' or user_id='$nowloginfid') and user_del='0'user_act!='0' ");
+		$userarr=$userbase->query("select * from crm_user where (user_fid='$nowloginfid' or user_id='$nowloginfid') and user_del='0' and user_act!='0' ");
 		foreach($userarr as $v)
 		{
 			$userkeyid[$v['user_id']]=$v;
