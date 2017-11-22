@@ -50,7 +50,6 @@ class MainController extends DBController {
         if($zhidingnum)
         {
             krsort($zhiding);
-            
             foreach($zhiding as $v)
             {
                 $gonggaostr.='<div><span class="gonggao_row_title"><a href="'.$_GET['root_dir'].'/index.php/Home/Option/gonggaomore?ggid='.$v['ggsz_id'].'&from=main2">'.$v['ggsz_name'].'</a></span><span class="zhiding">置顶</span><span class="gonggao_row_time">'.substr($v['ggsz_fbsj'],5).'</span></div>';
@@ -79,7 +78,7 @@ class MainController extends DBController {
                     break;
                 }
                 $buzhidingnum--;
-                $gonggaostr.='<div><span class="gonggao_row_title"><a>'.$v['ggsz_name'].'</a></span><span class="gonggao_row_time">'.substr($v['ggsz_fbsj'],5).'</span></div>';
+                $gonggaostr.='<div><span class="gonggao_row_title"><a href="'.$_GET['root_dir'].'/index.php/Home/Option/gonggaomore?ggid='.$v['ggsz_id'].'&from=main2">'.$v['ggsz_name'].'</a></span><span class="gonggao_row_time">'.substr($v['ggsz_fbsj'],5).'</span></div>';
             }
         }
         $gonggaostr=$gonggaostr==''?'<div><span class="gonggao_row_title" style="text-align:center;">暂无公告</span><span class="gonggao_row_time"></span></div>':$gonggaostr;
