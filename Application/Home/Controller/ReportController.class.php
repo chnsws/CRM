@@ -1211,8 +1211,16 @@ class ReportController extends DBController {
         $time_more=parent::time_more();
         //排序
         $pxarr=parent::sel_more_data("crm_paixu","px_px","px_yh='$fid' and px_mod='52'");
-        $pxarr=explode(',',$pxarr[0]['px_px']);
-
+        
+        if($pxarr[0]['px_px']!='')
+        {
+            $pxarr=explode(',',$pxarr[0]['px_px']);
+            foreach($pxarr as $k=>$v)
+            {
+                $pxarr[$v]=$v;
+                unset($pxarr[$k]);
+            }
+        }
         //销售阶段字段参数查询
         $cs_arr=parent::sel_more_data("crm_ywcs","ywcs_data","ywcs_yh='$fid' and ywcs_yw='5'");
         $cs_arr=json_decode($cs_arr[0]['ywcs_data'],true);
@@ -1224,7 +1232,12 @@ class ReportController extends DBController {
             }
             if($cs_arr[1]['qy'][$k]!=1)
             {
+                unset($pxarr[$k]);
                 continue;
+            }
+            if($pxarr[$k]=='')
+            {
+                $pxarr[$k]=$k;
             }
             $cs_name[$k]=$v;
         }
@@ -1236,6 +1249,7 @@ class ReportController extends DBController {
             $fz_where="and sj_fz='".$_GET['sx_3']."'";
         }
         $sj_arr=parent::sel_more_data("crm_shangji","sj_data,sj_fz,sj_qiandan","sj_yh='$fid' $fz_where ");
+   
         foreach($sj_arr as $v)
         {
             if($_GET['sx_2']!=''&&$_GET['sx_2']!='0')
