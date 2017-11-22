@@ -43,6 +43,13 @@ class XiansuoController extends DBController {
 		$add_table_show='';
 		$add_table_hide='';
 		$search_option='';
+		$notShow=array(
+			"zdy14"=>"1",//跟进状态
+			"zdy15"=>"1",//线索来源
+			"zdy16"=>"1",//下次跟进时间
+			"zdy2"=>"1",//部门
+			"zdy11"=>"1"//地区
+		);
 		foreach($pxzdarr as $k=>$v)
 		{
 			$add_table='';
@@ -50,7 +57,10 @@ class XiansuoController extends DBController {
 			{
 				continue;
 			}
-			$search_option.='<option value="'.$k.'">'.$v['name'].'</option>';
+			if(!$notShow[$k])
+			{
+				$search_option.='<option value="'.$k.'">'.$v['name'].'</option>';
+			}
 			$bt=$v['bt']=='1'?'<span class="redstar">*</span>':'';
 			//地区特殊处理
 			if($k=='zdy11')
@@ -749,13 +759,16 @@ class XiansuoController extends DBController {
 		parent::is_login();
 		$sel_str=addslashes($_GET['sel_str']);
 		$iscz=parent::sel_more_data("crm_config","*","config_name='".cookie("user_id")."'");
+
 		if(count($iscz))
 		{
 			parent::edit_one_data("crm_config","config_xs_sx_config",$sel_str,"config_name='".cookie("user_id")."'");
 		}
 		else
 		{
-			parent::add_one_data("crm_config",'',"config_xs_sx_config",$sel_str);
+			$m=M();
+			$m->query("insert into crm_config set config_xs_sx_config='$sel_str',config_name='".cookie("user_id")."' ");
+			//parent::add_one_data("crm_config",'',"config_xs_sx_config",$sel_str);
 		}
 		$this->insertrizhi('0','2','修改了筛选设置');
 		echo 1;
