@@ -1736,8 +1736,8 @@ return $fzr_only;
 		
 		$a=$_GET['id'];
 		
-		$new_number=substr($a,0,strlen($a)-3); 
-		$new_arr=explode(',￥￥',$new_number);
+		
+		$new_arr=explode(',￥￥',$a);
 		foreach($new_arr as $k=>$v)
 		{
 			$ex=explode(":￥￥",$v);

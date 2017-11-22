@@ -686,10 +686,10 @@ i.layui-anim{display:inline-block}
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
 										ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",￥￥";
 									}
-									
+									ajaxstra=ajaxstr.substr(0,ajaxstr.length-3);
 									var ht_id=$(".ht_id1").val();
 									
-									$.get(rooturl+'/index.php/Home/Hetongmingcheng/save',{"id":ajaxstr,'ht_id':ht_id},
+									$.get(rooturl+'/index.php/Home/Hetongmingcheng/save',{"id":ajaxstra,'ht_id':ht_id},
 							        		 function(html){
 									        	//	alert(html)
 									        		if(html=="no"){

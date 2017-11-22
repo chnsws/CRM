@@ -128,7 +128,7 @@
 	</head>
 
 	<body style="position:relative">
-	
+		<input type="hidden" id="yibudong" value="{$yibudong}">
 		 <input type="hidden" id="ys" value="{$ys}">
 		 <input type="hidden" id="fenye" value="{$list_num}">
 		  <input type="hidden" id="wocao" value="{$dijiye}">
@@ -228,7 +228,7 @@
 						</div>
    				</div>
    			<div class="kehu2" >   
-		   		<div class="kehu">   
+		   		<div class="kehu" id="dong">   
 				   		<div class='kongzhiyeshu uk-form '><span class="ycyo">每页显示<select  onchange="kongzhiyeshu(this)">
 
 				   						<if condition ="$list_num eq '5'" >
@@ -326,6 +326,12 @@
 
 </html>
 <script>
+var yibudong=$('#yibudong').val();
+
+if(yibudong=='bian')
+{
+	$("#dong").prop("class",'dong');
+}
 var ssa=$("#sousuo").val();
 if(ssa!='')
 {
@@ -714,7 +720,12 @@ $(".sxzddiv").children("span").click(function(){
 							        		 	{
 							        		 		   	window.location.href="kehu";return;
 							        		 	}
-							        		 	
+							        		 	var yibudong=$('#yibudong').val();
+											
+												if(yibudong=='bian')
+												{
+													$("#dong").prop("class",'dong');
+												}
 							        			$("#jb_bianji").html(html);
 							        			$('.bianji_hide').hide();
 							      

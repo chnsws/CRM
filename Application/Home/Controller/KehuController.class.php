@@ -620,7 +620,14 @@ class KehuController extends Controller {
 		}
 				if($ronghe=="" || $ronghe==null)
 				{
-					$table.="<tr><td colspan='30'><span style='margin-left:80px'>亲~没有数据哟！请<span  onclick='add_yh()'style='color:#1AA094;cursor:pointer;' >新增</span>客户</td></tr>";
+					$table.="<tr><td colspan='30'><span >亲~没有数据哟！请<span  onclick='add_yh()'style='color:#1AA094;cursor:pointer;' >新增</span>客户</td></tr>";
+					if($sxaaa!="")
+					{
+						echo $table;exit;
+					}else{
+						$this->assign('yibudong','bian');
+					}
+					
 				}else{
 				foreach($ronghe as $r_k=>$r_v)
 					{	
