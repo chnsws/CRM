@@ -354,7 +354,7 @@ $.ajaxSetup({
 });
 //上传控件初始化
 layui.use('upload', function(){
-  layui.upload(options);
+  layui.upload();
 });
 //分页初始化
 layui.use(['laypage', 'layer'], function(){
@@ -1050,6 +1050,7 @@ function xinzengxiansuo_show()
 //导入线索弹出框
 function daoru()
 {
+    $("#filebody").hide();
     var upname='';
     layui.upload({
         url: "__ROOT__/index.php/Home/Xiansuo/daoru_upload",
@@ -1212,6 +1213,15 @@ function add_diqu_listen()
             }
         });
     }
+}
+function delnowfile(thisdom)
+{
+    clickdelnowfile='1';
+    var thisdelname=$(thisdom).prop("name");
+    $.get("__ROOT__/index.php/Home/Xiansuo/del_old_file",{"oldname":thisdelname},function(res){
+        errorFun(res);
+    });
+    $(thisdom).parent().hide();
 }
 //搜索
 function table_top_search()

@@ -1054,9 +1054,9 @@ class XiansuoController extends DBController {
 	public function del_old_file()
 	{
 		parent::is_login();
-		$oldname=$_GET['oldname'];
+		$oldname=addslashes($_GET['oldname']);
 		if($oldname=='')die;
-		unlink('./Public/xiansuofile/'.$oldname);
+		unlink('./Public/xiansuofile/xiansuo_daoru_file/'.$oldname);
 	}
 	//保存线索附件的文件信息
 	public function add_xsfile_info()
