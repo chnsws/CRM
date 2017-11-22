@@ -2314,21 +2314,33 @@ class KehuController extends Controller {
 			$sql_del=$kehu_base->query("update  `crm_kh` SET kh_gonghai=1  where `kh_id` in ($mapid) and kh_yh=$yh" );
 			$kh_id=explode(",",$mapid);
 			$lxr_base=M('lx');
+			$sj_basea=M('shangji');
 			$lx_id="";
+			$sj_id="";
 			foreach($kh_id as $k=>$v){
 				$tiaojian='"zdy1":"'.$v.'"';
 	 			$tiaojian1='"zdy1":'.$v.'';
 				$sql_lxr=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and lx_data like '%$tiaojian%' or lx_data like '%$tiaojian1%'");
-				
 				foreach($sql_lxr as $k1=>$v1)
 				{
 					$lx_id.=$v1['lx_id'].",";	
 				}
+				$sj_base=$sj_basea->query("select * from crm_shangji where sj_yh = '$yh' and sj_data like '%$tiaojian%' or sj_data like '%$tiaojian1%'");
+				foreach($sj_base as $k2=>$v2)
+				{
+					$sj_id.=$v2['sj_id'].",";	
+				}
+
 			}
+			
 			$lx_id2=substr($lx_id,0,strlen($lx_id)-1); //id
 
 			$save_lxr=$lxr_base->query("update `crm_lx` SET lx_gonghai=1 where lx_id in ($lx_id2) and  lx_yh =$yh");
 
+			$sj_id2=substr($sj_id,0,strlen($sj_id)-1); //id
+			
+			$sj_save=$sj_basea->query("update crm_shangji SET sj_gonghai=1 where sj_id in($sj_id2) and sj_yh=$yh");
+		
 			/**foreach($sql as $k=>$v)
 			{
 				$json=json_decode($v['kh_data'],true);
