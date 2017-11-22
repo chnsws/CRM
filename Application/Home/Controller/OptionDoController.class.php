@@ -369,6 +369,39 @@ class OptionDoController extends DBController {
 			echo 2;
 		}
 	}
+	public function pwdedit2()
+	{
+		parent::is_login();
+		$newpwd=addslashes($_POST['pwd']);
+		$thisId=cookie("user_id");
+		if(!$thisId)
+		{
+			die(0);
+		}
+		if($newpwd!='')
+		{
+			$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			$relfid=$thisId==$fid?'0':$fid;
+			$userbase=M("user");
+			$userbase->query("update crm_user set user_pwd_md5='$newpwd' where user_id='$thisId'  and user_fid='$relfid' limit 1");
+			$xgname=$userbase->query("select user_name from crm_user where user_id='$dongjieid' limit 1");
+
+			//更新系统日志 	操作时间	操作人员	模块	操作内容	操作设备	操作设备IP
+			$xitongrizhibase=M("rz");
+			$loginIp=$_SERVER['REMOTE_ADDR'];//IP 
+			//登录地点
+			$addressArr=getCity($nowip);
+			$loginDidianStr=$addressArr["country"].$addressArr["region"].$addressArr["city"];
+			$sysbroinfo=getSysBro();//一维数组 sys->系统 bro->浏览器
+			//进行插入操作
+			$xitongrizhibase->query("insert into crm_rz values('','3','1','".cookie("user_id")."','0','0','0','0','0','修改了自己的密码','$loginIp','$loginDidianStr','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','$fid','".time()."')");
+			echo '1';
+		}
+		else
+		{
+			echo 2;
+		}
+	}
 	//删除用户
 	public function userdel()
 	{

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>个人信息设置</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta charset="utf-8">
+<script src="__PUBLIC__/jquery/jquery.js"></script>
+<script src="__PUBLIC__/layui2.0/layui.js"> </script>
+<link rel="stylesheet" href="__PUBLIC__/layui2.0/css/layui.css" media="all">
+<!--UIkit-->
+<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+<script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
+<style>
+    .formtable{width:500px;height:160px;margin:20px auto;}
+    input{width:90%;}
+    tr>td:first-child{text-align: center;}
+    #chPwdBtn{margin-top:10px;height:30px;line-height: 30px;}
+</style>
+</head>
+<body>
+    <!--目前仅支持修改密码-->
+    <table class="uk-form formtable" >
+        <tbody>
+            <tr>
+                <td> 原 密 码 ：</td>
+                <td><input type="password" placeholder="请输入原密码"></td>
+            </tr>
+            <tr>
+                <td> 新 密 码 ：</td>
+                <td><input type="password" placeholder="请输入新密码"></td>
+            </tr>
+            <tr>
+                <td>确认新密码：</td>
+                <td><input type="password" placeholder="请确认新密码"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button class="layui-btn" id="chPwdBtn">确认修改</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+<script type="text/javascript" src="__PUBLIC__/public.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
+<script type="text/javascript" src="__PUBLIC__/jquery-md5/jquery.md5.js"></script>
+<script>
+    $(function(){
+        layui.use('layer', function(){
+            window.layer = layui.layer;
+        });
+        $("#chPwdBtn").on("click",function(){
+            
+            var pwd0=$("input").eq(0).val();
+            if(pwd0=='')
+            {
+                tishi("请输入原密码");
+                return;
+            }
+            var lo1=loadingtip("正在验证原密码","150px");
+            var pwd1=$.md5(pwd0);
+            var username="{$_COOKIE['user_phone']}";
+            $.post('__ROOT__/index.php/Home/Login/yanzheng2',{name:username,pwd:pwd1},function(res){
+                errorFun(res);
+                if(res=='1')
+                {
+                    var pwd2=$("input").eq(1).val();
+                    var pwd3=$("input").eq(2).val();
+                    if(pwd2==''||pwd3=='')
+                    {
+                        tishi("密码不能为空");
+                        return;
+                    }
+                    if(pwd2!=pwd3)
+                    {
+                        tishi("新密码两次输入不一致，请验证后重试");
+                        return;
+                    }
+                    if(pwd3.length<4||pwd3.length>20)
+                    {
+                        tishi("密码长度必须为4-20位");
+                        return;
+                    }
+                    var pwd4=$.md5(pwd3);
+                    var lo2=loadingtip("正在修改","100px");
+                    $.post("__ROOT__/index.php/Home/OptionDo/pwdedit2",{"pwd":pwd4},function(res){
+                        errorFun(res);
+                        if(res=='1')
+                        {
+                            alert("密码修改成功，请重新登录");
+                            parent.location="__ROOT__/index.php/Home/Index/tuichu";
+                        }
+                        else
+                        {
+                            layer.close(lo1);
+                            layer.close(lo2);
+                            tishi("修改失败，请稍后重试");
+                            return;
+                        }
+                    });
+                }
+                else
+                {
+                    layer.close(lo1);
+                    tishi("原密码错误，请验证后重试");
+                    return;
+                }
+            });
+            
+        });
+    });
+</script>
+</html>
+

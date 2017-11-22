@@ -2,7 +2,7 @@
 function tishi(neirong)
 {
     layer.msg(neirong, {
-        time: 1500, 
+        time: 2000, 
         color:"#fff"
     });
 }
@@ -12,6 +12,16 @@ function loading()
         icon: 16,
         shade:0.01,
         area:'100px',
+        time:99999999
+    });
+    return obj;
+}
+function loadingtip(tip,wid)
+{
+    var obj=layer.msg(tip, {
+        icon: 16,
+        shade:0.01,
+        area:wid,
         time:99999999
     });
     return obj;

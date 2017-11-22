@@ -80,17 +80,20 @@
 							<dl class="layui-nav-child">
 								
 								<dd>
-									<a href="{$_GET['root_dir']}/index.php/Home/Option/"><i class="fa fa-gear" aria-hidden="true"></i> 设置</a>
+									<a href="__ROOT__/index.php/Home/Option/"><i class="fa fa-gear" aria-hidden="true"></i> 设置中心</a>
 								</dd>
 								<dd>
-									<a href="{$_GET['root_dir']}/index.php/Home/Index/tuichu"><i class="fa fa-sign-out" aria-hidden="true"></i> 安全退出</a>
+									<a onclick="changepwd()" style="cursor: pointer;"><i class="fa fa-key" aria-hidden="true"></i> 修改密码</a>
+								</dd>
+								<dd>
+									<a href="__ROOT__/index.php/Home/Index/tuichu"><i class="fa fa-sign-out" aria-hidden="true"></i> 安全退出</a>
 								</dd>
 							</dl>
 						</li>
 					</ul>
 					<ul class="layui-nav admin-header-item-mobile">
 						<li class="layui-nav-item">
-							<a href="{$_GET['root_dir']}/index.php/Home/Index/tuichu"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
+							<a href="__ROOT__/index.php/Home/Index/tuichu"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
 						</li>
 					</ul>
 				</div>
@@ -110,7 +113,7 @@
 					</ul>
 					<div class="layui-tab-content" style="min-height: 150px; padding: 5px 0 0 0;">
 						<div class="layui-tab-item layui-show">
-							<iframe src="{$_GET['root_dir']}/index.php/Home/Main"></iframe>
+							<iframe src="__ROOT__/index.php/Home/Main"></iframe>
 						</div>
 					</div>
 				</div>
@@ -163,7 +166,40 @@ layui.config({
 			/*cached:true,
 			url: 'datas/nav.json'*/
 	});
+	/*
+		layer.open({
+			type: 2,
+			title: '很多时候，我们想最大化看，比如像这个页面。',
+			shadeClose: true,
+			shade: false,
+			tips: [1, '#c00'],
+			resize:false, 
+			maxmin: true, //开启最大化最小化按钮
+			area: ['893px', '600px'],
+			content: '__ROOT__/index.php/Home/Cpfl/cpfl_index'
+		});
+		*/
 
+
+		/*  这个是右下角弹出层，用于提示
+		//iframe窗
+		layer.open({
+			type: 2,
+			title: false,
+			closeBtn: 0, //不显示关闭按钮
+			shade: [0],
+			area: ['340px', '215px'],
+			offset: 'rb', //右下角弹出
+			time: 2000, //2秒后自动关闭
+			anim: 2,
+			content: ['test/guodu.html', 'no'], //iframe的url，no代表不显示滚动条
+			end: function(){ //此处用于演示
+				//结束后执行的代码
+			}
+		});
+		
+	}, 2000);
+	*/
 	//渲染navbar
 	navbar.render();
 
@@ -232,7 +268,28 @@ layui.config({
 
 
 });
-				
+
+
+function changepwd()
+{
+	setTimeout(() => {
+		$("dd").removeClass("layui-this");
+	}, 1000);
+	
+	layer.open({
+		type: 2,
+		title: '修改密码',
+		shadeClose: false,
+		shade: false,
+		tips: [1, '#c00'],
+		resize:false, 
+		shade:[0.3,"#000"],
+		maxmin: false, //开启最大化最小化按钮
+		area: ["520px","250px"],
+		content: '__ROOT__/index.php/Home/Option/selfinfo'
+	});
+	
+}
 			</script>
 
 

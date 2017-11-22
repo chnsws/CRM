@@ -114,6 +114,22 @@ class LoginController extends DBController {
         echo $returnstr;
        
     }
+    public function yanzheng2(){
+        parent::is_login();
+        $getname =addslashes($_POST['name']);   //前端页面传过来的用户名
+        $getpwd  =addslashes($_POST['pwd']);    //前端页面传过来的md5加密后的密码
+        $userbase=M("user");
+        $baseuser=$userbase->query("select * from `crm_user` where user_phone='$getname' and user_pwd_md5='$getpwd' and user_del='0' ");
+        if(count($baseuser)>0)//用户名密码验证通过
+        {
+            $returnstr='1';
+        }
+        else
+        {
+            $returnstr='0';
+        }
+        echo $returnstr;
+    }
     
  
 }
