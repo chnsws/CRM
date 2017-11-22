@@ -47,8 +47,7 @@ class HetongmingchengController extends Controller {
 		}
 		public function user(){                 //负责人和dddd
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
-		$new_xiaji=$xiaji;          
-		$new_array=explode(',',$new_xiaji);
+		
 	 	$department=M('department');
 		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 			//echo $dpmet['bm_company'];exit;
@@ -62,23 +61,18 @@ class HetongmingchengController extends Controller {
 		$fuzeren=M('user');
 
 		
-			$map['user_id']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+			$m=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
 	
-	 	$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id IN ($xiaji)");//缺少条件
+	 	$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_fid=$m or user_id =$m");//缺少条件
 			foreach ($fuzeren_sql as $k=>$v)
 			{
-				foreach ($new_array as $k1=>$v1)
-				{
-					if($v['user_id']==$v1)
-					{
+				
 						$new_fuzeren['user_id']=$v['user_id'];
 						$new_fuzeren['user_name']=$v['user_name'];
 						$new_fuzeren['user_zhu_bid']=$v['user_zhu_bid'];
 						$new_fuzeren['department']=$dpt_arr[$v['user_zhu_bid']]['bm_name'];
 						$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
-					}
-						
-				}
+					
 			}  
 
 
@@ -900,15 +894,21 @@ return $fzr_only;
 				}
 				foreach($sql_xiegenjin as $k=>$v)
 				{
-					$xgj_show.="<div class='gj_mod'>
-						<div class='gj_head'><div class='gj_head_point'></div><div class='gj_head_date'>".$v['add_time']."</div></div>
+					$xgj_show.="<div class='gj_mod'>";
+						$da[$k] =substr($v['add_time'],0,10);
+							$daa[$k] =substr($v['add_time'],11,5);
+						if($da[$k]==$da[$k-1]){
+						}else{
+						$xgj_show.="<div class='gj_head'><div class='gj_head_point'></div><div class='gj_head_date'>".$da[$k]."</div></div>";
+						}
+						$xgj_show.="
 						<div class='gj_body'>
 							<div class='gj_body_icon'><i class='fa fa-pencil'></i></div>
 							<div class='gj_body_content'>
 								<div class='gj_body_content_head'>
 									<img src='' class='gj_headimg woca'>
 									<span class='user_name'>
-									".$user[$v['user_id']]['user_name']."</span><i class='fa fa-caret-right'></i><span class='gj_fangshi'>".$v['type'].":<span style='color:#07d'>".$lx_json['zdy0']."</span>
+									".$user[$v['user_id']]['user_name']."</span>".$daa[$k]."<span class='gj_fangshi'>".$v['type'].":<span style='color:#07d'>".$lx_json['zdy0']."</span>
 									</span>
 								<span style='float:right;cursor:pointer;' id='".$v['genjin_id']."' title='点击删除' onclick='del_gj(this)' ><i class='layui-icon'>&#xe640;</i>  </span>
 								</div>
