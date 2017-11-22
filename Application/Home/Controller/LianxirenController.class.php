@@ -120,7 +120,7 @@ return $fzr_only;
 				$tihuan= str_replace("\\", "\\\\\\\\", $first);
 				$kh_base=M('lx');
 				$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-				$lxr_sql=$kh_base->query("select * from crm_lx where lx_yh = '$yh' and lx_cj IN ($xiaji) and  lx_data like '%".$tihuan."%'");
+				$lxr_sql=$kh_base->query("select * from crm_lx where lx_yh = '$yh' and lx_cj IN ($xiaji) and lx_gonghai=0 and lx_data like '%".$tihuan."%'");
 				$this->assign('namess',$namess);
 		}elseif($sxaaa!=""){
 			$new_id=substr($sxaaa,0,strlen($sxaaa)-1); 
@@ -154,14 +154,15 @@ return $fzr_only;
 					echo "quanbu";die;
 					
 				}elseif($get['kehujibie']['1']=="1"){
-					$lxr_sql=$lx_base->query("select * from `crm_lx` where `lx_yh` = $fid  and  `lx_cj` = $my");        //我的
+					$lxr_sql=$lx_base->query("select * from `crm_lx` where `lx_yh` = $fid  and lx_gonghai=0 and  `lx_cj` = $my");        //我的
 
 				}elseif($get['kehujibie']['1']=="2"){ 
-					$lxr_sql=$lx_base->query("select * from `crm_lx` where `lx_yh` = $fid  and  `lx_cj` in ($xs1)"); //全部我的                                        //下属的
+					$lxr_sql=$lx_base->query("select * from `crm_lx` where `lx_yh` = $fid  and lx_gonghai=0 and  `lx_cj` in ($xs1)"); //全部我的                                        //下属的
 				}
 				
 		}else{
 			$lxr_base=M('lx');
+			$map['lx_gonghai']=0;
 			$map['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司
 			$map['lx_cj']=array('in',$new_array);//cid在这个数组中，
 			$lx_count=$lxr_base->where($map)->count(); 

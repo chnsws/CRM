@@ -382,7 +382,7 @@ class GonghaiController extends Controller {
 		$this->assign('show_bt2',$show_bt2);
 		$this->assign("jw",$jw);
 		$this->assign("pl_bj",$pl_bj_arr);
-		$array_jiansuo=array('kh_fz'=>"负责人",'kh_bm'=>"部门",'kh_lx'=>"联系人",'kh_cj'=>"创建人",'kh_old_fz'=>"前负责人",'kh_old_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
+		$array_jiansuo=array('kh_lx'=>"联系人",'kh_cj'=>"创建人",'kh_fz'=>"前负责人",'kh_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
 
 				foreach($array_jiansuo as $k=>$v){
 						$new_str1['id']=$k;

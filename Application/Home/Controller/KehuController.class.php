@@ -2308,10 +2308,27 @@ class KehuController extends Controller {
 			$mapid=$_GET['id'];
 			//$mapid="306,307";
 			$kehu_base=M('kh');
-			//$sql=$kehu_base->query("select * from `crm_kh` where `kh_id` in ($mapid)");
+			
 			$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		//	UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
 			$sql_del=$kehu_base->query("update  `crm_kh` SET kh_gonghai=1  where `kh_id` in ($mapid) and kh_yh=$yh" );
+			$kh_id=explode(",",$mapid);
+			$lxr_base=M('lx');
+			$lx_id="";
+			foreach($kh_id as $k=>$v){
+				$tiaojian='"zdy1":"'.$v.'"';
+	 			$tiaojian1='"zdy1":'.$v.'';
+				$sql_lxr=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and lx_data like '%$tiaojian%' or lx_data like '%$tiaojian1%'");
+				
+				foreach($sql_lxr as $k1=>$v1)
+				{
+					$lx_id.=$v1['lx_id'].",";	
+				}
+			}
+			$lx_id2=substr($lx_id,0,strlen($lx_id)-1); //id
+
+			$save_lxr=$lxr_base->query("update `crm_lx` SET lx_gonghai=1 where lx_id in ($lx_id2) and  lx_yh =$yh");
+
 			/**foreach($sql as $k=>$v)
 			{
 				$json=json_decode($v['kh_data'],true);

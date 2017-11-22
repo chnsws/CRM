@@ -92,7 +92,7 @@ class LianxirenmingchengController extends Controller {
 		$kehu=$this->kehu();//echo "<pre>";var_dump($kehu);exit;
 		//$xg_lx['lx_data']=array('like','% \\"zdy1\\":\\"'.$kh_id.'\\" %');//var_dump($xg_lx['lx_data']);exit;
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
-		$sql_xg=$lx_base->query("select * from crm_lx where lx_yh='$fid' and lx_data like '%\"zdy1\":\"".$kh_id."\"%' ");      
+		$sql_xg=$lx_base->query("select * from crm_lx where lx_yh='$fid' and lx_gonghai = 0 and lx_data like '%\"zdy1\":\"".$kh_id."\"%' ");      
 	//echo "<pre>";var_dump($sql_xg);exit;
 		foreach($sql_xg as $k=>$v)
 		{
