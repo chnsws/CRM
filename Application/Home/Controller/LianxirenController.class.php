@@ -219,7 +219,14 @@ return $fzr_only;
 		if($lianxiren == "" || $lianxiren==null)
 		{
 			$show_bt.="<tr width='100%'><td colspan='20' width='100%'><span style='margin-left:80px' onclick='addshangji()'> 亲~暂无数据，请<span style='color:#1AA094;cursor:pointer'>新增</span>联系人</td></tr>";
-			$this->assign('bfb',"bfb");
+			if($sxaaa!="")
+					{
+						echo $show_bt;exit;
+					}else{
+						$this->assign('bfb',"bfb");
+					}
+			
+
 		}else{	
 		foreach($lianxiren as $k=>$v)
 		{

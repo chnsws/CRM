@@ -111,6 +111,7 @@
 	<input type="hidden" id="ys" value="{$ys}">
 	<input type="hidden" id="fenye" value="{$list_num}">
 	 <input type="hidden" id="wocao" value="{$dijiye}">
+	 <input type="hidden" id="budong" value="{$budong}">
 		<div class="big">
 			<div >
 				  <ul>
@@ -170,7 +171,7 @@
 					</div>
    				</div>
 
-   			<div class="kehu2 hta" >   
+   			<div class="kehu2 hta" id="dong">   
 		   		<div class="kehu">   
 				   		<div class='kongzhiyeshu uk-form '><span class="ycyo">每页显示<select  onchange="kongzhiyeshu(this)">
 
@@ -425,41 +426,46 @@
   	</div>
 	</body>
 	<script>
-var ssa=$("#sousuo").val();
-if(ssa!='')
-{
-	$(".ycyo").hide();
-}
-layui.use('upload', function(){
- // layui.upload(options);
-});
-var zhuangtai=$("#zhuangtai").val();
-var lszt='';
-if(zhuangtai=='' || zhuangtai==null ||zhuangtai=="全部")
-{	
-	lszt='sp_qb'
-	
-}else{
+	var budong=$('#budong').val();
+	if(budong=='budong')
+	{
+		$("#dong").prop("class",'kehu2');
+	}
+	var ssa=$("#sousuo").val();
+	if(ssa!='')
+	{
+		$(".ycyo").hide();
+	}
+	layui.use('upload', function(){
+	 // layui.upload(options);
+	});
+	var zhuangtai=$("#zhuangtai").val();
+	var lszt='';
+	if(zhuangtai=='' || zhuangtai==null ||zhuangtai=="全部")
+	{	
+		lszt='sp_qb'
+		
+	}else{
 
-	if(zhuangtai=="未发起")
-	{
-		lszt='sp_wfq'
+		if(zhuangtai=="未发起")
+		{
+			lszt='sp_wfq'
+		}
+		if(zhuangtai=="审批中")
+		{
+			lszt='sp_spz'
+		}	
+		if(zhuangtai=="审批通过")
+		{
+			lszt='sp_sptg'
+		}
+		if(zhuangtai=="审批驳回")
+		{
+			lszt='sp_spbh'
+		}
+		 $(".zhuangtai").children("span").prop("class","sx_no");
+	     $("#"+lszt).prop("class","sx_yes");
 	}
-	if(zhuangtai=="审批中")
-	{
-		lszt='sp_spz'
-	}	
-	if(zhuangtai=="审批通过")
-	{
-		lszt='sp_sptg'
-	}
-	if(zhuangtai=="审批驳回")
-	{
-		lszt='sp_spbh'
-	}
-	 $(".zhuangtai").children("span").prop("class","sx_no");
-     $("#"+lszt).prop("class","sx_yes");
-}
     
 		window.rooturl="{$_GET['root_dir']}";
 	$("#add_shangji").hide();
@@ -508,6 +514,7 @@ function kh_name_if(e){
     {
     	   	window.location.href="hetong?ht_sp926="+tex;return;
     }
+    $("#dong").prop("class",'kehu2 hta');
     $(this).parent().children("span").prop("class","sx_no");
     $(this).prop("class","sx_yes");
     var s=$(this).index();
@@ -538,7 +545,10 @@ function kh_name_if(e){
 							        		 	{
 							        		 		   	window.location.href="hetong";return;
 							        		 	}else{
-
+							        		 	if(html=="<tr><td colspan='30'><span >亲~没有数据哟！请<span  onclick='add_yh()'style='color:#1AA094;cursor:pointer;' >新增</span>客户</td></tr>")
+							        		 	{
+													$("#dong").prop("class",'kehu2');
+							        		 	}
 							        			$("#jb_bianji").html(html);
 							        	
 

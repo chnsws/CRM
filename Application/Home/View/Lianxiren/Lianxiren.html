@@ -108,6 +108,7 @@
 	<body style="position:relative">
 
 	 <input type="hidden" id="ys" value="{$ys}">
+	 <input type="hidden" id="bfb" value="{$bfb}">
 	<input type="hidden" id="fenye" value="{$list_num}">
 	 <input type="hidden" id="wocao" value="{$dijiye}">
 	<div class="beijing">
@@ -148,7 +149,7 @@
   					</button>
 					</span>
    				</div>
-		   			<div class="kehu lxra">   
+		   			<div class="kehu lxra" id='dong'>   
 						   	<div class='kongzhiyeshu uk-form '>
 						   	<span class="ycyo">
 						   				每页显示<select  onchange="kongzhiyeshu(this)">
@@ -254,7 +255,12 @@
   	</div>
 	</body>
 	<script>
-	
+	var bfb=$('#bfb').val();
+
+	if(bfb=='bfb')
+	{
+		$("#dong").prop("class",'kehu');
+	}
 	$("#sxshowbtn").click(function(){
 		
 	
@@ -408,6 +414,7 @@
 	window.id='';
 	$(".sxzddiv").children("span").click(function(){  
 	var tex =$(this).text();
+	$("#dong").prop("class",'kehu lxra');
 	$(".one").text(tex);   //点击筛选的 选中
 	    var title=$(this).parent().prop('id');
     $(this).parent().children("span").prop("class","sx_no");
@@ -423,6 +430,10 @@
 							        		 	{
 							        		 		window.location.href="lianxiren";
 							        		 	}else{
+							        		 	if(html=="<tr width='100%'><td colspan='20' width='100%'><span style='margin-left:80px' onclick='addshangji()'> 亲~暂无数据，请<span style='color:#1AA094;cursor:pointer'>新增</span>联系人</td></tr>")
+							        		 	{
+													$("#dong").prop("class",'kehu');
+							        		 	}
 							        			$("#jb_bianji").html(html);
 							        			$('.bianji_hide').hide();
 							        			pencil();

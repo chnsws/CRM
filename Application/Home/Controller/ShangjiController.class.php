@@ -358,6 +358,16 @@ class ShangjiController extends Controller {
 		{
 			$biaoti[$v['id']]=$v;             //给标题数组赋值键
 		}
+		if($ronghe=='' || $ronghe==null)
+		{
+				$show.="<tr><td colspan='30'><span >亲~没有数据哟！请<span  onclick='add_yh()'style='color:#1AA094;cursor:pointer;' >新增</span>客户</td></tr>";
+				if($sxaaa!='')
+				{
+					echo $show;exit;
+				}else{
+					$this->assign('budong','budong');
+				}
+		}else{ 
 
 		foreach ($ronghe as $k =>$v)    
 		{
@@ -405,11 +415,12 @@ class ShangjiController extends Controller {
 					}else{
 						$show.="<td> ".$v[$k1]." </td>"	;
 					}
-				}else{
+					}else{
 					$show.="<td> ---- </td>"	;
+					}
 				}
+				$show.="</tr>";                                          //显示商机信息模板
 			}
-			$show.="</tr>";                                          //显示商机信息模板
 		}
 		if($sxaaa!='')
 		{

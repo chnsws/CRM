@@ -829,108 +829,118 @@ public function kehu(){
 		}
 
 		
-			
-		foreach($hetong as $k=>$v)
+		if($hetong=='' || $hetong==null)
 		{
-				$content.="<tr id='".$v['ht_id']."'>";
-				if(cookie('user_fid')=='0'){
-					if($v['ht_sp']==4)
-					{
-							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td style='color:333'><i><b>审批中</b></i></td>";
-					}elseif($v['ht_sp']==1)
-					{
-							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span style='color:green'>审批通过</span></td>";
-					}elseif($v['ht_sp']==0)
-					{
-							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span  class='".$v['ht_id']."' style='color:#50BBB1' onclick='faqi(this)'><span style=' color: #09d;cursor:pointer' title='发起审批'>发起审批</span> </span></td>";
-					}else{
-							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span class='".$v['ht_id']."' style='color:red;cursor:pointer' onclick='bhyy(this)' title='驳回原因'>驳回?</span><span  class='".$v['ht_id']."' style='color:#50BBB1;margin-left:10px' onclick='faqi(this)'><i class='layui-icon' style='font-size: 15px; color: #1E9FFF;cursor:pointer' title='发起审批'>&#xe609;</i> </span></td>";
-					}
-
-				}else{
-					if($v['ht_sp']==4)
-					{
-							$content.="<td></td><td style='color:333'><i><b>审批中</b></i></td>";
-					}elseif($v['ht_sp']==1)
-					{
-							$content.="<td></td><td><span style='color:green'>审批通过</span></td>";
-					}elseif($v['ht_sp']==0)
-					{
-							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span  class='".$v['ht_id']."' style='color:#50BBB1' onclick='faqi(this)'><span style=' color: #09d;cursor:pointer' title='发起审批'>发起审批</span> </span></td>";
-					}else{
-							$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span class='".$v['ht_id']."' style='color:red;cursor:pointer' onclick='bhyy(this)' title='驳回原因'>驳回?</span><span  class='".$v['ht_id']."' style='color:#50BBB1;margin-left:10px' onclick='faqi(this)'><i class='layui-icon' style='font-size: 15px; color: #1E9FFF;cursor:pointer' title='发起审批'>&#xe609;</i> </span></td>";
-					}
-				}
-				
-				
-				
-			foreach($ht_biaoti1 as $kbt => $vbt)
-			{
-				if($v[$kbt]!="")
+				$content.="<tr><td colspan='30'><span >亲~没有数据哟！请<span  onclick='add_yh()'style='color:#1AA094;cursor:pointer;' >新增</span>客户</td></tr>";
+				if($sxa!='')
 				{
-					if($kbt=='zdy0')
-						if($v['ht_sp']==4){//审批中
-							$content.="<td><span style='color:#999;cursor:pointer' class='".$v['ht_id']."' onclick='ck_spjd(this)' title='查看审批进度'>".$v[$kbt]."</span></a></td>";
-						}elseif($v['ht_sp']==0){//刚添加可发起
-							$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
-						}elseif($v['ht_sp']==1){//审批通过
-							$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
+					echo $content;exit;
+				}else{
+					$this->assign('budong','budong');
+				}
+		}else{ 
+			foreach($hetong as $k=>$v)
+			{
+					$content.="<tr id='".$v['ht_id']."'>";
+					if(cookie('user_fid')=='0'){
+						if($v['ht_sp']==4)
+						{
+								$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td style='color:333'><i><b>审批中</b></i></td>";
+						}elseif($v['ht_sp']==1)
+						{
+								$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span style='color:green'>审批通过</span></td>";
+						}elseif($v['ht_sp']==0)
+						{
+								$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span  class='".$v['ht_id']."' style='color:#50BBB1' onclick='faqi(this)'><span style=' color: #09d;cursor:pointer' title='发起审批'>发起审批</span> </span></td>";
+						}else{
+								$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span class='".$v['ht_id']."' style='color:red;cursor:pointer' onclick='bhyy(this)' title='驳回原因'>驳回?</span><span  class='".$v['ht_id']."' style='color:#50BBB1;margin-left:10px' onclick='faqi(this)'><i class='layui-icon' style='font-size: 15px; color: #1E9FFF;cursor:pointer' title='发起审批'>&#xe609;</i> </span></td>";
+						}
 
-						}else{// 审批驳回
-							$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
+					}else{
+						if($v['ht_sp']==4)
+						{
+								$content.="<td></td><td style='color:333'><i><b>审批中</b></i></td>";
+						}elseif($v['ht_sp']==1)
+						{
+								$content.="<td></td><td><span style='color:green'>审批通过</span></td>";
+						}elseif($v['ht_sp']==0)
+						{
+								$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span  class='".$v['ht_id']."' style='color:#50BBB1' onclick='faqi(this)'><span style=' color: #09d;cursor:pointer' title='发起审批'>发起审批</span> </span></td>";
+						}else{
+								$content.="<td><input type='checkbox' class='chbox_duoxuan' id='".$v['ht_id']."'></td><td><span class='".$v['ht_id']."' style='color:red;cursor:pointer' onclick='bhyy(this)' title='驳回原因'>驳回?</span><span  class='".$v['ht_id']."' style='color:#50BBB1;margin-left:10px' onclick='faqi(this)'><i class='layui-icon' style='font-size: 15px; color: #1E9FFF;cursor:pointer' title='发起审批'>&#xe609;</i> </span></td>";
+						}
+					}
+					
+					
+					
+				foreach($ht_biaoti1 as $kbt => $vbt)
+				{
+					if($v[$kbt]!="")
+					{
+						if($kbt=='zdy0')
+							if($v['ht_sp']==4){//审批中
+								$content.="<td><span style='color:#999;cursor:pointer' class='".$v['ht_id']."' onclick='ck_spjd(this)' title='查看审批进度'>".$v[$kbt]."</span></a></td>";
+							}elseif($v['ht_sp']==0){//刚添加可发起
+								$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
+							}elseif($v['ht_sp']==1){//审批通过
+								$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
+
+							}else{// 审批驳回
+								$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' >".$v[$kbt]."</span></a></td>";
+							}
+							
+						elseif($kbt=='zdy1'){
+						//	echo $v[$kbt];
+						$kh_mc=$kehu[$v[$kbt]]['name'];
+							if($v['ht_sp']==4||$v['ht_sp']==1)//审批中或者审批通过
+								{
+									$content.="<td><a style='color:#999' href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$wcht_sql2[$v['ht_id']]['zdy1']."</span></a></td>";
+								}else{
+						
+									$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
+								}
+							}
+						elseif($kbt=='zdy2')
+								if($v['ht_sp']==4||$v['ht_sp']==1)//审批中或者审批通过
+								{
+									$content.="<td><a style='color:#999' href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:cursor:#50BBB1' >".$wcht_sql2[$v['ht_id']]['zdy2']."</span></a></td>";	
+								}else{
+									$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:cursor:#50BBB1' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
+								}
+						elseif($kbt=="zdy17"){
+								$aaa=strlen($v[$kbt]);
+								if($aaa>40)
+								{
+									$bzhu=mb_substr($v[$kbt],0,40,'utf-8')."···";	
+								}else{
+									$bzhu=$v[$kbt];
+								}
+								$content.="<td> <span title='".$v[$kbt]."' style='cursor:pointer'>".$bzhu." </span></td>";
+					}
+						elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
+								$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
+						elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz' ||$kbt=='zdy13')
+							$content.="<td>".$user[$v[$kbt]]['user_name']."</td>";
+						elseif($kbt=='ht_cj_date')
+							$content.="<td>".date("Y-m-d H:i:s",$v[$kbt])."</td>";
+						else
+							$content.="<td>".$v[$kbt]."</td>";
+					}else{
+						if($kbt=='zdy14')
+						{
+							$content.="<td  onclick='ht_fj(this)' class='".$v['ht_id']."' title='点击查看产品' style='color:#1AA094;cursor:pointer'>附件</td>";	
+						}elseif($kbt=='zdy9')
+						{
+							$content.="<td onclick='ht_cp(this)' class='".$v['ht_id']."' title='点击查看附件' style='color:#1AA094;cursor:pointer'>产品</td>";	
+						}else{
+							$content.="<td>---</td>";	
 						}
 						
-					elseif($kbt=='zdy1'){
-					//	echo $v[$kbt];
-					$kh_mc=$kehu[$v[$kbt]]['name'];
-						if($v['ht_sp']==4||$v['ht_sp']==1)//审批中或者审批通过
-							{
-								$content.="<td><a style='color:#999' href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$wcht_sql2[$v['ht_id']]['zdy1']."</span></a></td>";
-							}else{
-					
-								$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Kehu/Kehumingcheng/id/$kh_mc/kh_id/$v[$kbt]'><span style='color:cursor:#50BBB1' >".$kehu[$v[$kbt]]['name']."</span></a></td>";
-							}
-						}
-					elseif($kbt=='zdy2')
-							if($v['ht_sp']==4||$v['ht_sp']==1)//审批中或者审批通过
-							{
-								$content.="<td><a style='color:#999' href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:cursor:#50BBB1' >".$wcht_sql2[$v['ht_id']]['zdy2']."</span></a></td>";	
-							}else{
-								$content.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/Shangjimingcheng/id/".$v[$kbt]."'><span style='color:cursor:#50BBB1' >".$shangji[$v[$kbt]]['zdy0']."</span></a></td>";
-							}
-					elseif($kbt=="zdy17"){
-							$aaa=strlen($v[$kbt]);
-							if($aaa>40)
-							{
-								$bzhu=mb_substr($v[$kbt],0,40,'utf-8')."···";	
-							}else{
-								$bzhu=$v[$kbt];
-							}
-							$content.="<td> <span title='".$v[$kbt]."' style='cursor:pointer'>".$bzhu." </span></td>";
-				}
-					elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
-							$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
-					elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz' ||$kbt=='zdy13')
-						$content.="<td>".$user[$v[$kbt]]['user_name']."</td>";
-					elseif($kbt=='ht_cj_date')
-						$content.="<td>".date("Y-m-d H:i:s",$v[$kbt])."</td>";
-					else
-						$content.="<td>".$v[$kbt]."</td>";
-				}else{
-					if($kbt=='zdy14')
-					{
-						$content.="<td  onclick='ht_fj(this)' class='".$v['ht_id']."' title='点击查看产品' style='color:#1AA094;cursor:pointer'>附件</td>";	
-					}elseif($kbt=='zdy9')
-					{
-						$content.="<td onclick='ht_cp(this)' class='".$v['ht_id']."' title='点击查看附件' style='color:#1AA094;cursor:pointer'>产品</td>";	
-					}else{
-						$content.="<td>---</td>";	
 					}
 					
 				}
-				
+				$content."</tr>";
 			}
-			$content."</tr>";
 		}
 		if($sxa!="")
 		{

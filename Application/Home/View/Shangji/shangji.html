@@ -118,6 +118,7 @@
 	
 <input type="hidden" id="ys" value="{$ys}">
 	<input type="hidden" id="fenye" value="{$list_num}">
+	<input type="hidden" id="budong" value="{$budong}">
 	 <input type="hidden" id="wocao" value="{$dijiye}">
 	<div class="beijing">
 		<div class="big">
@@ -182,7 +183,7 @@
 
 
 
-			<div class="kehu2 sja" >   
+			<div class="kehu2 sja" id="dong">   
 		   		<div class="kehu">   
 				   		<div class='kongzhiyeshu uk-form '><span class="ycyo">每页显示<select  onchange="kongzhiyeshu(this)">
 
@@ -383,25 +384,31 @@
 					</div>
 				</body>
 	<script>
+	var budong=$('#budong').val();
+
+	if(budong=='budong')
+	{
+		$("#dong").prop("class",'kehu2');
+	}
 		var ssa=$("#sousuo").val();
-if(ssa!='')
-{
-	$(".ycyo").hide();
-}
+	if(ssa!='')
+	{
+		$(".ycyo").hide();
+	}
 	
-window.ajaxstr_kh="";
-window.name_kh="";
-window.ajaxstr_lxr="";
-window.name_lxr="";
-		window.rooturl="{$_GET['root_dir']}";
-		$('#piliangzy').hide();
-		$(".yincang").hide()
-		$(".ncy").hide()
-		$(".nncy").hide()
-		$("#addcp").hide();
-		$(".hide_dpt").hide();
-	$("#add_shangji").hide();
-	$("#daoru").hide();
+	window.ajaxstr_kh="";
+	window.name_kh="";
+	window.ajaxstr_lxr="";
+	window.name_lxr="";
+			window.rooturl="{$_GET['root_dir']}";
+			$('#piliangzy').hide();
+			$(".yincang").hide()
+			$(".ncy").hide()
+			$(".nncy").hide()
+			$("#addcp").hide();
+			$(".hide_dpt").hide();
+		$("#add_shangji").hide();
+		$("#daoru").hide();
 	layui.use('upload', function(){
 		
   		//layui.upload(options);
@@ -429,7 +436,8 @@ window.name_lxr="";
 	window.id='';
 	$(".sxzddiv").children("span").click(function(){    
 	var tex =$(this).text();      //点击筛选的 选中
-	    var title=$(this).parent().prop('id');
+	var title=$(this).parent().prop('id');
+	$("#dong").prop("class",'kehu2 sja');
     $(this).parent().children("span").prop("class","sx_no");
     $(this).prop("class","sx_yes");
     var s=$(this).index();
@@ -460,6 +468,10 @@ window.name_lxr="";
 							        		 	if(html=="quanbu")
 							        		 	{
 							        		 		   	window.location.href="shangji";return;
+							        		 	}
+							        		 	if(html=="<tr><td colspan='30'><span >亲~没有数据哟！请<span  onclick='add_yh()'style='color:#1AA094;cursor:pointer;' >新增</span>客户</td></tr>")
+							        		 	{
+													$("#dong").prop("class",'kehu2');
 							        		 	}
 							        			$("#jb_bianji").html(html);
 							        			$('.bianji_hide').hide();
