@@ -4,7 +4,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>部门和用户设置</title>
+<title>产品</title>
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -1172,9 +1172,10 @@ function cp_add()
         var hisopen=layer.open({
             type:1,
             offset: 't',
-            area:["500px","60%"],
+            area:"500px",
             title: '新增产品',
             fixed: false,
+            moveOut:true,
             content:$("#addcpdiv"),
             btn:["保存","取消"],
             btn1:function(){

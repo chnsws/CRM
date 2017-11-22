@@ -115,24 +115,56 @@ class FiledoController extends DBController {
         $allRow=$currentSheet->getHighestRow();  
           
         $excelData = array();   
+        $filehead=0;
+        $fileheadcount=0;
         //循环获取表中的数据，$currentRow表示当前行，从哪行开始读取数据，索引值从0开始  
-        for($currentRow=1;$currentRow<=$allRow;$currentRow++){  
-            //从哪列开始，A表示第一列  
-            for($currentColumn='A';$currentColumn<='Z';$currentColumn++){  
-                //数据坐标  
-                $address=$currentColumn.$currentRow;  
-                //读取到的数据，保存到数组$arr中  
-                $old_content=$currentSheet-> getCell($address)-> getValue(); 
+        for($currentRow=1;$currentRow<=$allRow;$currentRow++){
+            if($filehead==0)
+            {
+                //从哪列开始，A表示第一列  
+                for($currentColumn='A';$currentColumn<='Z';$currentColumn++){  
+                    //数据坐标  
+                    $address=$currentColumn.$currentRow;  
+                    //读取到的数据，保存到数组$arr中  
+                    $old_content=$currentSheet-> getCell($address)-> getValue(); 
 
-                if(is_object($old_content))  $old_content= $old_content->__toString();
-                if(!$old_content)
-                {
-                    continue;
+                    if(is_object($old_content))  $old_content= $old_content->__toString();
+                    if(!$old_content)
+                    {
+                        continue;
+                    }
+                    $excelData[$currentRow][$currentColumn] = $old_content;
                 }
-                $excelData[$currentRow][$currentColumn] = $old_content;
-                  
-                   
-            }  
+                $fileheadcount=count($excelData[1]);
+                $filehead=1;
+            }
+            else
+            {
+                $currentColumn='A';
+                $nullNum=0;
+                for($c=0;$c<$fileheadcount;$c++)
+                {
+                    $address=$currentColumn.$currentRow;  
+                    $old_content=$currentSheet-> getCell($address)-> getValue(); 
+                    if(is_object($old_content))  $old_content= $old_content->__toString();
+                    $old_content=trim($old_content);//移除空格
+                    $excelData[$currentRow][$currentColumn] = $old_content;
+                    //计算空格数量
+                    if(!$old_content)
+                    {
+                        $nullNum++;
+                    }
+                    $currentColumn++;
+                }
+                //如果本条所有数据都是空，就删除本条
+                //echo $nullNum.'-'.$fileheadcount.'/';
+                if($nullNum>=$fileheadcount)
+                {
+                    //echo $nullNum.'>='.$fileheadcount;
+                    unset($excelData[$currentRow]);
+                }
+            }
+            
         }  
          return $excelData;  
     }
