@@ -831,7 +831,7 @@ public function kehu(){
 		
 		if($hetong=='' || $hetong==null)
 		{
-				$content.="<tr><td colspan='30'><span >亲~没有数据哟！请<span  onclick='add_yh()'style='color:#1AA094;cursor:pointer;' >新增</span>客户</td></tr>";
+				$content.="<tr><td colspan='30'><span >亲~没有数据哟！请<span  onclick='addhetong()'style='color:#1AA094;cursor:pointer;' >新增</span>合同</td></tr>";
 				if($sxa!='')
 				{
 					echo $content;exit;

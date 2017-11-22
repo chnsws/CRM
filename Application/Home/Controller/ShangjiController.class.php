@@ -360,7 +360,7 @@ class ShangjiController extends Controller {
 		}
 		if($ronghe=='' || $ronghe==null)
 		{
-				$show.="<tr><td colspan='30'><span >亲~没有数据哟！请<span  onclick='add_yh()'style='color:#1AA094;cursor:pointer;' >新增</span>客户</td></tr>";
+				$show.="<tr><td colspan='30'><span >亲~没有数据哟！请<span  onclick='addshangji()'style='color:#1AA094;cursor:pointer;' >新增</span>商机</td></tr>";
 				if($sxaaa!='')
 				{
 					echo $show;exit;
