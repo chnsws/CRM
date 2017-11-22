@@ -59,7 +59,7 @@ class KehuController extends Controller {
 		$tihuan= str_replace("\\", "\\\\\\\\", $first);
 		$kh_base=M('kh');
 		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kehu=$kh_base->query("select * from crm_kh where kh_yh = '$yh' and kh_fz IN ($xiaji) and  kh_data like '%".$tihuan."%'");
+		$kehu=$kh_base->query("select * from crm_kh where kh_yh = '$yh' and kh_fz IN ($xiaji) and kh_gonghai=0 and kh_data like '%".$tihuan."%'");
 		$this->assign('namess',$namess);
 		}elseif($sxaaa!=""){
 
@@ -146,22 +146,22 @@ class KehuController extends Controller {
 					$new_number=substr($xiaji,0,-(strlen($myid)+1));
 
 					if($kehu_jibie=="3"){ 
-						$kehu=$kh_base->query("select * from crm_kh where kh_yh='$map' and kh_fz IN ($new_number)");                  //全部客户
+						$kehu=$kh_base->query("select * from crm_kh where kh_yh='$map' and kh_gonghai=0 and kh_fz IN ($new_number)");                  //全部客户
 						
 					}elseif($kehu_jibie=="2"){               //我的客户
-						$kehu=$kh_base->query("select * from crm_kh where kh_yh='$map' and kh_fz ='$myid' ");
+						$kehu=$kh_base->query("select * from crm_kh where kh_yh='$map' and kh_gonghai=0 and kh_fz ='$myid' ");
 
 					}else{                                   //我下属的客户
-						$kehu=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
+						$kehu=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_gonghai=0 and kh_fz IN ($xiaji)");
 					}
 
 		}else{
 			$datakh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 			$ht_base=M('kh');
 
-			$kehu=$ht_base->query("select * from crm_kh where kh_yh='$datakh' and kh_fz IN ($xiaji) order by kh_id desc limit ".$new.",".$list_num." ");
+			$kehu=$ht_base->query("select * from crm_kh where kh_yh='$datakh' and kh_gonghai=0 and kh_fz IN ($xiaji) order by kh_id desc limit ".$new.",".$list_num." ");
 			
-			$kehu_count=$ht_base->query("select count(kh_id) from crm_kh where kh_yh='$datakh' and kh_fz IN ($xiaji)");
+			$kehu_count=$ht_base->query("select count(kh_id) from crm_kh where  kh_yh='$datakh' and kh_gonghai=0 and kh_fz IN ($xiaji)");
 			$ys= ceil($kehu_count['0']['count(kh_id)']/$list_num);//多少页
 	
 		}
@@ -2291,16 +2291,33 @@ class KehuController extends Controller {
 		public function del_kehu(){
 			$mapid=$_GET['id'];
 			//$mapid="306,307";
+			$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 			$kehu_base=M('kh');
-			$sql=$kehu_base->query("select * from `crm_kh` where `kh_id` in ($mapid)");
+			$sql=$kehu_base->query("select * from `crm_kh` where `kh_id` in ($mapid) and kh_yh=$yh");
 
-			$sql_del=$kehu_base->query("delete from `crm_kh` where `kh_id` in ($mapid)");
+			$sql_del=$kehu_base->query("delete from `crm_kh` where `kh_id` in ($mapid) and kh_yh=$yh");
 			foreach($sql as $k=>$v)
 			{
 				$json=json_decode($v['kh_data'],true);
 				$rz_bz="删除了客户：".$json['zdy0']."";
 				$this->rizhi($v['kh_id'],$rz_bz,"3");	
 			}
+				
+		}
+		public function gonghai(){
+			$mapid=$_GET['id'];
+			//$mapid="306,307";
+			$kehu_base=M('kh');
+			//$sql=$kehu_base->query("select * from `crm_kh` where `kh_id` in ($mapid)");
+			$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		//	UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
+			$sql_del=$kehu_base->query("update  `crm_kh` SET kh_gonghai=1  where `kh_id` in ($mapid) and kh_yh=$yh" );
+			/**foreach($sql as $k=>$v)
+			{
+				$json=json_decode($v['kh_data'],true);
+				$rz_bz="删除了客户：".$json['zdy0']."";
+				$this->rizhi($v['kh_id'],$rz_bz,"3");	
+			}**/
 				
 		}
 		public function pl_bianji(){

@@ -128,14 +128,14 @@
 	</head>
 
 	<body style="position:relative">
-	
+		<input type="hidden" id="yibudong" value="{$yibudong}">
 		 <input type="hidden" id="ys" value="{$ys}">
 		 <input type="hidden" id="fenye" value="{$list_num}">
 		  <input type="hidden" id="wocao" value="{$dijiye}">
 		<div id="tabs">
 		<div>
 			  <ul>
-			    <li class="panel-heading" ><span class="panel-title"><b>客户公海</b></span><span class="xinzeng2"><button onclick="daoru()"  class="layui-btn" style="border:1px solid #999; background-color:white;color:#222;margin-left:20px;height: 30px;line-height: 30px;">导入客户</button></span></li>
+			    <li class="panel-heading" ><span class="panel-title"><b>客户公海</b></span><span class="xinzeng2"><span><button onclick="daoru()"  class="layui-btn" style="border:1px solid #999; background-color:white;color:#222;margin-left:20px;height: 30px;line-height: 30px;">导入客户</button></span></li>
 			    
 			  </ul>
 		</div>
@@ -183,7 +183,8 @@
 	   			 			<i class="layui-icon">&#xe642;</i>批量编辑</button>
 						   	<button onclick="del_check()"  class="layui-btn layui-btn-primary layui-btn-small">
 	   			 			<i class="layui-icon">&#xe640;</i>删除所选</button>
-
+				 			<button onclick="piliangzhuanyi()"  class="layui-btn layui-btn-primary layui-btn-small">
+				 			<i class="layui-icon">&#xe642;</i>转移至客户公海</button>	
 					</span>
 					
 						<div id="bj_kehu" style="margin-top:10px;padding-top:20px;display: none;border:1px">
@@ -227,7 +228,7 @@
 						</div>
    				</div>
    			<div class="kehu2" >   
-		   		<div class="kehu">   
+		   		<div class="kehu" id="dong">   
 				   		<div class='kongzhiyeshu uk-form '><span class="ycyo">每页显示<select  onchange="kongzhiyeshu(this)">
 
 				   						<if condition ="$list_num eq '5'" >
@@ -325,6 +326,12 @@
 
 </html>
 <script>
+var yibudong=$('#yibudong').val();
+
+if(yibudong=='bian')
+{
+	$("#dong").prop("class",'dong');
+}
 var ssa=$("#sousuo").val();
 if(ssa!='')
 {
@@ -673,7 +680,7 @@ window.sxaaa='';
 $(".sxzddiv").children("span").click(function(){
 		var tex =$(this).text();
 	    var title=$(this).parent().prop('id');
-
+$("#dong").prop("class",'kehu');
     $(this).parent().children("span").prop("class","sx_no");
     $(this).prop("class","sx_yes");
     var s=$(this).index();
@@ -707,13 +714,19 @@ $(".sxzddiv").children("span").click(function(){
 		}
 		$(".ycyo").hide();
 		
-	$.get(rooturl+'/index.php/Home/Kehu/kehu',{"sxaaa":sxaaa},
+	$.get(rooturl+'/index.php/Home/Gonghai/gonghai',{"sxaaa":sxaaa},
 							        		 function(html){
+							        		
 							        		 	if(html=="quanbu")
 							        		 	{
 							        		 		   	window.location.href="gonghai";return;
 							        		 	}
-							        		 	
+
+							        		 	if(html=="<tr><td colspan='30'><span style='margin-left:80px'>亲~没有数据哟！</td></tr>")
+							        		 	{
+													$("#dong").prop("class",'dong');
+							        		 	}
+											
 							        			$("#jb_bianji").html(html);
 							        			$('.bianji_hide').hide();
 							      
@@ -722,34 +735,12 @@ $(".sxzddiv").children("span").click(function(){
  
 });
 
-	$("#nchangyong").click(function(){         //控制 、筛选的隐藏与显示
-		    if($(this).prop("name")=='0'||$(this).prop("name")==undefined)
-		    {
-		        $(".ncy").show();
-		        $(this).html("<span style='color:#07d;cursor:pointer;'>收起>></span>");
-		        $(this).prop("name",'1');
-		    }
-		    else
-		    {
-		    	 $(".ncy").hide();
-		        $(this).html("<span style='color:#07d; cursor:pointer;'>展开更多信息>></span>");
-		        $(this).prop("name",'0');
-		    }
-		});
-	function get_bm(bm){
-    			var user_id=$(bm).val();
-    		//	tishi(user_id)ddddddd
-    			$.get(rooturl+'/index.php/Home/Hetong/get_bm',{"id":user_id},
-			        		 				function(html){
-        		 								//tishi(html)
-											$(".bm_th").html(html);
-												layer.close(win)
-											});
-    		}
+	
    layui.use(['form'], function(){
  
 		});
-
+</script>
+<script>
 			
 		$('form table :input').blur(function(){
 			var $parent =$(this).parent();
@@ -774,7 +765,20 @@ $(".sxzddiv").children("span").click(function(){
         });//end blur
 
 		
-		
+		function kh_name_if(e){
+			var a =$(e).val();
+			$.get(rooturl+'/index.php/Home/Kehu/kh_name_if',{"id":a},
+			        		 				function(html){
+
+        		 							if(html){
+												tishi("此客户由"+html+"负责")
+												$('#wyszdy0').val('')
+
+
+        		 							}
+											
+											});
+		}
          function tishi(neirong)
 			{
 			    layer.msg(neirong, {
@@ -825,15 +829,28 @@ $(".sxzddiv").children("span").click(function(){
             $("#student").attr("size","0");
         
         })
-         
+         function add_lxr(ss){
+         	var vall=$(ss).val();
+         //	alert(vall)
+         	
 		
+		}
+		 function sjyz(ss){
+   		 	var a=$(ss).val();
+   		 	 if(!a.match(/^(([1]){1})+(([0-9]){10})$/))
+			  {
+			   tishi("请输入正确的十一位手机号");
+			   $(".qingyx1").val('');
+			  }
+
+   		 }    
 		function sousuo(){
 			var name= $("#sousuo").val();
 			window.location.href="gonghai?sousuo="+name;
 		}
 			function sousuo1(){
 					window.location.href="gonghai";
-		}
+		}var is_one =0;
 		
 		 var isCheckAll = false;  
 		        function swapCheck() {  
@@ -863,9 +880,20 @@ $(".sxzddiv").children("span").click(function(){
 		      $(".jiaodiana")[0].focus()
 		       }
    		 }  
-   		
-   		 	
-		
+   		 function yxyz(ss){
+   		 	var a=$(ss).val();
+   		 	 if(!a.match(/^([a-zA-Z0-9\u4e00-\u9fa5\_\-\.])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,5}){1,2})$/))
+			  {
+			   tishi("格式不正确！请重新输入");
+			   $(".qingyx").val('');
+			  }
+
+   		 }
+   		 	$(function(){
+				$('.xlss').searchableSelect();
+ 			});
+		window.ajaxstr_lxr='';
+		window.lxr_id='';
 
 	      layui.use(['laypage', 'layer'], function(){
 		  var laypage = layui.laypage

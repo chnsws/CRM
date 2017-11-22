@@ -59,7 +59,7 @@ class GonghaiController extends Controller {
 		$tihuan= str_replace("\\", "\\\\\\\\", $first);
 		$kh_base=M('kh');
 		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kehu=$kh_base->query("select * from crm_kh where kh_yh = '$yh' and kh_fz IN ($xiaji) and  kh_data like '%".$tihuan."%'");
+		$kehu=$kh_base->query("select * from crm_kh where kh_yh = '$yh' and kh_gonghai=1  and  kh_data like '%".$tihuan."%'");
 		$this->assign('namess',$namess);
 		}elseif($sxaaa!=""){
 
@@ -144,24 +144,17 @@ class GonghaiController extends Controller {
 					$myid=cookie('user_id');//本人ID  
 					$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件
 					$new_number=substr($xiaji,0,-(strlen($myid)+1));
-
-					if($kehu_jibie=="3"){ 
-						$kehu=$kh_base->query("select * from crm_kh where kh_yh='$map' and kh_fz IN ($new_number)");                  //全部客户
-						
-					}elseif($kehu_jibie=="2"){               //我的客户
-						$kehu=$kh_base->query("select * from crm_kh where kh_yh='$map' and kh_fz ='$myid' ");
-
-					}else{                                   //我下属的客户
-						$kehu=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
-					}
+                     
+						$kehu=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_gonghai=1 ");
+					
 
 		}else{
 			$datakh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 			$ht_base=M('kh');
 
-			$kehu=$ht_base->query("select * from crm_kh where kh_yh='$datakh' and kh_fz IN ($xiaji) order by kh_id desc limit ".$new.",".$list_num." ");
+			$kehu=$ht_base->query("select * from crm_kh where kh_yh='$datakh'  and kh_gonghai=1 order by kh_id desc limit ".$new.",".$list_num." ");
 			
-			$kehu_count=$ht_base->query("select count(kh_id) from crm_kh where kh_yh='$datakh' and kh_fz IN ($xiaji)");
+			$kehu_count=$ht_base->query("select count(kh_id) from crm_kh where kh_yh='$datakh' and kh_gonghai=1 ");
 			$ys= ceil($kehu_count['0']['count(kh_id)']/$list_num);//多少页
 	
 		}
@@ -615,7 +608,13 @@ class GonghaiController extends Controller {
 		}
 				if($ronghe=="" || $ronghe==null)
 				{
-					$table.="<tr><td colspan='30'><span style='margin-left:80px'>亲~没有数据哟！请<span  onclick='add_yh()'style='color:#1AA094;cursor:pointer;' >新增</span>客户</td></tr>";
+					$table.="<tr><td colspan='30'><span style='margin-left:80px'>亲~没有数据哟！</td></tr>";
+					if($sxaaa!="")
+					{
+						echo $table;exit;
+					}else{
+						$this->assign('yibudong','bian');
+					}
 				}else{
 				foreach($ronghe as $r_k=>$r_v)
 					{	

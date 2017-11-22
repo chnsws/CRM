@@ -183,7 +183,7 @@
 	   			 			<i class="layui-icon">&#xe642;</i>批量编辑</button>
 						   	<button onclick="del_check()"  class="layui-btn layui-btn-primary layui-btn-small">
 	   			 			<i class="layui-icon">&#xe640;</i>删除所选</button>
-				 			<button onclick="piliangzhuanyi()"  class="layui-btn layui-btn-primary layui-btn-small">
+				 			<button onclick="gonghai()"  class="layui-btn layui-btn-primary layui-btn-small">
 				 			<i class="layui-icon">&#xe642;</i>转移至客户公海</button>	
 					</span>
 					
@@ -370,6 +370,29 @@ layui.use('upload', function(){
     		}
 $(document).ready(blurfun());
 	
+function gonghai(){
+	var checked_str='';
+	
+	$(".chbox_duoxuan").each(function(){
+		if($(this).prop("checked")==true)
+		{
+			checked_str+=$(this).prop("id")+',';
+		
+		}
+	});
+if(checked_str=="")
+ 	{
+ 		tishi("没有选择客户");
+			return false;
+ 	}
+	checked_str=checked_str.substr(0,checked_str.length-1);
+
+	$.get(rooturl+'/index.php/Home/Kehu/gonghai',{"id":checked_str},
+							        		 function(html){
+							        			tishi('转移成功')
+							        			window.location.href="kehu";
+							                   });
+}
 
 function del_check()
 {
