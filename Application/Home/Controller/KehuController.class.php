@@ -647,7 +647,7 @@ class KehuController extends Controller {
 									{
 										
 											if($v_biaoti['id']=='zdy0')
-												$xs123="<a href='kehumingcheng/kh_id/$id'>".$r_v[$v_biaoti['id']]."
+												$xs123="<a href='kehumingcheng/kh_id/$id' title=".$r_v[$v_biaoti['id']].">".$r_v[$v_biaoti['id']]."
 												</a>";
 											elseif($v_biaoti['id']=="kh_fz" || $v_biaoti['id']=="kh_old_fz" || $v_biaoti['id']=="kh_cj" )
 																$xs123="<span id='wys{$id}'>".$fzr_only[$r_v[$v_biaoti['id']]]['user_name']."</span>";
