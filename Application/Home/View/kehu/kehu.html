@@ -680,7 +680,7 @@ window.sxaaa='';
 $(".sxzddiv").children("span").click(function(){
 		var tex =$(this).text();
 	    var title=$(this).parent().prop('id');
-
+$("#dong").prop("class",'kehu');
     $(this).parent().children("span").prop("class","sx_no");
     $(this).prop("class","sx_yes");
     var s=$(this).index();
@@ -716,12 +716,16 @@ $(".sxzddiv").children("span").click(function(){
 		
 	$.get(rooturl+'/index.php/Home/Kehu/kehu',{"sxaaa":sxaaa},
 							        		 function(html){
+							        		
 							        		 	if(html=="quanbu")
 							        		 	{
 							        		 		   	window.location.href="kehu";return;
 							        		 	}
-							        		 	
+
+							        		 	if(html=="<tr><td colspan='30'><span >亲~没有数据哟！请<span  onclick='add_yh()'style='color:#1AA094;cursor:pointer;' >新增</span>客户</td></tr>")
+							        		 	{
 													$("#dong").prop("class",'dong');
+							        		 	}
 											
 							        			$("#jb_bianji").html(html);
 							        			$('.bianji_hide').hide();
