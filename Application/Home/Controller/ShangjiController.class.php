@@ -374,6 +374,9 @@ class ShangjiController extends Controller {
 		$kh_biaoti1=array_merge_recursive($ywzd_sql_json,$new_arrayoo);//客户标题名字
 		
 		$lx_name=$this->lxr();
+			
+		$lx_name1=$this->lxr1();
+		$fzr_only1=$this->user1();
 		foreach($kh_biaoti1 as $k=>$v)
 		{
 			$biaoti[$v['id']]=$v;             //给标题数组赋值键
@@ -410,7 +413,8 @@ class ShangjiController extends Controller {
 					}elseif($k1=="zdy1"){     //k客户标题 跳转到客户页面
 						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/kh_id/$kh_mc'>".$kh_name[$v[$k1]]['name']." </a></td>";
 					}elseif($k1=="zdy2"){
-						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/".$v[$k1]."'>".$lx_name[$v[$k1]]['name']." </a></td>";
+						
+						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/".$v[$k1]."'>".$lx_name1[$v[$k1]]['name']." </a></td>";
 						
 					}elseif($k1=="zdy5" || $k1=="zdy7" || $k1=="zdy9"){
 				
@@ -425,10 +429,10 @@ class ShangjiController extends Controller {
 							}
 							$show.="<td> <span title='".$v[$k1]."' style='cursor:pointer'>".$bzhu." </span></td>";
 					}elseif($k1=="sj_fz" ||  $k1=="sj_cj" ){
-						$show.="<td>".$fzr_only[$v[$k1]]["user_name"]." </td>"	;
+						$show.="<td>".$fzr_only1[$v[$k1]]["user_name"]." </td>"	;
 				
 					}elseif($k1=="sj_bm"){
-						$show.="<td>".$fzr_only[$v["sj_fz"]]["department"]." </td>"	;
+						$show.="<td>".$fzr_only1[$v["sj_fz"]]["department"]." </td>"	;
 					}
 					elseif($k1=="sj_cj_date"){
 						$show.="<td>".date('Y-m-d H:i:s',$v[$k1])." </td>"	;
@@ -811,6 +815,7 @@ class ShangjiController extends Controller {
 		
 		return $sql_cp;
 	}
+	
 	public function cp_ajax(){
 		$chanpin =$this->chanpin();
 		$id=$_GET['id'];
@@ -1374,6 +1379,40 @@ return $fzr_only;
 
 
 	}
+	public function user1(){                 //负责人和部门
+		
+			 $department=M('department');
+			$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+				//echo $dpmet['bm_company'];exit;
+			$sql_de=$department->where($dpt)->select();
+			foreach($sql_de as $kdpt => $vdpt)
+			{
+				
+				$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
+			}
+	
+	
+			$fuzeren=M('user');
+			
+				$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+		
+			 $fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id = $map or user_fid=$map");//缺少条件
+				foreach ($fuzeren_sql as $k=>$v)
+				{
+					
+						
+							$new_fuzeren['user_id']=$v['user_id'];
+							$new_fuzeren['user_name']=$v['user_name'];
+							$new_fuzeren['user_zhu_bid']=$v['user_zhu_bid'];
+							$new_fuzeren['department']=$dpt_arr[$v['user_zhu_bid']]['bm_name'];
+							$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
+						
+					
+				} 
+		
+				
+	return $fzr_only;
+		}
 	public function lxr(){
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
 		$new_xiaji=$xiaji;          
@@ -1381,6 +1420,24 @@ return $fzr_only;
 		$kh_base=M('lx');
 		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$kh_sql=$kh_base->query("select * from  crm_lx where lx_yh='$map' and lx_cj IN ($xiaji) and lx_gonghai=0");
+		
+		foreach($kh_sql as $kkh =>$vkh)
+		{
+			$kh_json=json_decode($vkh['lx_data'],true);
+			
+					$lx['id']=$vkh['lx_id'];
+					$lx['name']=$kh_json['zdy0'];
+					$lx['kh_id']=$kh_json['zdy1'];
+					$lx_name[$vkh['lx_id']]=$lx;
+		}
+		
+		return $lx_name;
+	}
+	public function lxr1(){
+		
+		$kh_base=M('lx');
+		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kh_sql=$kh_base->query("select * from  crm_lx where lx_yh='$map'  and lx_gonghai=0");
 		
 		foreach($kh_sql as $kkh =>$vkh)
 		{
