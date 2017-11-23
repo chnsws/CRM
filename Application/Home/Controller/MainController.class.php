@@ -220,7 +220,7 @@ class MainController extends DBController {
                 找到我负责的合同
             */
             //查询我的合同回款
-            $myht=parent::sel_more_data("crm_hetong","ht_id","ht_fz='".cookie("user_id")."' and ht_yh='$fid' ");
+            $myht=parent::sel_more_data("crm_hetong","ht_id","ht_fz='".cookie("user_id")."' and ht_yh='$fid' and ht_sp='1' ");
             foreach($myht as $v)
             {
                 $hk_in_str.="'".$v['ht_id']."',";
@@ -245,7 +245,7 @@ class MainController extends DBController {
             /*
                 合同总金额zdy3  签约日期zdy4
             */
-            $myht=parent::sel_more_data("crm_hetong","ht_data","ht_yh='$fid' and ht_fz='".cookie('user_id')."'");
+            $myht=parent::sel_more_data("crm_hetong","ht_data","ht_yh='$fid' and ht_fz='".cookie('user_id')."' and ht_sp='1'");
             $je=0;
             foreach($myht as $v)
             {
@@ -267,7 +267,7 @@ class MainController extends DBController {
         else if($yjmbtype=='5')
         {
             //合同数
-            $myht=parent::sel_more_data("crm_hetong","ht_data","ht_yh='$fid' and ht_fz='".cookie('user_id')."'");
+            $myht=parent::sel_more_data("crm_hetong","ht_data","ht_yh='$fid' and ht_fz='".cookie('user_id')."' and ht_sp='1'");
             $num=0;
             foreach($myht as $v)
             {
@@ -463,7 +463,7 @@ class MainController extends DBController {
     public function get_my_htid($fid)
     {
         //合同查询
-        $myht=parent::sel_more_data("crm_hetong","ht_id,ht_data","ht_yh='$fid' and ht_fz='".cookie('user_id')."'");
+        $myht=parent::sel_more_data("crm_hetong","ht_id,ht_data","ht_yh='$fid' and ht_fz='".cookie('user_id')."' and ht_sp='1'");
         $htid='';
         foreach($myht as $v)
         {
@@ -543,7 +543,7 @@ class MainController extends DBController {
         $zongnum=0;//合同总金额
         $hknum=0;//已回款金额
         $hknum2=0;//计划回款
-        $myht=parent::sel_more_data("crm_hetong","ht_id,ht_data","ht_fz='".cookie("user_id")."' and ht_yh='$fid' ");
+        $myht=parent::sel_more_data("crm_hetong","ht_id,ht_data","ht_fz='".cookie("user_id")."' and ht_yh='$fid' and ht_sp='1' ");
         foreach($myht as $v)
         {
             $j=json_decode($v['ht_data'],true);
@@ -715,7 +715,7 @@ class MainController extends DBController {
                 找到我负责的合同
             */
             //查询我的合同回款
-            $myht=parent::sel_more_data("crm_hetong","ht_id,ht_fz"," ht_yh='$fid' ");
+            $myht=parent::sel_more_data("crm_hetong","ht_id,ht_fz"," ht_yh='$fid' and ht_sp='1' ");
             foreach($myht as $v)
             {
                 $ht_fz[$v['ht_id']]=$v['ht_fz'];
@@ -746,7 +746,7 @@ class MainController extends DBController {
             /*
                 合同总金额zdy3  签约日期zdy4
             */
-            $myht=parent::sel_more_data("crm_hetong","ht_data,ht_fz","ht_yh='$fid' ");
+            $myht=parent::sel_more_data("crm_hetong","ht_data,ht_fz","ht_yh='$fid' and ht_sp='1' ");
             foreach($myht as $v)
             {
                 $j=json_decode($v['ht_data'],true);
@@ -778,7 +778,7 @@ class MainController extends DBController {
         else if($yjmbtype=='5')
         {
             //合同数
-            $myht=parent::sel_more_data("crm_hetong","ht_data,ht_fz","ht_yh='$fid'");
+            $myht=parent::sel_more_data("crm_hetong","ht_data,ht_fz","ht_yh='$fid' and ht_sp='1'");
             foreach($myht as $v)
             {
                 $j=json_decode($v['ht_data'],true);
@@ -811,7 +811,7 @@ class MainController extends DBController {
         {
             //产品销量
             //合同查询
-            $myht=parent::sel_more_data("crm_hetong","ht_id,ht_fz,ht_data"," ht_yh='$fid' ");
+            $myht=parent::sel_more_data("crm_hetong","ht_id,ht_fz,ht_data"," ht_yh='$fid' and ht_sp='1' ");
             foreach($myht as $v)
             {
                 $j=json_decode($v['ht_data'],true);
@@ -848,7 +848,7 @@ class MainController extends DBController {
         {
             //产品销售额
             //合同查询
-            $myht=parent::sel_more_data("crm_hetong","ht_id,ht_fz"," ht_yh='$fid' ");
+            $myht=parent::sel_more_data("crm_hetong","ht_id,ht_fz"," ht_yh='$fid' and ht_sp='1' ");
             foreach($myht as $v)
             {
                 $j=json_decode($v['ht_data'],true);
@@ -885,7 +885,7 @@ class MainController extends DBController {
         {
             //产品分类销量
             //合同查询
-            $myht=parent::sel_more_data("crm_hetong","ht_id,ht_fz"," ht_yh='$fid' ");
+            $myht=parent::sel_more_data("crm_hetong","ht_id,ht_fz"," ht_yh='$fid' and ht_sp='1' ");
             foreach($myht as $v)
             {
                 $j=json_decode($v['ht_data'],true);
@@ -931,7 +931,7 @@ class MainController extends DBController {
         {
             //产品分类销售额
             //合同查询
-            $myht=parent::sel_more_data("crm_hetong","ht_id,ht_fz"," ht_yh='$fid' ");
+            $myht=parent::sel_more_data("crm_hetong","ht_id,ht_fz"," ht_yh='$fid' and ht_sp='1' ");
             foreach($myht as $v)
             {
                 $j=json_decode($v['ht_data'],true);
@@ -1128,7 +1128,7 @@ class MainController extends DBController {
         
         //七天内需要回款的合同
         //合同查询
-        $myht=parent::sel_more_data("crm_hetong","ht_id","ht_yh='$fid' and ht_fz='".cookie('user_id')."'");
+        $myht=parent::sel_more_data("crm_hetong","ht_id","ht_yh='$fid' and ht_fz='".cookie('user_id')."' and ht_sp='1'");
         $htid='';
         foreach($myht as $v)
         {

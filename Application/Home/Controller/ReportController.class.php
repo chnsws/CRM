@@ -42,7 +42,7 @@ class ReportController extends DBController {
             $cp_name_arr[$v['cp_id']]=$cpname['zdy0'];
         }
         //所有合同查询 //合同zdy5:合同开始时间
-        $ht_arr=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid'");
+        $ht_arr=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid' and ht_sp='1' ");
         foreach($ht_arr as $v)
         {
             $ht_json=json_decode($v['ht_data'],true);
@@ -158,7 +158,7 @@ class ReportController extends DBController {
             $cp_name_arr[$v['cp_id']]=$cpname['zdy0'];
         }
         //所有合同查询 //合同zdy5:合同开始时间
-        $ht_arr=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid'");
+        $ht_arr=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid' and ht_sp='1' ");
         foreach($ht_arr as $v)
         {
             $ht_json=json_decode($v['ht_data'],true);
@@ -278,7 +278,7 @@ class ReportController extends DBController {
             $cp_name_arr[$v['cp_id']]=$cpname['zdy0'];
         }
         //所有合同查询 //合同zdy5:合同开始时间
-        $ht_arr=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid'");
+        $ht_arr=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid' and ht_sp='1'");
         
         foreach($ht_arr as $v)
         {
@@ -473,7 +473,7 @@ class ReportController extends DBController {
         //总金额、数量
         $ht_zong_sum=0;
         $ht_zong_num=0;
-        $ht_arr=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid'");
+        $ht_arr=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid' and ht_sp='1'");
         
         foreach($ht_arr as $v)
         {
@@ -1010,7 +1010,7 @@ class ReportController extends DBController {
         //用户id ->用户名
         $user_id_name=$this->get_user_id_name($fid);
         //查询合同
-        $ht_arr=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid'");
+        $ht_arr=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid' and ht_sp='1'");
         //日期
         $datearr=$this->get_now_month();
         if($_GET['sx_1']!='')
@@ -1895,7 +1895,7 @@ class ReportController extends DBController {
             }
             $u=implode("','",$u);
             $u="'".$u."'";
-            $htidarr=parent::sel_more_data("crm_hetong","ht_id","ht_yh='$fid' and ht_fz in ($u)");
+            $htidarr=parent::sel_more_data("crm_hetong","ht_id","ht_yh='$fid' and ht_sp='1' and ht_fz in ($u)");
             foreach($htidarr as $v)
             {
                 $hu[]=$v['ht_id'];
@@ -1908,7 +1908,7 @@ class ReportController extends DBController {
         }
         if($getUser!='0')
         {
-            $htidarr=parent::sel_more_data("crm_hetong","ht_id","ht_yh='$fid' and ht_fz='$getUser'");
+            $htidarr=parent::sel_more_data("crm_hetong","ht_id","ht_yh='$fid' and ht_sp='1' and ht_fz='$getUser'");
             foreach($htidarr as $v)
             {
                 $hu[]=$v['ht_id'];
@@ -2017,7 +2017,7 @@ class ReportController extends DBController {
             $userbm[$v['user_id']]=$bmname[$v['user_zhu_bid']];
         }
         //所有合同
-        $htarr=parent::sel_more_data("crm_hetong","ht_id,ht_fz","ht_yh='$fid' ");
+        $htarr=parent::sel_more_data("crm_hetong","ht_id,ht_fz","ht_yh='$fid' and ht_sp='1' ");
         $htuser=array();
         foreach($htarr as $v)
         {
@@ -2788,7 +2788,7 @@ class ReportController extends DBController {
             */
             //查询我的合同回款
             $usersx=$usersx==''?'':" and ht_fz $usersx ";
-            $myht=parent::sel_more_data("crm_hetong","ht_id"," ht_yh='$fid' $usersx");
+            $myht=parent::sel_more_data("crm_hetong","ht_id"," ht_yh='$fid' and ht_sp='1' $usersx");
             foreach($myht as $v)
             {
                 $hk_in_str.="'".$v['ht_id']."',";
@@ -2816,7 +2816,7 @@ class ReportController extends DBController {
                 合同总金额zdy3  签约日期zdy4
             */
             $usersx=$usersx==''?'':" and ht_fz $usersx ";
-            $myht=parent::sel_more_data("crm_hetong","ht_data","ht_yh='$fid' $usersx ");
+            $myht=parent::sel_more_data("crm_hetong","ht_data","ht_yh='$fid' and ht_sp='1' $usersx ");
             foreach($myht as $v)
             {
                 $j=json_decode($v['ht_data'],true);
@@ -2839,7 +2839,7 @@ class ReportController extends DBController {
         {
             //合同数
             $usersx=$usersx==''?'':" and ht_fz $usersx ";
-            $myht=parent::sel_more_data("crm_hetong","ht_data","ht_yh='$fid' $usersx ");
+            $myht=parent::sel_more_data("crm_hetong","ht_data","ht_yh='$fid' and ht_sp='1' $usersx ");
             foreach($myht as $v)
             {
                 $j=json_decode($v['ht_data'],true);
@@ -2936,7 +2936,7 @@ class ReportController extends DBController {
     {
         //合同查询
         $usersx=$usersx==''?'':" and ht_fz $usersx ";
-        $myht=parent::sel_more_data("crm_hetong","ht_id,ht_data","ht_yh='$fid' $usersx ");
+        $myht=parent::sel_more_data("crm_hetong","ht_id,ht_data","ht_yh='$fid' and ht_sp='1' $usersx ");
         $htid='';
         foreach($myht as $v)
         {
@@ -2966,7 +2966,7 @@ class ReportController extends DBController {
     {
         //合同查询
         $usersx=$usersx==''?'':" and ht_fz $usersx ";
-        $myht=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid' $usersx ");
+        $myht=parent::sel_more_data("crm_hetong","ht_id,ht_data,ht_fz","ht_yh='$fid' and ht_sp='1' $usersx ");
         $htid='';
         foreach($myht as $v)
         {
@@ -3095,7 +3095,7 @@ class ReportController extends DBController {
             */
             //查询我的合同回款
             $usersx=$usersx==''?'':" and ht_fz $usersx ";
-            $myht=parent::sel_more_data("crm_hetong","ht_id,ht_fz"," ht_yh='$fid' $usersx");
+            $myht=parent::sel_more_data("crm_hetong","ht_id,ht_fz"," ht_yh='$fid' and ht_sp='1' $usersx");
             foreach($myht as $v)
             {
                 $hk_in_str.="'".$v['ht_id']."',";
@@ -3123,7 +3123,7 @@ class ReportController extends DBController {
                 合同总金额zdy3  签约日期zdy4
             */
             $usersx=$usersx==''?'':" and ht_fz $usersx ";
-            $myht=parent::sel_more_data("crm_hetong","ht_data,ht_fz","ht_yh='$fid' $usersx ");
+            $myht=parent::sel_more_data("crm_hetong","ht_data,ht_fz","ht_yh='$fid' and ht_sp='1' $usersx ");
             foreach($myht as $v)
             {
                 $j=json_decode($v['ht_data'],true);
@@ -3146,7 +3146,7 @@ class ReportController extends DBController {
         {
             //合同数
             $usersx=$usersx==''?'':" and ht_fz $usersx ";
-            $myht=parent::sel_more_data("crm_hetong","ht_data,ht_fz","ht_yh='$fid' $usersx ");
+            $myht=parent::sel_more_data("crm_hetong","ht_data,ht_fz","ht_yh='$fid' and ht_sp='1' $usersx ");
             foreach($myht as $v)
             {
                 $j=json_decode($v['ht_data'],true);
