@@ -19,8 +19,7 @@ class LianxirenController extends Controller {
 		$new_array=explode(',',$new_xiaji);
 		$kh_base=M('kh');
 		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map'");
-		
+		$kh_sql=$kh_base->query("select * from  crm_kh  where kh_yh='$map' and kh_gonghai=0 ");
 		foreach($kh_sql as $kkh =>$vkh)
 		{
 			$kh_json=json_decode($vkh['kh_data'],true);
@@ -157,6 +156,7 @@ return $fzr_only;
 					$lxr_sql=$lx_base->query("select * from `crm_lx` where `lx_yh` = $fid  and lx_gonghai=0 and  `lx_cj` = $my");        //我的
 
 				}elseif($get['kehujibie']['1']=="2"){ 
+					
 					$lxr_sql=$lx_base->query("select * from `crm_lx` where `lx_yh` = $fid  and lx_gonghai=0 and  `lx_cj` in ($xs1)"); //全部我的                                        //下属的
 				}
 				
