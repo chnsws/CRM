@@ -1417,11 +1417,11 @@ class KehuController extends Controller {
 					  				<td >".$v['zdy10']."</td>";
 					  						$count=strlen($v['zdy16']);
 						  					if($count>40){
-												$newbz=mb_substr($v['zdy16'],0,40)."....";
+												$newbze=mb_substr($v['zdy16'],0,40)."....";
 											}else{
-												$newbz=$v['zdy16'];
+												$newbze=$v['zdy16'];
 											}
-					  			$lxr_show.="<td ><span title='".$v['zdy16']."' style='cursor:pointer'>".$newbz."</td>
+					  			$lxr_show.="<td ><span title='".$v['zdy16']."' style='cursor:pointer'>".$newbze."</td>
 					  				
 					  			</tr>"; 
 
@@ -1467,12 +1467,11 @@ class KehuController extends Controller {
 									$sj_show.="<tr>";
 									$count=strlen($v['zdy0']);
 						  					if($count>13){
-												$newbz=mb_substr($v['zdy0'],0,13)."....";
+												$newbza=mb_substr($v['zdy0'],0,13)."....";
 											}else{
-												$newbz=$v['zdy0'];
-											}
-
-					  				$sj_show.="<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbz."</span></a></td>
+												$newbza=$v['zdy0'];
+											}	
+					  				$sj_show.="<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbza."</span></a></td>
 					  				<td >".$v['zdy3']."</td>
 					  				<td >".substr($v['zdy4'],0,10)."</td>
 					  				<td >".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
@@ -1498,12 +1497,12 @@ class KehuController extends Controller {
 						  				<td >".$v['sj-qiandan']."</td>";
 						  					$count=strlen($v['zdy11']);
 						  					if($count>40){
-												$newbz=mb_substr($v['zdy11'],0,40)."....";
+												$newbzb=mb_substr($v['zdy11'],0,40)."....";
 											}else{
-												$newbz=$v['zdy11'];
+												$newbzb=$v['zdy11'];
 											}
 
-						  			$sj_show_much.="<td > <span title='".$v['zdy11']."' style='cursor:pointer '>".$newbz."</span></td>
+						  			$sj_show_much.="<td > <span title='".$v['zdy11']."' style='cursor:pointer '>".$newbzb."</span></td>
 						  			</tr> ";
 				}
 			}
@@ -1582,15 +1581,15 @@ class KehuController extends Controller {
 											$ht_show.="<tr>";
 													$count=strlen($v['zdy0']);
 								  					if($count>13){
-														$newbz=mb_substr($v['zdy0'],0,13)."....";
+														$newbzc=mb_substr($v['zdy0'],0,13)."....";
 													}else{
-														$newbz=$v['zdy0'];
+														$newbzc=$v['zdy0'];
 													}
 														if($v['ht_sp']==4){
 
-															$ht_show.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."' title='".$v['zdy0']."' style='cursor:pointer '>".$newbz."</a></td>";
+															$ht_show.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."' title='".$v['zdy0']."' style='cursor:pointer '>".$newbzc."</a></td>";
 														}else{
-														$ht_show.="	<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbz."</span></a></td>";
+														$ht_show.="	<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbzc."</span></a></td>";
 														}
 											  				
 											  			$ht_show.="	<td >￥".$v['zdy3']."</td>
@@ -1624,11 +1623,11 @@ class KehuController extends Controller {
 						  				<td >".$ywcs_ht['zdy7'][$v['zdy7']]."</td>";
 						  					$count=strlen($v['zdy17']);
 						  					if($count>40){
-												$newbz=mb_substr($v['zdy17'],0,40)."....";
+												$newbzf=mb_substr($v['zdy17'],0,40)."....";
 											}else{
-												$newbz=$v['zdy17'];
+												$newbzf=$v['zdy17'];
 											}
-						  				$ht_show_much.="<td > <span title='".$v['zdy17']."' style='cursor:pointer '>".$newbz."</span></td>
+						  				$ht_show_much.="<td > <span title='".$v['zdy17']."' style='cursor:pointer '>".$newbzf."</span></td>
 						  			</tr> ";
 				}
 			}
@@ -1697,11 +1696,11 @@ class KehuController extends Controller {
 					}elseif($k=="zdy14"){
 						$count=strlen($v);
 						if($count>40){
-							$newbz=mb_substr($v,0,40)."....";
+							$newbzd=mb_substr($v,0,40)."....";
 						}else{
-							$newbz=$v;
+							$newbzd=$v;
 						}
-						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td><span title="'.$v.'" style="cursor:pointer ">'.$newbz.'</span></td></tr>';
+						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td><span title="'.$v.'" style="cursor:pointer ">'.$newbzd.'</span></td></tr>';
 					}else{
 						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$v.'</td></tr>';
 					}
