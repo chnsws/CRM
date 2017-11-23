@@ -1469,7 +1469,7 @@ class KehuController extends Controller {
 						  					if($count>13){
 												$newbz=mb_substr($v['zdy0'],0,13)."....";
 											}else{
-												$newbz=$v;
+												$newbz=$v['zdy0'];
 											}
 
 					  				$sj_show.="<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbz."</span></a></td>
@@ -1584,7 +1584,7 @@ class KehuController extends Controller {
 								  					if($count>13){
 														$newbz=mb_substr($v['zdy0'],0,13)."....";
 													}else{
-														$newbz=$v;
+														$newbz=$v['zdy0'];
 													}
 														if($v['ht_sp']==4){
 
