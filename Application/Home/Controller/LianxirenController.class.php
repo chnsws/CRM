@@ -448,8 +448,8 @@ return $fzr_only;
 						$add_yw2.="<tr class='addtr  ncy'>";
 						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='number' class='qingyx1'  onchange='sjyz(this)' name='".$vywzd['id']."'></td>";
 						$add_yw2.="</tr>";
-		 			}elseif($vywzd['id']=='zdy5  ncy'){
-							$add_yw.="<tr class='addtr'><td><span style='color:red'>*</span>".$vywzd['name'].":</td>";
+		 			}elseif($vywzd['id']=='zdy5'){
+							$add_yw.="<tr class='addtr ncy'><td>".$vywzd['name'].":</td>";
 							$add_yw.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkpa(this,this.value)' name='".$vywzd['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodiana' name='".$vywzd['id']."' maxlength='25'></td></tr>";	
 					}elseif($vywzd['id']=='zdy15'){
 		 				$add_yw2.="<tr class='addtr ncy'>";
