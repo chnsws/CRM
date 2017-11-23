@@ -259,11 +259,12 @@ class KehuController extends Controller {
 								$show_bt.="<option value=''>--请选择--</option>";
 								$show_bt.="<option value='add_lxr'>新增联系人</option>";
 								
-								
-							foreach($lxr as $k1=>$v1)
+								$lxr1=$this->lxr1();
+								$kehu_name1=$this->kehu_name1();
+							foreach($lxr1 as $k1=>$v1)
 								{
 								
-									$show_bt.="<option value='".$v1['id']."'>".$v1['name']."(".$kehu_name[$v1['zdy1']]['name'].")</option>";
+									$show_bt.="<option value='".$v1['id']."'>".$v1['name']."(".$kehu_name1[$v1['zdy1']]['name'].")</option>";
 								}
 						
 							
@@ -629,6 +630,7 @@ class KehuController extends Controller {
 					}
 					
 				}else{
+					$fzr_only1=$this->user1();
 				foreach($ronghe as $r_k=>$r_v)
 					{	
 						$id=$r_v['kh_id'];
@@ -650,7 +652,7 @@ class KehuController extends Controller {
 												$xs123="<a href='kehumingcheng/kh_id/$id' title=".$r_v[$v_biaoti['id']].">".$r_v[$v_biaoti['id']]."
 												</a>";
 											elseif($v_biaoti['id']=="kh_fz" || $v_biaoti['id']=="kh_old_fz" || $v_biaoti['id']=="kh_cj" )
-																$xs123="<span id='wys{$id}'>".$fzr_only[$r_v[$v_biaoti['id']]]['user_name']."</span>";
+																$xs123="<span id='wys{$id}'>".$fzr_only1[$r_v[$v_biaoti['id']]]['user_name']."</span>";
 											
 											elseif($v_biaoti['id']=="kh_cj_date" ){
 													$xs123="
@@ -767,7 +769,28 @@ class KehuController extends Controller {
 		$new_array=explode(',',$new_xiaji);
 		$kh_base=M('lx');
 		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->query("select * from  crm_lx where lx_yh='$map' and lx_cj IN ($xiaji)");
+		$kh_sql=$kh_base->query("select * from  crm_lx where lx_yh='$map' and lx_gonghai=0 ");
+		
+		foreach($kh_sql as $kkh =>$vkh)
+		{
+			$kh_json=json_decode($vkh['lx_data'],true);
+			
+					$lx['id']=$vkh['lx_id'];
+					$lx['name']=$kh_json['zdy0'];
+					$lx['zdy1']=$kh_json['zdy1'];
+					$lx['lx_buwei']=$vkh['lx_buwei'];
+					$lx_name[$vkh['lx_id']]=$lx;
+		}
+		
+		return $lx_name;
+	}
+	public function lxr1(){
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$new_xiaji=$xiaji;          
+		$new_array=explode(',',$new_xiaji);
+		$kh_base=M('lx');
+		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kh_sql=$kh_base->query("select * from  crm_lx where lx_yh='$map' and lx_gonghai=0 and lx_cj IN ($xiaji)");
 		
 		foreach($kh_sql as $kkh =>$vkh)
 		{
@@ -2881,9 +2904,9 @@ class KehuController extends Controller {
 
 		$fuzeren=M('user');
 		
-			$map['user_id']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+			$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
 	
-	 	$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id IN ($xiaji)");//缺少条件
+	 	$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id = $map or user_fid=$map");//缺少条件
 			foreach ($fuzeren_sql as $k=>$v)
 			{
 				foreach ($new_array as $k1=>$v1)
@@ -2898,6 +2921,40 @@ class KehuController extends Controller {
 					}
 						
 				}
+			} 
+	
+			
+return $fzr_only;
+	}
+	public function user1(){                 //负责人和部门
+	
+	 	$department=M('department');
+		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			//echo $dpmet['bm_company'];exit;
+		$sql_de=$department->where($dpt)->select();
+		foreach($sql_de as $kdpt => $vdpt)
+		{
+			
+			$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
+		}
+
+
+		$fuzeren=M('user');
+		
+			$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+	
+	 	$fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id = $map or user_fid=$map");//缺少条件
+			foreach ($fuzeren_sql as $k=>$v)
+			{
+				
+					
+						$new_fuzeren['user_id']=$v['user_id'];
+						$new_fuzeren['user_name']=$v['user_name'];
+						$new_fuzeren['user_zhu_bid']=$v['user_zhu_bid'];
+						$new_fuzeren['department']=$dpt_arr[$v['user_zhu_bid']]['bm_name'];
+						$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
+					
+				
 			} 
 	
 			
@@ -3252,7 +3309,28 @@ public function save(){
 		$new_array=explode(',',$new_xiaji);
 		$kh_base=M('kh');
 		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji) ");
+		
+		foreach($kh_sql as $kkh =>$vkh)
+		{
+			$kh_json=json_decode($vkh['kh_data'],true);
+			
+					$kh['id']=$vkh['kh_id'];
+					$kh['name']=$kh_json['zdy0'];
+					$kh_name[$vkh['kh_id']]=$kh;
+		}
+		//echo "<pre>";
+		//var_dump($kh_name);exit;
+		return $kh_name;
+	}
+	public function kehu_name1(){
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+
+		$new_xiaji=$xiaji;          
+		$new_array=explode(',',$new_xiaji);
+		$kh_base=M('kh');
+		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' ");
 		
 		foreach($kh_sql as $kkh =>$vkh)
 		{
