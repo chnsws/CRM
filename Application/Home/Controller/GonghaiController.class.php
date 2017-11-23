@@ -5,18 +5,50 @@ use Think\Controller;
 
 class GonghaiController extends Controller {
 
-	public function jsonaa(){
-		$array=array("a","b","c","d","e");
-		$sl=json_encode($array,true);
-		echo $sl;
-	}
+	
+	public function user1(){                 //负责人和部门
+		
+			 $department=M('department');
+			$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+				//echo $dpmet['bm_company'];exit;
+			$sql_de=$department->where($dpt)->select();
+			foreach($sql_de as $kdpt => $vdpt)
+			{
+				
+				$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
+			}
+	
+	
+			$fuzeren=M('user');
+			
+				$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+		
+			 $fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id = $map or user_fid=$map");//缺少条件
+				foreach ($fuzeren_sql as $k=>$v)
+				{
+					
+						
+							$new_fuzeren['user_id']=$v['user_id'];
+							$new_fuzeren['user_name']=$v['user_name'];
+							$new_fuzeren['user_zhu_bid']=$v['user_zhu_bid'];
+							$new_fuzeren['department']=$dpt_arr[$v['user_zhu_bid']]['bm_name'];
+							$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
+						
+					
+				} 
+		
+				
+	return $fzr_only;
+		}
     public function gonghai(){
 
     
     	$xiaji= $this->get_xiashu_id();//  查询下级ID\
-    	//$kehuname=$this->kehuname();
+		//$kehuname=$this->kehuname();
+		
+		$fzr_only2=$this->user1();
     	$lxr=$this->lxr();
-
+		$lxr1=$this->lxr1();
     	$kehu_name=$this->kehu_name();
     	//echo "<pre>";
     	//var_dump($kehu_name);exit;
@@ -220,169 +252,9 @@ class GonghaiController extends Controller {
 			}
 		}
 		//echo "<pre>";var_dump($a_arr);exit;
-		foreach($a_arr as $k=>$v)
-		{
-			if($v['bt']==1)
-			{
-				if($v['id']=="zdy1" || $v['id']=="zdy9" || $v['id']=="zdy10" || $v['id']=="zdy11" || $v['id']=="zdy12")
-				{
-					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-					$show_bt.="<td><select  class='required' name='".$v['id']."'>";
-							$show_bt.="<option value=''>--请选择--</option>";
-						foreach($ywcs_wysend[$v['id']] as $k=>$v)
-						{
-							$show_bt.="<option value='".$k."'>".$v."</option>";
-						}
-					$show_bt.="<select></td>";	
-					$show_bt.="</tr>";
-				}elseif($v['id']=='zdy13'){
-						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-						$show_bt.="<td><input type='text' name='".$v['id']."'  class='ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd HH:mm:ss'".'})"'."></td></tr>";	
-				}elseif($v['id']=='zdy6'){
-					$show_bt.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
-					$show_bt.="<td><span style='color:red'>*</span>".$v['name'].":</td><td class='form-group' style='width:80%;'>";
-
-					$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-		          	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-		         	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-	 				$show_bt.="</td></tr>";
-				}elseif($v['id']=='zdy15'){
-						$show_bt.="<tr class='addtr' ><td><span style='color:red;width:30px'>*</span>".$v['name']."：</td>";
-						$show_bt.="<td id='zdy15th'><select  class='required xlss' name='".$v['id']."'  >";
-								$show_bt.="<option value=''>--请选择--</option>";
-								$show_bt.="<option value='add_lxr'>新增联系人</option>";
-								
-								
-							foreach($lxr as $k1=>$v1)
-								{
-								
-									$show_bt.="<option value='".$v1['id']."'>".$v1['name']."(".$kehu_name[$v1['zdy1']]['name'].")</option>";
-								}
-						
-							
-						$show_bt.="</select></td></tr>";
-						//	<input type='text' name='box' id='sss' style='width:200px;position:absolute;left:30.2%;height:31px;line-height:30px;'>	<span style='margin-left:20px;margin-right:24px ;color:#07d' onclick='add_lxr()'>点击添加</span></td>	
-				
-				}elseif($v['id']=='zdy2'){
-						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-						$show_bt.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."'' maxlength='25'></td></tr>";	
-				
-				
-				}elseif($v['id']=='zdy0'){
-					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-					$show_bt.="<td><input type='text'  class=' required' id= 'wyszdy0' onkeyup='kh_name_if(this)' name='".$v['id']."' maxlength='40'></td></tr>";	
-				}elseif($v['id']=="zdy3"){
-					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-					$show_bt.="<td><input type='text'   class='required qingyx' name='".$v['id']."'  onchange='yxyz(this)' maxlength='40'></td></tr>";
-
-				}elseif($v['id']=="zdy14"){
-						$show_bt.="<tr class='addtr ' ><td><span style='color:red'>*</span>".$v['name']."：</td>";
-						$show_bt.="<td><textarea name='".$v['id']."' style='width:300px'   class='required' placeholder='最大长度400' maxlength='400'></textarea></td></tr>";	
-				}else{
-					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-					$show_bt.="<td><input type='text'  class='required' name='".$v['id']."' maxlength='40'></td></tr>";	
-				}
-
-			}else{
-				if($v['cy']==1)
-				{
-				
-					if($v['id']=="zdy1" || $v['id']=="zdy9" || $v['id']=="zdy10" || $v['id']=="zdy11" || $v['id']=="zdy12")
-					{
-						$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
-						$show_bt1.="<td><select  name='".$v['id']."'>";
-								$show_bt1.="<option>--请选择--</option>";
-							foreach($ywcs_wysend[$v['id']] as $k=>$v)
-							{
-								$show_bt1.="<option value='".$k."'>".$v."</option>";
-							}
-						$show_bt1.="<select></td>";	
-						$show_bt1.="</tr>";
-					}elseif($v['id']=='zdy13'){
-						$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
-						$show_bt1.="<td><input type='text' name='".$v['id']."'  class=' ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td></tr>";	
-					}elseif($v['id']=='zdy2'){
-						$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
-						$show_bt1.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."' maxlength='25'></td></tr>";	
-				
-					}elseif($v['id']=='zdy6'){
-						$show_bt1.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
-						$show_bt1.="<td>".$v['name'].":</td><td class='form-group' style='width:80%;'>";
-
-						$show_bt1.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-			          	$show_bt1.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-			         	$show_bt1.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-		 				$show_bt1.="</td></tr>";
-					}elseif($v['id']=="zdy3"){
-					$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
-					$show_bt1.="<td><input type='text'   class='qingyx' name='".$v['id']."' onchange='yxyz(this)' maxlength='40'></td></tr>";	
-					}elseif($v['id']=="zdy14"){
-						$show_bt1.="<tr class='addtr '><td>".$v['name']."：</td>";
-						$show_bt1.="<td><textarea name='".$v['id']."' style='width:300px' placeholder='最大长度400' maxlength='400'></textarea></td></tr>";	
-					}else{
-						$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
-						$show_bt1.="<td><input type='text' name='".$v['id']."' maxlength='40'></td></tr>";	
-					}		
-				}else{
-					
-				if($v['id']=="zdy1" || $v['id']=="zdy9" || $v['id']=="zdy10" || $v['id']=="zdy11" || $v['id']=="zdy12")
-					{
-						$show_bt2.="<tr class='addtr ncy' style='display: none;border:1px'><td>".$v['name']."：</td>";
-						$show_bt2.="<td><select  name='".$v['id']."'>";
-								$show_bt2.="<option >--请选择--</option>";
-							foreach($ywcs_wysend[$v['id']] as $k=>$v)
-							{
-								$show_bt2.="<option value='".$k."'>".$v."</option>";
-							}
-						$show_bt2.="<select></td>";	
-						$show_bt2.="</tr>";
-					}elseif($v['id']=='zdy13'){
-						$show_bt2.="<tr class='addtr'><td>".$v['name']."：</td>";
-						$show_bt2.="<td><input type='text' name='".$v['id']."'    class='ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td></tr>";	
-					}elseif($v['id']=='zdy6'){
-						$show_bt2.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
-						$show_bt2.="<td>".$v['name'].":</td><td class='form-group' style='width:80%;'>";
-
-						$show_bt2.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-			          	$show_bt2.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-			         	$show_bt2.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-		 				$show_bt2.="</td></tr>";
-					
-
-		 			}elseif($v['id']=='zdy2'){
-						$show_bt2.="<tr class='addtr'><td>".$v['name']."：</td>";
-						$show_bt2.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."' maxlength='25'></td></tr>";	
-					
-					}elseif($v['id']=="zdy3"){
-					$show_bt2.="<tr class='addtr'><td>".$v['name']."：</td>";
-					$show_bt2.="<td><input type='text'   class='qingyx' name='".$v['id']."'  onchange='yxyz(this)' maxlength='40'></td></tr>";	
-					}elseif($v['id']=="zdy14"){
-						$show_bt2.="<tr class='addtr ncy' style='display: none;border:1px'><td>".$v['name']."：</td>";
-						$show_bt2.="<td><textarea name='".$v['id']."' style='width:300px' placeholder='最大长度400' maxlength='400'></textarea></td></tr>";	
-					}else{
-						$show_bt2.="<tr class='addtr ncy' style='display: none;border:1px'><td>".$v['name']."：</td>";
-						$show_bt2.="<td><input type='text' name='".$v['id']."' maxlength='40'></td></tr>";	
-					}	
-				}
-			}
-						
-		}
-			$jw.="<tr class='addtr'><td><span style='color:red'>*</span>乙方负责人:</td>";
-			$jw.="<td><select name='ht_fz'  class ='required' onchange='get_bm(this)'>";
-			$jw.="<option  value=''>请选择负责人</option>";	
-				foreach($fzr_only as $k=>$v)
-				{
-					$jw.="<option  value='".$v['user_id']."'>".$v['user_name']."</option>";
-				}
-			$jw.=" </select></td></tr>	";
-			$jw.="<tr class='addtr '><td>部门:</td>";
-			$jw.="<td class='bm_th' ><input type='text' name='ht_department' disabled value='' > </td>";
-		$this->assign('show_bt',$show_bt);
-		$this->assign('show_bt1',$show_bt1);
-		$this->assign('show_bt2',$show_bt2);
-		$this->assign("jw",$jw);
+		
 		$this->assign("pl_bj",$pl_bj_arr);
-		$array_jiansuo=array('kh_lx'=>"联系人",'kh_cj'=>"创建人",'kh_fz'=>"前负责人",'kh_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
+		$array_jiansuo=array('kh_cj'=>"创建人",'kh_fz'=>"前负责人",'kh_bm'=>"前所属部门",'kh_cj_date'=>"创建时间",'kh_gx_date'=>"更新于",'kh_gh_date'=>"划入公海时间");
 
 				foreach($array_jiansuo as $k=>$v){
 						$new_str1['id']=$k;
@@ -413,16 +285,7 @@ class GonghaiController extends Controller {
 							foreach($ht_json as $k2=>$v2)
 							{	
 
-								
 											$ht_sql[$k][$k2]=$v2;
-
-								
-
-
-
-
-
-
 								
 							}
 						}
@@ -589,7 +452,7 @@ class GonghaiController extends Controller {
 			$ywcs_sql_json[$v['id']]=$v;
 			unset($ywcs_sql_json[$k]);
 		}
-		$lxr=$this->lxr();
+		$lxr=$this->lxr1();
 
 		$wuyong=0;
 		foreach($lxr as $k=>$v)//同公司下多个联系人
@@ -634,10 +497,10 @@ class GonghaiController extends Controller {
 									{
 										
 											if($v_biaoti['id']=='zdy0')
-												$xs123="<a href='kehumingcheng/kh_id/$id'>".$r_v[$v_biaoti['id']]."
+												$xs123="<a href='gonghaimingcheng/kh_id/$id'>".$r_v[$v_biaoti['id']]."
 												</a>";
 											elseif($v_biaoti['id']=="kh_fz" || $v_biaoti['id']=="kh_old_fz" || $v_biaoti['id']=="kh_cj" )
-																$xs123="<span id='wys{$id}'>".$fzr_only[$r_v[$v_biaoti['id']]]['user_name']."</span>";
+																$xs123="<span id='wys{$id}'>".$fzr_only2[$r_v[$v_biaoti['id']]]['user_name']."</span>";
 											
 											elseif($v_biaoti['id']=="kh_cj_date" ){
 													$xs123="
@@ -755,6 +618,27 @@ class GonghaiController extends Controller {
 		$kh_base=M('lx');
 		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$kh_sql=$kh_base->query("select * from  crm_lx where lx_yh='$map' and lx_cj IN ($xiaji)");
+		
+		foreach($kh_sql as $kkh =>$vkh)
+		{
+			$kh_json=json_decode($vkh['lx_data'],true);
+			
+					$lx['id']=$vkh['lx_id'];
+					$lx['name']=$kh_json['zdy0'];
+					$lx['zdy1']=$kh_json['zdy1'];
+					$lx['lx_buwei']=$vkh['lx_buwei'];
+					$lx_name[$vkh['lx_id']]=$lx;
+		}
+		
+		return $lx_name;
+	}
+	public function lxr1(){
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$new_xiaji=$xiaji;          
+		$new_array=explode(',',$new_xiaji);
+		$kh_base=M('lx');
+		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kh_sql=$kh_base->query("select * from  crm_lx where lx_yh='$map' ");
 		
 		foreach($kh_sql as $kkh =>$vkh)
 		{
@@ -1255,7 +1139,7 @@ class GonghaiController extends Controller {
 			}
 			return $new_ywcs;
 		}
-		public function kehumingcheng(){
+		public function gonghaimingcheng(){
 			$ywcs_sj=$this->ywcs_sj();
 			$ywcs_kh=$this->ywcs_kh();
 
@@ -1291,21 +1175,7 @@ class GonghaiController extends Controller {
 			$kh=M('kh');
 			$kh_map['kh_id']=$kh_id;
 			$sql_kh=$kh->where($kh_map)->find();
-			$qxa=0;
-			foreach($new_array1 as $k=>$v)
-			{
-				if($sql_kh['kh_fz']==$v)
-				{
-					$qxa++;
-				}
-			}
 		
-			if($qxa<1)
-			{
-				echo "<script> alert('您没有查看此客户权限~');history.go(-1); 
-				 
-				</script>";die;
-			}
 			$sql_json=json_decode($sql_kh['kh_data'],true);
 		
 			$kh_type=$sql_json['zdy1'];//客户类型canshu1

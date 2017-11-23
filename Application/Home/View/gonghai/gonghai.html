@@ -178,13 +178,12 @@
    				<div class="anniu">		
 					<span style="margin-left:1%"  class="anniudw">
 					   		<button onclick="piliangzhuanyi()"  class="layui-btn layui-btn-primary layui-btn-small">
-   			 				<i class="layui-icon">&#xe642;</i>批量转移</button>	
+   			 				<i class="layui-icon">&#xe642;</i>获取客户</button>	
 						   	<button onclick="bianji_kehu1()"  class="layui-btn layui-btn-primary layui-btn-small">
 	   			 			<i class="layui-icon">&#xe642;</i>批量编辑</button>
 						   	<button onclick="del_check()"  class="layui-btn layui-btn-primary layui-btn-small">
 	   			 			<i class="layui-icon">&#xe640;</i>删除所选</button>
-				 			<button onclick="piliangzhuanyi()"  class="layui-btn layui-btn-primary layui-btn-small">
-				 			<i class="layui-icon">&#xe642;</i>转移至客户公海</button>	
+				 			
 					</span>
 					
 						<div id="bj_kehu" style="margin-top:10px;padding-top:20px;display: none;border:1px">
@@ -220,8 +219,7 @@
 													 
 														</td>
 									</tr>
-									 <tr style='line-height:70px'><td><input type="checkbox" name="zy_sj" value="ok">同时转移客户下的商机</td></tr>
-									 <tr style='line-height:70px'><td><input type="checkbox" name="zy_ht" value="ok">同时转移客户下的合同</td></tr>
+									
 
 								</table>
 							</form>
@@ -298,7 +296,7 @@
 				
 			</div>
 					<div id="dialog-form" style="display: none;border:1px;"> <!--新增弹出框-->
-						<form id="ht_form" style="border:1px; method="post" class="uk-form " >
+						<form id="ht_form" style="border:1px;" method="post" class="uk-form " >
 							<table class="addshangji_weizhi " style="border:1px;">
 								{$show_bt}
 								{$show_bt1}
@@ -512,6 +510,7 @@ $('#piliangzy').hide();
  		}
  		
  	})
+	
  	if(piliang_str=="")
  	{
  		tishi("没有选择客户");
@@ -523,10 +522,10 @@ $('#piliangzy').hide();
 
 								type:1,
 								offset: 't',
-								area:'630px',
-								title: '批量转移客户',
+								area:['630px','300px'],
+								title: '批量获取客户',
 								content:$('#piliangzy'),
-								btn:['确认转移','取消'],
+								btn:['确认获取','取消'],
 								btn1:function(){
 									var fuzeren=$("#zhuanyifzr").val();
 									//var content=$("#"+xgzd).val();
@@ -536,16 +535,8 @@ $('#piliangzy').hide();
 										tishi("请选择负责人");return
 									}
 									var fuzeren1=$("#zhuanyifzr").children("option[value='"+fuzeren+"']").text();//客户名称汉字
-									//tishi(fuzeren)
-									//tishi(fuzeren1)
 
-									var shangji_hetong='';//不确定
- 									var sj=$('input[name="zy_sj"]:checked').val();
-									var ht=$('input[name="zy_ht"]:checked').val();
-								
-									//var content2=$("#"+xgzd).children("option[value='"+content+"']").text();//参数汉字
-
-									$.get(rooturl+'/index.php/Home/Kehu/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"kh_id":piliang_str,'sj':sj,'ht':ht},
+									$.get(rooturl+'/index.php/Home/Gonghai/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"kh_id":piliang_str},
 		        		 				function(html){
 		        		 				
 		        		 					tishi("批量转移成功")
