@@ -2311,12 +2311,14 @@ class KehuController extends Controller {
 			
 			$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		//	UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
-			$sql_del=$kehu_base->query("update  `crm_kh` SET kh_gonghai=1  where `kh_id` in ($mapid) and kh_yh=$yh" );
+		
 			$kh_id=explode(",",$mapid);
 			$lxr_base=M('lx');
 			$sj_basea=M('shangji');
+			$ht_basea=M('hetong');
 			$lx_id="";
 			$sj_id="";
+		
 			foreach($kh_id as $k=>$v){
 				$tiaojian='"zdy1":"'.$v.'"';
 	 			$tiaojian1='"zdy1":'.$v.'';
@@ -2330,9 +2332,22 @@ class KehuController extends Controller {
 				{
 					$sj_id.=$v2['sj_id'].",";	
 				}
+				$ht_sqla=$ht_basea->query("select * from crm_hetong where ht_yh = '$yh' and ht_data like  '%$tiaojian%' or ht_data like '%$tiaojian1%'");
+				
+
+				if($ht_sqla!="" && $ht_sqla!=null)
+				{
+					echo "youhetong";exit;
+				}
+			
+
 
 			}
+		
+		
+			$dasj=date('Y-m-d H:i:s');
 			
+			$sql_del=$kehu_base->query("update  `crm_kh` SET kh_gonghai=1,kh_gh_date='$dasj'  where `kh_id` in ($mapid) and kh_yh=$yh" );
 			$lx_id2=substr($lx_id,0,strlen($lx_id)-1); //id
 
 			$save_lxr=$lxr_base->query("update `crm_lx` SET lx_gonghai=1 where lx_id in ($lx_id2) and  lx_yh =$yh");
@@ -2344,7 +2359,7 @@ class KehuController extends Controller {
 			/**foreach($sql as $k=>$v)
 			{
 				$json=json_decode($v['kh_data'],true);
-				$rz_bz="删除了客户：".$json['zdy0']."";
+				$rz_bz="删除了客户：".$json['zdy0'].""; 
 				$this->rizhi($v['kh_id'],$rz_bz,"3");	
 			}**/
 				

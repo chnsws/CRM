@@ -11,7 +11,7 @@ class ShangjiController extends Controller {
 		$new_array=explode(',',$new_xiaji);
 		$kh_base=M('kh');
 		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' ");
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_gonghai=0 ");
 		
 		foreach($kh_sql as $kkh =>$vkh)
 		{
@@ -70,7 +70,7 @@ class ShangjiController extends Controller {
 			$tihuan= str_replace("\\", "\\\\\\\\", $first);
 			$sj_base=M('shangji');
 			$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-			$userarr=$sj_base->query("select * from crm_shangji where sj_yh = '$yh' and sj_fz IN ($xiaji) and  sj_data like '%".$tihuan."%'");
+			$userarr=$sj_base->query("select * from crm_shangji where sj_yh = '$yh' and sj_gonghai=0 and sj_fz IN ($xiaji) and  sj_data like '%".$tihuan."%'");
 		
 			$this->assign('ssaaa',$ssaaa);
 		}elseif($sxaaa!=""){
@@ -131,19 +131,19 @@ class ShangjiController extends Controller {
 					$new_number=substr($xiaji,0,strlen($xiaji)-$myidcount);
 
 					if($kehu_jibie=="3"){ 
-						$userarr=$sj_base->query("select * from crm_shangji where sj_yh='$map' and sj_fz IN ($new_number)");                  //全部客户
+						$userarr=$sj_base->query("select * from crm_shangji where sj_yh='$map'  and sj_gonghai=0 and sj_fz IN ($new_number)");                  //全部客户
 						
 					}elseif($kehu_jibie=="2"){               //我的客户
-						$userarr=$sj_base->query("select * from crm_shangji where sj_yh='$map' and sj_fz ='$myid' ");
+						$userarr=$sj_base->query("select * from crm_shangji where sj_yh='$map' and sj_gonghai=0 and sj_fz ='$myid' ");
 
 					}else{                                   //我下属的客户
-						$userarr=$sj_base->query("select * from crm_shangji where sj_yh='$map' and sj_fz IN ($xiaji)");
+						$userarr=$sj_base->query("select * from crm_shangji where sj_yh='$map' and sj_gonghai=0 and sj_fz IN ($xiaji)");
 					}	
 		}else{
 			$sj_base=M('shangji');
 			$xiaji= $this->get_xiashu_id();//  查询下级ID
 			$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-			$userarr=$sj_base->query("select * from crm_shangji where sj_yh='$map' and sj_fz IN ($xiaji) order by sj_id desc limit ".$new.",".$list_num." ");// 查询商机信息
+			$userarr=$sj_base->query("select * from crm_shangji where sj_yh='$map' and sj_gonghai=0 and sj_fz IN ($xiaji) order by sj_id desc limit ".$new.",".$list_num." ");// 查询商机信息
 			$sj_count=$sj_base->query("select count(sj_id) from crm_shangji where sj_yh='$map' and sj_fz IN ($xiaji)");
 			//var_dump($sj_count) ;exit;
 			$ys= ceil($sj_count['0']['count(sj_id)']/$list_num);//多少页

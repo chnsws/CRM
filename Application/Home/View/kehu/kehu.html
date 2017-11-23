@@ -389,6 +389,10 @@ if(checked_str=="")
 
 	$.get(rooturl+'/index.php/Home/Kehu/gonghai',{"id":checked_str},
 							        		 function(html){
+												 if(html=="youhetong")
+												 {
+													 tishi("客户有合同不可转移");return;
+												 }
 							        			tishi('转移成功')
 							        			window.location.href="kehu";
 							                   });
