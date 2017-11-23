@@ -113,6 +113,26 @@ public function kehu(){
 		//var_dump($kh_name);exit;
 		return $kh_name;
 	}
+	public function kehu1(){
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$new_xiaji=$xiaji;          
+		$new_array=explode(',',$new_xiaji);
+		$kh_base=M('kh');
+		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_gonghai=0 and kh_fz IN ($xiaji)");
+		
+		foreach($kh_sql as $kkh =>$vkh)
+		{
+			$kh_json=json_decode($vkh['kh_data'],true);
+			
+					$kh['id']=$vkh['kh_id'];
+					$kh['name']=$kh_json['zdy0'];
+					$kh_name[$vkh['kh_id']]=$kh;
+		}
+		//echo "<pre>";
+		//var_dump($kh_name);exit;
+		return $kh_name;
+	}
 	public function ywcs(){
 		$data['ywcs_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$data['ywcs_yw']='6';
@@ -248,6 +268,7 @@ public function kehu(){
 		      
 		$ywzd=$this->ywzd();
 		$kehu=$this->kehu();
+		$kehu1=$this->kehu1();
 		$ywcs=$this->ywcs();
 		$shangji=$this->shangji();
 		$userqb=$this->userqb();
@@ -456,7 +477,7 @@ public function kehu(){
 
 								$show_bt.="	<option value=''> --选择客户--</option>";
 								$show_bt.="	<option value='xz_kh'> --新增客户--</option>";
-							foreach($kehu as $kkh =>$vkh)
+							foreach($kehu1 as $kkh =>$vkh)
 							{
 								$show_bt.="	<option value='".$vkh['id']."'> ".$vkh['name']."</option>";
 							}

@@ -24,6 +24,25 @@ class ShangjiController extends Controller {
 	
 		return $kh_name;
 	}
+	public function kehu1(){
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$new_xiaji=$xiaji;          
+		$new_array=explode(',',$new_xiaji);
+		$kh_base=M('kh');
+		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kh_sql=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_gonghai=0 and kh_fz in ($xiaji)");
+		
+		foreach($kh_sql as $kkh =>$vkh)
+		{
+			$kh_json=json_decode($vkh['kh_data'],true);
+			
+					$kh['id']=$vkh['kh_id'];
+					$kh['name']=$kh_json['zdy0'];
+					$kh_name[$vkh['kh_id']]=$kh;
+		}
+	
+		return $kh_name;
+	}
 	public function shangji(){
 		$data['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件               
 		$data['zd_yewu']=5;//所属模块
@@ -170,6 +189,7 @@ class ShangjiController extends Controller {
 //var_dump($new_ywcs);exit;
 		
 		$kh_name=$this->kehu();
+		$kh_name1=$this->kehu1();
 		$department=M('department');
 		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 			//echo $dpmet['bm_company'];exit;
@@ -452,7 +472,7 @@ class ShangjiController extends Controller {
 								$table.="<select id='ss1' class='required lxr_ajax xlss' id='ac' name='".$vzd['id']."'  style='width:230px;height:30px;'>";
 										$table.="<option value=''>--请选择--</option>";
 										$table.="<option value='tiaozhuan' style='color:red'>点我添加新客户</option>";
-								foreach($kh_name as $k=>$v)
+								foreach($kh_name1 as $k=>$v)
 									{
 										$table.="<option value='".$v['id']."'>".$v['name']."</option>";
 									}
@@ -1371,7 +1391,7 @@ return $fzr_only;
 					$lx['kh_id']=$kh_json['zdy1'];
 					$lx_name[$vkh['lx_id']]=$lx;
 		}
-
+		
 		return $lx_name;
 	}
 	public function lianxiren(){           // 6 月26确定暂时没用的方法

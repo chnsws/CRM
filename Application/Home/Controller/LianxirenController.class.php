@@ -31,6 +31,24 @@ class LianxirenController extends Controller {
 		}
 		return $kh_name;
 	}
+	public function kehu1(){
+		$xiaji= $this->get_xiashu_id();//  查询下级ID
+		$new_xiaji=$xiaji;          
+		$new_array=explode(',',$new_xiaji);
+		$kh_base=M('kh');
+		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$kh_sql=$kh_base->query("select * from  crm_kh  where kh_yh='$map' and kh_gonghai=0 and kh_fz in ($xiaji)");
+		foreach($kh_sql as $kkh =>$vkh)
+		{
+			$kh_json=json_decode($vkh['kh_data'],true);
+			
+					$kh['id']=$vkh['kh_id'];
+					$kh['name']=$kh_json['zdy0'];
+					$kh['department']=$kh_json['department'];
+					$kh_name[$vkh['kh_id']]=$kh;
+		}
+		return $kh_name;
+	}
 	public function department(){                                   //部门表查询
 		$department=M('department');
 		$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
@@ -83,6 +101,7 @@ return $fzr_only;
 	//	var_dump($userqb);exit;
 		$ywzd= $this->ywzd();    //业务字段信息 
 		$kh_name= $this->kehu();    //业务字段信息 
+		$kh_name1= $this->kehu1();    //业务字段信息 
 	//	echo "<pre>";var_dump($kh_name);exit;
 		$dpt_arr= $this->department();    //部门字段信息 
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
@@ -319,7 +338,7 @@ return $fzr_only;
 							 		<select  name='".$vywzd['id']."' class='required kh_ls xlss'>
 							 			<option value=''>--请选择--</option>
 							 			<option value='kh_add'>--点击添加--</option>";
-							 		foreach ($kh_name as $kkh => $vkh)
+							 		foreach ($kh_name1 as $kkh => $vkh)
 							 		{
 							 			 $add_yw.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
 							 		} 
@@ -424,7 +443,7 @@ return $fzr_only;
 									$add_yw2.="<td>
 							 		<select  name='' style='width:300px;height:30px;'>
 							 			<option>--请选择--</option>";
-							 		foreach ($kh_name as $kkh => $vkh)
+							 		foreach ($kh_name1 as $kkh => $vkh)
 							 		{
 							 			 $add_yw2.="<option value='".$vkh['id']."'>".$vkh['name']."</option>";
 							 		} 
