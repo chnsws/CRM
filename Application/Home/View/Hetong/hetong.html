@@ -1547,8 +1547,8 @@ $("#nchangyong").click(function(){
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
 											ajaxstr_sj1+=thisdom.prop("name")+":￥￥"+thisdom.val()+",￥￥";	
 									}
-								
-										window.ajaxstr_sj=ajaxstr_sj1;//
+									
+										window.ajaxstr_sj=ajaxstr_sj1.substr(0,ajaxstr_sj1.length-3);//
 							
 
 									window.name_sj =$("#sj_name").find("#wyzdy0").val();

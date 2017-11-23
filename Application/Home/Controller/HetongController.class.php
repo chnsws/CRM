@@ -569,12 +569,15 @@ public function kehu(){
 					$show_bt1.="<td><input type='text' name='".$v['id']."' value='' class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."> </td></tr>	";		
 				}elseif($v['type']=="3")
 				{	
+						
+					
 					if($v['id']=='zdy1')
 					{
 						$show_bt1.="<tr class='addtr'><td>".$v['name'].":</td>";
-						$show_bt1.="<td><select name='".$v['id']."' onchange='get_sj(this)'>";
+						$show_bt1.="<td id='kh_name'><select name='".$v['id']."' class=' ht_ss'  id='xl1'>";
 
 								$show_bt1.="	<option value=''> --选择客户--</option>";
+								$show_bt1.="	<option value='xz_kh'> --新增客户--</option>";
 							foreach($kehu as $kkh =>$vkh)
 							{
 								$show_bt1.="	<option value='".$vkh['id']."'> ".$vkh['name']."</option>";
@@ -584,11 +587,16 @@ public function kehu(){
 					elseif($v['id']=='zdy2')
 					{
 						$show_bt1.="<tr class='addtr'><td>".$v['name'].":</td>";
-						$show_bt1.="<td ><select name='".$v['id']."' class='th_sj'>";
+						$show_bt1.="<td ><select name='".$v['id']."' class='th_sj  sjgl' id='sjtz' onchange='sjtzz(this)'>";
 							
-								$show_bt1.="	<option value='pipixia'> 请先选择对应客户</option>";
+								$show_bt1.="	<option value=''> 请先选择对应客户</option>";
+								$show_bt1.="	<option value='xzsj'>新增商机(此商机对应商机)</option>";
 						
-						$show_bt1.=  " </select></td></tr>	";		
+						$show_bt1.=  " </select></td></tr>";		
+
+
+
+
 					}elseif($v['id']=='zdy7'){
 
 						$show_bt1.="<tr class='addtr'><td>".$v['name'].":</td>";
@@ -1684,42 +1692,47 @@ public function kehu(){
 		//$kehu="zdy0:2323,zdy1:canshu2,zdy2:23,zdy3:233223,zdy4:23,zdy5:23,zdy15:215,kh_fz:45,ht_department:销售部-国贸1,";
 		if($kehu=="" || $kehu == null)       //z只需要处理 合同和商机。客户和联系人都有了
 		{
-			$shangji= $_GET['sj'];
+			
 			//$shangji="zdy0:标题拍合同,zdy1:104114,zdy2:晓明商机,zdy3:896000,zdy4:2017-7-13 18:11:34,zdy5:2017-7-4 18:11:37,zdy6:2017-7-4 18:11:40,zdy7:canshu1,zdy15:2017-7-4 18:11:42,zdy8:,cpgd:添加产品,undefined:undefined,undefined:undefined,zdy10:,zdy11:,zdy12:,zdy13:,undefined:,undefined:undefined,undefined:undefined,zdy17:,ht_fz:46,ht_department:技术部
 		//	";
 			$kh_id=$_GET['kh_id']; //选的客户
 			//$kh_id=104104;
 		//	$shangji="zdy0:小母牛1,undefined:undefined,zdy2:142,zdy3:60000,zdy4:2017-7-4 18:25:41,sj_fz:46,ht_department:技术部,";
-			$shangji_number=substr($shangji,0,strlen($shangji)-3); 
-			$shangji_arr=explode(',￥￥',$shangji_number);
-			
-			foreach($shangji_arr as $k=>$v)
+		
+			$shangji= $_GET['sj'];
+			if($shangji!='' && $sj!=null)
 			{
-				$sj_ex=explode(":￥￥",$v);
-				if($sj_ex['0']=="sj_fz")
-				{
-					$sj_data["sj_fz"]=	$sj_ex['1'];//本人ID  ;
-				}elseif($sj_ex['0']=="ht_department")
-				{
-					$sj_data["sj_bm"]=	$sj_ex['1'];//本人ID  ;
+				$shangji_number=$shangji; 
+				$shangji_arr=explode(',￥￥',$shangji_number);
 				
-				}elseif($sj_ex['0']=="undefined"){
+				foreach($shangji_arr as $k=>$v)
+				{
+					$sj_ex=explode(":￥￥",$v);
+					if($sj_ex['0']=="sj_fz")
+					{
+						$sj_data["sj_fz"]=	$sj_ex['1'];//本人ID  ;
+					}elseif($sj_ex['0']=="ht_department")
+					{
+						$sj_data["sj_bm"]=	$sj_ex['1'];//本人ID  ;
+					
+					}elseif($sj_ex['0']=="undefined"){
 
-				}elseif($sj_ex['0']==""){
+					}elseif($sj_ex['0']==""){
 
-				}else{
-					$sj_ex_json[$sj_ex['0']]=$sj_ex['1'];
-				}		
+					}else{
+						$sj_ex_json[$sj_ex['0']]=$sj_ex['1'];
+					}		
+				}
+				$sj_ex_json['zdy1']=$kh_id;
+				$sj_data['sj_data']=json_encode($sj_ex_json,true);
+				$sj_data["sj_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+				$sj_data["sj_cj"]=cookie('user_id');//本人ID  
+				$sj_data["sj_cj_date"]=time();
+				$shangji_base=M('shangji');
+				$shangji_add=$shangji_base->add($sj_data);
 			}
-			$sj_ex_json['zdy1']=$kh_id;
-			$sj_data['sj_data']=json_encode($sj_ex_json,true);
-			$sj_data["sj_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-			$sj_data["sj_cj"]=cookie('user_id');//本人ID  
-			$sj_data["sj_cj_date"]=time();
-			$shangji_base=M('shangji');
-			$shangji_add=$shangji_base->add($sj_data);
-			if($shangji_add)//商机添加完了 添加合同开始
-			{
+			
+	
 				$hetong=$_GET['ht'];
 			//	$hetong="zdy0:标题拍合同1,zdy1:104114,zdy2:晓明商机,zdy3:896000,zdy4:2017-7-13 18:11:34,zdy5:2017-7-4 18:11:37,zdy6:2017-7-4 18:11:40,zdy7:canshu1,zdy15:2017-7-4 18:11:42,zdy8:,cpgd:添加产品,undefined:undefined,undefined:undefined,zdy10:,zdy11:,zdy12:,zdy13:,undefined:,undefined:undefined,undefined:undefined,zdy17:,ht_fz:46,ht_department:技术部";
 					$ht_new_arr=explode(',￥￥',$hetong);
@@ -1737,7 +1750,12 @@ public function kehu(){
 							
 						}else{
 							if($ht_ex['0']=="zdy2"){
-								$ht_ex1['zdy2']=$shangji_add;
+								if($shangji!='' && $sj!=null){
+									$ht_ex1['zdy2']=$shangji_add;
+								}else{
+									$ht_ex1['zdy2']="";
+								}
+							
 							}else{
 							$ht_ex1[$ht_ex['0']]=$ht_ex['1'];
 							}
@@ -1769,7 +1787,7 @@ public function kehu(){
 					}else{
 						echo "2";
 					}
-			}
+			
 		}else{
 
 			$lxr_id_sel=$_GET['lxr_id'];
@@ -1852,36 +1870,40 @@ public function kehu(){
 						if($add_kh)
 						{
 							$shangji=$_GET['sj'];
-							//$shangji="zdy0:安慰法1,undefined:undefined,zdy2:281,zdy3:2333333,zdy4:2017-7-5 17:37:46,sj_fz:46,ht_department:技术部,";
-							$sj_number=substr($shangji,0,strlen($shangji)-3); 
-							$sj_ex=explode(",￥￥",$sj_number);
-							foreach($sj_ex as $k=>$v){
-								$sj_ex=explode(":￥￥",$v);
-								if($sj_ex["0"]=="sj_fz")
-								{
-									$sj_data['sj_fz']=$sj_ex["1"];
-								}elseif($sj_ex["0"]=="ht_department"){
-									$sj_data['sj_bm']=$sj_ex["1"];
-								}else{
-									if($sj_ex["0"]=="zdy2")
+							if($shangji!="" && $shangji != null)
+							{
+								$sj_number=$shangji; 
+								$sj_ex=explode(",￥￥",$sj_number);
+								foreach($sj_ex as $k=>$v){
+									$sj_ex=explode(":￥￥",$v);
+									if($sj_ex["0"]=="sj_fz")
 									{
-										$sj_ex1["zdy2"]=$lxr_add;
-									}elseif($sj_ex["0"]==undefined){
-
+										$sj_data['sj_fz']=$sj_ex["1"];
+									}elseif($sj_ex["0"]=="ht_department"){
+										$sj_data['sj_bm']=$sj_ex["1"];
 									}else{
-										$sj_ex1[$sj_ex['0']]=$sj_ex['1'];
+										if($sj_ex["0"]=="zdy2")
+										{
+											$sj_ex1["zdy2"]=$lxr_add;
+										}elseif($sj_ex["0"]==undefined){
+	
+										}else{
+											$sj_ex1[$sj_ex['0']]=$sj_ex['1'];
+										}
 									}
+	
 								}
-
+								$sj_ex1["zdy1"]=$add_kh;
+								$sj_data["sj_data"]=json_encode($sj_ex1,true);
+								$sj_data["sj_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+								$sj_data["sj_cj"]=cookie('user_id');//本人ID  
+								$sj_data["sj_cj_date"]=time();
+								$shangji_base=M('shangji');
+								$sj_add=$shangji_base->add($sj_data);
 							}
-							$sj_ex1["zdy1"]=$add_kh;
-							$sj_data["sj_data"]=json_encode($sj_ex1,true);
-							$sj_data["sj_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-							$sj_data["sj_cj"]=cookie('user_id');//本人ID  
-							$sj_data["sj_cj_date"]=time();
-							$shangji_base=M('shangji');
-							$sj_add=$shangji_base->add($sj_data);
-							if($sj_add){
+							//$shangji="zdy0:安慰法1,undefined:undefined,zdy2:281,zdy3:2333333,zdy4:2017-7-5 17:37:46,sj_fz:46,ht_department:技术部,";
+							
+							
 								$hetong=$_GET['ht'];
 								//$hetong="zdy0:真的合同,zdy1:合同公司,zdy2:即可看看,zdy3:45656,zdy4:2017-12-5 18:02:07,zdy5:2017-7-14 18:02:10,zdy6:2017-7-20 18:02:16,zdy7:canshu4,zdy15:2017-7-24 18:02:20,zdy8:,cpgd:添加产品,undefined:undefined,undefined:undefined,zdy10:,zdy11:,zdy12:,zdy13:,undefined:,undefined:undefined,undefined:undefined,zdy17:,ht_fz:46,ht_department:技术部";
 							$ht_ex=explode(",￥￥",$hetong);
@@ -1899,7 +1921,14 @@ public function kehu(){
 										{
 											$ht_ex1["zdy1"]=$add_kh;
 										}elseif($ht_ex["0"]=="zdy2"){
-											$ht_ex1["zdy2"]=$sj_add;
+											if($shangji!="" && $shangji != null)
+											{
+												$ht_ex1["zdy2"]=$sj_add;
+											}else
+											{
+												$ht_ex1["zdy2"]="";
+											}
+											
 										}else{
 											$ht_ex1[$ht_ex['0']]=$ht_ex['1'];
 										}
@@ -1957,7 +1986,7 @@ public function kehu(){
 
 			
 		
-		}				
+			
 					
 	}
 		public function shenpi_kp(){  //审批开票封装

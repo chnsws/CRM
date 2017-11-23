@@ -767,7 +767,7 @@ class KehuController extends Controller {
 		$new_array=explode(',',$new_xiaji);
 		$kh_base=M('lx');
 		$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$kh_sql=$kh_base->query("select * from  crm_lx where lx_yh='$map' and lx_cj IN ($xiaji)");
+		$kh_sql=$kh_base->query("select * from  crm_lx where lx_yh='$map' and lx_gonghai=0 and lx_cj IN ($xiaji)");
 		
 		foreach($kh_sql as $kkh =>$vkh)
 		{
