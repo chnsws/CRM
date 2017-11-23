@@ -20,7 +20,40 @@ class HetongController extends Controller {
 		}
 		return $sql;
 	}
-
+	public function user1(){                 //负责人和部门
+		
+			 $department=M('department');
+			$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+				//echo $dpmet['bm_company'];exit;
+			$sql_de=$department->where($dpt)->select();
+			foreach($sql_de as $kdpt => $vdpt)
+			{
+				
+				$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
+			}
+	
+	
+			$fuzeren=M('user');
+			
+				$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+		
+			 $fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id = $map or user_fid=$map");//缺少条件
+				foreach ($fuzeren_sql as $k=>$v)
+				{
+					
+						
+							$new_fuzeren['user_id']=$v['user_id'];
+							$new_fuzeren['user_name']=$v['user_name'];
+							$new_fuzeren['user_zhu_bid']=$v['user_zhu_bid'];
+							$new_fuzeren['department']=$dpt_arr[$v['user_zhu_bid']]['bm_name'];
+							$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
+						
+					
+				} 
+		
+				
+	return $fzr_only;
+		}
 		public function user(){                 //负责人和部门
 		$xiaji= $this->get_xiashu_id();;//  查询下级ID
 		$new_xiaji=$xiaji;          
@@ -772,7 +805,7 @@ public function kehu(){
 			}
 		}
 		$user=$this->user();
-
+		$user1=$this->user1();
 			$jw.="<tr class='addtr'><td><span style='color:red'>*</span>负责人:</td>";
 			$jw.="<td><select name='ht_fz' class='required' id='xl2' onchange='get_bm(this)'>";
 			$jw.="<option  value='".$v['user_id']."'>请选择负责人</option>";	
@@ -949,7 +982,7 @@ public function kehu(){
 						elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
 								$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
 						elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz' ||$kbt=='zdy13')
-							$content.="<td>".$user[$v[$kbt]]['user_name']."</td>";
+							$content.="<td>".$user1[$v[$kbt]]['user_name']."</td>";
 						elseif($kbt=='ht_cj_date')
 							$content.="<td>".date("Y-m-d H:i:s",$v[$kbt])."</td>";
 						else
