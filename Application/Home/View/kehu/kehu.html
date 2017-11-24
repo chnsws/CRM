@@ -189,9 +189,9 @@
 					
 						<div id="bj_kehu" style="margin-top:10px;padding-top:20px;display: none;border:1px">
 						<form name="pl_bjform" method="post" >
-							<table class="pl_bj">
+							<table class="pl_bj uk-form">
 								<tr  style='line-height:70px'>
-									<td >选择字段:</td><td><select  style="width:260px;height:26px;" id="show_yc">
+									<td >选择字段:</td><td><select  style="width:260px;height:33px;" id="show_yc">
 													<option>请选择编辑字段</option>
 													<foreach name="pl_bj" item="pl_bj">
 													<option  value="{$pl_bj.id}">{$pl_bj.name}</option>
@@ -208,9 +208,9 @@
 						</div>
 						<div id="piliangzy" style="margin-top:10px;padding-top:20px;display: none;border:1px" >
 							<form name="pl_bjform" method="post" >
-								<table class="pl_bj">
+								<table class="pl_bj uk-form">
 									<tr  style='line-height:70px'>
-										<td >新负责人:</td><td><select  style="width:260px;height:26px;" id="zhuanyifzr">
+										<td >新负责人:</td><td><select  style="width:260px;height:33px;" id="zhuanyifzr">
 														<option>请选择新负责人</option>
 														 <foreach name="fuzeren" item="vo"> 
 									  				 	<option value="{$vo.user_id}">{$vo.user_name}</option>

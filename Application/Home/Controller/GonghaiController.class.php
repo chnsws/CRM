@@ -999,72 +999,71 @@ class GonghaiController extends Controller {
 		}**/
 
 		public function get_xiashu_id()
-	{
-		$nowloginid=cookie("user_id");
-		$nowloginfid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-		$userbase=M("user");
-		$qxbase=M("quanxian");
-		$bmbase=M("department");
-		$userarr=$userbase->query("select * from crm_user where (user_fid='$nowloginfid' or user_id='$nowloginfid') and user_del='0'");
-		foreach($userarr as $v)
 		{
-			$userkeyid[$v['user_id']]=$v;
-		}
-		$nowloginqx=$userkeyid[$nowloginid]['user_quanxian'];
-		$nowloginbid=$userkeyid[$nowloginid]['user_zhu_bid'];
-
-		$qxarr=$qxbase->query("select qx_data_qx from crm_quanxian where qx_company='$nowloginfid' and qx_id='$nowloginqx'");
-		$dataqx=$qxarr[0]['qx_data_qx'];
-		$bmbasearr=$bmbase->query("select * from crm_department where bm_company='$nowloginfid'");
-		for($a=0;$a<10;$a++)
-		{
-			foreach($bmbasearr as $v)
+			$nowloginid=cookie("user_id");
+			$nowloginfid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$userbase=M("user");
+			$qxbase=M("quanxian");
+			$bmbase=M("department");
+			$userarr=$userbase->query("select * from crm_user where (user_fid='$nowloginfid' or user_id='$nowloginfid') and user_del='0' and user_act!='0' " );
+			foreach($userarr as $v)
 			{
-				if($v['bm_id']==$nowloginbid||in_array($v['bm_fid'],$bmid))
-					$bmid[$v['bm_id']]=$v['bm_id'];
+				$userkeyid[$v['user_id']]=$v;
 			}
-		}
-		if($dataqx=='1')
-		{
-			return $nowloginid;
-		}
-		$foreachnum=0;
-		foreach($userkeyid as $v)
-		{
-			if($v['user_zhuguan_id']=='0')
+			$nowloginqx=$userkeyid[$nowloginid]['user_quanxian'];
+			$nowloginbid=$userkeyid[$nowloginid]['user_zhu_bid'];
+	
+			$qxarr=$qxbase->query("select qx_data_qx from crm_quanxian where qx_company='$nowloginfid' and qx_id='$nowloginqx' ");
+			$dataqx=$qxarr[0]['qx_data_qx'];
+			$bmbasearr=$bmbase->query("select * from crm_department where bm_company='$nowloginfid'");
+			for($a=0;$a<10;$a++)
 			{
-				continue;
-			}
-			foreach($userkeyid as $kk=>$vv)
-			{
-				if($vv['user_zhuguan_id']==$nowloginid||in_array($vv['user_zhuguan_id'],$nowzgid))
+				foreach($bmbasearr as $v)
 				{
-					$nowzgid[$vv['user_id']]=$vv['user_id'];
+					if($v['bm_id']==$nowloginbid||in_array($v['bm_fid'],$bmid))
+						$bmid[$v['bm_id']]=$v['bm_id'];
 				}
 			}
-			if($foreachnum=='50')
+			if($dataqx=='1')
 			{
-				break;
+				return $nowloginid;
 			}
-			$foreachnum++;
+			$foreachnum=0;
+			foreach($userkeyid as $v)
+			{
+				if($v['user_zhuguan_id']=='0')
+				{
+					continue;
+				}
+				foreach($userkeyid as $kk=>$vv)
+				{
+					if($vv['user_zhuguan_id']==$nowloginid||in_array($vv['user_zhuguan_id'],$nowzgid))
+					{
+						$nowzgid[$vv['user_id']]=$vv['user_id'];
+					}
+				}
+				if($foreachnum=='50')
+				{
+					break;
+				}
+				$foreachnum++;
+			}
+			$nowzgid[$nowloginid]=$nowloginid;
+			foreach($nowzgid as $k=>$v)
+			{
+				if($dataqx=='2')
+				{
+					if($userkeyid[$v]['user_zhu_bid']!=$nowloginbid)
+						unset($nowzgid[$k]);
+				}
+				if($dataqx=='3')
+				{
+					if(!in_array($userkeyid[$v]['user_zhu_bid'],$bmid))
+						unset($nowzgid[$k]);
+				}
+			}
+			return implode(",",$nowzgid);
 		}
-		$nowzgid[$nowloginid]=$nowloginid;
-		foreach($nowzgid as $k=>$v)
-		{
-			if($dataqx=='2')
-			{
-				if($userkeyid[$v]['user_zhu_bid']!=$nowloginbid)
-					unset($nowzgid[$k]);
-			}
-			if($dataqx=='3')
-			{
-				if(!in_array($userkeyid[$v]['user_zhu_bid'],$bmid))
-					unset($nowzgid[$k]);
-			}
-		}
-		return implode(",",$nowzgid);
-	}
-
 		public function ywcs_sj()
 		{
 			$ywcs_base=M('ywcs');
