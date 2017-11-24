@@ -536,10 +536,10 @@ $('#piliangzy').hide();
 									}
 									var fuzeren1=$("#zhuanyifzr").children("option[value='"+fuzeren+"']").text();//客户名称汉字
 
-									$.get(rooturl+'/index.php/Home/Gonghai/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"kh_id":piliang_str},
+									$.get(rooturl+'/index.php/Home/Gonghai/pl_zhuanyi',{"id":fuzeren,"kh_id":piliang_str},
 		        		 				function(html){
 		        		 				
-		        		 					tishi("批量转移成功")
+		        		 					tishi("批量获取成功")
 												location.reload();
 										});
 

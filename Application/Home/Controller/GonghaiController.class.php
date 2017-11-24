@@ -1324,12 +1324,12 @@ class GonghaiController extends Controller {
 									$sj_show.="<tr>";
 									$count=strlen($v['zdy0']);
 						  					if($count>13){
-												$newbz=mb_substr($v['zdy0'],0,13)."....";
+												$newbza=mb_substr($v['zdy0'],0,13)."....";
 											}else{
-												$newbz=$v;
+												$newbza=$v['zdy0'];
 											}
 
-					  				$sj_show.="<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbz."</span></a></td>
+					  				$sj_show.="<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbza."</span></a></td>
 					  				<td >".$v['zdy3']."</td>
 					  				<td >".substr($v['zdy4'],0,10)."</td>
 					  				<td >".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
@@ -2199,109 +2199,44 @@ class GonghaiController extends Controller {
 	
 		}
 		public function pl_zhuanyi(){
+			$user=$this->user();
+			
 		$fuzeren=$_GET['id']; 
-		$rz_fuzeren=$_GET['ziduan']; 
-		$ht_id=$_GET['kh_id']; //商机ID          //负责人ID
-		$id=substr($ht_id,0,strlen($ht_id)-1); //id
-		$map['kh_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件
-		$data['kh_fz']=$fuzeren;
-		$idex=explode(",",$id);
-		$sj_base=M('kh');
-		$user=$this->user();
-		$sj = $_GET['sj'];
-		$ht=$_GET['ht'];
-
-
-		$ht_base=M('hetong');
-		$data_ht=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$userarr=$ht_base->where($data_ht)->select();
-
-			foreach($userarr as $v3)
+		$kh_id=$_GET['kh_id']; //商机ID          //负责人ID
+		$id=substr($kh_id,0,strlen($kh_id)-1); //id
+		$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件
+		$fz=$fuzeren;
+		$kh_base=M('kh');
+		$kh_save=$kh_base->query("update  `crm_kh` SET kh_gonghai=0,kh_fz='$fz',kh_bm='".$user[$fz]['department']."'  where `kh_id` in ($id) and kh_yh=$yh" );
+		//客户转完了 转客户下的联系人
+		$khexid=explode(",",$id);
+		$lxr_base=M('lx');
+		$sj_basea=M('shangji');
+		$lx_id="";
+		$sj_id="";
+	
+		foreach($khexid as $k=>$v){
+			$tiaojian='"zdy1":"'.$v.'"';
+			 $tiaojian1='"zdy1":'.$v.'';
+			$sql_lxr=$lxr_base->query("select * from crm_lx where lx_yh = '$yh' and lx_data like '%$tiaojian%' or lx_data like '%$tiaojian1%'");
+			foreach($sql_lxr as $k1=>$v1)
 			{
-				foreach($v3 as $k1 =>$v1)
-				{
-					if($k1!='ht_data')
-					{
-						$ht_sql[$k1]=$v1;
-					}else{
-						$ht_json=json_decode($v3[$k1],true);
-						foreach($ht_json as $k2=>$v2)
-						{
-							$ht_sql[$k2]=$v2;
-						}
-					}
-					$ht_sql2[$v3['ht_id']]=$ht_sql;
-				}
-				
+				$lx_id.=$v1['lx_id'].",";	
 			}
 
-
-			$base_sj=M('shangji');
-			$map_sj['sj_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-			$sj_sql=$base_sj->where($map_sj)->select();
-			foreach($sj_sql as $ka=>$va){
-				foreach($va as $kb=>$vb){
-					if($kb != "sj_data")
-					{
-						$sqlsj_r[$kb]=$vb;
-					}else{
-						$sj_json=json_decode($va[$kb],true);
-						foreach($sj_json as $kc=>$vc)
-						{
-							$sqlsj_r[$kc]=$vc;
-						}
-
-					}
-					$sj_ronghe[$va['sj_id']]=$sqlsj_r;
-				}
-			}
-
-
-		foreach($idex as $k=>$v){
-			$kkhh=$v;
-			$map['kh_id']=$v;
-			$sql_sel=$sj_base->where($map)->field('kh_fz')->find();
-			$data['kh_old_fz']=$sql_sel['kh_fz'];
-			$data['kh_old_bm']=$user[$sql_sel['kh_fz']]['department'];
-			$data['kh_bm']=$user[$fuzeren]['department'];
-			$data['kh_gx_date'] = date('Y-m-d H:i:s');//更新时间
-			$sql_save=$sj_base->where($map)->save($data);
-			if($ht=="ok")
+			$sj_base=$sj_basea->query("select * from crm_shangji where sj_yh = '$yh' and sj_data like '%$tiaojian%' or sj_data like '%$tiaojian1%'");
+			foreach($sj_base as $k2=>$v2)
 			{
-			$map_ht['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-				foreach($ht_sql2 as $k4=>$v4)
-				{
-					if($v4['zdy1']==$kkhh)
-					{
-						$map_ht['ht_id']=$v4['ht_id'];
-						$save_ht['ht_fz']=$fuzeren;
-						$save_sqlht=$ht_base->where($map_ht)->save($save_ht);
-						
-					}
-				}
-			}
-			if($sj=="ok")
-			{
-				foreach($sj_ronghe as $kd=>$vd){
-					if($vd['zdy1']=$kkhh)
-					{
-						$map_sj['sj_id']=$vd['sj_id'];
-						$sj_save['sj_fz']=$fuzeren;
-						$save_sj=$base_sj->where($map_sj)->save($sj_save);
-
-					}
-				}
+				$sj_id.=$v2['sj_id'].",";	
 			}
 
-			if($sql_save)
-			{		
-					$rz_bz="把客户转移给了".$_GET['ziduan'];
-					$this->rizhi($map['kh_id'],$rz_bz,"2");	
-			}
 		}
+		$lx_id1=substr($lx_id,0,strlen($lx_id)-1); //id
+		$sj_id1=substr($sj_id,0,strlen($sj_id)-1); //id
+		$lx_save=$lxr_base->query("update  `crm_lx` SET lx_gonghai=0,lx_cj='$fz'  where `lx_id` in ($lx_id1) and lx_yh=$yh" );
+		$sj_save=$sj_basea->query("update  `crm_shangji` SET sj_gonghai=0,sj_fz='47'  where `sj_id` in ($sj_id1) and sj_yh=$yh" );
 		
-	}
-
+		}
 	
 		/**public function pl_zhuany2i(){
 			$fuzeren=$_GET['id'];

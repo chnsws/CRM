@@ -1298,7 +1298,7 @@ class KehuController extends Controller {
 								
 			$ywcs_ht=$this->ywcs_ht();
 			$xiaji1= $this->get_xiashu_id();//  查询用户
-			$user=$this->user();
+			$user=$this->user1();
 			$uid=$_GET['uid'];
 			if($uid=="")
 			{
