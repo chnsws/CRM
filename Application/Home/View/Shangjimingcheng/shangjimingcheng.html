@@ -404,7 +404,8 @@
 										ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",￥￥";
 									}
 									//alert (ajaxstr);
-									$.get(rooturl+'/index.php/Home/Shangjimingcheng/save',{"id":ajaxstr},
+									ajaxstra=ajaxstr.substr(0,ajaxstr.length-3);
+									$.get(rooturl+'/index.php/Home/Shangjimingcheng/save',{"id":ajaxstra},
 							        		 function(html){
 									        		// alert(html)
 									        		if(html=="no"){
