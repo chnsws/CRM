@@ -67,7 +67,40 @@ class ShangjimingchengController extends Controller {
 			}
 			return $new_ywcs;
 		}
-
+		public function user1(){                 //负责人和部门
+			
+				 $department=M('department');
+				$dpt['bm_company']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+					//echo $dpmet['bm_company'];exit;
+				$sql_de=$department->where($dpt)->select();
+				foreach($sql_de as $kdpt => $vdpt)
+				{
+					
+					$dpt_arr[$vdpt['bm_id']]= $vdpt;             //得到部门
+				}
+		
+		
+				$fuzeren=M('user');
+				
+					$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+			
+				 $fuzeren_sql=$fuzeren->query("select * from  crm_user where  user_id = $map or user_fid=$map");//缺少条件
+					foreach ($fuzeren_sql as $k=>$v)
+					{
+						
+							
+								$new_fuzeren['user_id']=$v['user_id'];
+								$new_fuzeren['user_name']=$v['user_name'];
+								$new_fuzeren['user_zhu_bid']=$v['user_zhu_bid'];
+								$new_fuzeren['department']=$dpt_arr[$v['user_zhu_bid']]['bm_name'];
+								$fzr_only[$v['user_id']]=$new_fuzeren;       //负责人
+							
+						
+					} 
+			
+					
+		return $fzr_only;
+			}
 			public function user(){                 //负责人和dddd
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
 		$new_xiaji=$xiaji;          
@@ -111,7 +144,7 @@ return $fzr_only;
 
 	}
 	public function shangjimingcheng(){
-	$array_jiansuo=array('sj_qiandan'=>"签单可能性",'sj_new_gj'=>"最新跟进记录",'sj_sj_date'=>"实际跟进时间",'sj_fz'=>"负责人",'sj_bm'=>"部门",'sj_cj'=>"创建人",'sj_cj_date'=>"创建时间","sj_gx_date"=>"更新时间");
+	$array_jiansuo=array('sj_qiandan'=>"签单可能性",'sj_fz'=>"负责人",'sj_cj'=>"创建人",'sj_cj_date'=>"创建时间","sj_gx_date"=>"更新时间");
 		foreach($array_jiansuo as $k=>$v){
 				$new_str1['id']=$k;
 				$new_str1['name']=$v;
@@ -251,7 +284,7 @@ return $fzr_only;
 		}
 
 		$user_dpment=$this->user();
-	
+		$user_dpment1=$this->user1();
 		foreach ($new_arrayoo as $k=>$v)
 		{
 	
@@ -273,7 +306,7 @@ return $fzr_only;
 						
 				}elseif($k=="sj_cj"){
 
-						$show1.="<td>".$user_dpment[$sql_rh[$k]]['user_name']."</td> ";	
+						$show1.="<td>".$user_dpment1[$sql_rh[$k]]['user_name']."</td> ";	
 				}elseif($k=="sj_cj_date"){
 									$show1.="<td>".date('Y-m-d H:i:s',$sql_rh[$k])."</td>";
 
@@ -304,7 +337,7 @@ return $fzr_only;
 						}elseif($kbt=="zdy6"){
 								//6就是空
 						}elseif($kbt=="zdy5"){	
-							$show2.="<td><select name='".$kbt."' style='width:175px'>";
+							$show2.="<td><select name='".$kbt."' style='width:250px'>";
 							foreach( $ywcs[$kbt] as $k=>$v)
 							{
 								if($k==$sql_rh[$kbt])
@@ -316,7 +349,7 @@ return $fzr_only;
 							$show2.="</select></td>";
 						}elseif($kbt=="zdy7"){	
 							
-							$show2.="<td><select name='".$kbt."' style='width:175px'>";
+							$show2.="<td><select name='".$kbt."' style='width:250px'>";
 							foreach( $ywcs[$kbt] as $k=>$v)
 							{
 								if($k==$sql_rh[$kbt])
@@ -328,7 +361,7 @@ return $fzr_only;
 							$show2.="</select></td>";
 						}elseif($kbt=="zdy9"){	
 
-							$show2.="<td><select name='".$kbt."' style='width:175px'>";
+							$show2.="<td><select name='".$kbt."' style='width:250px'>";
 							foreach( $ywcs[$kbt] as $k=>$v)
 							{
 								if($k==$sql_rh[$kbt])
@@ -340,12 +373,12 @@ return $fzr_only;
 							$show2.="</select></td>";
 								
 						}elseif($kbt=="zdy4"|| $kbt=="zdy8" ||$kbt=="zdy10"){
-							$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." ></td> ";
+							$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."'  style='width:250px' class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." ></td> ";
 						}elseif($kbt=='zdy11'){
-							$show2.="<td><textarea name='".$kbt."'  maxlength='400' style='width:185px' rows='2' cols='38' placeholder='最大长度400'>".$sql_rh[$kbt]."</textarea></td>";
+							$show2.="<td><textarea name='".$kbt."' style='width:250px'  maxlength='400' rows='4'  placeholder='最大长度400'>".$sql_rh[$kbt]."</textarea></td>";
 						}
 						else{
-							$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."' maxlength='40'></td> ";
+							$show2.="<td><input type='text' name='".$kbt."' style='width:250px' value='".$sql_rh[$kbt]."' maxlength='40'></td> ";
 						}
 				
 			

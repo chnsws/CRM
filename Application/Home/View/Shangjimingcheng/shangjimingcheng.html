@@ -18,7 +18,7 @@
   		<!--jqui 结束-->
   		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
-		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"'" ></script>
+		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js'" ></script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
 		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
 	<link rel="stylesheet" href="{$_GET['public_dir']}/report/time_axis.css" />
@@ -31,7 +31,8 @@
   			
   			
   			.clear{clear:both; height: 0; line-height: 0; font-size: 0}
-  			.bianji_nb{margin:left:30%; border:1px solid:red; }
+  			.bianji_nb{margin-left:30%; }
+			  .bianji_nb index{width:300px; }
 			.ziliao{height:40px;width:100%; line-height:40px;  background-color:#eee;}
 			.xiaoshou{position: relative; left :20px;width:107%;}
 			.genjinjilu{float:right;}
@@ -67,7 +68,7 @@
 	<input type="hidden"  class='kh_id27' value="{$kh_id27}">
 	<input type='hidden' value='{$uiid}' class='uiid'>
 	<div class="bianji"  style="display: none;border:1px;" >
-		    		<div class="bianji_nb" style="width:330px;margin:0 auto">
+		    		<div class="bianji_nb" style="width:400px;margin:0 auto">
 		    			<form id="myform" class="uk-form" >
 		    			{$show2}
 		    			</form>
@@ -181,7 +182,7 @@
 			  				<th >电话</th>
 			  				<th >手机</td>
 			  				<th >邮箱</th>
-			  				<th >备注</th>
+			  			
 
 						</thead>
 						<tbody class="fujian_del">
@@ -194,8 +195,8 @@
 					  				<td >{$lx_json.zdy4}</td>
 					  				<td >{$lx_json.zdy5}</td>
 					  				<td >{$lx_json.zdy6}</td>
-					  				<td >{$lx_json.zdy10}</td>
-					  				<td >{$lx_json.zdy16}</td>
+					  				<td >{$lx_json.zdy10}</td> 
+					  				
 							</tr> 	
 							</if>
 						</tbody>
@@ -389,7 +390,7 @@
 
 								type:1,
 								offset: 't',
-								area:'630px',
+								area:['630px','600px'],
 								moveOut:true,
 								title: '编辑商机',
 								content:$('.bianji'),
@@ -404,7 +405,7 @@
 										ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",￥￥";
 									}
 									//alert (ajaxstr);
-									ajaxstra=ajaxstr.substr(0,ajaxstr.length-3);
+									ajaxstra=ajaxstr.substr(0,ajaxstr.length-1);
 									$.get(rooturl+'/index.php/Home/Shangjimingcheng/save',{"id":ajaxstra},
 							        		 function(html){
 									        		// alert(html)
