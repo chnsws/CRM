@@ -212,10 +212,10 @@ return $fzr_only;
 		{
 			
 			if($kbt!='zdy2' && $kbt!='zdy6'){
-				$show.="<tr class='ways'><td width='200xp'>".$vbt['name'].":</td>";
+				$show.="<tr class='ways'><td width='30%' >".$vbt['name'].":</td>";
 				if($sql_rh[$kbt]=="")
 				{	
-					$show.="<td>未填写</td>";
+					$show.="<td class='ertd'>未填写</td>";
 				}else{
 					if($kbt=="zdy1")
 					{
@@ -224,7 +224,7 @@ return $fzr_only;
 						{
 							if($k==$sql_rh[$kbt])
 							{
-								$show.="<td>".$v['name']."</td> ";
+								$show.="<td class='ertd' title=".$v['name']." >".$v['name']."</td> ";
 							}
 						}
 						
@@ -239,7 +239,7 @@ return $fzr_only;
 						{
 							if($k==$sql_rh[$kbt])
 							{
-								$show.="<td>".$ywcs[$kbt][$k]."</td> ";
+								$show.="<td class='ertd' title=".$ywcs[$kbt][$k].">".$ywcs[$kbt][$k]."</td> ";
 							}
 						}
 
@@ -249,7 +249,7 @@ return $fzr_only;
 						{
 							if($k==$sql_rh[$kbt])
 							{
-								$show.="<td>".$ywcs[$kbt][$k]."</td> ";
+								$show.="<td class='ertd' title=".$ywcs[$kbt][$k].">".$ywcs[$kbt][$k]."</td> ";
 							}
 						}
 					}elseif($kbt=="zdy9"){	
@@ -258,7 +258,7 @@ return $fzr_only;
 						{
 							if($k==$sql_rh[$kbt])
 							{
-								$show.="<td>".$ywcs[$kbt][$k]."</td> ";
+								$show.="<td class='ertd' title=".$ywcs[$kbt][$k].">".$ywcs[$kbt][$k]."</td> ";
 							}
 						}
 							
@@ -270,10 +270,10 @@ return $fzr_only;
 							}else{
 								$bzhu=$sql_rh[$kbt];
 							}
-								$show.="<td> <span title=".$sql_rh[$kbt]." style='cursor:pointer;'>".$bzhu." </span></td>"	;
+								$show.="<td class='ertd' title=".$v['name']."> <span title=".$sql_rh[$kbt]." style='cursor:pointer;'>".$bzhu." </span></td>"	;
 					}
 					else{
-						$show.="<td>".$sql_rh[$kbt]."</td> ";
+						$show.="<td class='ertd' title=".$sql_rh[$kbt].">".$sql_rh[$kbt]."</td> ";
 					}
 					
 				}
@@ -288,8 +288,8 @@ return $fzr_only;
 		foreach ($new_arrayoo as $k=>$v)
 		{
 	
-			$show1.="<tr  class='ways'><td  width='200px'>".$v['name'].":</td>";
-			if($sql_rh[$k]=="")
+			$show1.="<tr  class='ways'><td  width='30%' >".$v['name'].":</td>";
+			if($sql_rh[$k]=="") 
 			{
 				$show1.="<td>未填写</td>";
 			}else{
@@ -373,7 +373,7 @@ return $fzr_only;
 							$show2.="</select></td>";
 								
 						}elseif($kbt=="zdy4"|| $kbt=="zdy8" ||$kbt=="zdy10"){
-							$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."'  style='width:250px' class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'." ></td> ";
+							$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."'  style='width:250px' class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d '".'})"'." ></td> ";
 						}elseif($kbt=='zdy11'){
 							$show2.="<td><textarea name='".$kbt."' style='width:250px'  maxlength='400' rows='4'  placeholder='最大长度400'>".$sql_rh[$kbt]."</textarea></td>";
 						}

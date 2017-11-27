@@ -258,9 +258,7 @@ class LianxirenmingchengController extends Controller {
 								$show3.="<input type='radio' name='".$k."' style='width:40px;' checked='checked' value='男' />男";
 						
 								$show3.="<input type='radio' name='".$k."' style='width:40px;' value='女' />女";
-					
-						
-								
+				
 						}else{
 								$show3.="<input type='radio' name='".$k."' style='width:40px;' value='男' />男";
 								$show3.="<input type='radio' name='".$k."' style='width:40px;' checked='checked' value='女' />女";
@@ -303,7 +301,7 @@ class LianxirenmingchengController extends Controller {
 					
 						
 						}elseif($k=='zdy15'){
-						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  style='width:300px;height:26px;' placeholder='未填写'></td>";
+						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d '".'})"'."  style='width:300px;height:26px;' placeholder='未填写'></td>";
 
 					
 						}elseif($k=='zdy10'){

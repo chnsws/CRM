@@ -466,7 +466,7 @@ class ShangjiController extends Controller {
 							$table.="<td><input type='text' class='required' name='".$vzd['id']."' value='' maxlength='40'></td>";   //  0文本框
 							}
 						elseif($vzd['type']=="2")
-							$table.="<td><input type='text' class='required' name='".$vzd['id']."'   class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";   //  2 日期 
+							$table.="<td><input type='text' class='required' name='".$vzd['id']."'   class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d '".'})"'."></td>";   //  2 日期 
 						elseif($vzd['type']=="3")
 						{	
 							//echo $vzd['id'];
@@ -544,7 +544,7 @@ class ShangjiController extends Controller {
 							$table1.="<td><input type='text' name='".$vzd['id']."' maxlength='40' ></td>";   //  0文本框
 							}
 						elseif($vzd['type']=="2")
-							$table1.="<td><input type='text' name='".$vzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";   //  2 日期 
+							$table1.="<td><input type='text' name='".$vzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d'".'})"'."></td>";   //  2 日期 
 						elseif($vzd['type']=="3")
 						{	
 							//echo $vzd['id'];
@@ -627,7 +627,7 @@ class ShangjiController extends Controller {
 							$table2.="<td><input type='text' name='".$vzd['id']."'  ></td>";   //  0文本框
 							}
 						elseif($vzd['type']=="2")
-							$table2.="<td><input type='text' name='".$vzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";   //  2 日期 
+							$table2.="<td><input type='text' name='".$vzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d'".'})"'."></td>";   //  2 日期 
 						elseif($vzd['type']=="3")
 						{	
 							//echo $vzd['id'];
