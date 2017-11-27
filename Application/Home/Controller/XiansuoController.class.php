@@ -30,7 +30,22 @@ class XiansuoController extends DBController {
 		$chuangjian_user_option=$this->get_user_option($fid);
 		$fuzeren_option=$chuangjian_user_option;
 		$qianfuzeren_option=$chuangjian_user_option;
+		$user_name_arr=$this->option_to_arr($chuangjian_user_option);
 
+		//如果是超级管理员，新增线索时可以分配给任意负责人，如果不是超级管理员。则只能分配给自己或者下属
+		if(cookie("user_quanxian")=='1')
+		{
+			$add_fz_user_option=$chuangjian_user_option;
+		}
+		else
+		{
+			$xs_user_arr=parent::get_my_xs();
+			foreach($xs_user_arr as $v)
+			{
+				$xsop.='<option value="'.$v.'">'.$user_name_arr[$v].'</option>';
+			}
+			$add_fz_user_option=$xsop;
+		}
 		//筛选设置查询
 		$con=M("config");
 		$conarr=$con->query("select config_xs_sx_config from crm_config where config_name='".cookie("user_id")."' limit 1");
@@ -157,7 +172,7 @@ class XiansuoController extends DBController {
 								<td>
 									<select>
 										<option value="0">请选择负责人</option>
-										'.$chuangjian_user_option.'
+										'.$add_fz_user_option.'
 									</select>
 								</td>
 							</tr>';
@@ -165,7 +180,13 @@ class XiansuoController extends DBController {
 		//下方表格数据
 		//配置分页设置
 		$page_now=$_GET['page']!=''?$_GET['page']:1;
-		$page_size=10;
+		$getpagenum=addslashes($_GET['pagenum'])!=''?addslashes($_GET['pagenum']):10;
+		if(!in_array($getpagenum,array(5,10,15,20,25,30)))
+		{
+			$getpagenum=10;
+		}
+		
+		$page_size=$getpagenum;//每页显示多少行
 		$page_db_start=($page_now-1)*$page_size;
 		//选项卡选项
 		$tab_val=$_GET['main_type']=='to_kh'?'1':'0';
@@ -329,7 +350,7 @@ class XiansuoController extends DBController {
 		$bottomtable_have_th=0;
 		$bottomtable_th='<th><input type="checkbox"></th>';
 
-		$user_name_arr=$this->option_to_arr($chuangjian_user_option);
+		
 		foreach($xiansuo_arr as $v)
 		{
 			$this_xs_json=array();
@@ -389,7 +410,7 @@ class XiansuoController extends DBController {
 		//parent::rr($sx_cs);
 		//变量输出--
 		//批量转移用户下拉框
-		$this->assign("chuangjian_user_option",$chuangjian_user_option);
+		$this->assign("chuangjian_user_option1",$add_fz_user_option);
 		//表格上方的搜索下拉框
 		$this->assign("search_option",$searcharr[0]!=''?str_replace("value=\"".$searcharr[0]."\"","value='".$searcharr[0]."' selected ",$search_option):$search_option);
 		//表格-表头
@@ -429,6 +450,22 @@ class XiansuoController extends DBController {
 		$user_option=$this->get_user_option($fid);
 		//用户id=>名称数组
 		$username_arr=$this->option_to_arr($user_option);
+
+		//如果是超级管理员，新增线索时可以分配给任意负责人，如果不是超级管理员。则只能分配给自己或者下属
+		if(cookie("user_quanxian")=='1')
+		{
+			$add_fz_user_option=$user_option;
+		}
+		else
+		{
+			$xs_user_arr=parent::get_my_xs();
+			foreach($xs_user_arr as $v)
+			{
+				$xsop.="<option value='".$v."'>".$username_arr[$v]."</option>";
+			}
+			$add_fz_user_option=$xsop;
+		}
+		
 		//部门信息
 		$bm_option=$this->get_bm_option($fid);
 		$bm_name_arr=$this->option_to_arr($bm_option);
@@ -628,7 +665,7 @@ class XiansuoController extends DBController {
 								<td>
 									<select>
 										<option value="0">请选择负责人</option>
-										'.str_replace("value='".$this_json_data['xs_fz']."'","value='".$this_json_data['xs_fz']."' selected ",$user_option).'
+										'.str_replace("value='".$this_json_data['xs_fz']."'","value='".$this_json_data['xs_fz']."' selected ",$add_fz_user_option).'
 									</select>
 								</td>
 							</tr>';
@@ -715,7 +752,7 @@ class XiansuoController extends DBController {
 		//写跟进-当前时间
 		$this->assign("xiegenjin_now_time",date("Y-m-d H:i",time()));
 		$this->assign("genjinfangshi_option",$genjinfangshi_option);
-		$this->assign("tingxingshuikan",$user_option);
+		$this->assign("tingxingshuikan",$add_fz_user_option);
 		$this->assign("xiegenjin_zhuangtai",$xiegenjin_zhuangtai);
 		$this->assign("genjin_str",$genjin_str);
 
@@ -1540,19 +1577,7 @@ class XiansuoController extends DBController {
 
 		return $sj_arr;
 	}
-	//获取我的下属
-	public function get_my_xs($fid)
-	{
-		$data=parent::sel_more_data("crm_user","user_id","(user_fid='$fid' or user_id='$fid') and user_zhuguan_id='".cookie("user_id")."' ");
-		$arr=array();
-		foreach($data as $v)
-		{
-			if($v['user_id']==cookie("user_id"))
-				continue;
-			$arr[]=$v['user_id'];
-		}
-		return $arr;
-	}
+	
 	//获取该部门下的所有用户
 	public function get_bm_user($bmid,$fid)
 	{

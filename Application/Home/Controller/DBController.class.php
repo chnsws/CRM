@@ -271,4 +271,35 @@ class DBController extends Controller {
             cookie($key,$value,$time);
         }
     }
+    //获取我的下属
+	public function get_my_xs()
+	{
+		$fid=$this->get_fid();
+		$data=$this->sel_more_data("crm_user","user_id,user_fid,user_zhuguan_id","(user_fid='$fid' or user_id='$fid') and user_act='1' and user_del='0'");
+		$nowloginuserid=cookie("user_id");//当前登录用户
+		$arr=array();
+		$arr[$nowloginuserid]=$nowloginuserid;
+		if(cookie("user_fid")=='0')
+		{
+			foreach($data as $v)
+			{
+				$arr[$v['user_id']]=$v['user_id'];
+			}
+		}
+		else
+		{
+			$usernum=count($data);//合法用户数量
+			for($i=0;$i<$usernum;$i++)
+			{
+				foreach($data as $v)
+				{
+					if($arr[$v['user_zhuguan_id']]!='')
+					{
+						$arr[$v['user_id']]=$v['user_id'];
+					}
+				}
+			}
+		}
+		return $arr;
+	}
 }

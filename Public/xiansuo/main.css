@@ -52,6 +52,7 @@ button>i{margin-right:5px;}
 /*表格上方的按钮区域*/
 .table_top_div{height:50px;overflow: hidden;line-height: 50px;margin-top:0px;}
 .t_t_d_l{float: left;}
+.pagenum{margin-right: 20px;}
 .t_t_d_r{float:right;}
 .t_t_d_r>select{height:30px;width:100px;}
 .t_t_d_r>input{height:26px;line-height: 26px;}

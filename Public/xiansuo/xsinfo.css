@@ -32,7 +32,7 @@ td a{color:#1AA094!important;text-decoration: none!important;}
 #jibenxinxi table{margin-bottom:20px;}
 #jibenxinxi table td{height:50px;line-height: 50px;}
 #jibenxinxi table tr>td:first-child{font-weight:bold;min-width:100px;width:10%;vertical-align: top;}
-#jibenxinxi table tr>td:last-child{text-indent:2em;}
+#jibenxinxi table tr>td:last-child{padding-left:2em;word-break:break-all;}
 
 
 #add_genjin{height:28px;line-height: 28px;float:right;padding-left:10px!important;padding-right:10px!important;}

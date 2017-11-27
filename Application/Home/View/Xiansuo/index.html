@@ -203,6 +203,18 @@
     <center><span id="sx_show_hide" onclick="sx_show_hide(this)"><i class="fa fa-chevron-up"></i></span></center>
     <div class="body_div">
         <div class="table_top_div">
+            <div class="t_t_d_l uk-form pagenum">
+                每页显示
+                <select id="pagenum">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                </select>
+                条
+            </div>
             <div class="t_t_d_l">
                 <button class="layui-btn layui-btn-primary" onclick="piliangzhuanyi()"><i class="fa fa-retweet"></i>批量转移</button>
                 <button class="layui-btn layui-btn-primary" onclick="del_more()"><i class="fa fa-trash"></i>批量删除</button>
@@ -302,7 +314,7 @@
     <span class="uk-form">
         <select name="" id="">
             <option value="0">请选择用户</option>
-            {$chuangjian_user_option}
+            {$chuangjian_user_option1}
         </select>
     </span>
 </div>
@@ -413,6 +425,12 @@ $(function(){
     }
 
     $("#shaixuan").find("select").searchableSelect();
+    //每页显示条数设置
+    var url_pagenum="{$_GET['pagenum']}"?"{$_GET['pagenum']}":10;
+    if(url_pagenum!='')
+    {
+        $("#pagenum").find("option[value='"+url_pagenum+"']").prop("selected",true);
+    }
     //处理城市，如果有地区筛选就加载地区数据
     if(have_diqu==1)
     {
@@ -660,6 +678,13 @@ $(function(){
     {
         $("#daorubtn").hide();
     }
+    //每页展示条数下拉框
+    $("#pagenum").on("change",function(){
+        window.jiazai=layer.load(2);
+        var thisval=$(this).val();
+        var now_sx=get_url_val('pagenum');
+        window.location="__ROOT__/index.php/Home/Xiansuo/index?pagenum="+thisval+now_sx;
+    });
     //显示渐入页面
     setTimeout(function() {
         $("#box").fadeIn();
@@ -1289,7 +1314,7 @@ function get_url_val(without)
     {
         now_sx+="&qianfuzeren="+"{$_GET['qianfuzeren']}";
     }
-    if("{$_GET['page']}"!=''&&without!="page")
+    if("{$_GET['page']}"!=''&&without!="page"&&without!="pagenum")
     {
         now_sx+="&page="+"{$_GET['page']}";
     }
@@ -1300,6 +1325,10 @@ function get_url_val(without)
     if("{$_GET['main_type']}"!=''&&without!="main_type")
     {
         now_sx+="&main_type="+"{$_GET['main_type']}";
+    }
+    if("{$_GET['pagenum']}"!=''&&without!="pagenum")
+    {
+        now_sx+="&pagenum="+"{$_GET['pagenum']}";
     }
     return now_sx;
 }
