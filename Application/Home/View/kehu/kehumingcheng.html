@@ -32,10 +32,10 @@
    		<style>
 		body,ul,li,table,tr{margin:0;padding:0;font-family:宋体; color:#333;}
 		a{color:#07d;}
-		.top{ width:90%;} 
+		.top{ width:90%;margin-top: -15px} 
 		.top1{  position: relative; left: 10px; top :16px;}
 		.name{font-size:20px; color:#50BBB1;}
-		.fuzeren{ position: relative; left: 15px;font-size:14px;}
+		.fuzeren{ position: relative; left: 15px;top:-5px;font-size:14px;}
 		.fuzename{color:#50BBB1;}
 		.anniu{ position: relative; top :30px;}
 		.quanjing_left{ height:100%;border: 1px solid #eee;}
@@ -127,6 +127,11 @@ a{color:#07d; text-decoration:none !important;}
             white-space: nowrap;
         }	
 
+.top1 table .aaa{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mingchengss td p{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ways td:nth-child(2) {width: 70%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ways td:nth-child(1) {width: 30%;}
+.fujian_del tr td{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor: pointer}
 		</style>
 
 	</head>
@@ -134,8 +139,17 @@ a{color:#07d; text-decoration:none !important;}
 	<input type="hidden" value='{$uid}' class='uii'>
 		<div class="top">
 			<div class="top1">
-				
-				<span class="name" ><b>{$kh_name}</b></span> <span class="fuzeren">负责人:<span class="fuzename">{$kh_fz}</span></span>
+				<table>
+					<tr>
+						<td class="name">
+								<p class='aaa' style="max-width:400px;min-width:50px;cursor:pointer " title="{$kh_name}">{$kh_name}</p>
+						</td>
+						<td>
+								<span class="fuzeren">负责人:<span class="fuzename">{$kh_fz}</span></span>
+						</td>
+					</tr>
+				</table>
+			
 				
 			</div>
    		
@@ -320,13 +334,13 @@ a{color:#07d; text-decoration:none !important;}
 				    	<div class='ziliao_kh'  style="border:1px solid #fff" >
 					
 				  					<div   style=" height:30px;line-height:30px;background-color:#50BBB1;color:white"><span style="margin-left:10px">基本信息</span></div>
-								  	<table id="th_onlykh">
+								  	<table id="th_onlykh" style='width:85%; table-layout:fixed ' >
 								  		{$tabl}	
 									</table>
 						</div>			
-  						<div class='ziliao_kh' >
+  						<div class='ziliao_kh ' >
 				  					<div  style="height:30px;line-height:30px;background-color:#50BBB1;color:white"><span style="margin-left:10px">系统信息</span></div>
-								  	<table id="th_onlykh" >
+								  	<table id="th_onlykh"  style='width:85%; table-layout:fixed ' >
 								  		{$tab2}	
 									</table>
 						
@@ -335,7 +349,7 @@ a{color:#07d; text-decoration:none !important;}
 				
 					</div>
 				    <div class="layui-tab-item" >
-				    	<table class="layui-table lll"  width="auto">
+				    	<table class="layui-table lll"  style='width:100%; table-layout:fixed '>
 				    	
 							  	<thead>
 							  				<th >姓名</th>

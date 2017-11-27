@@ -1388,7 +1388,7 @@ class KehuController extends Controller {
 							  	<thead>
 							  				<th >姓名</th>
 							  				<th >部门</th>
-							  				<th >职务</th>
+							  
 							  			
 							  				<th >手机</th>
 							  				<th >邮箱</th>
@@ -1401,13 +1401,12 @@ class KehuController extends Controller {
 				
 					
 					
-					$lx_show.="<tr>
-					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span>".$v['zdy0']."</span></a></td>
-					  				<td >".$v['zdy3']."</td>
-					  				<td >".$v['zdy4']."</td>";
+					$lx_show.="<tr class='mingchengss'>
+					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span><p style='max-width:85px;min-width:20px;cursor:pointer'title='".$v['zdy0']."'>".$v['zdy0']."</p></span></a></td>
+					  				<td ><p style='max-width:100px;min-width:50px;cursor:pointer' title='".$v['zdy3']."'>".$v['zdy3']."</p></td>";
 					  				
-					  				$lx_show.="<td >".$v['zdy6']."</td>
-					  				<td >".$v['zdy10']."</td>
+					  				$lx_show.="<td ><p style='max-width:150px;min-width:50px;'>".$v['zdy6']."</p></td>
+					  				<td ><p style='max-width:110px;min-width:50px;cursor:pointer'title='".$v['zdy10']."'>".$v['zdy10']."</p></td>
 					  				
 					  			</tr>"; 
 								
@@ -1424,19 +1423,19 @@ class KehuController extends Controller {
 				foreach($lx_end as $k => $v)
 				{
 					$lxr_show.="<tr>
-					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span>".$v['zdy0']."</span></a></td>
-					  				<td >".$v['zdy3']."</td>
-					  				<td >".$v['zdy4']."</td>";
+					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span title='".$v['zdy0']."'>".$v['zdy0']."</span></a></td>
+					  				<td title='".$v['zdy3']."'>".$v['zdy3']."</td>
+					  				<td title='".$v['zdy4']."'>".$v['zdy4']."</td>";
 
 									if($afirst=="-")
 									{
-										$lxr_show.="<td> ".substr($v['zdy5'],1)." </td>"	;
+										$lxr_show.="<td > ".substr($v['zdy5'],1)." </td>"	;
 										
 									}else{
 										$lxr_show.="<td> ".$v['zdy5']." </td>"	;
 									}
 					  				
-					  				$lxr_show.="<td >".$v['zdy6']."</td>
+					  				$lxr_show.="<td title='".$v['zdy6']."'>".$v['zdy6']."</td>
 					  				<td >".$v['zdy10']."</td>";
 					  						$count=strlen($v['zdy16']);
 						  					if($count>40){
@@ -1512,8 +1511,15 @@ class KehuController extends Controller {
 			}else{
 				foreach($sj_end as $k=>$v)
 				{
-					$sj_show_much.="<tr>
-						  				<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1'>".$v['zdy0']."</span></a></td>
+					
+										$count=strlen($v['zdy0']);
+										if($count>20){
+										$newaaa=mb_substr($v['zdy0'],0,20)."....";
+										}else{
+											$newaaa=$v['zdy0'];
+										}
+										$sj_show_much.="<tr>
+						  				<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1' title='".$v['zdy0']."' style='cursor:pointer '>".$newaaa."</span></a></td>
 						  				<td >".$v['zdy3']."</td>
 						  				<td >".substr($v['zdy4'],0,10)."</td>
 						  				<td >".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
@@ -1702,19 +1708,19 @@ class KehuController extends Controller {
 				{
 					if($k=="zdy1" || $k=="zdy9" || $k=="zdy10" || $k=="zdy11" || $k=="zdy12")
 					{
-						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$ywcs_kh[$k][$v].'</td></tr>';
+						$tabl.='<tr class="ways"><td >'.$a_arr[$k]['name'].':</td><td>'.$ywcs_kh[$k][$v].'</td></tr>';
 					}elseif($k=="zdy15"){
-						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$lx_end[$v]['zdy0'].'</td></tr>';
+						$tabl.='<tr class="ways"><td>'.$a_arr[$k]['name'].':</td><td style="cursor:pointer " title="'.$lx_end[$v]['zdy0'].'">'.$lx_end[$v]['zdy0'].'</td></tr>';
 
 					}elseif($k=="zdy2"){
 						$afirst=substr($v,0,1);
 
 															if($afirst=="-")
-															{
+															{	
 																$acc=substr($v,1);
-																$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$acc.'</td></tr>';
+																$tabl.='<tr class="ways"><td >'.$a_arr[$k]['name'].':</td><td>'.$acc.'</td></tr>';
 															}else{
-																$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$v.'</td></tr>';
+																$tabl.='<tr class="ways"><td >'.$a_arr[$k]['name'].':</td><td>'.$v.'</td></tr>';
 															}
 					}elseif($k=="zdy14"){
 						$count=strlen($v);
@@ -1723,9 +1729,9 @@ class KehuController extends Controller {
 						}else{
 							$newbzd=$v;
 						}
-						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td><span title="'.$v.'" style="cursor:pointer ">'.$newbzd.'</span></td></tr>';
+						$tabl.='<tr class="ways"><td>'.$a_arr[$k]['name'].':</td><td><span title="'.$v.'" style="cursor:pointer ">'.$newbzd.'</span></td></tr>';
 					}else{
-						$tabl.='<tr class="ways"><td style="width:200px;">'.$a_arr[$k]['name'].':</td><td>'.$v.'</td></tr>';
+						$tabl.='<tr class="ways"><td >'.$a_arr[$k]['name'].':</td><td style="cursor:pointer " title="'.$v.'">'.$v.'</td></tr>';
 					}
 				}
 			}
@@ -1736,14 +1742,14 @@ class KehuController extends Controller {
 				{
 					if($k=="kh_fz" || $k=="kh_cj" || $k=="kh_old_fz")
 					{
-						$tab2.='<tr class="ways"><td style="width:200px;">'.$new_array13[$k]['name'].':</td><td>'.$user[$v]['user_name'].'</td></tr>';
+						$tab2.='<tr class="ways"><td >'.$new_array13[$k]['name'].':</td><td>'.$user[$v]['user_name'].'</td></tr>';
 					}elseif($k=="kh_sj_gj_date" || $k=="kh_cj_date" || $k=="kh_gh_date"){
-						$tab2.='<tr class="ways"><td style="width:200px;">'.$new_array13[$k]['name'].':</td><td>'.date("Y-m-d H:i:s", $v).'</td></tr>';
+						$tab2.='<tr class="ways"><td >'.$new_array13[$k]['name'].':</td><td>'.date("Y-m-d H:i:s", $v).'</td></tr>';
 					}elseif($k=="kh_gx_date"){
-						$tab2.='<tr class="ways"><td style="width:200px;">'.$new_array13[$k]['name'].':</td><td>'.$v.'</td></tr>';
+						$tab2.='<tr class="ways"><td >'.$new_array13[$k]['name'].':</td><td>'.$v.'</td></tr>';
 					}
 					else{
-						$tab2.='<tr class="ways"><td style="width:200px;">'.$new_array13[$k]['name'].':</td><td>'.$v.'</td></tr>';
+						$tab2.='<tr class="ways"><td >'.$new_array13[$k]['name'].':</td><td>'.$v.'</td></tr>';
 					}
 				}
 			}
@@ -1790,7 +1796,7 @@ class KehuController extends Controller {
 						{
 							$tab3.='<tr   ><td style="width:200px;">'.$v['name'].':</td><td  class="dqth"><input type="text" class="bianjiyo" onclick="diquth()" name="'.$k.'" value="'.$neww_kehu[$k].'"></td></tr>';
 						}elseif($k=="zdy13"){
-							$tab3.="<tr ><td style='width:200px;'>".$v['name'].":</td><td ><input type='text'  class=' bianjiyo text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  name='".$k."' value='".$neww_kehu[$k]."'></td></tr>";	
+							$tab3.="<tr ><td style='width:200px;'>".$v['name'].":</td><td ><input type='text'  class=' bianjiyo text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d'".'})"'."  name='".$k."' value='".$neww_kehu[$k]."'></td></tr>";	
 					
 						}elseif($k=="zdy15")
 						{
@@ -1847,7 +1853,7 @@ class KehuController extends Controller {
 				         	$tab3.="<select  style='width:100px' name='".$k."[]' class='form-control diquthr'   ></select>";
 							$tab3.='</td></tr>';
 						}elseif($k=="zdy13"){
-							$tab3.="<tr ><td style='width:200px;'>".$v['name'].":</td><td ><input type='text'  class=' required1 text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  name='".$vywzd['id']."'></td></tr>";	
+							$tab3.="<tr ><td style='width:200px;'>".$v['name'].":</td><td ><input type='text'  class=' required1 text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d'".'})"'."  name='".$vywzd['id']."'></td></tr>";	
 						}elseif($k=="zdy3"){
 							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><input type="text" class="bianjiyo qingyx "  onchange="yxyz(this)" name="'.$k.'" value="'.$neww_kehu[$k].'" maxlength="40"></td></tr>';
 						
