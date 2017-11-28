@@ -1435,8 +1435,8 @@ class KehuController extends Controller {
 										$lxr_show.="<td> ".$v['zdy5']." </td>"	;
 									}
 					  				
-					  				$lxr_show.="<td title='".$v['zdy6']."'>".$v['zdy6']."</td>
-					  				<td >".$v['zdy10']."</td>";
+					  				$lxr_show.="<td >".$v['zdy6']."</td>
+					  				<td title='".$v['zdy10']."'>".$v['zdy10']."</td>";
 					  						$count=strlen($v['zdy16']);
 						  					if($count>40){
 												$newbze=mb_substr($v['zdy16'],0,40)."....";
