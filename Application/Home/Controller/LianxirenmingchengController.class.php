@@ -97,15 +97,27 @@ class LianxirenmingchengController extends Controller {
 		foreach($sql_xg as $k=>$v)
 		{
 			if($v['lx_id']!=$a){
+				
 				foreach($v as $k1=>$v1)
-				{
+				{	
 					if($k1!='lx_data'){
 						$lx_xgr[$k1]=$v1;
 					}else{
 						$lxr_json=json_decode($v1,true);
+						
 						foreach($lxr_json as $k2=>$v2)
-						{
-							$lx_xgr[$k2]=$v2;
+						{	
+							if($k2=='zdy5'){
+								$afirst=substr($v2,0,1);
+								if($afirst=="-")
+								{	
+									$lx_xgr[$k2]=substr($v2,1);
+								}else{
+									$lx_xgr[$k2]=$v2;
+								}
+							}else{
+								$lx_xgr[$k2]=$v2;
+							}
 						}
 					}
 				}
@@ -156,13 +168,13 @@ class LianxirenmingchengController extends Controller {
 					{
 						$id_sj=$v['id'];
 						if($k1=="zdy0"  ){
-							$shangji1.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id_sj'><span style='color:#07d'>".$v1."</span></a></td>";
+							$shangji1.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id_sj'><span style='color:#07d' title='".$v1."'>".$v1."</span></a></td>";
 						}elseif($k1=="zdy3" ){
 							$shangji1.="<td>".$v1." </td>";
 						}elseif($k1=="zdy11"){
 											$count=strlen($v1);
-						  					if($count>20){
-												$newbz=mb_substr($v1,0,20)."....";
+						  					if($count>30){
+												$newbz=mb_substr($v1,0,30)."....";
 											}else{
 												$newbz=$v1;
 											}
@@ -186,7 +198,7 @@ class LianxirenmingchengController extends Controller {
 					if($k=='zdy1'){
 						$kehu_nm=$kehu[$lx_json[$k]]['name'];
 					//	var_dump($kehu);exit;
-						$show.="<td><span style='margin-left:30px'>".$kehu[$lx_json[$k]]['name']."</span></td>";	
+						$show.="<td><span style='margin-left:30px;cursor:pointer' title='".$kehu[$lx_json[$k]]['name']."'>".$kehu[$lx_json[$k]]['name']."</span></td>";	
 					}elseif($k=='zdy5'){
 							$afirst=substr($lx_json[$k],0,1);
 
@@ -211,7 +223,7 @@ class LianxirenmingchengController extends Controller {
 								$show.="<td> <span title=".$lx_json[$k]." style='cursor:pointer;margin-left:30px'>".$bzhu." </span></td>"	;
 					}
 					else{
-						$show.="<td><span style='margin-left:30px'>".$lx_json[$k]."</span></td>";
+						$show.="<td><span style='margin-left:30px;cursor:pointer' title='".$lx_json[$k]."'>".$lx_json[$k]."</span></td>";
 					}
 					
 				}else{
