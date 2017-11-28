@@ -142,7 +142,7 @@ a{color:#07d; text-decoration:none !important;}
 				<table>
 					<tr>
 						<td class="name">
-								<p class='aaa' style="max-width:400px;min-width:50px;cursor:pointer " title="{$kh_name}"><b>{$kh_name}</b></p>
+								<p class='aaa' style="max-width:400px;min-width:50px;cursor:pointer " title="{$kh_name}">{$kh_name}</p>
 						</td>
 						<td>
 								<span class="fuzeren">负责人:<span class="fuzename">{$kh_fz}</span></span>
@@ -369,7 +369,7 @@ a{color:#07d; text-decoration:none !important;}
 						</table>  
 				    </div>
 				    <div class="layui-tab-item" >
-				    	<table class="layui-table lll"  style='width:100%;' >
+				    	<table class="layui-table lll" width="auto" >
 				    		
 						  	<thead>
 						  				<th >商机标题</th>
@@ -390,7 +390,7 @@ a{color:#07d; text-decoration:none !important;}
 						 </table>  
 				    </div>
 				    <div class="layui-tab-item" >
-				    	<table class="layui-table lll"    style='width:100%;'>
+				    	<table class="layui-table lll"   width="auto">
 				    		
 						  	<thead>
 						  				<th >合同标题</th>
@@ -684,6 +684,15 @@ a{color:#07d; text-decoration:none !important;}
 									var formdom=$("#myform").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';
+									var acc=$('#yxzcla').val();
+									
+									if(acc!=undefined && acc!=''){
+										if(!acc.match(/^([a-zA-Z0-9\u4e00-\u9fa5\_\-\.])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/))
+										{
+										tishi("邮箱格式不正确！请重新输入");
+									return;
+										}
+									}
 									for(a=0;a<fornum;a++)
 									{
 										var thisdom=formdom.eq(a).find("td").eq(1).children();

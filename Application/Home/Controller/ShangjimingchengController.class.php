@@ -327,7 +327,7 @@ return $fzr_only;
 		{
 
 			if($kbt!='zdy2' && $kbt!='zdy1' && $kbt!="zdy6"){
-				$show2.="<tr style='line-height:30px;height:40px'><td style='width:160px'>".$vbt['name'].":</td>";
+				$show2.="<tr style='line-height:30px;height:40px'><td style='width:120px'>".$vbt['name'].":</td>";
 		
 						if($kbt=="zdy1")
 						{
@@ -501,7 +501,7 @@ return $fzr_only;
 								</div>
 							</div>
 						</div>
-					</div>";
+					</div>";0
 				}//客户模块下跟进记录必须是当前客户  其他模块再继续查询
 
 			$rz=M('rz');
@@ -689,7 +689,7 @@ return $fzr_only;
 		$data['sj_data']=json_encode($ex1,true);
 		$data['sj_gx_date'] = date('Y-m-d H:i:s');
 		//echo "<pre>";
-		//var_dump($data);exit;
+		//var_dump($data);exit;vardump
 		$sj_base=M('shangji');
 		$sql_save=$sj_base->where($map)->save($data);
 		if($sql_save){

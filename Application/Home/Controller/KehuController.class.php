@@ -1818,7 +1818,7 @@ class KehuController extends Controller {
 							}
 						$tab3.='</select></td></tr>';
 						}elseif($k=="zdy3"){
-							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><input type="text" class="bianjiyo qingyx "  onchange="yxyz(this)" name="'.$k.'" value="'.$neww_kehu[$k].'" maxlength="40"></td></tr>';
+							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><input type="text" class="bianjiyo qingyx " id="yxzcla"  onchange="yxyz(this)" name="'.$k.'" value="'.$neww_kehu[$k].'" maxlength="40"></td></tr>';
 						}elseif($k=="zdy14"){
 							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><textarea type="text" class="bianjiyo" placeholder="最大长度400" maxlength="400" name="'.$k.'" style="50px">'.$neww_kehu[$k].'</textarea></tr>';
 						}else{
@@ -1861,7 +1861,7 @@ class KehuController extends Controller {
 						}elseif($k=="zdy13"){
 							$tab3.="<tr ><td style='width:200px;'>".$v['name'].":</td><td ><input type='text'  class=' required1 text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d'".'})"'."  name='".$vywzd['id']."'></td></tr>";	
 						}elseif($k=="zdy3"){
-							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><input type="text" class="bianjiyo qingyx "  onchange="yxyz(this)" name="'.$k.'" value="'.$neww_kehu[$k].'" maxlength="40"></td></tr>';
+							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><input type="text" class="bianjiyo qingyx" id="yxzcla"  onchange="yxyz(this)" name="'.$k.'" value="'.$neww_kehu[$k].'" maxlength="40"></td></tr>';
 						
 						}elseif($k=="zdy14"){
 							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><textarea type="text" class="bianjiyo" placeholder="最大长度400" maxlength="400" name="'.$k.'" value="'.$neww_kehu[$k].'"></textarea></tr>';
