@@ -547,11 +547,14 @@ class MainController extends DBController {
         foreach($myht as $v)
         {
             $j=json_decode($v['ht_data'],true);
+            /*
+            2017年11月28日10:45:19将取成交状态的合同改为取审批通过的合同
             if($j['zdy7']!='canshu3')
             {
                 //判断是否为成交
                 continue;
             }
+            */
             $zongnum+=$j['zdy3'];
             $htnum++;
             $hk_in_str.="'".$v['ht_id']."',";
