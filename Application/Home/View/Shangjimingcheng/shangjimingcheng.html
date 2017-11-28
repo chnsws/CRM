@@ -41,7 +41,7 @@
 			.fuzeren{ position: relative; left: 15px;font-size:14px;}
 			.tbl{margin-left:20px;}
 			.name{font-size:20px; color:#50BBB1;}
-			.header1{margin-left:10px;margin-top:16px;}
+			.header1{margin-left:10px;margin-top:5px}
 			.fuzeren{ position: relative; left: 15px;font-size:14px;}
 			.fuzename{color:#50BBB1;}
 			.ziliao_kh{width:35%;}
@@ -76,9 +76,9 @@
 		    		</div>
 			   	</div>
 		<div class='header1' >
-			<table>
+			<table  >
 				<tr>
-					<td><span  class='name'><b>{$sql_rh.zdy0}</b></span></td>
+					<td><span  class='name'><p style="max-width:400px;min-width:50px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; " title="{$sql_rh.zdy0}"><b>{$sql_rh.zdy0}</b></p></span></td>
 					<td><span class="fuzeren">负责人：<span class="fuzename">{$fuzeren}</span></span></td>
 				</tr>
 			</table>
@@ -412,7 +412,7 @@
 										ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",￥￥";
 									}
 									//alert (ajaxstr);
-									ajaxstra=ajaxstr.substr(0,ajaxstr.length-1);
+									ajaxstra=ajaxstr.substr(0,ajaxstr.length-3);
 									$.get(rooturl+'/index.php/Home/Shangjimingcheng/save',{"id":ajaxstra},
 							        		 function(html){
 									        		// alert(html)
