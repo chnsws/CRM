@@ -1513,25 +1513,25 @@ class KehuController extends Controller {
 				{
 					
 										$count=strlen($v['zdy0']);
-										if($count>20){
-										$newaaa=mb_substr($v['zdy0'],0,20)."....";
+										if($count>25){
+										$newaaa=mb_substr($v['zdy0'],0,25)."....";
 										}else{
 											$newaaa=$v['zdy0'];
 										}
 										$sj_show_much.="<tr>
-						  				<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1' title='".$v['zdy0']."' style='cursor:pointer '>".$newaaa."</span></a></td>
-						  				<td >".$v['zdy3']."</td>
-						  				<td >".substr($v['zdy4'],0,10)."</td>
-						  				<td >".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
-						  				<td >".$v['sj-qiandan']."</td>";
+						  				<td width='27%'><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1' title='".$v['zdy0']."' style='cursor:pointer '>".$newaaa."</span></a></td>
+						  				<td width='12%'>".$v['zdy3']."</td>
+						  				<td width='12%'>".substr($v['zdy4'],0,10)."</td>
+						  				<td width='12%'>".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
+						  				<td width='12%'>".$v['sj-qiandan']."</td>";
 						  					$count=strlen($v['zdy11']);
-						  					if($count>40){
-												$newbzb=mb_substr($v['zdy11'],0,40)."....";
+						  					if($count>30){
+												$newbzb=mb_substr($v['zdy11'],0,30)."....";
 											}else{
 												$newbzb=$v['zdy11'];
 											}
 
-						  			$sj_show_much.="<td > <span title='".$v['zdy11']."' style='cursor:pointer '>".$newbzb."</span></td>
+						  			$sj_show_much.="<td width='25%'> <span title='".$v['zdy11']."' style='cursor:pointer '>".$newbzb."</span></td>
 						  			</tr> ";
 				}
 			}
@@ -1640,23 +1640,29 @@ class KehuController extends Controller {
 			else{
 				foreach($ht_end as $k=>$v)
 				{
+					$count=strlen($v['zdy0']);
+					if($count>25){
+					  $newbaa=mb_substr($v['zdy0'],0,40)."....";
+					}else{
+						$newbaa=$v['zdy0'];
+					}
 					$ht_show_much.="<tr>";
 									if($v['ht_sp']==4){
-										$ht_show_much.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."'>".$v['zdy0']."</a></td>";
+										$ht_show_much.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."' title='".$v['zdy0']."'>".$newbaa."</a></td>";
 									}else{
-						  				$ht_show_much.="<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span>".$v['zdy0']."</span></a></td>";
+						  				$ht_show_much.="<td width='27%'><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span title='".$v['zdy0']."'>".$newbaa."</span></a></td>";
 						  				}
-						  			$ht_show_much.="	<td >￥".$v['zdy3']."</td>
-						  				<td >".$v['zdy5']."</td>
-						  				<td >".$v['zdy6']."</td>
-						  				<td >".$ywcs_ht['zdy7'][$v['zdy7']]."</td>";
+						  			$ht_show_much.="<td width='12%'>￥".$v['zdy3']."</td>
+						  				<td width='14%'>".$v['zdy5']."</td>
+						  				<td width='14%'>".$v['zdy6']."</td>
+						  				<td width='12%'>".$ywcs_ht['zdy7'][$v['zdy7']]."</td>";
 						  					$count=strlen($v['zdy17']);
-						  					if($count>40){
-												$newbzf=mb_substr($v['zdy17'],0,40)."....";
+						  					if($count>30){
+												$newbzf=mb_substr($v['zdy17'],0,30)."....";
 											}else{
 												$newbzf=$v['zdy17'];
 											}
-						  				$ht_show_much.="<td > <span title='".$v['zdy17']."' style='cursor:pointer '>".$newbzf."</span></td>
+						  				$ht_show_much.="<td width='23%'> <span title='".$v['zdy17']."' >".$newbzf."</span></td>
 						  			</tr> ";
 				}
 			}
@@ -1950,14 +1956,22 @@ class KehuController extends Controller {
 								
 					$table_fj.="<tr>";
 							foreach($v as $k_a=>$v_a)
-								
 							{
 								if($k_a!="id" && $k_a!="lujing" ){
 								$table_fj.="<td name='$k'>";
 								if($k_a=="fujian_name")
 								{
 									$table_fj.="<span onclick='fj_xz(this)' class='".$v['lujing']."' style='color:green;cursor:pointer' title='点击下载' >".$v['fujian_name']."</span>";
-								}else{
+								}elseif($k_a=="beizhu"){
+									$count=strlen($v_a);
+									if($count>30){
+									  $newbzb=mb_substr($v_a,0,30)."....";
+									}else{
+										$newbzb=$v_a;
+									}
+									$table_fj.="<span title=".$v_a.">".$newbzb."</span>";
+								}
+								else{
 
 									$table_fj.="".$v_a."";
 								}
