@@ -254,7 +254,7 @@ return $fzr_only;
 						}
 					}elseif($kbt=="zdy9"){	
 
-						foreach( $ywcs[$kbt] as $k=>$v)
+						foreach( $ywcs[$kbt] as $k=>$v) 
 						{
 							if($k==$sql_rh[$kbt])
 							{
