@@ -57,6 +57,8 @@
 						.addshangji_weizhi{margin:0px auto;margin-top:20px;}
 							.searchable-select {min-width:300px;}
 							.ertd{width:70%;overflow: hidden;text-overflow: ellipsis;white-space:nowrap; cursor:pointer }
+							.wysa  {width: 250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer }
+						
   		</style>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
@@ -182,10 +184,10 @@
 
 		  	    </div>
 		  	     <div class="layui-tab-item">
-			  	     <table class="layui-table"  >
+			  	     <table class="layui-table " style='table-layout:fixed' >
 					  	<thead>
-					  		<th >姓名</th>
-			  				<th >职务</th>
+					  		<th class='wysa' >姓名</th>
+			  				<th class='wysa'>职务</th>
 			  				<th >电话</th>
 			  				<th >手机</td>
 			  				<th >邮箱</th>
@@ -198,8 +200,8 @@
 							<else/>
 							<tr>
 
-					  				<td ><a href="{$_GET['root_dir']}/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/{$sql_lianxi.lx_id}"><span style="color:#079">{$lx_json.zdy0}</span></a></td>
-					  				<td >{$lx_json.zdy4}</td>
+					  				<td class='wysa' title='{$lx_json.zdy0}' ><a href="{$_GET['root_dir']}/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/{$sql_lianxi.lx_id}"><span style="color:#079">{$lx_json.zdy0}</span></a></td>
+					  				<td class='wysa'  title='{$lx_json.zdy4}'>{$lx_json.zdy4}</td>
 					  				<td >{$lx_json.zdy5}</td>
 					  				<td >{$lx_json.zdy6}</td>
 					  				<td >{$lx_json.zdy10}</td> 
@@ -267,8 +269,7 @@
 							<tr class="addtr">
 								<td>备注：</td>
 									<td>
-										<textarea name="cp_beizhu" rows="4" cols="40">
-										</textarea>		
+										<textarea name="cp_beizhu" rows="4"  cols="40" placeholder="最大长度400"></textarea>		
 									</td>			
 							</tr>
 							</table>
