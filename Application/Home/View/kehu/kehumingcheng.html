@@ -493,6 +493,39 @@ a{color:#07d; text-decoration:none !important;}
 	</body>
 	<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
  		<script>
+	
+			
+		for(var i=0;i<12;i++){
+			var a=$(".layui-nav-tree",window.parent.document).children().eq(i).children().children().text();
+
+			
+
+
+			if(a=="客户"){
+				var thisdom=$(".layui-nav-tree",window.parent.document).children().eq(i).prop("class","layui-nav-item layui-this");//左边改好了
+				for(ii=0;ii<12;ii++)
+				{
+					var top_title=$(".layui-tab-title",window.parent.document).children().eq(ii).prop("class");
+					if(top_title=='layui-this')
+					{
+						$(".layui-tab-title",window.parent.document).children().eq(ii).children().eq(1).text('客户');
+					}
+						
+					
+					
+				}
+			}else{
+				var thisdom=$(".layui-nav-tree",window.parent.document).children().eq(i).prop("class","layui-nav-item");
+			}
+				
+			
+		
+		}
+	
+	
+
+		
+	
  		var uiid=$(".uii").val();
  		if(uiid==1)
 	   {

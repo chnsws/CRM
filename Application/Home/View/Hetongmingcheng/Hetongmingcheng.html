@@ -606,7 +606,7 @@ i.layui-anim{display:inline-block}
 								<tr class="addtr">
 									<td></td>
 										<td>
-											<input type="hidden" name="sj_id" disabled class="ht_id" value="{$ht_id}";'>	
+											<input type="hidden" name="sj_id" disabled class="ht_id" value="{$ht_id}";>	
 										</td>			
 								</tr>
 								</table>
@@ -624,6 +624,32 @@ i.layui-anim{display:inline-block}
 
 	</body>
 	<script>
+			for(var i=0;i<12;i++){
+			var a=$(".layui-nav-tree",window.parent.document).children().eq(i).children().children().text();
+
+			
+
+
+			if(a=="合同"){
+				var thisdom=$(".layui-nav-tree",window.parent.document).children().eq(i).prop("class","layui-nav-item layui-this");//左边改好了
+				for(ii=0;ii<12;ii++)
+				{
+					var top_title=$(".layui-tab-title",window.parent.document).children().eq(ii).prop("class");
+					if(top_title=='layui-this')
+					{
+						$(".layui-tab-title",window.parent.document).children().eq(ii).children().eq(1).text('合同');
+					}
+						
+					
+					
+				}
+			}else{
+				var thisdom=$(".layui-nav-tree",window.parent.document).children().eq(i).prop("class","layui-nav-item");
+			}
+				
+			
+		
+		}
 	var ht_sp918=$(".ht_sp").val();
 	if(ht_sp918==1)
 	{
