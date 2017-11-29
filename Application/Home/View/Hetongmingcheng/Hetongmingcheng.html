@@ -101,7 +101,12 @@ i.layui-anim{display:inline-block}
     .xiaoshou{cursor:pointer}
 
     .sc_hkjl{ margin-left:30%;margin-top:30px;}
-     .sc_hkjla{ margin-left:38%;margin-top:30px;}
+    .sc_hkjla{ margin-left:38%;margin-top:30px;}
+	.aaa{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top: 10px}
+	#th_onlykh tr td:nth-child(2) {width: 70%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+	#th_onlykh tr td:nth-child(1) {width: 30%;}
+	.bzsl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+	.fujian_del td{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   	</style>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
@@ -111,7 +116,17 @@ i.layui-anim{display:inline-block}
 		</script>
 	</head>
 	<body>
-		<div style="margin-left:10px"><span  class='name' ><b>{$name}</b></span><span style="margin-left:10px">负责人：<span class="fuzename">	{$fuzeren}</span></span>
+		<div style="margin-left:10px">
+				<table>
+						<tr>
+							<td class="name">
+									<p class='aaa' style="max-width:400px;min-width:50px;cursor:pointer " title="{$name}"><b>{$name}</b></p>
+							</td>
+							<td>
+									<span style="margin-left:10px">负责人：<span class="fuzename">	{$fuzeren}</span></span>
+							</td>
+						</tr>
+					</table>
 		</div>
 		<input type='hidden' value='{$yi}' class='kpxs'>
 		<input type='hidden' value='{$kh_id}' class='kh_id'>
@@ -186,14 +201,14 @@ i.layui-anim{display:inline-block}
 				  	    		<td style="border:1px solid #EEE; width:49%;"  align="left" valign="top">
 				  	    			 <div class='ziliao_kh'  style="width:100%" >
 										
-						  					<div   style=" height:30px;width:85%;line-height:30px;background-color:#50BBB1;color:white"><span style="margin-left:10px">基本信息</span></div>
-										  	<table id="th_onlykh">
+						  					<div   style=" height:30px;width:95%;line-height:30px;background-color:#50BBB1;color:white"><span style="margin-left:10px">基本信息</span></div>
+										  	<table id="th_onlykh" style="width:90%;table-layout:fixed" >
 										  		{$show}	
 											</table>
 										</div>			
 										<div class='ziliao_kh'  style="width:100%">
-							  					<div  style="height:30px;line-height:30px; width:85%; background-color:#50BBB1;color:white"><span style="margin-left:10px">系统信息</span></div>
-											  	<table id="th_onlykh" >
+							  					<div  style="height:30px;line-height:30px; width:95%; background-color:#50BBB1;color:white"><span style="margin-left:10px">系统信息</span></div>
+											  	<table id="th_onlykh" style="width:90%;table-layout:fixed">
 											  		{$show1}
 												</table>
 									
@@ -287,7 +302,7 @@ i.layui-anim{display:inline-block}
 										    			<thead class="th_hei">
 													  		<th >期次</th>
 											  				<th >操作</th>
-											  				<th >回款日期1</th>
+											  				<th >回款日期</th>
 											  				<th >回款占比(%)</td>
 											  				<th >回款金额</th>
 											  				<th >备注</th>
@@ -358,10 +373,10 @@ i.layui-anim{display:inline-block}
 									    <li id="si">地税通用机打发票</li>
 									  </ul>
 								 		<div class="layui-tab-content">
-								 			 <div class="layui-tab-item" id="yi1">
+								 			 <div class="layui-tab-item" id="yi1" style='overflow :auto;width:99%'>
 								 			 		<div>
-														  <table class='layui-table' lay-skin='line' style="margin-top:20px" >
-																  	<thead >
+														  <table class='layui-table' lay-skin='line' style="margin-top:20px;width:2200px; table-layout:fixed"   >
+																  	<thead>
 																  					<th >操作</th>
 																  					<th >状态</th>
 																	  				<th >开票日期</th>
@@ -385,8 +400,8 @@ i.layui-anim{display:inline-block}
 								 			
 									    	 <div class="layui-tab-item"  id="er1">
 							 			 		<div style='overflow :auto;width:99%'>
-													  <table class='layui-table' lay-skin='line' style="margin-top:20px;width:3000px" >
-															  	<thead >
+													  <table class='layui-table' lay-skin='line' style="margin-top:20px;width:4000px;table-layout:fixed" >
+															  	<thead>
 															  					<th >操作</th>
 															  					<th >状态</th>
 																  				<th >开票日期</th>
@@ -417,9 +432,9 @@ i.layui-anim{display:inline-block}
 												</div>
 						 					 </div>
 								
-									    	<div class="layui-tab-item " id='san1'>
+									    	<div class="layui-tab-item " id='san1' style='overflow :auto;width:99%'>
 							 			 		<div>
-													  <table class='layui-table' lay-skin='line' style="margin-top:20px" >
+													  <table class='layui-table' lay-skin='line' style="margin-top:20px;width:2200px; table-layout:fixed" >
 															  	<thead >
 															  					<th >操作</th>
 														  					<th >状态</th>
@@ -441,9 +456,9 @@ i.layui-anim{display:inline-block}
 												</div>
 						 					 </div>
 									   
-									    	<div class="layui-tab-item " id="si1">
+									    	<div class="layui-tab-item " id="si1" style='overflow :auto;width:99%'>
 							 			 		<div>
-													  <table class='layui-table' lay-skin='line' style="margin-top:20px" >
+													  <table class='layui-table' lay-skin='line' style="margin-top:20px;width:2200px; table-layout:fixed" >
 															  	<thead >
 															  					<th >操作</th>
 														  					<th >状态</th>
@@ -480,17 +495,16 @@ i.layui-anim{display:inline-block}
 				    <div class='layui-tab-item'>
 			  			  <input type="button"  onclick="add_cpp()" class=" layui-btn layui-btn-small bjscyc" value="+添加产品">
 			  			  <span style='margin-left:60%'><b>合同总金额</b>：￥<span style='color:green'>{$ht_zje}</span><b style='margin-left:15px'>产品总金额</b>：￥{$zje9133}</span>
-							<table class="layui-table"  >
-								  	<thead>
-								  	<th >产品名称</th>
+							<table class="layui-table" style="width:100%; table-layout:fixed">
+								  	<thead >
+								  	<th width="20%">产品名称</th>
 					  				<th >产品编号</th>
 					  				<th >公开价格</th>
 					  				<th >合同价格</td>
 					  				<th >数量</th>
 					  				<th >折扣</th>
 					  				<th >总价</th>
-					  				
-					  				<th >备注</th>
+					  				<th width="20%">备注</th>
 					  				<th >操作</th>
 									</thead>
 									<tbody class="cp_showoo">
@@ -500,13 +514,13 @@ i.layui-anim{display:inline-block}
 			 		 </div>
 			 		  <div class='layui-tab-item' id='twosh1' >
 			  			<input type="button" id="dialog-form" onclick="fj_cp()"  class=" layui-btn layui-btn-small bjscyc" value="+文件上传">
-					   <table class="layui-table"  >
+					   <table class="layui-table" style="width:100%; table-layout:fixed" >
 							  	<thead>
-							  		<th >上传时间</th>
-					  				<th >附件名称</th>
-					  				<th >大小</td>
-					  				<th >备注</th>
-					  				<th >操作</th>
+							  		<th width="20%">上传时间</th>
+					  				<th width="30%">附件名称</th>
+					  				<th width="15%">大小</td>
+					  				<th width="25%">备注</th>
+					  				<th width="10%">操作</th>
 
 								</thead>
 								<tbody class="fujian_del">
@@ -531,14 +545,14 @@ i.layui-anim{display:inline-block}
 			 		 </div>
 			 		  <div class='layui-tab-item'>
 			  		
-					  			<table class="layui-table"  > 
+					  			<table class="layui-table" style="width:100%; table-layout:fixed" > 
 								  	<thead>
 								  				
 								  				<th >操作时间</th>
 								  				<th >操作人员</th>
 								  				<th >操作模块</th>
 								  			
-								  				<th >备注</th>
+								  				<th width="30%">备注</th>
 								  				<th >类型</th>
 
 								  				
@@ -1163,7 +1177,7 @@ function bjjh(thisdom){
 
 								type:1,
 								offset: 't',
-								area:'750px',
+								area:['750px','60%'],
 								title: '新增开票记录',
 								content:$('.kpjl'),
 								btn:['保存'],

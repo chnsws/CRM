@@ -188,9 +188,9 @@ return $fzr_only;
 				if($ht_json[$k]!=""){
 					if($k == 'zdy1')
 					{
-						$show.="<td >".$kehu[$ht_json[$k]]['name']."</td>";	
+						$show.="<td title='".$kehu[$ht_json[$k]]['name']."' style='cursor:pointer'>".$kehu[$ht_json[$k]]['name']."</td>";	
 					}elseif($k=='zdy2'){
-						$show.="<td >".$shangji[$ht_json[$k]]['zdy0']."</td>";	
+						$show.="<td title='".$shangji[$ht_json[$k]]['zdy0']."' style='cursor:pointer'>".$shangji[$ht_json[$k]]['zdy0']."</td>";	
 					}elseif($k=='zdy7' || $k=='zdy10' || $k=='zdy11'){
 						$show.="<td >".$ywcs[$k][$ht_json[$k]]."</td>";
 					}elseif($k=='zdy13'){
@@ -210,7 +210,7 @@ return $fzr_only;
 							}
 							$show.="<td> <span title='".$ht_json[$k]."' style='cursor:pointer'>".$bzhu." </span></td>";
 					}else{
-							$show.="<td >".$ht_json[$k]."</td>";	
+							$show.="<td title='".$ht_json[$k]."' style='cursor:pointer'>".$ht_json[$k]."</td>";	
 						}	
 				}else{
 					if($k == 'zdy9')
@@ -371,9 +371,9 @@ return $fzr_only;
 				{
 					$file_show.="<tr class='".$v['id']."'>
 					  				<td >". $v['sc_data']."</td>
-					  				<td ><span onclick='fj_xz(this)' class='".$v['lujing']."' style='color:green;cursor:pointer' title='点击下载' >".$v['fujian_name']."</span></td>
+					  				<td class='bzsl' title='".$v['fujian_name']."' style='cursor:pointer'><span onclick='fj_xz(this)' class='".$v['lujing']."' style='color:green;cursor:pointer' title='点击下载' >".$v['fujian_name']."</span></td>
 					  				<td >".$v['big']."</td>
-					  				<td >".$v['beizhu']."</td>
+					  				<td class='bzsl' title='".$v['beizhu']."' style='cursor:pointer'>".$v['beizhu']."</td>
 					  				<td ><input type='button' value='删除' onclick='fujian_del(this)' name='".$v['id']."'></td>
 								</tr> ";
 				}
@@ -400,15 +400,15 @@ return $fzr_only;
 				foreach ($cp_new as $k=>$v)
 				{
 					$show2.="<tr class='".$v['cp_id1']."'>
-					<td>".$v['zdy0']."</td>
-					<td>".$v['zdy1']."</td>
+					<td class='bzsl' title='".$v['zdy0']."' style='cursor:pointer'>".$v['zdy0']."</td>
+					<td class='bzsl' title='".$v['zdy1']."' style='cursor:pointer'>".$v['zdy1']."</td>
 					<td>".$v['cp_yj']."</td>
 					<td>".$v['cp_jy']."</td>
 					<td>".$v['cp_num1']."</td>
 					<td>".$v['cp_zk']."</td>
 					<td>".$v['cp_zj']."</td>
 			
-					<td>".$v['cp_beizhu']."</td>
+					<td class='bzsl' title='".$v['cp_beizhu']."' style='cursor:pointer'>".$v['cp_beizhu']."</td>
 					<td><input type='button' name='".$v['cp_id1']."' onclick='cp_del(this)' value='删除'></td>
 					</tr>";
 					$zje913=$zje913+$v['cp_zj'];
@@ -501,7 +501,7 @@ return $fzr_only;
 							$hk_jihua.="<div class='kongzhi1'><span class='hkshow'>第<b>".$sql_hk_count."-".$dinum."</b>期回款计划：".$v['hk_data']."</span><span class='hkshow'>计划回款总金额：¥<b> ".$v['hk_je']."</b></span><span class='hkshow'>占比：¥<b> ".$v['hk_zb']."%</b></span><span class='hkshow'> 已回款总金额：¥ <b>".$yhk[$v['hk_id']]."</b></span> <span class='hkshow'>未回款总金额：¥<b>".$weihuikuan."</b></span><span  class='hkshow'>未完成</span> <span class='shet'> <i class='layui-icon xiaoshou' id='".$v['hk_id']."' style='font-size: 17px; ' onclick='shanchu_pz(this)' >&#xe640;</i> <i class='layui-icon xiaoshou' id='".$v['hk_id']."' onclick='xiugai_pz(this)' style='font-size: 17px; '>&#xe642;</i> </span> <button  id='create-sahngji' onclick='xzjh(this)' name='".$v['hk_id']."' class='layui-btn layui-btn-small add_wz' >新增回款记录</button>
 						  	</div>
 						  </div>";
-					  	$hk_jihua.="<table class='layui-table' lay-skin='line' >
+					  	$hk_jihua.="<table class='layui-table' lay-skin='line' style='width:100%; table-layout:fixed'>
 							  	<thead >
 							  		<th >操作</th>
 					  				<th >审批状态</th>
@@ -539,7 +539,7 @@ return $fzr_only;
 												<td >".$ywcs['zdy11'][$v3['zdy11']]."</td>
 												<td >".$ywcs['hktype'][$v3['hk_type']]."</td>
 												<td >".$user[$v3['hk_skr']]['user_name']."</td>
-												<td >".$v3['hk_bz']."</td>
+												<td class='bzsl' title='".$v3['hk_bz']."' style='cursor:pointer'>".$v3['hk_bz']."</td>
 												</tr>  
 												</tbody>";
 										}
@@ -728,17 +728,17 @@ return $fzr_only;
 										$kp_show.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:25px;'>&#xe640;</i></span></td><td ><span style='color:red' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
 								}
 						
-								$kp_show.="<td >".$v['kp_date']."</td>
-											<td >".$v['kp_data']."</td>
-											<td >".$v['kp_je']."</td>
-											<td >". $kp_type_arr[$v['kp_type']]."</td>
-												<td >".$v['kp_fp_tt']."</td>
-													<td >".$v['kp_fp_sbm']."</td>
-											<td >".$v['kp_number']."</td>
-											<td >".$user[$v['kp_user']]['user_name']."</td>
-											<td >".$v['kp_bz']."</td>
-											<td >".$user[$v['kp_cj']]['user_name']."</td>
-											<td >".$v['kp_cj_date']."</td>
+								$kp_show.="<td title='".$v['kp_date']."' style='cursor:pointer'>".$v['kp_date']."</td>
+											<td title='".$v['kp_data']."' style='cursor:pointer'>".$v['kp_data']."</td>
+											<td title='".$v['kp_je']."' style='cursor:pointer'>".$v['kp_je']."</td>
+											<td title='".$kp_type_arr[$v['kp_type']]."' style='cursor:pointer'>". $kp_type_arr[$v['kp_type']]."</td>
+											<td title='".$v['kp_fp_tt']."' style='cursor:pointer'>".$v['kp_fp_tt']."</td>
+											<td title='".$v['kp_fp_sbm']."' style='cursor:pointer'>".$v['kp_fp_sbm']."</td>
+											<td title='".$v['kp_number']."' style='cursor:pointer'>".$v['kp_number']."</td>
+											<td title='".$user[$v['kp_user']]['user_name']."' style='cursor:pointer'>".$user[$v['kp_user']]['user_name']."</td>
+											<td title='".$v['kp_bz']."' style='cursor:pointer'>".$v['kp_bz']."</td>
+											<td title='".$user[$v['kp_cj']]['user_name']."' style='cursor:pointer'>".$user[$v['kp_cj']]['user_name']."</td>
+											<td title='".$v['kp_cj_date']."' style='cursor:pointer'>".$v['kp_cj_date']."</td>
 										</tr>"; 
 			    	}
 		    	}
@@ -766,25 +766,25 @@ return $fzr_only;
 										$kp_show1.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:25px;'>&#xe640;</i></span></td><td ><span style='color:red' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
 								}
 						
-								$kp_show1.="<td >".$v['kp_date']."</td>
-											<td >".$v['kp_data']."</td>
-											<td >".$v['kp_je']."</td>
-											<td >". $kp_type_arr[$v['kp_type']]."</td>
-											<td >".$v['kp_fp_dw']."</td>
-											<td >".$v['kp_fp_sbm1']."</td>
-											<td >".$v['kp_fp_zcdz']."</td>
-											<td >".$v['kp_fp_zcdh']."</td>
-											<td >".$v['kp_fp_khyh']."</td>
-											<td >".$v['kp_fp_yhzh']."</td>
-											<td >".$v['kp_fp_spr']."</td>
-											<td >".$v['kp_fp_sprphone']."</td>
-											<td >".$v['kp_fp_sheng']."</td>
-											<td >".$v['kp_fp_xiangxi']."</td>
-											<td >".$v['kp_number']."</td>
-											<td >".$user[$v['kp_user']]['user_name']."</td>
-											<td >".$v['kp_bz']."</td>
-											<td >".$user[$v['kp_cj']]['user_name']."</td>
-											<td >".$v['kp_cj_date']."</td>
+								$kp_show1.="<td title='".$v['kp_date']."' style='cursor:pointer'>".$v['kp_date']."</td>
+											<td title='".$v['kp_data']."' style='cursor:pointer'>".$v['kp_data']."</td>
+											<td title='".$v['kp_je']."' style='cursor:pointer'>".$v['kp_je']."</td>
+											<td title='".$kp_type_arr[$v['kp_type']]."' style='cursor:pointer'>". $kp_type_arr[$v['kp_type']]."</td>
+											<td title='".$v['kp_fp_dw']."' style='cursor:pointer'>".$v['kp_fp_dw']."</td>
+											<td title='".$v['kp_fp_sbm1']."' style='cursor:pointer'>".$v['kp_fp_sbm1']."</td>
+											<td title='".$v['kp_fp_zcdz']."' style='cursor:pointer'>".$v['kp_fp_zcdz']."</td>
+											<td title='".$v['kp_fp_zcdh']."' style='cursor:pointer'>".$v['kp_fp_zcdh']."</td>
+											<td title='".$v['kp_fp_khyh']."' style='cursor:pointer'>".$v['kp_fp_khyh']."</td>
+											<td title='".$v['kp_fp_yhzh']."' style='cursor:pointer'>".$v['kp_fp_yhzh']."</td>
+											<td title='".$v['kp_fp_spr']."' style='cursor:pointer'>".$v['kp_fp_spr']."</td>
+											<td title='".$v['kp_fp_sprphone']."' style='cursor:pointer'>".$v['kp_fp_sprphone']."</td>
+											<td title='".$v['kp_fp_sheng']."' style='cursor:pointer'>".$v['kp_fp_sheng']."</td>
+											<td title='".$v['kp_fp_xiangxi']."' style='cursor:pointer'>".$v['kp_fp_xiangxi']."</td>
+											<td title='".$v['kp_number']."' style='cursor:pointer'>".$v['kp_number']."</td>
+											<td title='".$user[$v['kp_user']]['user_name']."' style='cursor:pointer'>".$user[$v['kp_user']]['user_name']."</td>
+											<td title='".$v['kp_bz']."' style='cursor:pointer'>".$v['kp_bz']."</td>
+											<td title='".$user[$v['kp_cj']]['user_name']."' style='cursor:pointer'>".$user[$v['kp_cj']]['user_name']."</td>
+											<td title='".$v['kp_cj_date']."' style='cursor:pointer'>".$v['kp_cj_date']."</td>
 										</tr>"; 
 			    	}
 		    	}
@@ -813,16 +813,16 @@ return $fzr_only;
 										$kp_show2.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:25px;'>&#xe640;</i></span></td><td ><span style='color:red' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
 								}
 						
-								$kp_show2.="<td >".$v['kp_date']."</td>
-											<td >".$v['kp_data']."</td>
-											<td >".$v['kp_je']."</td>
-											<td >". $kp_type_arr[$v['kp_type']]."</td>
+								$kp_show2.="<td title='".$v['kp_date']."' style='cursor:pointer'>".$v['kp_date']."</td>
+											<td title='".$v['kp_data']."' style='cursor:pointer'>".$v['kp_data']."</td>
+											<td title='".$v['kp_je']."' style='cursor:pointer'>".$v['kp_je']."</td>
+											<td title='".$kp_type_arr[$v['kp_type']]."' style='cursor:pointer'>". $kp_type_arr[$v['kp_type']]."</td>
 											
-											<td >".$v['kp_number']."</td>
-											<td >".$user[$v['kp_user']]['user_name']."</td>
-											<td >".$v['kp_bz']."</td>
-											<td >".$user[$v['kp_cj']]['user_name']."</td>
-											<td >".$v['kp_cj_date']."</td>
+											<td title='".$v['kp_number']."' style='cursor:pointer'>".$v['kp_number']."</td>
+											<td title='".$user[$v['kp_user']]['user_name']."' style='cursor:pointer'>".$user[$v['kp_user']]['user_name']."</td>
+											<td title='".$v['kp_bz']."' style='cursor:pointer'>".$v['kp_bz']."</td>
+											<td title='".$user[$v['kp_cj']]['user_name']."' style='cursor:pointer'>".$user[$v['kp_cj']]['user_name']."</td>
+											<td title='".$v['kp_cj_date']."' style='cursor:pointer'>".$v['kp_cj_date']."</td>
 										</tr>"; 
 			    	}
 		    	}
@@ -851,16 +851,16 @@ return $fzr_only;
 										$kp_show3.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:25px;'>&#xe640;</i></span></td><td ><span style='color:red' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
 								}
 						
-								$kp_show3.="<td >".$v['kp_date']."</td>
-											<td >".$v['kp_data']."</td>
-											<td >".$v['kp_je']."</td>
-											<td >". $kp_type_arr[$v['kp_type']]."</td>
+								$kp_show3.="<td title='".$v['kp_date']."' style='cursor:pointer'>".$v['kp_date']."</td>
+											<td title='".$v['kp_data']."' style='cursor:pointer'>".$v['kp_data']."</td>
+											<td title='".$v['kp_je']."' style='cursor:pointer'>".$v['kp_je']."</td>
+											<td title='".$kp_type_arr[$v['kp_type']]."' style='cursor:pointer'>". $kp_type_arr[$v['kp_type']]."</td>
 											
-											<td >".$v['kp_number']."</td>
-											<td >".$user[$v['kp_user']]['user_name']."</td>
-											<td >".$v['kp_bz']."</td>
-											<td >".$user[$v['kp_cj']]['user_name']."</td>
-											<td >".$v['kp_cj_date']."</td>
+											<td title='".$v['kp_number']."' style='cursor:pointer'>".$v['kp_number']."</td>
+											<td title='".$user[$v['kp_user']]['user_name']."' style='cursor:pointer'>".$user[$v['kp_user']]['user_name']."</td>
+											<td title='".$v['kp_bz']."' style='cursor:pointer'>".$v['kp_bz']."</td>
+											<td title='".$user[$v['kp_cj']]['user_name']."' style='cursor:pointer'>".$user[$v['kp_cj']]['user_name']."</td>
+											<td title='".$v['kp_cj_date']."' style='cursor:pointer'>".$v['kp_cj_date']."</td>
 										</tr>"; 
 			    	}
 		    	}
@@ -954,7 +954,7 @@ return $fzr_only;
 		  					<td >".$user[$v['rz_user']]['user_name']."</td>";
 		  					$rz_jl.="<td >".$rz_mk_a[$v['rz_mode']]."</td>";
 		  					$rz_jl.="
-		  							 <td >".$v['rz_bz']."</td>";
+		  							 <td class='bzsl' title='".$v['rz_bz']."' style='cursor:pointer'>".$v['rz_bz']."</td>";
 		  				
 		  					$rz_jl.="<td >".$rz_type[$v['rz_cz_type']]."</td>";
 		  				

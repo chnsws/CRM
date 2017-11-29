@@ -414,14 +414,14 @@ return $fzr_only;
 			$cp_show.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关产品</td></tr>";
 		}else{
 			foreach($cp_rh as $k=>$v){
-				$cp_show.="<tr class='".$v['cp_id1']."'><td >".$v['zdy0']."</td>
-						  <td >".$v['zdy1']."</td>
+				$cp_show.="<tr class='".$v['cp_id1']."'><td class='bzsl' title='".$v['zdy0']."' style='cursor:pointer'>".$v['zdy0']."</td>
+						  <td class='bzsl' title='".$v['zdy1']."' style='cursor:pointer'>".$v['zdy1']."</td>
 						  <td >".$v['cp_yj']."</td>
 						  <td >".$v['cp_jy']."</td>
 						  <td >".$v['cp_num1']."</td>
 						  <td >".$v['cp_zk']."</td>
 						  <td >".$v['cp_zj']."</td>
-						  <td >".$v['cp_beizhu']."</td>
+						  <td class='bzsl' title='".$v['cp_beizhu']."' style='cursor:pointer'>".$v['cp_beizhu']."</td>
 						  	<td ><input type='button' name='".$v['cp_id1']."' onclick='cp_sj_del(this)' value='删除'></td>
 						 </tr> ";
 			}
@@ -436,9 +436,11 @@ return $fzr_only;
 		}else{
 			foreach($sql_file_sj as $k=>$v)
 			{
-				$file_sj_show.="<tr class='".$v['id']."'><td>".$v['sc_data']."</td><td><span onclick='fj_xz(this)' class='".$v['lujing']."' style='color:green;cursor:pointer' title='点击下载' >".$v['fujian_name']."</span></td><td>".$v['big']."</td><td>".$v['beizhu']."</td><td><button onclick='fujian_del(this)' name='".$v['id']."' class='layui-btn layui-btn-primary layui-btn-small'>
-	    			<i class='layui-icon'>&#xe642;</i>删除
-	  				</button></td>";
+				$file_sj_show.="<tr class='".$v['id']."'><td>".$v['sc_data']."</td>
+									<td class='bzsl'  style='cursor:pointer' title='".$v['fujian_name']."'><span onclick='fj_xz(this)' class='".$v['lujing']."' style='color:green;cursor:pointer' title='点击下载' >".$v['fujian_name']."</span></td>
+									<td>".$v['big']."</td>
+									<td class='bzsl'  style='cursor:pointer' title='".$v['beizhu']."'>".$v['beizhu']."</td>
+									<td><button onclick='fujian_del(this)' name='".$v['id']."' class='layui-btn layui-btn-primary layui-btn-small'><i class='layui-icon'>&#xe642;</i>删除</button></td>";
 				$file_sj_show.="</tr>";
 			}
 		}

@@ -54,10 +54,11 @@
 			.gj tr{height:70px;}
 			th{background-color:#50BBB1;height:30px;color:white;border:0px !important;} 
 			a{color:#07d; text-decoration:none !important;}
-						.addshangji_weizhi{margin:0px auto;margin-top:20px;}
-							.searchable-select {min-width:300px;}
-							.ertd{width:70%;overflow: hidden;text-overflow: ellipsis;white-space:nowrap; cursor:pointer }
-							.wysa  {width: 250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer }
+			.addshangji_weizhi{margin:0px auto;margin-top:20px;}
+			.searchable-select {min-width:300px;}
+			.ertd{width:70%;overflow: hidden;text-overflow: ellipsis;white-space:nowrap; cursor:pointer }
+			.wysa  {width: 250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer }
+			.bzsl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 						
   		</style>
 		<script>
@@ -213,16 +214,16 @@
 		  	     </div>
 		  	     <div class="layui-tab-item" id="twoth">
 		  	     	<input type="button" id="dialog-form" onclick="add_cp()" class="layui-btn layui-btn-small" value="+添加产品">
-		  	       	<table class="layui-table"  >
+		  	       	<table class="layui-table" style="width:100%; table-layout:fixed" >
 					  	<thead>
-					  		<th >产品名称</th>
+					  		<th width="20%">产品名称</th>
 			  				<th >产品编号</th>
 			  				<th >标准单价</th>
 			  				<th >建议价格</td>
 			  				<th >数量</th>
 			  				<th >折扣</th>
 			  				<th >总价</th>
-			  				<th >备注</th>
+			  				<th width="15%">备注</th>
 			  				<th >操作</th>
 
 
@@ -234,7 +235,7 @@
 		  	     </div>
 		  	     <div id="addcp" style="display: none;border:1px">
 			  		<form id="cp_form" method="post" class="uk-form" >
-							<table class="addshangji_weizhi">
+							<table class="addshangji_weizhi" >
 							{$chanpin1}
 							<tr class="addtr">
 								<td>公开价格：</td>
@@ -278,14 +279,14 @@
 		  	      <div class="layui-tab-item" id="threesh">
 				  	      <div >
 					  		<input type="button" id="dialog-form" onclick="fj_cp()" class="layui-btn layui-btn-small" value="+文件上传">
-					  		<table class="layui-table"  >
+					  		<table class="layui-table" style="width:100%; table-layout:fixed;">
 								  	<thead>
 								  		
 								  				<th >上传时间</th>
-								  				<th >附件名称</th>
+								  				<th width="30%">附件名称</th>
 								  				<th >大小</td>
-								  				<th >备注</th>
-								  				<th  colspan='2'>操作</th>
+								  				<th width="25%">备注</th>
+								  				<th >操作</th>
 								  			
 									</thead>
 									<tbody class="fujian_del">
