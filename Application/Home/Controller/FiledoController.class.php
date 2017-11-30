@@ -8,7 +8,7 @@ class FiledoController extends DBController {
         echo 'error';
         die;
     }
-
+    
     //导出引用方法  
     public  function getExcel($fileName,$headArr,$data)  
     {  
@@ -44,14 +44,14 @@ class FiledoController extends DBController {
         }  
 
         $column = 2;  
-        $objActSheet = $objPHPExcel->getActiveSheet();  
+        $objActSheet = $objPHPExcel->getActiveSheet();            
         foreach($data as $key => $rows){ //行写入  
             $span = ord("A");  
             $span2 = ord("@");
             foreach($rows as $k=>$v){  
                 
                 if($span>ord("Z")){  
-                    $span2 += 1;  
+                    $span2 += 1;             
                     $span = ord("A");  
                     $j = chr($span2).chr($span);//超过26个字母时才会启用  dingling 20150626  
                 }else{  
