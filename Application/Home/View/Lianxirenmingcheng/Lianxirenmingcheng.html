@@ -144,6 +144,32 @@
 	</body>
 </html>
 	<script>
+		for(var i=0;i<12;i++){
+			var a=$(".layui-nav-tree",window.parent.document).children().eq(i).children().children().text();
+
+			
+
+
+			if(a=="联系人"){
+				var thisdom=$(".layui-nav-tree",window.parent.document).children().eq(i).prop("class","layui-nav-item layui-this");//左边改好了
+				for(ii=0;ii<12;ii++)
+				{
+					var top_title=$(".layui-tab-title",window.parent.document).children().eq(ii).prop("class");
+					if(top_title=='layui-this')
+					{
+						$(".layui-tab-title",window.parent.document).children().eq(ii).children().eq(1).text('联系人');
+					}
+						
+					
+					
+				}
+			}else{
+				var thisdom=$(".layui-nav-tree",window.parent.document).children().eq(i).prop("class","layui-nav-item");
+			}
+				
+			
+		
+		}
 	
 		function bianji(){
 			layui.use('layer', function(){
