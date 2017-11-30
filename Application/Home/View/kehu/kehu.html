@@ -151,7 +151,7 @@
   							<li  style="height:40px">3）单次导入的数据不超过4000条</li>
   							<li  style="height:40px;position: relative; left:-8px;">二、选择要导入的数据文件</li>
   							<li  style="height:40px"><input type="file" lay-type="file" class="layui-upload-file" name="csv_up"></li>
-  							<li   id="yc_xs" style="display: none;border:1px" ><span id="name_sc" style="margin-left:10px;margin-top:19px;" >名字</span><span   style="margin-left:60px" id="size_sc">大小</span><span style="margin-left:60px"> 完成</span > <span style="margin-left:60px" onclick="yc_file(this)"  id="fileclose">删除</span></li>
+  							<li   id="yc_xs" style="display: none;border:1px" ><span id="name_sc" style=" margin-left:5px;margin-top:19px" >名字</span><span   style="margin-left:60px" id="size_sc">大小</span><span style="margin-left:60px"> 完成</span > <span style="margin-left:60px" onclick="yc_file(this)"  id="fileclose">删除</span></li>
   							
   						</div>
   					</div>
@@ -298,7 +298,7 @@
 				
 			</div>
 					<div id="dialog-form" style="display: none;border:1px;"> <!--新增弹出框-->
-						<form id="ht_form" style="border:1px; method="post" class="uk-form " >
+						<form id="ht_form" style="border:1px;" method="post" class="uk-form " >
 							<table class="addshangji_weizhi " style="border:1px;">
 								{$show_bt}
 								{$show_bt1}
@@ -596,7 +596,7 @@ $('#yc_xs').hide();
 var is_upload='';
 	function daoru()
 		{
-					layui.upload({
+				layui.upload({
 					        url: rooturl+"/index.php/Home/kehu/wjsc_dr",
 					        title:"选择文件",
 					        success: function(res){
@@ -612,13 +612,11 @@ var is_upload='';
 						                    $.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+is_upload});
 						               }
                						 is_upload=res['newname'];
+										alert(is_upload)
                						// tishi(is_upload)
 						  
 					            }
-					            else if(res['res']=='2')
-					            {
-					                tishi("上传文件格式仅支持csv");
-					            }
+					           
 					            else
 					            {
 					           		 tishi("文件上传失败");
@@ -644,7 +642,7 @@ var is_upload='';
 									
 				
 
-										window.location=rooturl+'/index.php/Home/Kehu/xiazaimuban';
+										window.location=rooturl+'/index.php/Home/Kehu/xiazaimubana';
 		        		 				
 								},
 								btn2:function(){
@@ -657,24 +655,12 @@ var is_upload='';
 					                    tishi("请先选择需要导入的文件");
 					                    return false;
 					                }
-					                $.get(rooturl+"/index.php/Home/Kehu/daoru_chanpin",{"csvfilename":is_upload},function(res){
+					                $.get(rooturl+"/index.php/Home/Kehu/drcshi",{"name":is_upload},function(res){
 					                	//tishi(res)
-					                    if(res=='1')
-					                    {	
-					                    	tishi("导入成功")
-					                       location.reload();
-					                    }
-					                    else if(res=='8')
-					                    {
-					                    	tishi("亲~请下载最新模板")
-					                    	 return false;
-					                    }else
-					                    {
-					                        tishi("导入失败，请刷新后重试");
-					                        return false;
-					                    }
+					                  tishi(res);
+									  window.location.href="kehu";
 					                });
-					                layer.close(index);
+					               
 					               
 								},
 								btn4:function(){

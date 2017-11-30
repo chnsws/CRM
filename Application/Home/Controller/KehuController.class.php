@@ -2604,29 +2604,33 @@ class KehuController extends Controller {
 			}
 		}
 **/
-		//导入模板下载
-	public function xiazaimuban()
+public function drcshi(){
+	$name=$_GET['name'];
+	if($name=="" || $name==null)
 	{
+		echo "亲~请上传导入文件";
+	}
+	$dy=A("Filedo");
+	$aaa=$dy->getdata("./Public/chanpinfile/cpfile/linshi/".$name);
+	$a=M('yewuziduan'); 
 
-  		$a=M('yewuziduan');                    
-  		$map['zd_yewu']="2";
-  		$map['zd_yh']="1";//这里通过查询获得
-  		$sql=$a->where($map)->field('zd_data')->find();
-		$a_arr=json_decode($sql['zd_data'],true);
-		$kehu=M('kh');
-		$kh_map['kh_yh']="19950228";                            
-		$kehu2=$kehu->where($kh_map)->find();
-		$kh_data_json=json_decode($kehu2['kh_data'],true);
 
-		foreach($a_arr as $k2=>$v2){
-			if($v2['qy']=="1"){
-				$qy_arr=$v2;
-				$new_qy[]=$qy_arr;
-			}
+	//下面客户标题                   
+	$map['zd_yewu']="2";
+	$map['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+	$sql=$a->where($map)->field('zd_data')->find();
+	  $a_arr=json_decode($sql['zd_data'],true); 
+	foreach($a_arr as $k2=>$v2){
+		if($v2['qy']=="1"){
+			$qy_arr=$v2;
+			$new_qy[]=$qy_arr;
 		}
-		$a_arr=$new_qy;   //模板标题
-		foreach($a_arr as $k=>$v)
-		{
+	}
+	$a_arr=$new_qy;   //模板标题 
+	$aa=A;
+	foreach($a_arr as $k=>$v)
+	{
+		if($v['id']!='zdy15'){
 			if($v['bt']=="1")
 			{
 				if($v['type']=="3")
@@ -2637,40 +2641,239 @@ class KehuController extends Controller {
 				}
 				
 			}else{
+				
 				$array[]=$v["name"];     //标题
 			}
-			foreach($kh_data_json as $k3=>$v3)
-			{
-				if($v['id']==$k3)
-					$arr_new[]=$v3;   //值
-			}
-			
+			$kh_addyong[$aa]=$v['id'];
+			$aa++;
 		}
-
-		//r_dump($array);exit;
-		$name="客户数据导入模板";
-		//$name=iconv("utf-8","gbk//IGNORE",$name);
-		
-		$head=$array;
-
-		//连接标题
-		$r = implode(',',$head);
-		$r .="\n";
-		//$r = iconv("utf-8","gbk//IGNORE",$r);
-		$body[0]=$arr_new;
-		foreach($body as $arr)
-		{
-			$line=implode(',',$arr);
-			$r.=$line;
-			//$r .= iconv("utf-8","gbk//IGNORE",$line);
-			$r.="\n";
-		}
-		$name = $name.'.csv';
-		header('Content-type: application/csv');
-		header("Content-Disposition: attachment; filename=\"$name\""); 
-		echo $r;
-		die;
 	}
+	$kh_number=count($array);
+	$aa++;
+	
+	
+	$fenge="分隔栏";
+	$array[]=$fenge; 
+
+	//下面联系人标题
+	$maplx['zd_yewu']="4";
+	$maplx['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+
+
+	$sqllx=$a->where($maplx)->field('zd_data')->find();
+	$a_arrlx=json_decode($sqllx['zd_data'],true); 
+	foreach($a_arrlx as $k2=>$v2){
+		if($v2['qy']=="1"){
+			$qy_arrlx=$v2;
+			$new_qylx[]=$qy_arrlx;
+		}
+	}
+	$a_arrlx=$new_qylx;   //模板标题 
+	foreach($a_arrlx as $k=>$v)
+	{
+		if($v['id']!='zdy1')
+		{
+			if($v['bt']=="1")
+			{
+				
+					$array[]=$v["name"]."(必填)";
+			
+				
+			}else{
+				
+				$array[]=$v["name"];     //标题
+			}
+			$lx_addyong[$aa]=$v['id'];
+			$aa++;
+		}
+	
+	}
+
+
+
+
+
+	$drnum=count($aaa[1]);
+	$dqbt=$array;
+	
+	$num=0;
+	foreach($aaa[1] as $k=>$v)
+	{
+		if($v!=$dqbt[$num])
+		{
+			echo "亲~请下载最新模板";exit;
+		}
+		$num++;
+	}
+	if(count($aaa[1])  != count($dqbt))
+	{
+		echo "亲~请下载最新模板1";exit;
+	}
+	//上面判断出新的模板并且客户没有乱修改
+	//把客户和联系人的数据分离开
+	$excelhang="1"; 
+	$kh_numbera=$kh_number+2;
+	$kh_numberb=A;
+	for($i=1;$i<$kh_numbera;$i++){
+		$kh_numberb++;
+	}
+
+	foreach($aaa as $k=>$v)
+	{
+		
+			if($v["A"]=='' || $v["A"]==null)
+			{
+				echo "亲~第".$excelhang."行的客户名称不能为空";
+			}
+			if($v[$kh_numberb]=='' || $v[$kh_numberb]==null){
+				echo "亲~第".$excelhang."行的联系人名称不能为空";
+			}
+	
+		$excelhang++;
+	}
+	//上面判断完成，符合要求，进行添加 客户 联系人
+
+	foreach($aaa as $k=>$v)
+	{
+		if($k!=1)
+		{	
+			$i=0;
+		
+			foreach($v as $ka=>$va)
+			{
+				
+				
+				
+				if($i<$kh_number)
+				{
+					$new_addkh[$kh_addyong[$ka]]=$va;//客户单条完成
+				}elseif($i>$kh_number){
+					$new_addlx[$lx_addyong[$ka]]=$va;//联系人单条完成
+				}
+				$i++;
+				//添加客户
+
+				
+			}
+			$userc=$this->user();
+			$mapkh['kh_data']=json_encode($new_addkh,true);
+			$mapkh['kh_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			$mapkh['kh_fz']=cookie('user_id');
+			$mapkh['kh_bm']=$userc[$mapkh['kh_fz']]['department'];
+			$mapkh['kh_cj']=cookie('user_id');
+			$mapkh['kh_cj_date']=time();
+			$khbase=M('kh');
+			$khadd=$khbase->add($mapkh);
+			
+				if($khadd)
+				{	
+					$new_addlx['zdy1']=$khadd;
+					$maplxa['lx_data']=json_encode($new_addlx,true);
+					$maplxa['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+				
+					$maplxa['lx_cj']=cookie('user_id');
+					$maplxa['lx_cj_date']=time();
+					$lxbasea=M('lx');
+					$lxadda=$lxbasea->add($maplxa);
+		
+					
+				}
+			}
+
+			
+			
+		
+		
+	}
+	echo "导入成功";
+
+
+}
+public function dr_fuzhu(){
+
+	
+		
+	return($array);
+
+}
+		//导入模板下载
+	public function xiazaimubana(){
+		$dy=A("Filedo");
+
+		$a=M('yewuziduan'); 
+		//下面客户标题                   
+		$map['zd_yewu']="2";
+		$map['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$sql=$a->where($map)->field('zd_data')->find();
+	 	 $a_arr=json_decode($sql['zd_data'],true); 
+		foreach($a_arr as $k2=>$v2){
+			if($v2['qy']=="1"){
+				$qy_arr=$v2;
+				$new_qy[]=$qy_arr;
+			}
+		}
+		$a_arr=$new_qy;   //模板标题 
+		foreach($a_arr as $k=>$v)
+		{
+			if($v['id']!='zdy15'){
+				if($v['bt']=="1")
+				{
+					if($v['type']=="3")
+					{
+						$array[]=$v["name"]."(必填请对照参数填写)";
+					}else{
+						$array[]=$v["name"]."(必填)";
+					}
+					
+				}else{
+					
+					$array[]=$v["name"];     //标题
+				}
+			}
+		}
+		$fenge="分隔栏";
+		$array[]=$fenge; 
+		//下面联系人标题
+		$maplx['zd_yewu']="4";
+		$maplx['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+
+
+		$sqllx=$a->where($maplx)->field('zd_data')->find();
+		$a_arrlx=json_decode($sqllx['zd_data'],true); 
+		foreach($a_arrlx as $k2=>$v2){
+			if($v2['qy']=="1"){
+				$qy_arrlx=$v2;
+				$new_qylx[]=$qy_arrlx;
+			}
+		}
+		$a_arrlx=$new_qylx;   //模板标题 
+		foreach($a_arrlx as $k=>$v)
+		{
+			if($v['id']!='zdy1')
+			{
+				if($v['bt']=="1")
+				{
+					
+						$array[]=$v["name"]."(必填)";
+				
+					
+				}else{
+					
+					$array[]=$v["name"];     //标题
+				}
+			}
+		
+		}
+
+
+		
+		$title=$array;
+    	$data[15]=array("1","canshu1");
+    	$dy->getExcel("导入客户",$title,$data);
+
+	}
+
+	
 	public function xiazaimubancanshu()
 	{
 	    $ywcs=M('ywcs');                 //获取ywcs表中的 数据
@@ -2761,11 +2964,7 @@ class KehuController extends Controller {
         }
 		$getFileArr=$_FILES['csv_up'];
         $oldnamehz=substr(strrchr($getFileArr['name'], '.'), 1);
-		if(strtolower($oldnamehz)!='csv')
-		{
-			echo '{"res":2}';
-			die();
-		}
+		
         $newname=time().$getFileArr['name'];
         $ss=move_uploaded_file($getFileArr['tmp_name'],'./Public/chanpinfile/cpfile/linshi/'.$newname);
         if(!file_exists('./Public/chanpinfile/cpfile/linshi/'.$newname))//验证上传是否成功
@@ -2792,11 +2991,11 @@ class KehuController extends Controller {
 
 		$a=M('yewuziduan');                    
   		$map['zd_yewu']="2";
-  		$map['zd_yh']="1";//这里通过查询获得
+  		$map['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;//这里通过查询获得
   		$sql=$a->where($map)->field('zd_data')->find();
 		$a_arr=json_decode($sql['zd_data'],true);
 		$kehu=M('kh');
-	$kh_map['kh_yh']="19950228";                            
+		$kh_map['kh_yh']="19950228";                            
 		$kehu2=$kehu->where($kh_map)->find();
 		$kh_data_json=json_decode($kehu2['kh_data'],true);
 
