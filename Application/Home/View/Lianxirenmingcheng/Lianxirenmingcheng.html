@@ -39,11 +39,28 @@
 			tr{line-height:20px;}
 			#myform td input{width:300px;}
 			#myform td select{width:300px;height:30px;}
+			.head1 table .aaa{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top: 10px;}
+			.th_onlykh tr td:nth-child(2) {width: 80%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+			.th_onlykh tr td:nth-child(1) {width: 20%;}
+			.fujian_del tr td {overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
 		</style>
 	</head>
 	<!--123232323-->
 	<body style="position:relative">
-	<div class='head1'><span class='name'><b>{$lx_json.zdy0}</b></span><span style="margin-left:30px">客户：</span><span class='fuzeren'>{$kehu_nm}</span>
+		<div class='head1'>
+						<table>
+								<tr>
+									<td class="name">
+											<p class='aaa' style="max-width:300px;min-width:50px;cursor:pointer " title="{$lx_json.zdy0}"><b>{$lx_json.zdy0}</b></p>
+									</td>
+									<td>
+											<p style="margin-left:30px;margin-top:10px">客户</p>
+									</td>
+									<td >
+											<p class='fuzeren aaa' style="max-width:400px;min-width:50px;cursor:pointer " title="{$kehu_nm}">{$kehu_nm}</p>
+									</td>
+								</tr>
+							</table>
 	</div>
 	<div class="bianji"  style="display: none;border:1px;">
 		    		<div class="bianji_nb" style="width:430px;margin:0 auto">
@@ -74,14 +91,14 @@
 							 		 <div class="layui-tab-item layui-show" >
 							 			 <div class='ziliao_kh'  style="width:100%" >
 										
-						  					<div   style=" height:30px;width:42%;line-height:30px;background-color:#50BBB1;color:white"><span style="margin-left:10px">基本信息</span></div>
-										  	<table class="th_onlykh">
+											<div   style=" height:30px;width:47%;line-height:30px;background-color:#50BBB1;color:white"><span style="margin-left:10px">基本信息</span></div>
+												<table class="th_onlykh" style="width:45%;table-layout:fixed">
 										  		{$show}	
 											</table>
 										</div>			
-										<div class='ziliao_kh'  style="width:100%">
-							  					<div  style="height:30px;line-height:30px; width:45%; background-color:#50BBB1;color:white"><span style="margin-left:10px">系统信息</span></div>
-											  	<table class="th_onlykh" >
+										<div class='ziliao_kh'  style="width:100%;">
+											<div  style="height:30px;line-height:30px; width:47%; background-color:#50BBB1;color:white"><span style="margin-left:10px">系统信息</span></div>
+											<table class="th_onlykh" style="width:45%;table-layout:fixed">
 											  		{$show1}
 												</table>
 									
@@ -90,26 +107,26 @@
 							 		 </div>
 							 		 <div class="layui-tab-item">
 							 			
-							 			<table class="layui-table ziliao_kh"   >
+										<table class="layui-table ziliao_kh"  style="width:100%;table-layout:fixed" >
 										  	<thead>
-										  		<th >姓名</th>
-								  				<th >电话</th>
-								  				<th >手机</td>
-								  				<th >邮箱</th>
-								  				<th >地址</th>
+										  		<th width="16%">姓名</th>
+								  				<th width="16%">电话</th>
+								  				<th width="16%">手机</td>
+								  				<th width="22%">邮箱</th>
+								  				<th width="30%">地址</th>
 
 											</thead>
 											<tbody class="fujian_del">
 											<if condition="$kh eq ''OR $kh eq null">
-											<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关联系人</td></tr>
+											<tr><td colspan='5' align='center'><span>亲~没有数据哟！请添加相关联系人</td></tr>
 											<else />
 												<foreach name="kh" item="vo">
 												<tr>
-										  				<td ><a href="{$_GET['root_dir']}/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/{$vo.lx_id}"><span>{$vo.zdy0}</span></a></td>
-										  				<td >{$vo.zdy5}</td>
-										  				<td >{$vo.zdy6}</td>
-										  				<td >{$vo.zdy10}</td>
-										  				<td >{$vo.zdy13}</td>
+													<td  title="{$vo.zdy0}"><a href="{$_GET['root_dir']}/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/{$vo.lx_id}"><span>{$vo.zdy0}</span></a></td>
+										  			<td >{$vo.zdy5}</td>
+										  			<td >{$vo.zdy6}</td>
+										  			<td  title="{$vo.zdy10}" style="cursor:pointer">{$vo.zdy10}</td>
+													<td  title="{$vo.zdy13}" style="cursor:pointer">{$vo.zdy13}</td>
 												</tr> 
 												</foreach>	
 											</if>
@@ -119,14 +136,14 @@
 							 	    </div>
 							 		 <div class="layui-tab-item">
 							 			 
-							 			<table class="layui-table ziliao_kh"   >
+							 			<table class="layui-table ziliao_kh"  style="width:100%;table-layout:fixed" >
 											  	<thead>
-											  		<th >商机标题</th>
-									  				<th >预售销售金额</th>
-									  				<th >预计签单日期</td>
-									  				<th >销售阶段</th>
+											  		<th width="23%">商机标题</th>
+									  				<th width="16%">预售销售金额</th>
+									  				<th width="22%">预计签单日期</td>
+									  				<th width="16%">销售阶段</th>
 									  				
-													<th >备注</th>
+													<th width="23%">备注</th>
 												
 												</thead>
 												<tbody class="fujian_del">
