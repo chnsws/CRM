@@ -395,7 +395,7 @@ return $fzr_only;
 			}
 			$zje913=0;
 			if($cp_new==''||$cp_new==null){
-				$show2.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关产品</td></tr>";
+				$show2.="<tr><td colspan='9' align='center'><span>亲~没有数据哟！请添加相关产品</td></tr>";
 			}else{
 				foreach ($cp_new as $k=>$v)
 				{
@@ -945,7 +945,7 @@ return $fzr_only;
 
  				);
 			if($rz_sql==''||$rz_sql==null){
-				$rz_jl.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！</td></tr>";
+				$rz_jl.="<tr><td colspan='5' align='center'><span>亲~没有数据哟！</td></tr>";
 			}else{
 				foreach($rz_sql as $k=>$v)
 				{

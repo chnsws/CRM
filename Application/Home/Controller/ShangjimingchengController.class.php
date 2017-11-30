@@ -411,7 +411,7 @@ return $fzr_only;
 			$chanpin_rh['zdy5']=$chanpin[$v['cp_id']]['zdy5'];
 			$cp_rh[]=$chanpin_rh;
 		}if($cp_rh==''||$cp_rh==null){
-			$cp_show.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关产品</td></tr>";
+			$cp_show.="<tr><td colspan='9' align='center'><span>亲~没有数据哟！请添加相关产品</td></tr>";
 		}else{
 			foreach($cp_rh as $k=>$v){
 				$cp_show.="<tr class='".$v['cp_id1']."'><td class='bzsl' title='".$v['zdy0']."' style='cursor:pointer'>".$v['zdy0']."</td>
@@ -432,7 +432,7 @@ return $fzr_only;
 		$file_sj_base=M('file');
 		$sql_file_sj=$file_sj_base->where($file_sj)->select();
 		if($sql_file_sj==''||$sql_file_sj==null){
-			$file_sj_show.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关附件</td></tr>";
+			$file_sj_show.="<tr><td colspan='5' align='center'><span>亲~没有数据哟！请添加相关附件</td></tr>";
 		}else{
 			foreach($sql_file_sj as $k=>$v)
 			{
