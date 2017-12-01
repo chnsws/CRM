@@ -140,23 +140,21 @@
 			  </ul>
 		</div>
 		
-  			<div id="tabs-1">
-  			
-  					<div id="kh_daoru" style="margin-top:40px;display: none;border:1px">
-  						<div class="dr_q" style="width:80%;margin:0px auto";>
-  							<li style="height:30px;position: relative; left:-8px;">一、下载导入数据模板 ,将导入的数据填充到导入模板文件中。</li>
-  							<li  style="height:40px">注意事项：</li>
-  							<li  style="height:40px">1）模板中的表头不可更改，表头行不可删除；</li>
-  							<li  style="height:40px">2）除必填的列以外不需要的列可以删除；</li>
-  							<li  style="height:40px">3）单次导入的数据不超过4000条</li>
-  							<li  style="height:40px;position: relative; left:-8px;">二、选择要导入的数据文件</li>
-  							<li  style="height:40px"><input type="file" lay-type="file" class="layui-upload-file" name="csv_up"></li>
-  							<li   id="yc_xs" style="display: none;border:1px" ><span id="name_sc" style="margin-left:10px;margin-top:19px;" >名字</span><span   style="margin-left:60px" id="size_sc">大小</span><span style="margin-left:60px"> 完成</span > <span style="margin-left:60px" onclick="yc_file(this)"  id="fileclose">删除</span></li>
-  							
-  						</div>
-  					</div>
-
-
+		<div id="tabs-1">
+			
+					<div id="kh_daoru" style="margin-top:40px;display: none;border:1px">
+						<div class="dr_q" style="width:80%;margin:0px auto";>
+							<li style="height:30px;position: relative; left:-8px;">一、下载导入数据模板 ,将导入的数据填充到导入模板文件中。</li>
+							<li  style="height:40px">注意事项：</li>
+							<li  style="height:40px">1）模板中的表头不可更改，表头行不可删除；</li>
+							<li  style="height:40px">2）除必填的列以外不需要的列可以删除；</li>
+							<li  style="height:40px">3）单次导入的数据不超过4000条</li>
+							<li  style="height:40px;position: relative; left:-8px;">二、选择要导入的数据文件</li>
+							<li  style="height:40px"><input type="file" lay-type="file" class="layui-upload-file" name="csv_up"></li>
+							<li   id="yc_xs" style="display: none;border:1px" ><span id="name_sc" style=" margin-left:5px;margin-top:19px" >名字</span><span   style="margin-left:60px" id="size_sc">大小</span><span style="margin-left:60px"> 完成</span > <span style="margin-left:20px;cursor:pointer" onclick="yc_file(this)"  id="fileclose">删除</span></li>
+							
+						</div>
+					</div>
 		 <div id="sxdiv" >
 	            <div id="sxhidestr"  style='display: none;border:1px'>
 	          
@@ -539,9 +537,9 @@ $('#piliangzy').hide();
 $('#kh_daoru').hide();
 $('#yc_xs').hide();
 var is_upload='';
-	function daoru()
+function daoru()
 		{
-					layui.upload({
+				layui.upload({
 					        url: rooturl+"/index.php/Home/kehu/wjsc_dr",
 					        title:"选择文件",
 					        success: function(res){
@@ -557,13 +555,11 @@ var is_upload='';
 						                    $.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+is_upload});
 						               }
                						 is_upload=res['newname'];
+										
                						// tishi(is_upload)
 						  
 					            }
-					            else if(res['res']=='2')
-					            {
-					                tishi("上传文件格式仅支持csv");
-					            }
+					           
 					            else
 					            {
 					           		 tishi("文件上传失败");
@@ -589,7 +585,7 @@ var is_upload='';
 									
 				
 
-										window.location=rooturl+'/index.php/Home/Kehu/xiazaimuban';
+										window.location=rooturl+'/index.php/Home/Kehu/xiazaimubana';
 		        		 				
 								},
 								btn2:function(){
@@ -602,24 +598,12 @@ var is_upload='';
 					                    tishi("请先选择需要导入的文件");
 					                    return false;
 					                }
-					                $.get(rooturl+"/index.php/Home/Kehu/daoru_chanpin",{"csvfilename":is_upload},function(res){
+					                $.get(rooturl+"/index.php/Home/gonghai/drcshi",{"name":is_upload},function(res){
 					                	//tishi(res)
-					                    if(res=='1')
-					                    {	
-					                    	tishi("导入成功")
-					                       location.reload();
-					                    }
-					                    else if(res=='8')
-					                    {
-					                    	tishi("亲~请下载最新模板")
-					                    	 return false;
-					                    }else
-					                    {
-					                        tishi("导入失败，请刷新后重试");
-					                        return false;
-					                    }
+					                  tishi(res);
+									  window.location.href="gonghai";
 					                });
-					                layer.close(index);
+					               
 					               
 								},
 								btn4:function(){

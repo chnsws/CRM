@@ -312,7 +312,7 @@
   							<li  style="height:40px">3）单次导入的数据不超过4000条</li>
   							<li  style="height:40px;position: relative; left:-8px;">二、选择要导入的数据文件</li>
   							<li  style="height:40px"><input type="file" lay-type="file" class="layui-upload-file" name="csv_up"></li>
-  							<li   id="yc_xs" ><span id="name_sc" style="margin-left:10px;margin-top:19px;" >名字</span><span   style="margin-left:60px" id="size_sc">大小</span><span   style="margin-left:60px"> 完成</span > <span style="margin-left:60px" onclick="yc_file(this)"  id="fileclose">删除</span></li>
+  							<li   id="yc_xs" style='display:none' ><span id="name_sc" style="margin-left:10px;margin-top:19px;" >名字</span><span   style="margin-left:60px" id="size_sc">大小</span><span   style="margin-left:60px"> 完成</span > <span style="margin-left:20px;cursor:pointer" onclick="yc_file(this)"  id="fileclose">删除</span></li>
   							
   						</div>
   					</div>
@@ -575,35 +575,33 @@
 		{
 			
 			layui.upload({
-					        url: rooturl+"/index.php/Home/kehu/wjsc_dr",
-					        title:"选择文件",
-					        success: function(res){
-					            if(res['res']=='1')
-					            {
-					            	
-					            	  $("#name_sc").text(res['oldname']);
-						              $("#size_sc").text(res['newsize']);
-						              $("#yc_xs").show();
-						              $("#fileclose").prop("name",res['newname']);
-						              if(is_upload!='')
-						               {
-						                    $.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+is_upload});
-						               }
-               						 is_upload=res['newname'];
-               					
-						  
-					            }
-					            else if(res['res']=='2')
-					            {
-					                tishi("上传文件格式仅支持csv");
-					            }
-					            else
-					            {
-					           		 tishi("文件上传失败");
-					            }
+				url: rooturl+"/index.php/Home/kehu/wjsc_dr",
+				title:"选择文件",
+				success: function(res){
+					if(res['res']=='1')
+					{
+						// tishi( eval (res['newname']));
+						  $("#name_sc").text(res['oldname']);
+						  $("#size_sc").text(res['newsize']);
+						  $("#yc_xs").show();
+						  $("#fileclose").prop("name",res['newname']);
+						  if(is_upload!='')
+						   {
+								$.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+is_upload});
+						   }
+							is_upload=res['newname'];
+						
+						   // tishi(is_upload)
+			  
+					}
+				   
+					else
+					{
+							tishi("文件上传失败");
+					}
 
-					        },
-					    });
+				},
+			});
 					
 					layui.use('layer', function(){
 					//	tishi(123)
@@ -614,47 +612,35 @@
 								offset: 't',
 								area:'630px',
 									fixed: false,
-								title: '客户导入',
+								title: '商机导入',
 								content:$('#daoru'),
-								btn:['下载模板','下载客户参数','开始导入','取消'],
+								btn:['下载商机模板','开始导入','取消'],
 								btn1:function(){
 									
 				
 
-										window.location=rooturl+'/index.php/Home/Kehu/xiazaimuban';
+										window.location=rooturl+'/index.php/Home/Shangji/xiazaimuban';
 		        		 				
 								},
+								
 								btn2:function(){
-									window.location=rooturl+'/index.php/Home/Kehu/xiazaimubancanshu';
-								},
-								btn3:function(){
 
+									
+					               
 									 if(is_upload=='')
 					                {
 					                    tishi("请先选择需要导入的文件");
 					                    return false;
 					                }
-					                $.get(rooturl+"/index.php/Home/Kehu/daoru_chanpin",{"csvfilename":is_upload},function(res){
+					                $.get(rooturl+"/index.php/Home/Shangji/drcshi",{"name":is_upload},function(res){
 					                	//tishi(res)
-					                    if(res=='1')
-					                    {	
-					                    	tishi("导入成功")
-					                       location.reload();
-					                    }
-					                    else if(res=='8')
-					                    {
-					                    	tishi("亲~请下载最新模板")
-					                    	 return false;
-					                    }else
-					                    {
-					                        tishi("导入失败，请刷新后重试");
-					                        return false;
-					                    }
+					                  tishi(res);
+									  window.location.href="shangji";
 					                });
-					                layer.close(index);
-					               
-								},
-								btn4:function(){
+									   
+									},
+							
+								btn3:function(){
 									layer.close(win)
 								}
 							}); 

@@ -151,7 +151,7 @@
   							<li  style="height:40px">3）单次导入的数据不超过4000条</li>
   							<li  style="height:40px;position: relative; left:-8px;">二、选择要导入的数据文件</li>
   							<li  style="height:40px"><input type="file" lay-type="file" class="layui-upload-file" name="csv_up"></li>
-  							<li   id="yc_xs" style="display: none;border:1px" ><span id="name_sc" style=" margin-left:5px;margin-top:19px" >名字</span><span   style="margin-left:60px" id="size_sc">大小</span><span style="margin-left:60px"> 完成</span > <span style="margin-left:60px" onclick="yc_file(this)"  id="fileclose">删除</span></li>
+  							<li   id="yc_xs" style="display: none;border:1px" ><span id="name_sc" style=" margin-left:5px;margin-top:19px" >名字</span><span   style="margin-left:60px" id="size_sc">大小</span><span style="margin-left:60px"> 完成</span > <span style="margin-left:20px;cursor:pointer" onclick="yc_file(this)"  id="fileclose">删除</span></li>
   							
   						</div>
   					</div>
@@ -612,7 +612,7 @@ var is_upload='';
 						                    $.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+is_upload});
 						               }
                						 is_upload=res['newname'];
-										alert(is_upload)
+										
                						// tishi(is_upload)
 						  
 					            }

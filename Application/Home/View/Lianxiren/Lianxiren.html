@@ -247,7 +247,7 @@
   							<li  style="height:40px">3）单次导入的数据不超过4000条</li>
   							<li  style="height:40px;position: relative; left:-8px;">二、选择要导入的数据文件</li>
   							<li  style="height:40px"><input type="file" lay-type="file" class="layui-upload-file" name="csv_up"></li>
-  							<li   id="yc_xs" style='display:none'><span id="name_sc" style="margin-left:10px;margin-top:19px;" >名字</span><span   style="margin-left:60px" id="size_sc">大小</span><span   style="margin-left:60px"> 完成</span > <span style="margin-left:60px" onclick="yc_file(this)"  id="fileclose">删除</span></li>
+  							<li   id="yc_xs" style='display:none'><span id="name_sc" style="margin-left:10px;margin-top:19px;" >名字</span><span   style="margin-left:60px" id="size_sc">大小</span><span   style="margin-left:60px"> 完成</span > <span style="margin-left:20px;cursor:pointer " onclick="yc_file(this)"  id="fileclose" >删除</span></li>
   							
   						</div>
   	</div>
@@ -398,6 +398,14 @@
 		 	}
 		 	
 		}
+
+		function yc_file(thisdom){
+	clickdelnowfile='1';
+    var thisdelname=$(thisdom).prop("name");
+   
+    $.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+thisdelname});
+    $(thisdom).parent().hide();
+}
 	var ssa=$("#sousuo").val();
 	if(ssa != ""){
 		$('.ycyo').hide();
@@ -542,35 +550,33 @@
 		{
 			
 			layui.upload({
-					        url: rooturl+"/index.php/Home/kehu/wjsc_dr",
-					        title:"选择文件",
-					        success: function(res){
-					            if(res['res']=='1')
-					            {
-					            	
-					            	  $("#name_sc").text(res['oldname']);
-						              $("#size_sc").text(res['newsize']);
-						              $("#yc_xs").show();
-						              $("#fileclose").prop("name",res['newname']);
-						              if(is_upload!='')
-						               {
-						                    $.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+is_upload});
-						               }
-               						 is_upload=res['newname'];
-               					
-						  
-					            }
-					            else if(res['res']=='2')
-					            {
-					                tishi("上传文件格式仅支持csv");
-					            }
-					            else
-					            {
-					           		 tishi("文件上传失败");
-					            }
+				url: rooturl+"/index.php/Home/kehu/wjsc_dr",
+				title:"选择文件",
+				success: function(res){
+					if(res['res']=='1')
+					{
+						// tishi( eval (res['newname']));
+						  $("#name_sc").text(res['oldname']);
+						  $("#size_sc").text(res['newsize']);
+						  $("#yc_xs").show();
+						  $("#fileclose").prop("name",res['newname']);
+						  if(is_upload!='')
+						   {
+								$.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+is_upload});
+						   }
+							is_upload=res['newname'];
+							
+						   // tishi(is_upload)
+			  
+					}
+				   
+					else
+					{
+							tishi("文件上传失败");
+					}
 
-					        },
-					    });
+				},
+			});
 					
 					layui.use('layer', function(){
 						//tishi(123)
@@ -583,7 +589,7 @@
 								fixed: false,
 								title: '联系人导入',
 								content:$('#daoru'),
-								btn:['下载模板','下载客户参数','开始导入','取消'],
+								btn:['下载模板','开始导入','取消'],
 								btn1:function(){
 									
 				
@@ -591,10 +597,8 @@
 										window.location=rooturl+'/index.php/Home/Kehu/xiazaimubana';
 		        		 				
 								},
+								
 								btn2:function(){
-									window.location=rooturl+'/index.php/Home/Kehu/xiazaimubancanshu';
-								},
-								btn3:function(){
 									
 																		 if(is_upload=='')
 																		{
@@ -609,7 +613,7 @@
 																	   
 																	   
 																	},
-								btn4:function(){
+								btn3:function(){
 									layer.close(win)
 								}
 							}); 

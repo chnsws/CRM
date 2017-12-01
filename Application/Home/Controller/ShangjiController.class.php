@@ -791,6 +791,383 @@ class ShangjiController extends Controller {
 		$this->assign('list_num',$list_num);
 		$this->display();
 	}
+	public function xiazaimuban(){
+		$dy=A("Filedo");
+
+		$a=M('yewuziduan'); 
+
+		//商机 标题下载
+		$mapsj['zd_yewu']="5";
+		$mapsj['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$sqlsj=$a->where($mapsj)->field('zd_data')->find();
+		$sj_arr=json_decode($sqlsj['zd_data'],true);
+		foreach($sj_arr as $k2=>$v2){
+			if($v2['qy']=="1"){
+				$qy_arrsj=$v2;
+				$new_qysj[]=$qy_arrsj;
+			}
+		}
+		foreach($new_qysj as $k=>$v)
+		{
+			if($v['id']!='zdy1' && $v['id']!='zdy2'  && $v['id']!='zdy6'){
+				if($v['bt']=="1")
+				{
+					if($v['type']=="3")
+					{
+						$array[]=$v["name"]."(必填请对照参数填写)";
+					}else{
+						$array[]=$v["name"]."(必填)";
+					}
+					
+				}else{
+					
+					if($v['type']=="3")
+					{
+						$array[]=$v["name"]."(请对照参数填写)";
+					}else{
+						$array[]=$v["name"];
+					}
+				}
+			}
+		}
+		$fenge="分隔栏";
+		$array[]=$fenge; 
+		//下面客户标题                   
+		$map['zd_yewu']="2";
+		$map['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$sql=$a->where($map)->field('zd_data')->find();
+	 	 $a_arr=json_decode($sql['zd_data'],true); 
+		foreach($a_arr as $k2=>$v2){
+			if($v2['qy']=="1"){
+				$qy_arr=$v2;
+				$new_qy[]=$qy_arr;
+			}
+		}
+		$a_arr=$new_qy;   //模板标题 
+		foreach($a_arr as $k=>$v)
+		{
+			if($v['id']!='zdy15'){
+				if($v['bt']=="1")
+				{
+					if($v['type']=="3")
+					{
+						$array[]=$v["name"]."(必填请对照参数填写)";
+					}else{
+						$array[]=$v["name"]."(必填)";
+					}
+					
+				}else{
+					
+					$array[]=$v["name"];     //标题
+				}
+			}
+		}
+		$fenge="分隔栏";
+		$array[]=$fenge; 
+		//下面联系人标题
+		$maplx['zd_yewu']="4";
+		$maplx['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+
+
+		$sqllx=$a->where($maplx)->field('zd_data')->find();
+		$a_arrlx=json_decode($sqllx['zd_data'],true); 
+		foreach($a_arrlx as $k2=>$v2){
+			if($v2['qy']=="1"){
+				$qy_arrlx=$v2;
+				$new_qylx[]=$qy_arrlx;
+			}
+		}
+		$a_arrlx=$new_qylx;   //模板标题 
+		foreach($a_arrlx as $k=>$v)
+		{
+			if($v['id']!='zdy1')
+			{
+				if($v['bt']=="1")
+				{
+					
+						$array[]=$v["name"]."(必填)";
+				
+					
+				}else{
+					
+					$array[]=$v["name"];     //标题
+				}
+			}
+		
+		}
+
+
+		
+		$title=$array;
+    	$data[15]=array("1","canshu1");
+    	$dy->getExcel("导入商机",$title,$data);
+
+	}
+	public function drcshi(){
+		$name=$_GET['name'];
+		if($name=="" || $name==null)
+		{
+			echo "亲~请上传导入文件";
+		}
+		$dy=A("Filedo");
+		$aaa=$dy->getdata("./Public/chanpinfile/cpfile/linshi/".$name);
+		
+		$a=M('yewuziduan'); 
+	
+		//商机标题
+		$mapsj['zd_yewu']="5";
+		$mapsj['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$sqlsj=$a->where($mapsj)->field('zd_data')->find();
+		$sj_arr=json_decode($sqlsj['zd_data'],true);
+		foreach($sj_arr as $k2=>$v2){
+			if($v2['qy']=="1"){
+				$qy_arrsj=$v2;
+				$new_qysj[]=$qy_arrsj;
+			}
+		}
+		$aa=A;
+		foreach($new_qysj as $k=>$v)
+		{
+			if($v['id']!='zdy1' && $v['id']!='zdy2'  && $v['id']!='zdy6'){
+				if($v['bt']=="1")
+				{
+					if($v['type']=="3")
+					{
+						$array[]=$v["name"]."(必填请对照参数填写)";
+					}else{
+						$array[]=$v["name"]."(必填)";
+					}
+					
+				}else{
+					
+					if($v['type']=="3")
+					{
+						$array[]=$v["name"]."(请对照参数填写)";
+					}else{
+						$array[]=$v["name"];
+					}
+				}
+				$sj_addyong[$aa]=$v['id'];
+				$aa++;
+			}
+		
+			
+		}
+		$sj_number=count($array);
+		$fenge="分隔栏";
+		$array[]=$fenge; 
+		$aa++;
+		//下面客户标题                   
+		$map['zd_yewu']="2";
+		$map['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		$sql=$a->where($map)->field('zd_data')->find();
+		  $a_arr=json_decode($sql['zd_data'],true); 
+		foreach($a_arr as $k2=>$v2){
+			if($v2['qy']=="1"){
+				$qy_arr=$v2;
+				$new_qy[]=$qy_arr;
+			}
+		}
+		$a_arr=$new_qy;   //模板标题 
+		
+		foreach($a_arr as $k=>$v)
+		{
+			if($v['id']!='zdy15'){
+				if($v['bt']=="1")
+				{
+					if($v['type']=="3")
+					{
+						$array[]=$v["name"]."(必填请对照参数填写)";
+					}else{
+						$array[]=$v["name"]."(必填)";
+					}
+					
+				}else{
+					
+					$array[]=$v["name"];     //标题
+				}
+				$kh_addyong[$aa]=$v['id'];
+				$aa++;
+			}
+		}
+		$kh_number=count($array);
+		$aa++;
+	
+		
+		$fenge="分隔栏";
+		$array[]=$fenge; 
+	
+		//下面联系人标题
+		$maplx['zd_yewu']="4";
+		$maplx['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+	
+	
+		$sqllx=$a->where($maplx)->field('zd_data')->find();
+		$a_arrlx=json_decode($sqllx['zd_data'],true); 
+		foreach($a_arrlx as $k2=>$v2){
+			if($v2['qy']=="1"){
+				$qy_arrlx=$v2;
+				$new_qylx[]=$qy_arrlx;
+			}
+		}
+		$a_arrlx=$new_qylx;   //模板标题 
+		foreach($a_arrlx as $k=>$v)
+		{
+			if($v['id']!='zdy1')
+			{
+				if($v['bt']=="1")
+				{
+					
+						$array[]=$v["name"]."(必填)";
+				
+					
+				}else{
+					
+					$array[]=$v["name"];     //标题
+				}
+				$lx_addyong[$aa]=$v['id'];
+				$aa++;
+			}
+		
+		}
+	
+	
+	
+	
+	
+		$drnum=count($aaa[1]);
+		$dqbt=$array;
+	
+		$num=0;
+		foreach($aaa[1] as $k=>$v)
+		{
+			if($v!=$dqbt[$num])
+			{
+				echo "亲~请下载最新模板";exit;
+			}
+			$num++;
+		}
+	
+		if(count($aaa[1])  != count($dqbt))
+		{
+			echo "亲~请下载最新模板";exit;
+		}
+		
+		//上面判断出新的模板并且客户没有乱修改
+		//把客户和联系人的数据分离开
+		$excelhang="1"; 
+		
+		$sj_numbera=$sj_number+2;
+		$sj_numberb=A;
+		for($i=1;$i<$sj_numbera;$i++){
+			$sj_numberb++;//客户第N 栏求出
+		}
+		$kha_numberb=$sj_numberb;
+		for($i;$i<$kh_number+2;$i++)
+		{
+			$kha_numberb++;//联系人姓名 第N 栏
+		}
+		
+		foreach($aaa as $k=>$v)
+		{		
+
+				if($v["A"]=='' || $v["A"]==null)
+				{
+					echo "亲~第".$excelhang."行的商机名称不能为空";exit;
+				}
+				if($v[$sj_numberb]=='' || $v[$sj_numberb]==null)
+				{
+					echo "亲~第".$excelhang."行的客户名称不能为空";exit;
+				}
+				if($v[$kha_numberb]=='' || $v[$kha_numberb]==null){
+					echo "亲~第".$excelhang."行的联系人名称不能为空";exit;
+				}
+		
+			$excelhang++;
+			}
+		//上面判断完成，符合要求，进行添加 客户 联系人
+		$sj_numbera=$sj_number+1;
+		foreach($aaa as $k=>$v)
+		{
+			if($k!=1)
+			{	
+				$i=0;
+			
+				foreach($v as $ka=>$va)
+				{
+					
+					
+					
+					if($i<$sj_number)
+					{	
+						$new_addsj[$sj_addyong[$ka]]=$va;//商机单条完成
+						//echo "<pre>";var_dump($sj_addyong);exit;
+					}elseif($sj_number<$i){
+					
+						if($i<$kh_number){
+						
+							$new_addkh[$kh_addyong[$ka]]=$va;//客户单条完成
+						}elseif($kh_number<$i){
+							
+							if($i<count($dqbt)){
+							
+										$new_addlx[$lx_addyong[$ka]]=$va;//联系人单条完成
+									}
+						}
+					}
+				
+					$i++;
+		
+					
+				}
+		
+						$userc=$this->user();
+						$mapkh['kh_data']=json_encode($new_addkh,true);
+						$mapkh['kh_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+						$mapkh['kh_fz']=cookie('user_id');
+						$mapkh['kh_bm']=$userc[$mapkh['kh_fz']]['department'];
+						$mapkh['kh_cj']=cookie('user_id');
+						$mapkh['kh_cj_date']=time();
+						$khbase=M('kh');
+						$khadd=$khbase->add($mapkh);
+				
+						if($khadd)
+						{	
+							$new_addlx['zdy1']=$khadd;
+							$maplxa['lx_data']=json_encode($new_addlx,true);
+							$maplxa['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+						
+							$maplxa['lx_cj']=cookie('user_id');
+							$maplxa['lx_cj_date']=time();
+							$lxbasea=M('lx');
+							$lxadda=$lxbasea->add($maplxa);
+							if($lxadda){
+								$new_addsj['zdy1']=$khadd;
+								$new_addsj['zdy2']=$lxadda;
+								$mapsja['sj_data']=json_encode($new_addsj,true);
+								$mapsja['sj_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+								$mapsja['sj_fz']=cookie('user_id');
+								$mapsja['sj_bm']=$userc[$mapsja['sj_fz']]['department'];
+								$mapsja['sj_cj']=cookie('user_id');
+								$mapsja['sj_cj_date']=time();
+								$sjbasea=M('shangji');
+								$sjadda=$sjbasea->add($mapsja);
+								
+
+							}
+							
+						}
+				}
+	
+				
+				
+			
+			
+		}
+		echo "导入成功";
+	
+	
+	}
 		public function chanpin(){
 		$map['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$cp_base=M('chanpin');

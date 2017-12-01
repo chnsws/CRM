@@ -136,7 +136,7 @@ a{color:#07d; text-decoration:none !important;}
 		<div class="top">
 			<div class="top1">
 				
-				<span class="name" ><b>{$kh_name}</b></span> <span class="fuzeren">负责人:<span class="fuzename">{$kh_fz}</span></span>
+				<span class="name" ><b>{$kh_name}</b></span> <span class="fuzeren">创建人:<span class="fuzename">{$kh_fz}</span></span>
 				
 			</div>
    		
@@ -232,83 +232,16 @@ a{color:#07d; text-decoration:none !important;}
 							  					
 						  					</div>
 						  				</div>
-						  				<div class="dan">
-							  				<div class="ziliao">
-							  					<span class="jiben"><b>合同</b></span><span class='ck_lx' id='htrone' onclick="ck_ht(this)"><span style='margin-top:5px;cursor:pointer;' title='查看更多'>更多>></span></span>
-							  				</div>
-						  		
-						  					<div class='htsss'>
-						  						{$ht_show}
-						  					</div>
-						  					
-						  				</div>
-						  		
-						  				<div class="dan">
-							  				<div class="ziliao">
-							  					<span class="jiben"><b>交易数据</b></span>
-							  				</div>
-							  				<div >
-							  					<table class='sj_bj' >
-								  				<tr>
-								  					<td class='shangji'>已成交：￥<b>{$aa}</b></td>
-								  					<td  class='shangji'>已回款：￥<b>{$hkaa}</b></td>
-								  					
-								  				</tr>
-								  				
-								  				</table>
-							  				</div>
-						  				</div>
+						  				
+						  				
 						  		</div>
 						  		
 
 						  		<div class="quanjing_right" >
 										<div class="dan">
 								  				<div class="ziliao">
-								  					<span class="xiaoshou"><b>销售动态</b></span><span id="dialog-form" onclick="xiegenjin()" class=" layui-btn layui-btn-small  genjinjilu">+写跟进</span><span class="only1"></span>
+								  					<span class="xiaoshou"><b>销售动态</b></span>
 								  				</div>
-
-
-
-						  				<div id="uploadfrm" style="width:660px; height:500px">
-								  				<form id="uploadform2" class="uk-form">
-								  					<select name="type" class="typegj sele" style="width:250px;height:40px;margin-top:10px;margin-left:5px";>
-								  						<option value="电话">电话</option>
-								  						<option value="QQ">QQ</option>
-								  						<option value="拜访">微信</option>
-								  						<option value="拜访">拜访</option>
-								  						<option value="邮件">邮件</option>
-								  						<option value="短信">短信</option>
-								  						<option value="其他">其他</option>
-								  					</select>
-								  					<input type="text" name="add_time"  class="text ui-widget-content ui-corner-all shiji add_timegj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})" placeholder="实际跟进时间(必填)" style="width:250px;height:40px;margin-top:10px">
-								  					<input type="hidden" name="kh_id" class="bingou" value="{$kh_id}">
-								  					
-								  					<textarea name="content" class='contentgj' placeholder=' 勤跟进，多签单........'  style="width:620px;height:260px;margin-top:10px;margin-left:23px";></textarea>
-								  					<table style="margin-top:20px"  class='gj' >
-								  						<tr>
-								  							<td>客户</td>
-								  							<td><input type="text"   name="shiji_date" value="{$kh_name}" style="width:190px;height:40px" readonly="true"></td>
-								  							<td>跟进状态</td>
-								  							<td>{$gj_xgj}
-								  							</td>
-								  						</tr>
-								  				
-								  					
-														<tr>
-															<td>联系人</td>
-									
-								  							<td>
-								  								{$gj_lxr}
-								  							</td>
-								  							<td>下次跟进时间</td>
-								  							<td>
-								  								<input type="text" name='date'  class="text ui-widget-content ui-corner-all dategj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})"  style="width:190px;height:40px;">
-								  							</td>
-								  						</tr>
-								  					</table>
-						  						</form>
-						  				</div>
-
 
 
 						  			{$xgj_show}

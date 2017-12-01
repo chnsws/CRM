@@ -1138,6 +1138,193 @@ class GonghaiController extends Controller {
 			}
 			return $new_ywcs;
 		}
+		public function drcshi(){
+			$name=$_GET['name'];
+			if($name=="" || $name==null)
+			{
+				echo "亲~请上传导入文件";
+			}
+			$dy=A("Filedo");
+			$aaa=$dy->getdata("./Public/chanpinfile/cpfile/linshi/".$name);
+			$a=M('yewuziduan'); 
+		
+		
+			//下面客户标题                   
+			$map['zd_yewu']="2";
+			$map['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+			$sql=$a->where($map)->field('zd_data')->find();
+			  $a_arr=json_decode($sql['zd_data'],true); 
+			foreach($a_arr as $k2=>$v2){
+				if($v2['qy']=="1"){
+					$qy_arr=$v2;
+					$new_qy[]=$qy_arr;
+				}
+			}
+			$a_arr=$new_qy;   //模板标题 
+			$aa=A;
+			foreach($a_arr as $k=>$v)
+			{
+				if($v['id']!='zdy15'){
+					if($v['bt']=="1")
+					{
+						if($v['type']=="3")
+						{
+							$array[]=$v["name"]."(必填请对照参数填写)";
+						}else{
+							$array[]=$v["name"]."(必填)";
+						}
+						
+					}else{
+						
+						$array[]=$v["name"];     //标题
+					}
+					$kh_addyong[$aa]=$v['id'];
+					$aa++;
+				}
+			}
+			$kh_number=count($array);
+			$aa++;
+			
+			
+			$fenge="分隔栏";
+			$array[]=$fenge; 
+		
+			//下面联系人标题
+			$maplx['zd_yewu']="4";
+			$maplx['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+		
+		
+			$sqllx=$a->where($maplx)->field('zd_data')->find();
+			$a_arrlx=json_decode($sqllx['zd_data'],true); 
+			foreach($a_arrlx as $k2=>$v2){
+				if($v2['qy']=="1"){
+					$qy_arrlx=$v2;
+					$new_qylx[]=$qy_arrlx;
+				}
+			}
+			$a_arrlx=$new_qylx;   //模板标题 
+			foreach($a_arrlx as $k=>$v)
+			{
+				if($v['id']!='zdy1')
+				{
+					if($v['bt']=="1")
+					{
+						
+							$array[]=$v["name"]."(必填)";
+					
+						
+					}else{
+						
+						$array[]=$v["name"];     //标题
+					}
+					$lx_addyong[$aa]=$v['id'];
+					$aa++;
+				}
+			
+			}
+		
+		
+		
+		
+		
+			$drnum=count($aaa[1]);
+			$dqbt=$array;
+			
+			$num=0;
+			foreach($aaa[1] as $k=>$v)
+			{
+				if($v!=$dqbt[$num])
+				{
+					echo "亲~请下载最新模板";exit;
+				}
+				$num++;
+			}
+			if(count($aaa[1])  != count($dqbt))
+			{
+				echo "亲~请下载最新模板";exit;
+			}
+			//上面判断出新的模板并且客户没有乱修改
+			//把客户和联系人的数据分离开
+			$excelhang="1"; 
+			$kh_numbera=$kh_number+2;
+			$kh_numberb=A;
+			for($i=1;$i<$kh_numbera;$i++){
+				$kh_numberb++;
+			}
+		
+			foreach($aaa as $k=>$v)
+			{
+				
+					if($v["A"]=='' || $v["A"]==null)
+					{
+						echo "亲~第".$excelhang."行的客户名称不能为空";exit;
+					}
+					if($v[$kh_numberb]=='' || $v[$kh_numberb]==null){
+						echo "亲~第".$excelhang."行的联系人名称不能为空";exit;
+					}
+			
+				$excelhang++;
+			}
+			//上面判断完成，符合要求，进行添加 客户 联系人
+		
+			foreach($aaa as $k=>$v)
+			{
+				if($k!=1)
+				{	
+					$i=0;
+				
+					foreach($v as $ka=>$va)
+					{
+						
+						
+						
+						if($i<$kh_number)
+						{
+							$new_addkh[$kh_addyong[$ka]]=$va;//客户单条完成
+						}elseif($i>$kh_number){
+							$new_addlx[$lx_addyong[$ka]]=$va;//联系人单条完成
+						}
+						$i++;
+						//添加客户
+		
+						
+					}
+					$userc=$this->user();
+					$mapkh['kh_data']=json_encode($new_addkh,true);
+					$mapkh['kh_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+					$mapkh['kh_fz']=cookie('user_id');
+					$mapkh['kh_gonghai']=1;
+					$mapkh['kh_bm']=$userc[$mapkh['kh_fz']]['department'];
+					$mapkh['kh_cj']=cookie('user_id');
+					$mapkh['kh_cj_date']=time();
+					$mapkh['kh_gh_date']=time();
+					$khbase=M('kh');
+					$khadd=$khbase->add($mapkh);
+					
+						if($khadd)
+						{	
+							$new_addlx['zdy1']=$khadd;
+							$maplxa['lx_data']=json_encode($new_addlx,true);
+							$maplxa['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+							$maplxa['lx_gonghai']=1;
+							$maplxa['lx_cj']=cookie('user_id');
+							$maplxa['lx_cj_date']=time();
+							$lxbasea=M('lx');
+							$lxadda=$lxbasea->add($maplxa);
+				
+							
+						}
+					}
+		
+					
+					
+				
+				
+			}
+			echo "导入成功";
+		
+		
+		}
 		public function gonghaimingcheng(){
 			$ywcs_sj=$this->ywcs_sj();
 			$ywcs_kh=$this->ywcs_kh();
@@ -1159,15 +1346,10 @@ class GonghaiController extends Controller {
 			$new_array1=explode(',',$new_xiaji1);
 			foreach ($fuzeren_sql1 as $k=>$v)
 			{
-				foreach ($new_array1 as $k1=>$v1)
-				{
-					if($v['user_id']==$v1)
-					{
+				
 						$new_fuzeren=$v;
 						$fzr_only1[$v['user_id']]=$new_fuzeren;
-					}
-						
-				}
+				
 			}
 			$kh_id=$_GET['kh_id'];//客户ID=$_GET['kh_id'];//客户ID
 
@@ -1394,74 +1576,7 @@ class GonghaiController extends Controller {
 					$ht_end[$v['ht_id']]=$new_hetong;
 				}
 			}
-			if($aa==0){
-				$aa='暂无';
-			}
-			$ht_idhk1=substr($ht_idhk,0,-1);
-			//总回款查询$userarr=$kh_base->query("select * from  crm_kh where kh_yh='$map' and kh_fz IN ($xiaji)");
-			$hkyh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-			$hkbase=M('hkadd');
-			$sql_hk=$hkbase->query("select * from  crm_hkadd where hk_ht IN ($ht_idhk1) and hk_yh = '$hkyh' and hk_sp=1");
-			$hkaa=0;
-			foreach($sql_hk as $k=>$v){
-				$hkaa=$hkaa+$v['hk_je'];
-			}
-			if($hkaa==0){
-				$hkaa='暂无';
-			}
-			$this->assign('hkaa',$hkaa);
-			$this->assign('aa',$aa);
-					$ht_show.="<table class='layui-table'  >
-						  	<thead>
-						  				<th >合同标题</th>
-						  				<th >合同总金额</th>
-						  				<th >合同开始时间</th>
-						
-						  				<th >合同状态</td>
-					
-						  				
-						  			
-							</thead>
-							<tbody class='fujian_del'>";
-							if($ht_end =="" || $ht_end == null)
-							{
-									$ht_show.="<tr><td colspan='4'><span  style='margin-left:38%'>亲~此客户未添加合同</span></td></td>";
-							}else{
-
-							$hta=1;
-							
-						
-									foreach($ht_end as $k=>$v)
-									{
-										if($hta<3)
-										{
-											$ht_show.="<tr>";
-													$count=strlen($v['zdy0']);
-								  					if($count>13){
-														$newbz=mb_substr($v['zdy0'],0,13)."....";
-													}else{
-														$newbz=$v;
-													}
-														if($v['ht_sp']==4){
-
-															$ht_show.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."' title='".$v['zdy0']."' style='cursor:pointer '>".$newbz."</a></td>";
-														}else{
-														$ht_show.="	<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbz."</span></a></td>";
-														}
-											  				
-											  			$ht_show.="	<td >￥".$v['zdy3']."</td>
-											  				<td >".$v['zdy5']."</td>
-											  	
-											  				<td >".$ywcs_ht['zdy7'][$v['zdy7']]."</td>
-											  		
-											  			</tr> ";
-										}
-										$hta++;
-									}
-							}
-									
-							$ht_show.="</tbody>
-					</table>  ";
+			
 			if($ht_end==''||$ht_end==null){
 				$ht_show_much.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请新增合同</td></tr>";
 			}
@@ -1919,7 +2034,7 @@ class GonghaiController extends Controller {
 			$this->assign('lx_show',$lx_show);//基本信息 联系人
 	 		$this->assign('kh_id',$kh_id);//这里是添加附件的ID渲染到模板
 	 		$this->assign('kh_name',$sql_json['zdy0']);
-			$this->assign('kh_fz',$fzr_only1[$sql_kh['kh_fz']]['user_name']);
+			$this->assign('kh_fz',$fzr_only1[$sql_kh['kh_cj']]['user_name']);
 	 		$this->assign('kh_phone',$kh_phone);//客户电话
 	 		$this->assign('kh_type2',$kh_type2);//客户类型
 			
