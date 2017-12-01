@@ -1418,7 +1418,7 @@ class KehuController extends Controller {
 	$lx_show.="</tbody>
 							</table> "; 
 			if($lx_end==''||$lx_end==null){
-				$lxr_show.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请新增联系人</td></tr>";
+				$lxr_show.="<tr><td colspan='7' align='center'><span>亲~没有数据哟！请新增联系人</td></tr>";
 			}else{
 				foreach($lx_end as $k => $v)
 				{
@@ -1426,7 +1426,7 @@ class KehuController extends Controller {
 					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span title='".$v['zdy0']."'>".$v['zdy0']."</span></a></td>
 					  				<td title='".$v['zdy3']."'>".$v['zdy3']."</td>
 					  				<td title='".$v['zdy4']."'>".$v['zdy4']."</td>";
-
+									$afirst= substr($v['zdy5'],0,1);
 									if($afirst=="-")
 									{
 										$lxr_show.="<td > ".substr($v['zdy5'],1)." </td>"	;
