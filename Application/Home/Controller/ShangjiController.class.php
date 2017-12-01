@@ -907,7 +907,7 @@ class ShangjiController extends Controller {
 		$name=$_GET['name'];
 		if($name=="" || $name==null)
 		{
-			echo "亲~请上传导入文件";
+			echo "亲~请上传导入文件";exit;
 		}
 		$dy=A("Filedo");
 		$aaa=$dy->getdata("./Public/chanpinfile/cpfile/linshi/".$name);

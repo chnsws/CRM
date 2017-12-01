@@ -2608,7 +2608,7 @@ public function drcshi(){
 	$name=$_GET['name'];
 	if($name=="" || $name==null)
 	{
-		echo "亲~请上传导入文件";
+		echo "亲~请上传导入文件";exit;
 	}
 	$dy=A("Filedo");
 	$aaa=$dy->getdata("./Public/chanpinfile/cpfile/linshi/".$name);
@@ -2707,7 +2707,7 @@ public function drcshi(){
 	}
 	if(count($aaa[1])  != count($dqbt))
 	{
-		echo "亲~请下载最新模板1";exit;
+		echo "亲~请下载最新模板";exit;
 	}
 	//上面判断出新的模板并且客户没有乱修改
 	//把客户和联系人的数据分离开
@@ -2723,10 +2723,10 @@ public function drcshi(){
 		
 			if($v["A"]=='' || $v["A"]==null)
 			{
-				echo "亲~第".$excelhang."行的客户名称不能为空";
+				echo "亲~第".$excelhang."行的客户名称不能为空";exit;
 			}
 			if($v[$kh_numberb]=='' || $v[$kh_numberb]==null){
-				echo "亲~第".$excelhang."行的联系人名称不能为空";
+				echo "亲~第".$excelhang."行的联系人名称不能为空";exit;
 			}
 	
 		$excelhang++;
