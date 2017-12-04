@@ -37,7 +37,7 @@
 <body>
 <div id="box" style="display:none;">
     <div id="head">
-        <span class="head_name">{$title_title}</span>
+        <span class="head_name" title="{$title_title}">{$title_title}</span>
         <span class="head_fuzeren">
             <span class="head_fuzeren_title">负责人：</span>
             <span class="head_fuzeren_name">{$title_fuzeren}</span>
@@ -374,6 +374,12 @@ function xiegenjin()
                 if(new_genjin_content=='')
                 {
                     tishi("跟进内容不能为空");
+                    layer.close(jiazai);
+                    return;
+                }
+                if(new_genjin_content.length>500)
+                {
+                    tishi("跟进内容不能超过500字");
                     layer.close(jiazai);
                     return;
                 }

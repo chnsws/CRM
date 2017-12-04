@@ -3,7 +3,9 @@ html,body,box{background: #f7f7f7;}
 td a{color:#1AA094!important;text-decoration: none!important;}
 /*头部*/
 #head{height:80px;}
-#head>.head_name{height:80px;color:#1AA094;line-height:80px;font-weight:bold;font-size:22px;margin-right: 10px;}
+#head>span{float: left;}
+#head>.head_name{height:80px;color:#1AA094;line-height:80px;font-weight:bold;font-size:22px;margin-right: 10px;max-width:30%!important;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
+#head>.head_fuzeren{height:80px;line-height: 85px;}
 #head>.head_fuzeren>.head_fuzeren_name{color:#1AA094;}
 
 .xiacigenjinshijian{float:right;height:80px;line-height:80px;color:#777;}
