@@ -1277,6 +1277,62 @@ return $fzr_only;
 		}
 				
 	}
+	
+	public function save_huikuana(){
+		$content=$_GET['id'];//'undefined:::undefined,,,hk_data:::2017-12-04,,,hk_je:::10000,,,zdy11:::canshu1,,,hktype:::canshu1,,,user_name:::45,,,hk_bz:::1234,,,';
+		$hk_number=substr($content,0,strlen($content)-3); 
+		$new_hk=explode(",,,",$hk_number);
+		foreach($new_hk as $k=>$v)
+		{
+			$baobao=explode(":::", $v);
+			if($baobao[0]=="undefined" )
+			{
+				
+			}else{
+				$data[$baobao[0]]=$baobao[1];	
+			}
+			
+
+		}
+		$data['hk_sp']=0;
+		$where['hk_id']=$_GET['hk_id'];
+		$base=M('hkadd');
+		$hk_sql=$base->where($where)->save($data);
+		if($hk_sql){
+			
+						$shenpiyo=$this->shenpi_hk();
+						$shenpi_user=explode(",", $shenpiyo);
+			
+						foreach($shenpi_user as $k=>$v)
+			
+						{	
+							if($k!='a' && $k!='b'){
+							$new_shenpi[$v]=$v;
+							}else{
+								$sp_tbb=$v;
+							}
+						}
+						if($sp_tbb=="a")
+						{
+							$map_sp_hk['sp_tp']=1;//未审批
+						}else{
+							$map_sp_hk['sp_tp']=0;//未审批
+						}
+						$sp_hk_base=M('sp');
+						$map_sp_hk['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+						$map_sp_hk['sp_yy']=2;
+						$map_sp_hk['sp_sjid']=$_GET['hk_id'];//回款ID
+						$hk_del=$sp_hk_base->where($map_sp_hk)->delete();
+						$map_sp_hk['sp_jg']=0;//未审批
+						$map_sp_hk['sp_sj']=date("Y-m-d h:i:s");
+						foreach($new_shenpi as $k=>$v)
+						{
+							$map_sp_hk['sp_user']=$v;//回款ID
+							$sh_end=$sp_hk_base->add($map_sp_hk);//
+						}
+						
+					}
+	}
 	public function add_huikuan(){
 		$content=$_GET['id'];
 		$hk_ida=$_GET['hk_id'];
@@ -1890,10 +1946,10 @@ return $fzr_only;
 		$show.="<table class='uk-form'>
 
 				<tr><td>期次：</td><td>第".$qici."期</td></tr>
-				<tr><td>回款日期：</td><td><input type='text' id='' value='".$sql['hk_data']."'  onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td></tr>
+				<tr><td>回款日期：</td><td><input type='text' id='' name='hk_data' value='".$sql['hk_data']."'  onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td></tr>
 	
-				<tr><td>回款金额：</td><td><input type='text' id='' value='".$sql['hk_je']."' ></td></tr>
-			<tr><td>付款方式：</td><td><select id='' ' >";
+				<tr><td>回款金额：</td><td><input type='text' id=''  name='hk_je' value='".$sql['hk_je']."' ></td></tr>
+			<tr><td>付款方式：</td><td><select id='' name='zdy11' ' >";
 			foreach($ywcs['zdy11'] as $k=>$v)
 			{	if($sql['zdy11']==$k)
 				{
@@ -1904,7 +1960,7 @@ return $fzr_only;
 				
 			}
 				$show.="	</select></td></tr>
-				<tr><td>回款类型：</td><td><select  id='' >";
+				<tr><td>回款类型：</td><td><select  id='' name='hk_type' >";
 				foreach($ywcs['hktype'] as $k=>$v)
 			{	if($sql['hktype']==$k)
 				{
@@ -1915,7 +1971,7 @@ return $fzr_only;
 				
 			}
 				$show.="</select></td></tr>
-				<tr><td>收款人：</td><td><select  id='' >";
+				<tr><td>收款人：</td><td><select  id='' name='hk_skr' >";
 				foreach($userqb as $k=>$v)
 				{
 					
@@ -1923,7 +1979,7 @@ return $fzr_only;
 				
 				}
 				$show.="</select></td></tr>
-				<tr><td>备注：</td><td><textarea style='width:300px'>".$sql['hk_bz']."</textarea></td></tr>
+				<tr><td>备注：</td><td><textarea style='width:300px' name='hk_bz'>".$sql['hk_bz']."</textarea></td></tr>
 				</table>";
 			echo $show;
 	

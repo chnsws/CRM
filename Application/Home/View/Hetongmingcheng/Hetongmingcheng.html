@@ -1086,7 +1086,7 @@ i.layui-anim{display:inline-block}
 											$.get(rooturl+'/index.php/Home/Hetongmingcheng/add_huikuan',{"id":end_hk,"hk_id":hk_id},
 												 function(html){
 
-									        			window.location.href="Hetongmingcheng?id="+htid+"&uiid=2";;
+									        			window.location.href="hetongmingcheng?id="+htid+"&uiid=2";;
 							                   });
 
 								}
@@ -1129,20 +1129,21 @@ function bjjh(thisdom){
 								btn1:function(){
 										
 										var htid=$(".ht_id").val();	 	
-										var formdom1=$("#hk_add").children("table").find("tr");
+										var formdom1=$("#hk_adda").children("table").find("tr");
 										var fornum1=formdom1.length;
+										
 										var end_hk='';
-									//	alert(fornum1)
+									
 										for(a=0;a<fornum1;a++)
 										{
 											var thisdom=formdom1.eq(a).find("td").eq(1).children();
-												end_hk+=thisdom.prop("name")+":"+thisdom.val()+",";
+												end_hk+=thisdom.prop("name")+":::"+thisdom.val()+",,,";
 										}
-										
-											$.get(rooturl+'/index.php/Home/Hetongmingcheng/add_huikuan',{"id":end_hk,"hk_id":hk_id},
+							
+											$.get(rooturl+'/index.php/Home/Hetongmingcheng/save_huikuana',{"id":end_hk,"hk_id":hk_id},
 												 function(html){
 
-									        			window.location.href="Hetongmingcheng?id="+htid;
+									        			window.location.href="hetongmingcheng?id="+htid;
 							                   });
 
 								}
@@ -1605,7 +1606,7 @@ function bjjh(thisdom){
 							                   });
 		 }
 	function fanhui(){
-			window.location.href=rooturl+'/index.php/Home/Hetong/Hetong';
+			window.location.href=rooturl+'/index.php/Home/Hetong/hetong';
 	}
 	</script>
 </html>
