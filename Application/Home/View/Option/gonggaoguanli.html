@@ -12,18 +12,18 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <!--加载jQuery-->
-    <script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+    <script src="__PUBLIC__/jquery/jquery.js"></script>
     <!--datatable引用文件-->
-    <link href="{$_GET['public_dir']}/datatable/css/dataTables.bootstrap.css" rel="stylesheet">
-    <link href="{$_GET['public_dir']}/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <script src="{$_GET['public_dir']}/datatable/js/jquery.dataTables.min.js"></script>
-    <script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js" ></script>
-    <script src="{$_GET['public_dir']}/datatable/js/dataTables.bootstrap.js"></script>
+    <link href="__PUBLIC__/dataTable/css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="__PUBLIC__/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="__PUBLIC__/dataTable/js/jquery.dataTables.min.js"></script>
+    <script src="__PUBLIC__/bootstrap/js/bootstrap.js" ></script>
+    <script src="__PUBLIC__/dataTable/js/dataTables.bootstrap.js"></script>
     <!--layUI 插件  弹窗设计 form表单样式 -->
-    <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
     <!--图标样式-->
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
     <style>
     *{margin:0;padding:0}
     a{text-decoration:none;cursor:pointer;color:#1AA094;margin-right:10px;}
@@ -255,7 +255,7 @@
                     }
                 });
             }
-            $.post(root_dir+"/index.php/Home/GonggaoDo/gonggaoadd",{"ggname":ggname,"ggfanwei":ggfanwei,"ggneirong":ggneirong,"fanweicheck":spCodesTemp},function(res){
+            $.post("__ROOT__/index.php/Home/GonggaoDo/gonggaoadd",{"ggname":ggname,"ggfanwei":ggfanwei,"ggneirong":ggneirong,"fanweicheck":spCodesTemp},function(res){
                 errorFun(res);
                 if(res=='1')
                 {
@@ -284,7 +284,7 @@
             if(bmone=='0')//部门列表每次刷新页面只获取一次，减少数据库访问
             {
                 bmone='1';
-                $.get(root_dir+"/index.php/Home/GonggaoDo/getbumen",{},function(res){
+                $.get("__ROOT__/index.php/Home/GonggaoDo/getbumen",{},function(res){
                     errorFun(res);
                     $("#bumenxuanze").html(res);
                     form.render('checkbox');
@@ -298,7 +298,7 @@
             if(jsone=='0')//角色列表每次刷新页面只获取一次，减少数据库访问
             {
                 jsone='1';
-                $.get(root_dir+"/index.php/Home/GonggaoDo/getjuese",{},function(res){
+                $.get("__ROOT__/index.php/Home/GonggaoDo/getjuese",{},function(res){
                     errorFun(res);
                     $("#jusexuanze").html(res);
                     form.render('checkbox');
@@ -334,7 +334,7 @@
         $.ajaxSetup({
             async : false
         });
-        $.get(root_dir+"/index.php/Home/GonggaoDo/getgginfo",{"ggid":thisggid},function(res){
+        $.get("__ROOT__/index.php/Home/GonggaoDo/getgginfo",{"ggid":thisggid},function(res){
             errorFun(res);
             var resarr=res.split(',@,');
             window.editid=resarr[0];
@@ -434,7 +434,7 @@
         {
             ggneededitstr+='ggsz_ggnr::'+ggneirong+',@,';
         }
-        $.get(root_dir+"/index.php/Home/GonggaoDo/ggedit",{"ggeditid":thisggid,"ggeditstr":ggneededitstr},function(res){
+        $.get("__ROOT__/index.php/Home/GonggaoDo/ggedit",{"ggeditid":thisggid,"ggeditstr":ggneededitstr},function(res){
             errorFun(res);
             if(res=='1')
             {
@@ -457,7 +457,7 @@
 				time: 2000000, //20000s后自动关闭
 				btn: ['确认删除', '取消'],
 				btn1: function(index, layero){
-                    $.get(root_dir+"/index.php/Home/GonggaoDo/ggdel",{"delstr":delggid,"deltype":'1',"delggname":delggname},function(res){
+                    $.get("__ROOT__/index.php/Home/GonggaoDo/ggdel",{"delstr":delggid,"deltype":'1',"delggname":delggname},function(res){
                         errorFun(res);
                         if(res=='1')
                         {
@@ -500,7 +500,7 @@
             time: 2000000, //20000s后自动关闭
             btn: ['确认删除', '取消'],
             btn1: function(index, layero){
-                $.get(root_dir+"/index.php/Home/GonggaoDo/ggdel",{"delstr":spCodesTemp,"deltype":'2',"delggname":'0'},function(res){
+                $.get("__ROOT__/index.php/Home/GonggaoDo/ggdel",{"delstr":spCodesTemp,"deltype":'2',"delggname":'0'},function(res){
                     errorFun(res);
                     if(res=='1')
                     {
@@ -524,7 +524,7 @@
     //公告置顶操作
     function ggzhiding(zdid,zdval)
     {
-        $.get(root_dir+"/index.php/Home/GonggaoDo/ggzd",{"zdid":zdid,"zdval":zdval},function(res){
+        $.get("__ROOT__/index.php/Home/GonggaoDo/ggzd",{"zdid":zdid,"zdval":zdval},function(res){
             errorFun(res);
             if(res=='1')
             {
