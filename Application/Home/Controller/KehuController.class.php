@@ -695,7 +695,7 @@ class KehuController extends Controller {
 												foreach($kh_lxrhq[$r_v['kh_id']] as $k=>$vv)
 												{
 												
-															$xs123.="<a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$vv['id']."'><span style='margin-left:5px'>".$vv['name']."</span></a>";
+															$xs123.="<a href='".$_GET['root_dir']."/index.php/Home/Lianxirenmingcheng/lianxirenmingcheng/id/".$vv['id']."'><span style='margin-left:5px'>".$vv['name']."</span></a>";
 													
 												}
 												//$xs123="<a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$lxr[$r_v[$v_biaoti['id']]]['id']."'>".$lxr[$r_v[$v_biaoti['id']]]['name']."</a>";
@@ -1402,7 +1402,7 @@ class KehuController extends Controller {
 					
 					
 					$lx_show.="<tr class='mingchengss'>
-					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span><p style='max-width:85px;min-width:20px;cursor:pointer'title='".$v['zdy0']."'>".$v['zdy0']."</p></span></a></td>
+					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/Lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span><p style='max-width:85px;min-width:20px;cursor:pointer'title='".$v['zdy0']."'>".$v['zdy0']."</p></span></a></td>
 					  				<td ><p style='max-width:100px;min-width:50px;cursor:pointer' title='".$v['zdy3']."'>".$v['zdy3']."</p></td>";
 					  				
 					  				$lx_show.="<td ><p style='max-width:150px;min-width:50px;'>".$v['zdy6']."</p></td>
@@ -1423,7 +1423,7 @@ class KehuController extends Controller {
 				foreach($lx_end as $k => $v)
 				{
 					$lxr_show.="<tr>
-					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span title='".$v['zdy0']."'>".$v['zdy0']."</span></a></td>
+					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/Lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span title='".$v['zdy0']."'>".$v['zdy0']."</span></a></td>
 					  				<td title='".$v['zdy3']."'>".$v['zdy3']."</td>
 					  				<td title='".$v['zdy4']."'>".$v['zdy4']."</td>";
 									$afirst= substr($v['zdy5'],0,1);
@@ -1493,7 +1493,7 @@ class KehuController extends Controller {
 											}else{
 												$newbza=$v['zdy0'];
 											}	
-					  				$sj_show.="<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbza."</span></a></td>
+					  				$sj_show.="<td ><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbza."</span></a></td>
 					  				<td >".$v['zdy3']."</td>
 					  				<td >".substr($v['zdy4'],0,10)."</td>
 					  				<td >".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
@@ -1519,7 +1519,7 @@ class KehuController extends Controller {
 											$newaaa=$v['zdy0'];
 										}
 										$sj_show_much.="<tr>
-						  				<td width='27%'><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1' title='".$v['zdy0']."' style='cursor:pointer '>".$newaaa."</span></a></td>
+						  				<td width='27%'><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1' title='".$v['zdy0']."' style='cursor:pointer '>".$newaaa."</span></a></td>
 						  				<td width='12%'>".$v['zdy3']."</td>
 						  				<td width='12%'>".substr($v['zdy4'],0,10)."</td>
 						  				<td width='12%'>".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
@@ -1618,7 +1618,7 @@ class KehuController extends Controller {
 
 															$ht_show.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."' title='".$v['zdy0']."' style='cursor:pointer '>".$newbzc."</a></td>";
 														}else{
-														$ht_show.="	<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbzc."</span></a></td>";
+														$ht_show.="	<td ><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbzc."</span></a></td>";
 														}
 											  				
 											  			$ht_show.="	<td >￥".$v['zdy3']."</td>
@@ -1650,7 +1650,7 @@ class KehuController extends Controller {
 									if($v['ht_sp']==4){
 										$ht_show_much.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."' title='".$v['zdy0']."'>".$newbaa."</a></td>";
 									}else{
-						  				$ht_show_much.="<td width='27%'><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span title='".$v['zdy0']."'>".$newbaa."</span></a></td>";
+						  				$ht_show_much.="<td width='27%'><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span title='".$v['zdy0']."'>".$newbaa."</span></a></td>";
 						  				}
 						  			$ht_show_much.="<td width='12%'>￥".$v['zdy3']."</td>
 						  				<td width='14%'>".$v['zdy5']."</td>
