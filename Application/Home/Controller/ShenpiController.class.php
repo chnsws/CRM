@@ -100,16 +100,16 @@ class ShenpiController extends Controller {
 								$hk_show.="<tr>
 										<td><span style='color:#07d;cursor:pointer' class='".$v['sp_id']."' onclick='tongguo(this)'>通过</span><span style='color:#07d;margin-left:20px;cursor:pointer'  class='".$v['sp_id']."' onclick='bohui(this)'>驳回</span></td>
 										<td>第".$v['hk_qici']."期</td>
-										<td>".$ht_name[$v['hk_ht']]['name']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['hk_ht']]['name']."'>".$ht_name[$v['hk_ht']]['name']."</div></td>
 										<td>".$user_name[$ht_name[$v['hk_ht']]['fz']]['user_name']."</td>
-										<td>".$kh_name[$v['hk_kh']]['name']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$v['hk_kh']]['name']."'>".$kh_name[$v['hk_kh']]['name']."</div></td>
 										<td>".$v['hk_data']."</td>
 										<td>".$v['hk_je']."</td>
 										<td>".$ywcs['zdy11'][$v['zdy11']]."</td>
 										<td>".$ywcs['hktype'][$v['hk_type']]."</td>
 										<td>".$user_name[$v['hk_skr']]['user_name']."</td>
 										<td>".$user_name[$v['hk_cj']]['user_name']."</td>
-										<td>".date("Y-m-d H:i:s", $v['hk_cj_date'])."</td>
+										<td>".$v['hk_cj_date']."</td>
 									</tr>";
 						}
 			            $hk_show.="</tbody>
@@ -148,16 +148,16 @@ class ShenpiController extends Controller {
 								$hk_show1.="<tr>
 										<td><span style='color:green'>您已通过</span></td>
 										<td>第".$v['hk_qici']."期</td>
-										<td>".$ht_name[$v['hk_ht']]['name']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['hk_ht']]['name']."'>".$ht_name[$v['hk_ht']]['name']."</div></td>
 										<td>".$user_name[$ht_name[$v['hk_ht']]['fz']]['user_name']."</td>
-										<td>".$kh_name[$v['hk_kh']]['name']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$v['hk_kh']]['name']."'>".$kh_name[$v['hk_kh']]['name']."</div></td>
 										<td>".$v['hk_data']."</td>
 										<td>".$v['hk_je']."</td>
 										<td>".$ywcs['zdy11'][$v['zdy11']]."</td>
 										<td>".$ywcs['hktype'][$v['hk_type']]."</td>
 										<td>".$user_name[$v['hk_skr']]['user_name']."</td>
 										<td>".$user_name[$v['hk_cj']]['user_name']."</td>
-										<td>".date("Y-m-d H:i:s", $v['hk_cj_date'])."</td>
+										<td>".$v['hk_cj_date']."</td>
 									</tr>";
 						}
 			            $hk_show1.="</tbody>
@@ -196,16 +196,16 @@ class ShenpiController extends Controller {
 								$hk_show2.="<tr>
 										<td>您已驳回<span style='margin-left:10px;font-size:20px;color:red' class='".$v['hk_id']."' onclick='hk_because(this)'><i class='layui-icon'>&#xe607;</i>  </span></td>
 										<td>第".$v['hk_qici']."期</td>
-										<td>".$ht_name[$v['hk_ht']]['name']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['hk_ht']]['name']."'>".$ht_name[$v['hk_ht']]['name']."</div></td>
 										<td>".$user_name[$ht_name[$v['hk_ht']]['fz']]['user_name']."</td>
-										<td>".$kh_name[$v['hk_kh']]['name']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$v['hk_kh']]['name']."'>".$kh_name[$v['hk_kh']]['name']."</div></td>
 										<td>".$v['hk_data']."</td>
 										<td>".$v['hk_je']."</td>
 										<td>".$ywcs['zdy11'][$v['zdy11']]."</td>
 										<td>".$ywcs['hktype'][$v['hk_type']]."</td>
 										<td>".$user_name[$v['hk_skr']]['user_name']."</td>
 										<td>".$user_name[$v['hk_cj']]['user_name']."</td>
-										<td>".date("Y-m-d H:i:s", $v['hk_cj_date'])."</td>
+										<td>". $v['hk_cj_date']."</td>
 									</tr>";
 						}
 			            $hk_show2.="</tbody>
@@ -254,16 +254,16 @@ class ShenpiController extends Controller {
 										$hk_show3.="";
 										
 										$hk_show3.="</td><td>第".$v['hk_qici']."期</td>
-										<td>".$ht_name[$v['hk_ht']]['name']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['hk_ht']]['name']."'>".$ht_name[$v['hk_ht']]['name']."</div></td>
 										<td>".$user_name[$ht_name[$v['hk_ht']]['fz']]['user_name']."</td>
-										<td>".$kh_name[$v['hk_kh']]['name']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$v['hk_kh']]['name']."'>".$kh_name[$v['hk_kh']]['name']."</div></td>
 										<td>".$v['hk_data']."</td>
 										<td>".$v['hk_je']."</td>
 										<td>".$ywcs['zdy11'][$v['zdy11']]."</td>
 										<td>".$ywcs['hktype'][$v['hk_type']]."</td>
 										<td>".$user_name[$v['hk_skr']]['user_name']."</td>
 										<td>".$user_name[$v['hk_cj']]['user_name']."</td>
-										<td>".date("Y-m-d H:i:s", $v['hk_cj_date'])."</td>
+										<td>". $v['hk_cj_date']."</td>
 									</tr>";
 						}
 			            $hk_show3.="</tbody>
@@ -689,11 +689,11 @@ class ShenpiController extends Controller {
 						{
 							$ht_show.="<tr>
 										<td>";
-											$ht_show.="<span style='color:#07d;cursor:pointer' class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_tongguo(this)'>通过</span><span style='color:#07d;cursor:pointer;margin-left:20px'  class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_bohui(this)'>驳回</span></td>";
+											$ht_show.="<div style='color:#07d;cursor:pointer;width:80px' class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_tongguo(this)'>通过</span><span style='color:#07d;cursor:pointer;margin-left:20px'  class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_bohui(this)'>驳回</div></td>";
 							
-								$ht_show.="	<td>".$ht_name[$v['sp_sjid']]['name']."</td>
-											<td>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</td>
-											<td>".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."</td>
+										$ht_show.="	<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['sp_sjid']]['name']."'>".$ht_name[$v['sp_sjid']]['name']."</div></td>
+											<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."'>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</div></td>
+											<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."'>".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."</div></td>
 											<td>".$ht_name[$v['sp_sjid']]['zdy3']."</td>
 											<td>".$ht_name[$v['sp_sjid']]['zdy4']."</td>
 											<td>".$ht_name[$v['sp_sjid']]['zdy5']."</td>
@@ -747,9 +747,9 @@ class ShenpiController extends Controller {
 										<td>";
 											$ht_show1.="您已通过</td>";
 							
-								$ht_show1.="	<td>".$ht_name[$v['sp_sjid']]['name']."</td>
-											<td>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</td>
-											<td>".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."</td>
+								$ht_show1.="	<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['sp_sjid']]['name']."'>".$ht_name[$v['sp_sjid']]['name']."</div></td>
+											<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."'>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</div></td>
+											<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."'>".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."</div></td>
 											<td>".$ht_name[$v['sp_sjid']]['zdy3']."</td>
 											<td>".$ht_name[$v['sp_sjid']]['zdy4']."</td>
 											<td>".$ht_name[$v['sp_sjid']]['zdy5']."</td>
@@ -803,9 +803,9 @@ class ShenpiController extends Controller {
 										<td>";
 											$ht_show2.="您已驳回<span style='margin-left:10px;font-size:20px;color:red' class='".$v['sp_sjid']."' onclick='bhyy(this)'><i class='layui-icon'>&#xe607;</i>  </span></td>";
 							
-								$ht_show2.="	<td>".$ht_name[$v['sp_sjid']]['name']."</td>
-											<td>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</td>
-											<td>".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."</td>
+								$ht_show2.="	<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['sp_sjid']]['name']."'>".$ht_name[$v['sp_sjid']]['name']."</div></td>
+											<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."'>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</div></td>
+											<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."'>".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."</div></td>
 											<td>".$ht_name[$v['sp_sjid']]['zdy3']."</td>
 											<td>".$ht_name[$v['sp_sjid']]['zdy4']."</td>
 											<td>".$ht_name[$v['sp_sjid']]['zdy5']."</td>

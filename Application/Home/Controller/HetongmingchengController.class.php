@@ -707,8 +707,8 @@ return $fzr_only;
 		    if($sql_kp1=="" ||  $sql_kp1==null)
 		    {
 					$kp_show.="	<tr class='qingxuanze'>
-						<td colspan='8'><span>亲~ 还没有数据哦～   ~<span onclick='xzkp()'
-						style='color:#07d;cursor:pointer;font-weight:bold'>新增开票记录>></span></span></td>
+						<td colspan='8'><span>亲~ 还没有数据哦～<span onclick='xzkp()'
+						style='color:#07d;cursor:pointer;font-weight:bold' class='wtgbky'>新增开票记录>></span></span></td>
 					</tr>";
 					
 
@@ -744,9 +744,9 @@ return $fzr_only;
 		    	}
 		   if($sql_kp2=="" ||  $sql_kp2==null)
 		    {
-					$kp_show1.="	<tr class='qingxuanze'>
-						<td colspan='8'><span>亲~ 还没有数据哦～   ~<span onclick='xzkp()'
-						style='color:#07d;cursor:pointer;font-weight:bold'>新增开票记录>></span></span></td>
+					$kp_show1.="<tr class='qingxuanze'>
+						<td colspan='8'><span>亲~ 还没有数据哦～<span onclick='xzkp()'
+						style='color:#07d;cursor:pointer;font-weight:bold' class='wtgbky'>新增开票记录>></span></span></td>
 					</tr>";
 					
 
@@ -792,8 +792,8 @@ return $fzr_only;
 		   if($sql_kp3=="" ||  $sql_kp3==null)
 		    {
 					$kp_show2.="	<tr class='qingxuanze'>
-						<td colspan='8'><span>亲~ 还没有数据哦～   ~<span onclick='xzkp()'
-						style='color:#07d;cursor:pointer;font-weight:bold'>新增开票记录>></span></span></td>
+						<td colspan='8'><span>亲~ 还没有数据哦～<span onclick='xzkp()'
+						style='color:#07d;cursor:pointer;font-weight:bold'>新增开票记>></span></span></td>
 					</tr>";
 					
 
@@ -830,8 +830,8 @@ return $fzr_only;
 		    if($sql_kp4=="" ||  $sql_kp4==null)
 		    {
 					$kp_show3.="	<tr class='qingxuanze'>
-						<td colspan='8'><span>亲~ 还没有数据哦～   ~<span onclick='xzkp()'
-						style='color:#07d;cursor:pointer;font-weight:bold'>新增开票记录>></span></span></td>
+						<td colspan='8'><span>亲~ 还没有数据哦～<span onclick='xzkp()'
+						style='color:#07d;cursor:pointer;font-weight:bold' class='wtgbky'>新增开票记录>></span></span></td>
 					</tr>";
 					
 
@@ -1436,10 +1436,12 @@ return $fzr_only;
 			$hk_base=M('hk');
 			$hk_map['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 			$hk_map['hk_htid']=$_GET['id'];
+			
 			$dijiqia=$_GET['dijiqi'];
 			$dijiqi=$dijiqia+1;
 		//$hk_map['hk_htid']=309;
 			$sql_hk=$hk_base->where($hk_map)->select();
+
 			//if($sql_hk==null || $sql_hk=="")
 		//	{
 				$peizhi712.="<tr class='qingxuanze'>
