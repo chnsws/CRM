@@ -571,7 +571,7 @@ $('#piliangzy').hide();
 									var ht=$('input[name="zy_ht"]:checked').val();
 								
 									//var content2=$("#"+xgzd).children("option[value='"+content+"']").text();//参数汉字
-
+							
 									$.get(rooturl+'/index.php/Home/Kehu/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"kh_id":piliang_str,'sj':sj,'ht':ht},
 		        		 				function(html){
 		        		 				
@@ -792,7 +792,7 @@ function add_yh()
 										}
 										
 									}
-									var vstr=ajaxstr.substr(0,ajaxstr.length-3);
+									var vstr=ajaxstr.substr(0,ajaxstr_lxr.length-3);
 									if(ajaxstr_lxr!=''){
 										$.get(rooturl+'/index.php/Home/Kehu/lxr_add',{"id":vstr},
 							        		 function(lxrid){

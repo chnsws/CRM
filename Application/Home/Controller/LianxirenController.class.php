@@ -290,14 +290,8 @@ return $fzr_only;
 								
 						}elseif($k1=="zdy16")
 						{
-							$aaa=strlen($v[$k1]);
-							if($aaa>40)
-							{
-								$bzhu=mb_substr($v[$k1],0,40,'utf-8')."···";	
-							}else{
-								$bzhu=$v[$k1];
-							}
-								$show_bt.="<td> <span title=".$v[$k1]." style='cursor:pointer'>".$bzhu." </span></td>"	;
+							
+								$show_bt.="<td> <div title=".$v[$k1]." style='cursor:pointer;  width:400px;overflow: hidden;text-overflow: ellipsis;'>".$v[$k1]." </div></td>"	;
 								
 						}elseif($k1=="lx_cj_date")
 						{

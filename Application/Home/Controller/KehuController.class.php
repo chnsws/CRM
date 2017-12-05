@@ -2529,9 +2529,9 @@ class KehuController extends Controller {
 			if($sj=="ok")
 			{
 				foreach($sj_ronghe as $kd=>$vd){
-					if($vd['zdy1']=$kkhh)
+					if($vd['zdy1']==$kkhh) 
 					{
-						$map_sj['sj_id']=$vd['sj_id'];
+						$map_sj['sj_id']=$vd['sj_id']; 
 						$sj_save['sj_fz']=$fuzeren;
 						$save_sj=$base_sj->where($map_sj)->save($sj_save);
 
