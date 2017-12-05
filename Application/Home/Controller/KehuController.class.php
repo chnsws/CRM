@@ -1384,7 +1384,7 @@ class KehuController extends Controller {
 			}
 			
 		$a=1;
-			$lx_show.="<table class='layui-table'   >
+			$lx_show.="<table class='layui-table' style='width:100%; table-layout:fixed'>
 							  	<thead>
 							  				<th >姓名</th>
 							  				<th >部门</th>
@@ -1436,14 +1436,8 @@ class KehuController extends Controller {
 									}
 					  				
 					  				$lxr_show.="<td >".$v['zdy6']."</td>
-					  				<td title='".$v['zdy10']."'>".$v['zdy10']."</td>";
-					  						$count=strlen($v['zdy16']);
-						  					if($count>40){
-												$newbze=mb_substr($v['zdy16'],0,40)."....";
-											}else{
-												$newbze=$v['zdy16'];
-											}
-					  			$lxr_show.="<td ><span title='".$v['zdy16']."' style='cursor:pointer'>".$newbze."</td>
+									  <td title='".$v['zdy10']."'>".$v['zdy10']."</td>
+									  <td ><span title='".$v['zdy16']."' style='cursor:pointer'>".$v['zdy16']."</td>
 					  				
 					  			</tr>"; 
 
@@ -1486,14 +1480,7 @@ class KehuController extends Controller {
 						  	foreach($sj_end as $k=>$v)
 							{
 								if($bc<3){
-									$sj_show.="<tr>";
-									$count=strlen($v['zdy0']);
-						  					if($count>13){
-												$newbza=mb_substr($v['zdy0'],0,13)."....";
-											}else{
-												$newbza=$v['zdy0'];
-											}	
-					  				$sj_show.="<td ><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbza."</span></a></td>
+									$sj_show.="<tr><td ><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$v['zdy0']."</span></a></td>
 					  				<td >".$v['zdy3']."</td>
 					  				<td >".substr($v['zdy4'],0,10)."</td>
 					  				<td >".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
@@ -1507,31 +1494,18 @@ class KehuController extends Controller {
 
 				}
 			if($sj_end==''||$sj_end==null){
-				$sj_show_much.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请新增商机</td></tr>";
+				$sj_show_much.="<tr><td colspan='6' align='center'><span>亲~没有数据哟！请新增商机</td></tr>";
 			}else{
 				foreach($sj_end as $k=>$v)
 				{
 					
-										$count=strlen($v['zdy0']);
-										if($count>25){
-										$newaaa=mb_substr($v['zdy0'],0,25)."....";
-										}else{
-											$newaaa=$v['zdy0'];
-										}
 										$sj_show_much.="<tr>
-						  				<td width='27%'><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1' title='".$v['zdy0']."' style='cursor:pointer '>".$newaaa."</span></a></td>
-						  				<td width='12%'>".$v['zdy3']."</td>
-						  				<td width='12%'>".substr($v['zdy4'],0,10)."</td>
-						  				<td width='12%'>".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
-						  				<td width='12%'>".$v['sj-qiandan']."</td>";
-						  					$count=strlen($v['zdy11']);
-						  					if($count>30){
-												$newbzb=mb_substr($v['zdy11'],0,30)."....";
-											}else{
-												$newbzb=$v['zdy11'];
-											}
-
-						  			$sj_show_much.="<td width='25%'> <span title='".$v['zdy11']."' style='cursor:pointer '>".$newbzb."</span></td>
+						  				<td ><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1' title='".$v['zdy0']."' style='cursor:pointer '>".$v['zdy0']."</span></a></td>
+						  				<td >".$v['zdy3']."</td>
+						  				<td >".substr($v['zdy4'],0,10)."</td>
+						  				<td >".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
+										<td >".$v['sj-qiandan']."</td>
+										<td > <span title='".$v['zdy11']."' style='cursor:pointer '>".$v['zdy11']."</span></td>
 						  			</tr> ";
 				}
 			}
@@ -1583,7 +1557,7 @@ class KehuController extends Controller {
 			}
 			$this->assign('hkaa',$hkaa);
 			$this->assign('aa',$aa);
-					$ht_show.="<table class='layui-table'  >
+					$ht_show.="<table class='layui-table' style='width:100%; table-layout:fixed' >
 						  	<thead>
 						  				<th >合同标题</th>
 						  				<th >合同总金额</th>
@@ -1608,17 +1582,11 @@ class KehuController extends Controller {
 										if($hta<3)
 										{
 											$ht_show.="<tr>";
-													$count=strlen($v['zdy0']);
-								  					if($count>13){
-														$newbzc=mb_substr($v['zdy0'],0,13)."....";
-													}else{
-														$newbzc=$v['zdy0'];
-													}
 														if($v['ht_sp']==4){
 
-															$ht_show.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."' title='".$v['zdy0']."' style='cursor:pointer '>".$newbzc."</a></td>";
+															$ht_show.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."' title='".$v['zdy0']."' style='cursor:pointer '>".$v['zdy0']."</a></td>";
 														}else{
-														$ht_show.="	<td ><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbzc."</span></a></td>";
+														$ht_show.="	<td ><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$v['zdy0']."</span></a></td>";
 														}
 											  				
 											  			$ht_show.="	<td >￥".$v['zdy3']."</td>
@@ -1635,34 +1603,22 @@ class KehuController extends Controller {
 							$ht_show.="</tbody>
 					</table>  ";
 			if($ht_end==''||$ht_end==null){
-				$ht_show_much.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请新增合同</td></tr>";
+				$ht_show_much.="<tr><td colspan='6' align='center'><span>亲~没有数据哟！请新增合同</td></tr>";
 			}
 			else{
 				foreach($ht_end as $k=>$v)
 				{
-					$count=strlen($v['zdy0']);
-					if($count>25){
-					  $newbaa=mb_substr($v['zdy0'],0,40)."....";
-					}else{
-						$newbaa=$v['zdy0'];
-					}
 					$ht_show_much.="<tr>";
 									if($v['ht_sp']==4){
-										$ht_show_much.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."' title='".$v['zdy0']."'>".$newbaa."</a></td>";
+										$ht_show_much.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."' title='".$v['zdy0']."'>".$v['zdy0']."</a></td>";
 									}else{
-						  				$ht_show_much.="<td width='27%'><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span title='".$v['zdy0']."'>".$newbaa."</span></a></td>";
+						  				$ht_show_much.="<td ><a href='".$_GET['root_dir']."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span title='".$v['zdy0']."'>".$v['zdy0']."</span></a></td>";
 						  				}
-						  			$ht_show_much.="<td width='12%'>￥".$v['zdy3']."</td>
-						  				<td width='14%'>".$v['zdy5']."</td>
-						  				<td width='14%'>".$v['zdy6']."</td>
-						  				<td width='12%'>".$ywcs_ht['zdy7'][$v['zdy7']]."</td>";
-						  					$count=strlen($v['zdy17']);
-						  					if($count>30){
-												$newbzf=mb_substr($v['zdy17'],0,30)."....";
-											}else{
-												$newbzf=$v['zdy17'];
-											}
-						  				$ht_show_much.="<td width='23%'> <span title='".$v['zdy17']."' >".$newbzf."</span></td>
+						  			$ht_show_much.="<td >￥".$v['zdy3']."</td>
+						  				<td >".$v['zdy5']."</td>
+						  				<td >".$v['zdy6']."</td>
+										<td >".$ywcs_ht['zdy7'][$v['zdy7']]."</td>
+										<td width='23%'> <span title='".$v['zdy17']."' >".$v['zdy17']."</span></td>
 						  			</tr> ";
 				}
 			}
@@ -1958,28 +1914,15 @@ class KehuController extends Controller {
 							foreach($v as $k_a=>$v_a)
 							{
 								if($k_a!="id" && $k_a!="lujing" ){
-								$table_fj.="<td name='$k'>";
+								$table_fj.="<td name='$k' title='".$v_a."'>";
 								if($k_a=="fujian_name")
 								{
 									$table_fj.="<span onclick='fj_xz(this)' class='".$v['lujing']."' style='color:green;cursor:pointer' title='点击下载' >".$v['fujian_name']."</span>";
-								}elseif($k_a=="beizhu"){
-									$count=strlen($v_a);
-									if($count>30){
-									  $newbzb=mb_substr($v_a,0,30)."....";
-									}else{
-										$newbzb=$v_a;
-									}
-									$table_fj.="<span title=".$v_a.">".$newbzb."</span>";
 								}
 								else{
 
 									$table_fj.="".$v_a."";
-								}
-
-
-								
-
-										
+								}			
 								$table_fj.="</td>";
 								}
 							}
