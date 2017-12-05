@@ -291,7 +291,7 @@ return $fzr_only;
 						}elseif($k1=="zdy16")
 						{
 							
-								$show_bt.="<td> <div title=".$v[$k1]." style='cursor:pointer;  width:400px;overflow: hidden;text-overflow: ellipsis;'>".$v[$k1]." </div></td>"	;
+								$show_bt.="<td> <div title=".$v[$k1]." style='cursor:pointer;white-space:nowrap; width:400px;overflow: hidden;text-overflow: ellipsis;'>".$v[$k1]." </div></td>"	;
 								
 						}elseif($k1=="lx_cj_date")
 						{

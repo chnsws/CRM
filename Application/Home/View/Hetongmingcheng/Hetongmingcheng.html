@@ -333,7 +333,7 @@ i.layui-anim{display:inline-block}
 								</div>
 					    		<div class="hk_wh">
 						  			<div class="hkauto">
-								  		<span class="hkshow">计划回款总金额：¥ <b>{$hkzje}</b></span><span class="hkshow"> 已回款总金额：¥<b> {$zonghk}</b></span> <span class="hkshow">未回款总金额：¥ <b>{$weihka}</b>(逾期未回款金额： <span style="color:red">¥ 0.00</span>)</span> <span  class="pz_wz"><button onclick="hkpeizhi()"  class="layui-btn layui-btn-primary layui-btn-small ">
+								  		<span class="hkshow">计划回款总金额：¥ <b>{$hkzje}</b></span><span class="hkshow"> 已回款总金额：¥<b> {$zonghk}</b></span> <span class="hkshow">未回款总金额：¥ <b>{$weihka}</b>(逾期未回款金额： <span style="color:red">¥ 0.00</span>)</span> <span  class="pz_wz"><button onclick="hkpeizhi()"  class="layui-btn layui-btn-primary layui-btn-small  wtgbky">
 						 				<i class="layui-icon">&#xe614;</i>配置回款计划</button>	</span>
 						 		 	</div >
 					   			</div>
@@ -362,7 +362,7 @@ i.layui-anim{display:inline-block}
 						 	</div>
 							<div class="hk_wh">
 										<div class="hkauto" >
-									  		合同总金额：¥ <b>{$hkzje}</b><span class="hkshow"> 已开票总金额：¥<b> {$sq_kp}</b></span> <span class="hkshow">未开票总金额：¥ <b>{$wkp}</b></span> <span  class="pz_wz"><button  id='create-sahngji' onclick='xzkp()' class='layui-btn layui-btn-small add_wz' >新增开票记录</button></span>
+									  		合同总金额：¥ <b>{$hkzje}</b><span class="hkshow"> 已开票总金额：¥<b> {$sq_kp}</b></span> <span class="hkshow">未开票总金额：¥ <b>{$wkp}</b></span> <span  class="pz_wz"><button  id='create-sahngji' onclick='xzkp()' class='layui-btn layui-btn-small add_wz wtgbky' >新增开票记录</button></span>
 									  	</div >
 							</div>
 						<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
@@ -668,6 +668,8 @@ i.layui-anim{display:inline-block}
 	if(ht_sp918==1)
 	{
 		$('.bjscyc').hide();
+	}else{
+		$('.wtgbky').hide();
 	}
 	var kpxs=$('.kpxs').val();
 
