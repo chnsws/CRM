@@ -420,12 +420,9 @@ if(checked_str=="")
 
 	$.get(rooturl+'/index.php/Home/Kehu/del_kehu',{"id":checked_str},
 							        		 function(html){
-							        			tishi('删除成功')
-							        			for(a=0;a<asasd.length;a++)
-							        			{
+												tishi("删除成功");
 												
-												$("#tr"+asasd[a]).hide();	
-							                   	}
+							   window.location.href="kehu";
 							                   });
 }
 

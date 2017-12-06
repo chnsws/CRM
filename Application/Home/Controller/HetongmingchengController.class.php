@@ -673,6 +673,7 @@ return $fzr_only;
 		    $sql_kp= $kp_base->where($kp_map)->select();
 			
 			$sq_kp=0;
+		
 		   	foreach ($sql_kp as $k=>$v)
 		   	{	if($v['kp_sp']==1){
 		   		$sq_kp=$sq_kp+$v['kp_je'];
@@ -703,7 +704,7 @@ return $fzr_only;
 		   	}else{
 		   		$this->assign('yi','yi');
 		   	}
-		   	$wkp=$hkzje-$sq_kp;
+		   	$wkp=$ht_zje-$sq_kp;
 		   	$this->assign('wkp',$wkp);	
 		   	$this->assign('sq_kp',$sq_kp);
 		    if($sql_kp1=="" ||  $sql_kp1==null)
@@ -727,7 +728,7 @@ return $fzr_only;
 										$kp_show.="<td>不允许操作</td><td ><span style='color:green'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
 								}elseif($v['kp_sp']==2)
 								{
-										$kp_show.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:25px;'>&#xe640;</i></span></td><td ><span style='color:red' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
+										$kp_show.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:20px;cursor:pointer'>&#xe640;</i></span></td><td ><span style='color:red;cursor:pointer ' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
 								}
 						
 								$kp_show.="<td title='".$v['kp_date']."' style='cursor:pointer'>".$v['kp_date']."</td>
@@ -765,7 +766,7 @@ return $fzr_only;
 										$kp_show1.="<td>不允许操作</td><td ><span style='color:green'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
 								}elseif($v['kp_sp']==2)
 								{
-										$kp_show1.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:25px;'>&#xe640;</i></span></td><td ><span style='color:red' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
+										$kp_show1.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:20px;cursor:pointer'>&#xe640;</i></span></td><td ><span style='color:red;cursor:pointer' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
 								}
 						
 								$kp_show1.="<td title='".$v['kp_date']."' style='cursor:pointer'>".$v['kp_date']."</td>
@@ -812,7 +813,7 @@ return $fzr_only;
 										$kp_show2.="<td>不允许操作</td><td ><span style='color:green'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
 								}elseif($v['kp_sp']==2)
 								{
-										$kp_show2.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:25px;'>&#xe640;</i></span></td><td ><span style='color:red' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
+										$kp_show2.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:20px;cursor:pointer'>&#xe640;</i></span></td><td ><span style='color:red;cursor:pointer' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
 								}
 						
 								$kp_show2.="<td title='".$v['kp_date']."' style='cursor:pointer'>".$v['kp_date']."</td>
@@ -850,7 +851,7 @@ return $fzr_only;
 										$kp_show3.="<td>不允许操作</td><td ><span style='color:green'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
 								}elseif($v['kp_sp']==2)
 								{
-										$kp_show3.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:25px;'>&#xe640;</i></span></td><td ><span style='color:red' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
+										$kp_show3.="<td ><span style='margin-left:10px'  class='".$v['kp_id']."' onclick='sc_kp(this)'><i class='layui-icon'  style='font-size:20px;cursor:pointer'>&#xe640;</i></span></td><td ><span style='color:red;cursor:pointer' onclick='bh_yy(this)' class='".$v['kp_id']."'>".$shenpi_arr[$v['kp_sp']]."</span></td>";
 								}
 						
 								$kp_show3.="<td title='".$v['kp_date']."' style='cursor:pointer'>".$v['kp_date']."</td>

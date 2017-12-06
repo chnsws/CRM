@@ -398,11 +398,11 @@ class ShenpiController extends Controller {
 							
 									
 									$kp_show.="</td>
-										<td>".$ht_name[$v['kp_ht']]['name']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['kp_ht']]['name']."'>".$ht_name[$v['kp_ht']]['name']."</div></td>
 										<td>".$user_name[$ht_name[$v['kp_ht']]['fz']]['user_name']."</td>
-										<td>".$kh_name[$v['kp_kh']]['name']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$v['kp_kh']]['name']."'>".$kh_name[$v['kp_kh']]['name']."</div></td>
 										<td>".$v['kp_date']."</td>
-										<td>".$v['kp_data']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$v['kp_data']."'>".$v['kp_data']."</div></td>
 										<td>".$v['kp_je']."</td>";
 										if($v['kp_type']==0 || $v['kp_type']==1)
 										{
@@ -461,11 +461,11 @@ class ShenpiController extends Controller {
 						{
 								$kp_show1.="<tr>
 										<td>您已通过</td>
-										<td>".$ht_name[$v['kp_ht']]['name']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['kp_ht']]['name']."'>".$ht_name[$v['kp_ht']]['name']."</div></td>
 										<td>".$user_name[$ht_name[$v['kp_ht']]['fz']]['user_name']."</td>
-										<td>".$kh_name[$v['kp_kh']]['name']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$v['kp_kh']]['name']."'>".$kh_name[$v['kp_kh']]['name']."</div></td>
 										<td>".$v['kp_date']."</td>
-										<td>".$v['kp_data']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$v['kp_data']."'>".$v['kp_data']."</div></td>
 										<td>".$v['kp_je']."</td>";
 										if($v['kp_type']==0 || $v['kp_type']==1)
 										{
@@ -524,11 +524,11 @@ class ShenpiController extends Controller {
 						{
 								$kp_show2.="<tr>
 										<td>您已驳回<span style='margin-left:10px;font-size:20px;color:red' class='".$v['kp_id']."' onclick='because(this)'><i class='layui-icon'>&#xe607;</i>  </span></td>
-										<td>".$ht_name[$v['kp_ht']]['name']."</td>
+										<td> <div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['kp_ht']]['name']."'>".$ht_name[$v['kp_ht']]['name']."</div></td>
 										<td>".$user_name[$ht_name[$v['kp_ht']]['fz']]['user_name']."</td>
-										<td>".$kh_name[$v['kp_kh']]['name']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$v['kp_kh']]['name']."'>".$kh_name[$v['kp_kh']]['name']."</div></td>
 										<td>".$v['kp_date']."</td>
-										<td>".$v['kp_data']."</td>
+										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$v['kp_data']."'>".$v['kp_data']."</div></td>
 										<td>".$v['kp_je']."</td>";
 										if($v['kp_type']==0 || $v['kp_type']==1)
 										{
@@ -594,11 +594,11 @@ class ShenpiController extends Controller {
 										}
 
 									$kp_show3.="</td>
-										<td>".$ht_name[$v['kp_ht']]['name']."</td>
+										<td> <div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['kp_ht']]['name']."'>".$ht_name[$v['kp_ht']]['name']."</div></td>
 										<td>".$user_name[$ht_name[$v['kp_ht']]['fz']]['user_name']."</td>
-										<td>".$kh_name[$v['kp_kh']]['name']."</td>
+										<td> <div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$v['kp_kh']]['name']."'>".$kh_name[$v['kp_kh']]['name']."</div></td>
 										<td>".$v['kp_date']."</td>
-										<td>".$v['kp_data']."</td>
+										<td> <div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$v['kp_data']."'>".$v['kp_data']."</div></td>
 										<td>".$v['kp_je']."</td>";
 										if($v['kp_type']==0 || $v['kp_type']==1)
 										{
