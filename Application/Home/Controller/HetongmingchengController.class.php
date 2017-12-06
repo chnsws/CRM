@@ -182,7 +182,9 @@ return $fzr_only;
 			$this->assign('ht_sp918',$ht_sp918);
 			$ht_json=json_decode($sql_lianxi['ht_data'],true);
 			$ht_zje=$ht_json['zdy3'];
-			$this->assign('ht_zje',$ht_zje);
+			$this->assign('ht_zjea',$ht_zje);
+		
+	
 			foreach ($ywzd as $k => $v){
 				$show.="<tr style='line-height:40px'><td style='width :150px'>".$v['name']."：</td>";
 				if($ht_json[$k]!=""){

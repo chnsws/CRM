@@ -41,8 +41,7 @@ class FiledoController extends DBController {
             } 
             $objPHPExcel->setActiveSheetIndex(0) ->setCellValue($colum.'1', $v);  
             $key += 1;  
-        }  
-
+        }
         $column = 2;  
         $objActSheet = $objPHPExcel->getActiveSheet();            
         foreach($data as $key => $rows){ //行写入  
