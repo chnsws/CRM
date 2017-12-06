@@ -466,7 +466,7 @@ class ShangjiController extends Controller {
 							$table.="<td><input type='text' class='required' name='".$vzd['id']."' value='' maxlength='40'></td>";   //  0文本框
 							}
 						elseif($vzd['type']=="2")
-							$table.="<td><input type='text' class='required' name='".$vzd['id']."'   class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d '".'})"'."></td>";   //  2 日期 
+							$table.="<td><input type='text' class='required' name='".$vzd['id']."'   class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd '".'})"'."></td>";   //  2 日期 
 						elseif($vzd['type']=="3")
 						{	
 							//echo $vzd['id'];
@@ -544,7 +544,7 @@ class ShangjiController extends Controller {
 							$table1.="<td><input type='text' name='".$vzd['id']."' maxlength='40' ></td>";   //  0文本框
 							}
 						elseif($vzd['type']=="2")
-							$table1.="<td><input type='text' name='".$vzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d'".'})"'."></td>";   //  2 日期 
+							$table1.="<td><input type='text' name='".$vzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td>";   //  2 日期 
 						elseif($vzd['type']=="3")
 						{	
 							//echo $vzd['id'];
@@ -627,7 +627,7 @@ class ShangjiController extends Controller {
 							$table2.="<td><input type='text' name='".$vzd['id']."'  ></td>";   //  0文本框
 							}
 						elseif($vzd['type']=="2")
-							$table2.="<td><input type='text' name='".$vzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d'".'})"'."></td>";   //  2 日期 
+							$table2.="<td><input type='text' name='".$vzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td>";   //  2 日期 
 						elseif($vzd['type']=="3")
 						{	
 							//echo $vzd['id'];
@@ -1853,7 +1853,7 @@ return $fzr_only;
 						}
 					}elseif($vywzd['type']==2){
 						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text'  class=' required1 text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  name='".$vywzd['id']."'></td>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text'  class=' required1 text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."  name='".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
 					}elseif($vywzd['type']==1){	
 						$add_yw.="<tr class='addtr nncy' data-toggle='distpicker' style='overflow:hidden'>";
@@ -1985,7 +1985,7 @@ return $fzr_only;
 					$show_bt.="</tr>";
 				}elseif($v['id']=='zdy13'){
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-						$show_bt.="<td><input type='text' name='".$v['id']."'  class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td></tr>";	
+						$show_bt.="<td><input type='text' name='".$v['id']."'  class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td></tr>";	
 				}elseif($v['id']=='zdy6'){
 					$show_bt.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
 					$show_bt.="<td><span style='color:red'>*</span>".$v['name'].":</td><td class='form-group' style='width:80%;'>";

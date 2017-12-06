@@ -244,7 +244,7 @@ class KehuController extends Controller {
 					$show_bt.="</tr>";
 				}elseif($v['id']=='zdy13'){
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-						$show_bt.="<td><input type='text' name='".$v['id']."'  class='ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd HH:mm:ss'".'})"'."></td></tr>";	
+						$show_bt.="<td><input type='text' name='".$v['id']."'  class='ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td></tr>";	
 				}elseif($v['id']=='zdy6'){
 					$show_bt.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
 					$show_bt.="<td><span style='color:red'>*</span>".$v['name'].":</td><td class='form-group' style='width:80%;'>";
@@ -308,7 +308,7 @@ class KehuController extends Controller {
 						$show_bt1.="</tr>";
 					}elseif($v['id']=='zdy13'){
 						$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
-						$show_bt1.="<td><input type='text' name='".$v['id']."'  class=' ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td></tr>";	
+						$show_bt1.="<td><input type='text' name='".$v['id']."'  class=' ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td></tr>";	
 					}elseif($v['id']=='zdy2'){
 						$show_bt1.="<tr class='addtr'><td>".$v['name']."：</td>";
 						$show_bt1.="<td><input  tabindex='1' type='text' size='4' maxlength='4' onkeyup='checkp(this,this.value)' name='".$v['id']."'' style='width:48px'><span style='margin-right:10px;margin-left:10px'>-</span><input type='text' style='width:228px' class='jiaodian' name='".$v['id']."' maxlength='25'></td></tr>";	
@@ -346,7 +346,7 @@ class KehuController extends Controller {
 						$show_bt2.="</tr>";
 					}elseif($v['id']=='zdy13'){
 						$show_bt2.="<tr class='addtr'><td>".$v['name']."：</td>";
-						$show_bt2.="<td><input type='text' name='".$v['id']."'    class='ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td></tr>";	
+						$show_bt2.="<td><input type='text' name='".$v['id']."'    class='ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td></tr>";	
 					}elseif($v['id']=='zdy6'){
 						$show_bt2.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
 						$show_bt2.="<td>".$v['name'].":</td><td class='form-group' style='width:80%;'>";
@@ -1758,7 +1758,7 @@ class KehuController extends Controller {
 						{
 							$tab3.='<tr   ><td style="width:200px;">'.$v['name'].':</td><td  class="dqth"><input type="text" class="bianjiyo" onclick="diquth()" name="'.$k.'" value="'.$neww_kehu[$k].'"></td></tr>';
 						}elseif($k=="zdy13"){
-							$tab3.="<tr ><td style='width:200px;'>".$v['name'].":</td><td ><input type='text'  class=' bianjiyo text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d'".'})"'."  name='".$k."' value='".$neww_kehu[$k]."'></td></tr>";	
+							$tab3.="<tr ><td style='width:200px;'>".$v['name'].":</td><td ><input type='text'  class=' bianjiyo text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."  name='".$k."' value='".$neww_kehu[$k]."'></td></tr>";	
 					
 						}elseif($k=="zdy15")
 						{
@@ -1815,7 +1815,7 @@ class KehuController extends Controller {
 				         	$tab3.="<select  style='width:100px' name='".$k."[]' class='form-control diquthr'   ></select>";
 							$tab3.='</td></tr>';
 						}elseif($k=="zdy13"){
-							$tab3.="<tr ><td style='width:200px;'>".$v['name'].":</td><td ><input type='text'  class=' required1 text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d'".'})"'."  name='".$vywzd['id']."'></td></tr>";	
+							$tab3.="<tr ><td style='width:200px;'>".$v['name'].":</td><td ><input type='text'  class=' required1 text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."  name='".$vywzd['id']."'></td></tr>";	
 						}elseif($k=="zdy3"){
 							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><input type="text" class="bianjiyo qingyx" id="yxzcla"  onchange="yxyz(this)" name="'.$k.'" value="'.$neww_kehu[$k].'" maxlength="40"></td></tr>';
 						
@@ -3347,7 +3347,7 @@ public function save(){
 						
 					}elseif($vywzd['type']==2){
 						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text'  class=' required1 text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  name='".$vywzd['id']."'></td>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text'  class=' required1 text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."  name='".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
 					}elseif($vywzd['type']==1){	
 						$add_yw.="<tr class='addtr nncy' data-toggle='distpicker' style='overflow:hidden'>";
@@ -3363,7 +3363,7 @@ public function save(){
 						$add_yw.="</tr>";
 						}elseif($vywzd['id']=='zdy15'){
 						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d'".'})"'." name='".$vywzd['id']."'></td>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'." name='".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
 						}elseif($vywzd['id']=='zdy5'){
 								$add_yw.="<tr class='addtr'><td><span style='color:red'>*</span>".$vywzd['name'].":</td>";

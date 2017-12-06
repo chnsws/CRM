@@ -342,7 +342,7 @@ return $fzr_only;
 					
 					}elseif($vywzd['type']==2){
 						$add_yw.="<tr class='addtr'>";
-						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text'  class=' required text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."  name='".$vywzd['id']."'></td>";
+						$add_yw.="<td><span style='color:red'>*</span>".$vywzd['name'].":</td> <td><input type='text'  class=' required text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."  name='".$vywzd['id']."'></td>";
 						$add_yw.="</tr>";
 					}elseif($vywzd['type']==1){	
 						$add_yw.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
@@ -391,7 +391,7 @@ return $fzr_only;
 						
 					}elseif($vywzd['type']==2){
 						$add_yw1.="<tr class='addtr'>";
-						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";
+						$add_yw1.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td>";
 						$add_yw.="</tr>";
 					}elseif($vywzd['type']==1){	
 						$add_yw1.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
@@ -446,7 +446,7 @@ return $fzr_only;
 						}
 					}elseif($vywzd['type']==2){
 						$add_yw2.="<tr class='addtr ncy'>";
-						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";
+						$add_yw2.="<td>".$vywzd['name'].":</td> <td><input type='text' name='".$vywzd['id']."'  class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td>";
 						$add_yw.="</tr>";
 					}elseif($vywzd['type']==1){	
 						$add_yw2.="<tr class='addtr ncy' data-toggle='distpicker' style='overflow:hidden'>";
@@ -865,7 +865,7 @@ return $fzr_only;
 					$show_bt.="</tr>";
 				}elseif($v['id']=='zdy13'){
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name']."：</td>";
-						$show_bt.="<td><input type='text' name='".$v['id']."'  class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td></tr>";	
+						$show_bt.="<td><input type='text' name='".$v['id']."'  class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td></tr>";	
 				}elseif($v['id']=='zdy6'){
 					$show_bt.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
 					$show_bt.="<td><span style='color:red'>*</span>".$v['name'].":</td><td class='form-group' style='width:80%;'>";

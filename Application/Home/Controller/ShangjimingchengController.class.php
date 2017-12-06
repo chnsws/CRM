@@ -373,7 +373,7 @@ return $fzr_only;
 							$show2.="</select></td>";
 								
 						}elseif($kbt=="zdy4"|| $kbt=="zdy8" ||$kbt=="zdy10"){
-							$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."'  style='width:250px' class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d '".'})"'." ></td> ";
+							$show2.="<td><input type='text' name='".$kbt."' value='".$sql_rh[$kbt]."'  style='width:250px' class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd '".'})"'." ></td> ";
 						}elseif($kbt=='zdy11'){
 							$show2.="<td><textarea name='".$kbt."' style='width:250px'  maxlength='400' rows='4'  placeholder='最大长度400'>".$sql_rh[$kbt]."</textarea></td>";
 						}

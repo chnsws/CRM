@@ -324,7 +324,7 @@ class LianxirenmingchengController extends Controller {
 					
 						
 						}elseif($k=='zdy15'){
-						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d '".'})"'."  style='width:300px;height:26px;' placeholder='未填写'></td>";
+						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd '".'})"'."  style='width:300px;height:26px;' placeholder='未填写'></td>";
 
 					
 						}elseif($k=='zdy10'){
