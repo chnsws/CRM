@@ -166,9 +166,9 @@ a{color:#07d; text-decoration:none !important;}
 					    <li id='twoaa'>客户资料</li>
 					    <li class='lxrone' >联系人</li>
 					    <li class='sjrone' >商机</li>
-					    <li  class='htrone'>合同</li>
+					 
 					    <li id='six'>附件</li>
-					    <li>操作日志</li>
+					
 				  </ul>
 				  <div class="layui-tab-content" >
 				    <div class="layui-tab-item "  id="onesh1">
@@ -181,7 +181,7 @@ a{color:#07d; text-decoration:none !important;}
 
 							  						<table class="layui-table"  >
 														  	<thead>
-														  				<th >客户类型</th>
+														  				<th >客户类型</th>                     
 														  				<th >电话</th>
 														  				<th >邮箱</th>
 														  				<th >跟进状态</td>
@@ -206,7 +206,7 @@ a{color:#07d; text-decoration:none !important;}
 								  					
 								  							{$lx_show}
 								  					
-						  					
+						  					  
 						  						</div>	
 						  						<div class="qc"></div>
 						  					</div>
@@ -309,25 +309,7 @@ a{color:#07d; text-decoration:none !important;}
 						
 						 </table>  
 				    </div>
-				    <div class="layui-tab-item" >
-				    	<table class="layui-table lll"   width="auto">
-				    		
-						  	<thead>
-						  				<th >合同标题</th>
-						  				<th >合同总金额</th>
-						  				<th >合同开始时间</th>
-						  				<th >合同到期时间</th>
-						  				<th >合同状态</td>
-						  				<th >备注</th>
-						  				
-						  			
-							</thead>
-							<tbody class="fujian_del">
-									{$ht_show_much}
-							</tbody>
-							
-						  </table>  
-				    </div>
+				  
 				    <div class="layui-tab-item " id="six1">
 				 		   <div >
 				  				<input type="button" id="dialog-form" onclick="openwindow()" class="layui-btn layui-btn-small" value="+文件上传">
@@ -354,55 +336,7 @@ a{color:#07d; text-decoration:none !important;}
 						
 	  							</div>	
 				    </div>
-				     <div class="layui-tab-item">
-				     		<div class="uk-form">
-					  				<span ><select  name= "rz_mk" class="rz_sx rzone" >
-					  					<option value="0">所有系统模块</option>
-					  					<option value="2">客户</option>
-					  					<option value="3">客户公海</option>
-					  					<option value="4">联系人</option>
-					  					<option value="5">商机</option>
-					  					<option value="6">合同</option>
-					  				</select></span>
-
-					  				<span class="rz_sx1"><select name= "rz_user"  class="rz_sx rztwo" >
-					  					<option value="0">所有操作人员</option>
-					  					<foreach name="user" item="vo">
-					  						<option value="{$vo.user_id}">{$vo.user_name}</option>
-					  					</foreach>
-					  				
-					  				</select></span>
-					  				<span class="rz_sx1">
-						  				<select name= "rz_type" class="rz_sx rzthree">
-						  					<option value="0">所有操作类别</option>
-						  					<option value="2">编辑</option>
-						  					<option value="1">添加</option>
-						  					<option value="3">删除</option>
-						  				</select>
-					  				</span>
-					  				<span class="rz_sx1"><input type="text" name= "start" value="开始日" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})" class="rz_sx rzfour"><span style="margin-left:10px;margin-right:10px">-</span><input type="text" name= "end" class="rz_sx rzfive" value="截止日" onfocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss'})"></span>
-					  				<button onclick="rz_sx(this)" class="rz_sx1 layui-btn layui-btn-small">查询</button>
-					  			</div>
-					  			<table class="layui-table"  > 
-								  	<thead>
-								  				
-								  				<th >操作时间</th>
-								  				<th >操作人员</th>
-								  				<th >操作模块</th>
-								  			
-								  				<th >备注</th>
-								  				<th >类型</th>
-
-								  				
-								  			
-									</thead>
-									<tbody class="rz_sxp">
-								
-								  		{$rz_jl}
-
-									</tbody>
-					  			</table>  
-				    		 </div>
+				    
 				  </div>
 				</div>   
 
