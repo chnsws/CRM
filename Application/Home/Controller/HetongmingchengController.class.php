@@ -329,7 +329,7 @@ return $fzr_only;
 						$show3.="</select></td>";
 					
 					}elseif($k=='zdy4' || $k=='zdy5'  ||$k=='zdy6' || $k=='zdy15'){
-						$show3.="<td ><input type='text' class='bjwh' name='$k' value='".$ht_json[$k]."' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd H:mm:ss'".'})"'."></td>";	
+						$show3.="<td ><input type='text' class='bjwh' name='$k' value='".$ht_json[$k]."' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td>";	
 					}elseif($k=='zdy13'){
 
 												
@@ -622,7 +622,7 @@ return $fzr_only;
 		    $kaipiao.="<table class='uk-form ' >";
 		    			 $kaipiao.="<tr>
 
-		    						<td><span style='color:red'>＊</span>开票日期:</td><td><input type='text' class='required' name='kp_date' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd '".'})"'."></td>
+		    						<td><span style='color:red'>＊</span>开票日期:</td><td><input type='text' class='required' name='kp_date' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td>
 		    					</tr>
 		    					<tr>
 		    						<td><span style='color:red'>＊</span>票据内容:</td><td><input type='text' name='kp_data' class='required'></td>

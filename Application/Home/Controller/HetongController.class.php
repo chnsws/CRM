@@ -500,7 +500,7 @@ public function kehu(){
 				if($v['type']=="2") //时间
 				{
 					$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name'].":</td>";
-					$show_bt.="<td><input type='text' name='".$v['id']."' value='' class='required text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."> </td></tr>	";		
+					$show_bt.="<td><input type='text' name='".$v['id']."' value='' class='required text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."> </td></tr>	";		
 				}elseif($v['type']=="3")
 				{	
 					if($v['id']=='zdy1')
@@ -620,7 +620,7 @@ public function kehu(){
 				if($v['type']=="2") //时间
 				{
 					$show_bt1.="<tr class='addtr'><td>".$v['name'].":</td>";
-					$show_bt1.="<td><input type='text' name='".$v['id']."' value='' class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."> </td></tr>	";		
+					$show_bt1.="<td><input type='text' name='".$v['id']."' value='' class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."> </td></tr>	";		
 				}elseif($v['type']=="3")
 				{	
 						
@@ -1646,7 +1646,7 @@ public function kehu(){
 								$table.="<td><input type='text' class='required' id='wy".$vzd['id']."' name='".$vzd['id']."' maxlength='40'></td>";   //  0文本框
 							}
 						elseif($vzd['type']=="2")
-							$table.="<td><input type='text' class='required' name='".$vzd['id']."'   class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-M-d H:mm:ss'".'})"'."></td>";   //  2 日期 
+							$table.="<td><input type='text' class='required' name='".$vzd['id']."'   class='text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."></td>";   //  2 日期 
 						elseif($vzd['type']=="3")
 						{	
 							//echo $vzd['id'];
