@@ -11,8 +11,6 @@ class KehuController extends Controller {
 		echo $sl;
 	}
     public function kehu(){
-
-    
     	$xiaji= $this->get_xiashu_id();//  查询下级ID\
     	//$kehuname=$this->kehuname();
     	$lxr=$this->lxr();
@@ -52,6 +50,8 @@ class KehuController extends Controller {
 		$namess=$_GET['sousuo'];
 		if($namess!="")
 		{
+			$yzdl=A('DB');
+			$yzdl->is_login2(2);//跳转 登录验证
 		
 		$json_name=json_encode($namess,true);
 		$newstr = substr($json_name,0,strlen($json_name)-1); 
@@ -62,7 +62,11 @@ class KehuController extends Controller {
 		$kehu=$kh_base->query("select * from crm_kh where kh_yh = '$yh' and kh_fz IN ($xiaji) and kh_gonghai=0 and kh_data like '%".$tihuan."%'");
 		$this->assign('namess',$namess);
 		}elseif($sxaaa!=""){
-
+			$yzdl=A('DB');
+			$yzdl->is_login();
+		
+		
+			
 					$new_id=substr($sxaaa,0,strlen($sxaaa)-1); 
 					//$new_ida="kehujibie,2|zdy1,2|zdy10,4|zdy11,6|zdy11,1|zdy10,1|zdy1,1|kehujibie,1|zdy10,2|zdy10,1|zdy10,2|zdy10,3|";
 					//$new_id=substr($new_ida,0,strlen($new_ida)-1); 
@@ -156,6 +160,9 @@ class KehuController extends Controller {
 					}
 
 		}else{
+			$yzdl=A('DB');
+			$yzdl->is_login2(2);
+			$yzdl->have_qx2("qx_kh_open");//跳转权限验证
 			$datakh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 			$ht_base=M('kh');
 
@@ -806,6 +813,9 @@ class KehuController extends Controller {
 		return $lx_name;
 	}
  public function add(){
+	$yzdl=A('DB');
+	$yzdl->is_login();
+	$yzdl->have_qx("qx_kh_open");//跳转权限验证
 		$a=$_GET['id'];
 		$b=$_GET['id2'];
 	
@@ -889,6 +899,9 @@ class KehuController extends Controller {
 	}
 
  public function adda(){
+	$yzdl=A('DB');
+	$yzdl->is_login();
+	$yzdl->have_qx("qx_kh_open");//跳转权限验证
 		$a=$_GET['id'];
 		//$a="zdy0:哥哥哥,zdy1:canshu1,zdy2:5565656,zdy3:54454,zdy4:55,zdy5:6,zdy15:142,zdy8:,zdy12:--请选择--,zdy13:,zdy6[]:北京市-北京市市辖区-东城区,zdy7:,zdy9:--请选择--,zdy10:--请选择--,zdy11:--请选择--,zdy14:,ht_fz:45,ht_department:销售部-国贸1,";
 		$new_number=$a;
@@ -3407,6 +3420,9 @@ public function save(){
 		return $sql_json;
 	}
 	public function lxr_add(){
+			$yzdl=A('DB');
+			$yzdl->is_login();
+			$yzdl->have_qx("qx_kh_open");//跳转权限验证
 		$a=$_GET['id'];
 		//$a="zdy0:王玉帅,zdy1:公司二,zdy2:男,zdy3:技术部,zdy4:程序员,zdy5:15101574324,zdy6:1510157324,zdy7:guanzhuwoba666,zdy8:792732447,zdy9:没有,zdy10:792732447@qq.com,zdy11:www.nmm.com,zdy12[]:北京市-北京市市辖区-东城区,zdy13:劲松富顿中心C座1201,zdy14:548976,zdy15:2017-4-27 17:11:46,zdy16:2222,";
 		

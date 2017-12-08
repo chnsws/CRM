@@ -21,7 +21,7 @@
 
 		<link href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
 		<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
-		
+		<script src="{$_GET['public_dir']}/js/islogin.js"></script>
 <!--下面   地区插件-->
 	
 	
@@ -356,8 +356,10 @@ layui.use('upload', function(){
     				}else{
     					$.get(rooturl+'/index.php/Home/Kehu/index',{"bianji_id":$(this).attr("id"),"bianji_name":$(this).attr("name"),"bianji_val":$(this).val()},
 							        		 function(html){
+												errorFun(html)
 							        		//tishi(html)
 													if(html=='ok'){
+														
 
 														location.reload();
 							        		 		}
@@ -793,11 +795,12 @@ function add_yh()
 									if(ajaxstr_lxr!=''){
 										$.get(rooturl+'/index.php/Home/Kehu/lxr_add',{"id":vstr},
 							        		 function(lxrid){
+												 errorFun(lxrid);
 							        		 	window.lxr_id=lxrid;
 							        	
 										        $.get(rooturl+'/index.php/Home/Kehu/add',{"id":ajaxstr,"id2":lxr_id},
 								        		 function(lxrid){
-								        		
+													errorFun(lxrid);
 										        	location.reload();
 										        		layer.close(win)
 								                  });
@@ -807,6 +810,7 @@ function add_yh()
 									}else{
 										$.get(rooturl+'/index.php/Home/Kehu/adda',{"id":vstr},
 							        		 function(html){
+												errorFun(lxrid);
 									        		location.reload();
 									        		layer.close(win)
 							                   });
