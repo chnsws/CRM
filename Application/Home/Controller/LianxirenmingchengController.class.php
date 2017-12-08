@@ -282,12 +282,12 @@ class LianxirenmingchengController extends Controller {
 						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."  style='width:300px;height:26px;' value='".$lx_json[$k]."'></td>";
 
 					}elseif($k=='zdy6'){
-						$show3.="<td><input type='text' name='".$k."' style='width:300px;height:26px;'  class='required1 qingyx1 ' onchange='sjyz(this)' value='".$lx_json[$k]."'></td>";
+						$show3.="<td><input type='text' name='".$k."' style='width:300px;height:26px;'  class='required1 qingyx1 sjyzacc'  onchange='sjyz(this)' value='".$lx_json[$k]."'></td>";
 
 					
 					}elseif($k=='zdy10'){
 
-						$show3.="<td><input type='text' name='".$k."'  class='qingyx'  onchange='yxyz(this)' style='width:300px;height:26px;' value='".$lx_json[$k]."' maxlength='40'></td>";
+						$show3.="<td><input type='text' name='".$k."'  class='qingyx yxyza'  onchange='yxyz(this)' style='width:300px;height:26px;' value='".$lx_json[$k]."' maxlength='40'></td>";
 					}elseif($k=='zdy16'){
 						$show3.="<td><textarea name='".$k."' class='required' maxlength='400' style='width:300px' rows='2' cols='38' placeholder='最大长度400'>".$lx_json[$k]."</textarea></td>";
 					}elseif($k=='zdy5'){
@@ -329,9 +329,9 @@ class LianxirenmingchengController extends Controller {
 					
 						}elseif($k=='zdy10'){
 
-						$show3.="<td><input type='text' name='".$k."'  class='qingyx'  onchange='yxyz(this)' style='width:300px;height:26px;' placeholder='未填写' maxlength='40'></td>";
+						$show3.="<td><input type='text' name='".$k."'  class='qingyx yxyza'  onchange='yxyz(this)' style='width:300px;height:26px;' placeholder='未填写' maxlength='40'></td>";
 						}elseif($k=='zdy6'){
-						$show3.="<td><input type='text' name='".$k."' style='width:300px;height:26px;'  class=' qingyx1 ' onchange='sjyz(this)' placeholder='未填写'></td>";
+						$show3.="<td><input type='text' name='".$k."' style='width:300px;height:26px;'  class='qingyx1 sjyzacc'    onchange='sjyz(this)' placeholder='未填写'></td>";
 		
 						}elseif($k=='zdy5'){
 								$zuoji = explode('-',$lx_json[$k]);

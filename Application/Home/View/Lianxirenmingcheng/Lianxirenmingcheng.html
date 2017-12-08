@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+                                                           <!DOCTYPE html>
 
 <html>
 
@@ -11,6 +11,7 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="format-detection" content="telephone=no">
+		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
 	  		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 			<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
 			<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
@@ -204,6 +205,28 @@
 									var formdom=$("#myform").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';
+									var acc=$(".yxyza").val();
+									if(acc!=undefined && acc!=''){
+										if(!acc.match(/^([a-zA-Z0-9\u4e00-\u9fa5\_\-\.])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/)) 
+										{
+										
+										tishi("邮箱格式不正确！请重新输入");return;
+										}
+									}
+
+									var acca=$(".sjyzacc").val();
+								
+									if(acca!=undefined && acca!=''){
+										if(!acca.match(/^([1])+(([0-9]){10})$/))
+										{	
+											tishi("请输入正确的十一位手机号");
+											   return;
+										}
+									}	
+
+
+
+								
 									for(a=0;a<fornum;a++)
 									{
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
@@ -253,7 +276,7 @@
    		 	 if(!a.match(/^([1])+(([0-9]){10})$/))
 			  {
 			   tishi("请输入正确的十一位手机号");
-			   $(".qingyx1").val('');
+			 
 			  }
 
    		 }
@@ -265,7 +288,7 @@
 		   		 	 if(!a.match(/^([a-zA-Z0-9\u4e00-\u9fa5\_\-\.])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/))
 					  {
 					   tishi("格式不正确！请重新输入");
-					   $(".qingyx").val('');
+					 
 					  }
 
 		   		 }
