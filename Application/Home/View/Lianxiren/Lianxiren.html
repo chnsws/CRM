@@ -15,7 +15,7 @@
 		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
 		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
 
-  	
+		<script src="{$_GET['public_dir']}/js/islogin.js"></script>
 		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
 <script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
@@ -434,6 +434,7 @@
    $(".ycyo").hide();
 	$.get(rooturl+'/index.php/Home/Lianxiren/lianxiren',{"sxaaa":id},
 							        		 function(html){
+												errorFun(html)
 							        		 	if(html=="quanbu")
 							        		 	{
 							        		 		window.location.href="lianxiren";
@@ -501,16 +502,19 @@
 									{
 										$.get(rooturl+'/index.php/Home/Lianxiren/add',{"id":ajaxstr},
 								        		 function(html){
+													 errorFun(html)
 								        		 	 tishi("添加成功");
 										        		window.location.href="lianxiren";
 								                   });
 									}else{
 										$.get(rooturl+'/index.php/Home/Lianxiren/add_kh',{"id":ajaxstr_kh},
 								        		 function(khid){
+													errorFun(khid)
 								        		 	window.kh_id=khid;
 								        		 	alert(kh_id)
 								        		 	$.get(rooturl+'/index.php/Home/Lianxiren/adda',{"id":ajaxstr,"id2":kh_id},
 										        		 function(html){
+																errorFun(html)
 												        		 tishi("添加成功");
 												        		window.location.href="lianxiren";
 										                   });
@@ -642,6 +646,7 @@
     			checked_str=checked_str.substr(0,checked_str.length-1);
     			$.get(rooturl+'/index.php/Home/Lianxiren/del',{"id":checked_str},
 		        		 function(html){
+							 errorFun(html)
 		        		 	tishi("删除成功");
 		        						      
 		     				window.location.href="lianxiren";

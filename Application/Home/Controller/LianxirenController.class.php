@@ -131,7 +131,10 @@ return $fzr_only;
 		$lx_base=M('lx');
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		if($namess!="")
-		{
+		{		
+				$yzdl=A('DB');
+				$yzdl->is_login2(2);//跳转 登录验证
+				$yzdl->have_qx2("qx_lxr_open");//跳转权限验证
 				$json_name=json_encode($namess,true);
 				$newstr = substr($json_name,0,strlen($json_name)-1); 
 				$first =substr($newstr,1);  
@@ -141,9 +144,10 @@ return $fzr_only;
 				$lxr_sql=$kh_base->query("select * from crm_lx where lx_yh = '$yh' and lx_cj IN ($xiaji) and lx_gonghai=0 and lx_data like '%".$tihuan."%'");
 				$this->assign('namess',$namess);
 		}elseif($sxaaa!=""){
-			$new_id=substr($sxaaa,0,strlen($sxaaa)-1); 
-		
-
+				$yzdl=A('DB');
+				$yzdl->is_login();
+				$yzdl->have_qx("qx_lxr_open");//跳转权限验证
+				$new_id=substr($sxaaa,0,strlen($sxaaa)-1); 
 				$new_arr=explode("|",$new_id);
 				foreach($new_arr as $k=>$v)
 				{
@@ -180,6 +184,9 @@ return $fzr_only;
 				}
 				
 		}else{
+			$yzdl=A('DB');
+			$yzdl->is_login2(2);
+			$yzdl->have_qx2("qx_lxr_open");//跳转权限验证
 			$lxr_base=M('lx');
 			$map['lx_gonghai']=0;
 			$map['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司
@@ -562,6 +569,9 @@ return $fzr_only;
 		return implode(",",$nowzgid);
 	}
 	public function add(){
+		$yzdl=A('DB');
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_lxr_open");//跳转权限验证
 		$a=$_GET['id'];
 		//$a="zdy0:王玉帅,zdy1:公司二,zdy2:男,zdy3:技术部,zdy4:程序员,zdy5:15101574324,zdy6:1510157324,zdy7:guanzhuwoba666,zdy8:792732447,zdy9:没有,zdy10:792732447@qq.com,zdy11:www.nmm.com,zdy12[]:北京市-北京市市辖区-东城区,zdy13:劲松富顿中心C座1201,zdy14:548976,zdy15:2017-4-27 17:11:46,zdy16:2222,";
 		$new_number=substr($a,0,strlen($a)-1); 
@@ -591,6 +601,9 @@ return $fzr_only;
 		}
 	}
 	public function adda(){
+		$yzdl=A('DB');
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_lxr_open");//跳转权限验证
 		$a=$_GET['id'];
 		$b=$_GET['id2'];
 		//$a="zdy0:王玉帅,zdy1:公司二,zdy2:男,zdy3:技术部,zdy4:程序员,zdy5:15101574324,zdy6:1510157324,zdy7:guanzhuwoba666,zdy8:792732447,zdy9:没有,zdy10:792732447@qq.com,zdy11:www.nmm.com,zdy12[]:北京市-北京市市辖区-东城区,zdy13:劲松富顿中心C座1201,zdy14:548976,zdy15:2017-4-27 17:11:46,zdy16:2222,";
@@ -636,8 +649,11 @@ return $fzr_only;
 		}
 	}
 	public function del(){
+			$yzdl=A('DB');
+			$yzdl->is_login();
+			$yzdl->have_qx("qx_lxr_del");//跳转权限验证
 			$mapid=$_GET['id'];
-		//	echo $mapid;
+			//	echo $mapid;
 			$shangjidel_base=M('lx');
 			$sql_del=$shangjidel_base->query("delete from `crm_lx` where `lx_id` in ($mapid)");
 			//$save_jb=$this->ajax_sx();
@@ -913,7 +929,10 @@ return $fzr_only;
 
     }
     public function add_kh()
-    {
+    {	
+		$yzdl=A('DB');
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_lxr_open");//跳转权限验证
     	$a=$_GET['id'];
 		//$a="zdy0:哥哥哥,zdy1:canshu1,zdy2:5565656,zdy3:54454,zdy4:55,zdy5:6,zdy15:142,zdy8:,zdy12:--请选择--,zdy13:,zdy6[]:北京市-北京市市辖区-东城区,zdy7:,zdy9:--请选择--,zdy10:--请选择--,zdy11:--请选择--,zdy14:,ht_fz:45,ht_department:销售部-国贸1,";
 		$new_number=substr($a,0,strlen($a)-1); 

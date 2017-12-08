@@ -82,7 +82,9 @@ class ShangjiController extends Controller {
        // $sxaaa="zdy5,2|";
       	if($ssaaa!="")
       	{
-				
+			$yzdl=A('DB');
+			$yzdl->is_login2(2);//跳转 登录验证
+			$yzdl->have_qx2("qx_sj_open");//跳转权限验证
 			$json_name=json_encode($ssaaa,true);
 			$newstr = substr($json_name,0,strlen($json_name)-1); 
 			$first =substr($newstr,1);  
@@ -93,7 +95,10 @@ class ShangjiController extends Controller {
 		
 			$this->assign('ssaaa',$ssaaa);
 		}elseif($sxaaa!=""){
-				$new_id=substr($sxaaa,0,strlen($sxaaa)-1); 
+					$yzdl=A('DB');
+					$yzdl->is_login();
+					$yzdl->have_qx("qx_sj_open");//跳转权限验证
+					$new_id=substr($sxaaa,0,strlen($sxaaa)-1); 
 					//$new_id="zdy7,1|kehujibie,3";
 					$new_arr=explode("|",$new_id);
 					foreach($new_arr as $k=>$v)
@@ -159,6 +164,9 @@ class ShangjiController extends Controller {
 						$userarr=$sj_base->query("select * from crm_shangji where sj_yh='$map' and sj_gonghai=0 and sj_fz IN ($xiaji)");
 					}	
 		}else{
+			$yzdl=A('DB');
+			$yzdl->is_login2(2);//跳转 登录验证
+			$yzdl->have_qx2("qx_sj_open");//跳转权限验证
 			$sj_base=M('shangji');
 			$xiaji= $this->get_xiashu_id();//  查询下级ID
 			$map=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
@@ -1366,6 +1374,9 @@ class ShangjiController extends Controller {
 					return $show;;
 	}
 	public function add(){
+		$yzdl=A('DB');
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_sj_open");//跳转权限验证
 		$a=$_GET['id'];
 
 		$new_number=substr($a,0,strlen($a)-1); 
@@ -1475,6 +1486,9 @@ class ShangjiController extends Controller {
 		return implode(",",$nowzgid);
 	}
 	public function del_shangji(){
+			$yzdl=A('DB');
+			$yzdl->is_login();
+			$yzdl->have_qx("qx_sj_del");//跳转权限验证
 			$mapid=$_GET['id'];
 			$shangjidel_base=M('shangji');
 			$sql_del=$shangjidel_base->query("delete from `crm_shangji` where `sj_id` in ($mapid)");
@@ -1482,6 +1496,9 @@ class ShangjiController extends Controller {
 			
 	}
 	public function pl_bianji(){
+			$yzdl=A('DB');
+			$yzdl->is_login();
+			$yzdl->have_qx("qx_sj_open");//跳转权限验证
 			$id=$_GET['id'];
 			$id=substr($id,0,strlen($id)-1); //id
 			//$id="5,6";
@@ -1517,6 +1534,9 @@ class ShangjiController extends Controller {
 
 	}
 	public function pl_zhuanyi(){
+		$yzdl=A('DB');
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_sj_open");//跳转权限验证
 		$fuzeren=$_GET['id']; 
 		$rz_fuzeren=$_GET['ziduan']; 
 		$sj_id=$_GET['sj_id']; //商机ID          //负责人ID
@@ -2058,6 +2078,9 @@ return $fzr_only;
 
 	}
 	public function add_end(){
+		$yzdl=A('DB');
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_sj_open");//跳转权限验证
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
 		$kehu=$_GET['id'];
 		//$kehu="zdy0:阿衰嫌憎3,zdy1:canshu2,zdy2:23,zdy3:2323,zdy4:23,zdy5:232332,zdy15:206,kh_fz:46,kh_bm:技术部,";

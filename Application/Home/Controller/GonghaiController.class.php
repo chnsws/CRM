@@ -84,7 +84,9 @@ class GonghaiController extends Controller {
 		$namess=$_GET['sousuo'];
 		if($namess!="")
 		{
-		
+		$yzdl=A('DB');
+		$yzdl->is_login2(2);//跳转 登录验证
+		$yzdl->have_qx2("qx_sj_open");//跳转权限验证
 		$json_name=json_encode($namess,true);
 		$newstr = substr($json_name,0,strlen($json_name)-1); 
 		$first =substr($newstr,1);  
@@ -94,7 +96,9 @@ class GonghaiController extends Controller {
 		$kehu=$kh_base->query("select * from crm_kh where kh_yh = '$yh' and kh_gonghai=1  and  kh_data like '%".$tihuan."%'");
 		$this->assign('namess',$namess);
 		}elseif($sxaaa!=""){
-
+					$yzdl=A('DB');
+					$yzdl->is_login();
+					$yzdl->have_qx("qx_sj_open");//跳转权限验证
 					$new_id=substr($sxaaa,0,strlen($sxaaa)-1); 
 					//$new_ida="kehujibie,2|zdy1,2|zdy10,4|zdy11,6|zdy11,1|zdy10,1|zdy1,1|kehujibie,1|zdy10,2|zdy10,1|zdy10,2|zdy10,3|";
 					//$new_id=substr($new_ida,0,strlen($new_ida)-1); 
@@ -181,6 +185,9 @@ class GonghaiController extends Controller {
 					
 
 		}else{
+			$yzdl=A('DB');
+			$yzdl->is_login2(2);//跳转 登录验证
+			$yzdl->have_qx2("qx_sj_open");//跳转权限验证
 			$datakh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 			$ht_base=M('kh');
 
@@ -1326,6 +1333,9 @@ class GonghaiController extends Controller {
 		
 		}
 		public function gonghaimingcheng(){
+			$yzdl=A('DB');
+			$yzdl->is_login2(2);//跳转 登录验证
+			$yzdl->have_qx2("qx_sj_open");//跳转权限验证
 			$ywcs_sj=$this->ywcs_sj();
 			$ywcs_kh=$this->ywcs_kh();
 
@@ -2042,7 +2052,9 @@ class GonghaiController extends Controller {
 			$this->display();
 		}
 		public function delete_fj(){
-
+			$yzdl=A('DB');
+			$yzdl->is_login();
+			$yzdl->have_qx("qx_sj_open");//跳转权限验证
 			$sql['id']=$_GET['id'];
 		//	echo $_GET['id'];
 			 $sql_delete=M('file');
@@ -2136,7 +2148,7 @@ class GonghaiController extends Controller {
        			 {
        			 	//$this->success("上传成功");
        			 	echo '<script> 
-       			 				window.location="'.$_GET['root_dir'].'/index.php/Home/Kehu/kehumingcheng/uid/6/kh_id/'.$kh_id.'";
+       			 				window.location="'.$_GET['root_dir'].'/index.php/Home/Gonghai/gonghaimingcheng/uid/6/kh_id/'.$kh_id.'";
        			 		</script>';
        			 	
        			 }else{

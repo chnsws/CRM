@@ -32,7 +32,7 @@
 		<script src="{$_GET['public_dir']}/diqu/js/distpicker.data.js"></script>
 	    <script src="{$_GET['public_dir']}/diqu/js/distpicker.js"></script>
 	    <script src="{$_GET['public_dir']}/diqu/js/main.js"></script>
-
+		<script src="{$_GET['public_dir']}/js/islogin.js"></script>
 <!--end!!-->
 		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
 		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
@@ -517,7 +517,7 @@ $('#piliangzy').hide();
 
 									$.get(rooturl+'/index.php/Home/Gonghai/pl_zhuanyi',{"id":fuzeren,"kh_id":piliang_str},
 		        		 				function(html){
-		        		 				
+		        		 				errorFun(html)
 		        		 					tishi("批量获取成功")
 												location.reload();
 										});
@@ -672,7 +672,7 @@ $("#dong").prop("class",'kehu');
 		
 	$.get(rooturl+'/index.php/Home/Gonghai/gonghai',{"sxaaa":sxaaa},
 							        		 function(html){
-							        		
+							        			errorFun(html)
 							        		 	if(html=="quanbu")
 							        		 	{
 							        		 		   	window.location.href="gonghai";return;

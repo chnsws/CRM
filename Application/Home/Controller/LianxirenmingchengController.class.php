@@ -76,6 +76,9 @@ use Think\Controller;
 class LianxirenmingchengController extends Controller {
 
 	public function Lianxirenmingcheng(){
+		$yzdl=A('DB');
+		$yzdl->is_login2(2);//跳转 登录验证
+		$yzdl->have_qx2("qx_lxr_open");//跳转权限验证
 		$a=$_GET['id'];
 	//	echo $a;exit;
 		$map['lx_id']=$a;//联系人条件
@@ -547,6 +550,9 @@ return $fzr_only;
 		return implode(",",$nowzgid);
 	}
 	public function save(){
+		$yzdl=A('DB');
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_lxr_open");//跳转权限验证
 		$a=$_GET['id'];
 		//$a="sj_id:60,zdy1:247,zdy2:1,zdy0:中软远景,zdy3:898989,zdy4:2017-5-4 10,zdy5:canshu2,zdy7:canshu2,zdy8:2017-5-4 10,zdy9:canshu3,zdy10:2017-5-4 10,zdy11:545,zdy12:54,zdy13:5,";
 		$new_number=substr($a,0,strlen($a)-1); 

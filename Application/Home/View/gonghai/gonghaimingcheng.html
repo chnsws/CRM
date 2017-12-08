@@ -21,7 +21,7 @@
   		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/css/global.css" media="all">
 <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
 
-
+		<script src="{$_GET['public_dir']}/js/islogin.js"></script>
 		<script>window.jQuery || document.write('<script src="{$_GET['public_dir']}/diqu/js/jquery-1.11.0.min.js"><\/script>')</script>
 		<script src="{$_GET['public_dir']}/diqu/js/distpicker.data.js"></script>
 	    <script src="{$_GET['public_dir']}/diqu/js/distpicker.js"></script>
@@ -327,7 +327,7 @@ a{color:#07d; text-decoration:none !important;}
 								{$table_fj}
 								</tbody>
 							  		</table>      
-								  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Kehu/upload/id/{$kh_id}/pageid/{$_GET['id']}/fuzeren/{$_GET['fuzeren']}/id1/{$_GET['id1']}/kh_id/{$_GET['kh_id']}" enctype="multipart/form-data" method="post" style="margin:20px;">
+								  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/gonghai/upload/id/{$kh_id}/pageid/{$_GET['id']}/fuzeren/{$_GET['fuzeren']}/id1/{$_GET['id1']}/kh_id/{$_GET['kh_id']}" enctype="multipart/form-data" method="post" style="margin:20px;">
 							  					<input type="file" name="wenjian"  >
 							  					<div id="shangc_top" style="margin-top:30px">备&nbsp;&nbsp;&nbsp;&nbsp;注：<!-- 第一个是普通textarea -->
 											<textarea name="wenbenyu" class="comments" rows="5" cols="30"> </textarea>  </div>
@@ -451,8 +451,9 @@ a{color:#07d; text-decoration:none !important;}
 					//alert($(this).attr("id"))
     				$.get(rooturl+'/index.php/Home/Kehu/delete_fj',{"id":$(this).attr("id")},
 							        		 				function(html){
+																 errorFun(html)
 							        		 				//	alert(html)
-															location=rooturl+"/index.php/Home/Kehu/kehumingcheng?kh_id="+$(".bingou").val()+"&uid=6";
+															location=rooturl+"/index.php/Home/Gonghai/gonghaimingcheng?kh_id="+$(".bingou").val()+"&uid=6";
 
 															});
 

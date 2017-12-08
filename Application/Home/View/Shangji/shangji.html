@@ -25,7 +25,7 @@
 	    <script src="{$_GET['public_dir']}/diqu/js/distpicker.js"></script>
 	    <script src="{$_GET['public_dir']}/diqu/js/main.js"></script>
 
-
+		<script src="{$_GET['public_dir']}/js/islogin.js"></script>
 
 	    <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
 		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
@@ -465,6 +465,7 @@
 
 	$.get(rooturl+'/index.php/Home/Shangji/shangji',{"sxab":id},
 							        		 function(html){
+												errorFun(html)
 							        		 	if(html=="quanbu")
 							        		 	{
 							        		 		   	window.location.href="shangji";return;
@@ -523,12 +524,14 @@
 									{
 									$.get(rooturl+'/index.php/Home/Shangji/add',{"id":ajaxstr},
 																        		 function(html){
+																					 errorFun(html)
 																		         	window.location.href="shangji";
 																                   });
 									}else{
 								
 										$.get(rooturl+'/index.php/Home/Shangji/add_end',{"id":ajaxstr_kh,"lxr":ajaxstr_lxr,"lxr_id":name_lxr,'shangji':ajaxstr},
 																        		 function(html){
+																					errorFun(html)
 																        		// 	alert(html)
 																		         	window.location.href="shangji";
 																                   });
@@ -710,6 +713,7 @@
 
 				$.get(rooturl+'/index.php/Home/Shangji/del_shangji',{"id":checked_str},
 										        		 function(html){
+																errorFun(html)
 										        				window.location.href="shangji";
 										                   });
 			}
@@ -758,6 +762,7 @@
 
 												$.get(rooturl+'/index.php/Home/Shangji/pl_bianji',{"id":bianji_str,"ziduan":xgzd,"content":content,"xgzd2":xgzd2,"content2":content2},
 					        		 				function(html){
+														 errorFun(html)
 					        		 					tishi("批量修改成功")
 															window.location.href="shangji";
 													});
@@ -819,7 +824,7 @@
 										var ht=$('input[name="zy_ht"]:checked').val();
 										$.get(rooturl+'/index.php/Home/Shangji/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"sj_id":piliang_str,"kh":kh,"ht":ht},
 			        		 				function(html){
-
+												errorFun(html)
 			        		 					tishi("批量转移成功")
 												 	window.location.href="shangji"			
 											});

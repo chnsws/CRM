@@ -144,7 +144,10 @@ return $fzr_only;
 
 	}
 	public function shangjimingcheng(){
-	$array_jiansuo=array('sj_qiandan'=>"签单可能性",'sj_fz'=>"负责人",'sj_cj'=>"创建人",'sj_cj_date'=>"创建时间","sj_gx_date"=>"更新时间");
+		$yzdl=A('DB');
+		$yzdl->is_login2(2);//跳转 登录验证
+		$yzdl->have_qx2("qx_sj_open");//跳转权限验证
+		$array_jiansuo=array('sj_qiandan'=>"签单可能性",'sj_fz'=>"负责人",'sj_cj'=>"创建人",'sj_cj_date'=>"创建时间","sj_gx_date"=>"更新时间");
 		foreach($array_jiansuo as $k=>$v){
 				$new_str1['id']=$k;
 				$new_str1['name']=$v;
@@ -575,7 +578,9 @@ return $fzr_only;
 	$this->display();
 	}
 	public function add_cpa(){
-	
+		$yzdl=A('DB');
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_sj_open");//跳转权限验证
 		//echo "<pre>";
 		//var_dump($chanpin);exit;
 		$id=$_GET['id'];
@@ -726,19 +731,24 @@ return $fzr_only;
 		return $sql_cp;
 	}
 	public function cp_sj_del(){
-		
+						
+			$yzdl=A('DB');
+			$yzdl->is_login();
+			$yzdl->have_qx("qx_sj_del");//跳转权限验证
 			$id['cp_id1']=$_GET['id'];
-				$cp_sj_base=M('cp_sj');
-				$sql_del=$cp_sj_base->where($id)->delete();
-				if($sql_del){
-					echo "1";
-				}else{
-					echo "2";
-				}
+			$cp_sj_base=M('cp_sj');
+			$sql_del=$cp_sj_base->where($id)->delete();
+			if($sql_del){
+				echo "1";
+			}else{
+				echo "2";
+			}
 	}
 			public function sj_upload(){//http://www.jb51.net/article/74353.htm   筛选第二天要看的
 
-
+				$yzdl=A('DB');
+				$yzdl->is_login2(2);//跳转 登录验证
+				$yzdl->have_qx2("qx_sj_open");//跳转权限验证
 				$sj_id=$_GET['id'];
 				//echo $sj_id;exit;
 			    $upload = new \Think\Upload();// 实例化上传类
@@ -785,14 +795,21 @@ return $fzr_only;
 
 }
 			public function fujian_del(){
+				
+				$yzdl=A('DB');
+				$yzdl->is_login();
+				$yzdl->have_qx("qx_sj_del");//跳转权限验证
 				$data['id']=$_GET['id'];
-				 $sql_file=M('file');
-				 $data['mk']="5";
-				 $data['yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
-				 $sql_del=$sql_file->where($data)->delete();
+				$sql_file=M('file');
+				$data['mk']="5";
+				$data['yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
+				$sql_del=$sql_file->where($data)->delete();
 				 
 			}
 	public function xgj(){
+		$yzdl=A('DB');
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_sj_open");//跳转权限验证
 		$id=$_GET['id'];
 
 	//	$id="kh_id!276,type!拜访,content!123456,xgj_czr!411,add_time!2017-08-22 10:53:01,date!2017-08-23 10:53:06";
@@ -898,6 +915,9 @@ return $fzr_only;
 
 	}
 	public function del_gja(){
+		$yzdl=A('DB');
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_sj_open");//跳转权限验证
 		$map['genjin_id']=$_GET['id'];
 		$map['genjin_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//
 		$map['mode_id']=5;

@@ -19,8 +19,8 @@
 		<link rel="stylesheet" href="{$_GET['public_dir']}/jquery-ui/jquery-ui.css">
 		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
 		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
-			
-<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
+		<script src="{$_GET['public_dir']}/js/islogin.js"></script>
+		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
 		<script>
 			window.rooturl="{$_GET['root_dir']}";
 			 $(function() {
@@ -246,7 +246,7 @@
 						
 									$.get(rooturl+'/index.php/Home/Lianxirenmingcheng/save',{"id":ajaxstr},
 							        		 function(html){
-									        
+													errorFun(html)
 									        		if(html=="no"){
 									        			alert("没有修改信息")
 									        			layer.close(win)
