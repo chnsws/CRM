@@ -334,7 +334,10 @@ public function kehu(){
 		
 
 		if($sousuo!="" || $sousuo!=null)
-		{
+		{	
+			$yzdl=A('DB');
+			$yzdl->is_login2(2);
+			$yzdl->have_qx2("qx_ht_open");//跳转权限验证
 			$json_name=json_encode($sousuo,true);
 			$newstr = substr($json_name,0,strlen($json_name)-1); 
 			$first =substr($newstr,1);  
@@ -345,6 +348,10 @@ public function kehu(){
 			$this->assign("ssaa",$sousuo);
 		}elseif($sxa!="" || $sxa !=null){
 			
+			$yzdl=A('DB');
+
+			$yzdl->is_login();
+			$yzdl->have_qx("qx_ht_open");//跳转权限验证
 		$new_id=substr($sxa,0,strlen($sxa)-1); 
 	//	$new_id="zdy7,2|kehujibie,1|zdy10,3|";
 		$new_arr=explode("|",$new_id);
@@ -422,7 +429,9 @@ public function kehu(){
 		}        
 		}else{
 
-
+			$yzdl=A('DB');
+			$yzdl->is_login2(2);
+			$yzdl->have_qx2("qx_ht_open");//跳转权限验证
 			if($zhuangtai=='' || $zhuangtai==null || $zhuangtai=="全部")
 			{
 			$userarr=$ht_base->query("select * from crm_hetong where ht_yh='$data_ht' and ht_fz IN ($xiaji) order by ht_id desc limit ".$new.",".$list_num." ");// 查询商机信息
@@ -1134,6 +1143,11 @@ public function kehu(){
 		echo $jw;
 	}
 	public function add_ht(){
+		
+$yzdl=A('DB');
+
+$yzdl->is_login();
+$yzdl->have_qx("qx_ht_open");//跳转权限验证
 		$id=$_GET['id'];
 	//	$id="zdy0:驱蚊器群,zdy1:277,zdy2:155,zdy3:444444,zdy4:2017-6-2 15:59:38,yyyy:2017-6-2 15:59:44,zdy6:2017-6-2 15:59:47,zdy7:canshu1,zdy15:2017-6-2 15:59:50,zdy8:00041,cpgd:添加产品,undefined:undefined,undefined:undefined,zdy10:,zdy11:,zdy12:,zdy13:,undefined:,undefined:undefined,undefined:undefined,zdy17:,zdy18:,ht_fz:1,ht_department:项目部-上海";
 		$new_arr=explode(',￥￥',$id);
@@ -1215,6 +1229,11 @@ public function kehu(){
 		return $ht_sql2;
 	}
 	public function del(){
+		
+$yzdl=A('DB');
+
+$yzdl->is_login();
+$yzdl->have_qx("qx_ht_del");//跳转权限验证
 		$id=$_GET['id'];
 		$idex=explode(",", $id);
 		foreach($idex as $k=>$v)
@@ -1280,6 +1299,11 @@ public function kehu(){
 	return $content;
 	}
 	public function pl_bianji(){
+		
+		$yzdl=A('DB');
+		
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_ht_open");//跳转权限验证
 			$id=$_GET['id'];
 			$id=substr($id,0,strlen($id)-1); //id
 			//$id="152,153";
@@ -1316,6 +1340,11 @@ public function kehu(){
 					echo $a;
 	}
 	public function pl_zhuanyi(){
+		
+$yzdl=A('DB');
+
+$yzdl->is_login();
+$yzdl->have_qx("qx_ht_open");//跳转权限验证
 		$fuzeren=$_GET['id']; 
 		$rz_fuzeren=$_GET['ziduan']; 
 		$ht_id=$_GET['ht_id']; //
@@ -1449,6 +1478,10 @@ public function kehu(){
 		}	
 
 			public function cp_del(){
+				$yzdl=A('DB');
+				
+				$yzdl->is_login();
+				$yzdl->have_qx("qx_ht_del");//跳转权限验证
 				$id['cp_id1']=$_GET['id'];
 				$id['cp_mk']=6;
 				$cp_sj_base=M('cp_sj');
@@ -1741,6 +1774,11 @@ public function kehu(){
 		echo $table;
 	}
 	public function add_ht1(){
+		
+$yzdl=A('DB');
+
+$yzdl->is_login();
+$yzdl->have_qx("qx_ht_open");//跳转权限验证
 		$xiaji= $this->get_xiashu_id();//  查询下级I
 		$kehu=$_GET['kh']; 
 		//$kehu="zdy0:2323,zdy1:canshu2,zdy2:23,zdy3:233223,zdy4:23,zdy5:23,zdy15:215,kh_fz:45,ht_department:销售部-国贸1,";

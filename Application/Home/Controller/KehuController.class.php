@@ -1305,6 +1305,9 @@ class KehuController extends Controller {
 			return $new_ywcs;
 		}
 		public function kehumingcheng(){
+			$yzdl=A('DB');
+			$yzdl->is_login2(2);
+			$yzdl->have_qx2("qx_kh_open");//跳转权限验证
 			$ywcs_sj=$this->ywcs_sj();
 			$ywcs_kh=$this->ywcs_kh();
 
@@ -2104,7 +2107,10 @@ class KehuController extends Controller {
 		}
 		public function upload(){//http://www.jb51.net/article/74353.htm   筛选第二天要看的
 
-
+			$yzdl=A('DB');
+			$yzdl->is_login2(2);
+			$yzdl->have_qx2("qx_kh_open");//跳转权限验证
+			
 				$kh_id=$_GET['id'];
 			    $upload = new \Think\Upload();// 实例化上传类
     			$upload->maxSize   =    52428800 ;// 设置附件上传大小
@@ -2287,6 +2293,9 @@ class KehuController extends Controller {
 			}
 		}
 		public function del_kehu(){
+			$yzdl=A('DB');
+			$yzdl->is_login();
+			$yzdl->have_qx("qx_kh_del");//跳转权限验证
 			$mapid=$_GET['id'];
 			//$mapid="306,307";
 			$yh=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
@@ -2303,6 +2312,9 @@ class KehuController extends Controller {
 				
 		}
 		public function gonghai(){
+			$yzdl=A('DB');
+			$yzdl->is_login();
+			$yzdl->have_qx("qx_kh_open");//跳转权限验证
 			$mapid=$_GET['id'];
 			//$mapid="306,307";
 			$kehu_base=M('kh');
@@ -2363,6 +2375,9 @@ class KehuController extends Controller {
 				
 		}
 		public function pl_bianji(){
+			$yzdl=A('DB');
+			$yzdl->is_login();
+			$yzdl->have_qx("qx_kh_open");//跳转权限验证
 			$id=$_GET['id'];
 			$id=substr($id,0,strlen($id)-1); //id
 			//$id="168,169";
@@ -2401,6 +2416,9 @@ class KehuController extends Controller {
 	
 		}
 		public function pl_zhuanyi(){
+			$yzdl=A('DB');
+			$yzdl->is_login();
+			$yzdl->have_qx("qx_kh_open");//跳转权限验证
 		$fuzeren=$_GET['id']; 
 		$rz_fuzeren=$_GET['ziduan']; 
 		$ht_id=$_GET['kh_id']; //商机ID          //负责人ID
@@ -3139,6 +3157,9 @@ return $fzr_only;
 		$this->display();
 	}
 public function save(){
+	$yzdl=A('DB');
+	$yzdl->is_login();
+	$yzdl->have_qx("qx_kh_open");//跳转权限验证
 		$a=$_GET['id'];
 	//$a="zdy0:中软远景w,zdy1:canshu1,zdy2:15101574324,zdy3:11,zdy4:25195,zdy5:56454,zdy8:5645,zdy12:canshu2,zdy13:2017-5-23,zdy6:北京市-北京市市辖区-东城区,zdy7:75,zdy9:canshu1,zdy10:canshu2,zdy11:canshu3,zdy14:8888,kh_id:277,";
 		$new_number=substr($a,0,strlen($a)-1); 
@@ -3229,6 +3250,9 @@ public function save(){
 	}
 	public function delete()
 	{
+		$yzdl=A('DB');
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_kh_del");//跳转权限验证
 		$if['kh_id']=$_GET['id'];
 		//echo $if
 		$kh_base=M('kh');

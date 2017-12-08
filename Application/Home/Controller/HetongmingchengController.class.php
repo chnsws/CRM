@@ -130,6 +130,9 @@ return $fzr_only;
 			return $sql_sj1;
 		}
 		public function hetongmingcheng(){
+			$yzdl=A('DB');
+			$yzdl->is_login2(2);
+			$yzdl->have_qx2("qx_ht_open");//跳转权限验证
 			
 			$uiid=$_GET['uiid'];
 			if($uiid=='' || $uiid==null)
@@ -995,6 +998,10 @@ return $fzr_only;
 			$this->display();
 		}
 		public function del_hkjh(){
+			$yzdl=A('DB');
+			
+			$yzdl->is_login();
+			$yzdl->have_qx("qx_ht_del");//跳转权限验证
 			$base=M('hk');
 			$id['hk_id']=$_GET['id'];
 			$del_sql=$base->where($id)->delete();
@@ -1123,7 +1130,10 @@ return $fzr_only;
 		return $sql_cp;
 	}
 	public function add_cp(){
-	
+		$yzdl=A('DB');
+		
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_ht_open");//跳转权限验证
 		//echo "<pre>";
 		//var_dump($chanpin);exit;
 		$id=$_GET['id'];
@@ -1181,7 +1191,9 @@ return $fzr_only;
 		}
 			public function fj_shangchuan(){
 
-
+				$yzdl=A('DB');
+				$yzdl->is_login2(2);
+				$yzdl->have_qx2("qx_ht_open");//跳转权限验证删除
 				$ht_id=$_GET['id'];
 			    $upload = new \Think\Upload();// 实例化上传类
     			$upload->maxSize   =     52428800 ;// 设置附件上传大小
@@ -1226,6 +1238,10 @@ return $fzr_only;
 		}
 }
 	public function fujian_del(){
+		$yzdl=A('DB');
+		
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_ht_del");//跳转权限验证
 				$data['id']=$_GET['id'];
 				 $sql_file=M('file');
 				 $data['mk']="6";
@@ -1251,6 +1267,10 @@ return $fzr_only;
 		echo $a;
 	}
 	public function peizhi_hk(){
+		$yzdl=A('DB');
+		
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_ht_open");//跳转权限验证
 		$id=$_GET['id'];
 	//	$id=5;
 		$content=$_GET['content'];
@@ -1282,6 +1302,10 @@ return $fzr_only;
 	}
 	
 	public function save_huikuana(){
+		$yzdl=A('DB');
+		
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_ht_open");//跳转权限验证
 		$content=$_GET['id'];//'undefined:::undefined,,,hk_data:::2017-12-04,,,hk_je:::10000,,,zdy11:::canshu1,,,hktype:::canshu1,,,user_name:::45,,,hk_bz:::1234,,,';
 		$hk_number=substr($content,0,strlen($content)-3); 
 		$new_hk=explode(",,,",$hk_number);
@@ -1337,6 +1361,10 @@ return $fzr_only;
 					}
 	}
 	public function add_huikuan(){
+		$yzdl=A('DB');
+		
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_ht_open");//跳转权限验证
 		$content=$_GET['id'];
 		$hk_ida=$_GET['hk_id'];
 
@@ -1435,7 +1463,10 @@ return $fzr_only;
 		
 	}
 	public function hkpz_content(){
+		$yzdl=A('DB');
 		
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_ht_open");//跳转权限验证
 			$hk_base=M('hk');
 			$hk_map['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 			$hk_map['hk_htid']=$_GET['id'];
@@ -1573,6 +1604,10 @@ return $fzr_only;
 		
 	}
 	public function kaipiaoadd(){
+		$yzdl=A('DB');
+		
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_ht_open");//跳转权限验证
 		$id=$_GET['id'];
 	//	$id="kp_date:2017-7-28 ,kp_data:x晓明内容,kp_je:+56120,kp_type:0,kp_ht:310,kp_kh:104104,kp_number:1213456,kp_user:45,kp_bz:3111,";
 		$kp_number=substr($id,0,strlen($id)-1); 
@@ -1706,6 +1741,10 @@ return $fzr_only;
 	}
 	
 	public function sc_kpee(){
+		$yzdl=A('DB');
+		
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_ht_del");//跳转权限验证
 		$id['kp_id']=$_GET['id'];
 		$m=M('kp');
 		$id['wocao']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
@@ -1721,6 +1760,10 @@ return $fzr_only;
 		echo 12;
 	}
 	public function xgj(){
+		$yzdl=A('DB');
+		
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_ht_open");//跳转权限验证
 		$id=$_GET['id'];
 		$kh_id = $_GET['kh_id'];
 	//	$id="kh_id!276,type!拜访,content!123456,add_time!2017-08-22 10:53:01,date!2017-08-23 10:53:06";
@@ -1792,6 +1835,10 @@ return $fzr_only;
 		
 	}
 	public function save(){
+		$yzdl=A('DB');
+		
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_ht_open");//跳转权限验证
 		$ywzd=$this->ywzd();
 		$ywcs=$this->ywcs();
 		
@@ -1929,6 +1976,10 @@ return $fzr_only;
 			}
 	}
 	public function del_hkjl(){
+		$yzdl=A('DB');
+		
+		$yzdl->is_login();
+		$yzdl->have_qx("qx_ht_del");//跳转权限验证
 		$map['hk_id']=$_GET['id'];
 		$map['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//
 		$base=M('hkadd');

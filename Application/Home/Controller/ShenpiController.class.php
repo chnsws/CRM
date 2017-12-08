@@ -6,6 +6,8 @@ use Think\Controller;
 class ShenpiController extends Controller {
 
 	public function shenpi(){
+		$yzdl=A('DB');
+		$yzdl->is_login2(2);
 		$ht_name=$this->hetong();
 		
 		$kh_name=$this->kehu();
@@ -194,7 +196,7 @@ class ShenpiController extends Controller {
 						 foreach($huikuan3 as $k=>$v)
 						 {
 								$hk_show2.="<tr>
-										<td>您已驳回<span style='margin-left:10px;font-size:20px;color:red' class='".$v['hk_id']."' onclick='hk_because(this)'><i class='layui-icon'>&#xe607;</i>  </span></td>
+										<td>您已驳回<span style='margin-left:10px;font-size:20px;color:red;cursor:pointer' class='".$v['hk_id']."' onclick='hk_because(this)'><i class='layui-icon'>&#xe607;</i>  </span></td>
 										<td>第".$v['hk_qici']."期</td>
 										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['hk_ht']]['name']."'>".$ht_name[$v['hk_ht']]['name']."</div></td>
 										<td>".$user_name[$ht_name[$v['hk_ht']]['fz']]['user_name']."</td>
@@ -523,7 +525,7 @@ class ShenpiController extends Controller {
 						foreach($kp_sp_show2 as $k=>$v)
 						{
 								$kp_show2.="<tr>
-										<td>您已驳回<span style='margin-left:10px;font-size:20px;color:red' class='".$v['kp_id']."' onclick='because(this)'><i class='layui-icon'>&#xe607;</i>  </span></td>
+										<td>您已驳回<span style='margin-left:10px;font-size:20px;color:red;cursor:pointer' class='".$v['kp_id']."' onclick='because(this)'><i class='layui-icon'>&#xe607;</i>  </span></td>
 										<td> <div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['kp_ht']]['name']."'>".$ht_name[$v['kp_ht']]['name']."</div></td>
 										<td>".$user_name[$ht_name[$v['kp_ht']]['fz']]['user_name']."</td>
 										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$v['kp_kh']]['name']."'>".$kh_name[$v['kp_kh']]['name']."</div></td>
@@ -689,7 +691,7 @@ class ShenpiController extends Controller {
 						{
 							$ht_show.="<tr>
 										<td>";
-											$ht_show.="<div style='color:#07d;cursor:pointer;width:80px' class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_tongguo(this)'>通过</span><span style='color:#07d;cursor:pointer;margin-left:20px'  class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_bohui(this)'>驳回</div></td>";
+											$ht_show.="<div style='color:#07d;cursor:pointer;width:80px'><span class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_tongguo(this)'>通过</span><span style='color:#07d;cursor:pointer;margin-left:20px'  class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_bohui(this)'>驳回</span></div></td>";
 							
 										$ht_show.="	<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['sp_sjid']]['name']."'>".$ht_name[$v['sp_sjid']]['name']."</div></td>
 											<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."'>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</div></td>
@@ -801,7 +803,7 @@ class ShenpiController extends Controller {
 						{
 							$ht_show2.="<tr>
 										<td>";
-											$ht_show2.="您已驳回<span style='margin-left:10px;font-size:20px;color:red' class='".$v['sp_sjid']."' onclick='bhyy(this)'><i class='layui-icon'>&#xe607;</i>  </span></td>";
+											$ht_show2.="您已驳回<span style='margin-left:10px;font-size:20px;color:red;cursor:pointer' class='".$v['sp_sjid']."' onclick='bhyy(this)'><i class='layui-icon'>&#xe607;</i>  </span></td>";
 							
 								$ht_show2.="	<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['sp_sjid']]['name']."'>".$ht_name[$v['sp_sjid']]['name']."</div></td>
 											<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."'>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</div></td>
@@ -1000,6 +1002,9 @@ return $fzr_only;
 			return $sql_json3;
 		}
 		public function tongguo(){
+			$yzdl=A('DB');
+			
+			$yzdl->is_login();
 			$id=$_GET['id'];
 	//$id=237;
 			//echo $id;exit;
@@ -1068,6 +1073,9 @@ return $fzr_only;
 
 		}
 		public function bohui(){
+			$yzdl=A('DB');
+			
+			$yzdl->is_login();
 			$id=$_GET['id'];
 			//echo $id;
 			$sp_base=M('sp');
@@ -1097,6 +1105,9 @@ return $fzr_only;
 			
 		}
 		public function kp_bohui(){
+			$yzdl=A('DB');
+			
+			$yzdl->is_login();
 			$tb=$_GET['tb'];
 
 			$id=$_GET['id'];
@@ -1132,6 +1143,9 @@ return $fzr_only;
 			//$sql_save=$sp_base->where($map_sp)->save($data);
 		}
 		public function kp_tongguo(){
+			$yzdl=A('DB');
+			
+			$yzdl->is_login();
 			$sp_id=$_GET['id'];
 			$tb=$_GET['tb'];
 			$tongguo['sp_jg']=1;
@@ -1238,6 +1252,9 @@ return $fzr_only;
 
 		}
 		public function ht_tongguo(){
+			$yzdl=A('DB');
+			
+			$yzdl->is_login();
 			$sp_id=$_GET['id'];
 			$tb=$_GET['tb'];
 			$tongguo['sp_jg']=1;
@@ -1457,6 +1474,10 @@ return $fzr_only;
 				echo $fujian;
 			}
 			public function ht_bohui(){
+				$yzdl=A('DB');
+				
+				$yzdl->is_login();
+
 			$tb=$_GET['tb'];
 
 			$id=$_GET['id'];
@@ -1471,6 +1492,10 @@ return $fzr_only;
 			if(cookie('user_fid')=='0'){
 				$yuany['sp_user']=cookie('user_id');
 			}
+			$mapa['sp_id']=$id;
+			$mapa['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+			$mapa['sp_jg']=2;
+			$del=$ht_base->where($mapa)->delete();
 			$ht_save=$ht_base->where($map_sp)->save($yuany);
 			if($ht_save){
 			

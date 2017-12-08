@@ -26,7 +26,9 @@
 
 		<script src="{$_GET['public_dir']}/diqu/js/distpicker.data.js"></script>
 	    <script src="{$_GET['public_dir']}/diqu/js/distpicker.js"></script>
-	    <script src="{$_GET['public_dir']}/diqu/js/main.js"></script>
+		<script src="{$_GET['public_dir']}/diqu/js/main.js"></script>
+		<script src="{$_GET['public_dir']}/js/islogin.js"></script>
+		
 		<style>
 
 			body,ul,li,table,tr{margin:0;padding:0;}
@@ -699,6 +701,7 @@ function kh_name_if(e){
 										
 										$.get(rooturl+'/index.php/Home/Hetong/add_ht',{"id":vstr},
 								        		 function(html){
+													errorFun(html)
 								        		 		tishi("添加成功")
 
 		     											   	window.location.href="hetong";
@@ -715,7 +718,7 @@ function kh_name_if(e){
 											
 										$.get(rooturl+'/index.php/Home/Hetong/add_ht1',{"kh":ajaxstr_kh,"lxr_id":kh_lxr_name,"kh_id":kh_id12,"lxr":ajaxstr_lxr,"sj":ajaxstr_sj,"ht":vstr},
 									        		 function(html){
-									        	
+														errorFun(html)
 
 									        		 		tishi("添加成功")
 
@@ -863,6 +866,7 @@ $("#nchangyong").click(function(){
     	
     			$.get(rooturl+'/index.php/Home/Hetong/del',{"id":checked_str},
 		        		 function(html){
+							 errorFun(html)
 		        		 		tishi("删除成功")
 		        				 	window.location.href="hetong"
 		                   });
@@ -912,6 +916,7 @@ $("#nchangyong").click(function(){
 										//	alert(bianji_str+xgzd+content+xgzd2+content2);return
 												$.get(rooturl+'/index.php/Home/Hetong/pl_bianji',{"id":bianji_str,"ziduan":xgzd,"content":content,"xgzd2":xgzd2,"content2":content2},
 					        		 				function(html){
+														 errorFun(html)
 					        		 				tishi("批量修改成功")
 															  	window.location.href="hetong"
 													});
@@ -971,7 +976,7 @@ $("#nchangyong").click(function(){
 														
 														$.get(rooturl+'/index.php/Home/Hetong/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"ht_id":piliang_str,'sj':sj,'kh':kh},
 							        		 				function(html){
-
+																errorFun(html)
 							        		 					tishi("批量转移成功")
 							        		 					   	window.location.href="hetong"
 																		
@@ -1132,6 +1137,7 @@ $("#nchangyong").click(function(){
     				$.get(rooturl+'/index.php/Home/Hetong/cp_del',{"id":id},
     										function(html)
     										{
+												errorFun(html)
     											if(html==1){
     												$("."+id).hide();
     												layer.close(win)

@@ -4,7 +4,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>商机</title>
+		<title>审批</title>
 		<meta name="renderer" content="webkit">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -20,6 +20,7 @@
 		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
 		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
 		<script src="{$_GET['public_dir']}/uikit/js/components/lightbox.min.js"></script>
+		<script src="{$_GET['public_dir']}/js/islogin.js"></script>
 		<style>
 		.box{height:800;width:100%;}
 		.xq_s{margin-top:5%;padding-left:30%;}
@@ -193,7 +194,7 @@
 			}
 	layui.use('upload', function(){
 		
-  		layui.upload(options);
+  	
 		});
 //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
 layui.use('element', function(){
@@ -213,7 +214,7 @@ layui.use('upload', function(){
 		$a=$(ss).prop("class");
 		$.get(rooturl+'/index.php/Home/Shenpi/tongguo',{"id":$a},
 						        		 				function(html){
-						        		 					alert(html)
+															errorFun(html)
 						        		 					tishi("审批成功")
 			        		 								 window.location.href="shenpi";
 														});
@@ -239,7 +240,7 @@ layui.use('upload', function(){
 								
 									$.get(rooturl+'/index.php/Home/Shenpi/bohui',{"id":$a,'yuanyin':bh_yuanyin},
 						        		 				function(html){
-															alert(html)
+															errorFun(html)
 			        		 								 window.location.href="shenpi";
 														});
 
@@ -260,7 +261,7 @@ layui.use('upload', function(){
 	//	alert(zgjj)
 		$.get(rooturl+'/index.php/Home/Shenpi/kp_tongguo',{"id":ty_id,'tb':tb,'tjr':dq,'zgjj':zgjj,'kp_id':kp_id},
 						        		 				function(html){
-															alert(html)
+															errorFun(html)
 			        		 								 window.location.href="shenpi";
 														});
 		//alert(ty_id);
@@ -288,7 +289,7 @@ layui.use('upload', function(){
 									var bh_yuanyin=$("#bhyy").val();
 									$.get(rooturl+'/index.php/Home/Shenpi/kp_bohui',{"id":bh_id,'yuanyin':bh_yuanyin,'tb':tb,'kp_id':kp_id},
 						        		 				function(html){
-														
+															errorFun(html)
 			        		 								 window.location.href="shenpi";
 														});
 
@@ -297,6 +298,7 @@ layui.use('upload', function(){
 						});  
 	}
 	function ht_bohui(sss){
+	
 		var bh_id=$(sss).prop("class");
 		var tb=$(sss).prop("id");
 		var ht_id=$(sss).attr("name");
@@ -317,7 +319,7 @@ layui.use('upload', function(){
 									var bh_yuanyin=$("#htbhyy").val();
 									$.get(rooturl+'/index.php/Home/Shenpi/ht_bohui',{"id":bh_id,'yuanyin':bh_yuanyin,'tb':tb,'ht_id':ht_id},
 						        		 				function(html){
-															
+															errorFun(html)
 			        		 								 window.location.href="shenpi";
 														});
 
@@ -327,6 +329,7 @@ layui.use('upload', function(){
 	}
 	
 	function ht_tongguo(sss){
+
 		var id=$(sss).prop("class");
 		var tb=$(sss).prop("id");
 
@@ -350,7 +353,7 @@ layui.use('upload', function(){
 								
 									$.get(rooturl+'/index.php/Home/Shenpi/ht_tongguo',{'id':id,'tb':tb,'ht_id':ht_id,'tjr':dq,'zgjj':zgjj},
 						        		 				function(html){
-														alert(html)
+															errorFun(html)
 			        		 								 window.location.href="shenpi";
 														});
 

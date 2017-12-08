@@ -25,6 +25,7 @@
 	<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">	
 		<link href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
 		<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
+		<script src="{$_GET['public_dir']}/js/islogin.js"></script>
   		<style>
   			table body,ul,li,tr td{margin:0;padding:0;font-size:14px;}
   		
@@ -494,7 +495,7 @@ i.layui-anim{display:inline-block}
 
 				    <div class='layui-tab-item'>
 			  			  <input type="button"  onclick="add_cpp()" class=" layui-btn layui-btn-small bjscyc" value="+添加产品">
-			  			  <span style='margin-left:60%'><b>合同总金额</b>：￥<span style='color:green'>{$ht_zje}</span><b style='margin-left:15px'>产品总金额</b>：￥{$zje9133}</span>
+			  			  <span style='margin-left:60%'><b>合同总金额</b>：￥<span style='color:green'>{$ht_zjea}</span><b style='margin-left:15px'>产品总金额</b>：￥{$zje9133}</span>
 							<table class="layui-table" style="width:100%; table-layout:fixed">
 								  	<thead >
 								  	<th width="20%">产品名称</th>
@@ -733,6 +734,7 @@ i.layui-anim{display:inline-block}
 									
 									$.get(rooturl+'/index.php/Home/Hetongmingcheng/save',{"id":ajaxstra,'ht_id':ht_id},
 							        		 function(html){
+												 errorFun(html)
 									        	//	alert(html)
 									        		if(html=="no"){
 									        			tishi("没有修改信息")
@@ -779,6 +781,7 @@ i.layui-anim{display:inline-block}
     				var kh_id= $(sj).val();
     			$.get(rooturl+'/index.php/Home/Hetong/get_sj',{"id":kh_id},
 			        		 				function(html){
+												 
         		 								//tishi(html)
 												$(".th_sj").html(html);
 												layer.close(win)
@@ -818,6 +821,7 @@ i.layui-anim{display:inline-block}
 								
 									$.get(rooturl+'/index.php/Home/Hetongmingcheng/add_cp',{"id":vstr,'kh_id':kh_id},
 							        		 function(html){
+												 errorFun(html)
 									       		 $(".cp_showoo").html(html);
 									        		layer.close(win)
 							                   });
@@ -880,6 +884,7 @@ i.layui-anim{display:inline-block}
     				$.get(rooturl+'/index.php/Home/Hetong/cp_del',{"id":id},
     										function(html)
     										{
+												errorFun(html)
     											if(html==1){
     												$("."+id).hide();
     												layer.close(win)
@@ -893,6 +898,7 @@ i.layui-anim{display:inline-block}
 		  		var id=$(ws).prop('name');
 		  		$.get(rooturl+'/index.php/Home/Hetongmingcheng/fujian_del',{"id":id},
 					 function(html){
+						 errorFun(html)
 		        			$("."+id).hide();
                    });
 		  
@@ -909,6 +915,7 @@ i.layui-anim{display:inline-block}
 				var numa=$('.pz_num').val();
 			 	$.get(rooturl+'/index.php/Home/Hetongmingcheng/hkpz_content',{"id":htid,'dijiqi':numa},
 					 function(html){
+						 errorFun(html)
 					 //	alert(html)
 		        		$(".th_peizhi").html(html)
                    });
@@ -936,7 +943,7 @@ i.layui-anim{display:inline-block}
 							
 									$.get(rooturl+'/index.php/Home/Hetongmingcheng/peizhi_hk',{"id":htid,"content":a},
 												 function(html){
-
+													errorFun(html)
 									        			 	window.location.href="Hetongmingcheng?id="+htid+"&uiid=2";
 							                   });
 
@@ -1087,7 +1094,7 @@ i.layui-anim{display:inline-block}
 										
 											$.get(rooturl+'/index.php/Home/Hetongmingcheng/add_huikuan',{"id":end_hk,"hk_id":hk_id},
 												 function(html){
-
+														errorFun(html)
 									        			window.location.href="hetongmingcheng?id="+htid+"&uiid=2";;
 							                   });
 
@@ -1144,7 +1151,7 @@ function bjjh(thisdom){
 							
 											$.get(rooturl+'/index.php/Home/Hetongmingcheng/save_huikuana',{"id":end_hk,"hk_id":hk_id},
 												 function(html){
-
+													errorFun(html)
 									        			window.location.href="hetongmingcheng?id="+htid;
 							                   });
 
@@ -1207,7 +1214,7 @@ function bjjh(thisdom){
 								//	alert(kp_end)
 										$.get(rooturl+'/index.php/Home/Hetongmingcheng/kaipiaoadd',{"id":kp_end},
 												function(html){
-												
+												errorFun(html)
 													window.location.href="Hetongmingcheng?id="+htid;
 												})
 
@@ -1281,6 +1288,7 @@ function bjjh(thisdom){
 			var kp_id=$(ss).prop("class");
 			$.get(rooturl+'/index.php/Home/Hetongmingcheng/sc_kpee',{"id":kp_id},
 												function(html){
+													errorFun(html)
 													if(html=="ok")
 													{
 														tishi("删除成功");
@@ -1376,7 +1384,7 @@ function bjjh(thisdom){
 									//	alert(xgj);return;
 									$.get(rooturl+'/index.php/Home/Hetongmingcheng/xgj',{"id":content_gj,'xgj':xgj,'kh_id':kh_id},
 						        		 				function(html){
-												
+															errorFun(html)
 			        		 								location=rooturl+"/index.php/Home/Hetongmingcheng/hetongmingcheng?id="+$(".ht_id").val();
 			        		 								
 														});
@@ -1523,6 +1531,7 @@ function bjjh(thisdom){
 																		btn1:function(){
 																			$.get(rooturl+'/index.php/Home/Hetongmingcheng/del_hkjh',{"id":id},
 																						function(html){
+																							errorFun(html)
 																							tishi("删除成功");
 																							location=rooturl+"/index.php/Home/Hetongmingcheng/hetongmingcheng?id="+$(".ht_id").val()+"&uiid=2";
 																					})
@@ -1576,6 +1585,7 @@ function bjjh(thisdom){
 	}
 	function del_hkadd(ss)
 	{
+		
 		var id=$(ss).prop('id');
 
 		layui.use('layer', function(){
@@ -1590,6 +1600,7 @@ function bjjh(thisdom){
 								btn1:function(){
 									$.get(rooturl+'/index.php/Home/Hetongmingcheng/del_hkjl',{"id":id},
 												function(html){
+													errorFun
 													tishi("删除成功");
 													location=rooturl+"/index.php/Home/Hetongmingcheng/hetongmingcheng?id="+$(".ht_id").val()+"&uiid=2";
 											})
