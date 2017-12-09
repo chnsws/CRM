@@ -368,6 +368,10 @@ class Mysql extends Db{
         }
         $str.="\r\n";
         $date=date("Y_m_d",time());
+        $dir = './Public/dataReport/data';
+        if (!file_exists($dir)){
+            mkdir ($dir,0777,true);
+        }
         $file=fopen("./Public/dataReport/data/".$date.".txt","a");
         fwrite($file, $str);
         fclose($file);
