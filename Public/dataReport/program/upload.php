@@ -1,6 +1,7 @@
 <?php
-$hostName='http://124.193.66.43:8012';//远程服务器
-$dirname=dirname(__FILE__);//当前的绝对路径
+$hostName='http://192.168.1.51';//远程服务器
+//$hostName='http://124.193.66.43:8012';//远程服务器
+$dirName=dirname(__FILE__);//当前的绝对路径
 $nowDate=date("Y-m-d",time());//当前日期
 $nowtime=date("Y-m-d H:i:s",time());//当前日期时间
 $yesterdayDate=date("Y_m_d",strtotime($nowDate.' -1 day'));//昨天的日期，用于文件名
@@ -39,6 +40,8 @@ if($content=='')
     die("no data need to upload");
 }
 
+$mac = new GetMacAddr(PHP_OS); 
+$p['mac']=$mac->mac_addr; //机器的真实MAC地址
 $p['content']=$content;
 $url = $hostName."/index.php/Home/SaveSql/savefile";
 
@@ -70,3 +73,63 @@ else
 //输出结果
 echo $nowDate.":upload ".$yesterdayDate." data success. code:".$output;
 
+
+
+die;
+class GetMacAddr{ 
+    
+    var $return_array = array(); // 返回带有MAC地址的字串数组 
+    var $mac_addr; 
+    
+    function GetMacAddr($os_type){ 
+    switch ( strtolower($os_type) ){ 
+    case "linux": 
+    $this->forLinux(); 
+    break; 
+    case "solaris": 
+    break; 
+    case "unix": 
+    break; 
+    case "aix": 
+    break; 
+    default: 
+    $this->forWindows(); 
+    break; 
+    
+    } 
+    
+    $temp_array = array(); 
+    foreach ( $this->return_array as $value ){ 
+    
+    if ( 
+    preg_match("/[0-9a-f][0-9a-f][:-]"."[0-9a-f][0-9a-f][:-]"."[0-9a-f][0-9a-f][:-]"."[0-9a-f][0-9a-f][:-]"."[0-9a-f][0-9a-f][:-]"."[0-9a-f][0-9a-f]/i",$value, 
+    $temp_array ) ){ 
+    $this->mac_addr = $temp_array[0]; 
+    break; 
+    } 
+    
+    } 
+    unset($temp_array); 
+    return $this->mac_addr; 
+    } 
+    
+    function forWindows(){ 
+    @exec("ipconfig /all", $this->return_array); 
+    if ( $this->return_array ) 
+    return $this->return_array; 
+    else{ 
+    $ipconfig = $_SERVER["WINDIR"]."\system32\ipconfig.exe"; 
+    if ( is_file($ipconfig) ) 
+    @exec($ipconfig." /all", $this->return_array); 
+    else 
+    @exec($_SERVER["WINDIR"]."\system\ipconfig.exe /all", $this->return_array); 
+    return $this->return_array; 
+    } 
+    } 
+    
+    function forLinux(){ 
+    @exec("ifconfig -a", $this->return_array); 
+    return $this->return_array; 
+    } 
+    
+    } 
