@@ -193,11 +193,11 @@
 			layui.use('layer', function(){
 							var layer = layui.layer;
 							var win=layer.open({
-
 								type:1,
 								offset: 't',
-								area:'630px',
+								area:['630px','75%'],
 								moveOut:true,
+								fixed: false,
 								title: '编辑联系人',
 								content:$('.bianji'),
 								btn:['确认编辑','取消'],
