@@ -22,7 +22,11 @@ if($mac=='')
     //die("mac is null");
 }
 //$mac='08-60-6E-F0-F1-A4';
-mysql_connect($hostname,$hostuser,$hostpwd);
+$con=mysql_connect($hostname,$hostuser,$hostpwd);
+if(!$con)
+{
+    die("mysql can not connect");
+}
 mysql_select_db($dbname);
 mysql_set_charset("utf8");
 
