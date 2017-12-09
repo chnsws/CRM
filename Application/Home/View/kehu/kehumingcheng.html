@@ -885,11 +885,13 @@ a{color:#07d; text-decoration:none !important;}
 				}
 			 function yxyz(ss){
    		 	var a=$(ss).val();
+				if(a!=undefined && a!=''){
    		 	 if(!a.match(/^([a-zA-Z0-9\u4e00-\u9fa5\_\-\.])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/))
 			  {
 			   tishi("邮箱格式不正确！请重新输入");
 			  // $(".qingyx").val('');
 			  }
+				}
 
    		 }
 	</script>

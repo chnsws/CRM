@@ -612,7 +612,7 @@
 																		$.get("__ROOT__/index.php/Home/Kehu/drcshi",{"name":is_upload},function(res){
 																			//tishi(res)
 																		  tishi(res);
-																		  window.location.href="lianxiren";
+																		  setTimeout(function(){  window.location.href="lianxiren";}, 3000);
 																		});
 																	   
 																	   
@@ -670,7 +670,7 @@
 		  function tishi(neirong)
 			{
 			    layer.msg(neirong, {
-			        time: 1000, 
+			        time: 3000, 
 			    });
 			}
 			    function kh_add(){

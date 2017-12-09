@@ -638,7 +638,7 @@
 					                $.get("__ROOT__/index.php/Home/Shangji/drcshi",{"name":is_upload},function(res){
 					                	//tishi(res)
 					                  tishi(res);
-									  window.location.href="shangji";
+									  setTimeout(function(){  window.location.href="shangji";}, 3000);
 					                });
 									   
 									},
@@ -1213,7 +1213,7 @@
     		 function tishi(neirong)
 			{
 			    layer.msg(neirong, {
-			        time: 2000, 
+			        time: 3000, 
 			    });
 			}
 			function add_lx(){     //新增联系人暂时无用

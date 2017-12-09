@@ -661,7 +661,8 @@ var is_upload='';
 					                $.get("__ROOT__/index.php/Home/Kehu/drcshi",{"name":is_upload},function(res){
 					                	//tishi(res)
 					                  tishi(res);
-									  window.location.href="kehu";
+									  setTimeout(function(){  window.location.href="kehu";}, 3000);
+									
 					                });
 					               
 					               
@@ -902,7 +903,7 @@ function add_yh()
          function tishi(neirong)
 			{
 			    layer.msg(neirong, {
-			        time: 1000, 
+			        time:3000, 
 			    });
 			}
 			   $("#sss").on("click",function(){
@@ -957,12 +958,13 @@ function add_yh()
 		}
 		 function sjyz(ss){
    		 	var a=$(ss).val();
+				if(a!=undefined && a!=''){
    		 	 if(!a.match(/^(([1]){1})+(([0-9]){10})$/))
 			  {
 			   tishi("请输入正确的十一位手机号");
 			   $(".qingyx1").val('');
 			  }
-
+				}
    		 }    
 		function sousuo(){
 			var name= $("#sousuo").val();
@@ -1108,11 +1110,13 @@ function add_yh()
    		 }  
    		 function yxyz(ss){
    		 	var a=$(ss).val();
+				if(a!=undefined && a!=''){
    		 	 if(!a.match(/^([a-zA-Z0-9\u4e00-\u9fa5\_\-\.])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,5}){1,2})$/))
 			  {
 			   tishi("格式不正确！请重新输入");
 			   $(".qingyx").val('');
 			  }
+				}
 
    		 }
    		 	$(function(){

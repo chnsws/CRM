@@ -44,7 +44,7 @@ class FiledoController extends DBController {
         }
         $column = 2;  
         $objActSheet = $objPHPExcel->getActiveSheet();            
-        foreach($data as $key => $rows){ //行写入  
+        foreach($data as $key => $row){ //行写入  
             $span = ord("A");  
             $span2 = ord("@");
             foreach($rows as $k=>$v){  
