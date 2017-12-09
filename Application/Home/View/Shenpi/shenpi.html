@@ -11,16 +11,16 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="format-detection" content="telephone=no">
-		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+		<script src="__PUBLIC__/jquery/jquery.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
 		<!--layUI 插件 弹窗设计 form表单样式 -->
-		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+		<script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
 		<!--UIkit-->
-		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
-		<script src="{$_GET['public_dir']}/uikit/js/components/lightbox.min.js"></script>
-		<script src="{$_GET['public_dir']}/js/islogin.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+		<script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
+		<script src="__PUBLIC__/uikit/js/components/lightbox.min.js"></script>
+		<script src="__PUBLIC__/js/islogin.js"></script>
 		<style>
 		.box{height:800;width:100%;}
 		.xq_s{margin-top:5%;padding-left:30%;}
@@ -202,7 +202,7 @@ layui.use('element', function(){
   
   //…
 });
-window.rooturl="{$_GET['root_dir']}";
+
 layui.use('upload', function(){
   layui.upload(options);
 });
@@ -212,7 +212,7 @@ layui.use('upload', function(){
 <script>
 	function tongguo(ss){
 		$a=$(ss).prop("class");
-		$.get(rooturl+'/index.php/Home/Shenpi/tongguo',{"id":$a},
+		$.get('__ROOT__/index.php/Home/Shenpi/tongguo',{"id":$a},
 						        		 				function(html){
 															errorFun(html)
 						        		 					tishi("审批成功")
@@ -238,7 +238,7 @@ layui.use('upload', function(){
 									
 									var bh_yuanyin=$("#bhyy").val();
 								
-									$.get(rooturl+'/index.php/Home/Shenpi/bohui',{"id":$a,'yuanyin':bh_yuanyin},
+									$.get('__ROOT__/index.php/Home/Shenpi/bohui',{"id":$a,'yuanyin':bh_yuanyin},
 						        		 				function(html){
 															errorFun(html)
 			        		 								 window.location.href="shenpi";
@@ -259,7 +259,7 @@ layui.use('upload', function(){
 		var zgjj=$(sss).parent().parent().children().eq(11).children().text();
 		//alert(dq);
 	//	alert(zgjj)
-		$.get(rooturl+'/index.php/Home/Shenpi/kp_tongguo',{"id":ty_id,'tb':tb,'tjr':dq,'zgjj':zgjj,'kp_id':kp_id},
+		$.get('__ROOT__/index.php/Home/Shenpi/kp_tongguo',{"id":ty_id,'tb':tb,'tjr':dq,'zgjj':zgjj,'kp_id':kp_id},
 						        		 				function(html){
 															errorFun(html)
 			        		 								 window.location.href="shenpi";
@@ -287,7 +287,7 @@ layui.use('upload', function(){
 								btn1:function(){
 									
 									var bh_yuanyin=$("#bhyy").val();
-									$.get(rooturl+'/index.php/Home/Shenpi/kp_bohui',{"id":bh_id,'yuanyin':bh_yuanyin,'tb':tb,'kp_id':kp_id},
+									$.get('__ROOT__/index.php/Home/Shenpi/kp_bohui',{"id":bh_id,'yuanyin':bh_yuanyin,'tb':tb,'kp_id':kp_id},
 						        		 				function(html){
 															errorFun(html)
 			        		 								 window.location.href="shenpi";
@@ -317,7 +317,7 @@ layui.use('upload', function(){
 								btn1:function(){
 									
 									var bh_yuanyin=$("#htbhyy").val();
-									$.get(rooturl+'/index.php/Home/Shenpi/ht_bohui',{"id":bh_id,'yuanyin':bh_yuanyin,'tb':tb,'ht_id':ht_id},
+									$.get('__ROOT__/index.php/Home/Shenpi/ht_bohui',{"id":bh_id,'yuanyin':bh_yuanyin,'tb':tb,'ht_id':ht_id},
 						        		 				function(html){
 															errorFun(html)
 			        		 								 window.location.href="shenpi";
@@ -351,7 +351,7 @@ layui.use('upload', function(){
 								btn1:function(){
 									
 								
-									$.get(rooturl+'/index.php/Home/Shenpi/ht_tongguo',{'id':id,'tb':tb,'ht_id':ht_id,'tjr':dq,'zgjj':zgjj},
+									$.get('__ROOT__/index.php/Home/Shenpi/ht_tongguo',{'id':id,'tb':tb,'ht_id':ht_id,'tjr':dq,'zgjj':zgjj},
 						        		 				function(html){
 															errorFun(html)
 			        		 								 window.location.href="shenpi";
@@ -364,7 +364,7 @@ layui.use('upload', function(){
 	function fapiaoxinxi(ss)
 	{
 		var a=$(ss).prop('class');
-		$.get(rooturl+'/index.php/Home/Shenpi/xiangqing',{"id":a},
+		$.get('__ROOT__/index.php/Home/Shenpi/xiangqing',{"id":a},
 						        		 				function(html){
 														
 			        		 								 $('.xq_s').html(html)
@@ -390,7 +390,7 @@ layui.use('upload', function(){
 	function because(ss){
 		var a=$(ss).prop('class');
 
-		$.get(rooturl+'/index.php/Home/Hetongmingcheng/bh_yy',{"id":a},
+		$.get('__ROOT__/index.php/Home/Hetongmingcheng/bh_yy',{"id":a},
 												function(html){
 												
 													$(".bhyuany1").html(html);
@@ -420,7 +420,7 @@ layui.use('upload', function(){
 function hk_because(ss){
 		var a=$(ss).prop('class');
 		//alert(a);
-		$.get(rooturl+'/index.php/Home/Hetongmingcheng/bh_yy1',{"id":a},
+		$.get('__ROOT__/index.php/Home/Hetongmingcheng/bh_yy1',{"id":a},
 												function(html){
 												
 													$(".bhyuany1").html(html);
@@ -451,7 +451,7 @@ function hk_because(ss){
 	{
 		var sjid=$(ss).prop('class');
 			//alert(a);
-		$.get(rooturl+'/index.php/Home/Shenpi/fujian',{"id":sjid},
+		$.get('__ROOT__/index.php/Home/Shenpi/fujian',{"id":sjid},
 												function(html){
 												
 													$(".fujian1").html(html);
@@ -483,14 +483,14 @@ function hk_because(ss){
 				{
 					var s=$(ss).prop('class');
 				
-					window.location=rooturl+'/index.php/Home/Hetongmingcheng/download1?id='+s;
+					window.location='__ROOT__/index.php/Home/Hetongmingcheng/download1?id='+s;
 						
 				}   
 	  function bhyy(ss){
 		        	var bh_id=$(ss).prop("class");
 		        	
 
-        				$.get(rooturl+'/index.php/Home/Hetong/bh_yy',{"id":bh_id},
+        				$.get('__ROOT__/index.php/Home/Hetong/bh_yy',{"id":bh_id},
 												function(html){
 												
 													$(".bhyuany1").html(html);

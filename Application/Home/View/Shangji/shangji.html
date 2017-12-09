@@ -11,27 +11,27 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="format-detection" content="telephone=no">
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
-		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
+		<script src="__PUBLIC__/jquery/jquery.js"></script>
+		<script src="__PUBLIC__/jquery-ui/jquery-ui.js"></script>
 
-		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
-		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
+		<script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
+		<script src="__PUBLIC__/bootstrap/My97DatePicker/WdatePicker.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
 		
 	
-		<script src="{$_GET['public_dir']}/diqu/js/distpicker.data.js"></script>
-	    <script src="{$_GET['public_dir']}/diqu/js/distpicker.js"></script>
-	    <script src="{$_GET['public_dir']}/diqu/js/main.js"></script>
+		<script src="__PUBLIC__/diqu/js/distpicker.data.js"></script>
+	    <script src="__PUBLIC__/diqu/js/distpicker.js"></script>
+	    <script src="__PUBLIC__/diqu/js/main.js"></script>
 
-		<script src="{$_GET['public_dir']}/js/islogin.js"></script>
+		<script src="__PUBLIC__/js/islogin.js"></script>
 
-	    <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+	    <link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+		<script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
 
-		<link href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
-		<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
+		<link href="__PUBLIC__/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
+		<script src="__PUBLIC__/jquery/searchable/jquery.searchableSelect.js"></script>
 		<style>
 
 			body,ul,li,table,tr{margin:0;padding:0;}
@@ -463,7 +463,7 @@
 	}
 	$(".ycyo").hide();
 
-	$.get(rooturl+'/index.php/Home/Shangji/shangji',{"sxab":id},
+	$.get('__ROOT__/index.php/Home/Shangji/shangji',{"sxab":id},
 							        		 function(html){
 												errorFun(html)
 							        		 	if(html=="quanbu")
@@ -522,14 +522,14 @@
 
 									if(ajaxstr_kh=='')
 									{
-									$.get(rooturl+'/index.php/Home/Shangji/add',{"id":ajaxstr},
+									$.get('__ROOT__/index.php/Home/Shangji/add',{"id":ajaxstr},
 																        		 function(html){
 																					 errorFun(html)
 																		         	window.location.href="shangji";
 																                   });
 									}else{
 								
-										$.get(rooturl+'/index.php/Home/Shangji/add_end',{"id":ajaxstr_kh,"lxr":ajaxstr_lxr,"lxr_id":name_lxr,'shangji':ajaxstr},
+										$.get('__ROOT__/index.php/Home/Shangji/add_end',{"id":ajaxstr_kh,"lxr":ajaxstr_lxr,"lxr_id":name_lxr,'shangji':ajaxstr},
 																        		 function(html){
 																					errorFun(html)
 																        		// 	alert(html)
@@ -539,7 +539,7 @@
 									
 								},
 								btn2:function(){
-									$.get(rooturl+'/index.php/Home/Shangji/del_all',{},
+									$.get('__ROOT__/index.php/Home/Shangji/del_all',{},
 							        		 function(html){
 									        	  // 	$(".layui-table").hide();
 									        		
@@ -550,7 +550,7 @@
 								},
 								cancel:function(index,layero){
 									
-										$.get(rooturl+'/index.php/Home/Shangji/del_all',{},
+										$.get('__ROOT__/index.php/Home/Shangji/del_all',{},
 							        		 function(html){
 									        	  // 	$(".layui-table").hide();
 									        		
@@ -578,7 +578,7 @@
 		{
 			
 			layui.upload({
-				url: rooturl+"/index.php/Home/kehu/wjsc_dr",
+				url: "__ROOT__/index.php/Home/kehu/wjsc_dr",
 				title:"选择文件",
 				success: function(res){
 					if(res['res']=='1')
@@ -590,7 +590,7 @@
 						  $("#fileclose").prop("name",res['newname']);
 						  if(is_upload!='')
 						   {
-								$.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+is_upload});
+								$.get("__ROOT__/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+is_upload});
 						   }
 							is_upload=res['newname'];
 						
@@ -622,7 +622,7 @@
 									
 				
 
-										window.location=rooturl+'/index.php/Home/Shangji/xiazaimuban';
+										window.location='__ROOT__/index.php/Home/Shangji/xiazaimuban';
 		        		 				
 								},
 								
@@ -635,7 +635,7 @@
 					                    tishi("请先选择需要导入的文件");
 					                    return false;
 					                }
-					                $.get(rooturl+"/index.php/Home/Shangji/drcshi",{"name":is_upload},function(res){
+					                $.get("__ROOT__/index.php/Home/Shangji/drcshi",{"name":is_upload},function(res){
 					                	//tishi(res)
 					                  tishi(res);
 									  window.location.href="shangji";
@@ -678,7 +678,7 @@
 										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
 									}
 									var vstr=ajaxstr.substr(0,ajaxstr.length-1);
-									$.get(rooturl+'/index.php/Home/Shangji/add_cp',{"id":vstr},
+									$.get('__ROOT__/index.php/Home/Shangji/add_cp',{"id":vstr},
 							        		 function(html){
 									       		 $(".tihuan").html(html);
 									        	$(".layui-table").show();
@@ -711,7 +711,7 @@
 			 	}
 				checked_str=checked_str.substr(0,checked_str.length-1);
 
-				$.get(rooturl+'/index.php/Home/Shangji/del_shangji',{"id":checked_str},
+				$.get('__ROOT__/index.php/Home/Shangji/del_shangji',{"id":checked_str},
 										        		 function(html){
 																errorFun(html)
 										        				window.location.href="shangji";
@@ -760,7 +760,7 @@
 												var xgzd2=$("#show_yc").children("option[value='"+xgzd+"']").text();//客户名称汉字
 												var content2=$("#"+xgzd+"wys").children("option[value='"+content+"']").text();//参数汉字
 
-												$.get(rooturl+'/index.php/Home/Shangji/pl_bianji',{"id":bianji_str,"ziduan":xgzd,"content":content,"xgzd2":xgzd2,"content2":content2},
+												$.get('__ROOT__/index.php/Home/Shangji/pl_bianji',{"id":bianji_str,"ziduan":xgzd,"content":content,"xgzd2":xgzd2,"content2":content2},
 					        		 				function(html){
 														 errorFun(html)
 					        		 					tishi("批量修改成功")
@@ -822,7 +822,7 @@
 										//tishi(fuzeren)
 										var kh=$('input[name="zy_kh"]:checked').val();
 										var ht=$('input[name="zy_ht"]:checked').val();
-										$.get(rooturl+'/index.php/Home/Shangji/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"sj_id":piliang_str,"kh":kh,"ht":ht},
+										$.get('__ROOT__/index.php/Home/Shangji/pl_zhuanyi',{"id":fuzeren,"ziduan":fuzeren1,"sj_id":piliang_str,"kh":kh,"ht":ht},
 			        		 				function(html){
 												errorFun(html)
 			        		 					tishi("批量转移成功")
@@ -850,7 +850,7 @@
 		 		if(v2.prop("id")=="ss1"){
 	    			var kh_id= v2.val();
 	    			if(kh_id!="tiaozhuan"){
-	    			$.get(rooturl+'/index.php/Home/Shangji/lxr_get',{"id":kh_id},
+	    			$.get('__ROOT__/index.php/Home/Shangji/lxr_get',{"id":kh_id},
 		 				function(html){
 										$(".lx_th").html(html);
 										layer.close(win)
@@ -858,7 +858,7 @@
 		    		}else{
 
 		    			
-		    				$.get(rooturl+'/index.php/Home/Shangji/kehu_add',{},
+		    				$.get('__ROOT__/index.php/Home/Shangji/kehu_add',{},
 
 			        		 				function(html){
 											$(".th_kh").html(html);
@@ -915,7 +915,7 @@
 											
 										
 											
-											$.get(rooturl+'/index.php/Home/Shangji/lxr_if',{"id":name_lxr},
+											$.get('__ROOT__/index.php/Home/Shangji/lxr_if',{"id":name_lxr},
 			        		 				function(html){
 												 $("#sj_zdy1").html("<input type='text' name='zdy1' value='"+name_kh+"' readonly='true'>");
 												 if(html=="ok"){
@@ -972,12 +972,12 @@
 
 					    		
 					    			if(v2.val()=="add_lxr"){
-					    				$.get(rooturl+'/index.php/Home/Shangji/lianxiren',{},
+					    				$.get('__ROOT__/index.php/Home/Shangji/lianxiren',{},
 			        		 				function(html){
 			        		 							$(".th_lxr").html(html);
-			        		 					$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.js");
-		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/main.js");
-		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.data.js");
+			        		 					$.getScript("__PUBLIC__/diqu/js/distpicker.js");
+		        		 						$.getScript("__PUBLIC__/diqu/js/main.js");
+		        		 						$.getScript("__PUBLIC__/diqu/js/distpicker.data.js");
 		
 									
 											$('#lxr table :input').blur(function(){
@@ -1069,7 +1069,7 @@
 
 			    			var user_id=v2.val();
 			    			//tishi(us
-			    			$.get(rooturl+'/index.php/Home/Shangji/get_bm',{"id":user_id},
+			    			$.get('__ROOT__/index.php/Home/Shangji/get_bm',{"id":user_id},
 						        		 				function(html){
 			        		 								//tishi(html)
 														$(".bm_th").html(html);
@@ -1089,7 +1089,7 @@
 					    				$(".cp_zj").val("")	
 					    				layer.close(win)
 					    			}
-					    			$.get(rooturl+'/index.php/Home/Shangji/cp_ajax',{"id":cp_id},
+					    			$.get('__ROOT__/index.php/Home/Shangji/cp_ajax',{"id":cp_id},
 					    										function(html)
 					    										{
 					    										//	tishi(html)
@@ -1110,7 +1110,7 @@
     		function kh_bmo(bm){
     			var user_id=$(bm).val();
     	//	alert(user_id)
-    			$.get(rooturl+'/index.php/Home/Hetong/get_bm',{"id":user_id},
+    			$.get('__ROOT__/index.php/Home/Hetong/get_bm',{"id":user_id},
 			        		 				function(html){
         		 								//tishi(html)
 											$(".khbm_th").html(html);
@@ -1146,7 +1146,7 @@
     		}
     		function kh_name_if(e){
 			var a =$(e).val();
-			$.get(rooturl+'/index.php/Home/Kehu/kh_name_if',{"id":a},
+			$.get('__ROOT__/index.php/Home/Kehu/kh_name_if',{"id":a},
 			        		 				function(html){
 
         		 							if(html){
@@ -1160,7 +1160,7 @@
 		}
     		function cp_del(f){
     			var id = $(f).prop('name');
-    				$.get(rooturl+'/index.php/Home/Shangji/cp_del',{"id":id},
+    				$.get('__ROOT__/index.php/Home/Shangji/cp_del',{"id":id},
     										function(html)
     										{
     											if(html==1){

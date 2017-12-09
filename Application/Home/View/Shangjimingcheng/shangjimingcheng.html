@@ -12,20 +12,20 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="format-detection" content="telephone=no">
 		<!--jq ui-->
-		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/jquery-ui/jquery-ui.css">
+		<script src="__PUBLIC__/jquery/jquery.js"></script>
+		<script src="__PUBLIC__/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/jquery-ui/jquery-ui.css">
   		<!--jqui 结束-->
-  		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
-		<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js" ></script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/report/time_axis.css" />
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">	
-		<link href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
-		<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
-		<script src="{$_GET['public_dir']}/js/islogin.js"></script>
+  		<script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
+		<script src="__PUBLIC__/bootstrap/My97DatePicker/WdatePicker.js" ></script>
+		<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+		<script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/report/time_axis.css" />
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css">	
+		<link href="__PUBLIC__/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
+		<script src="__PUBLIC__/jquery/searchable/jquery.searchableSelect.js"></script>
+		<script src="__PUBLIC__/js/islogin.js"></script>
   		<style>
   			body,ul,li,tr{margin:0;padding:0;font-size:14px;}
   		
@@ -63,7 +63,7 @@
 						
   		</style>
 		<script>
-			window.rooturl="{$_GET['root_dir']}";
+		
 			 $(function() {
    				$( "#tabs" ).tabs();
  			 });
@@ -202,7 +202,7 @@
 							<else/>
 							<tr>
 
-					  				<td class='wysa' title='{$lx_json.zdy0}' ><a href="{$_GET['root_dir']}/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/{$sql_lianxi.lx_id}"><span style="color:#079">{$lx_json.zdy0}</span></a></td>
+					  				<td class='wysa' title='{$lx_json.zdy0}' ><a href="__ROOT__/index.php/Home/Lianxirenmingcheng/Lianxirenmingcheng/id/{$sql_lianxi.lx_id}"><span style="color:#079">{$lx_json.zdy0}</span></a></td>
 					  				<td class='wysa'  title='{$lx_json.zdy4}'>{$lx_json.zdy4}</td>
 					  				<td >{$lx_json.zdy5}</td>
 					  				<td >{$lx_json.zdy6}</td>
@@ -295,7 +295,7 @@
 									</tbody>
 					  		</table>  
 					  		<div id="fj_cp"  style="display: none;border:1px;">     
-						  			<form id="uploadform" action="{$_GET['root_dir']}/index.php/Home/Shangjimingcheng/sj_upload/id/{$sj_id}" enctype="multipart/form-data" method="post" style="margin:20px;">
+						  			<form id="uploadform" action="__ROOT__/index.php/Home/Shangjimingcheng/sj_upload/id/{$sj_id}" enctype="multipart/form-data" method="post" style="margin:20px;">
 					  					<input type="file" name="wenjian"  >
 					  					<div id="shangc_top">备&nbsp;&nbsp;&nbsp;&nbsp;注：<!-- 第一个是普通textarea -->
 									<textarea name="wenbenyu" class="comments" rows="5" cols="30"> </textarea>  </div>
@@ -359,11 +359,11 @@
 		function del_check(ss){
     			var checked_str=$(".bingou").val();
     			
-    			$.get(rooturl+'/index.php/Home/Shangji/del_shangji',{"id":checked_str},
+    			$.get('__ROOT__/index.php/Home/Shangji/del_shangji',{"id":checked_str},
 		        		 function(html){
 								errorFun(html)
 		        		 		tishi("删除成功")
-		        				 				location=rooturl+"/index.php/Home/Shangji/shangji";
+		        				 				location="__ROOT__/index.php/Home/Shangji/shangji";
 		                   });
 
     		}
@@ -413,7 +413,7 @@
 				{
 					var s=$(ss).prop('class');
 				
-					window.location=rooturl+'/index.php/Home/Hetongmingcheng/download1?id='+s;
+					window.location='__ROOT__/index.php/Home/Hetongmingcheng/download1?id='+s;
 						
 				}
 	$(".woca").hide();
@@ -443,7 +443,7 @@
 									}
 									//alert (ajaxstr);
 									ajaxstra=ajaxstr.substr(0,ajaxstr.length-3);
-									$.get(rooturl+'/index.php/Home/Shangjimingcheng/save',{"id":ajaxstra},
+									$.get('__ROOT__/index.php/Home/Shangjimingcheng/save',{"id":ajaxstra},
 							        		 function(html){
 									        		// alert(html)
 													errorFun(html)
@@ -451,7 +451,7 @@
 									        			alert("没有修改信息")
 									        			layer.close(win)
 									        		}else{
-									        			location=rooturl+"/index.php/Home/Shangjimingcheng/shangjimingcheng?id="+$(".bingou").val();
+									        			location="__ROOT__/index.php/Home/Shangjimingcheng/shangjimingcheng?id="+$(".bingou").val();
 									        		}
 							                   });
 								},
@@ -489,7 +489,7 @@
 									}
 									var vstr=ajaxstr.substr(0,ajaxstr.length-1);
 									
-									$.get(rooturl+'/index.php/Home/Shangjimingcheng/add_cpa',{"id":vstr,'sj_id':$(".bingou").val()},
+									$.get('__ROOT__/index.php/Home/Shangjimingcheng/add_cpa',{"id":vstr,'sj_id':$(".bingou").val()},
 							        		 function(html){
 												 errorFun(html)
 									       		window.location.href="Hetongmingcheng?id="+$(".bingou").val()+"&uiid=3";
@@ -524,7 +524,7 @@
 					    				$(".cp_zj").val("")	
 					    				layer.close(win)
 					    			}
-					    			$.get(rooturl+'/index.php/Home/Shangji/cp_ajax',{"id":cp_id},
+					    			$.get('__ROOT__/index.php/Home/Shangji/cp_ajax',{"id":cp_id},
 					    										function(html)
 					    										{
 					    										//	tishi(html)
@@ -545,7 +545,7 @@
 		    	}
 		function cp_sj_del(e){
 				var id=$(e).prop('name');
-				$.get(rooturl+'/index.php/Home/Shangjimingcheng/cp_sj_del',{"id":id},
+				$.get('__ROOT__/index.php/Home/Shangjimingcheng/cp_sj_del',{"id":id},
 					 function(html){
 							errorFun(html)
 		        			$("."+id).hide();
@@ -567,7 +567,7 @@
 		  function fujian_del(ws){
 
 		  	var id=$(ws).prop('name');
-		  	$.get(rooturl+'/index.php/Home/Shangjimingcheng/fujian_del',{"id":id},
+		  	$.get('__ROOT__/index.php/Home/Shangjimingcheng/fujian_del',{"id":id},
 					 function(html){
 							errorFun(html)
 		        			$("."+id).hide();
@@ -603,10 +603,10 @@
 										var xgj=$(".gjzt12").val();
 										var kh_id=$(".kh_id27").val();
 									//	alert(content_gj)
-									$.get(rooturl+'/index.php/Home/Shangjimingcheng/xgj',{"id":content_gj,'xgj':xgj,"kh_id":kh_id},
+									$.get('__ROOT__/index.php/Home/Shangjimingcheng/xgj',{"id":content_gj,'xgj':xgj,"kh_id":kh_id},
 						        		 				function(html){
 																	errorFun(html)
-			        		 								 		location=rooturl+"/index.php/Home/Shangjimingcheng/shangjimingcheng?id="+$(".bingou").val();
+			        		 								 		location="__ROOT__/index.php/Home/Shangjimingcheng/shangjimingcheng?id="+$(".bingou").val();
 														});
 
 								}
@@ -616,10 +616,10 @@
 	function del_gj(ss){
 		 	var gj_id=$(ss).prop('id');
 
-				$.get(rooturl+'/index.php/Home/Shangjimingcheng/del_gja',{"id":gj_id},
+				$.get('__ROOT__/index.php/Home/Shangjimingcheng/del_gja',{"id":gj_id},
 							        		 function(html){
 												 errorFun(html)
-									        		location=rooturl+"/index.php/Home/Shangjimingcheng/shangjimingcheng?id="+$(".bingou").val();//$(".rz_sxp").html(html);
+									        		location="__ROOT__/index.php/Home/Shangjimingcheng/shangjimingcheng?id="+$(".bingou").val();//$(".rz_sxp").html(html);
 							                   });
 		 }
 		 function tishi(neirong)
@@ -629,7 +629,7 @@
 			    });
 			}
 		function fanhui(){
-			window.location.href=rooturl+'/index.php/Home/Shangji/shangji';
+			window.location.href='__ROOT__/index.php/Home/Shangji/shangji';
 		}
 	</script>
 </html>

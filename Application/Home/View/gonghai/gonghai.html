@@ -13,39 +13,39 @@
 		<meta name="format-detection" content="telephone=no">
 
 	<!--	<link rel="stylesheet" href="css/global.css" media="all">  -->    
-		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/jquery-ui/jquery-ui.css">
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
-<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
+		<script src="__PUBLIC__/jquery/jquery.js"></script>
+		<script src="__PUBLIC__/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/jquery-ui/jquery-ui.css">
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
+<script src="__PUBLIC__/bootstrap/My97DatePicker/WdatePicker.js"></script>
 
-		<link href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
-		<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
+		<link href="__PUBLIC__/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
+		<script src="__PUBLIC__/jquery/searchable/jquery.searchableSelect.js"></script>
 		
 <!--下面   地区插件-->
 	
 	
-	<!--	<link href="{$_GET['public_dir']}/diqu/css/main.css" rel="stylesheet">
-		<link href="{$_GET['public_dir']}/diqu/css/css/demo.css" rel="stylesheet">-->
+	<!--	<link href="__PUBLIC__/diqu/css/main.css" rel="stylesheet">
+		<link href="__PUBLIC__/diqu/css/css/demo.css" rel="stylesheet">-->
 
-		<script>window.jQuery || document.write('<script src="{$_GET['public_dir']}/diqu/js/jquery-1.11.0.min.js"><\/script>')</script>
-		<script src="{$_GET['public_dir']}/diqu/js/distpicker.data.js"></script>
-	    <script src="{$_GET['public_dir']}/diqu/js/distpicker.js"></script>
-	    <script src="{$_GET['public_dir']}/diqu/js/main.js"></script>
-		<script src="{$_GET['public_dir']}/js/islogin.js"></script>
+		<script>window.jQuery || document.write('<script src="__PUBLIC__/diqu/js/jquery-1.11.0.min.js"><\/script>')</script>
+		<script src="__PUBLIC__/diqu/js/distpicker.data.js"></script>
+	    <script src="__PUBLIC__/diqu/js/distpicker.js"></script>
+	    <script src="__PUBLIC__/diqu/js/main.js"></script>
+		<script src="__PUBLIC__/js/islogin.js"></script>
 <!--end!!-->
-		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+		<script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
 
 		 <script>
-			window.rooturl="{$_GET['root_dir']}";
+		
 
   		</script>
 
   		
   			<!--UIkit-->
-		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+		<script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
 		<style>
 		body,ul,li,table,tr{margin:0;padding:0;}
 
@@ -331,7 +331,7 @@ layui.use('upload', function(){
 					$(this).parent().children("span,i").show();
 					return false
     				}else{
-    					$.get(rooturl+'/index.php/Home/Kehu/index',{"bianji_id":$(this).attr("id"),"bianji_name":$(this).attr("name"),"bianji_val":$(this).val()},
+    					$.get('__ROOT__/index.php/Home/Kehu/index',{"bianji_id":$(this).attr("id"),"bianji_name":$(this).attr("name"),"bianji_val":$(this).val()},
 							        		 function(html){
 							        		//tishi(html)
 													if(html=='ok'){
@@ -368,7 +368,7 @@ if(checked_str=="")
  	}
 	checked_str=checked_str.substr(0,checked_str.length-1);
 
-	$.get(rooturl+'/index.php/Home/Kehu/del_kehu',{"id":checked_str},
+	$.get('__ROOT__/index.php/Home/Kehu/del_kehu',{"id":checked_str},
 							        		 function(html){
 							        			tishi('删除成功')
 							        			for(a=0;a<asasd.length;a++)
@@ -393,14 +393,14 @@ function yc_file(thisdom){
 	clickdelnowfile='1';
     var thisdelname=$(thisdom).prop("name");
    
-    $.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+thisdelname});
+    $.get("__ROOT__/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+thisdelname});
     $(thisdom).parent().hide();
 }
   	
   function kehujibie(thisa){
   	var kehu=$(thisa).prop('id');
 
-  		$.get(rooturl+'/index.php/Home/Kehu/shaixuan',{"kehu":"mykehu"},
+  		$.get('__ROOT__/index.php/Home/Kehu/shaixuan',{"kehu":"mykehu"},
 							        		 function(html){
 							        		 		tishi(html)
 							        			$("#jb_bianji").html(html);
@@ -454,7 +454,7 @@ function bianji_kehu1()
 									//tishi(content)
 									//tishi(xgzd2)
 									//tishi(content2)
-									$.get(rooturl+'/index.php/Home/Kehu/pl_bianji',{"id":bianji_str,"ziduan":xgzd,"content":content,"xgzd2":xgzd2,"content2":content2},
+									$.get('__ROOT__/index.php/Home/Kehu/pl_bianji',{"id":bianji_str,"ziduan":xgzd,"content":content,"xgzd2":xgzd2,"content2":content2},
 		        		 				function(html){
 		        		 					tishi("批量修改成功")
 												location.reload();
@@ -515,7 +515,7 @@ $('#piliangzy').hide();
 									}
 									var fuzeren1=$("#zhuanyifzr").children("option[value='"+fuzeren+"']").text();//客户名称汉字
 
-									$.get(rooturl+'/index.php/Home/Gonghai/pl_zhuanyi',{"id":fuzeren,"kh_id":piliang_str},
+									$.get('__ROOT__/index.php/Home/Gonghai/pl_zhuanyi',{"id":fuzeren,"kh_id":piliang_str},
 		        		 				function(html){
 		        		 				errorFun(html)
 		        		 					tishi("批量获取成功")
@@ -540,7 +540,7 @@ var is_upload='';
 function daoru()
 		{
 				layui.upload({
-					        url: rooturl+"/index.php/Home/kehu/wjsc_dr",
+					        url: "__ROOT__/index.php/Home/kehu/wjsc_dr",
 					        title:"选择文件",
 					        success: function(res){
 					            if(res['res']=='1')
@@ -552,7 +552,7 @@ function daoru()
 						              $("#fileclose").prop("name",res['newname']);
 						              if(is_upload!='')
 						               {
-						                    $.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+is_upload});
+						                    $.get("__ROOT__/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+is_upload});
 						               }
                						 is_upload=res['newname'];
 										
@@ -585,11 +585,11 @@ function daoru()
 									
 				
 
-										window.location=rooturl+'/index.php/Home/Kehu/xiazaimubana';
+										window.location='__ROOT__/index.php/Home/Kehu/xiazaimubana';
 		        		 				
 								},
 								btn2:function(){
-									window.location=rooturl+'/index.php/Home/Kehu/xiazaimubancanshu';
+									window.location='__ROOT__/index.php/Home/Kehu/xiazaimubancanshu';
 								},
 								btn3:function(){
 
@@ -598,7 +598,7 @@ function daoru()
 					                    tishi("请先选择需要导入的文件");
 					                    return false;
 					                }
-					                $.get(rooturl+"/index.php/Home/gonghai/drcshi",{"name":is_upload},function(res){
+					                $.get("__ROOT__/index.php/Home/gonghai/drcshi",{"name":is_upload},function(res){
 					                	//tishi(res)
 					                  tishi(res);
 									  window.location.href="gonghai";
@@ -670,7 +670,7 @@ $("#dong").prop("class",'kehu');
 		}
 		$(".ycyo").hide();
 		
-	$.get(rooturl+'/index.php/Home/Gonghai/gonghai',{"sxaaa":sxaaa},
+	$.get('__ROOT__/index.php/Home/Gonghai/gonghai',{"sxaaa":sxaaa},
 							        		 function(html){
 							        			errorFun(html)
 							        		 	if(html=="quanbu")
@@ -723,7 +723,7 @@ $("#dong").prop("class",'kehu');
 		
 		function kh_name_if(e){
 			var a =$(e).val();
-			$.get(rooturl+'/index.php/Home/Kehu/kh_name_if',{"id":a},
+			$.get('__ROOT__/index.php/Home/Kehu/kh_name_if',{"id":a},
 			        		 				function(html){
 
         		 							if(html){

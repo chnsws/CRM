@@ -11,26 +11,26 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="format-detection" content="telephone=no">
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
-		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css"><!--图标-->
+		<script src="__PUBLIC__/jquery/jquery.js"></script>
+		<script src="__PUBLIC__/jquery-ui/jquery-ui.js"></script>
 
-		<script src="{$_GET['public_dir']}/js/islogin.js"></script>
-		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
-<script src="{$_GET['public_dir']}/bootstrap/My97DatePicker/WdatePicker.js"></script>
-		<link href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
-		<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
+		<script src="__PUBLIC__/js/islogin.js"></script>
+		<script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
+<script src="__PUBLIC__/bootstrap/My97DatePicker/WdatePicker.js"></script>
+		<link href="__PUBLIC__/jquery/searchable/jquery.searchableSelect.css" rel="stylesheet"  type="text/css">
+		<script src="__PUBLIC__/jquery/searchable/jquery.searchableSelect.js"></script>
 		<!--下面   地区插件-->
 	
 		
 
 		<script>window.jQuery || document.write('<script src="{$_GET[\'public_dir\']}/diqu/js/jquery-1.11.0.min.js"><\/script>')</script>
-		<script src="{$_GET['public_dir']}/diqu/js/distpicker.data.js"></script>
-	    <script src="{$_GET['public_dir']}/diqu/js/distpicker.js"></script>
-	    <script src="{$_GET['public_dir']}/diqu/js/main.js"></script>
-<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+		<script src="__PUBLIC__/diqu/js/distpicker.data.js"></script>
+	    <script src="__PUBLIC__/diqu/js/distpicker.js"></script>
+	    <script src="__PUBLIC__/diqu/js/main.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+		<script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
 <!--end!!-->
 		<style>
 
@@ -313,11 +313,11 @@
 		 	}
 		 	if(v2.val()=="kh_add")
 		 	{
-		 		$.get(rooturl+'/index.php/Home/lianxiren/kehu_add',{},
+		 		$.get('__ROOT__/index.php/Home/lianxiren/kehu_add',{},
 			        		 				function(html){
-			        		 					$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.js");
-		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/main.js");
-		        		 						$.getScript("{$_GET['public_dir']}/diqu/js/distpicker.data.js");
+			        		 					$.getScript("__PUBLIC__/diqu/js/distpicker.js");
+		        		 						$.getScript("__PUBLIC__/diqu/js/main.js");
+		        		 						$.getScript("__PUBLIC__/diqu/js/distpicker.data.js");
 											$(".th_kh").html(html);
 											$('#kh table :input').blur(function(){
 									    	
@@ -403,7 +403,7 @@
 	clickdelnowfile='1';
     var thisdelname=$(thisdom).prop("name");
    
-    $.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+thisdelname});
+    $.get("__ROOT__/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+thisdelname});
     $(thisdom).parent().hide();
 }
 	var ssa=$("#sousuo").val();
@@ -432,7 +432,7 @@
 	id+=title+","+s+"|";
 
    $(".ycyo").hide();
-	$.get(rooturl+'/index.php/Home/Lianxiren/lianxiren',{"sxaaa":id},
+	$.get('__ROOT__/index.php/Home/Lianxiren/lianxiren',{"sxaaa":id},
 							        		 function(html){
 												errorFun(html)
 							        		 	if(html=="quanbu")
@@ -500,19 +500,19 @@
 								
 									if(ajaxstr_kh=='')
 									{
-										$.get(rooturl+'/index.php/Home/Lianxiren/add',{"id":ajaxstr},
+										$.get('__ROOT__/index.php/Home/Lianxiren/add',{"id":ajaxstr},
 								        		 function(html){
 													 errorFun(html)
 								        		 	 tishi("添加成功");
 										        		window.location.href="lianxiren";
 								                   });
 									}else{
-										$.get(rooturl+'/index.php/Home/Lianxiren/add_kh',{"id":ajaxstr_kh},
+										$.get('__ROOT__/index.php/Home/Lianxiren/add_kh',{"id":ajaxstr_kh},
 								        		 function(khid){
 													errorFun(khid)
 								        		 	window.kh_id=khid;
 								        		 	alert(kh_id)
-								        		 	$.get(rooturl+'/index.php/Home/Lianxiren/adda',{"id":ajaxstr,"id2":kh_id},
+								        		 	$.get('__ROOT__/index.php/Home/Lianxiren/adda',{"id":ajaxstr,"id2":kh_id},
 										        		 function(html){
 																errorFun(html)
 												        		 tishi("添加成功");
@@ -554,7 +554,7 @@
 		{
 			
 			layui.upload({
-				url: rooturl+"/index.php/Home/kehu/wjsc_dr",
+				url: "__ROOT__/index.php/Home/kehu/wjsc_dr",
 				title:"选择文件",
 				success: function(res){
 					if(res['res']=='1')
@@ -566,7 +566,7 @@
 						  $("#fileclose").prop("name",res['newname']);
 						  if(is_upload!='')
 						   {
-								$.get(rooturl+"/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+is_upload});
+								$.get("__ROOT__/index.php/Home/Kehu/del_old_file",{"oldname":"linshi/"+is_upload});
 						   }
 							is_upload=res['newname'];
 							
@@ -598,7 +598,7 @@
 									
 				
 
-										window.location=rooturl+'/index.php/Home/Kehu/xiazaimubana';
+										window.location='__ROOT__/index.php/Home/Kehu/xiazaimubana';
 		        		 				
 								},
 								
@@ -609,7 +609,7 @@
 																			tishi("请先选择需要导入的文件");
 																			return false;
 																		}
-																		$.get(rooturl+"/index.php/Home/Kehu/drcshi",{"name":is_upload},function(res){
+																		$.get("__ROOT__/index.php/Home/Kehu/drcshi",{"name":is_upload},function(res){
 																			//tishi(res)
 																		  tishi(res);
 																		  window.location.href="lianxiren";
@@ -644,7 +644,7 @@
     				return flase;
     			}
     			checked_str=checked_str.substr(0,checked_str.length-1);
-    			$.get(rooturl+'/index.php/Home/Lianxiren/del',{"id":checked_str},
+    			$.get('__ROOT__/index.php/Home/Lianxiren/del',{"id":checked_str},
 		        		 function(html){
 							 errorFun(html)
 		        		 	tishi("删除成功");
@@ -680,7 +680,7 @@
 	function get_bm(bm){
     			var user_id=$(bm).val();
     		//	tishi(user_id)ddddddd
-    			$.get(rooturl+'/index.php/Home/Hetong/get_bm',{"id":user_id},
+    			$.get('__ROOT__/index.php/Home/Hetong/get_bm',{"id":user_id},
 			        		 				function(html){
         		 								//tishi(html)
 											$(".bm_th").html(html);
@@ -689,7 +689,7 @@
     		}
     			function kh_name_if(e){
 			var a =$(e).val();
-			$.get(rooturl+'/index.php/Home/Kehu/kh_name_if',{"id":a},
+			$.get('__ROOT__/index.php/Home/Kehu/kh_name_if',{"id":a},
 			        		 				function(html){
 
         		 							if(html){
