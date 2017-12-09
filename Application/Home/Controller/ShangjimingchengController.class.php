@@ -398,10 +398,12 @@ return $fzr_only;
 		$user_dpment[$sql_rh['sj_fz']]['user_name'];
 		$chanpin=$this->chanpin();
 		$cp_sj['sj_id']=$sj_id;
+		$cp_sj['cp_mk']=5;
 		$cp_sj['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
-		$cp_sj['cp_sj_cj']=cookie('user_id'); //通用条件  
+	
 		$cp_sj_base=M('cp_sj');
 		$sql_cp_sj=$cp_sj_base->where($cp_sj)->select();
+		
 		foreach($sql_cp_sj as $k=>$v)
 		{
 			foreach($v as $k1=>$v1)

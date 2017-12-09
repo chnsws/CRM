@@ -382,6 +382,24 @@
 					</form>
 
 					</div>
+					<div class='chanpina' style="display:none">
+						<table class='chanpin1 layui-table' >
+									<thead>
+											  <tr><th >产品名称</th>
+											  <th >产品编号</th>
+											  <th >公开价格</th>
+											  <th >合同价格</th>
+											  <th >数量</th>
+										  
+											  <th >总价</th>
+											  </tr>
+		
+											</thead>
+											<tbody class="cp_showoo">
+												
+											</tbody>
+						</table>
+				</div>
 				</body>
 	<script>
 	var budong=$('#budong').val();
@@ -562,6 +580,38 @@
 								}
 							}); 
 						});  
+
+	}
+	function sj_cp(ss){
+		var sj_id=$(ss).prop('class');
+
+		$.get('__ROOT__/index.php/Home/Shangji/cp_ck',{"id": sj_id},
+												function(html){
+												
+													$(".cp_showoo").html(html);
+
+											})
+		
+			layui.use('layer', function(){
+			
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:['1000px','400px'],
+								title: '产品详情',
+								content:$('.chanpina'),
+								btn:['返回'],
+
+								btn1:function(){
+										
+									  layer.close(win)    
+							            
+								}
+							
+							}); 
+						});      
 
 	}
 	 function sjyz(ss){
