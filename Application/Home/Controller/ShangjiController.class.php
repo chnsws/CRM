@@ -2083,6 +2083,7 @@ return $fzr_only;
 		$yzdl->have_qx("qx_sj_open");//跳转权限验证
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
 		$kehu=$_GET['id'];
+			$bma=$this->user();
 		//$kehu="zdy0:阿衰嫌憎3,zdy1:canshu2,zdy2:23,zdy3:2323,zdy4:23,zdy5:232332,zdy15:206,kh_fz:46,kh_bm:技术部,";
 		$new_number=substr($kehu,0,strlen($kehu)-1); 
 		$new_arr=explode(',',$new_number);
@@ -2094,7 +2095,7 @@ return $fzr_only;
 				$data["kh_fz"]=	$ex['1'];//本人ID  ;
 			}elseif($ex['0']=="kh_bm")
 			{
-				$data["kh_bm"]=	$ex['1'];//本人ID  ;
+				$data["kh_bm"]=$bma[$ex['1']]['department'];//本人ID 
 			}else{
 				$ex1[$ex['0']]=$ex['1'];
 			}		
