@@ -22,6 +22,8 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $p);
 $output = curl_exec($ch);
 curl_close($ch);
 
+echo $output;die;
+
 if(!$output)
 {
     if(rename($dirName.'/../index.php',$dirName.'/../index2.php'))

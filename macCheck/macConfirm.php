@@ -1,7 +1,7 @@
 <?php
 header("Content-type: text/html; charset=utf-8"); 
 error_reporting(0); 
-$hostname='127.0.0.1';//数据库地址
+$hostname='192.168.1.51';//数据库地址
 $hostuser='root';//数据库用户名
 $hostpwd='9654321';//数据库密码
 $dbname='mac';//数据库名称
