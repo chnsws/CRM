@@ -27,25 +27,28 @@
 		.xq_s .righ{float:right;}
 		.xq_s .righ1{margin-left:20px;}
 		.xq_s tr{height:40px;}
-		.bhyuany1{margin-top:4%;margin-left:35%;}
+		.bhyuany1{margin-top:4%;margin-left:25%;margin-right:20%;}
 		 td{padding-top:20px;}
 		body,ul,li,table,tr{margin:0;padding:0;}
 		th{background-color:#50BBB1;height:30px;color:white;border:0px !important;}
 		textarea{margin-left:25%;margin-top:35px;}
 		.fujian1{margin :0 auto;}
 		.gundong{overflow :auto}
+		.bohuics{width:100%;table-layout:fixed;}
+		.bohuics tr td:nth-child(1){width:50%;}
+		.bohuics tr td:nth-child(2){width:50%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 		</style>
 
 	</head>
 	<body style="position:relative">
 		<div style='display:none' id='bohuio'>
 			<div style="width:100%;height:100">
-			<textarea rows="8" id='bhyy' cols="40"></textarea>
+			<textarea rows="8" id='bhyy' cols="40" maxlength="400" placeholder="最大长度400"></textarea>
 			</div>
 		</div>
 		<div style='display:none' id='htbohuio'>
 			<div style="width:100%;height:100">
-			<textarea rows="8" id='htbhyy' cols="40"></textarea>
+			<textarea rows="8" id='htbhyy' cols="40" maxlength="400" placeholder="最大长度400"></textarea>
 			</div>
 		</div>
 		<div style='display:none;width:800px' id='xiangqing'>

@@ -2262,7 +2262,7 @@ $yzdl->have_qx("qx_ht_open");//跳转权限验证
 		$id['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
 		$m=M('sp');
 		$sql=$m->where($id)->find();
-		echo "<table><tr><td>驳回人：</td><td>".$user[$sql['sp_user']]['user_name']."</td></tr><tr><td>驳回原因：</td><td>".$sql['sp_yuanyin']."</td></tr><tr><td>驳回时间：</td><td>".$sql['sp_sj']."</td></tr></table>";
+		echo "<table  class='bohuics'><tr><td>驳回人：</td><td>".$user[$sql['sp_user']]['user_name']."</td></tr><tr ><td>驳回原因：</td><td title='".$sql['sp_yuanyin']."' style='cursor:pointer;'>".$sql['sp_yuanyin']."</td></tr><tr><td>驳回时间：</td><td>".$sql['sp_sj']."</td></tr></table>";
 
 		
 	}
