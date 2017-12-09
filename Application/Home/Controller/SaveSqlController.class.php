@@ -6,9 +6,16 @@ class SaveSqlController extends Controller {
     {
         //拿到Post的数据
         $content=$_POST['content'];
-        //写入到文件中
+        $mac=$_POST['mac'];
+        
         $nowdate=date("Y_m_d",time());
-        $file=fopen("./Public/dataReport/data/".$nowdate.".txt",'w');
+        //文件目录是否存在
+        $dir = './Public/dataReport/getdata/mac-'.$mac;
+        if (!file_exists($dir)){
+            mkdir ($dir,0777,true);
+        }
+        //写入到文件中
+        $file=fopen("./Public/dataReport/getdata/mac-".$mac.'/'.$nowdate.".txt",'w');
         fwrite($file, $content);
         fclose($file);
         //返回值
