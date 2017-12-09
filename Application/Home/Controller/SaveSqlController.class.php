@@ -19,6 +19,7 @@ class SaveSqlController extends Controller {
         fwrite($file, $content);
         fclose($file);
         //返回值
+        echo '1';
         return true;
     }
 }
