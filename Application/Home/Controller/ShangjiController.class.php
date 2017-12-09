@@ -2078,29 +2078,33 @@ return $fzr_only;
 
 	}
 	public function add_end(){
+		
 		$yzdl=A('DB');
 		$yzdl->is_login();
 		$yzdl->have_qx("qx_sj_open");//跳转权限验证
 		$xiaji= $this->get_xiashu_id();//  查询下级ID
 		$kehu=$_GET['id'];
-			$bma=$this->user();
-		//$kehu="zdy0:阿衰嫌憎3,zdy1:canshu2,zdy2:23,zdy3:2323,zdy4:23,zdy5:232332,zdy15:206,kh_fz:46,kh_bm:技术部,";
+		
+	//	$kehu="zdy0:￥￥4444444444444,zdy1:￥￥canshu2,zdy2:￥￥2342-4234234,zdy3:￥￥2@qq.com,zdy9:￥￥canshu3,zdy10:￥￥canshu4,zdy13:￥￥2017-12-09,zdy15:￥￥434,kh_fz:￥￥46,ht_department:￥￥技术部,";
 		$new_number=substr($kehu,0,strlen($kehu)-1); 
 		$new_arr=explode(',',$new_number);
 		foreach($new_arr as $k=>$v)
 		{
 			$ex=explode(":￥￥",$v);
+			
 			if($ex['0']=="kh_fz")
 			{
 				$data["kh_fz"]=	$ex['1'];//本人ID  ;
-			}elseif($ex['0']=="kh_bm")
+				$aca=$data["kh_fz"];
+			}elseif($ex['0']=="ht_department")
 			{
-				$data["kh_bm"]=$bma[$ex['1']]['department'];//本人ID 
+				$data["kh_bm"]=$ex['1'];//本人ID ]
+			
 			}else{
 				$ex1[$ex['0']]=$ex['1'];
 			}		
 		}
-		
+	
 		$data["kh_data"]=json_encode($ex1,true);
 		$data["kh_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 		$data["kh_cj"]=	cookie('user_id');//本人ID  ;

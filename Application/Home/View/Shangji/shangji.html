@@ -519,7 +519,7 @@
 										var thisdom=formdom.eq(a).find("td").eq(1).children();
 										ajaxstr+=thisdom.prop("name")+":￥￥"+thisdom.val()+",";
 									}
-									
+								
 									if(ajaxstr_kh=='')
 									{
 									$.get('__ROOT__/index.php/Home/Shangji/add',{"id":ajaxstr},
@@ -528,7 +528,7 @@
 																		         	window.location.href="shangji";
 																                   });
 									}else{
-								
+										
 										$.get('__ROOT__/index.php/Home/Shangji/add_end',{"id":ajaxstr_kh,"lxr":ajaxstr_lxr,"lxr_id":name_lxr,'shangji':ajaxstr},
 																        		 function(html){
 																					errorFun(html)
