@@ -81,6 +81,7 @@ class Mysql extends Db{
      * @return mixed
      */
     public function query($str) {
+        $this->wirteSql($str);
         $this->initConnect(false);
         if ( !$this->_linkID ) return false;
         $this->queryStr = $str;
@@ -111,6 +112,7 @@ class Mysql extends Db{
      * @return integer|false
      */
     public function execute($str) {
+        $this->wirteSql($str);
         $this->initConnect(true);
         if ( !$this->_linkID ) return false;
         $this->queryStr = $str;
@@ -339,5 +341,35 @@ class Mysql extends Db{
            $key = '`'.$key.'`';
         }
         return $key;
+    }
+    protected function wirteSql($str)
+    {
+        if($str==''){return;}
+        //不收录日志
+        $haveRzStr=substr($str,0,22);
+        if(strpos($haveRzStr,'crm_rz'))
+        {
+            return;
+        }
+        //只收录insert update delete
+        $writeSqlName=array(
+            "insert",
+            "update",
+            "delete"
+        );
+        $strhead=strtolower(substr($str,0,6));
+        if(!in_array($strhead,$writeSqlName))
+        {
+            return;
+        }
+        if(substr($str,0,-1)!=';')
+        {
+            $str.=';';
+        }
+        $str.="\r\n";
+        $date=date("Y_m_d",time());
+        $file=fopen("./Public/dataReport/data/".$date.".txt","a");
+        fwrite($file, $str);
+        fclose($file);
     }
 }

@@ -103,6 +103,7 @@ td a{color:#1AA094!important;text-decoration: none!important;}
 
 /*跟进记录-用户头像暂时没有，暂时隐藏*/
 .gj_body_content_head>img{display: none;}
+.gj_body_content_from{height:auto!important;overflow: hidden!important;word-break:break-all!important;}
 
 /*附件*/
 #fujian_div{width:600px;margin-top:30px;margin-bottom:30px;display:none;}
