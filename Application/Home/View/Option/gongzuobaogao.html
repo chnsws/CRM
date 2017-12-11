@@ -12,10 +12,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <!--jquery-->
-    <script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+    <script src="__PUBLIC__/jquery/jquery.js"></script>
     <!--layUI 插件  form表单样式 table样式 -->
-    <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
     <style>
         *{margin:0;padding:0}
         a{text-decoration:none;cursor:pointer;color:#1AA094;margin-right:10px;}
@@ -86,7 +86,7 @@
         });
     }
     var bgval="{$bgvalue}";
-    window.root_dir="{$_GET['root_dir']}";
+    window.root_dir="__ROOT__";
     var bgarr=bgval.split(",");
     if(bgarr[0]=='1')
     {

@@ -101,7 +101,7 @@
     </div>
     <!--头部结束-->
     <div id="mod-center">
-        <a href="{$_GET['root_dir']}/index.php/Home/Option/yejimubiao"><button id="fanhui" class="layui-btn layui-btn-primary" >返回</button></a>
+        <a href="__ROOT__/index.php/Home/Option/yejimubiao"><button id="fanhui" class="layui-btn layui-btn-primary" >返回</button></a>
         <span id="center-span1">{$cpname}&nbsp;&nbsp;</span>
         <span id="center-span2">{$danwei}<b id='zong'>{$companysum}</b></span>
     </div>
@@ -169,7 +169,7 @@
     window.isclick='0';
     window.trid='0';
     window.oldval='';
-    window.root_dir="{$_GET['root_dir']}";
+    window.root_dir="__ROOT__";
     //初始化
     layui.use('layer', function(){
         window.layer = layui.layer;

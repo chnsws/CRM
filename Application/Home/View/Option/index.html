@@ -12,9 +12,9 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="format-detection" content="telephone=no">
 
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all" />
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/css/global.css" media="all">
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
 
 	</head>
 	<script>
@@ -36,7 +36,7 @@
 					<ul class="layui-nav admin-header-item">
 			
 						<li class="layui-nav-item">
-							<a href="{$_GET['root_dir']}">返回主页</a>
+							<a href="__ROOT__">返回主页</a>
 		
 						</li>
 						<!--
@@ -74,14 +74,14 @@
 					
 								
 								<dd>
-									<a href="{$_GET['root_dir']}/index.php/Home/Index/tuichu" ><i class="fa fa-sign-out" aria-hidden="true"></i> 安全退出</a>
+									<a href="__ROOT__/index.php/Home/Index/tuichu" ><i class="fa fa-sign-out" aria-hidden="true"></i> 安全退出</a>
 								</dd>
 							</dl>
 						</li>
 					</ul>
 					<ul class="layui-nav admin-header-item-mobile">
 						<li class="layui-nav-item">
-							<a href="{$_GET['root_dir']}/index.php/Home/Index/tuichu"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
+							<a href="__ROOT__/index.php/Home/Index/tuichu"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
 						</li>
 					</ul>
 				</div>
@@ -99,7 +99,7 @@
 					</ul>
 					<div class="layui-tab-content" style="min-height: 150px; padding: 5px 0 0 0;">
 						<div class="layui-tab-item layui-show">
-							<iframe src="{$_GET['root_dir']}/index.php/Home/Option/optioncenter"></iframe>
+							<iframe src="__ROOT__/index.php/Home/Option/optioncenter"></iframe>
 						</div>
 					</div>
 					
@@ -121,8 +121,8 @@
 			
 			
 
-			<script type="text/javascript" src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-			<script type="text/javascript" src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"></script>
+			<script type="text/javascript" src="__PUBLIC__/jquery/jquery.js"></script>
+			<script type="text/javascript" src="__PUBLIC__/index_js_css/plugins/layui/layui.js"></script>
 			
 			<script>
 			var navs={$navs};	
@@ -215,7 +215,7 @@
 
 				});
 			</script>
-			<script src="{$_GET['public_dir']}/index_js_css/js/index.js"></script>
+			<script src="__PUBLIC__/index_js_css/js/index.js"></script>
 			
 		</div>
 	</body>

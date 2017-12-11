@@ -10,17 +10,17 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta charset="utf-8">
-<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-<script src="{$_GET['public_dir']}/echarts/echarts.min.js"></script>
-<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="{$_GET['public_dir']}/main/main.css">
+<script src="__PUBLIC__/jquery/jquery.js"></script>
+<script src="__PUBLIC__/echarts/echarts.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="__PUBLIC__/main/main.css">
 
 <!--layUI-->
-<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+<script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
 <!--UIkit-->
-<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+<script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
 
 </head>
 <body>
@@ -233,7 +233,6 @@
 <script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
 //获取URL的绝对路径
-window.root_dir="{$_GET['root_dir']}";
 layui.use('element', function(){
   var element = layui.element();
 });
@@ -297,7 +296,7 @@ $(function(){
     var mubiaotime="{$_GET['mubiaotime']}";
     var mubiaotype=$(this).val();
     var mubiaotime_url=mubiaotime==''?'':'&mubiaotime='+mubiaotime;
-    window.location=root_dir+"/index.php/Home/Main/index?mubiaotype="+mubiaotype+mubiaotime_url;
+    window.location="__ROOT__/index.php/Home/Main/index?mubiaotype="+mubiaotype+mubiaotime_url;
   });
   //初始化业绩目标类型显示
   var mubiaotype="{$_GET['mubiaotype']}";
@@ -311,7 +310,7 @@ $(function(){
     var mubiaotime=$(this).val();
     var mubiaotype="{$_GET['mubiaotype']}";
     var mubiaotype_url=mubiaotype==''?'':'&mubiaotype='+mubiaotype;
-    window.location=root_dir+"/index.php/Home/Main/index?mubiaotime="+mubiaotime+mubiaotype_url;
+    window.location="__ROOT__/index.php/Home/Main/index?mubiaotime="+mubiaotime+mubiaotype_url;
   });
   //初始化业绩目标时间显示
   var mubiaotime="{$_GET['mubiaotime']}";
@@ -323,7 +322,7 @@ $(function(){
   $("#jianbao_sel").on("change",function(){
     layer.load(2);
     var thisval=$(this).val();
-    window.location=root_dir+"/index.php/Home/Main/index?jianbaotime="+thisval;
+    window.location="__ROOT__/index.php/Home/Main/index?jianbaotime="+thisval;
   });
   //初始化简报时间显示
   var jianbaotime="{$_GET['jianbaotime']}";
@@ -335,7 +334,7 @@ $(function(){
   $("#paihang_sel").on("change",function(){
     layer.load(2);
     var thisval=$(this).val();
-    window.location=root_dir+"/index.php/Home/Main/index?paihangtype="+thisval;
+    window.location="__ROOT__/index.php/Home/Main/index?paihangtype="+thisval;
   });
   //初始化销售排行显示
   var paihangtype="{$_GET['paihangtype']}";
@@ -352,20 +351,20 @@ $(function(){
     if(thisindex==0)
     {
       idstr="{$zhushou['id'][1]}";
-      to_url=root_dir+"/index.php/Home/Lianxiren/lianxiren?returnid="+idstr;
+      to_url="__ROOT__/index.php/Home/Lianxiren/lianxiren?returnid="+idstr;
       findtext='联系人';
       
     }
     else if(thisindex==1)
     {
       idstr="{$zhushou['id'][2]}";
-      to_url=root_dir+"/index.php/Home/Kehu/kehu?returnid="+idstr;
+      to_url="__ROOT__/index.php/Home/Kehu/kehu?returnid="+idstr;
       findtext='客户';
     }
     else if(thisindex==2)
     {
       idstr="{$zhushou['id'][3]}";
-      to_url=root_dir+"/index.php/Home/Hetong/hetong?returnid="+idstr;
+      to_url="__ROOT__/index.php/Home/Hetong/hetong?returnid="+idstr;
       findtext='合同';
     }
     else
@@ -418,7 +417,7 @@ $(function(){
   });
   //更多公告跳转
   $(".gonggao_more").on("click",function(){
-    location=root_dir+"/index.php/Home/Option/gonggaoguanli?from=main"
+    location="__ROOT__/index.php/Home/Option/gonggaoguanli?from=main"
   });
   //页面显示
   setTimeout(function() {

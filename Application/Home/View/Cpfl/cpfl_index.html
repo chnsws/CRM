@@ -12,20 +12,20 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <!--jquery-->
-    <script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+    <script src="__PUBLIC__/jquery/jquery.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
     <!--layUI 插件  form表单样式 table样式 -->
-    <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
     <!--UIkit-->
-    <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-    <script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
-    <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/sticky.css" />
-    <script src="{$_GET['public_dir']}/uikit/js/components/sticky.js"></script>
-    <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/notify.css" />
-    <script src="{$_GET['public_dir']}/uikit/js/components/notify.js"></script>
-    <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/sortable.css" />
-    <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/nestable.css" />
+    <link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+    <script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/uikit/css/components/sticky.css" />
+    <script src="__PUBLIC__/uikit/js/components/sticky.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/uikit/css/components/notify.css" />
+    <script src="__PUBLIC__/uikit/js/components/notify.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/uikit/css/components/sortable.css" />
+    <link rel="stylesheet" href="__PUBLIC__/uikit/css/components/nestable.css" />
 
     <style>
         *{margin:0;padding:0;}
@@ -170,7 +170,7 @@
     <div data-uk-sticky id="top_div">
         <button class="layui-btn" onclick="add_cpfl()" disabled="disabled"><i class='uk-icon-plus' aria-hidden='true'></i>添加产品分类</button>
         <button class="layui-btn" onclick="cp_search_window()" ><i class='uk-icon-search' aria-hidden='true'></i>产品搜索</button>
-        <!--<button class="layui-btn layui-btn-primary" onclick="window.location=rooturl+'/index.php/Home/Chanpin'"><i class='uk-icon-cubes' aria-hidden='true'></i>查看全部产品</button>-->
+        <!--<button class="layui-btn layui-btn-primary" onclick="window.location='__ROOT__/index.php/Home/Chanpin'"><i class='uk-icon-cubes' aria-hidden='true'></i>查看全部产品</button>-->
         <button class="layui-btn layui-btn-primary" onclick="edit_link(this)" disabled="disabled"><i class='fa fa-th' aria-hidden='true'></i>编辑快捷方式</button>
         <!--<button class="layui-btn" id="search_button">搜索分类</button>-->
         <input type="text" id="search_input" placeholder="搜索快捷方式" disabled="disabled" />
@@ -237,8 +237,8 @@ $(function(){
 
     //window.jiazai= layer.load(2);
     //获取产品分类树形结构
-    //$.get(rooturl+"/index.php/Home/Cpfl/get_fl_level_html",function(tree_html){
-    $.get(rooturl+"/index.php/Home/Cpfl/old_fl",function(tree_html){
+    //$.get("__ROOT__/index.php/Home/Cpfl/get_fl_level_html",function(tree_html){
+    $.get("__ROOT__/index.php/Home/Cpfl/old_fl",function(tree_html){
         errorFun(tree_html);
         $(".uk-nestable").html(tree_html);
         edit_fl_name_fun();
@@ -247,7 +247,7 @@ $(function(){
         var can_change="{$_COOKIE['qx_cp_edit']}";
         if(can_change=='1')
         {
-            $.getScript("{$_GET['public_dir']}/uikit/js/components/nestable.js");
+            $.getScript("__PUBLIC__/uikit/js/components/nestable.js");
             tuozhuai();
         }
         add_link();
@@ -316,7 +316,7 @@ function goto_fl_page()
         {
             window.jiazai=layer.load(2);
             //alert(link_id.substr(7));
-            window.location=rooturl+"/index.php/Home/Chanpin/index?flid="+link_id.substr(7);
+            window.location="__ROOT__/index.php/Home/Chanpin/index?flid="+link_id.substr(7);
         }
         
     });
@@ -344,7 +344,7 @@ function create_fl_link()
 {
     
     //产品分类快捷方式数据
-    $.get(rooturl+"/index.php/Home/Cpfl/get_fl_link",function(link_str){
+    $.get("__ROOT__/index.php/Home/Cpfl/get_fl_link",function(link_str){
         errorFun(link_str);
         //alert(link_str)
         if(!link_str)
@@ -401,7 +401,7 @@ function edit_link(varthis)
     $("#cpfl_list").addClass("uk-sortable");
     $("#cpfl_list").attr("data-uk-sortable",false);
     //重载拖拽js
-    $.getScript("{$_GET['public_dir']}/uikit/js/components/sortable.js");
+    $.getScript("__PUBLIC__/uikit/js/components/sortable.js");
     //隐藏设置按钮以及设置菜单
     $(".fl_set").removeClass("uk-button-dropdown");
     $(".uk-dropdown-small").remove();
@@ -435,7 +435,7 @@ function baocun_link(isreload)
         });
         link_id_str=link_id_str.substr(0,link_id_str.length-1);
     }
-    $.get(rooturl+"/index.php/Home/Cpfl/edit_cpfl_link",{"link_id_str":link_id_str},function(res){
+    $.get("__ROOT__/index.php/Home/Cpfl/edit_cpfl_link",{"link_id_str":link_id_str},function(res){
         errorFun(res);
         if(!isreload)
         {
@@ -448,16 +448,16 @@ function save_tree()
 {
    
     var tree_html=$(".uk-nestable").html();
-    $.post(rooturl+"/index.php/Home/Cpfl/save_tree_html",{"tree_html":tree_html},function(res){
+    $.post("__ROOT__/index.php/Home/Cpfl/save_tree_html",{"tree_html":tree_html},function(res){
         errorFun(res);
     });
     var db_tree_json=save_tree_db();
-    $.get(rooturl+"/index.php/Home/Cpfl/edit_db_tree_old",{"json_str":db_tree_json},function(res){
+    $.get("__ROOT__/index.php/Home/Cpfl/edit_db_tree_old",{"json_str":db_tree_json},function(res){
         errorFun(res);
     });
     var tree_px=html_to_px($("#ukpaixu"));
     //alert(tree_px);
-    $.post(rooturl+"/index.php/Home/Cpfl/edit_tree_px",{"jsonstr":tree_px},function(res){
+    $.post("__ROOT__/index.php/Home/Cpfl/edit_tree_px",{"jsonstr":tree_px},function(res){
         errorFun(res);
     });
 }
@@ -553,7 +553,7 @@ function tree_to_chanpin()
 {
     $(".uk-icon-folder-open-o").on("click",function(){
         var cpflid=$(this).parent().prop("id").substr(6);
-        location=rooturl+"/index.php/Home/Chanpin/index?flid="+cpflid;
+        location="__ROOT__/index.php/Home/Chanpin/index?flid="+cpflid;
     });
 }
 //删除产品分类
@@ -581,7 +581,7 @@ function remove_cpfl()
             btn: ['确认删除', '取消'],
             btn1: function(index, layero){
                 window.jiazai=layer.load(2);
-                $.get(rooturl+"/index.php/Home/Chanpin/delfl",{"delid":thisid,"delname":thistext},function(res){
+                $.get("__ROOT__/index.php/Home/Chanpin/delfl",{"delid":thisid,"delname":thistext},function(res){
                     errorFun(res);
                     if(res=='1')
                     {
@@ -637,7 +637,7 @@ function add_cpfl()
                 }
                 layer.close(index);
                 
-                $.get(rooturl+"/index.php/Home/Cpfl/add_new_fl",{"flname":$("#new_fl_name").val()},function(e){
+                $.get("__ROOT__/index.php/Home/Cpfl/add_new_fl",{"flname":$("#new_fl_name").val()},function(e){
                     errorFun(e);
                     var e2=e.split(',');
                     if(e2[0]=='2')
@@ -714,7 +714,7 @@ function edit_fl_name_fun2(thisid)
                     tishi("名称不能为空");
                     return;
                 }
-                $.get(rooturl+"/index.php/Home/Chanpin/editfl",{"editid":thisid,"newname":newname},function(res){
+                $.get("__ROOT__/index.php/Home/Chanpin/editfl",{"editid":thisid,"newname":newname},function(res){
                     errorFun(res);
                     if(res=='1')
                     {
@@ -792,7 +792,7 @@ function edit_fl_jj(thisdom)
                     return;
                 }
                 window.jiazai=layer.load(2);
-                $.get(rooturl+"/index.php/Home/Cpfl/edit_fl_jj",{"cpflid":this_id,"jj_content":new_jj},function(res){
+                $.get("__ROOT__/index.php/Home/Cpfl/edit_fl_jj",{"cpflid":this_id,"jj_content":new_jj},function(res){
                     errorFun(res);
                     layer.close(jiazai);
                     if(res=='1')
@@ -851,7 +851,7 @@ function link_del_this_fl(thisdom)
                 this_fl_name=$.trim(this_fl_name);
                 link_del_this(thisdom);//删除本快捷方式的显示，并保存
                 //删除数据库中的分类
-                $.get(rooturl+"/index.php/Home/Chanpin/delfl",{"delid":this_fl_id,"delname":this_fl_name},function(res){
+                $.get("__ROOT__/index.php/Home/Chanpin/delfl",{"delid":this_fl_id,"delname":this_fl_name},function(res){
                     errorFun(res);
                     if(res=='1')
                     {

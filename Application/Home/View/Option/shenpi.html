@@ -11,11 +11,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/css/global.css" media="all">
-    <script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/css/global.css" media="all">
+    <script src="__PUBLIC__/jquery/jquery.js"></script>
     <!--layUI 插件 --弹窗设计 form表单样式 -->
-    <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
     <style>
         *{margin:0;padding:0;}
         #box div{overflow:hidden;}
@@ -288,7 +288,7 @@
 </div>
 <script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
-    window.root_dir="{$_GET['root_dir']}";
+    window.root_dir="__ROOT__";
     window.windowlvid='';
     window.xzbtn="<button class='layui-btn' style='height:30px;line-height:30px;margin-right:30px;' onclick='spxuanze(this)'>选择审批人</button>";
     window.xzbtn2="<button class='layui-btn' style='height:30px;line-height:30px;margin-right:30px;' onclick='spxuanze2(this)'>选择审批人</button>";

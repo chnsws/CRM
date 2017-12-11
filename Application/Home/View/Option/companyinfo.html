@@ -10,10 +10,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+    <script src="__PUBLIC__/jquery/jquery.js"></script>
     <!--layUI 插件  -->
-    <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
     <style>
         *{margin:0;padding:0}
         a{text-decoration:none;cursor:pointer;}
@@ -66,7 +66,7 @@
             <table cellSpacing="0" cellpadding="0"  >
                 <tr>
                     <td class="listname listlogo">公司LOGO</td>
-                    <td rowspan="5"><span><img id="headimg" src="{$_GET['public_dir']}/head-img/{$gsxxarr['gsxx_img']}"></span><input type="file" name="headimg" lay-type="images" class="layui-upload-file" id="imm"></td>
+                    <td rowspan="5"><span><img id="headimg" src="__PUBLIC__/head-img/{$gsxxarr['gsxx_img']}"></span><input type="file" name="headimg" lay-type="images" class="layui-upload-file" id="imm"></td>
                 </tr>
                 <!--合并后的空单元格-->
                 <tr>
@@ -112,10 +112,10 @@
 </div>
 <div id='msg'></div>
 </body>
-<script src="{$_GET['root_dir']}/Public/index_js_css/datas/area_data.js"></script>
+<script src="__ROOT__/Public/index_js_css/datas/area_data.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
-    window.root_dir="{$_GET['root_dir']}";
+    window.root_dir="__ROOT__";
     //加载lay上传样式
     layui.use('upload', function(){
         layui.upload(options);

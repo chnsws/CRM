@@ -11,17 +11,17 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/css/global.css" media="all">
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
-    <script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/css/global.css" media="all">
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+    <script src="__PUBLIC__/jquery/jquery.js"></script>
     <!--layUI 插件 --弹窗设计 form表单样式 -->
-    <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
     <!--UIkit-->
-    <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-    <script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
-     <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/accordion.css" />
-     <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/sortable.css" />
+    <link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+    <script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
+     <link rel="stylesheet" href="__PUBLIC__/uikit/css/components/accordion.css" />
+     <link rel="stylesheet" href="__PUBLIC__/uikit/css/components/sortable.css" />
     <style>
         *{margin:0;padding:0;}
         #box div{overflow:hidden;}
@@ -195,11 +195,11 @@
     </tr>
     -->
 </table>
-<script src="{$_GET['public_dir']}/paixu/build.js"></script>
+<script src="__PUBLIC__/paixu/build.js"></script>
 <script>
     window.nowpage='paixu_xiansuo';
-    window.root_dir="{$_GET['root_dir']}";
-    window.public_dir="{$_GET['public_dir']}";
+    window.root_dir="__ROOT__";
+    window.public_dir="__PUBLIC__";
     window.pageinfo="{$_GET['page']}";
 
     window.load_xiansuo='1';
@@ -591,8 +591,8 @@
             $.post(root_dir+"/index.php/Home/YewuziduanDo/zd_for_chanpin",function(res){
                 setTimeout(function() {
                     $("#cpfl_list").html(res);
-                    $.getScript("{$_GET['public_dir']}/uikit/js/components/sortable.js");
-                    $.getScript("{$_GET['public_dir']}/uikit/js/components/accordion.js");
+                    $.getScript("__PUBLIC__/uikit/js/components/sortable.js");
+                    $.getScript("__PUBLIC__/uikit/js/components/accordion.js");
                     //alert($("#cpfl_list").find("tbody").length);
                     $("#cpfl_list").find("table").each(function(){
                         $(this).css("margin-top","20px");

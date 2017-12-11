@@ -11,15 +11,15 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="format-detection" content="telephone=no">
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/css/global.css" media="all">
-		<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/css/global.css" media="all">
+		<script src="__PUBLIC__/jquery/jquery.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
 		<!--jqueryUI插件 折叠面板-->
-		<link rel="stylesheet" href="{$_GET['public_dir']}/jquery-ui/option-quanxian-css/jquery-ui.css">
-		<script src="{$_GET['public_dir']}/jquery-ui/jquery-ui.min.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/jquery-ui/option-quanxian-css/jquery-ui.css">
+		<script src="__PUBLIC__/jquery-ui/jquery-ui.min.js"></script>
 		<!--layUI 插件 --弹窗设计 form表单样式 -->
-		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+		<script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
 	<style>
 		*{padding:0;margin:0;}
 		div{border:0px solid #f00;}
@@ -215,7 +215,7 @@
 	<script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 	<script>
 		window.nowClcikJueseId='0';
-		window.root_dir="{$_GET['root_dir']}";
+		window.root_dir="__ROOT__";
 		//上方绿色提示框的关闭效果
 		function hidden_div(){
 			$("#mod1").hide();

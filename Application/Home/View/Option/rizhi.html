@@ -11,18 +11,18 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/css/global.css" media="all">
-    <script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/css/global.css" media="all">
+    <script src="__PUBLIC__/jquery/jquery.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
     <!--datatable引用文件-->
-    <link href="{$_GET['public_dir']}/datatable/css/dataTables.bootstrap.css" rel="stylesheet">
-    <link href="{$_GET['public_dir']}/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <script src="{$_GET['public_dir']}/datatable/js/jquery.dataTables.min.js"></script>
-    <script src="{$_GET['public_dir']}/bootstrap/js/bootstrap.js" ></script>
-    <script src="{$_GET['public_dir']}/datatable/js/dataTables.bootstrap.js"></script>
+    <link href="__PUBLIC__/datatable/css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="__PUBLIC__/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="__PUBLIC__/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="__PUBLIC__/bootstrap/js/bootstrap.js" ></script>
+    <script src="__PUBLIC__/datatable/js/dataTables.bootstrap.js"></script>
     <!--layUI 插件 --弹窗设计 form表单样式 -->
-    <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
     <style>
         *{margin:0;padding:0;}
         a{text-decoration:none;cursor:pointer;}
@@ -222,7 +222,7 @@
 <script>
     window.loginrzshow='0';
     window.sysrzshow='0';
-    window.root_dir="{$_GET['root_dir']}";
+    window.root_dir="__ROOT__";
     //初始化layui的基础组件
     layui.use('element', function(){
          var element = layui.element();

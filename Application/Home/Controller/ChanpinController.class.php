@@ -14,7 +14,7 @@ class ChanpinController extends DBController {
 		if($get_flid=='')
 		{
 			//不允许没有产品分类id
-			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Cpfl/cpfl_index'</script>";
+			echo "<script>window.location='".__ROOT__."/index.php/Home/Cpfl/cpfl_index'</script>";
 			die;
 		}
 		//分页

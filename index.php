@@ -20,9 +20,9 @@ define('APP_DEBUG',True);
 // 定义应用目录
 define('APP_PATH','./Application/');
 //超全局变量
-$a=$_SERVER['SERVER_NAME'];
-$_GET['public_dir']='http://'.$a.'/Public';//public的路径
-$_GET['root_dir']='http://'.$a;//根目录路径
+//$a=$_SERVER['SERVER_NAME'];
+//$_GET['public_dir']='http://'.$a.'/Public';//public的路径
+//$_GET['root_dir']='http://'.$a;//根目录路径
 //获取浏览器信息函数
 function getSysBro(){  
     $agent = $_SERVER['HTTP_USER_AGENT'];  
@@ -66,6 +66,7 @@ function getSysBro(){
 //获取登录地点方法
 function getCity($ip = '')
 {
+    /*
     if($ip=='::1')
         $ip="127.0.0.1";
     if($ip == ''){
@@ -82,6 +83,7 @@ function getCity($ip = '')
     }
 
     return $data;   
+    */
 }
 // 引入ThinkPHP入口文件
 require './ThinkPHP/ThinkPHP.php';

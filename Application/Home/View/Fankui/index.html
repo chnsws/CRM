@@ -12,13 +12,13 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <!--jquery-->
-    <script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
+    <script src="__PUBLIC__/jquery/jquery.js"></script>
     <!--layUI 插件  form表单样式 table样式 -->
-    <script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-    <link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+    <script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
     <!--UIkit-->
-    <link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-    <script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+    <script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
     <style>
         html,body{margin:0;padding:0;}
         #box{margin:10px;}
@@ -45,7 +45,7 @@
     </div>
     <div id="body">
         <center>
-        <form class="uk-form" method="post" action="{$_GET['root_dir']}/index.php/Home/Fankui/feedback_to_db" enctype="multipart/form-data" >
+        <form class="uk-form" method="post" action="__ROOT__/index.php/Home/Fankui/feedback_to_db" enctype="multipart/form-data" >
             <div class="left">反馈标题：</div>
             <div class="right">
                 <input type="text" id="feedback_title" name="feedback_title" placeholder="输入您的反馈标题（必填）" />
@@ -128,7 +128,6 @@ function tishi(neirong)
         color:"#fff"
     });
 }
-window.rooturl="{$_GET['root_dir']}";
 
 
 function yanzheng()

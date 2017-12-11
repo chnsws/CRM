@@ -4,12 +4,12 @@
 	<meta charset="UTF-8">
 	<title>设置中心</title>
 </head>
-		<script type="text/javascript" src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-		<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
-		<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
-		<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-		<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/jquery/jquery.js"></script>
+		<script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+		<script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
 <style>
 	#box{width:98%;margin-left:1%;margin-right:1%;overflow:hidden;padding:0;}
 	div{border:0px solid #f00;border-radius:5px;}
@@ -63,7 +63,7 @@
 	<div id="left-box">
 		<!--model 1 用户简略信息-->
 		<div id="mod1">
-			<!--<img id="headimg" src="{$_GET['public_dir']}/head-img/headimg2.jpg">-->
+			<!--<img id="headimg" src="__PUBLIC__/head-img/headimg2.jpg">-->
 			<span id="headimg" ><i class="fa fa-home" aria-hidden="true"></i></span>
 			<div id="short_info">
 				<div class="shortinfo">{$_COOKIE['user_name']}，欢迎进入设置中心</div><div class="shortinfo">上次登录时间：{$_COOKIE['user_lastlogintime']}</div>

@@ -52,7 +52,7 @@ class MainController extends DBController {
             krsort($zhiding);
             foreach($zhiding as $v)
             {
-                $gonggaostr.='<div><span class="gonggao_row_title"><a href="'.$_GET['root_dir'].'/index.php/Home/Option/gonggaomore?ggid='.$v['ggsz_id'].'&from=main2">'.$v['ggsz_name'].'</a></span><span class="zhiding">置顶</span><span class="gonggao_row_time">'.substr($v['ggsz_fbsj'],5).'</span></div>';
+                $gonggaostr.='<div><span class="gonggao_row_title"><a href="'.__ROOT__.'/index.php/Home/Option/gonggaomore?ggid='.$v['ggsz_id'].'&from=main2">'.$v['ggsz_name'].'</a></span><span class="zhiding">置顶</span><span class="gonggao_row_time">'.substr($v['ggsz_fbsj'],5).'</span></div>';
             }
             if($zhidingnum<7)
             {
@@ -64,7 +64,7 @@ class MainController extends DBController {
                         break;
                     }
                     $buzhidingnum--;
-                    $gonggaostr.='<div><span class="gonggao_row_title"><a href="'.$_GET['root_dir'].'/index.php/Home/Option/gonggaomore?ggid='.$v['ggsz_id'].'&from=main2">'.$v['ggsz_name'].'</a></span><span class="gonggao_row_time">'.substr($v['ggsz_fbsj'],5).'</span></div>';
+                    $gonggaostr.='<div><span class="gonggao_row_title"><a href="'.__ROOT__.'/index.php/Home/Option/gonggaomore?ggid='.$v['ggsz_id'].'&from=main2">'.$v['ggsz_name'].'</a></span><span class="gonggao_row_time">'.substr($v['ggsz_fbsj'],5).'</span></div>';
                 }
             }
         }
@@ -78,7 +78,7 @@ class MainController extends DBController {
                     break;
                 }
                 $buzhidingnum--;
-                $gonggaostr.='<div><span class="gonggao_row_title"><a href="'.$_GET['root_dir'].'/index.php/Home/Option/gonggaomore?ggid='.$v['ggsz_id'].'&from=main2">'.$v['ggsz_name'].'</a></span><span class="gonggao_row_time">'.substr($v['ggsz_fbsj'],5).'</span></div>';
+                $gonggaostr.='<div><span class="gonggao_row_title"><a href="'.__ROOT__.'/index.php/Home/Option/gonggaomore?ggid='.$v['ggsz_id'].'&from=main2">'.$v['ggsz_name'].'</a></span><span class="gonggao_row_time">'.substr($v['ggsz_fbsj'],5).'</span></div>';
             }
         }
         $gonggaostr=$gonggaostr==''?'<div><span class="gonggao_row_title" style="text-align:center;">暂无公告</span><span class="gonggao_row_time"></span></div>':$gonggaostr;
@@ -1162,7 +1162,16 @@ class MainController extends DBController {
     public function shenpi_num()
     {
         $fid=parent::get_fid();
-        $sp=parent::sel_more_data("crm_sp","sp_id","sp_yh='$fid' and sp_user='".cookie("user_id")."' and sp_jg='0' ");
+        $u=$fid==cookie("user_id")?"":"and sp_user='".cookie("user_id")."'";
+        $sp=parent::sel_more_data("crm_sp","sp_sjid","sp_yh='$fid' $u  and sp_jg='0' ");
+
+        $sp2='';
+        foreach($sp as $k=>$v)
+        {
+            $sp2[$v['sp_sjid']]=$v;
+        }
+        
+        $sp=$sp2;
         $spnum=count($sp);
         $style='';
         if($spnum<1)

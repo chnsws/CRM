@@ -11,17 +11,17 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
-<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+<script src="__PUBLIC__/jquery/jquery.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
 <!--layUI 插件 弹窗设计 form表单样式 -->
-<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+<script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
 <!--UIkit-->
-<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
-<script src="{$_GET['public_dir']}/uikit/js/components/lightbox.min.js"></script>
-<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/components/sticky.css" />
-<script src="{$_GET['public_dir']}/uikit/js/components/sticky.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+<script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
+<script src="__PUBLIC__/uikit/js/components/lightbox.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/uikit/css/components/sticky.css" />
+<script src="__PUBLIC__/uikit/js/components/sticky.js"></script>
 <style>
 div,ul,li{border:0;padding:0;}
 #box{height:100%;width:100%;}
@@ -341,7 +341,7 @@ function add_fujian()
                 $("#fileclose").prop("name",res['newname']);
                 if(is_upload!=''&&clickdelnowfile=='0')
                 {
-                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":is_upload});
+                    $.get("__ROOT__/index.php/Home/Chanpin/del_old_file",{"oldname":is_upload});
                 }
                 is_upload=res['newname'];
                 layer.close(jiazai);
@@ -372,7 +372,7 @@ function add_fujian()
                     tishi("请先上传附件");
                     return false;
                 }
-                $.get(root_dir+"/index.php/Home/Chanpin/bt_cpfj",{"fjbz":fj_bz,"fjmc":is_upload,"fjdx":fj_size,"fjcpid":thiscpid,"upoldname":rzname},function(res){
+                $.get("__ROOT__/index.php/Home/Chanpin/bt_cpfj",{"fjbz":fj_bz,"fjmc":is_upload,"fjdx":fj_size,"fjcpid":thiscpid,"upoldname":rzname},function(res){
                     if(res=='1')
                     {
                         tishi("上传成功");
@@ -383,13 +383,13 @@ function add_fujian()
                     else if(res=='2')
                     {
                         tishi("上传失败");
-                        $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":is_upload});
+                        $.get("__ROOT__/index.php/Home/Chanpin/del_old_file",{"oldname":is_upload});
                         return false;
                     }
                     else
                     {
                         tishi("上传失败，请刷新后重试");
-                        $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":is_upload});
+                        $.get("__ROOT__/index.php/Home/Chanpin/del_old_file",{"oldname":is_upload});
                         return false;
                     }
                 });
@@ -397,14 +397,14 @@ function add_fujian()
             btn2:function(index,layero){
                 if(is_upload!=''&&clickdelnowfile=='0')
                 {
-                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":is_upload});
+                    $.get("__ROOT__/index.php/Home/Chanpin/del_old_file",{"oldname":is_upload});
                 }
                 layer.close(index);
             },
             cancel: function(index, layero){ 
                 if(is_upload!=''&&clickdelnowfile=='0')
                 {
-                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":is_upload});
+                    $.get("__ROOT__/index.php/Home/Chanpin/del_old_file",{"oldname":is_upload});
                 }
                 layer.close(index);                
             }
@@ -418,7 +418,7 @@ function delnowfile(thisdom)
     var nowupfilename=$(thisdom).prop("name");
     if(nowupfilename!='')
     {
-        $.get(root_dir+"/index.php/Home/Chanpin/del_old_file",{"oldname":nowupfilename});
+        $.get("__ROOT__/index.php/Home/Chanpin/del_old_file",{"oldname":nowupfilename});
     }
     $("#filebody").hide();
 }
@@ -426,14 +426,14 @@ function delnowfile(thisdom)
 function reload_file_list()
 {
     var thiscpid="{$_GET['cpid']}";
-    $.get(root_dir+"/index.php/Home/Chanpin/reload_file_list",{"reloadcpid":thiscpid},function(res){
+    $.get("__ROOT__/index.php/Home/Chanpin/reload_file_list",{"reloadcpid":thiscpid},function(res){
         $("#fujian_table").find("tbody").html(res);
     });
 }
 //下载附件
 function down_fujian(fjid)
 {
-    window.location=root_dir+"/index.php/Home/Chanpin/fujian_download?fjid="+fjid;
+    window.location="__ROOT__/index.php/Home/Chanpin/fujian_download?fjid="+fjid;
 }
 //删除附件
 function del_fujian(thisfjid)
@@ -449,7 +449,7 @@ function del_fujian(thisfjid)
         time: 9999999,
         btn: ['确认删除', '取消'],
         btn1: function(index, layero){
-            $.get(root_dir+"/index.php/Home/Chanpin/del_fj",{"delfjid":thisfjid,"fileyname":fileyname},function(res){
+            $.get("__ROOT__/index.php/Home/Chanpin/del_fj",{"delfjid":thisfjid,"fileyname":fileyname},function(res){
                 if(res=='1')
                 {
                     tishi("删除成功");
@@ -486,10 +486,10 @@ function del_chanpin()
         time: 9999999,
         btn: ['确认删除', '取消'],
         btn1: function(index, layero){
-            $.get(root_dir+"/index.php/Home/Chanpin/del_more",{"sel_id":nowpageid,"delname":nowpagename},function(res){
+            $.get("__ROOT__/index.php/Home/Chanpin/del_more",{"sel_id":nowpageid,"delname":nowpagename},function(res){
                 if(res=='1')
                 {
-                    window.location=root_dir+"/index.php/Home/Chanpin/";
+                    window.location="__ROOT__/index.php/Home/Chanpin/";
                 }
                 else if(res=='2')
                 {
@@ -592,7 +592,7 @@ function bj_chanpin()
                 //修改，获取本页面的id和名称
                 var nowpageid="{$_GET['cpid']}";
                 var nowpagename="{$cpinfoarr['cp_name']}";
-                $.post(root_dir+"/index.php/Home/Chanpin/editcp",{"editstr":addstr,"nowpageid":nowpageid,"nowpagename":nowpagename,"oldimgname":oldimgname},function(res){
+                $.post("__ROOT__/index.php/Home/Chanpin/editcp",{"editstr":addstr,"nowpageid":nowpageid,"nowpagename":nowpagename,"oldimgname":oldimgname},function(res){
                     layer.close(jiazai);
                     if(res=='1')
                     {
@@ -633,7 +633,7 @@ function bj_chanpin()
     }
     //显示文件上传按钮
     layui.upload({
-        url: root_dir+"/index.php/Home/Chanpin/cp_img_add",
+        url: "__ROOT__/index.php/Home/Chanpin/cp_img_add",
         title:"选择图片",
         before: function(input){
             //返回的参数item，即为当前的input DOM对象
@@ -644,16 +644,16 @@ function bj_chanpin()
             if(res['res']=='1')
             {
                 //tishi('更换成功');
-                $("#cpimg").attr("src",root_dir+'/Public/chanpinfile/cpimg/'+res['newname']);
+                $("#cpimg").attr("src",'__ROOT__/Public/chanpinfile/cpimg/'+res['newname']);
                 $("#cpimg").show();
                 img_up_one='1';
                 if(img_is_up!='')
                 {
                     //删除上次上传的图片
-                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_img",{"oldname":img_is_up});
+                    $.get("__ROOT__/index.php/Home/Chanpin/del_old_img",{"oldname":img_is_up});
                 }
                 img_is_up=res['newname'];
-                //$("#headimg").attr("src",root_dir+'/Public/head-img/'+res['newpath']);
+                //$("#headimg").attr("src",'__ROOT__/Public/head-img/'+res['newpath']);
             }
             else
             {
@@ -680,7 +680,7 @@ function xiazai(thisdom)
     var thishref=$("#spanaaa").attr("href");
     var hrefarr=thishref.split('/');
     var newkey=hrefarr.length-1;
-    window.location=root_dir+"/index.php/Home/Chanpin/img_download?file="+hrefarr[newkey];
+    window.location="__ROOT__/index.php/Home/Chanpin/img_download?file="+hrefarr[newkey];
 }
 //删除图片
 function shanchu(thisdom)
@@ -700,10 +700,10 @@ function shanchu(thisdom)
             var newkey=hrefarr.length-1;
             var thiscpid="{$_GET['cpid']}";
             var cpname="{$cpinfoarr['cp_name']}";
-            $.get(root_dir+"/index.php/Home/Chanpin/img_del",{"delcpid":thiscpid,"cpname":cpname},function(res){
+            $.get("__ROOT__/index.php/Home/Chanpin/img_del",{"delcpid":thiscpid,"cpname":cpname},function(res){
                 if(res=='1')
                 {
-                    $.get(root_dir+"/index.php/Home/Chanpin/del_old_img",{"oldname":hrefarr[newkey]});
+                    $.get("__ROOT__/index.php/Home/Chanpin/del_old_img",{"oldname":hrefarr[newkey]});
                     location.reload();
                 }
                 else
@@ -735,7 +735,7 @@ function jy_qy_chanpin(qyjyid)
         tishi("您没有修改产品的权限");
         return;
     }
-    $.get(root_dir+"/index.php/Home/Chanpin/qy_jy",{"sel_id":nowpageid,"qyjy":qyjyid,"pagename":nowpagename},function(res){
+    $.get("__ROOT__/index.php/Home/Chanpin/qy_jy",{"sel_id":nowpageid,"qyjy":qyjyid,"pagename":nowpagename},function(res){
         if(res=='1')
         {
             if(qyjyid=='1')

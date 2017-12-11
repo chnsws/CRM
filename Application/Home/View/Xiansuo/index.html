@@ -346,7 +346,7 @@
 <script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
 //获取URL的绝对路径
-window.root_dir="{$_GET['root_dir']}";
+window.root_dir="__ROOT__";
 window.diqu_is_load=0;
 //初始化
 layui.use('layer', function(){
@@ -930,7 +930,7 @@ function xinzengxiansuo_show()
             content:$("#xinzengxiansuodiv"),
             btn1:function(index,layero){
                 window.jiazai=layer.load(2);
-                var ajax_str='';
+                var ajax_str=new Object();
                 var asd={};
                 var have_diqu=0;
                 var need_stop=0;
@@ -1011,7 +1011,8 @@ function xinzengxiansuo_show()
                             }
                         }
                     }
-                    ajax_str+='"'+this_zd_id+'":"'+this_zd_val+'",';
+                    //ajax_str+='"'+this_zd_id+'":"'+this_zd_val+'",';
+                    ajax_str[this_zd_id]=this_zd_val;
                 });
                 
                 if(have_diqu==1)
@@ -1027,7 +1028,8 @@ function xinzengxiansuo_show()
                         }
                     }
                     var diquname=diquname1+diquname2+diquname3;
-                    ajax_str+='"diquname":"'+diquname+'",';
+                    //ajax_str+='"diquname":"'+diquname+'",';
+                    ajax_str["diquname"]=diquname;
                 }
                 if(need_stop==1)
                 {
@@ -1047,7 +1049,8 @@ function xinzengxiansuo_show()
                     tishi("请选择负责人");
                     return false;
                 }
-                ajax_str='{'+ajax_str.substr(0,ajax_str.length-1)+'}';
+                //ajax_str='{'+ajax_str.substr(0,ajax_str.length-1)+'}';
+                ajax_str=JSON.stringify(ajax_str);
                 $.post("__ROOT__/index.php/Home/Xiansuo/add_xs",{"ajax_str":ajax_str},function(res){
                     errorFun(res);
                     if(res=='1')

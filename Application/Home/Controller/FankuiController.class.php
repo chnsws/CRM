@@ -12,7 +12,7 @@ class FankuiController extends Controller {
         $listbtn='';
         //if($user_id<5)
         //{
-            $listbtn='<input type="button" style="height:40px;line-height: 40px;border-radius: 5px;color:#fff;font-weight: bold;margin-top:10px;width:200px;" onclick="window.location=\''.$_GET['root_dir'].'/index.php/Home/Fankui/fk_list\'" class="layui-btn layui-btn-danger" value="查看已提交反馈" />';
+            $listbtn='<input type="button" style="height:40px;line-height: 40px;border-radius: 5px;color:#fff;font-weight: bold;margin-top:10px;width:200px;" onclick="window.location=\''.__ROOT__.'/index.php/Home/Fankui/fk_list\'" class="layui-btn layui-btn-danger" value="查看已提交反馈" />';
         //}
         $this->assign("listbtn",$listbtn);
         $this->display();
@@ -40,13 +40,13 @@ class FankuiController extends Controller {
             if(!file_exists('./Public/feedbackImg/'.$newfilename))//验证上传是否成功
             {
                 echo "<script>alert('图片上传失败，请稍后再试');</script>";
-                echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Fankui/index';</script>";
+                echo "<script>window.location='".__ROOT__."/index.php/Home/Fankui/index';</script>";
                 die();
             }
         }
         $mod->add_one_data("crm_feedback","'','$feedback_title','$feedback_more','$newfilename','$feedback_mod','$feedback_type','$user_id','$bro_info','$fk_time','','0'");
         echo "<script>alert('您的反馈已经收录，我们会认真对您所提出来的建议对系统进行相应的改进，感激您宝贵的意见和建议。');</script>";
-        echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Fankui/index';</script>";
+        echo "<script>window.location='".__ROOT__."/index.php/Home/Fankui/index';</script>";
     }
     public function fk_list()
     {

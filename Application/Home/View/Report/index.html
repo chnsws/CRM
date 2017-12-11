@@ -10,9 +10,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta charset="utf-8">
-<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+<script src="__PUBLIC__/jquery/jquery.js"></script>
+<script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
 <style>
 *{margin:0;padding:0;}
 html,body{height:100%;width:100%;background:#f7f7f7;}
@@ -36,14 +36,14 @@ dd a:hover{background-color: #f3f3f3!important;color:#1AA094!important;}
 <body>
 <div id="navv" ></div>
 <div id="data_div">
-    <iframe id="data_iframe" src="{$_GET['root_dir']}/index.php/Home/Report/genjinjilu"></iframe>
+    <iframe id="data_iframe" src="__ROOT__/index.php/Home/Report/genjinjilu"></iframe>
 </div>
 </body>
 <script>
 //获取URL的绝对路径
-window.root_dir="{$_GET['root_dir']}";
+window.root_dir="__ROOT__";
 $(function(){
-    $("#navv").load("{$_GET['root_dir']}/index.php/Home/Report/nav",function(){
+    $("#navv").load("__ROOT__/index.php/Home/Report/nav",function(){
         layui.use('element', function(){
             var element = layui.element();
         });

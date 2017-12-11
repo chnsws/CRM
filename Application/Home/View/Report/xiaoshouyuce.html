@@ -10,18 +10,18 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta charset="utf-8">
-<script src="{$_GET['public_dir']}/jquery/jquery.js"></script>
-<script src="{$_GET['public_dir']}/echarts/echarts.min.js"></script>
-<script src="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.js"></script>
-<link rel="stylesheet" href="{$_GET['public_dir']}/jquery/searchable/jquery.searchableSelect.css" media="all">
-<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="{$_GET['public_dir']}/report/main.css">
+<script src="__PUBLIC__/jquery/jquery.js"></script>
+<script src="__PUBLIC__/echarts/echarts.min.js"></script>
+<script src="__PUBLIC__/jquery/searchable/jquery.searchableSelect.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/jquery/searchable/jquery.searchableSelect.css" media="all">
+<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="__PUBLIC__/report/main.css">
 <!--layUI-->
-<script src="{$_GET['public_dir']}/index_js_css/plugins/layui/layui.js"> </script>
-<link rel="stylesheet" href="{$_GET['public_dir']}/index_js_css/plugins/layui/css/layui.css" media="all">
+<script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+<link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
 <!--UIkit-->
-<link rel="stylesheet" href="{$_GET['public_dir']}/uikit/css/uikit.almost-flat.min.css" />
-<script src="{$_GET['public_dir']}/uikit/js/uikit.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+<script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
 <style>
 
 </style>
@@ -71,7 +71,7 @@
 
 <script>
 //获取URL的绝对路径
-window.root_dir="{$_GET['root_dir']}";
+window.root_dir="__ROOT__";
 var aaa=$("#right_window").html();
 //初始化
 layui.use('layer', function(){

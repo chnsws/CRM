@@ -257,7 +257,7 @@
 <script type="text/javascript" src="__PUBLIC__/js/islogin.js"></script>
 <script>
 //获取URL的绝对路径
-window.root_dir="{$_GET['root_dir']}";
+window.root_dir="__ROOT__";
 window.diqu_is_load=0;
 //初始化
 layui.use('layer', function(){
@@ -284,7 +284,7 @@ $(function(){
     //监听返回按钮点击
     $("#back_xiansuo").on("click",function(){
         var now_val=get_url_val("none");
-        window.location=root_dir+"/index.php/Home/Xiansuo/index?"+now_val;
+        window.location="__ROOT__/index.php/Home/Xiansuo/index?"+now_val;
     });
     //隐藏编辑弹出层中需要隐藏的行
     add_hide_to_hide();
@@ -301,7 +301,7 @@ $(function(){
         var this_canshu_id=$(this).prop("id").substr(23);
         var this_xs_id="{$_GET['xs_id']}";
         this_xs_id=this_xs_id.substr(6);
-        $.get(root_dir+"/index.php/Home/Xiansuo/change_zhuangtai",{"this_xs_id":this_xs_id,"this_canshu_id":this_canshu_id},function(res){
+        $.get("__ROOT__/index.php/Home/Xiansuo/change_zhuangtai",{"this_xs_id":this_xs_id,"this_canshu_id":this_canshu_id},function(res){
             errorFun(res);
             if(res=='1')
             {
@@ -389,7 +389,19 @@ function xiegenjin()
                     layer.close(jiazai);
                     return;
                 }
-                $.post(root_dir+"/index.php/Home/Xiansuo/add_new_genjin",{"new_genjin_fangshi":new_genjin_fangshi,"new_genjin_time":new_genjin_time,"new_genjin_content":new_genjin_content,"new_genjin_xiansuo":new_genjin_xiansuo,"new_genjin_zhuangtai":new_genjin_zhuangtai,"new_genjin_next_genjin_time":new_genjin_next_genjin_time},function(res){
+                var ajaxjson=new Object();
+                ajaxjson["new_genjin_fangshi"]=new_genjin_fangshi;
+                ajaxjson["new_genjin_time"]=new_genjin_time;
+                ajaxjson["new_genjin_content"]=new_genjin_content;
+                ajaxjson["new_genjin_xiansuo"]=new_genjin_xiansuo;
+                ajaxjson["new_genjin_zhuangtai"]=new_genjin_zhuangtai;
+                ajaxjson["new_genjin_next_genjin_time"]=new_genjin_next_genjin_time;
+
+                //ajaxjson=JSON.stringify(ajaxjson);
+                
+
+                $.post("__ROOT__/index.php/Home/Xiansuo/add_new_genjin",ajaxjson,function(res){
+                    //alert(res);return;
                     errorFun(res);
                     if(res=='1')
                     {
@@ -448,7 +460,7 @@ function bianji()
             content:$("#xinzengxiansuodiv"),
             btn1:function(index,layero){
                 window.jiazai=layer.load(2);
-                var ajax_str='';
+                var ajax_str=new Object();
                 var have_diqu=0;
                 var need_stop=0;
                 var patrn = /^[0-9]*$/;  
@@ -528,7 +540,8 @@ function bianji()
                             }
                         }
                     }
-                    ajax_str+='"'+this_zd_id+'":"'+this_zd_val+'",';
+                    //ajax_str+='"'+this_zd_id+'":"'+this_zd_val+'",';
+                    ajax_str[this_zd_id]=this_zd_val;
                 });
                 
                 if(have_diqu==1)
@@ -544,7 +557,8 @@ function bianji()
                         }
                     }
                     var diquname=diquname1+diquname2+diquname3;
-                    ajax_str+='"diquname":"'+diquname+'",';
+                    //ajax_str+='"diquname":"'+diquname+'",';
+                    ajax_str['diquname']=diquname;
                 }
                 
                 if(need_stop==1)
@@ -559,10 +573,12 @@ function bianji()
                     tishi(need_stop);
                     return false;
                 }
-                ajax_str='{'+ajax_str.substr(0,ajax_str.length-1)+'}';
+                //ajax_str='{'+ajax_str.substr(0,ajax_str.length-1)+'}';
+                ajax_str=JSON.stringify(ajax_str);
+                //alert(ajax_str);return;
                 var this_xs_id="{$_GET['xs_id']}";
                 this_xs_id=this_xs_id.substr(6);
-                $.post(root_dir+"/index.php/Home/Xiansuo/edit_xs",{"ajax_str":ajax_str,"this_xs_id":this_xs_id,"now_fz":now_fz},function(res){
+                $.post("__ROOT__/index.php/Home/Xiansuo/edit_xs",{"ajax_str":ajax_str,"this_xs_id":this_xs_id,"now_fz":now_fz},function(res){
                     errorFun(res);
                     if(res=='1')
                     {
@@ -608,7 +624,7 @@ function zhuanyi()
                    tishi("请选择需要转移的用户");
                    return;
                }
-               $.get(root_dir+"/index.php/Home/Xiansuo/change_fuzeren",{to_user_id:to_user_id,"need_to_user_xs":need_to_user_xs},function(res){
+               $.get("__ROOT__/index.php/Home/Xiansuo/change_fuzeren",{to_user_id:to_user_id,"need_to_user_xs":need_to_user_xs},function(res){
                     errorFun(res);
                     if(res=='1')
                     {
@@ -742,11 +758,11 @@ function zhuankehu()
                                 window.jiazai=layer.load(2);
                                 var thisxsid="{$_GET['xs_id']}";
                                 thisxsid=thisxsid.substr(6);
-                                $.get(root_dir+"/index.php/Home/Xiansuo/xs_to_kh",{"thisxsid":thisxsid,"zdy0":zdy0,"lxrname":lxrname,"lxrphone":lxrphone},function(res){
+                                $.get("__ROOT__/index.php/Home/Xiansuo/xs_to_kh",{"thisxsid":thisxsid,"zdy0":zdy0,"lxrname":lxrname,"lxrphone":lxrphone},function(res){
                                     errorFun(res);
                                     if(res=='1')
                                     {
-                                        window.location=root_dir+"/index.php/Home/Xiansuo/index";
+                                        window.location="__ROOT__/index.php/Home/Xiansuo/index";
                                     }
                                     else if(res=='2')
                                     {
@@ -797,12 +813,12 @@ function shanchu()
                 window.jiazai=layer.load(2);
                 var xsid="{$_GET['xs_id']}";
                 xsid=xsid.substr(6);
-                $.get(root_dir+"/index.php/Home/Xiansuo/del_more",{"sel_xs":xsid},function(res){
+                $.get("__ROOT__/index.php/Home/Xiansuo/del_more",{"sel_xs":xsid},function(res){
                     errorFun(res);
                     if(res=='1')
                     {
                         var now_page_url=get_url_val("none");
-                        window.location=root_dir+"/index.php/Home/Xiansuo/index?"+now_page_url;
+                        window.location="__ROOT__/index.php/Home/Xiansuo/index?"+now_page_url;
                     }
                     else
                     {
@@ -842,7 +858,7 @@ function add_fujian()
                 $("#fileclose").prop("name",res['newname']);
                 if(is_upload!=''&&clickdelnowfile=='0')
                 {
-                    $.get(root_dir+"/index.php/Home/Xiansuo/del_old_file",{"oldname":is_upload});
+                    $.get("__ROOT__/index.php/Home/Xiansuo/del_old_file",{"oldname":is_upload});
                 }
                 is_upload=res['newname'];
                 oldoldname=res['oldoldname'];
@@ -875,7 +891,7 @@ function add_fujian()
                     tishi("请选择需要上传的附件");
                     return false;
                 }
-                $.post(root_dir+"/index.php/Home/Xiansuo/add_xsfile_info",{"fjbz":fj_bz,"fjmc":is_upload,"fjdx":fj_size,"fjxsid":thisxsid,"oldoldname":oldoldname},function(res){
+                $.post("__ROOT__/index.php/Home/Xiansuo/add_xsfile_info",{"fjbz":fj_bz,"fjmc":is_upload,"fjdx":fj_size,"fjxsid":thisxsid,"oldoldname":oldoldname},function(res){
                     errorFun(res);
                     if(res=='1')
                     {
@@ -887,7 +903,7 @@ function add_fujian()
                     else
                     {
                         tishi("上传失败，请稍后重试");
-                        $.get(root_dir+"/index.php/Home/Xiansuo/del_old_file",{"oldname":is_upload});
+                        $.get("__ROOT__/index.php/Home/Xiansuo/del_old_file",{"oldname":is_upload});
                         is_upload='';
                         oldoldname='';
                         return false;
@@ -897,7 +913,7 @@ function add_fujian()
             btn2:function(index,layero){
                 if(is_upload!=''&&clickdelnowfile=='0')
                 {
-                    $.get(root_dir+"/index.php/Home/Xiansuo/del_old_file",{"oldname":is_upload});
+                    $.get("__ROOT__/index.php/Home/Xiansuo/del_old_file",{"oldname":is_upload});
                 }
                 layer.close(index);
                 setTimeout(function() {
@@ -907,7 +923,7 @@ function add_fujian()
             cancel: function(index, layero){ 
                 if(is_upload!=''&&clickdelnowfile=='0')
                 {
-                    $.get(root_dir+"/index.php/Home/Xiansuo/del_old_file",{"oldname":is_upload});
+                    $.get("__ROOT__/index.php/Home/Xiansuo/del_old_file",{"oldname":is_upload});
                 }
                 layer.close(index); 
                 setTimeout(function() {
@@ -925,7 +941,7 @@ function delnowfile(thisdom)
     var nowupfilename=$(thisdom).prop("name");
     if(nowupfilename!='')
     {
-        $.get(root_dir+"/index.php/Home/Xiansuo/del_old_file",{"oldname":nowupfilename},function(res){
+        $.get("__ROOT__/index.php/Home/Xiansuo/del_old_file",{"oldname":nowupfilename},function(res){
             errorFun(res);
             layer.close(jiazai);
         });
@@ -936,7 +952,7 @@ function delnowfile(thisdom)
 //附件下载
 function file_xiazai(fjid)
 {
-    window.location=root_dir+"/index.php/Home/Xiansuo/fj_download?fjid="+fjid;
+    window.location="__ROOT__/index.php/Home/Xiansuo/fj_download?fjid="+fjid;
 }
 //附件删除
 function file_shanchu(fjid)
@@ -951,7 +967,7 @@ function file_shanchu(fjid)
             content:"确定删除此附件吗？<br>此操作成功后不可恢复",
             btn1:function(index,layero){
                 window.jiazai=layer.load(2);
-                $.get(root_dir+"/index.php/Home/Xiansuo/del_fujian",{"fjid":fjid},function(res){
+                $.get("__ROOT__/index.php/Home/Xiansuo/del_fujian",{"fjid":fjid},function(res){
                     errorFun(res);
                     if(res=='1')
                     {
@@ -975,7 +991,7 @@ function reload_to_fujian()
 {
     var xsid="{$_GET['xs_id']}";
     var now_page_url=get_url_val("none");
-    window.location=root_dir+"/index.php/Home/Xiansuo/xsinfo?tofj=1&xs_id="+xsid+now_page_url;
+    window.location="__ROOT__/index.php/Home/Xiansuo/xsinfo?tofj=1&xs_id="+xsid+now_page_url;
 }
 //删除跟进记录
 function del_gj(gj_id)

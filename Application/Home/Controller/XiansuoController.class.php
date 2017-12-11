@@ -479,7 +479,7 @@ class XiansuoController extends DBController {
 		$xiansuoid=substr(addslashes($_GET['xs_id']),6);
 		if($xiansuoid==''||$xiansuoid=='0')
 		{
-			echo "<script>window.location='".$_GET['root_dir']."/index.php/Home/Xiansuo/index'</script>";
+			echo "<script>window.location='".__ROOT__."/index.php/Home/Xiansuo/index'</script>";
 			die;
 		}
 		$myXsStr=$this->get_xiashu_id();
@@ -822,6 +822,12 @@ class XiansuoController extends DBController {
 			echo 0;die;
 		}
 		$ajax_arr=json_decode($ajax_str,true);
+		//对单引号双引号进行处理
+		foreach($ajax_arr as $k=>$v)
+		{
+			$thisa=str_replace('"','&quot;',$v);
+			$ajax_arr[$k]=str_replace("'",'&apos;',$thisa);
+		}
 		$fuzeren=$ajax_arr['fuzeren'];
 		unset($ajax_arr['fuzeren']);
 		$json_str=json_encode($ajax_arr);
@@ -941,6 +947,12 @@ class XiansuoController extends DBController {
 		}
 		parent::have_qx("qx_xs_open");
 		$ajax_arr=json_decode($ajax_str,true);
+		//对单引号双引号进行处理
+		foreach($ajax_arr as $k=>$v)
+		{
+			$thisa=str_replace('"','&quot;',$v);
+			$ajax_arr[$k]=str_replace("'",'&apos;',$thisa);
+		}
 		$fuzeren=$ajax_arr['fuzeren'];
 		$qfuze=$ajax_arr['fuzeren']==$now_fz?'':",xs_qfz='$now_fz'";//前负责人的判断
 		unset($ajax_arr['fuzeren']);
