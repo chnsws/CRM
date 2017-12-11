@@ -3551,10 +3551,10 @@ public function save(){
 		$id=$_GET['id'];
 
 		//$id="kh_id!104347,type!拜访,content!我是写跟进countent,user_id!411,add_time!2017-7-10 15:08:21,date!2017-7-27 15:08!42";
-		$ex_id_arr=explode(',',$id);
+		$ex_id_arr=explode(',@!',$id);
 		foreach($ex_id_arr as $k=>$v)
 		{
-			$ex2=explode("!", $v);
+			$ex2=explode("!@!", $v);
 			$array[$ex2['0']]=$ex2['1'];
 
 		}

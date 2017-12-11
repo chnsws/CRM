@@ -804,6 +804,7 @@ class ShangjiController extends Controller {
 		$this->assign('list_num',$list_num);
 		$this->display();
 	}
+	
 	public function cp_ck(){
 		//产品查询
 		$chanpin=$this->chanpin();

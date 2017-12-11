@@ -1767,10 +1767,10 @@ return $fzr_only;
 		$id=$_GET['id'];
 		$kh_id = $_GET['kh_id'];
 	//	$id="kh_id!276,type!拜访,content!123456,add_time!2017-08-22 10:53:01,date!2017-08-23 10:53:06";
-		$ex_id_arr=explode(',',$id);
+		$ex_id_arr=explode(',@!',$id);
 		foreach($ex_id_arr as $k=>$v)
 		{
-			$ex2=explode("!", $v);
+			$ex2=explode("!@!", $v);
 			$array[$ex2['0']]=$ex2['1'];
 
 		}
