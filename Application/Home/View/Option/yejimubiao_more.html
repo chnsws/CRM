@@ -46,52 +46,26 @@
         .lv5{margin-left:100px;}
         .left-li{margin-left:5px;}
         .right-span{display:block;text-align:right;margin-right:5px;}
-        #mod2-right{float:right;width:73%;height:600px;font-size:14px;}
-        #right-head{height:40px;line-height:40px;font-weight:bold;color:#676767;border-bottom:1px solid #ccc;margin-bottom:20px;}
+        #mod2-right{float:right;width:73%;font-size:14px;}
+        #right-list{overflow-x: scroll;width:100%;}
+        #right-head{height:40px;line-height:40px;font-weight:bold;color:#676767;border-bottom:1px solid #ccc;margin-bottom:10px;}
         #right-head button{float:right;margin-top:4px;background-color:#1AA094;border:1px solid #1AA094;height:32px;line-height:32px;color:#fff;width:100px;}
         #right-head button i{margin-right:5px;}
         #pagenum{height:30px;}
         #pagefont{font-weight:bold;font-size:16px;}
         .change-text{height:30px;}
+
+        td{height:50px;}
+        /*thead>th:nth-child(2),tr>td:nth-child(2){width:200px;}*/
+        #table_local{width:2000px;}
+
+        table th:first-child{position:absolute;width:250px;background: #F2F2F2;}
+		table th:nth-child(2){padding-left:260px;width:500px;}
+		
+		table tr>td:first-child{position:absolute;background: #fff;width:250px;border-bottom:none;line-height: 30px;}
+		table tr>td:nth-child(2){padding-left:260px;width:500px;}
     </style>
-    <script type="text/javascript">
-	
 
-        $(function() {
-            $("#table_local").dataTable({
-                //lengthMenu: [5, 10, 20, 30],//这里也可以设置分页，但是不能设置具体内容，只能是一维或二维数组的方式，所以推荐下面language里面的写法。
-   
-                ordering: true,//是否启用排序
-                searching: true,//搜索
-                "sScrollX": "100%",
-                "sScrollXInner": "170%",
-                "bScrollCollapse": true,
-                language: {
-                    lengthMenu: '<span id="pagefont">每页显示：</span><select class="form-control input-xsmall" id="pagenum">' + '<option value="5">5</option>' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">40</option>' + '<option value="50">50</option>' + '</select>',//左上角的分页大小显示。
-                    search: '',//右上角的搜索文本，可以写html标签
-
-                    paginate: {
-                        previous: "首页",
-                        next: "下一页",
-                        first: "第一页",
-                        last: "末页"
-                    },
-
-                    zeroRecords: "没有内容",//table tbody内容为空时，tbody的内容。
-                    //下面三者构成了总体的左下角的内容。
-                    info: "总共_PAGES_ 页",//左下角的信息显示，大写的词为关键字。
-                    infoEmpty: "",//筛选为空时左下角的显示。
-                    infoFiltered: "搜索到 _TOTAL_条记录"//筛选之后的左下角筛选提示，
-                },
-                paging: true,
-                pagingType: "first_last_numbers",//分页样式的类型
-
-            });
-            $("#table_local_filter input[type=search]").css({ width: "auto" });//右上角的默认搜索文本框，不写这个就超出去了。
-        });
-
-
-    </script>
 </head>
 <body>
 <div id="box">
@@ -129,33 +103,30 @@
 			<div id="mod2-right" >
 				<div id="right-head">用户列表</div>
 				<div id="right-list">
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<table id="table_local" class="table table-bordered table-striped table-hover">
-								<thead>
-									<tr>
-										<th>姓名</th>
-										<th width="100px">业绩汇总(数量)</th>
-										<th>一月</th>
-										<th>二月</th>
-										<th>三月</th>
-										<th>四月</th>
-										<th>五月</th>
-										<th>六月</th>
-                                        <th>七月</th>
-                                        <th>八月</th>
-                                        <th>九月</th>
-                                        <th>十月</th>
-                                        <th>十一月</th>
-                                        <th>十二月</th>
-									</tr>
-								</thead>
-								<tbody>
-									{$tablestr}
-								</tbody>
-							</table>
-						</div>
-					</div>
+					
+                    <table id="table_local" class="layui-table">
+                        <thead>
+                            <tr>
+                                <th>姓名</th>
+                                <th width="100px">业绩汇总(数量)</th>
+                                <th>一月</th>
+                                <th>二月</th>
+                                <th>三月</th>
+                                <th>四月</th>
+                                <th>五月</th>
+                                <th>六月</th>
+                                <th>七月</th>
+                                <th>八月</th>
+                                <th>九月</th>
+                                <th>十月</th>
+                                <th>十一月</th>
+                                <th>十二月</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {$tablestr}
+                        </tbody>
+                    </table>
 				</div>
 			</div>
 			<!--右边表格结束-->
