@@ -954,7 +954,7 @@ public function kehu(){
 							}elseif($v['ht_sp']==0){//刚添加可发起
 								$content.="<td><a href='".__ROOT__."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' title='".$v[$kbt]."'>".$v[$kbt]."</span></a></td>";
 							}elseif($v['ht_sp']==1){//审批通过
-								$content.="<td><a href='".__ROOT__."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' title='".$v[$kbt]."'>".$v['ht_id'].$v[$kbt]."</span></a></td>";
+								$content.="<td><a href='".__ROOT__."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' title='".$v[$kbt]."'>".$v[$kbt]."</span></a></td>";
 
 							}else{// 审批驳回
 								$content.="<td><a href='".__ROOT__."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' title='".$v[$kbt]."'>".$v[$kbt]."</span></a></td>";
