@@ -785,7 +785,7 @@ return $fzr_only;
        			 	//$this->success("上传成功");
        			 	echo '<script>
        			 				alert("上传成功");
-       			 				window.location="'.$_GET['root_dir'].'/index.php/Home/Shangjimingcheng/shangjimingcheng/id/'.$sj_id.'/uiid/4";
+       			 				window.location="'.__ROOT__.'/index.php/Home/Shangjimingcheng/shangjimingcheng/id/'.$sj_id.'/uiid/4";
        			 				</script>';
        			 	
        			 }else{
@@ -808,7 +808,7 @@ return $fzr_only;
 				$sql_del=$sql_file->where($data)->delete();
 				 
 			}
-	public function xgj(){
+	public function xgj(){ 
 		$yzdl=A('DB');
 		$yzdl->is_login();
 		$yzdl->have_qx("qx_sj_open");//跳转权限验证

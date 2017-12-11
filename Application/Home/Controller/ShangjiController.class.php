@@ -177,7 +177,7 @@ class ShangjiController extends Controller {
 		}
 		foreach($ywcs_json as $kcs => $vcs)
 		{
-			foreach($vcs['qy'] as $kqy=>$vqy)
+			foreach($vcs['qy'] as $kqy=>$vqy) 
 			{
 
 				if($vqy=='1')
@@ -417,12 +417,12 @@ class ShangjiController extends Controller {
 				{
 					if($k1=="zdy0")    //商机标题  跳转到商机页面
 					{ 
-						$show.="<td > <a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id' title='".$v[$k1]."'>".$v[$k1]." </a></td>"	;
+						$show.="<td > <a href='".__ROOT__."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id' title='".$v[$k1]."'>".$v[$k1]." </a></td>"	;
 					}elseif($k1=="zdy1"){     //k客户标题 跳转到客户页面
-						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/kh_id/$kh_mc' title='".$kh_name[$v[$k1]]['name']."'>".$kh_name[$v[$k1]]['name']." </a></td>";
+						$show.="<td> <a href='".__ROOT__."/index.php/Home/Kehu/kehumingcheng/kh_id/$kh_mc' title='".$kh_name[$v[$k1]]['name']."'>".$kh_name[$v[$k1]]['name']." </a></td>";
 					}elseif($k1=="zdy2"){
 						
-						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Lianxirenmingcheng/lianxirenmingcheng/id/".$v[$k1]."' title='".$lx_name1[$v[$k1]]['name']."'>".$lx_name1[$v[$k1]]['name']." </a></td>";
+						$show.="<td> <a href='".__ROOT__."/index.php/Home/Lianxirenmingcheng/lianxirenmingcheng/id/".$v[$k1]."' title='".$lx_name1[$v[$k1]]['name']."'>".$lx_name1[$v[$k1]]['name']." </a></td>";
 						
 					}elseif($k1=="zdy5" || $k1=="zdy7" || $k1=="zdy9"){
 				
@@ -1399,11 +1399,11 @@ class ShangjiController extends Controller {
 				{
 					if($k1=="zdy0")    //商机标题  跳转到商机页面
 					{ 
-						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id'>".$v[$k1]." </a></td>"	;
+						$show.="<td> <a href='".__ROOT__."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id'>".$v[$k1]." </a></td>"	;
 					}elseif($k1=="zdy1"){     //k客户标题 跳转到客户页面
-						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Kehu/kehumingcheng/id/$kh_mc/kh_id/$kh_id'>".$v[$k1]." </a></td>"	;
+						$show.="<td> <a href='".__ROOT__."/index.php/Home/Kehu/kehumingcheng/id/$kh_mc/kh_id/$kh_id'>".$v[$k1]." </a></td>"	;
 					}elseif($k1=="zdy2"){     //k客户标题 跳转到客户页面
-						$show.="<td> <a href='".$_GET['root_dir']."/index.php/Home/Lianxirenmingcheng/lianxirenmingcheng/id/".$v[$k1]."'>".$lx_name[$v[$k1]]['name']." </a></td>"	;
+						$show.="<td> <a href='".__ROOT__."/index.php/Home/Lianxirenmingcheng/lianxirenmingcheng/id/".$v[$k1]."'>".$lx_name[$v[$k1]]['name']." </a></td>"	;
 					
 					}else{
 						$show.="<td> ".$v[$k1]." </td>"	;

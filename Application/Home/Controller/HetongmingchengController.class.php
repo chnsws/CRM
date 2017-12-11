@@ -1228,7 +1228,7 @@ return $fzr_only;
        			 	//$this->success("上传成功");
        			 	echo '<script>
        			 		
-       			 				window.location.href="'.$_GET['root_dir'].'/index.php/Home/Hetongmingcheng/Hetongmingcheng/id/'.$ht_id.'/uiid/5"
+       			 				window.location.href="'.__ROOT__.'/index.php/Home/Hetongmingcheng/Hetongmingcheng/id/'.$ht_id.'/uiid/5"
        			 				;
        			 				</script>';
        			 	
@@ -1755,7 +1755,7 @@ return $fzr_only;
 			echo "ok";
 		}
 
-	}
+	} 
 	public function ss(){
 		echo 12;
 	}

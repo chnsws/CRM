@@ -550,10 +550,10 @@ class GonghaiController extends Controller {
 												foreach($kh_lxrhq[$r_v['kh_id']] as $k=>$vv)
 												{
 												
-															$xs123.="<a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$vv['id']."'><span style='margin-left:5px'>".$vv['name']."</span></a>";
+															$xs123.="<a href='".__ROOT__."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$vv['id']."'><span style='margin-left:5px'>".$vv['name']."</span></a>";
 													
 												}
-												//$xs123="<a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$lxr[$r_v[$v_biaoti['id']]]['id']."'>".$lxr[$r_v[$v_biaoti['id']]]['name']."</a>";
+												//$xs123="<a href='".__ROOT__."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$lxr[$r_v[$v_biaoti['id']]]['id']."'>".$lxr[$r_v[$v_biaoti['id']]]['name']."</a>";
 												}else{
 													$xs123="
 													<span id='wys{$id}'>---</span>";
@@ -1427,7 +1427,7 @@ class GonghaiController extends Controller {
 					
 					
 					$lx_show.="<tr>
-					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span>".$v['zdy0']."</span></a></td>
+					  				<td ><a href='".__ROOT__."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span>".$v['zdy0']."</span></a></td>
 					  				<td >".$v['zdy3']."</td>
 					  				<td >".$v['zdy4']."</td>";
 					  				
@@ -1449,7 +1449,7 @@ class GonghaiController extends Controller {
 				foreach($lx_end as $k => $v)
 				{
 					$lxr_show.="<tr>
-					  				<td ><a href='".$_GET['root_dir']."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span>".$v['zdy0']."</span></a></td>
+					  				<td ><a href='".__ROOT__."/index.php/Home/lianxirenmingcheng/lianxirenmingcheng/id/".$v['lx_id']."'><span>".$v['zdy0']."</span></a></td>
 					  				<td >".$v['zdy3']."</td>
 					  				<td >".$v['zdy4']."</td>";
 
@@ -1520,7 +1520,7 @@ class GonghaiController extends Controller {
 												$newbza=$v['zdy0'];
 											}
 
-					  				$sj_show.="<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbza."</span></a></td>
+					  				$sj_show.="<td ><a href='".__ROOT__."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span title='".$v['zdy0']."' style='cursor:pointer '>".$newbza."</span></a></td>
 					  				<td >".$v['zdy3']."</td>
 					  				<td >".substr($v['zdy4'],0,10)."</td>
 					  				<td >".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
@@ -1539,7 +1539,7 @@ class GonghaiController extends Controller {
 				foreach($sj_end as $k=>$v)
 				{
 					$sj_show_much.="<tr>
-						  				<td ><a href='".$_GET['root_dir']."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1'>".$v['zdy0']."</span></a></td>
+						  				<td ><a href='".__ROOT__."/index.php/Home/shangjimingcheng/shangjimingcheng/id/".$v['sj_id']."'><span class='shangji1'>".$v['zdy0']."</span></a></td>
 						  				<td >".$v['zdy3']."</td>
 						  				<td >".substr($v['zdy4'],0,10)."</td>
 						  				<td >".$ywcs_sj['zdy5'][$v['zdy5']]."</td>
@@ -1597,7 +1597,7 @@ class GonghaiController extends Controller {
 									if($v['ht_sp']==4){
 										$ht_show_much.="<td ><a onclick='ck_spjd(this)' class='".$v['ht_id']."'>".$v['zdy0']."</a></td>";
 									}else{
-						  				$ht_show_much.="<td ><a href='".$_GET['root_dir']."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span>".$v['zdy0']."</span></a></td>";
+						  				$ht_show_much.="<td ><a href='".__ROOT__."/index.php/Home/hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span>".$v['zdy0']."</span></a></td>";
 						  				}
 						  			$ht_show_much.="	<td >￥".$v['zdy3']."</td>
 						  				<td >".$v['zdy5']."</td>
@@ -2148,7 +2148,7 @@ class GonghaiController extends Controller {
        			 {
        			 	//$this->success("上传成功");
        			 	echo '<script> 
-       			 				window.location="'.$_GET['root_dir'].'/index.php/Home/Gonghai/gonghaimingcheng/uid/6/kh_id/'.$kh_id.'";
+       			 				window.location="'.__ROOT__.'/index.php/Home/Gonghai/gonghaimingcheng/uid/6/kh_id/'.$kh_id.'";
        			 		</script>';
        			 	
        			 }else{
@@ -2245,7 +2245,7 @@ class GonghaiController extends Controller {
 			$sql_add=$genjin_base->add($genjin);
 			if($sql_add){
 
-				echo '<script>alert("添加成功");window.location="'.$_GET['root_dir'].'/index.php/Home/Kehu/kehumingcheng/id/'.$_GET['pageid'].'/fuzeren/'.$_GET['fuzeren'].'/id1/'.$_GET['id1'].'/kh_id/'.$_GET['kh_id'].'"</script>';
+				echo '<script>alert("添加成功");window.location="'.__ROOT__.'/index.php/Home/Kehu/kehumingcheng/id/'.$_GET['pageid'].'/fuzeren/'.$_GET['fuzeren'].'/id1/'.$_GET['id1'].'/kh_id/'.$_GET['kh_id'].'"</script>';
 				
 			}else{
 
@@ -2266,7 +2266,7 @@ class GonghaiController extends Controller {
 			$sql=$tixing->add($data);
 
 			if($sql){
-				echo '<script>alert("添加成功");window.location="'.$_GET['root_dir'].'/index.php/Home/Kehu/kehumingcheng/id/'.$_GET['pageid'].'/fuzeren/'.$_GET['fuzeren'].'/id1/'.$_GET['id1'].'/kh_id/'.$_GET['kh_id'].'"</script>';
+				echo '<script>alert("添加成功");window.location="'.__ROOT__.'/index.php/Home/Kehu/kehumingcheng/id/'.$_GET['pageid'].'/fuzeren/'.$_GET['fuzeren'].'/id1/'.$_GET['id1'].'/kh_id/'.$_GET['kh_id'].'"</script>';
 			}else{
 				echo "添加失败";
 			}

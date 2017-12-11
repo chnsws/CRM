@@ -162,7 +162,7 @@ class LianxirenmingchengController extends Controller {
 			
 		}
 	
-		if($sj_rha==''||$sj_rha==null){
+		if($sj_rha==''||$sj_rha==null){ 
 			$shangji1.="<tr><td colspan='30' align='center'><span>亲~没有数据哟！请添加相关商机</td></tr>";
 		}else{
 			foreach ($sj_rha as $k=>$v){
@@ -171,7 +171,7 @@ class LianxirenmingchengController extends Controller {
 					{
 						$id_sj=$v['id'];
 						if($k1=="zdy0"  ){
-							$shangji1.="<td><a href='".$_GET['root_dir']."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id_sj'><span style='color:#07d' title='".$v1."'>".$v1."</span></a></td>";
+							$shangji1.="<td><a href='".__ROOT__."/index.php/Home/Shangjimingcheng/shangjimingcheng/id/$id_sj'><span style='color:#07d' title='".$v1."'>".$v1."</span></a></td>";
 						}elseif($k1=="zdy3" ){
 							$shangji1.="<td>".$v1." </td>";
 						}elseif($k1=="zdy11"){
