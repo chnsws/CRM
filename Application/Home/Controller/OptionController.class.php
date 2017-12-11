@@ -1043,7 +1043,7 @@ class OptionController extends DBController {
 		parent::have_qx2("qx_sys_sp");
 		$fid=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
 		$userbase=M("user");
-		$userarr=$userbase->query("select user_name,user_id from crm_user where user_fid='$fid' or user_id='$fid'");
+		$userarr=$userbase->query("select user_name,user_id from crm_user where (user_fid='$fid' or user_id='$fid') and user_act='1' and user_del='0' ");
 		foreach($userarr as $v)
 		{
 			$useroption.="<option value='".$v['user_id']."' class='class".$v['user_id']."'>".$v['user_name']."</option>";
