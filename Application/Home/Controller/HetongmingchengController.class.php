@@ -799,7 +799,7 @@ return $fzr_only;
 		    {
 					$kp_show2.="	<tr class='qingxuanze'>
 						<td colspan='8'><span>亲~ 还没有数据哦～<span onclick='xzkp()'
-						style='color:#07d;cursor:pointer;font-weight:bold'>新增开票记>></span></span></td>
+						style='color:#07d;cursor:pointer;font-weight:bold' class='wtgbky'>新增开票记录>></span></span></td>
 					</tr>";
 					
 

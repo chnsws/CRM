@@ -568,7 +568,7 @@ class KehuController extends Controller {
 			if($v['type']=='3')
 			{
 				$bj_tab.="<td>";
-				$bj_tab.="<select id='".$v['id'].'wys'."'  style='width:260px;height:26px;'>";
+				$bj_tab.="<select id='".$v['id'].'wys'."'  style='width:260px;height:33px;'>";
 				foreach($ywcs_sql_json[$v['id']] as $k=>$vv)
 				{
 					if($k!='id'&&$k!='qy')
