@@ -22,7 +22,7 @@ class ShenpiController extends Controller {
 	//	$sp_map['sp_jg']=0;
 		$sp_map['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
 		$sp_map1['sp_yy']=2;//三代表别人审批了
-		//	$sp_map['sp_jg']=0;
+		$sp_map1['sp_jg']=0;
 			$sp_map1['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
 		if(cookie('user_fid')=='0')
 		{
@@ -654,11 +654,12 @@ class ShenpiController extends Controller {
 
 		$spht_map['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
 		$spht_map1['sp_yy']=1;//三代表别人审批了
-
+		$spht_map1['sp_jg']=0;//三代表别人审批了
 		$spht_map1['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
 		if(cookie('user_fid')=='0')
 		{
 			$spht_sql=$sp_base->where($spht_map1)->select();
+			
 		}else{
 			$spht_sql=$sp_base->where($spht_map)->select();	
 		}
@@ -668,7 +669,9 @@ class ShenpiController extends Controller {
 
 			if($v['sp_jg']==0) //待审批
 			{	
-				$ht_sp_show[]=$v;
+				$ht_sp_show[$v['sp_sjid']]=$v;
+				
+				
 			}elseif($v['sp_jg']==1){//已通过
 				if($v['sp_user']==cookie('user_id')){
 				$ht_sp_show1[]=$v;
@@ -681,7 +684,7 @@ class ShenpiController extends Controller {
 				$ht_sp_show3[]=$v;
 			}
 		}
-
+		
 		if($ht_sp_show == "" || $ht_sp_show==null )
 		{
 			$ht_show.="暂无记录";
