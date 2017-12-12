@@ -295,8 +295,9 @@ class ShenpiController extends Controller {
 
 
 		$sp_map_kp1['sp_yy']=3;
+		$sp_map_kp1['sp_jg']= 0;
 		$sp_map_kp1['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;
-		$sp_map_kp1['sp_jg']= array(0,1,2,3,4,'or');
+		
 	
 		if(cookie('user_fid')=='0')
 		{
@@ -307,11 +308,7 @@ class ShenpiController extends Controller {
 
 
 
-		$sp_map_kp1['sp_user']=cookie("user_id");
-		$sp_map_kp1['sp_jg']= 0;
-		$sp_map_kp1['sp_yy']=3;
-		$sp_map_kp1['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
-		$cp_count=$sp_base->where($sp_map_kp1)->count();
+		
 		/**foreach($sp_sql_kp as $k=>$v)
 		{
 			$arrkp[$v['sp_sjid']]['sp_id']=$v['sp_id'];
@@ -350,7 +347,7 @@ class ShenpiController extends Controller {
 			$array_ssp[$v['sp_id']]=$array_kkp[$v['sp_sjid']];
 			
 		}
-	
+		
 		foreach($array_ssp as $k=>$v)
 		{
 	
@@ -361,7 +358,17 @@ class ShenpiController extends Controller {
 			$array_ssp[$k]['sp_xgr']=$sp_sql_kp1[$k]['sp_xgr'];
 		}
 	
-			
+		if(cookie('user_fid')=='0'){
+			foreach($array_ssp as $k=>$v)
+			{
+				if($v['sp_jg']==0 )
+				{
+					$array_sspa[$v['kp_id']]=$v;
+					$array_ssp=$array_sspa;
+				}
+			}
+		}
+		
 
 		//echo "<pre>";
 		//var_dump($array_ssp);exit;
@@ -1041,7 +1048,8 @@ return $fzr_only;
 
 			$map_sp['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 			$sql_sp=$sp_base->where($map_sp)->find();
-			if($sql_sp['sp_tp']==1) //开启同步
+			
+			if($sql_sp['sp_tp']==1 && cookie('user_fid')!='0') //开启同步
 			{
 				
 				$data['sp_jg']="1";
@@ -1068,7 +1076,7 @@ return $fzr_only;
 					echo "33";
 				}
 				
-			}elseif($sql_sp['sp_tp']==0){//不开启同步
+			}else{//不开启同步
 			
 				$data['sp_jg']="1";
 				$sql_save=$sp_base->where($map_sp)->save($data);
@@ -1184,7 +1192,7 @@ return $fzr_only;
 			$kp_save=$kp_base->where($map_sp)->save($tongguo);
 			$tjr=$_GET['tjr'];
 			$zgjj=$_GET['zgjj'];
-			if($tb==1)
+			if($tb==1 && cookie('user_fid')!='0')
 			{
 			
 				//这里判断第一级的x个人是否都过,过了给下一级,直到最后一级全过  才去修改开票信息 的审核状态
@@ -1239,7 +1247,7 @@ return $fzr_only;
 
 			
 				
-			}elseif($tb==0){
+			}else{
 				//非同步状态下判断这人是通过 直接 扔给下一级，直到最后一级的第一个审批的过了  才去修改开票信息的审核状态
 						if($tjr==$zgjj)  //当前级别等于最高级别 就是 1 2 3级全部通过 去修改开票状态
 						{
@@ -1330,6 +1338,7 @@ return $fzr_only;
 									$num2++;
 								}
 							}
+						
 							if($num1==$num2) //当前级别全员通过 继续判断有无下级 有则下级继续 ，没有则修改开票状态
 							{	
 								if($map['sp_dq_jj']==$zgjj)  //当前级别等于最高级别 就是 1 2 3级全部通过 去修改开票状态
