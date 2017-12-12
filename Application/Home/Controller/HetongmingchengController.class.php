@@ -1945,7 +1945,7 @@ return $fzr_only;
 		$sql_show.="<form class='uk-form' style='margin-left:18%;margin-top:25px'>
 		<table>
 			<tr><td>期次：</td><td>第".$qici."期</td></tr>
-			<tr><td>回款日期：</td><td style='line-height:28px'><input type='text' id='hk_data' value='".$sql['hk_data']."'></td></tr>
+			<tr><td>回款日期：</td><td style='line-height:28px'><input type='text' value='".$sql['hk_data']."' id='hk_data' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd '".'})"'."></td></tr>
 			<tr><td>回款占比：</td><td style='line-height:28px'><input type='text' id='hk_zb' value='".$sql['hk_zb']."'></td></tr>
 			<tr><td>回款金额：</td><td style='line-height:28px'><input type='text' id='hk_je' value='".$sql['hk_je']."'></td></tr>
 			<tr><td>备注：</td><td style='line-height:28px'><textarea style='width:300px;height:90px;line-height:18px' id='hk_bz' >".$sql['hk_bz']."</textarea></td></tr>
