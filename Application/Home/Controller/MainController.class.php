@@ -1164,7 +1164,7 @@ class MainController extends DBController {
         $fid=parent::get_fid();
         $u=$fid==cookie("user_id")?"":"and sp_user='".cookie("user_id")."'";
         $sp=parent::sel_more_data("crm_sp","sp_sjid","sp_yh='$fid' $u  and sp_jg='0' ");
-
+        
         $sp2='';
         foreach($sp as $k=>$v)
         {
@@ -1172,7 +1172,7 @@ class MainController extends DBController {
         }
         
         $sp=$sp2;
-        $spnum=count($sp);
+        $spnum=$sp==''?0:count($sp);
         $style='';
         if($spnum<1)
         {
