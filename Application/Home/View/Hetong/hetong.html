@@ -428,7 +428,8 @@
   	</div>
   	<div class='ck_spjd' style='height:80px;display:none'>
   		<div class='ck_spjd1' style='margin-left:20%;'></div>
-  	</div>
+	  </div>
+	  <input type='hidden' class="ssaaa" value="{$ssaaa}">
 	</body>
 	<script>
 	var budong=$('#budong').val();
@@ -438,6 +439,11 @@
 	}
 	var ssa=$("#sousuo").val();
 	if(ssa!='')
+	{
+		$(".ycyo").hide();
+	}
+	var ssa1=$(".ssaaa").val();
+	if(ssa1!='')
 	{
 		$(".ycyo").hide();
 	}
@@ -515,6 +521,7 @@ function kh_name_if(e){
 	$(".sxzddiv").children("span").click(function(){          //点击筛选的 选中
 		var tex =$(this).text();
 	    var title=$(this).parent().prop('id');
+	
 	if(title=='ht_sp')
     {
     	   	window.location.href="hetong?ht_sp926="+tex;return;

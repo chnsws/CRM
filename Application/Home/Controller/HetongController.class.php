@@ -327,6 +327,10 @@ public function kehu(){
 			$new=($dijiye-1)*$list_num;
 		}
 		$zhuangtai=$_GET['ht_sp926'];
+		if($zhuangtai!="" && $zhuangtai!="全部")
+		{
+			$this->assign('ssaaa','234');
+		}
 		$sousuo=$_GET['sousuo'];
 		//$name="二级";
 		$sxa=$_GET['sxa'];

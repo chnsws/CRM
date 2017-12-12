@@ -600,8 +600,8 @@ function daoru()
 					                }
 					                $.get("__ROOT__/index.php/Home/gonghai/drcshi",{"name":is_upload},function(res){
 					                	//tishi(res)
-					                  tishi(res);
-									  window.location.href="gonghai";
+										tishi(res);
+										setTimeout(function(){  window.location.href="gonghai";}, 3000);
 					                });
 					               
 					               
@@ -738,7 +738,7 @@ $("#dong").prop("class",'kehu');
          function tishi(neirong)
 			{
 			    layer.msg(neirong, {
-			        time: 1000, 
+			        time: 3000, 
 			    });
 			}
 			   $("#sss").on("click",function(){
