@@ -1046,7 +1046,7 @@ class OptionController extends DBController {
 		$userarr=$userbase->query("select user_name,user_id from crm_user where (user_fid='$fid' or user_id='$fid') and user_act='1' and user_del='0' ");
 		foreach($userarr as $v)
 		{
-			$useroption.="<option value='".$v['user_id']."' class='class".$v['user_id']."'>".$v['user_name']."</option>";
+			$useroption.=$v['user_id']==$fid?'':"<option value='".$v['user_id']."' class='class".$v['user_id']."'>".$v['user_name']."</option>";
 			$usernamearr[$v['user_id']]=$v['user_name'];
 		}
 		$spbase=M("shenpi");
