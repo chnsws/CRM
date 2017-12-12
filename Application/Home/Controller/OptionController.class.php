@@ -795,28 +795,28 @@ class OptionController extends DBController {
 		//生成部门结构HTML
 		foreach($bmLvArr as $k=>$v)
 		{
-			$bmList.="<li class='lv1 lv-on' id='id".$k."' value='1' name='1'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$v['bm_name']."</span><span class='right-span'>".$listdanwei.$this->yjmbdanwei($bmallarr[$k],$ismoney)."</span></li>";
+			$bmList.="<li class='lv1 lv-on' id='id".$k."' value='1' name='1'><span class='left-li'>".$v['bm_name']."</span><span class='right-span'>".$listdanwei.$this->yjmbdanwei($bmallarr[$k],$ismoney)."</span></li>";
 			if(count($v['lv2'])>0)
 			{
 				foreach($v['lv2'] as $lv2k=>$lv2v)
 				{
-					$bmList.="<li class='lv2 lv-on lv1".$k."' id='id".$lv2k."' value='1' name='2'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$lv2v['bm_name']."</span><span class='right-span'>".$listdanwei.$this->yjmbdanwei($bmallarr[$lv2k],$ismoney)."</span></li>";
+					$bmList.="<li class='lv2 lv-on lv1".$k."' id='id".$lv2k."' value='1' name='2'><span class='left-li'>".$lv2v['bm_name']."</span><span class='right-span'>".$listdanwei.$this->yjmbdanwei($bmallarr[$lv2k],$ismoney)."</span></li>";
 					if(count($lv2v['lv3'])>0)
 					{
 						foreach($lv2v['lv3'] as $lv3k=>$lv3v)
 						{
-							$bmList.="<li class='lv3 lv-on lv2".$lv2k." lv1".$k."' id='id".$lv3k."' value='1' name='3'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$lv3v['bm_name']."</span><span class='right-span'>".$listdanwei.$this->yjmbdanwei($bmallarr[$lv3k],$ismoney)."</span></li>";
+							$bmList.="<li class='lv3 lv-on lv2".$lv2k." lv1".$k."' id='id".$lv3k."' value='1' name='3'><span class='left-li'>".$lv3v['bm_name']."</span><span class='right-span'>".$listdanwei.$this->yjmbdanwei($bmallarr[$lv3k],$ismoney)."</span></li>";
 							if(count($lv3v['lv4'])>0)
 							{
 								foreach($lv3v['lv4'] as $lv4k=>$lv4v)
 								{
-									$bmList.="<li class='lv4 lv-on lv3".$lv3k." lv2".$lv2k." lv1".$k."' id='id".$lv4k."' value='1' name='4'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$lv4v['bm_name']."</span><span class='right-span'>".$listdanwei.$this->yjmbdanwei($bmallarr[$lv4k],$ismoney)."</span></li>";
+									$bmList.="<li class='lv4 lv-on lv3".$lv3k." lv2".$lv2k." lv1".$k."' id='id".$lv4k."' value='1' name='4'><span class='left-li'>".$lv4v['bm_name']."</span><span class='right-span'>".$listdanwei.$this->yjmbdanwei($bmallarr[$lv4k],$ismoney)."</span></li>";
 							
 									if(count($lv4v['lv5'])>0)
 									{
 										foreach($lv4v['lv5'] as $lv5k=>$lv5v)
 										{
-											$bmList.="<li class='lv5 lv-on lv4".$lv4k." lv3".$lv3k." lv2".$lv2k." lv1".$k."' id='id".$lv5k."' value='1' name='5'><i class='fa fa-folder-open' aria-hidden='true'></i><span class='left-li'>".$lv5v['bm_name']."</span><span class='right-span'>".$listdanwei.$this->yjmbdanwei($bmallarr[$lv5k],$ismoney)."</span></li>";
+											$bmList.="<li class='lv5 lv-on lv4".$lv4k." lv3".$lv3k." lv2".$lv2k." lv1".$k."' id='id".$lv5k."' value='1' name='5'><span class='left-li'>".$lv5v['bm_name']."</span><span class='right-span'>".$listdanwei.$this->yjmbdanwei($bmallarr[$lv5k],$ismoney)."</span></li>";
 										}
 									}
 								}
