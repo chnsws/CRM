@@ -827,8 +827,8 @@ class ShangjiController extends Controller {
 		foreach ($cp_new as $k=>$v)
 		{
 			$show2.="<tr class='".$v['cp_id1']."'>
-			<td align='value'>".$v['cp_id1']."</td>
-			<td align='value'>".$v['cp_id']."</td>
+			<td align='value'>".$v['zdy0']."</td>
+			<td align='value'>".$v['zdy1']."</td>
 			<td align='value'>".$v['cp_yj']."</td>
 			<td align='value'>".$v['cp_jy']."</td>
 			<td align='value'>".$v['cp_num1']."</td>
@@ -1723,6 +1723,7 @@ class ShangjiController extends Controller {
 		}
 		$sql['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
 		$sql['sj_id']='0'; 
+		$sql['cp_mk']='5'; 
 		$sql['cp_sj_cj']=cookie('user_id'); //通用条件   
 		$cp_sj_base=M('cp_sj');
 		$sql_add=$cp_sj_base->add($sql);
@@ -2233,46 +2234,48 @@ return $fzr_only;
 			$khu_map['kh_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 			$kehu_save=$kh_base->where($khu_map)->save($khu_data);
 		//	$lx_sql=$lx_base->query("select * from  crm_lx where lx_yh='$lx_yh' and lx_id='$lxr_id' and lx_cj IN ($xiaji)");
-			if($kehu_save)
-			{
-				$shangji=$_GET['shangji'];
-				$shangji_qd=substr($shangji,0,strlen($shangji)-1); 
-				$shangji_arr=explode(",", $shangji_qd);
-				foreach($shangji_arr as $k=>$v){
-					$sj_ex=explode(":￥￥",$v);
-					if($sj_ex['0']=="fuzeren")
-					{
-						$data_sj_map['sj_fz']=$sj_ex['1'];
-					}elseif($sj_ex['0']=="department"){
-						$data_sj_map['sj_bm']=$sj_ex['1'];
-					}elseif($sj_ex['0']!="xiaodan"){
-						if($sj_ex['0']=="zdy1")
+						if($kehu_save)
 						{
- 						$data_shang['zdy1']=$add_kh;
-						}elseif($sj_ex['0']=="zdy2"){
-						$data_shang['zdy2']=$lxr_add;
-						}else{
-						 $data_shang[$sj_ex['0']]=$sj_ex['1'];
-						 }
-					}
-				} 
+							$shangji=$_GET['shangji'];
+							$shangji_qd=substr($shangji,0,strlen($shangji)-1); 
+							$shangji_arr=explode(",", $shangji_qd);
+							foreach($shangji_arr as $k=>$v){
+								$sj_ex=explode(":￥￥",$v);
+								if($sj_ex['0']=="fuzeren")
+								{
+									$data_sj_map['sj_fz']=$sj_ex['1'];
+								}elseif($sj_ex['0']=="department"){
+									$data_sj_map['sj_bm']=$sj_ex['1'];
+								}elseif($sj_ex['0']!="xiaodan"){
+									if($sj_ex['0']=="zdy1")
+									{
+									$data_shang['zdy1']=$add_kh;
+									}elseif($sj_ex['0']=="zdy2"){
+									$data_shang['zdy2']=$lxr_add;
+									}else{
+									$data_shang[$sj_ex['0']]=$sj_ex['1'];
+									}
+								}
+							} 
 
-				$data_sj_map["sj_data"]=json_encode($data_shang,true);
-				$data_sj_map["sj_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
-				$data_sj_map["sj_cj"]=cookie('user_id');//本人ID  
-				$data_sj_map["sj_cj_date"]=time();
-				$sj_base=M('shangji');
-				$add_sj=$sj_base->add($data_sj_map);
-			if($add_sj){
-						//以下方法不好 需要完善
-					$sql['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
-					$sql['sj_id']='0'; 
-					$sql['cp_sj_cj']=cookie('user_id'); //通用条件   
-					$cp_sj_base=M('cp_sj');
-					$dat['sj_id']=$add_sj;
-					$sql_add=$cp_sj_base->where($sql)->save($dat);
-					echo "成功";
-				}else{echo "失败";}
+							$data_sj_map["sj_data"]=json_encode($data_shang,true);
+							$data_sj_map["sj_yh"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+							$data_sj_map["sj_cj"]=cookie('user_id');//本人ID  
+							$data_sj_map["sj_cj_date"]=time();
+							$sj_base=M('shangji');
+							$add_sj=$sj_base->add($data_sj_map);
+							if($add_sj){
+									//以下方法不好 需要完善
+								$sql['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
+								$sql['sj_id']='0'; 
+								$sql['cp_sj_cj']=cookie('user_id'); //通用条件   
+								$cp_sj_base=M('cp_sj');
+								$dat['sj_id']=$add_sj;
+								$sql_add=$cp_sj_base->where($sql)->save($dat);
+								echo "成功";
+							}else{
+								echo "失败";
+							}
 
 		}
 	}
