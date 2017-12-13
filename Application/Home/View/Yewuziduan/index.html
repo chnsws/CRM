@@ -257,7 +257,8 @@ function getData(type,savepx)
             var cy=zdarr[zdk]['cy']=='1'?'checked':'';
 
             var bj=zdarr[zdk]['bj']=='1'?'<a class="bj">编辑</a>&nbsp;&nbsp;<a class="sc">删除</a>':'不可修改';//可否修改名称和删除
-
+            bj=zdarr[zdk]['bj']=='2'?'<b>系统字段</b>':bj;
+            
             var disabled=zdarr[zdk]['bj']=='2'?'disabled':'';
 
 
