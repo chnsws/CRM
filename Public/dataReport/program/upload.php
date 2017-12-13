@@ -1,6 +1,24 @@
 <?php
+/*
+    配置项
+*/
 $hostName='http://192.168.1.51';//远程服务器
 //$hostName='http://124.193.66.43:8012';//远程服务器
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+    程序
+*/
 $dirName=dirname(__FILE__);//当前的绝对路径
 $nowDate=date("Y-m-d",time());//当前日期
 $nowtime=date("Y-m-d H:i:s",time());//当前日期时间

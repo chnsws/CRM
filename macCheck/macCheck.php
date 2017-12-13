@@ -1,12 +1,18 @@
 <?php
+/*
+配置项
+*/
 $url='http://192.168.1.51/macCheck/macConfirm.php';//远程路径
+
+
+
+
+
+
+/*
+    程序
+*/
 $dirName=dirname(__FILE__);//当前的绝对路径
-
-
-
-
-
-
 $mac = new GetMacAddr(PHP_OS); 
 $mac=$mac->mac_addr; 
 $p['mac']=$mac;
