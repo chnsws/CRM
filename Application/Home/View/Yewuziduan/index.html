@@ -251,11 +251,17 @@ function getData(type,savepx)
         var zdstr='';
         for(zdk in zdarr)
         {
+            var thiszdyid=zdk.substr(3);
             var qy=zdarr[zdk]['qy']=='1'?'checked':'';
             var bt=zdarr[zdk]['bt']=='1'?'checked':'';
             var cy=zdarr[zdk]['cy']=='1'?'checked':'';
-            var bj=zdarr[zdk]['bj']=='1'?'<a class="bj">编辑</a>&nbsp;&nbsp;<a class="sc">删除</a>':'不可修改';
-            var disabled=zdarr[zdk]['bj']=='1'||((zdk=='zdy5'||zdk=='zdy7'||zdk=='zdy1'||zdk=='zdy2'||zdk=='zdy4')&&type.length>1)?'':'disabled';
+
+            var bj=zdarr[zdk]['bj']=='1'?'<a class="bj">编辑</a>&nbsp;&nbsp;<a class="sc">删除</a>':'不可修改';//可否修改名称和删除
+
+            var disabled=zdarr[zdk]['bj']=='2'?'disabled':'';
+
+
+            //var disabled=zdarr[zdk]['bj']=='1'||((zdk=='zdy5'||zdk=='zdy7'||zdk=='zdy1'||zdk=='zdy2'||zdk=='zdy4')&&type.length>1)?'':'disabled';
 
             zdstr+='<li clss="uk-sortable-item" id="'+zdk+'"><div><span><i class="uk-icon-bars"></i></span><span>'+zdarr[zdk]['name']+'</span><span><input name="qy" type="checkbox" '+qy+' '+disabled+' />启用</span><span><input name="bt" type="checkbox" '+bt+' '+disabled+' />必填</span><span><input name="cy" type="checkbox" '+cy+' '+disabled+' />常用</span><span>'+bj+'</span></div></li>';
         }
