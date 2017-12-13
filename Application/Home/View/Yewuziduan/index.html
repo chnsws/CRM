@@ -238,6 +238,13 @@ $(function(){
         }); 
     });
 });
+var zdMaxNum=new Array();
+zdMaxNum['1']=17;
+zdMaxNum['2']=15;
+zdMaxNum['4']=16;
+zdMaxNum['5']=11;
+zdMaxNum['6']=17;
+zdMaxNum['7']=8;
 function getData(type,savepx)
 {
     //获取数据
@@ -258,7 +265,12 @@ function getData(type,savepx)
 
             var bj=zdarr[zdk]['bj']=='1'?'<a class="bj">编辑</a>&nbsp;&nbsp;<a class="sc">删除</a>':'不可修改';//可否修改名称和删除
             bj=zdarr[zdk]['bj']=='2'?'<b>系统字段</b>':bj;
-            
+
+            if(thiszdyid>zdMaxNum[type])
+            {
+                bj='<a class="bj">编辑</a>&nbsp;&nbsp;<a class="sc">删除</a>';
+            }
+
             var disabled=zdarr[zdk]['bj']=='2'?'disabled':'';
 
 
