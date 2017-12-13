@@ -67,7 +67,7 @@
 						<li class="layui-nav-item">
 							<a href="javascript:;" class="admin-header-user" style="width:100px;">
 				
-								<span style="width:100px;"><center><b>{$loginusername}</b></center></span>
+								<span style="width:100px;"><center><b id="log_user_name"></b></center></span>
 							</a>
 							<dl class="layui-nav-child">
 								
@@ -125,6 +125,9 @@
 			<script type="text/javascript" src="__PUBLIC__/index_js_css/plugins/layui/layui.js"></script>
 			
 			<script>
+				var log_user_name="{$_COOKIE['user_name']}";
+	log_user_name=log_user_name.length>6?log_user_name.substr(0,6)+'...':log_user_name;
+	$("#log_user_name").text(log_user_name);
 			var navs={$navs};	
 			//alert(navs);
 			//navs=JSON.parse(navs);

@@ -132,7 +132,7 @@ class OptionController extends DBController {
 		}
 		//parent::rr($newnavarr);
 		//parent::rr(urldecode(json_encode($navarr)));
-		$username=mb_strlen(cookie("user_name"))>5?mb_substr(cookie("user_name"),0,5).'...':cookie("user_name");
+		$username=cookie("user_name");
 		$this->assign("loginusername",$username);
 		$this->assign("navs",urldecode(json_encode($newnavarr)));
         $this->display();
