@@ -15,6 +15,7 @@ class CpflController extends DBController {
     {
         parent::is_login();
         $fid=parent::get_fid();
+        $this->haveconfig($fid);
         $back_html=$this->sel_one_data("crm_config","config_cp_fl_tree","config_name='$fid'");
         if($back_html)
         {
@@ -38,6 +39,7 @@ class CpflController extends DBController {
         parent::have_qx("qx_cp_edit");
         $fid=parent::get_fid();
         $tree_html=addslashes($_POST['tree_html']);
+        $this->haveconfig($fid);
         $this->edit_one_data("crm_config","config_cp_fl_tree",$tree_html,"config_name='$fid'");
     }
     //添加一条新的分类
@@ -71,6 +73,7 @@ class CpflController extends DBController {
         parent::is_login();
         $fid=parent::get_fid();
         $link_id_str=addslashes($_GET['link_id_str']);
+        $this->haveconfig($fid);
         $this->edit_one_data("crm_config","config_cp_fl_link","$link_id_str"," config_name='$fid' ");
     }
     //获取产品分类的快捷方式
@@ -78,6 +81,7 @@ class CpflController extends DBController {
     {
         parent::is_login();
         $fid=parent::get_fid();
+        $this->haveconfig($fid);
         echo $this->sel_one_data("crm_config","config_cp_fl_link","config_name='$fid'");
     }
     //查询一个
@@ -161,6 +165,7 @@ class CpflController extends DBController {
 			$bumenNewArr0[$cpflarrVal['cpfl_id']]=array("cpfl_name"=>$cpflarrVal['cpfl_name'],"cpfl_fid"=>$cpflarrVal['cpfl_fid']);
         }
         //产品分类排序
+        $this->haveconfig($fid);
         $pxConfigArr=parent::sel_more_data("crm_config","config_cp_fl_tree_px","config_name='$fid' limit 1");
         $flpxarr=explode(',',$pxConfigArr[0]['config_cp_fl_tree_px']);
         foreach($flpxarr as $v)
@@ -398,6 +403,7 @@ class CpflController extends DBController {
         $pxstr=implode(',',$px);
         $fid=parent::get_fid();
         $configbase=M("config");
+        $this->haveconfig($fid);
         $configbase->query("update crm_config set config_cp_fl_tree_px='$pxstr' where config_name='$fid' limit 1 ");
     }
     //产品全局查询
@@ -464,6 +470,15 @@ class CpflController extends DBController {
         echo $returnJson;
         
         
+    }
+    public function haveconfig($name)
+    {
+        $c=parent::sel_more_data("crm_config","config_id","config_name='$name' limit 1");
+        if($c[0]['config_id']=='')
+        {
+            $m=M();
+            $m->query("insert into crm_config set config_name='$name'");
+        }
     }
     //GET&POST处理方法
     public function getok($var_name)

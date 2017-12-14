@@ -133,7 +133,7 @@ class ChanpinController extends DBController {
 		//系统规定的字段
 		$old_zd_arr=array(
 			"zdy6"=>"<select id='addflsel'  name='zdy6'>".$cpfloption."</select>",
-			"zdy7"=>"<input type='file' name='cpimage' lay-type='images'  id='imm' class='imm'  /><button class='layui-btn layui-btn-primary' style='height:30px;line-height:30px;' onclick='sel_img(this)' >选择图片</button></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' name='cpimgshow' style='margin-bottom: 10px;'>",
+			"zdy7"=>"<input type='file' name='cpimage' lay-type='images'  id='imm2' class='imm'  /><button class='layui-btn layui-btn-primary' style='height:30px;line-height:30px;' onclick='sel_img(this)' >选择图片</button></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' name='cpimgshow' style='margin-bottom: 10px;'>",
 			"zdy8"=>"<textarea id='cp_jieshao' name='zdy8'></textarea>"
 		);
 
@@ -490,7 +490,7 @@ class ChanpinController extends DBController {
 				if($cpjsonarr[$v]!='')
 				{
 					$titlestr='<div style="float:right;"><span class="link_span" style="color:#fff;font-size:22px;font-weight:bold;padding-top:10px;" onclick="xiazai(this)"><i class="fa fa-cloud-download" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;<span class="link_span" style="color:#fff;font-size:22px;font-weight:bold;padding-top:10px;" onclick="shanchu(this)"><i class="fa fa-trash" aria-hidden="true"></i></span></div>';
-					$xxstr="<a onclick='sc()'>查看图片</a><span id='spanaaa' href='".$_GET['public_dir']."/chanpinfile/cpimg/".$cpjsonarr[$v]."' data-uk-lightbox title='".$titlestr."' ></span>";
+					$xxstr="<a onclick='sc()'>查看图片</a><span id='spanaaa' href='".__ROOT__."/Public"."/chanpinfile/cpimg/".$cpjsonarr[$v]."' data-uk-lightbox title='".$titlestr."' ></span>";
 				}
 				else
 				{
@@ -512,10 +512,10 @@ class ChanpinController extends DBController {
 		//编辑表单模块
 		$cptp=$cpjsonarr['zdy7']==''?"style='display:none'":"";
 		//系统规定的字段
-		//"zdy7"=>"<input type='file' name='cpimage' lay-type='images' class='layui-upload-file' id='imm'  /></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' $cptp src='".$_GET['public_dir']."/chanpinfile/cpimg/".$cpjsonarr['zdy7']."' style='margin-bottom: 10px;'>",
+		//"zdy7"=>"<input type='file' name='cpimage' lay-type='images' class='layui-upload-file' id='imm'  /></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' $cptp src='".__ROOT__."/Public"."/chanpinfile/cpimg/".$cpjsonarr['zdy7']."' style='margin-bottom: 10px;'>",
 		$old_zd_arr=array(
 			"zdy6"=>"<select id='addflsel' name='zdy6' disabled=disabled >".$cpfloption."</select>",
-			"zdy7"=>"<input type='file' name='cpimage' lay-type='images'  id='imm' class='imm'  /><button class='layui-btn layui-btn-primary' style='height:30px;line-height:30px;' onclick='sel_img(this)' >选择图片</button></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' $cptp src='".$_GET['public_dir']."/chanpinfile/cpimg/".$cpjsonarr['zdy7']."' name='cpimgshow' style='margin-bottom: 10px;'>",
+			"zdy7"=>"<input type='file' name='cpimage' lay-type='images'  id='imm' class='imm'  /><button class='layui-btn layui-btn-primary' style='height:30px;line-height:30px;' onclick='sel_img(this)' >选择图片</button></td></tr><tr><td class='add_left'></td><td id='cpimg_show'><img id='cpimg' $cptp src='".__ROOT__."/Public"."/chanpinfile/cpimg/".$cpjsonarr['zdy7']."' name='cpimgshow' style='margin-bottom: 10px;'>",
 
 			"zdy8"=>"<textarea id='cp_jieshao' name='zdy8'>".$cpjsonarr['zdy8'].
 			"</textarea>"
