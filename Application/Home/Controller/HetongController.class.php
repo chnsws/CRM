@@ -2091,7 +2091,7 @@ $yzdl->have_qx("qx_ht_open");//跳转权限验证
 			$shenpi_map['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
 			$shenpi_map['sp_type']=1;
 			$sql_shenpi=$shenpi_base->where($shenpi_map)->find();
-			
+		
 			if($sql_shenpi['sp_kq']==1)
 			{
 				
@@ -2166,11 +2166,20 @@ $yzdl->have_qx("qx_ht_open");//跳转权限验证
 						$a.="|";
 					}
 						$spu=substr($a,0,strlen($a)-1); 
+						
+						if($spu=="0" || $spu=="1")
+						{ 
+							$spu="zidongtongguo";//审批关闭  自动通过
+						}
+					
+						
 			}else{
 				$spu="zidongtongguo";//审批关闭  自动通过
+
+				
 			}
 
-			
+		
 				return $spu;
 		
 	}
@@ -2343,7 +2352,7 @@ $yzdl->have_qx("qx_ht_open");//跳转权限验证
 														$mapdel['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//
 														$sqldel=$sp_kp_base->where($mapdel)->delete();
 														$spr=$this->shenpi_kp();
-														if($spr!="zidongtongguo")
+														if($spr!="zidongtongguo" && $spr!="1" && $spr!="0")
 														{
 
 															$dingji=explode("|",$spr);
@@ -2398,7 +2407,7 @@ $yzdl->have_qx("qx_ht_open");//跳转权限验证
 														}else{ 
 														
 														$map_ht['ht_id']=$sql;	
-														$map_ht['ht_qy']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+														$map_ht['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
 														$save_map['ht_sp']=1;
 														$sql_save_ht=$ht_base->where($map_ht)->save($save_map);
 

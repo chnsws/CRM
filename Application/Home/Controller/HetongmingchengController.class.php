@@ -1393,37 +1393,45 @@ return $fzr_only;
 		if($hk_sql){
 
 			$shenpiyo=$this->shenpi_hk();
-			$shenpi_user=explode(",", $shenpiyo);
+			if($shenpiyo=="b" || $shenpiyo=="a")
+			{//自动通过
+				$maphka['hk_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+				$maphka['hk_id']=$hk_sql;
+				$kh_data['hk_sp']=1;
+				$hk_sqlsave=$hkadd_base->where($maphka)->save($kh_data);
+			}else{
+				$shenpi_user=explode(",", $shenpiyo);
 
-			foreach($shenpi_user as $k=>$v)
+				foreach($shenpi_user as $k=>$v)
 
-			{	
-				if($k!='a' && $k!='b'){
-				$new_shenpi[$v]=$v;
+				{	
+					if($k!='a' && $k!='b'){
+					$new_shenpi[$v]=$v;
+					}else{
+						$sp_tbb=$v;
+					}
+				}
+				if($sp_tbb=="a")
+				{
+					$map_sp_hk['sp_tp']=1;//未审批
 				}else{
-					$sp_tbb=$v;
+					$map_sp_hk['sp_tp']=0;//未审批
+				}
+				$sp_hk_base=M('sp');
+				$map_sp_hk['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
+				$map_sp_hk['sp_sj']=date("Y-m-d h:i:s");
+				$map_sp_hk['sp_yy']=2;
+				$map_sp_hk['sp_sjid']=$hk_sql;//回款ID
+				$map_sp_hk['sp_jg']=0;//未审批
+
+				foreach($new_shenpi as $k=>$v)
+				{
+					$map_sp_hk['sp_user']=$v;//回款ID
+					$sh_end=$sp_hk_base->add($map_sp_hk);
 				}
 			}
-			if($sp_tbb=="a")
-			{
-				$map_sp_hk['sp_tp']=1;//未审批
-			}else{
-				$map_sp_hk['sp_tp']=0;//未审批
-			}
-			$sp_hk_base=M('sp');
-			$map_sp_hk['sp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）;;
-			$map_sp_hk['sp_sj']=date("Y-m-d h:i:s");
-			$map_sp_hk['sp_yy']=2;
-			$map_sp_hk['sp_sjid']=$hk_sql;//回款ID
-			$map_sp_hk['sp_jg']=0;//未审批
-
-			foreach($new_shenpi as $k=>$v)
-			{
-				$map_sp_hk['sp_user']=$v;//回款ID
-				$sh_end=$sp_hk_base->add($map_sp_hk);
-			}
-			$rz_bz="新增了第".$data['hk_qici']."期回款记录：￥：".$data['hk_je']."";	
-			$this->rizhi($data['hk_kh'],$rz_bz,"1",$data['hk_ht']);//1客户id   2备注    3 
+				$rz_bz="新增了第".$data['hk_qici']."期回款记录：￥：".$data['hk_je']."";	
+				$this->rizhi($data['hk_kh'],$rz_bz,"1",$data['hk_ht']);//1客户id   2备注    3 
 		}
 
 	}
@@ -1458,7 +1466,7 @@ return $fzr_only;
 				$a.=$sql_shenpi["sp_value_3"].",";
 			}
 			$shenpi_user=substr($a,0,strlen($a)-1); 
-		
+
 				return $shenpi_user;
 		
 	}
@@ -1599,7 +1607,7 @@ return $fzr_only;
 				$spu="zidongtongguo";//审批关闭  自动通过
 			}
 
-
+			
 				return $spu;
 		
 	}
@@ -1628,7 +1636,7 @@ return $fzr_only;
 		$kp_add=$kp_base->add($data);
 		if($kp_add){
 			$spr=$this->shenpi_kp();
-			if($spr!="zidongtongguo")
+			if($spr!="zidongtongguo" && $spr!="1" && $spr!="0")
 			{
 				$dingji=explode("|",$spr);
 				foreach($dingji as $k=>$v)

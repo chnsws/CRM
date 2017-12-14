@@ -813,7 +813,7 @@ class ShangjiController extends Controller {
 		$cp['sj_id']=$_GET['id'];
 		$cp_ht=M('cp_sj');
 		$sql_cp_sql=$cp_ht->where($cp)->select();
-		
+
 		foreach($sql_cp_sql as $k=>$v)
 		{
 			$v['zdy0']=$chanpin[$v['cp_id']]['zdy0'];
@@ -822,8 +822,8 @@ class ShangjiController extends Controller {
 			$v['zdy6']=$chanpin[$v['cp_id']]['zdy6'];
 			$cp_new[$v['cp_id1']]=$v;
 		}
-		$zje913=0;
-		
+		$zje913=0;		
+
 		foreach ($cp_new as $k=>$v)
 		{
 			$show2.="<tr class='".$v['cp_id1']."'>
@@ -2057,11 +2057,17 @@ return $fzr_only;
 				}elseif($v['id']=='zdy6'){
 					$show_bt.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
 					$show_bt.="<td><span style='color:red'>*</span>".$v['name'].":</td><td class='form-group' style='width:80%;'>";
+					$show_bt.="<select style='width:100px' name='".$v['id']."[]' class='form-control'   ></select>";
+		          	$show_bt.="<select style='width:100px' name='".$v['id']."[]' class='form-control'   ></select>";
+		         	$show_bt.="<select style='width:100px' name='".$v['id']."[]' class='form-control'   ></select>";
+					 $show_bt.="</td></tr>";
+					 
+					
 
-					$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-		          	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-		         	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-	 				$show_bt.="</td></tr>";
+
+
+
+
 				}elseif($v['id']=='zdy15'){
 						$show_bt.="<tr class='addtr' ><td><span style='color:red;width:30px'>*</span>".$v['name']."：</td>";
 						$show_bt.="<td id='zdy15th'><select  class='required1 xlss2' name='".$v['id']."' id='ss2' >";

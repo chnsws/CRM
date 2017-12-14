@@ -20,10 +20,11 @@
 		<script src="__PUBLIC__/bootstrap/My97DatePicker/WdatePicker.js"></script>
 		<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
 		
-	
+
 		<script src="__PUBLIC__/diqu/js/distpicker.data.js"></script>
 	    <script src="__PUBLIC__/diqu/js/distpicker.js"></script>
 	    <script src="__PUBLIC__/diqu/js/main.js"></script>
+		
 
 		<script src="__PUBLIC__/js/islogin.js"></script>
 
@@ -400,6 +401,10 @@
 											</tbody>
 						</table>
 				</div>
+				
+
+
+				
 				</body>
 	<script>
 	var budong=$('#budong').val();
@@ -906,12 +911,19 @@
 										layer.close(win)
 						});
 		    		}else{
-
-		    			
+					
+					
 		    				$.get('__ROOT__/index.php/Home/Shangji/kehu_add',{},
 
 			        		 				function(html){
 											$(".th_kh").html(html);
+										
+											jQuery.getScript("__PUBLIC__/diqu/js/distpicker.data.js")
+											jQuery.getScript("__PUBLIC__/diqu/js/distpicker.js")
+											jQuery.getScript("__PUBLIC__/diqu/js/main.js")
+                                                   
+
+										
 												if(is_one1<1){
 													is_one1++;
 		        		 								$('.xlss2').searchableSelect();
