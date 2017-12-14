@@ -53,6 +53,9 @@
         .redcolor{color:#f00;}
 
         .fdiv{display:none;}
+
+        .selectbox>option[value='3']{display: none;}
+        #huikuan-body tbody>tr:nth-child(2){display: none;}
     </style>
 </head>
 
@@ -642,7 +645,7 @@
                 layer.close(jiazai);
                 tishi("开票审批已关闭");
             });
-            $('.tab-top3').html("<button class='layui-btn' onclick='huikuankaiqiguanbi(1)'>开启开票审批</button>尚未开启开票审批功能。");
+            $('.tab-top3').html("<button class='layui-btn' onclick='kaipiaokaiqiguanbi(1)'>开启开票审批</button>尚未开启开票审批功能。");
             kaipiaostatus='0';
         }
         else
@@ -653,7 +656,7 @@
                 layer.close(jiazai);
                 tishi("开票审批已开启");
             });
-            $('.tab-top3').html("<button class='layui-btn' onclick='huikuankaiqiguanbi(0)'>关闭开票审批</button>");
+            $('.tab-top3').html("<button class='layui-btn' onclick='kaipiaokaiqiguanbi(0)'>关闭开票审批</button>");
             kaipiaostatus='1';
         }
     }
