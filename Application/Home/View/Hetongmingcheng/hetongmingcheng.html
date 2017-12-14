@@ -693,12 +693,7 @@ i.layui-anim{display:inline-block}
 		$("#erer").attr('class','layui-this');
 		$("#er1er1").attr('class','layui-tab-item layui-show');
 	}
-	if(uiid==2)
-	{
-		
-		$("#er").attr('class','layui-this');
-		$("#er1").attr('class','layui-tab-item layui-show');
-	}
+	
 	if(uiid==1)
 	{
 	
@@ -815,7 +810,11 @@ i.layui-anim{display:inline-block}
 								btn:['保存'],
 
 								btn1:function(){
-									
+									var chanpina=$(".cp_caozuo").val();
+									if(chanpina=='s')
+									{
+										tishi("请选择产品");return
+									}
 									var formdom=$("#cp_form").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';

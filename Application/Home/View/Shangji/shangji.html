@@ -724,6 +724,11 @@
 								btn:['保存'],
 
 								btn1:function(){
+									var chanpina=$("#cp_caozuo").val();
+									if(chanpina=='s')
+									{
+										tishi("请选择产品");return
+									}
 									var formdom=$("#cp_form").children("table").find("tr");
 									var fornum=formdom.length;
 									var ajaxstr='';
