@@ -41,6 +41,14 @@
 
 	</head>
 	<body style="position:relative">
+		<input type="hidden" id="yibaia" value="{$yibaia}">
+		<input type="hidden" id="yibaib" value="{$yibaib}">
+		<input type="hidden" id="yibaic" value="{$yibaic}">
+		<input type="hidden" id="yibaid" value="{$yibaid}">
+		<input type="hidden" id="yibaie" value="{$yibaie}">
+		<input type="hidden" id="yibaif" value="{$yibaif}">
+		<input type="hidden" id="yibaig" value="{$yibaig}">
+		<input type="hidden" id="uiid" value="{$uiid}">
 		<div style='display:none' id='bohuio'>
 			<div style="width:100%;height:100">
 			<textarea rows="8" id='bhyy' cols="40" maxlength="400" placeholder="最大长度400"></textarea>
@@ -69,13 +77,13 @@
 		<div class="box"  >
 			<div class="layui-tab layui-tab-card">
 				  <ul class="layui-tab-title">
-				    <li class="layui-this">合同审批</li>
-				    <li class="huikuan">回款审批</li>
-				    <li clss='kp_kp' onclick="kp_dian()">开票审批</li>
+				    <li  id="onesh">合同审批</li>
+				    <li class="huikuan" id="twosh">回款审批</li>
+				    <li clss='kp_kp' onclick="kp_dian()" id="threesh">开票审批</li>
 				  
 				  </ul>
 				  <div class="layui-tab-content" >
-				    <div class="layui-tab-item layui-show" >
+				    <div class="layui-tab-item" id="onesh1">
 				    
 				    	 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 							  <ul class="layui-tab-title">
@@ -87,16 +95,16 @@
 							  </ul>
 						 		<div class="layui-tab-content">
 							 		 <div class="layui-tab-item layui-show" style='overflow:auto' >
-							 			 <div style='width:2600px'>	{$ht_show}</div>
+							 			 <div style='width:2600px' id="yibaiaa">	{$ht_show}</div>
 							 		 </div>
 							 		 <div class="layui-tab-item" style='overflow:auto'>
 							 			
-							 		 <div style='width:2600px'>		{$ht_show1}</div>
+							 		 <div style='width:2600px' id="yibaibb">		{$ht_show1}</div>
 							 			
 							 	    </div>
 							 		 <div class="layui-tab-item">
 							 			 
-							 		 <div style='width:2600px'>	{$ht_show2}</div>
+							 		 <div style='width:2600px' id="yibaicc">	{$ht_show2}</div>
 							 			
 							 		</div>
 							 		
@@ -108,7 +116,7 @@
 
 				   	</div>
 				
-				    <div class="layui-tab-item">
+				    <div class="layui-tab-item" id="twosh1">
 				    	 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 							  <ul class="layui-tab-title">
 							    <li class="layui-this">待审批</li>
@@ -142,7 +150,7 @@
 
 				  </div>
 				 
-				    <div class="layui-tab-item">
+				    <div class="layui-tab-item" id="threesh1">
 
 					 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 							  <ul class="layui-tab-title">
@@ -154,22 +162,22 @@
 							  </ul>
 						 		<div class="layui-tab-content">
 							 		 <div class="layui-tab-item layui-show"  style='overflow:auto' >
-										<div style='width:120%'> 	{$kp_show}</div>
+										<div style='width:120%' id="yibaidd"> 	{$kp_show}</div>
 									  </div>
 									
 							 		 <div class="layui-tab-item"  style='overflow:auto' >
 							 			
-										<div style='width:120%' > 	{$kp_show1}</div>
+										<div style='width:120%' id="yibaiee"> 	{$kp_show1}</div>
 							 			
 							 	    </div>
 							 		 <div class="layui-tab-item"  style='overflow:auto' >
 							 			 
-										<div style='width:120%'>	{$kp_show2}</div>
+										<div style='width:120%' id="yibaiff">	{$kp_show2}</div>
 							 			
 							 		</div>
 							 		 <div class="layui-tab-item"  style='overflow:auto' >
 							 			
-										<div style='width:120%'> 	{$kp_show3}</div>
+										<div style='width:120%' id="yibaigg"> 	{$kp_show3}</div>
 							 			 
 							 		</div>
 								 </div>
@@ -213,15 +221,60 @@ layui.use('upload', function(){
 </script>
 
 <script>
+	var yibaia=$("#yibaia").val();
+	var yibaib=$("#yibaib").val();
+	var yibaic=$("#yibaic").val();
+	var yibaid=$("#yibaid").val();
+	var yibaie=$("#yibaie").val();
+	var yibaif=$("#yibaif").val();
+	var yibaig=$("#yibaig").val();
+	if(yibaia=='yibaia'){
+		$("#yibaiaa").prop("style",'width:100%');
+	}
+	if(yibaib=='yibaib'){
+		$("#yibaibb").prop("style",'width:100%');
+	}
+	if(yibaic=='yibaic'){
+		$("#yibaicc").prop("style",'width:100%');
+	}
+	if(yibaid=='yibaid'){
+		$("#yibaidd").prop("style",'width:100%');
+	}
+	if(yibaie=='yibaie'){
+		$("#yibaiee").prop("style",'width:100%');
+	}
+	if(yibaif=='yibaif'){
+		$("#yibaiff").prop("style",'width:100%');
+	}
+	if(yibaig=='yibaig'){
+		$("#yibaigg").prop("style",'width:100%');
+	}
+	var uiid=$("#uiid").val();
+	if(uiid==1)
+	{
+		$("#onesh").prop("class",'layui-this');
+		$("#onesh1").prop("class",'layui-tab-item layui-show');
+	}
+	if(uiid==2)
+	{
+		$("#twosh").prop("class",'huikuan layui-this');
+		$("#twosh1").prop("class",'layui-tab-item layui-show');
+	}
+	if(uiid==3)
+	{
+		$("#threesh").prop("class",'kp_kp layui-this');
+		$("#threesh1").prop("class",'layui-tab-item layui-show');
+	}
 	function tongguo(ss){
 		$a=$(ss).prop("class");
 		$.get('__ROOT__/index.php/Home/Shenpi/tongguo',{"id":$a},
 						        		 				function(html){
 															errorFun(html)
 						        		 					tishi(html)
-			        		 								 window.location.href="shenpi";
+			        		 								 window.location.href="shenpi?uiid=2";
+															
 														});
-
+														
 
 	}
 	function bohui(ss){
@@ -245,7 +298,8 @@ layui.use('upload', function(){
 						        		 				function(html){
 															errorFun(html)
 															tishi("审批成功")
-			        		 								 window.location.href="shenpi";
+			        		 								 window.location.href="shenpi?uiid=2";
+															
 														});
 
 								}
@@ -267,7 +321,9 @@ layui.use('upload', function(){
 						        		 				function(html){
 															errorFun(html)
 															tishi(html)
-			        		 								 window.location.href="shenpi";
+															$("#threesh").prop("class",'kp_kp layui-this');
+			        		 								 window.location.href="shenpi?uiid=3";
+															  
 														});
 		//alert(ty_id);
 
@@ -296,7 +352,8 @@ layui.use('upload', function(){
 						        		 				function(html){
 															errorFun(html)
 															tishi("您已驳回")
-			        		 								 window.location.href="shenpi";
+			        		 								 window.location.href="shenpi?uiid=3";
+															 
 														});
 
 								}
@@ -327,7 +384,8 @@ layui.use('upload', function(){
 						        		 				function(html){
 															errorFun(html)
 															tishi("您已驳回")
-			        		 								 window.location.href="shenpi";
+			        		 								 window.location.href="shenpi?";
+															  
 														});
 
 								}
@@ -364,7 +422,8 @@ layui.use('upload', function(){
 															errorFun(html)
 														
 															tishi(html)
-			        		 								 window.location.href="shenpi";
+			        		 								 window.location.href="shenpi?";
+															  
 														});
 
 								}

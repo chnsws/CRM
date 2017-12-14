@@ -6,6 +6,13 @@ use Think\Controller;
 class ShenpiController extends Controller {
 
 	public function shenpi(){
+		$uiid=$_GET['uiid'];
+		if($uiid==''||$uiid==null){
+			$this->assign('uiid',1);
+		}
+		else{
+			$this->assign('uiid',$uiid);
+		}
 		$yzdl=A('DB');
 		$yzdl->is_login2(2);
 		$ht_name=$this->hetong();
@@ -395,6 +402,7 @@ class ShenpiController extends Controller {
 		if($kp_sp_show == "" || $kp_sp_show==null )
 		{
 			$kp_show.="暂无开票审批";
+			$this->assign('yibaid','yibaid');
 		}else{
 		$kp_show.="<div >
 			<div >
@@ -463,6 +471,7 @@ class ShenpiController extends Controller {
 	if($kp_sp_show1 == "" || $kp_sp_show1==null )
 		{
 			$kp_show1.="暂无记录";
+			$this->assign('yibaie','yibaie');
 		}else{
 	 	$kp_show1.="<div >
 			<div >
@@ -526,6 +535,7 @@ class ShenpiController extends Controller {
 		if($kp_sp_show2 == "" || $kp_sp_show2==null )
 		{
 			$kp_show2.="暂无记录";
+			$this->assign('yibaif','yibaif');
 		}else{
 			$kp_show2.="<div >
 			<div >
@@ -588,6 +598,7 @@ class ShenpiController extends Controller {
 	if($kp_sp_show3 == "" || $kp_sp_show3==null )
 		{
 			$kp_show3.="暂无记录";
+			$this->assign('yibaig','yibaig');
 		}else{
 		$kp_show3.="<div >
 			<div >
@@ -694,7 +705,8 @@ class ShenpiController extends Controller {
 		
 		if($ht_sp_show == "" || $ht_sp_show==null )
 		{
-			$ht_show.="暂无记录";
+			$ht_show.="<span >暂无记录<span>";
+			$this->assign('yibaia','yibaia');
 		}else{
 		$ht_show.="<div >
 					<div >
@@ -751,6 +763,7 @@ class ShenpiController extends Controller {
 		if($ht_sp_show1 == "" || $ht_sp_show1==null )
 		{
 			$ht_show1.="暂无记录";
+			$this->assign('yibaib','yibaib');
 		}else{
 		$ht_show1.="<div >
 					<div >
@@ -807,6 +820,7 @@ class ShenpiController extends Controller {
 			if($ht_sp_show2 == "" || $ht_sp_show2==null )
 		{
 			$ht_show2.="暂无记录";
+			$this->assign('yibaic','yibaic');
 		}else{
 		$ht_show2.="<div >
 					<div >
