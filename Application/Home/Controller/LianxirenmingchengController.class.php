@@ -89,7 +89,7 @@ class LianxirenmingchengController extends Controller {
 
 		$ywzd=$this->ywzd();
 		$user=$this->user();
-	
+		$userqb=$this->userqb();
 		$kh_id=$lx_json['zdy1'];
 		//var_dump($kh_id);exit;
 		$kehu=$this->kehu();//echo "<pre>";var_dump($kehu);exit;
@@ -247,7 +247,7 @@ class LianxirenmingchengController extends Controller {
 			$show1.="<tr style='line-height:40px'><td>".$v['name']."：</td>";
 				if($sql_lianxi[$k]!=""){
 					if($k=="lx_cj"){
-						$show1.="<td><span style='margin-left:30px'>".$user[$sql_lianxi[$k]]['user_name']."</span></td>";
+						$show1.="<td><span style='margin-left:30px'>".$userqb[$sql_lianxi[$k]]['user_name']."</span></td>";
 					}elseif($k=="lx_cj_date"){
 					
 						$show1.="<td><span style='margin-left:30px'>".date("Y-m-d H:i:s",$sql_lianxi[$k])."</span></td>";
