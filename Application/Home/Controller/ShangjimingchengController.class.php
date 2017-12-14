@@ -755,7 +755,7 @@ return $fzr_only;
 				//echo $sj_id;exit;
 			    $upload = new \Think\Upload();// 实例化上传类
     			$upload->maxSize   =    52428800 ;// 设置附件上传大小
-   				$upload->exts      =     array('jpg', 'gif', 'png', 'jpeg','txt','pptx','xls','pdf');// 设置附件上传类型
+   				$upload->exts      =     array('pdf','doc','docx','txt','xls','xlsx','ppt','pptx','jpg','jpeg','png','bmp','gif','wps');// 设置附件上传类型
     			$upload->rootPath  =     './Public/chanpinfile/cpfile/linshi/'; // 设置附件上传根目录
    				$upload->autoSub = false;
    				$upload->hash = false;

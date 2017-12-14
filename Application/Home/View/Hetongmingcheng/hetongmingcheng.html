@@ -216,7 +216,6 @@ i.layui-anim{display:inline-block}
 											  		{$show1}
 												</table>
 									
-							  					
 										</div>
 				  	    		</td>
 					  	    		<td style="border:1px solid #EEE; width:49%;"  align="left" valign="top">
@@ -240,7 +239,7 @@ i.layui-anim{display:inline-block}
 														  					<input type="text" name="add_time"  class="text ui-widget-content ui-corner-all shiji add_timegj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})" placeholder="实际跟进时间（必填）" style="width:250px;height:40px;margin-top:10px;margin-left:17.5%">
 														  					<input type="hidden" name="sj_id" class="bingou" value="{$sj_id}">
 														  					
-														  					<textarea name="content" class='contentgj' placeholder=' 勤跟进，多签单........'  style="width:620px;height:260px;margin-top:10px;margin-left:23px";></textarea>
+														  					<textarea name="content" class='contentgj' placeholder=' 勤跟进，多签单（五百字以内）........' maxlength='500' style="width:620px;height:260px;margin-top:10px;margin-left:23px";></textarea>
 														  					<table style="margin-top:20px"  class='gj' >
 														  						<tr>
 														  							<td>合同</td>
@@ -337,7 +336,7 @@ i.layui-anim{display:inline-block}
 								</div>
 					    		<div class="hk_wh">
 						  			<div class="hkauto">
-								  		<span class="hkshow">计划回款总金额：¥ <b>{$hkzje}</b></span><span class="hkshow"> 已回款总金额：¥<b> {$zonghk}</b></span> <span class="hkshow">未回款总金额：¥ <b>{$weihka}</b>(逾期未回款金额： <span style="color:red">¥ 0.00</span>)</span> <span  class="pz_wz"><button onclick="hkpeizhi()"  class="layui-btn layui-btn-primary layui-btn-small  wtgbky">
+										合同总金额：¥ <b>{$ht_zjea}</b><span class="hkshow"><span class="hkshow">计划回款总金额：¥ <b>{$hkzje}</b></span><span class="hkshow"> 已回款总金额：¥<b> {$zonghk}</b></span> <span class="hkshow">未回款总金额：¥ <b>{$weihka}</b>(逾期未回款金额： <span style="color:red">¥ 0.00</span>)</span> <span  class="pz_wz"><button onclick="hkpeizhi()"  class="layui-btn layui-btn-primary layui-btn-small  wtgbky">
 						 				<i class="layui-icon">&#xe614;</i>配置回款计划</button>	</span>
 						 		 	</div >
 					   			</div>

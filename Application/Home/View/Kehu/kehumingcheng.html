@@ -297,11 +297,11 @@ a{color:#07d; text-decoration:none !important;}
 								  					<input type="text" name="add_time"  class="text ui-widget-content ui-corner-all shiji add_timegj" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})" placeholder="实际跟进时间(必填)" style="width:250px;height:40px;margin-top:10px">
 								  					<input type="hidden" name="kh_id" class="bingou" value="{$kh_id}">
 								  					
-								  					<textarea name="content" class='contentgj' placeholder=' 勤跟进，多签单........'  style="width:620px;height:260px;margin-top:10px;margin-left:23px";></textarea>
+								  					<textarea name="content" class='contentgj' placeholder=' 勤跟进，多签单（五百字以内）........'  maxlength='500'  style="width:620px;height:260px;margin-top:10px;margin-left:23px";></textarea>
 								  					<table style="margin-top:20px"  class='gj' >
 								  						<tr>
 								  							<td>客户</td>
-								  							<td><input type="text"   name="shiji_date" value="{$kh_name}" style="width:190px;height:40px" readonly="true"></td>
+								  							<td><input type="text"   name="shiji_date" value="{$kh_name}" style="width:190px;height:40px"   readonly="true"></td>
 								  							<td>跟进状态</td>
 								  							<td>{$gj_xgj}
 								  							</td>
