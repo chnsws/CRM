@@ -2,7 +2,7 @@
 /*
 配置项
 */
-$url='http://192.168.1.51/macCheck/macConfirm.php';//远程路径
+$url='http://124.193.66.43:8012/macCheck/macConfirm.php';//远程路径
 
 
 
