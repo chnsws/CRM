@@ -1831,7 +1831,7 @@ class KehuController extends Controller {
 				         	$tab3.="<select  style='width:100px' name='".$k."[]' class='form-control diquthr'   ></select>";
 							$tab3.='</td></tr>';
 						}elseif($k=="zdy13"){
-							$tab3.="<tr ><td style='width:200px;'>".$v['name'].":</td><td ><input type='text'  class=' required1 text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."  name='".$vywzd['id']."'></td></tr>";	
+							$tab3.="<tr ><td style='width:200px;'>".$v['name'].":</td><td ><input type='text'  class=' bianjiyo text ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd'".'})"'."  name='".$k."' value='".$neww_kehu[$k]."'></td></tr>";	
 						}elseif($k=="zdy3"){
 							$tab3.='<tr ><td style="width:200px;">'.$v['name'].':</td><td ><input type="text" class="bianjiyo qingyx" id="yxzcla"  onchange="yxyz(this)" name="'.$k.'" value="'.$neww_kehu[$k].'" maxlength="40"></td></tr>';
 						

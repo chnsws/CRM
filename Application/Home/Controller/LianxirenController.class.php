@@ -886,9 +886,9 @@ return $fzr_only;
 					$show_bt.="<tr class='addtr' data-toggle='distpicker' style='overflow:hidden'>";
 					$show_bt.="<td><span style='color:red'>*</span>".$v['name'].":</td><td class='form-group' style='width:80%;'>";
 
-					$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-		          	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
-		         	$show_bt.="<select name='".$v['id']."[]' class='form-control'   ></select>";
+					$show_bt.="<select style='width:100px'name='".$v['id']."[]' class='form-control'   ></select>";
+		          	$show_bt.="<select style='width:100px' name='".$v['id']."[]' class='form-control'   ></select>";
+		         	$show_bt.="<select style='width:100px' name='".$v['id']."[]' class='form-control'   ></select>";
 	 				$show_bt.="</td></tr>";
 				}elseif($v['id']=='zdy15'){
 					
