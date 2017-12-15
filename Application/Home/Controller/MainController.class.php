@@ -182,7 +182,7 @@ class MainController extends DBController {
                 {
                     continue;
                 }
-                $sjt=date_to_date($j['zdy4']);
+                $sjt=$this->date_to_date($j['zdy4']);
                 if($sjt<$tarr['s']||$sjt>$tarr['e'])
                 {
                     continue;
@@ -204,7 +204,7 @@ class MainController extends DBController {
                 {
                     continue;
                 }
-                $sjt=date_to_date($j['zdy4']);
+                $sjt=$this->date_to_date($j['zdy4']);
                 if($sjt<$tarr['s']||$sjt>$tarr['e'])
                 {
                     continue;
@@ -416,7 +416,7 @@ class MainController extends DBController {
         else if($timenum=='0')
         {
             //本周
-            $t1=date("Y-m-d H:i:s",strtotime("Monday"));
+            $t1=date("Y-m-d H:i:s",strtotime("Monday -7 days"));
             $t2=date("Y-m-d",strtotime("Sunday")).' 23:59:59';   
         }
         else if($timenum=='2')
@@ -562,8 +562,10 @@ class MainController extends DBController {
         $hk_in_str=substr($hk_in_str,0,-1);
         //查询回款
         $myhk=parent::sel_more_data("crm_hkadd","*","hk_yh='$fid' and hk_ht in ($hk_in_str)");
+        //parent::rr($myhk);
         foreach($myhk as $v)
         {
+            
             if($this->date_to_date($v['hk_data'])<$tarr['s']||$this->date_to_date($v['hk_data'])>$tarr['e'])
             {
                 continue;
@@ -659,7 +661,7 @@ class MainController extends DBController {
                 {
                     continue;
                 }
-                $sjt=date_to_date($j['zdy4']);
+                $sjt=$this->date_to_date($j['zdy4']);
                 if($sjt<$tarr['s']||$sjt>$tarr['e'])
                 {
                     continue;
@@ -691,7 +693,7 @@ class MainController extends DBController {
                 {
                     continue;
                 }
-                $sjt=date_to_date($j['zdy4']);
+                $sjt=$this->date_to_date($j['zdy4']);
                 if($sjt<$tarr['s']||$sjt>$tarr['e'])
                 {
                     continue;
@@ -1087,6 +1089,8 @@ class MainController extends DBController {
         //从现在开始到七天后的日期
         $s=date("Y-m-d",time());
         $e=date("Y-m-d",strtotime($s.' +7 days'));
+        $e2=date("Y-m-d",strtotime($s.' -7 days'));
+   
         foreach($lianxiren as $v)
         {
             if($v['lx_data']=='')
@@ -1113,16 +1117,12 @@ class MainController extends DBController {
             $zhushouid1.=$v['lx_id'].',';
         }
         //超过七天未跟进的客户
-        $kh=parent::sel_more_data("crm_kh","kh_id,kh_sj_gj_date","kh_yh='$fid' and kh_fz='".cookie("user_id")."'");
-        
+        $kh=parent::sel_more_data("crm_kh","kh_id,kh_gx_date","kh_yh='$fid' and kh_gonghai='0' and kh_fz='".cookie("user_id")."'");
+     
         foreach($kh as $v)
         {
-            if($v['kh_sj_gj_date']=='')
-            {
-                continue;
-            }
-            $d=$this->date_to_date($v['kh_sj_gj_date']);
-            if($d>=$s&&$d<=$e)
+            $d=$this->date_to_date($v['kh_gx_date']);
+            if($d==''||$d<$e2)
             {
                 $zhushou2++;
                 $zhushouid2.=$v['kh_id'].',';

@@ -2821,11 +2821,6 @@ class ReportController extends DBController {
             {
                 $j=json_decode($v['ht_data'],true);
                 $d=$this->date_to_date($j['zdy4']);
-                if($j['zdy7']!='canshu3')
-                {
-                    //判断是否为成功结束
-                    continue;
-                }
                 if($d<$tarr['s']||$d>$tarr['e'])
                 {
                     continue;
@@ -2840,15 +2835,11 @@ class ReportController extends DBController {
             //合同数
             $usersx=$usersx==''?'':" and ht_fz $usersx ";
             $myht=parent::sel_more_data("crm_hetong","ht_data","ht_yh='$fid' and ht_sp='1' $usersx ");
+            
             foreach($myht as $v)
             {
                 $j=json_decode($v['ht_data'],true);
                 $d=$this->date_to_date($j['zdy4']);
-                if($j['zdy7']!='canshu3')
-                {
-                    //判断是否为成功结束
-                    continue;
-                }
                 if($d<$tarr['s']||$d>$tarr['e'])
                 {
                     continue;
@@ -2942,11 +2933,6 @@ class ReportController extends DBController {
         {
             $j=json_decode($v['ht_data'],true);
             $d=$this->date_to_date($j['zdy4']);
-            if($j['zdy7']!='canshu3')
-            {
-                //判断是否为成功结束
-                continue;
-            }
             if($d<$tarr['s']||$d>$tarr['e'])
             {
                 continue;
@@ -2972,11 +2958,6 @@ class ReportController extends DBController {
         {
             $j=json_decode($v['ht_data'],true);
             $d=$this->date_to_date($j['zdy4']);
-            if($j['zdy7']!='canshu3')
-            {
-                //判断是否为成功结束
-                continue;
-            }
             if($d<$tarr['s']||$d>$tarr['e'])
             {
                 continue;
@@ -3128,11 +3109,6 @@ class ReportController extends DBController {
             {
                 $j=json_decode($v['ht_data'],true);
                 $d=$this->date_to_date($j['zdy4']);
-                if($j['zdy7']!='canshu3')
-                {
-                    //判断是否为成功结束
-                    continue;
-                }
                 
                 if($d<$tarr['s']||$d>$tarr['e'])
                 {
@@ -3151,11 +3127,6 @@ class ReportController extends DBController {
             {
                 $j=json_decode($v['ht_data'],true);
                 $d=$this->date_to_date($j['zdy4']);
-                if($j['zdy7']!='canshu3')
-                {
-                    //判断是否为成功结束
-                    continue;
-                }
                 if($d<$tarr['s']||$d>$tarr['e'])
                 {
                     continue;

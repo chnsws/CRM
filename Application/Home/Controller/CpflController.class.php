@@ -52,7 +52,6 @@ class CpflController extends DBController {
         {
             echo 0;die;
         }
-        $zd_sys_str='[{"id":"zdy0","name":"\u4ea7\u54c1\u540d\u79f0","qy":"1","bt":"1","cy":"1","bj":"0","sc":"0","type":"0"},{"id":"zdy1","name":"\u4ea7\u54c1\u7f16\u53f7","qy":"1","bt":"1","cy":"0","bj":"0","sc":"0","type":"0"},{"id":"zdy2","name":"\u6807\u51c6\u5355\u4ef7","qy":"1","bt":"1","cy":"0","bj":"0","sc":"0","type":"0"},{"id":"zdy3","name":"\u9500\u552e\u5355\u4f4d","qy":"1","bt":"0","cy":"0","bj":"1","sc":"0","type":"0"},{"id":"zdy4","name":"\u5355\u4f4d\u6210\u672c","qy":"1","bt":"0","cy":"0","bj":"0","sc":"0","type":"0"},{"id":"zdy5","name":"\u6bdb\u5229\u7387","qy":"1","bt":"0","cy":"0","bj":"0","sc":"0","type":"0"},{"id":"zdy6","name":"\u4ea7\u54c1\u5206\u7c7b","qy":"1","bt":"0","cy":"0","bj":"0","sc":"0","type":"3"},{"id":"zdy7","name":"\u4ea7\u54c1\u56fe\u7247","qy":"1","bt":"0","cy":"0","bj":"0","sc":"0","type":"5"},{"id":"zdy8","name":"\u4ea7\u54c1\u4ecb\u7ecd","qy":"1","bt":"0","cy":"0","bj":"1","sc":"0","type":"0"}]';
         //判断分类是否存在
         $fl_is_cz=$this->sel_one_data("crm_chanpinfenlei","cpfl_name","cpfl_name='$flname' and cpfl_company='$fid' ");
         if($fl_is_cz)
@@ -63,6 +62,8 @@ class CpflController extends DBController {
         $this->add_one_data("crm_chanpinfenlei","'','$flname','','$fid',''");
         $new_fl_id=$this->sel_one_data("crm_chanpinfenlei","cpfl_id"," cpfl_name='$flname' and cpfl_company='$fid' ");
         //自定义业务字段-插入一条默认字段
+        $ll=parent::sel_more_data("crm_yewuziduan","zd_data","zd_yh='0' and zd_yewu='7' limit 1 ");
+        $zd_sys_str=$ll[0]['zd_data'];
         $zd_sys_str=str_replace('\\','\\\\',$zd_sys_str);
         $this->add_one_data("crm_yewuziduan","'','$zd_sys_str','7,".$new_fl_id."','$fid'");
         echo '1,'.$new_fl_id;
