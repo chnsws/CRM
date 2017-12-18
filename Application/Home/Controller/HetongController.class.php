@@ -1796,7 +1796,7 @@ $yzdl->have_qx("qx_ht_open");//跳转权限验证
 		//	$shangji="zdy0:小母牛1,undefined:undefined,zdy2:142,zdy3:60000,zdy4:2017-7-4 18:25:41,sj_fz:46,ht_department:技术部,";
 		
 			$shangji= $_GET['sj'];
-			if($shangji!='' && $sj!=null)
+			if($shangji!='' && $shangji!=null)
 			{
 				$shangji_number=$shangji; 
 				$shangji_arr=explode(',￥￥',$shangji_number);
@@ -1846,7 +1846,7 @@ $yzdl->have_qx("qx_ht_open");//跳转权限验证
 							
 						}else{
 							if($ht_ex['0']=="zdy2"){
-								if($shangji!='' && $sj!=null){
+								if($shangji!='' && $shangji!=null){
 									$ht_ex1['zdy2']=$shangji_add;
 								}else{
 									$ht_ex1['zdy2']="";
