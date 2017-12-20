@@ -522,7 +522,7 @@ public function kehu(){
 						$show_bt.="<td id='kh_name'><select name='".$v['id']."' class='required ht_ss'  id='xl1'>";
 
 								$show_bt.="	<option value=''> --选择客户--</option>";
-								$show_bt.="	<option value='xz_kh'> --新增客户--</option>";
+								$show_bt.="	<option value='xz_kh'> <span class='xzbs'>新增客户</soan></option>";
 							foreach($kehu1 as $kkh =>$vkh)
 							{
 								$show_bt.="	<option value='".$vkh['id']."'> ".$vkh['name']."</option>";
