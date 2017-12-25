@@ -67,7 +67,7 @@ class IndexController extends DBController {
         foreach($_COOKIE as $key=>$value){
             cookie($key,null,$time);
         }
-        echo "<script>window.location='$_GET[root_dir]/index.php/Home/Login'</script>";
+        echo "<script>window.location='".__ROOT__."/index.php/Home/Login'</script>";
     }
     //无权页面
     public function nopower()

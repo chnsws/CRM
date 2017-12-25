@@ -38,13 +38,17 @@ class AppListController extends AppPublicController {
     {
         $adminsql=$u['admin']==1?"":"kh_fz='$u[user_id]'";//如果不是管理员，就只查自己的
         $m=M();
-        $q=$m->query("select kh_id,kh_data from crm_kh where kh_yh='$u[fid]' and kh_gonghai='0' $adminsql order by kh_cj_date desc limit $l,$this->pagesize ");
+        $q=$m->query("select kh_id,kh_data,kh_fz from crm_kh where kh_yh='$u[fid]' and kh_gonghai='0' $adminsql order by kh_cj_date desc limit $l,$this->pagesize ");
         $datalimit=count($q);
         $nodata=$datalimit<$this->pagesize?true:false;//在此之后是否还有数据
 
         $arr=array();
         foreach($q as $v)
         {
+            if($v['kh_fz']=='')
+            {
+                continue;
+            }
             $j=json_decode($v['kh_data'],true);
             $arr[$v['kh_id']]=$j['zdy0'];
             //parent::rr($j);

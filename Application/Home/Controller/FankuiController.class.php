@@ -117,7 +117,7 @@ class FankuiController extends Controller {
         {
             $a1=mb_strlen($v['fk_title'])>15?substr($v['fk_title'],0,15).'...':$v['fk_title'];
             $a2=mb_strlen($v['fk_content'])>15?substr($v['fk_content'],0,15).'...':$v['fk_content'];
-            $tupian=$v['fk_img']==''?'无图片':'<a href="'.$_GET['public_dir'].'/feedbackImg/'.$v['fk_img'].'" data-uk-lightbox >查看图片</a>';
+            $tupian=$v['fk_img']==''?'无图片':'<a href="'.__ROOT__.'/Public/feedbackImg/'.$v['fk_img'].'" data-uk-lightbox >查看图片</a>';
             $button=$_GET['act']?'禁止操作':'<button class="layui-btn" id="beizhu'.$v['fk_id'].'">备注</button><button class="layui-btn" id="wancheng'.$v['fk_id'].'">完成</button><button class="layui-btn" id="hulve'.$v['fk_id'].'">忽略</button>';
             $bz=$v['fk_bz']==''?"无备注":"查看备注";
             $tablestr.='<tr>
