@@ -353,8 +353,9 @@ class AppInfoController extends AppPublicController {
         echo json_encode($res);
     }
     //字段数据
-    protected function getZdData($fid,$modcode,$fenlei)
+    public function getZdData($fid,$modcode,$fenlei,$haveglcp)
     {
+        $haveglcp=$haveglcp==''?'0':$haveglcp;
         $m=M();
         $mod=$fenlei==''?$modcode:$modcode.','.$fenlei;
         $px=$m->query("select px_px from crm_paixu where px_yh='$fid' and px_mod='$mod' limit 1");
@@ -389,10 +390,25 @@ class AppInfoController extends AppPublicController {
             $pxzd[$k]=$v['name'];
             unset($zd[$k]);
         }
+        if($modcode=='5')
+        {
+            if($haveglcp=='0')
+            {
+                unset($pxzd['zdy6']);
+            }
+            
+        }
+        if($modcode=='6')
+        {
+            if($haveglcp=='0')
+            {
+                unset($pxzd['zdy9']);
+            }
+        }
         return $pxzd;
     }
     //参数数据
-    protected function getCanshuData($fid,$modcode)
+    public function getCanshuData($fid,$modcode)
     {
         $m=M();
         $c=$m->query("select ywcs_data from crm_ywcs where ywcs_yh='$fid' and ywcs_yw='$modcode' limit 1");
@@ -416,7 +432,7 @@ class AppInfoController extends AppPublicController {
         return $csdata;
     }
     //..
-    protected function getusername($fid)
+    public function getusername($fid)
     {
         $m=M();
         $q=$m->query("select user_id,user_name from crm_user where user_del='0' and user_act='1' and (user_id='$fid' or user_fid='$fid') ");
@@ -451,10 +467,19 @@ class AppInfoController extends AppPublicController {
             }
             $data[$k]['title']=$v;
             $data[$k]['content']=$con==''?'--':$con;
+            $data[$k]['db']=$json[$k];
         }
         if($zdmod!='1'&&$zdmod!='7')
         {
             $data=$this->elseinfo($data,$zdmod);
+        }
+        if($zdmod=='1')
+        {
+            //如果是线索模块，如果存在地区字段的话，就解析地区字段的id
+            if($data['zdy11']&&$data['zdy11']!='--')
+            {
+                $data['zdy11']['content']=parent::getAreaName($data['zdy11']['content']);
+            }
         }
         
         //系统信息
@@ -479,6 +504,7 @@ class AppInfoController extends AppPublicController {
                 $con=preg_match("/^\d*$/",$con)?date("Y-m-d H:i:s",$con):$con;
             }
             $sysinfo[$v]['content']=$con==''?'--':$con;
+            $sysinfo[$v]['db']=$d[0][$v];
         }
         $res['code']='0';
         $res['data']['info']=$data;

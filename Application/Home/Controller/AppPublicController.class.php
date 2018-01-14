@@ -113,4 +113,27 @@ class AppPublicController extends Controller {
         }
         
     }
+    public function getAreaName($areaId)
+    {
+        $idArr=explode(',',$areaId);
+        $a=file_get_contents("./Public/index_js_css/datas/area_data.js");
+        $a=substr($a,14,-1);
+        $a=json_decode($a,true);
+        $areaName='';
+        foreach($a as $k=>$v)
+        {
+            $areaName[$v['provinceCode']]=$v['provinceName'];
+            foreach($v['mallCityList'] as $kk=>$vv)
+            {
+                $areaName[$vv['cityCode']]=$vv['cityName'];
+                foreach($vv['mallAreaList'] as $kkk=>$vvv)
+                {
+                    $areaName[$vvv['areaCode']]=$vvv['areaName'];
+                }
+        
+            }
+        }
+        $res=$areaName[$idArr[0]].','.$areaName[$idArr[1]].','.$areaName[$idArr[2]];
+        return $res;
+    }
 }

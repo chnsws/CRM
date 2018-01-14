@@ -107,7 +107,20 @@ class AppApiController extends AppPublicController {
             return $q[0];
         }
     }
-
+    public function loginAuto()
+    {
+        $header=getallheaders();
+        $userphone=addslashes($header['userphone']);
+        $token=addslashes($header['token']);
+        if($userphone==''||$token=='')
+        {
+            parent::errorreturn("3");
+        }
+        $this->isLogin($userphone,$token);//这里判断是否登录，原方法是获取用户信息的，因为该方法中如果判断没有登录就自动停止运行的机制，所以可以在这里判断是否已经登录，如果没有登录程序就会自动停止运行
+        //如果登录了，就返回已登录的信息
+        $r['code']='0';
+        echo json_encode($r);
+    }
     //首页数据
     public function getMain()
     {
@@ -168,7 +181,7 @@ class AppApiController extends AppPublicController {
             $userinfo['fid']=$userinfo['user_fid'];
         }
 
-        $nowlimit=($pagenum-1)*$this->pagesize;
+        $nowlimit=addslashes($header['pagenum'])=='select'?'':($pagenum-1)*$this->pagesize;
         $listcontroller=A("AppList");
         //查询分发
         if($openmod=='xiansuo')
@@ -197,7 +210,8 @@ class AppApiController extends AppPublicController {
         }
         else if($openmod=='chanpin')
         {
-            $listcontroller->chanpinlist($userinfo,$nowlimit);
+            $flid=addslashes($header['flid']);
+            $listcontroller->chanpinlist($userinfo,$nowlimit,$flid);
         }
         else
         {
@@ -315,30 +329,410 @@ class AppApiController extends AppPublicController {
             parent::errorreturn("5");
         }
     }
-    public function test()
+    //新增
+    public function getAddList()
     {
-        $m=M();
-        //echo "select xs_id,xs_data from crm_xiansuo where xs_yh='3' and xs_is_del='0' order by xs_create_time desc limit 1,$this->pagesize ";die;
-        $q=$m->query("select ywcs_data from crm_ywcs where ywcs_yh='3' and ywcs_yw='1' limit 1");
-        $json=json_decode($q[0]['ywcs_data'],true);
-        
-        $csdata=array();
-        foreach($json as $k=>$v)
+        $header=getallheaders();
+        $userphone=addslashes($header['userphone']);
+        $token=addslashes($header['token']);
+        if($userphone==''||$token=='')
         {
-            foreach($v as $kk=>$vv)
-            {
-                if(substr($kk,0,6)!='canshu')
-                {
-                    continue;
-                }
-                if($v['qy'][$kk]!='1')
-                {
-                    continue;
-                }
-                $csdata[$v['id']][$kk]=$vv;
-            }
+            parent::errorreturn("3");
         }
-        parent::rr($csdata);
-    }
 
+        //当前请求的模块
+        $openmod=addslashes($header['openmod']);
+        
+
+        //用户信息
+        $userinfo=$this->isLogin($userphone,$token);
+        //验证权限
+        //parent::rr($openmod);
+        if(!$this->have_qx($userinfo['user_quanxian'],$this->modopenqxname($openmod)))
+        {
+            parent::errorreturn("4");
+        }
+        /*
+            身份验证通过
+        */
+        
+        /*
+            设置字段的整体配置
+            1:纯文本
+            2:下拉框，关联参数
+            3：地区
+            4：日期时间
+            5：人员下拉框
+            6：跳转页面选择
+        */
+        $fieldsOption=array(
+            "1"=>array(
+                "zdy14"=>"2",//跟进状态
+                "zdy15"=>"2",//线索来源
+                "zdy16"=>"4",//下次跟进时间
+                "zdy11"=>"3"//地区
+            ),
+            "2"=>array(
+                "zdy1"=>"2",//客户类型
+                "zdy9"=>"2",//跟进状态
+                "zdy12"=>"2",//人员规模
+                "zdy10"=>"2",//客户来源
+                "zdy11"=>"2",//所属行业
+                "zdy6"=>"3",//地区
+                "zdy13"=>"4",//下次跟进时间
+                "zdy15"=>"6"//甲方联系人
+            ),
+            "3"=>array(
+                "zdy1"=>"2",//客户类型
+                "zdy9"=>"2",//跟进状态
+                "zdy12"=>"2",//人员规模
+                "zdy10"=>"2",//客户来源
+                "zdy11"=>"2",//所属行业
+                "zdy6"=>"3",//地区
+                "zdy13"=>"4",//下次跟进时间
+                "zdy15"=>"6"//甲方联系人
+            ),
+            "4"=>array(
+                "zdy1"=>"6",//对应客户
+                "zdy2"=>"2",//性别
+                "zdy15"=>"4",//生日
+            ),
+            "5"=>array(
+                "zdy1"=>"6",//对应客户
+                "zdy2"=>"6",//关联联系人
+                "zdy4"=>"4",//预计签单日期
+                "zdy8"=>"4",//商机获取日期
+                "zdy10"=>"4",//下次跟进时间
+                "zdy6"=>"6",//关联产品
+                "zdy5"=>"2",//销售阶段
+                "zdy7"=>"2",//商机类型
+                "zdy9"=>"2",//商机来源
+            ),
+            "6"=>array(
+                "zdy4"=>"4",//商机来源
+                "zdy5"=>"4",//商机来源
+                "zdy6"=>"4",//商机来源
+                "zdy15"=>"4",//商机来源
+                "zdy1"=>"6",//对应客户
+                "zdy2"=>"6",//对应商机
+                "zdy9"=>"6",//关联产品
+                "zdy13"=>"5",//对应商机
+                "zdy7"=>"2",//对应商机
+                "zdy10"=>"2",//对应商机
+                "zdy11"=>"2",//对应商机
+            ),
+            "7"=>array(
+                "zdy6"=>"2"
+            )
+        );
+
+        //获取当前mod
+        $thismod=$this->modindex($openmod);
+        $fid=$userinfo['user_fid']=='0'?$userinfo['user_id']:$userinfo['user_fid'];
+        $infocontroller=A("AppInfo");
+        
+        //是否展示关联产品字段
+        $haveglcp=addslashes($header['haveglcp'])==''?'0':addslashes($header['haveglcp']);
+
+        $zdarr=$infocontroller->getZdData($fid,$thismod,'',$haveglcp);
+        //遍历这些字段，对每个字段都打上type的标签
+        $n=array();
+        foreach($zdarr as $k=>$v)
+        {
+            $n[$k]['type']=$fieldsOption[$thismod][$k]==''?'1':$fieldsOption[$thismod][$k];
+            $n[$k]['name']=$v;
+        }
+        
+        $zdarr=$n;
+
+        //参数信息
+        $canshu=$infocontroller->getCanshuData($fid,$thismod);
+        //parent::rr($canshu);
+
+
+        if($thismod!='4'&&$thismod!='7')
+        {
+            $zdarr['fz']['type']='2';
+            $zdarr['fz']['name']='负责人';
+            $user=$infocontroller->getusername($fid);
+            $canshu['fz']=$user;
+        }
+        if($thismod=='4')
+        {
+            $xb['男']='男';
+            $xb['女']='女';
+            $canshu['zdy2']=$xb;
+        }
+        if($thismod=='6')
+        {
+            $user=$infocontroller->getusername($fid);
+            $canshu['zdy13']=$user;
+        }
+        if($thismod=='7')
+        {
+            //如果是产品，就查询产品分类
+            $m=M();
+            $fl=$m->query("select * from crm_chanpinfenlei where cpfl_company='$fid' ");
+            foreach($fl as $v)
+            {
+                $flarr[$v['cpfl_id']]=$v['cpfl_name'];
+            }
+            $canshu['zdy6']=$flarr;
+        }
+        $res['code']='0';
+        $res['data']['zd']=$zdarr;
+        $res['data']['cs']=$canshu;
+        echo json_encode($res);
+        
+    }
+    
+    /*数据添加*/
+    public function AddData()
+    {
+        $header=getallheaders();
+        $userphone=addslashes($header['userphone']);
+        $token=addslashes($header['token']);
+        if($userphone==''||$token=='')
+        {
+            parent::errorreturn("3");
+        }
+
+        //当前请求的模块
+        $openmod=addslashes($header['openmod']);
+        
+
+        //用户信息
+        $userinfo=$this->isLogin($userphone,$token);
+        //验证权限
+        //parent::rr($openmod);
+        if(!$this->have_qx($userinfo['user_quanxian'],$this->modopenqxname($openmod)))
+        {
+            parent::errorreturn("4");
+        }
+        /*
+            身份验证通过
+        */
+
+        if($userinfo['user_fid']==0)
+        {
+            $userinfo['admin']=1;
+            $userinfo['fid']=$userinfo['user_id'];
+        }
+        else
+        {
+            $userinfo['admin']=0;
+            $userinfo['fid']=$userinfo['user_fid'];
+        }
+
+
+        $data=$_POST['data'];
+        $jsondata=json_decode($data,true);
+
+        $addcontroller=A("AppAdd");
+        //添加操作分发
+        if($openmod=='xiansuo')
+        {
+            $addcontroller->xiansuoadd($userinfo,$jsondata);
+        }
+        else if($openmod=='kehu')
+        {
+            $addcontroller->kehuadd($userinfo,$jsondata);
+        }
+        else if($openmod=='lianxiren')
+        {
+            $addcontroller->lianxirenadd($userinfo,$jsondata);
+        }
+        else if($openmod=='shangji')
+        {
+            $addcontroller->shangjiadd($userinfo,$jsondata);
+        }
+        else if($openmod=='hetong')
+        {
+            $addcontroller->hetongadd($userinfo,$jsondata);
+        }
+        else if($openmod=='chanpin')
+        {
+            $addcontroller->chanpinadd($userinfo,$jsondata);
+        }
+        else
+        {
+            parent::errorreturn("5");
+        }
+
+    }
+    //删除某条数据信息
+    public function deleteInfoData()
+    {
+        $header=getallheaders();
+        $userphone=addslashes($header['userphone']);
+        $token=addslashes($header['token']);
+        if($userphone==''||$token=='')
+        {
+            parent::errorreturn("3");
+        }
+
+        //当前请求的模块
+        $openmod=addslashes($header['openmod']);
+        
+
+        //用户信息
+        $userinfo=$this->isLogin($userphone,$token);
+        //验证权限
+        //parent::rr($openmod);
+        if(!$this->have_qx($userinfo['user_quanxian'],$this->modopenqxname($openmod)))
+        {
+            parent::errorreturn("4");
+        }
+        /*
+            身份验证通过
+        */
+
+        $tableName=array(
+            "xiansuo"=>"crm_xiansuo",
+            "kehu"=>"crm_kh",
+            "kehugonghai"=>"crm_kh",
+            "lianxiren"=>"crm_lx",
+            "shangji"=>"crm_shangji",
+            "hetong"=>"crm_hetong",
+            "chanpin"=>"crm_chanpin"
+        );
+        $tableIdName=array(
+            "xiansuo"=>"xs_id",
+            "kehu"=>"kh_id",
+            "kehugonghai"=>"kh_id",
+            "lianxiren"=>"lx_id",
+            "shangji"=>"sj_id",
+            "hetong"=>"ht_id",
+            "chanpin"=>"cp_id"
+        );
+        //执行删除语句
+        $infoid=addslashes($header['infoid']);
+        $m=M();
+        $m->query("delete from $tableName[$openmod] where $tableIdName[$openmod]='$infoid' limit 1");
+        
+        $res['code']='0';
+        
+        echo json_encode($res);
+    }
+    //修改数据
+    public function EditData()
+    {
+        $header=getallheaders();
+        $userphone=addslashes($header['userphone']);
+        $token=addslashes($header['token']);
+        if($userphone==''||$token=='')
+        {
+            parent::errorreturn("3");
+        }
+
+        //当前请求的模块
+        $openmod=addslashes($header['openmod']);
+        
+
+        //用户信息
+        $userinfo=$this->isLogin($userphone,$token);
+        //验证权限
+        //parent::rr($openmod);
+        if(!$this->have_qx($userinfo['user_quanxian'],$this->modopenqxname($openmod)))
+        {
+            parent::errorreturn("4");
+        }
+        /*
+            身份验证通过
+        */
+        $infoid=addslashes($header['infoid']);
+
+        if($userinfo['user_fid']==0)
+        {
+            $userinfo['admin']=1;
+            $userinfo['fid']=$userinfo['user_id'];
+        }
+        else
+        {
+            $userinfo['admin']=0;
+            $userinfo['fid']=$userinfo['user_fid'];
+        }
+
+
+        $data=$_POST['data'];
+        $jsondata=json_decode($data,true);
+
+        $editcontroller=A("AppEdit");
+        //添加操作分发
+        if($openmod=='xiansuo')
+        {
+            $editcontroller->xiansuoedit($userinfo,$jsondata,$infoid);
+        }
+        else if($openmod=='kehu')
+        {
+            $editcontroller->kehuedit($userinfo,$jsondata,$infoid);
+        }
+        else if($openmod=='lianxiren')
+        {
+            $editcontroller->lianxirenedit($userinfo,$jsondata,$infoid);
+        }
+        else if($openmod=='shangji')
+        {
+            $editcontroller->shangjiedit($userinfo,$jsondata,$infoid);
+        }
+        else if($openmod=='hetong')
+        {
+            $editcontroller->hetongedit($userinfo,$jsondata,$infoid);
+        }
+        else if($openmod=='chanpin')
+        {
+            $editcontroller->chanpinedit($userinfo,$jsondata,$infoid);
+        }
+        else
+        {
+            parent::errorreturn("5");
+        }
+    }
+    //产品模块入口，获取产品分类
+    public function getCPFL()
+    {
+        $header=getallheaders();
+        $userphone=addslashes($header['userphone']);
+        $token=addslashes($header['token']);
+        if($userphone==''||$token=='')
+        {
+            parent::errorreturn("3");
+        }
+        //当前请求的模块(必须，需要根据模块判断权限)
+        $openmod=addslashes($header['openmod']);
+       
+        //用户信息
+        $userinfo=$this->isLogin($userphone,$token);
+        //验证权限
+        //parent::rr($openmod);
+        if(!$this->have_qx($userinfo['user_quanxian'],$this->modopenqxname($openmod)))
+        {
+            parent::errorreturn("4");
+        }
+        /*
+            身份验证通过
+        */
+        if($userinfo['user_fid']==0)
+        {
+            $userinfo['admin']=1;
+            $userinfo['fid']=$userinfo['user_id'];
+        }
+        else
+        {
+            $userinfo['admin']=0;
+            $userinfo['fid']=$userinfo['user_fid'];
+        }
+
+
+        $m=M();
+        $f=$m->query("select cpfl_name,cpfl_id from crm_chanpinfenlei where cpfl_company='".$userinfo['fid']."' order by cpfl_id desc ");
+        foreach($f as $k=>$v)
+        {
+            $data[$v['cpfl_id']]=$v['cpfl_name'];
+        }
+
+        $res['code']='0';
+        $res['data']=$data;
+        echo json_encode($res);
+    }
 }

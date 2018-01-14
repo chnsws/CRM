@@ -174,7 +174,20 @@
             before: function(input){
                 //返回的参数item，即为当前的input DOM对象
                 window.jiazai= layer.load(2);
-               //tishi('文件上传中');
+                //计算文件大小，如果太大的话，就不允许上传
+                var allowSize=2;//(M)   //最大允许2M
+                var allowSize_b=parseInt(allowSize)*1048576;
+
+                var fileInfo= $("#imm").prop("files");
+                var fileSize_b=fileInfo[0].size;
+
+                if(fileSize_b>allowSize_b)
+                {
+                    layer.close(jiazai);
+                    tishi("图片最大不允许超过"+allowSize+"M");
+                    throw SyntaxError();
+                    return false;
+                }
             },
             success: function(res){
                 if(res['res']=='1')
