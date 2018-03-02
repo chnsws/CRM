@@ -35,7 +35,15 @@
 		
 	</head>
 	<body style="position:relative">
-		合同自定义
+		合同自定义<div><span onclick='pdf()'>生成PDF</span></div>
 	</body>
-	
+	<script>
+		function pdf(){
+			$.get('__ROOT__/index.php/Home/Hetongmbzdy/pdf',{},
+						        		 				function(html){
+															alert(html)
+															
+														});
+		}
+	</script>
 </html>
