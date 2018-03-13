@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html style='width:100%;height:100%;'> 
 
 	<head>
 		<meta charset="utf-8">
@@ -24,26 +24,269 @@
 		<!--下面   地区插件-->
 	
 		
-
+		<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+		<script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
 		<script>window.jQuery || document.write('<script src="{$_GET[\'public_dir\']}/diqu/js/jquery-1.11.0.min.js"><\/script>')</script>
 		<script src="__PUBLIC__/diqu/js/distpicker.data.js"></script>
 	    <script src="__PUBLIC__/diqu/js/distpicker.js"></script>
 	    <script src="__PUBLIC__/diqu/js/main.js"></script>
-<link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
-		<script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
+
+		<script type="text/javascript" src="__PUBLIC__/baidu1/ueditor.config.js"></script>
+		<!-- 编辑器源码文件 -->
+		<script type="text/javascript" src="__PUBLIC__/baidu1/ueditor.all.js"></script>
 <!--end!!-->
 		
 	</head>
-	<body style="position:relative">
-		合同自定义<div><span onclick='pdf()'>生成PDF</span></div>
+	<body style="position:relative;width:100%;height:100%;   " >
+	<div  style='width:100%;height:100%;' >
+
+		<div class="gao" style='width:100%;height:100%;'>
+			
+			<table  style='width:100%;height:100%;margin-left:10px' class='csed ' >
+				<tr>
+					<td style=' width:65%;height:100%;'>
+							<div class="gao" style='width:100%;height:100%;'><!--富文本-->
+								
+									<form action="pdf" method="post" target="_blank" >
+											模板名称 :<input type='index' style=' height: 20px;
+											max-width: 100%;
+											padding: 4px 6px;
+											border: 1px solid #ddd;
+											background: #fff;
+											color: #444;
+											-webkit-transition: all linear .2s;
+											transition: all linear .2s;
+											border-radius: 4px;'  value="" class='namea' name="name" >
+										<span style='margin-left:30px'>	查看/修改已保存模板：{$rongqi}</span>
+											<span style="float:right;margin-right:1%">	<button class="layui-btn layui-btn-small"   >在线查看</button>	
+											<span style='color:white '  class="layui-btn layui-btn-small" value="" onclick="pdf()">保存</span></span>	
+											<script id="container" name='upfile'   style='margin-top:12px' class='ceshi1' type="text/plain">
+												
+											</script>	
+											
+										
+									</form>
+							</div>
+					</td>
+					<td style=' width:35%;height:100%;'>
+						<div  style='width:80%;height:100%;border:1px solid #CFCFCF;'>
+							<p  style="margin-top:4px;text-align: center;"><b>可插入字段</b></p>
+							<p  style="margin-top:4px;text-align: center;color:red;font-size:11px">注：字段插入后不可对插入的字段进行修改！！</p>
+					
+							<div style="line-height:40px">
+								<span style='margin-left:5px'>
+									<button id="drag1"  draggable="true" ondragstart="drag(event)"  class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius ">甲方签约人</button>
+									<button id="drag2" draggable="true" ondragstart="drag(event)" class="layui-btn  layui-btn-primary layui-btn-small layui-btn-radius">乙方签约人</button>
+									<button id="drag3" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">合同金额</button>
+									<button id="drag4" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">合同编号</button>
+									<button id="drag5" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据1</button>
+									<button id="drag6" draggable="true" ondragstart="drag(event)" class="layui-btn  layui-btn-primary layui-btn-small layui-btn-radius">测试数据2</button>
+									<button id="drag7" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据3</button>
+									<button id="drag8" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据4</button>
+									<button id="drag9" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据5</button>
+									<button id="drag10" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据6</button>
+									<button id="drag11" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据7</button>
+									<button id="drag12" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据8</button>
+									<button id="drag13" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据9</button>
+									<button id="drag14" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据10</button>
+									<button id="drag15" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据11</button>
+									<button id="drag16" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据12</button>
+									<button id="drag17" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据13</button>
+									<button id="drag18" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据14</button>
+								</span>
+								<!--<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"  ></div>-->
+							</div>
+						</div>
+						
+					</td>
+				</tr>
+			</table>
+		</div>	
+	</div>
 	</body>
 	<script>
+		
+		function allowDrop(ev)
+{
+ev.preventDefault();
+}
+
+function drag(ev)
+{
+ev.dataTransfer.setData("Text",ev.target.id);
+
+	$("#"+ev.target.id).attr("class","layui-btn layui-btn-danger layui-btn-small layui-btn-radius")
+}
+function drop(ev)
+{
+ev.preventDefault();
+var data=ev.dataTransfer.getData("Text");
+ev.target.appendChild(document.getElementById(data));
+}
 		function pdf(){
-			$.get('__ROOT__/index.php/Home/Hetongmbzdy/pdf',{},
-						        		 				function(html){
-															alert(html)
-															
-														});
+			var a=$("#ueditor_textarea_upfile").val();
+			var b=$(".namea").val();
+			if(a=="")
+			{
+				alert("内容不能为空");rerurn;
+			}
+			if(b=="")
+			{
+				alert("名称不能为空");rerurn;
+			}
+			$.post('__ROOT__/index.php/Home/Hetongmbzdy/baocun',{"upfile":a,"name":b},
+							        		 function(html){
+									        
+									        		
+									        		alert("保存成功")
+									        		}
+							                   );
 		}
+	
 	</script>
+	<script>
+			window.rooturl="{$_GET['root_dir']}";
+			layui.use('layedit', function(){
+				  var layedit = layui.layedit;
+				  layedit.set({
+				  uploadImage: {
+					url: rooturl+"/index.php/Home/Huiyi/fwb_img", //接口url
+					type: '' //默认post
+				  }
+				});
+				  window.index = layedit.build('demo'); //建立编辑器
+				  
+			});
+			var huiyiva='';
+			window.img_name="";
+			
+			layui.use('upload', function(){
+				layui.upload({
+				  url: rooturl+"/index.php/Home/Huiyi/imgse",
+				  success: function(res){
+				 
+									  if(res['res']=='1')
+										{
+										
+											  $(".thimg").text(res['oldname']);//原名字
+													window.img_name=res['newname']
+													$('.img_th').val(img_name)
+										}
+									   
+										else
+										{
+												alert("文件上传失败");
+										}
+				  }
+				}); 
+			});
+
+		</script>
+		<script>
+		
+			 //   var ue = UE.getEditor('container');
+				
+		
+				var ue = UE.getEditor('container', {
+		
+		
+			  toolbars: [
+			[
+				'anchor', //锚点
+				'undo', //撤销
+				'redo', //重做
+				'bold', //加粗
+				'indent', //首行缩进
+				'snapscreen', //截图
+				'italic', //斜体
+				'underline', //下划线
+				'strikethrough', //删除线
+				'subscript', //下标
+				'fontborder', //字符边框
+				'superscript', //上标
+				'formatmatch', //格式刷
+				'source', //源代码
+				'blockquote', //引用
+				'pasteplain', //纯文本粘贴模式
+				'selectall', //全选
+				'print', //打印
+				'preview', //预览
+				'horizontal', //分隔线
+				'removeformat', //清除格式
+				'time', //时间
+				'date', //日期
+				'unlink', //取消链接
+				'insertrow', //前插入行
+				'insertcol', //前插入列
+				'mergeright', //右合并单元格
+				'mergedown', //下合并单元格
+				'deleterow', //删除行
+				'deletecol', //删除列
+				'splittorows', //拆分成行
+				'splittocols', //拆分成列
+				'splittocells', //完全拆分单元格
+				'deletecaption', //删除表格标题
+				'inserttitle', //插入标题
+				'mergecells', //合并多个单元格
+				'deletetable', //删除表格
+				'cleardoc', //清空文档
+				'insertparagraphbeforetable', //"表格前插入行"
+				'insertcode', //代码语言
+				'fontfamily', //字体
+				'fontsize', //字号
+				'paragraph', //段落格式
+				'simpleupload', //单图上传
+				'edittable', //表格属性
+				'edittd', //单元格属性
+				'link', //超链接
+				'emotion', //表情
+				'spechars', //特殊字符
+				'searchreplace', //查询替换
+				'map', //Baidu地图
+				'gmap', //Google地图
+				//'insertvideo', //视频
+				'help', //帮助
+				'justifyleft', //居左对齐
+				'justifyright', //居右对齐
+				'justifycenter', //居中对齐
+				'justifyjustify', //两端对齐
+				'forecolor', //字体颜色
+				'backcolor', //背景色
+				'insertorderedlist', //有序列表
+				'insertunorderedlist', //无序列表
+				'fullscreen', //全屏
+				'directionalityltr', //从左向右输入
+				'directionalityrtl', //从右向左输入
+				'rowspacingtop', //段前距
+				'rowspacingbottom', //段后距
+				'pagebreak', //分页
+				'insertframe', //插入Iframe
+				'imagenone', //默认
+				'imageleft', //左浮动
+				'imageright', //右浮动
+				'attachment', //附件
+				'imagecenter', //居中
+				'wordimage', //图片转存
+				'lineheight', //行间距
+				'edittip ', //编辑提示
+				'customstyle', //自定义标题
+				'autotypeset', //自动排版
+				'webapp', //百度应用
+				'touppercase', //字母大写
+				'tolowercase', //字母小写
+				'background', //背景
+				'template', //模板
+			
+				'inserttable', //插入表格
+		
+				'charts', // 图表
+				
+			]
+		]
+		});  
+			var lang = ue.getOpt('initialFrameHeight');//初始高度
+			var a = ue.getOpt('autoHeightEnabled');//不自动变高
+		  
+		</script>
+		
 </html>
