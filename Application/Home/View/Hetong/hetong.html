@@ -470,6 +470,22 @@
   		<div class='ck_spjd1' style='margin-left:20%;'></div>
 	  </div>
 	  <input type='hidden' class="ssaaa" value="{$ssaaa}">
+	  <div class="scpdf">
+	  		<form>
+						<table class='uk-form' style='margin-top: 40px;margin-left:25%'>
+					
+						<tr>
+							<td>选择合同模板</td>
+								<td>
+									{$rongqi}
+								</td>			
+						</tr>
+						
+						
+						</table>
+					</form>
+	  	
+	  </div>
 	</body>
 	<script>
 	var budong=$('#budong').val();
@@ -765,7 +781,7 @@ function kh_name_if(e){
 											{
 												kh_lxr_name =name_lxr;
 											}
-											
+									
 										$.get('__ROOT__/index.php/Home/Hetong/add_ht1',{"kh":ajaxstr_kh,"lxr_id":kh_lxr_name,"kh_id":kh_id12,"lxr":ajaxstr_lxr,"sj":ajaxstr_sj,"ht":vstr},
 									        		 function(html){
 														errorFun(html)
@@ -1313,8 +1329,13 @@ $("#nchangyong").click(function(){
 			        		 				function(html){
         		 								//tishi(html)
 												$(".th_sj").html(html);
-												layer.close(win)
+												
 											});
+    						$.get('__ROOT__/index.php/Home/Shangji/lxr_get',{"id":kh_id12},
+			 				function(html){
+											$(".lx_th").html(html);
+										
+							});
 	    					}else{
 
 
@@ -1380,6 +1401,7 @@ $("#nchangyong").click(function(){
 												if(name_lxr==''){
 													window.name_lxr=$("#kh").find("#ss2").val();
 												}
+												$(".lx_th").html("<select name='zdy261' style='width:300px;height:30px;'><option  value='"+name_lxr+"' >"+name_lxr+"</option></select>");
 												 $("#kh_name").html("<input type='text' name='zdy1' value='"+name_kh+"' readonly='true'>");
 												
 											
@@ -1440,6 +1462,7 @@ $("#nchangyong").click(function(){
 					    				$.get('__ROOT__/index.php/Home/Shangji/lianxiren',{},
 			        		 				function(html){
 			        		 							$(".th_lxr").html(html);
+
 			        		 					$.getScript("__PUBLIC__/diqu/js/distpicker.js");
 		        		 						$.getScript("__PUBLIC__/diqu/js/main.js");
 		        		 						$.getScript("__PUBLIC__/diqu/js/distpicker.data.js");
@@ -1813,6 +1836,41 @@ $(function(){
  $('#xl2').searchableSelect();
 
  });
+function pdf(ss){
+	var id=$(ss).prop("name");//获取到合同的ID
+		layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:['630px','350px'],
+								fixed: false,
+								title: '生成PDF',
+
+								content:$('.scpdf'),
+								btn:['确认生成PDF',"在线预览"],
+								btn1:function(){
+
+										
+								var pdfid=$(".pdfval").val();
+								alert(pdfid);
+
+
+								},
+								btn2:function(){
+
+								var pdfid=$(".pdfval").val();
+						
+
+									window.open("__ROOT__/index.php/Home/Hetong/zaixianpdf?htid="+id+"&pdfid="+pdfid);    
+
+								},
+								
+							}); 
+
+						});      	
+	
+}
     	</script>
     	
 </html>

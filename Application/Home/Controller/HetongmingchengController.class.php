@@ -1627,6 +1627,21 @@ return $fzr_only;
 			$data[$baobao[0]]=$baobao[1];
 
 		}
+		//查询是否有开票信息、
+		$khkp['kp_kh']=$data["kp_kh"];
+		$khkp['logo']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		$khkp_base=M("khkpxx");
+		$sql_khkpxx=$khkp_base->where($khkp)->select();
+		if($sql_khkpxx=="" || $sql_khkpxx==null)
+		{
+			$new_kp["kp_kh"]=$data[$kp_kh];
+			$new_kp["kp_kh"]=$data[$kp_kh];
+			$new_kp["kp_kh"]=$data[$kp_kh];
+			$new_kp["kp_kh"]=$data[$kp_kh];
+			$new_kp["kp_kh"]=$data[$kp_kh];
+			$new_kp["kp_kh"]=$data[$kp_kh];
+			$new_kp["logo"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');;
+		}
 		$data['kp_cj']=cookie('user_id');
 		$data['kp_cj_date']=date("Y-m-d h:i:s");
 	//	$data['kp_yh2']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');

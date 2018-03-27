@@ -44,11 +44,13 @@
 			
 			<table  style='width:100%;height:100%;margin-left:10px' class='csed ' >
 				<tr>
-					<td style=' width:65%;height:100%;'>
-							<div class="gao" style='width:100%;height:100%;'><!--富文本-->
+					<td style=' width:900px;height:100%;'>
+							<div class="gao" style='width:width:900x;height:100%;'><!--富文本-->
 								
-									<form action="pdf" method="post" target="_blank" >
-											模板名称 :<input type='index' style=' height: 20px;
+									<form action="pdf" method="post" target="_blank" style="width:900px">
+										<span class='cun'></span>
+										<table  >
+										<tr><td>模板名称 :<input type='index' style=' height: 20px;
 											max-width: 100%;
 											padding: 4px 6px;
 											border: 1px solid #ddd;
@@ -56,45 +58,107 @@
 											color: #444;
 											-webkit-transition: all linear .2s;
 											transition: all linear .2s;
-											border-radius: 4px;'  value="" class='namea' name="name" >
-										<span style='margin-left:30px'>	查看/修改已保存模板：{$rongqi}</span>
-											<span style="float:right;margin-right:1%">	<button class="layui-btn layui-btn-small"   >在线查看</button>	
-											<span style='color:white '  class="layui-btn layui-btn-small" value="" onclick="pdf()">保存</span></span>	
-											<script id="container" name='upfile'   style='margin-top:12px' class='ceshi1' type="text/plain">
-												
-											</script>	
+											border-radius: 4px;'  value="{$name}" class='namea' name="name" ></td>
+											<td><span style='margin-left:30px'>	查看/修改已保存模板：{$rongqi}</span></td>
+											<td><input style='margin-left:20px' type='button' class='uk-button'  onclick='pdfpz()' name='cpgd' value='PDF配置' > </td>
+										</tr>
+										<!---->
+										</table>
 											
 										
+											<script id="container" name='upfile'  style='margin-top:20px' class='ceshi1' type="text/plain">
+												{$content}
+											</script>		
+
+											<span >	<button class="layui-btn layui-btn-small"  style="margin-top: 10px"  >在线查看</button>	
+											<span class='thxg'><span style='color:white;margin-top: 10px '  class="layui-btn layui-btn-small" value="" onclick="pdf()">保存</span></span></span>	
+											
+											
 									</form>
 							</div>
 					</td>
-					<td style=' width:35%;height:100%;'>
+					
+					<td style=' width:40%;height:100%;'>
 						<div  style='width:80%;height:100%;border:1px solid #CFCFCF;'>
 							<p  style="margin-top:4px;text-align: center;"><b>可插入字段</b></p>
 							<p  style="margin-top:4px;text-align: center;color:red;font-size:11px">注：字段插入后不可对插入的字段进行修改！！</p>
 					
-							<div style="line-height:40px">
+							<div style="line-height:40px;margin-top:-30px">
 								<span style='margin-left:5px'>
-									<button id="drag1"  draggable="true" ondragstart="drag(event)"  class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius ">甲方签约人</button>
-									<button id="drag2" draggable="true" ondragstart="drag(event)" class="layui-btn  layui-btn-primary layui-btn-small layui-btn-radius">乙方签约人</button>
-									<button id="drag3" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">合同金额</button>
-									<button id="drag4" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">合同编号</button>
-									<button id="drag5" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据1</button>
-									<button id="drag6" draggable="true" ondragstart="drag(event)" class="layui-btn  layui-btn-primary layui-btn-small layui-btn-radius">测试数据2</button>
-									<button id="drag7" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据3</button>
-									<button id="drag8" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据4</button>
-									<button id="drag9" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据5</button>
-									<button id="drag10" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据6</button>
-									<button id="drag11" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据7</button>
-									<button id="drag12" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据8</button>
-									<button id="drag13" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据9</button>
-									<button id="drag14" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据10</button>
-									<button id="drag15" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据11</button>
-									<button id="drag16" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据12</button>
-									<button id="drag17" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据13</button>
-									<button id="drag18" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">测试数据14</button>
+								
+
+									
+								
+									<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+									  <ul class="layui-tab-title">
+									    <li class="layui-this">合同信息</li>
+									    <li>开票信息</li>
+									    <li>产品选项</li>
+									   
+									  </ul>
+									  <div class="layui-tab-content">
+									  		 <div class="layui-tab-item layui-show">
+									  		 		<button id="-合同编号-"  draggable="true" ondragstart="drag(event)"  class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius ">合同编号</button>
+													<button id="-甲方名称-" draggable="true" ondragstart="drag(event)" class="layui-btn  layui-btn-primary layui-btn-small layui-btn-radius">甲方名称</button>
+													<button id="-合同签约日期-" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">合同签约日期</button>
+													<button id="-合同金额-" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">合同金额</button>
+													
+													<button id="-联系人-" draggable="true" ondragstart="drag(event)" class="layui-btn  layui-btn-primary layui-btn-small layui-btn-radius">联系人</button>
+													<button id="-地址-" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">地址</button>
+													<button id="-电话-" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">电话</button>
+													<button id="-传真-" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">传真</button>
+									  		 </div>
+										     <div class="layui-tab-item">
+										     		
+													<button id="-开户行-" draggable="true" ondragstart="drag(event)" class="layui-btn  layui-btn-primary layui-btn-small layui-btn-radius">开户行</button>
+													<button id="-银行账号-" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">银行账号</button>
+													<button id="-税号-" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">税号</button>
+													<button id="-注册地址-" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">注册地址</button>
+													<button id="-银行预留电话电话-" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">银行预留电话</button>
+										     </div>
+										     <div class="layui-tab-item">
+														     	
+													<button id="-产品名称-" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">产品名称</button>
+													<button id="-产品价格-" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">产品价格</button>
+													<button id="-产品描述-" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">产品描述</button>
+													<button id="-数量-" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">数量</button>
+													<button id="-总价-" draggable="true" ondragstart="drag(event)" class="layui-btn layui-btn-primary layui-btn-small layui-btn-radius">总价</button>
+													
+										     </div>
+									  	
+									  </div>
+
+									</div>  
 								</span>
-								<!--<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"  ></div>-->
+								<!--<table style="border: 1px solid black;">
+    <tbody>
+        <tr style="border: 1px solid black;" class="firstRow">
+            <td width="346" valign="top" style="border: 1px solid black; word-break: break-all;" class="selectTdClass">
+                <span style="font-size: 36px;">产品名称</span>
+            </td>
+            <td width="346" valign="top" style="border: 1px solid black; word-break: break-all;" class="selectTdClass">
+                <span style="font-size: 36px;">产品类型</span>
+            </td>
+            <td width="346" valign="top" style="border: 1px solid black; word-break: break-all;" class="selectTdClass">
+                <span style="font-size: 36px;">产品价格</span>
+            </td>
+        </tr>
+        <tr style="border: 1px solid black;" class="firstRow">
+            <td width="346" valign="top" style="border: 1px solid black; word-break: break-all;" class="selectTdClass">
+                <span style="font-size: 36px;">名称一</span>
+            </td>
+            <td width="346" valign="top" style="border: 1px solid black; word-break: break-all;" class="selectTdClass">
+                <span style="font-size: 36px;">类型一</span>
+            </td>
+            <td width="346" valign="top" style="border: 1px solid black; word-break: break-all;" class="selectTdClass">
+                <span style="font-size: 36px;">价格一</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    <br/>
+</p>-->
 							</div>
 						</div>
 						
@@ -103,9 +167,190 @@
 			</table>
 		</div>	
 	</div>
+	<div id="pdfpz" style='display: none'>
+		<table align="center">
+			<tr><td>.</td><td>.</td></tr>
+											<tr>
+												<td><span style="height:60px;line-height:60px" class='tzym'>页眉页脚：开启<input type="radio" name='ym' value='ym'>关闭<input type="radio" name='ym' value='nym' checked='checked'></span></td>
+											</tr>
+
+											<tr>
+												<td ><span >页眉图片：<input type='file' lay-type='file' style='margin-top:25px;'  class='layui-upload-file' name='csv_up'> <span class="fjoldname">（开启必须上传）</span></span></td>
+											</tr>
+											<tr><td>页眉标题：<input type="index"  class='ymbt' style='margin-top:25px;
+												max-width: 100%;
+												padding: 4px 6px;
+												border: 1px solid #ddd;
+												background: #fff;
+												color: #444;
+												-webkit-transition: all linear .2s;
+												transition: all linear .2s;
+												border-radius: 4px;'  value='{$ymbt}' placeholder="开启页眉必填"></td>
+											</tr>
+											<tr><td >页眉内容：<input  class='ymnr' style='margin-top:25px;height: 20px;
+												max-width: 100%;
+												padding: 4px 6px;
+												border: 1px solid #ddd;
+												background: #fff;
+												color: #444;
+												-webkit-transition: all linear .2s;
+												transition: all linear .2s;
+												border-radius: 4px;' type='index' value="{$ymnr}" placeholder="开启页眉必填" ></td>
+											</tr>
+
+									
+											<tr>
+												<td><span class='tzsy'>开启水印：开启<input type="radio"  style='margin-top:25px'  name="sy" value='sy' >关闭<input type="radio"  style='margin-top:25px'   name="sy" value='nsy' checked></span></td>
+											</tr>
+											<tr>
+												<td >水印内容：<input class='synr' style='margin-top:25px;padding: 4px 6px;
+												border: 1px solid #ddd;
+												background: #fff;
+												color: #444;
+												-webkit-transition: all linear .2s;
+												transition: all linear .2s;
+												border-radius: 4px;' type='index' value="{$synr}" placeholder="开启水印必填"></td>
+											</tr>
+		</table>
+	</div>
+	<input type='text' class="tzymaa" value="{$ymkq}">
+	<input type='text' class="tzymtp" value="{$ymtp}">
+	<input type='text' class="tzsyaa" value="{$sykq}">
+	<input type='text' class="xiugaia" value="{$xiugaia}">
 	</body>
 	<script>
+		//
+		layui.use('element', function(){
+		  var element = layui.element;
+		  
+		  //…
+		});//layui选项卡
+		var xg_ymkq=$(".tzymaa").val();
+	
+		if(xg_ymkq=="ym")
+		{
+			$(".tzym").html('页眉页脚：开启<input type="radio" name="ym" value="ym" checked="checked">关闭<input type="radio" name="ym" value="nym" >')
+		}
+		var xg_tzsy=$(".tzsyaa").val();
 		
+		if(xg_tzsy=="sy")
+		{
+			$(".tzsy").html('开启水印：开启<input type="radio"  style="margin-top:25px"  name="sy" value="sy"  checked="checked">关闭<input type="radio"  style="margin-top:25px"   name="sy" value="nsy">')
+		}else{
+
+		}
+		window.fjname =$(".tzymtp").val();
+		if(fjname!="")
+		{
+				$(".fjoldname").text(fjname);
+		}
+		var xiugaia=$(".xiugaia").val();
+
+		if(xiugaia=="xiugaia")
+		{
+
+				var ymkq=$('input:radio[name="ym"]:checked').val();
+						var ymbt=$(".ymbt").val();
+						var ymnr=$(".ymnr").val();
+				var sykq=$('input:radio[name="sy"]:checked').val();
+				var synr=$(".synr").val();
+								
+				$(".cun").html("<input type='hidden' name='ymkq' value='"+ymkq+"'><input type='hidden' name='ymtp' value='"+fjname+"'><input type='hidden' name='ymbt' value='"+ymbt+"'><input type='hidden' name='ymnr' value='"+ymnr+"'><input type='hidden' name='sykq' value='"+sykq+"'><input type='hidden' name='synr' value='"+synr+"'>")
+
+
+
+				$(".thxg").html("<span class='thxg'><span style='color:white;margin-top: 10px '  class='layui-btn layui-btn-small' value='' onclick='pdfxg()'>确认修改</span>");
+		}
+
+		function shaixuana(){
+			var sx=$(".shaixuan").val();
+			window.location='__ROOT__/index.php/Home/Hetongmbzdy/chaxun?id='+sx;
+			
+		}
+		function pdfpz(){		
+
+									
+				layui.upload({
+					        url: "__ROOT__/index.php/Home/Hetongmbzdy/wjsc_dr",
+					      
+					        title:"选择文件",
+					        success: function(res){
+					        
+					            if(res['res']=='1')
+					            {
+					            	window.fjname=res['newname'];
+									window.fjoldname=res["oldname"];
+					            	$(".fjoldname").text(fjname)
+					            	
+						  
+					            }
+					           
+					            else
+					            {	
+					            	
+					           		alert("文件上传失败");
+					            }
+
+					        },
+					    });
+				
+									
+				window.fjname =$(".tzymtp").val();
+		if(fjname!="")
+		{
+				$(".fjoldname").text(fjname);
+		}
+			
+    				layui.use('layer', function(){
+					//	alert(123)
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'750px',
+								title: 'PDF配置',
+								content:$('#pdfpz'),
+								btn:['保存'],
+
+								btn1:function(){
+								
+								window.ymkq=$('input:radio[name="ym"]:checked').val();
+								if(ymkq=="ym")
+								{
+									window.ymbt=$(".ymbt").val();
+									if(ymbt==""||ymbt==undefined)
+									{
+										alert("页眉标题不能为空");return
+									}
+									window.ymnr=$(".ymnr").val();
+									if(ymnr==""||ymnr==undefined)
+									{
+										alert("页眉内容不能为空");return
+									}
+								}else{
+									window.ymbt="0";
+									window.ymnr="0";
+								}
+								window.sykq=$('input:radio[name="sy"]:checked').val();
+								if(sykq=="sy")
+								{
+									window.synr=$(".synr").val();
+									if(synr==""||synr==undefined)
+									{
+										alert("水印内容不能为空");return
+									}
+								}else{
+									window.synr="0";
+								}
+									
+								$(".cun").html("<input type='hidden' name='ymkq' value='"+ymkq+"'><input type='hidden' name='ymtp' value='"+fjname+"'><input type='hidden' name='ymbt' value='"+ymbt+"'><input type='hidden' name='ymnr' value='"+ymnr+"'><input type='hidden' name='sykq' value='"+sykq+"'><input type='hidden' name='synr' value='"+synr+"'>")
+								layer.close(win);    
+								
+								}
+							}); 
+						});                  
+    			}
 		function allowDrop(ev)
 {
 ev.preventDefault();
@@ -114,7 +359,7 @@ ev.preventDefault();
 function drag(ev)
 {
 ev.dataTransfer.setData("Text",ev.target.id);
-
+			
 	$("#"+ev.target.id).attr("class","layui-btn layui-btn-danger layui-btn-small layui-btn-radius")
 }
 function drop(ev)
@@ -123,7 +368,29 @@ ev.preventDefault();
 var data=ev.dataTransfer.getData("Text");
 ev.target.appendChild(document.getElementById(data));
 }
+function pdfxg()
+{
+	var a=$("#ueditor_textarea_upfile").val();
+			var b=$(".namea").val();
+			if(a=="")
+			{
+				alert("内容不能为空");rerurn;
+			}
+			if(b=="")
+			{
+				alert("名称不能为空");rerurn;
+			}
+				var sx=$(".shaixuan").val();	
+			$.post('__ROOT__/index.php/Home/Hetongmbzdy/xiugai',{"upfile":a,"name":b,'ymkq':ymkq,'ymtp':fjname,"ymbt":ymbt,"ymnr":ymnr,"sykq":sykq,"synr":synr,"id":sx},
+							        		 function(html){
+									        
+									        		
+									        		alert("修改成功")
+									        		}
+							                   );
+}
 		function pdf(){
+
 			var a=$("#ueditor_textarea_upfile").val();
 			var b=$(".namea").val();
 			if(a=="")
@@ -134,7 +401,8 @@ ev.target.appendChild(document.getElementById(data));
 			{
 				alert("名称不能为空");rerurn;
 			}
-			$.post('__ROOT__/index.php/Home/Hetongmbzdy/baocun',{"upfile":a,"name":b},
+
+			$.post('__ROOT__/index.php/Home/Hetongmbzdy/baocun',{"upfile":a,"name":b,'ymkq':ymkq,'ymtp':fjname,"ymbt":ymbt,"ymnr":ymnr,"sykq":sykq,"synr":synr},
 							        		 function(html){
 									        
 									        		
@@ -143,8 +411,7 @@ ev.target.appendChild(document.getElementById(data));
 							                   );
 		}
 	
-	</script>
-	<script>
+
 			window.rooturl="{$_GET['root_dir']}";
 			layui.use('layedit', function(){
 				  var layedit = layui.layedit;

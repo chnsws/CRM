@@ -137,9 +137,11 @@ public function kehu(){
 		foreach($kh_sql as $kkh =>$vkh)
 		{
 			$kh_json=json_decode($vkh['kh_data'],true);
-			
+			 
 					$kh['id']=$vkh['kh_id'];
 					$kh['name']=$kh_json['zdy0'];
+					$kh['zdy2']=$kh_json['zdy2'];//电话
+					$kh['zdy7']=$kh_json['zdy7'];//地址
 					$kh_name[$vkh['kh_id']]=$kh;
 		}
 		//echo "<pre>";
@@ -528,7 +530,16 @@ public function kehu(){
 								$show_bt.="	<option value='".$vkh['id']."'> ".$vkh['name']."</option>";
 							}
 						$show_bt.=  " </select></td></tr>	";		
+					}elseif($v['id']=='zdy261'){
+						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name'].":</td>";
+						$show_bt.="<td class='lx_tha' ><select name='".$v['id']."' class='lx_th required' >";
+							
+								$show_bt.="	<option value=''> 请先选择对应客户</option>";
+							
+						
+						$show_bt.=  " </select></td></tr>";		
 					}
+
 					elseif($v['id']=='zdy2')
 					{
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name'].":</td>";
@@ -538,6 +549,8 @@ public function kehu(){
 								$show_bt.="	<option value='xzsj'>新增商机(此商机对应商机)</option>";
 						
 						$show_bt.=  " </select></td></tr>";		
+				
+
 					}elseif($v['id']=='zdy7'){
 
 						$show_bt.="<tr class='addtr'><td><span style='color:red'>*</span>".$v['name'].":</td>";
@@ -954,14 +967,14 @@ public function kehu(){
 					{ 
 						if($kbt=='zdy0')
 							if($v['ht_sp']==4){//审批中
-								$content.="<td><span style='color:#999;cursor:pointer' class='".$v['ht_id']."' onclick='ck_spjd(this)' title='查看审批进度'>".$v[$kbt]."</span></a></td>";
+								$content.="<td><span><img src='".__ROOT__."/Public/pdf/a.jpg' style='width:22px;cursor:pointer' onclick='pdf(this)' name='".$v['ht_id']."'  title='生成PDF'></span><span style='color:#999;cursor:pointer' class='".$v['ht_id']."' onclick='ck_spjd(this)' title='查看审批进度'>".$v[$kbt]."</span></a></td>";
 							}elseif($v['ht_sp']==0){//刚添加可发起
-								$content.="<td><a href='".__ROOT__."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' title='".$v[$kbt]."'>".$v[$kbt]."</span></a></td>";
+								$content.="<td><img src='".__ROOT__."/Public/pdf/a.jpg'  style='width:22px;cursor:pointer' title='生成PDF' onclick='pdf(this)' name='".$v['ht_id']."' ><a href='".__ROOT__."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' title='".$v[$kbt]."'>".$v[$kbt]."</span></a></td>";
 							}elseif($v['ht_sp']==1){//审批通过
-								$content.="<td><a href='".__ROOT__."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' title='".$v[$kbt]."'>".$v[$kbt]."</span></a></td>";
+								$content.="<td><img src='".__ROOT__."/Public/pdf/a.jpg'  style='width:22px;cursor:pointer' title='生成PDF' onclick='pdf(this)' name='".$v['ht_id']."' ><a href='".__ROOT__."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' title='".$v[$kbt]."'>".$v[$kbt]."</span></a></td>";
 
 							}else{// 审批驳回
-								$content.="<td><a href='".__ROOT__."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' title='".$v[$kbt]."'>".$v[$kbt]."</span></a></td>";
+								$content.="<td><img src='".__ROOT__."/Public/pdf/a.jpg'  style='width:22px;cursor:pointer' title='生成PDF' onclick='pdf(this)' name='".$v['ht_id']."' ><a href='".__ROOT__."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' title='".$v[$kbt]."'>".$v[$kbt]."</span></a></td>";
 							}
 							
 						elseif($kbt=='zdy1'){
@@ -1050,6 +1063,25 @@ public function kehu(){
 							$chanpin1.="<option value='".$v['cp_id']."'>".$v['zdy0']."(".$v['zdy1'].") </option>";
 					}
 					$chanpin1.="</select> </td></tr>";
+		//获取合同模板
+		$mpdf=M("zdymb");
+		$where2['logo']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		$pdfsql1=$mpdf->where($where2)->select();
+		$rongqi.="<select class='pdfval' style='height: 30px;width:185px;
+		' name='' >";
+			foreach($pdfsql1 as $k=>$v)
+			{
+				if($v['id']==$where['id'])
+				{
+					$rongqi.="<option value=".$v['id']."  selected='true'>".$v['name']."</option>";
+				}else{
+					$rongqi.="<option value=".$v['id']." >".$v['name']."</option>";
+				}
+				
+			}
+			$rongqi.="</select  >";
+		
+			$this->assign("rongqi",$rongqi);
 		$this->assign('ys',$ys);//页数
 		$this->assign('dijiye',$dijiye);
 		$this->assign('list_num',$list_num);
@@ -1423,7 +1455,7 @@ $yzdl->have_qx("qx_ht_open");//跳转权限验证
 			}$sql_cp[$v['cp_id']]=$cp_sql;
 			
 		}
-		
+
 		return $sql_cp;
 	}
 	public function cp_ajax(){
@@ -2025,6 +2057,10 @@ $yzdl->have_qx("qx_ht_open");//跳转权限验证
 												$ht_ex1["zdy2"]="";
 											}
 											
+										}elseif($ht_ex['0']=="zdy261")
+										{
+											$ht_ex1["zdy261"]=$lxr_add;
+							
 										}else{
 											$ht_ex1[$ht_ex['0']]=$ht_ex['1'];
 										}
@@ -2562,6 +2598,321 @@ $yzdl->have_qx("qx_ht_open");//跳转权限验证
 														
 														
 	
+	}
+	public function numTrmb($num){ 
+		 $d = array("零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"); 
+		 $e = array('元', '拾', '佰', '仟', '万', '拾万', '佰万', '仟万', '亿', '拾亿', '佰亿', '仟亿'); 
+		 $p = array('分', '角'); 
+		 $zheng = "整"; 
+		 $final = array(); 
+		 $inwan = 0;//是否有万 
+		 $inyi = 0;//是否有亿 
+		 $len = 0;//小数点后的长度 
+		 $y = 0; 
+		 $num = round($num, 2);//精确到分 
+		 if(strlen($num) > 15){ 
+		 return "金额太大"; 
+		 die(); 
+		 } 
+		 if($c = strpos($num, '.')){//有小数点,$c为小数点前有几位 
+		 $len=strlen($num)-strpos($num,'.')-1;//小数点后有几位数 
+		 }else{//无小数点 
+		 $c = strlen($num); 
+		 $zheng = '整'; 
+		 } 
+		 for($i = 0; $i < $c; $i++){ 
+		 $bit_num = substr($num, $i, 1); 
+		 if ($bit_num != 0 || substr($num, $i + 1, 1) != 0) { 
+		  @$low = $low . $d[$bit_num]; 
+		 } 
+		 if ($bit_num || $i == $c - 1) { 
+		  @$low = $low . $e[$c - $i - 1]; 
+		 } 
+		 } 
+		 if($len!=1){ 
+		 for ($j = $len; $j >= 1; $j--) { 
+		  $point_num = substr($num, strlen($num) - $j, 1); 
+		  @$low = $low . $d[$point_num] . $p[$j - 1]; 
+		 } 
+		 }else{ 
+		 $point_num = substr($num, strlen($num) - $len, 1); 
+		 $low=$low.$d[$point_num].$p[$len]; 
+		 } 
+		 $chinses = str_split($low, 3);//字符串转化为数组 
+		 for ($x = count($chinses) - 1; $x >= 0; $x--) { 
+		 if ($inwan == 0 && $chinses[$x] == $e[4]) {//过滤重复的万  20180323
+		  $final[$y++] = $chinses[$x]; 
+		  $inwan = 1; 
+		 } 
+		 if ($inyi == 0 && $chinses[$x] == $e[8]) {//过滤重复的亿 
+		  $final[$y++] = $chinses[$x]; 
+		  $inyi = 1; 
+		  $inwan = 0; 
+		 } 
+		 if ($chinses[$x] != $e[4] && $chinses[$x] !== $e[8]) { 
+		  $final[$y++] = $chinses[$x]; 
+		 } 
+		 } 
+		 $newstr = (array_reverse($final)); 
+		 $nstr = join($newstr); 
+		 if((substr($num, -2, 1) == '0') && (substr($num, -1) <> 0)){ 
+		 $nstr = substr($nstr, 0, (strlen($nstr) -6)).'零'. substr($nstr, -6, 6); 
+		 } 
+		 $nstr=(strpos($nstr,'零角')) ? substr_replace($nstr,"",strpos($nstr,'零角'),6) : $nstr; 
+		 return $nstr = (substr($nstr,-3,3)=='元') ? $nstr . $zheng : $nstr; 
+		} 
+		
+	public function zaixianpdf(){
+		$htid=$_GET['htid'];
+		$pdfid=$_GET['pdfid'];
+		//
+		$pdf_base=M("zdymb");
+		$wherepdf['id']=$pdfid;
+		$wherepdf['logo']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		$sql_pdf=$pdf_base->where($wherepdf)->find();
+
+		$html=$sql_pdf["content"];
+		//页眉是否开启
+		$ymkq=$sql_pdf["ymkq"];
+		//页眉图片
+		$ymtp=$sql_pdf['ymtp'];
+		//页眉标题
+		$ymbt=$sql_pdf["ymbt"];
+		//页眉内容
+		$ymnr=$sql_pdf['ymnr'];
+		//水印开启
+		$sykq=$sql_pdf['sykq'];
+		//水印内容
+		$synr=$sql_pdf['synr'];
+
+
+		//查询合同信息
+		$ht_id=$htid;
+			$map['ht_id']=$ht_id;//联系人条件
+			$map['ht_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件          
+			$ht_base=M("hetong");
+			$sql_hetong=$ht_base->where($map)->find();
+			
+				foreach($sql_hetong as $k1 =>$v1)
+				{
+					if($k1!='ht_data')
+					{
+						$ht_sql[$k1]=$v1;
+					}else{
+						$ht_json=json_decode($v1,true);
+						foreach($ht_json as $k2=>$v2)
+						{
+							$ht_sql[$k2]=$v2;
+						}
+					}
+					
+				}
+
+
+
+
+		$kehu=$this->kehu();
+		$jineht=$this->numTrmb($ht_sql["zdy3"]);
+		//替换模板字段
+		$htmla=str_replace("-合同编号-",$ht_sql["zdy8"],$html);
+		$htmla=str_replace("-合同金额-",$jineht,$htmla);
+		$htmla=str_replace("-甲方名称-",$kehu[$ht_sql["zdy1"]]['name'],$htmla);
+		$htmla=str_replace("-合同签约日期-",$ht_sql["zdy4"],$htmla);
+	
+		//获取联系人信息
+		$base_lxr=M("lx");
+		$lxwhere['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件          
+		$lxwhere['lx_id']=$ht_sql["zdy261"];
+		$sql_lx=$base_lxr->where($lxwhere)->find();
+
+				foreach($sql_lx as $k=>$v)
+				{
+					if($k=='lx_data')
+					{
+						
+						$lx_json=json_decode($v,true);
+						foreach($lx_json as $k2=>$v2)
+						{
+							$lx_newsql[$k2]=$v2;
+						}
+					}
+					
+				}
+				$htmla=str_replace("-联系人-",$lx_newsql["zdy0"],$htmla);	
+				$htmla=str_replace("-电话-",$kehu[$ht_sql["zdy1"]]['zdy2'],$htmla);
+				$htmla=str_replace("-地址-",$kehu[$ht_sql["zdy1"]]['zdy7'],$htmla);
+				$htmla=str_replace("-地址-","",$htmla);
+			//查询客户开票信息
+			$khkp_base=M("khkpxx");
+			$sql_khkp=$khkp_base->find();
+			$htmla=str_replace("-开户行-",$sql_khkp["kaihuhang"],$htmla);	
+			$htmla=str_replace("-银行账号-",$sql_khkp["zhanghao"],$htmla);
+			$htmla=str_replace("-税号-",$sql_khkp["shuihao"],$htmla);
+			$htmla=str_replace("-注册地址-",$sql_khkp["dizhi"],$htmla);
+			$htmla=str_replace("-银行预留电话电话-",$sql_khkp["dianhua"],$htmla);
+			//附件产品
+											
+			$bgtd=0;
+			if(strpos($htmla,'-产品名称-')===false){
+			   
+			}else{
+				$newwz[strpos($htmla,'-产品名称-')]="产品名称";
+				$newcp['cpmc']="产品名称";
+			 	 $bgtd++;
+			}
+			if(strpos($htmla,'-产品价格-')===false){
+			   
+			}else{
+				$newwz[strpos($htmla,'-产品价格-')]="产品价格";
+				$newcp['cpjg']="产品价格";
+			  $bgtd++;
+			}
+			if(strpos($htmla,'-产品描述-')===false){
+			   
+			}else{
+				$newwz[strpos($htmla,'-产品描述-')]="产品描述";
+				$newcp['cpms']="产品描述";
+			  $bgtd++;
+			}
+			if(strpos($htmla,'-数量-')===false){
+			   
+			}else{
+				$newwz[strpos($htmla,'-数量-')]="数量";
+				$newcp['cpsl']="数量";
+			  $bgtd++;
+			}
+			if(strpos($htmla,'-总价-')===false){
+			   
+			}else{
+				$newwz[strpos($htmla,'-总价-')]="总价";
+				$newcp['cpzj']="总价";
+			  $bgtd++;
+			}
+			ksort($newwz);
+			//查询该合同对应的产品
+			$cpht['cp_mk']=6;
+			$cpht['sj_id']=$htid;
+			$cpht_base=M("cp_sj");
+			$sql_spht=$cpht_base->where($cpht)->select();
+			$chanpina=$this->chanpin();
+			$cpzhzj=0;
+			$table.='<table style=" width:100%; border:1px solid black"  >';
+					$table.="<tr  style='width:20%;  border:1px solid black'>";
+							foreach($newwz as $ka=>$va)
+							{
+								$table.="<td  style='width:20%;  border:1px solid black'>".$va."</td>";
+							}
+							$table.="</tr>";
+			foreach($sql_spht as $k=>$v)
+			{
+				$table.="<tr  style='width:20%;  border:1px solid black'>";
+
+						foreach($newwz as $k1=>$v1)
+						{
+
+							$table.="<td  style='width:20%; border:1px solid black'>";
+								if($v1=="产品名称")
+								{
+									$thkh=str_replace("（","(",$chanpina[$v['cp_id']]["zdy0"]);
+									$thkh=str_replace("）",")",$thkh);
+									$table.=$thkh.$chanpina[$v['cp_id']]["zdy1"];//产品名称
+								}
+								if($v1=="产品价格")
+								{
+									$table.=$v['cp_yj'];//产品价格
+								}
+								if($v1=="产品描述")
+								{
+									var_dump($v['cp_beizhu']);
+									$table.=$v['cp_beizhu'];//产品描述
+								}
+								if($v1=="数量")
+								{
+									$table.=$v['cp_num1'];//产品数量
+								}
+								if($v1=="总价")
+								{
+									$table.=$v['cp_zj'];//产品总价
+									$cpzhzj=$cpzhzj+$v['cp_zj'];
+								}
+							$table.="</td>";
+						}
+					
+				$table.="</tr>";
+			}
+			$table.="<tr><td colspan='".$bgtd."' style='border:1px solid black'  align='center'> 总金额：￥".$cpzhzj."</td></tr>";
+			$table.='</table>';
+
+				$s1='<table';
+				$s2='</table>';
+				$i1=strpos($htmla,$s1);//开始位置
+				$i2=strpos($htmla,$s2);//结束位置
+				if ($i1!==false && $i2!==false)//找到
+				$htmla=substr($htmla,0,$i1).$table. substr($htmla,$i2+strlen($s2));
+				
+		Vendor('mpdf.mpdf');
+		//字段含义按顺序分别为：  
+		//$mode,$format,默认字体大小，默认字体，左页边距25（默认），右页边距（25），上页边距16，下页边距16，mgh:16,mgf:13,orientation  
+		$mpdf=new \mPDF('utf-8','A4','','',25,25,26,16); //'utf-8' 或者 '+aCJK' 或者 'zh-CN'都可以显示中文  
+				//设置PDF页眉内容 
+			$header='<table width="100%" style="margin:0 auto;border-bottom: 1px solid black; vertical-align: middle; font-family: 
+			serif; font-size: 9pt; color: #000;"><tr> 
+			<td width="10%"><img src="'.__ROOT__.'/Public/chanpinfile/cpfile/linshi/'.$ymtp.'" width="270px" ></td> 
+			<td width="30%"></td> 
+			<td width="60%"  style="font-size:20px;color:#000"><b>'.$ymbt.'
+			</b><p style="font-size:17px;color:#000">'.$ymnr.'</p></td> 
+			</tr></table>'; 
+			  
+			//设置PDF页脚内容 
+			$footer='<table width="100%" style=" vertical-align: bottom; font-family: 
+			serif; font-size: 9pt; color: #000;"><tr style="height:30px"></tr><tr> 
+			<td width="10%"></td> 
+			<td width="80%" align="center" style="font-size:14px;color:#000">
+			  页脚</td> 
+			<td width="10%" style="text-align: left;">页码：{PAGENO}/{nb}</td> 
+			</tr></table>'; 
+//添加页眉和页脚到pdf中 
+		if($ymkq=="ym")
+		{
+		$mpdf->SetHTMLHeader($header); $mpdf->SetHTMLFooter($footer); 
+		}
+
+	//设置字体，解决中文乱码  
+		$mpdf -> useAdobeCJK = TRUE;  
+		$mpdf ->autoScriptToLang = true;  
+		$mpdf -> autoLangToFont = true;  
+		//$mpdf-> showImageErrors = true; //显示图片无法加载的原因，用于调试，注意的是,我的机子上gif格式的图片无法加载出来。  
+		//设置pdf显示方式  
+		$mpdf->SetDisplayMode('fullpage');  
+		//目录相关设置：  
+		//Remember bookmark levels start at 0(does not work inside tables)H1 - H6 must be uppercase  
+		//$this->h2bookmarks = array('H1'=>0, 'H2'=>1, 'H3'=>2);  
+		$mpdf->h2toc = array('H3'=>0,'H4'=>1,'H5'=>2);  
+		$mpdf->h2bookmarks = array('H3'=>0,'H4'=>1,'H5'=>2);  
+		$mpdf->mirrorMargins = 1;  
+		//是否缩进列表的第一级  
+		$mpdf->list_indent_first_level = 0;  
+		  
+		//导入外部css文件：  
+		$stylesheet1 = file_get_contents(CSS_PATH.'target.css');
+		$mpdf->watermark_font = 'GB';  
+		$mpdf->SetWatermarkText($synr,0.1);
+		if($sykq=="sy")
+		{
+		$mpdf->showWatermarkText = true;
+		}
+		$mpdf->AddPage();
+		$mpdf->WriteHTML($stylesheet1,1);  
+
+		$mpdf->WriteHTML($htmla);  //$html中的内容即为变成pdf格式的html内容。  
+	
+		$fileName = '测试合同.pdf';  
+		//输出pdf文件  
+		$mpdf->Output($fileName,'I'); //'I'表示在线展示 'D'则显示下载窗口  
+		exit;  
+		
+		
+
 	}
 }
 
