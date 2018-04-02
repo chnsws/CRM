@@ -486,8 +486,11 @@
 					</form>
 	  	
 	  </div>
+	  <div style="display: none" class="fubi" onclick='pdf(this)'></div>
+	  <input type='text' onchange="num_format(this)" >
 	</body>
 	<script>
+
 	var budong=$('#budong').val();
 	if(budong=='budong')
 	{
@@ -767,10 +770,16 @@ function kh_name_if(e){
 										
 										$.get('__ROOT__/index.php/Home/Hetong/add_ht',{"id":vstr},
 								        		 function(html){
+
 													errorFun(html)
 								        		 		tishi("添加成功")
-
-		     											   	window.location.href="hetong";
+								        		 			layer.close(win)    
+									        		 		 $(document).ready(function(){ 
+																	
+															　　$(".fubi").prop("name",html)
+																$(".fubi").click();
+															}); 
+		     											   ///	window.location.href="hetong";
 										        	
 								                 });
 									}else{
@@ -786,12 +795,19 @@ function kh_name_if(e){
 									        		 function(html){
 														errorFun(html)
 
-									        		 		tishi("添加成功")
+									        		 		layer.close(win)    
+									        		 		 $(document).ready(function(){ 
+																	
+															　$(".fubi").prop("name",html)
+																$(".fubi").click();
 
-			     											   	window.location.href="hetong";
+															}); 
+		     											   ///	window.location.href="hetong";
+										        	
 											        		
 									                 });
 									}
+
 								},
 								btn2:function(){
 									$.get('__ROOT__/index.php/Home/Hetong/del_all',{},
@@ -810,10 +826,10 @@ function kh_name_if(e){
 									        	     	$(".cp").hide();
 									        	     	$(".yc_xs").hide();
 									        		
-									        		layer.close(win)
+									        		layer.close(win)//
 							                   });
 
-										layer.close(index)
+									
 								
 
 								}
@@ -1837,6 +1853,7 @@ $(function(){
 
  });
 function pdf(ss){
+
 	var id=$(ss).prop("name");//获取到合同的ID
 		layui.use('layer', function(){
 							var layer = layui.layer;
@@ -1853,7 +1870,10 @@ function pdf(ss){
 
 										
 								var pdfid=$(".pdfval").val();
-								alert(pdfid);
+								window.open("__ROOT__/index.php/Home/Hetong/zaixianpdf?htid="+id+"&pdfid="+pdfid+"&xzck=1");    
+										
+													
+
 
 
 								},
@@ -1862,7 +1882,7 @@ function pdf(ss){
 								var pdfid=$(".pdfval").val();
 						
 
-									window.open("__ROOT__/index.php/Home/Hetong/zaixianpdf?htid="+id+"&pdfid="+pdfid);    
+									window.open("__ROOT__/index.php/Home/Hetong/zaixianpdf?htid="+id+"&pdfid="+pdfid+"&xzck=2");    
 
 								},
 								

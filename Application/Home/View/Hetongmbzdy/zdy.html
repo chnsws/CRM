@@ -213,10 +213,10 @@
 											</tr>
 		</table>
 	</div>
-	<input type='text' class="tzymaa" value="{$ymkq}">
-	<input type='text' class="tzymtp" value="{$ymtp}">
-	<input type='text' class="tzsyaa" value="{$sykq}">
-	<input type='text' class="xiugaia" value="{$xiugaia}">
+	<input type='hidden' class="tzymaa" value="{$ymkq}">
+	<input type='hidden' class="tzymtp" value="{$ymtp}">
+	<input type='hidden' class="tzsyaa" value="{$sykq}">
+	<input type='hidden' class="xiugaia" value="{$xiugaia}">
 	</body>
 	<script>
 		//
@@ -261,7 +261,12 @@
 
 				$(".thxg").html("<span class='thxg'><span style='color:white;margin-top: 10px '  class='layui-btn layui-btn-small' value='' onclick='pdfxg()'>确认修改</span>");
 		}
-
+ function tishi(neirong)
+			{
+			    layer.msg(neirong, {
+			        time: 1000, 
+			    });
+			}
 		function shaixuana(){
 			var sx=$(".shaixuan").val();
 			window.location='__ROOT__/index.php/Home/Hetongmbzdy/chaxun?id='+sx;
@@ -288,7 +293,7 @@
 					            else
 					            {	
 					            	
-					           		alert("文件上传失败");
+					           		tishi("文件上传失败");
 					            }
 
 					        },
@@ -302,7 +307,7 @@
 		}
 			
     				layui.use('layer', function(){
-					//	alert(123)
+					//	tishi(123)
 							var layer = layui.layer;
 							var win=layer.open({
 
@@ -321,12 +326,12 @@
 									window.ymbt=$(".ymbt").val();
 									if(ymbt==""||ymbt==undefined)
 									{
-										alert("页眉标题不能为空");return
+										tishi("页眉标题不能为空");return
 									}
 									window.ymnr=$(".ymnr").val();
 									if(ymnr==""||ymnr==undefined)
 									{
-										alert("页眉内容不能为空");return
+										tishi("页眉内容不能为空");return
 									}
 								}else{
 									window.ymbt="0";
@@ -338,7 +343,7 @@
 									window.synr=$(".synr").val();
 									if(synr==""||synr==undefined)
 									{
-										alert("水印内容不能为空");return
+										tishi("水印内容不能为空");return
 									}
 								}else{
 									window.synr="0";
@@ -374,18 +379,18 @@ function pdfxg()
 			var b=$(".namea").val();
 			if(a=="")
 			{
-				alert("内容不能为空");rerurn;
+				tishi("内容不能为空");rerurn;
 			}
 			if(b=="")
 			{
-				alert("名称不能为空");rerurn;
+				tishi("名称不能为空");rerurn;
 			}
 				var sx=$(".shaixuan").val();	
 			$.post('__ROOT__/index.php/Home/Hetongmbzdy/xiugai',{"upfile":a,"name":b,'ymkq':ymkq,'ymtp':fjname,"ymbt":ymbt,"ymnr":ymnr,"sykq":sykq,"synr":synr,"id":sx},
 							        		 function(html){
 									        
 									        		
-									        		alert("修改成功")
+									        		tishi("修改成功")
 									        		}
 							                   );
 }
@@ -395,18 +400,18 @@ function pdfxg()
 			var b=$(".namea").val();
 			if(a=="")
 			{
-				alert("内容不能为空");rerurn;
+				tishi("内容不能为空");rerurn;
 			}
 			if(b=="")
 			{
-				alert("名称不能为空");rerurn;
+				tishi("名称不能为空");rerurn;
 			}
 
 			$.post('__ROOT__/index.php/Home/Hetongmbzdy/baocun',{"upfile":a,"name":b,'ymkq':ymkq,'ymtp':fjname,"ymbt":ymbt,"ymnr":ymnr,"sykq":sykq,"synr":synr},
 							        		 function(html){
 									        
 									        		
-									        		alert("保存成功")
+									        		tishi("保存成功")
 									        		}
 							                   );
 		}
@@ -442,7 +447,7 @@ function pdfxg()
 									   
 										else
 										{
-												alert("文件上传失败");
+												tishi("文件上传失败");
 										}
 				  }
 				}); 
