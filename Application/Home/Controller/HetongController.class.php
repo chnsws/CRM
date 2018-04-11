@@ -1897,6 +1897,7 @@ $yzdl->have_qx("qx_ht_open");//跳转权限验证
 					$ht_data["ht_cj_date"]=time();
 					$ht_baseq=M('hetong');
 					$ht_sql=$ht_baseq->add($ht_data);
+					if($ht_sql)
 					{	
 						$sql_sel=$ht_sql;
 						$sql12['cp_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件    
@@ -2786,9 +2787,14 @@ var_dump($b);exit;
 		$kehu=$this->kehu();
 		$jineht=$this->numTrmb($ht_sql["zdy3"]);
 		//替换模板字段
+
 		$htmla=str_replace("-合同编号-",$ht_sql["zdy8"],$html);
+		$htmla=str_replace("、",".",$htmla);
+		
+		
 		$htmla=str_replace("-合同金额-","(￥".$ht_sql["zdy3"].")".$jineht,$htmla);
 		$htmla=str_replace("-甲方名称-",$kehu[$ht_sql["zdy1"]]['name'],$htmla);
+		//$htmla=str_replace("：",":",$htmla);
 		$htmla=str_replace("-合同签约日期-",$ht_sql["zdy4"],$htmla);
 	
 		//获取联系人信息
@@ -2816,7 +2822,9 @@ var_dump($b);exit;
 				$htmla=str_replace("-地址-","",$htmla);
 			//查询客户开票信息
 			$khkp_base=M("khkpxx");
-			$sql_khkp=$khkp_base->find();
+			$whekp['logo']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件     
+			$whekp['kh']=$ht_sql["zdy1"];     
+			$sql_khkp=$khkp_base->where($whekp)->find();
 			$htmla=str_replace("-开户行-",$sql_khkp["kaihuhang"],$htmla);	
 			$htmla=str_replace("-银行账号-",$sql_khkp["zhanghao"],$htmla);
 			$htmla=str_replace("-税号-",$sql_khkp["shuihao"],$htmla);
@@ -2826,17 +2834,19 @@ var_dump($b);exit;
 			$cpht['sj_id']=$htid;
 			$cpht_base=M("cp_sj");
 			$sql_spht=$cpht_base->where($cpht)->select();
+
 			$chanpina=$this->chanpin();
 				$fenge=explode("table", htmlspecialchars($htmla));
 
 				
-
 				$s1='-产品名称-';
 				$s2='-产品描述-';
 				$s3='-产品价格-';
 				$s4='-数量-';
 				$s5='-总价-';
+				$s6='-备注-';
 				$endzhi="";
+
 				foreach($fenge as $kaa=>$vaa)
 				{
 				
@@ -2847,6 +2857,7 @@ var_dump($b);exit;
 						$i3=strpos($vaa,$s3);//结束位置
 						$i4=strpos($vaa,$s4);//结束位置
 						$i5=strpos($vaa,$s5);//结束位置
+						$i6=strpos($vaa,$s6);//结束位置
 						
 
 
@@ -2892,6 +2903,13 @@ var_dump($b);exit;
 				$newcp['cpzj']="总价";
 			  $bgtd++;
 			}
+			if(strpos($vaa,'-备注-')===false){
+			   
+			}else{
+				$newwz[strpos($vaa,'-备注-')]="备注";
+				$newcp['cpbz']="备注";
+			  $bgtd++;
+			}
 			ksort($newwz);
 			//查询该合同对应的产品
 			
@@ -2924,7 +2942,7 @@ var_dump($b);exit;
 											if($v1=="产品描述")
 											{
 												//var_dump($v['cp_beizhu']);
-												$table.=$v['cp_beizhu'];//产品描述
+												$table.=$v['cp_miaoshu'];//产品描述
 											}
 											if($v1=="数量")
 											{
@@ -2934,6 +2952,11 @@ var_dump($b);exit;
 											{
 												$table.=$v['cp_zj'];//产品总价
 												$cpzhzj=$cpzhzj+$v['cp_zj'];
+											}
+											if($v1=="备注")
+											{
+												$table.=$v['cp_beizhu'];
+												
 											}
 										$table.="</td>";
 									}

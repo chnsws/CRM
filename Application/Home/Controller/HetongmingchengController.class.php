@@ -187,7 +187,12 @@ return $fzr_only;
 			$ht_zje=$ht_json['zdy3'];
 			$this->assign('ht_zjea',$ht_zje);
 		
-	
+	//开票信息设置查询
+			$kpxxsz=M("khkpxx");
+			$khkpxx["logo"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件          
+			$khkpxx["kh"]=$ht_json["zdy1"];
+			$sql_kpxx=$kpxxsz->where($khkpxx)->find();
+			$this->assign("kpxx",$sql_kpxx);
 			foreach ($ywzd as $k => $v){
 				$show.="<tr style='line-height:40px'><td style='width :150px'>".$v['name']."：</td>";
 				if($ht_json[$k]!=""){
@@ -412,7 +417,7 @@ return $fzr_only;
 					<td>".$v['cp_num1']."</td>
 					<td>".$v['cp_zk']."</td>
 					<td>".$v['cp_zj']."</td>
-			
+					<td class='bzsl' title='".$v['cp_miaoshu']."' style='cursor:pointer'>".$v['cp_miaoshu']."</td>
 					<td class='bzsl' title='".$v['cp_beizhu']."' style='cursor:pointer'>".$v['cp_beizhu']."</td>
 					<td><input type='button' name='".$v['cp_id1']."' onclick='cp_del(this)' value='删除'></td>
 					</tr>";
@@ -1609,6 +1614,33 @@ return $fzr_only;
 
 			
 				return $spu;
+		
+	}
+	public function kaipiaoxxadd(){
+					
+		//$.get('__ROOT__/index.php/Home/Hetongmingcheng/kaipiaoxxadd',{"khid":khid,"khh":khh,"zh":zh,"sh":sh,"zcdz":zcdz,"zcdh":zcdh},
+			$m=M("khkpxx");
+			$where['kh']=$_GET["khid"];
+			$where['kaihuhang']=$_GET["khh"];
+			$where['zhanghao']=$_GET["zh"];
+			$where['shuihao']=$_GET["sh"];
+			$where['dizhi']=$_GET["zcdz"];
+			$where['dianhua']=$_GET["zcdh"];
+			$where['logo']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//;
+
+					$khkpxx["logo"]=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid'); //通用条件          
+					$khkpxx["kh"]=$_GET["khid"];
+					$sql_kpxx=$m->where($khkpxx)->find();
+					if($sql_kpxx!="")
+					{	
+							$sql=$m->where($khkpxx)->save($where);
+					}else{
+						
+							$sql=$m->add($where);	
+					}
+
+
+
 		
 	}
 	public function kaipiaoadd(){

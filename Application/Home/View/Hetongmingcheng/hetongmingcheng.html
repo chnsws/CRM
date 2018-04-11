@@ -59,6 +59,7 @@ i.layui-anim{display:inline-block}
 			.backg{height:40px;border:1px solid #DDD;background-color:#DDDDDD;}
 		.kongzhi1{margin-top:13px;}
 		.add_wz{float:right;margin-top:-9px;padding-top:-20px;}
+		.add_wza{margin-top:-9px;padding-top:-20px;}
 			th{background-color:#50BBB1;height:30px;color:white;border:0px !important;}
 			tr{line-height:45px;}
 			.th_hei th{height:40px;}
@@ -348,7 +349,37 @@ i.layui-anim{display:inline-block}
 
 
 
-
+					<div class="szfp" style='display: none'>
+						<table  class="uk-form" align="center">
+						<form>
+							<tr>
+								<td>单位名称：</td>
+								<td><input type='text' name='' value='{$name}' readonly='true' ></td>
+							</tr>
+							<tr>
+								<td>开户行：</td>
+								<td><input type='text' id='khh' value='{$kpxx.kaihuhang}' ></td>
+							</tr>
+							<tr>
+								<td>账号：</td>
+								<td><input type='text' id='zh' value='{$kpxx.zhanghao}' ></td>
+							</tr>
+							<tr>
+								<td>税号：</td>
+								<td><input type='text' id='sh' value='{$kpxx.shuihao}' ></td>
+							</tr>
+							<tr>
+								<td>注册地址：</td>
+								<td><input type='text' id='zcdz' value='{$kpxx.dizhi}' ></td>
+							</tr>
+							<tr>
+								<td>注册电话：</td>
+								<td><input type='text' id='zcdh' value='{$kpxx.dianhua}' ></td>
+							</tr>
+						</form>
+						</table>
+					</div>
+					
 
 				    <div class='layui-tab-item'>
 					  		<div class="kpjl"  style="display: none;border:1px;">
@@ -365,7 +396,7 @@ i.layui-anim{display:inline-block}
 						 	</div>
 							<div class="hk_wh">
 										<div class="hkauto" >
-									  		合同总金额：¥ <b>{$ht_zjea}</b><span class="hkshow"> 已开票总金额：¥<b> {$sq_kp}</b></span> <span class="hkshow">未开票总金额：¥ <b>{$wkp}</b></span> <span  class="pz_wz"><button  id='create-sahngji' onclick='xzkp()' class='layui-btn layui-btn-small add_wz wtgbky' >新增开票记录</button></span>
+									  		合同总金额：¥ <b>{$ht_zjea}</b><span class="hkshow"> 已开票总金额：¥<b> {$sq_kp}</b></span> <span class="hkshow">未开票总金额：¥ <b>{$wkp}</b></span> <button style="float: right;" class='layui-btn layui-btn-small add_wza awtgbky'  onclick="kpxxsz()">设置开票信息</button><span  class="pz_wz"><button  id='create-sahngji' onclick='xzkp()' class='layui-btn layui-btn-small add_wz wtgbky' style="margin-right:20px" >新增开票记录</button></span>
 									  	</div >
 							</div>
 						<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
@@ -507,7 +538,9 @@ i.layui-anim{display:inline-block}
 					  				<th >数量</th>
 					  				<th >折扣</th>
 					  				<th >总价</th>
+					  				<th >描述</th>
 					  				<th width="20%">备注</th>
+
 					  				<th >操作</th>
 									</thead>
 									<tbody class="cp_showoo">
@@ -611,6 +644,14 @@ i.layui-anim{display:inline-block}
 									<td>总价：</td>
 										<td>
 											<input type="text" class="cp_zj" name="cp_zj" disabled style='width:300px;height:26px;'>		
+										</td>			
+								</tr>
+
+								<tr class="addtr">
+									<td>产品描述：</td>
+										<td>
+											<textarea name="cp_miaoshu" rows="4" cols="40">
+											</textarea>		
 										</td>			
 								</tr>
 								<tr class="addtr">
@@ -824,6 +865,7 @@ i.layui-anim{display:inline-block}
 										ajaxstr+=thisdom.prop("name")+":"+thisdom.val()+",";
 									}
 									var vstr=ajaxstr.substr(0,ajaxstr.length-1);
+
 									var kh_id=$(".kh_id").val();
 								
 									$.get('__ROOT__/index.php/Home/Hetongmingcheng/add_cp',{"id":vstr,'kh_id':kh_id},
@@ -847,7 +889,7 @@ i.layui-anim{display:inline-block}
     				$(".cp_zk").val("-")	
     				$(".cp_num1").val("")	
     				$(".cp_zj").val("")	
-    				layer.close(win)
+    				layer.close(win)//
     			}
     			$.get('__ROOT__/index.php/Home/Shangji/cp_ajax',{"id":cp_id},
     										function(html)
@@ -866,7 +908,7 @@ i.layui-anim{display:inline-block}
     		function cp_jy_aj(b){
     			var jy = $(b).val();	
     			var yj = $(".cp_yj").val();	
-    			/**用  100 除  原价  得出的值 乘 建议 价格**/
+    			/**用  100 除  原价  得出的值 乘 建议 价格**///
     		
     			var baifenbi=(100 /  yj *  jy );
     			var jiequ =	baifenbi.toFixed(2);
@@ -1167,6 +1209,40 @@ function bjjh(thisdom){
 							}); 
 						});                  
     			}
+    	function kpxxsz(){
+    			layui.use('layer', function(){
+
+							var layer = layui.layer;
+							var win=layer.open({
+
+								type:1,
+								offset: 't',
+								area:'750px',
+								title: '设置发票信息',
+								content:$('.szfp'),
+								btn:['确定'],
+
+								btn1:function(){
+
+
+										var khid=$(".kh_id").val();
+										var khh=$("#khh").val();
+										var zh=$("#zh").val();
+										var sh=$("#sh").val();
+										var zcdz=$("#zcdz").val();
+										var zcdh=$("#zcdh").val();	
+											$.get('__ROOT__/index.php/Home/Hetongmingcheng/kaipiaoxxadd',{"khid":khid,"khh":khh,"zh":zh,"sh":sh,"zcdz":zcdz,"zcdh":zcdh},
+												function(html){
+												
+													window.location.href="Hetongmingcheng?id="+htid;
+												})
+									 
+							            
+								}
+							
+							}); 
+						});             
+    	}
     	function xzkp(){
     		$('#kaipiaoadd table :input').blur(function(){
 			var $parent =$(this).parent();

@@ -44,6 +44,7 @@ class HetongmbzdyController extends Controller {
 		-webkit-transition: all linear .2s;
 		transition: all linear .2s;
 		border-radius: 4px;' name='' >";
+			$rongqi.="<option  >请选择</option>";
 			foreach($sql as $k=>$v)
 			{
 				$rongqi.="<option value=".$v['id']." >".$v['name']."</option>";
@@ -169,7 +170,7 @@ serif; font-size: 9pt; color: #000;"><tr style="height:30px"></tr><tr>
   页脚</td> 
 <td width="10%" style="text-align: left;">页码：{PAGENO}/{nb}</td> 
 </tr></table>'; 
-//添加页眉和页脚到pdf中 
+//添加页眉和页脚到pdf中 //jiuzheyang
 if($ymkq=="ym")
 {
 $mpdf->SetHTMLHeader($header); $mpdf->SetHTMLFooter($footer); 
@@ -192,7 +193,8 @@ $mpdf->SetHTMLHeader($header); $mpdf->SetHTMLFooter($footer);
 		$mpdf->list_indent_first_level = 0;  
 		  
 		//导入外部css文件：  
-		$stylesheet1 = file_get_contents(CSS_PATH.'target.css');  
+		$stylesheet1 = file_get_contents(CSS_PATH.'target.css'); 
+				$mpdf->watermark_font = 'GB';   
 		$mpdf->SetWatermarkText($synr,0.1);
 		if($sykq=="sy")
 		{
@@ -244,7 +246,7 @@ $mpdf->SetHTMLHeader($header); $mpdf->SetHTMLFooter($footer);
 	
 		
 	/*	
-		*/
+		修改PDF生成*/
 	$data['id']=$_POST['id'];
 		$m=M("zdymb");
 		$where['name']=$_POST['name'];
