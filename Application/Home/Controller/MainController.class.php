@@ -251,11 +251,7 @@ class MainController extends DBController {
             {
                 $j=json_decode($v['ht_data'],true);
                 $d=$this->date_to_date($j['zdy4']);
-                if($j['zdy7']!='canshu3')
-                {
-                    //判断是否为成功结束
-                    continue;
-                }
+          
                 if($d<$tarr['s']||$d>$tarr['e'])
                 {
                     continue;
@@ -273,11 +269,7 @@ class MainController extends DBController {
             {
                 $j=json_decode($v['ht_data'],true);
                 $d=$this->date_to_date($j['zdy4']);
-                if($j['zdy7']!='canshu3')
-                {
-                    //判断是否为成功结束
-                    continue;
-                }
+       
                 if($d<$tarr['s']||$d>$tarr['e'])
                 {
                     continue;
@@ -290,7 +282,7 @@ class MainController extends DBController {
         {
             //产品销量
             //合同查询
-            $htid=$this->get_my_htid($fid);
+            $htid=$this->get_my_htid($fid,$tarr);
             $cp=parent::sel_more_data("crm_cp_sj","cp_num1","cp_yh='$fid' and cp_id='$yjmbmore' and sj_id in ($htid)");
             $num=0;
             foreach($cp as $v)
@@ -303,7 +295,7 @@ class MainController extends DBController {
         {
             //产品销售额
             //合同查询
-            $htid=$this->get_my_htid($fid);
+            $htid=$this->get_my_htid($fid,$tarr);
             $cp=parent::sel_more_data("crm_cp_sj","cp_zj","cp_yh='$fid' and cp_id='$yjmbmore' and sj_id in ($htid)");
             $num=0;
             foreach($cp as $v)
@@ -316,7 +308,7 @@ class MainController extends DBController {
         {
             //产品分类销量
             //合同查询
-            $htid=$this->get_my_htid($fid);
+            $htid=$this->get_my_htid($fid,$tarr);
             //该分类的产品查询--获得本分类下的所有产品
             $cp=parent::sel_more_data("crm_chanpin","cp_id","cp_yh='$fid' and cp_del='0' and cp_data like '%\"zdy6\":\"".$yjmbmore."\"%' ");
             $cpid='';
@@ -338,7 +330,7 @@ class MainController extends DBController {
         {
             //产品分类销售额
             //合同查询
-            $htid=$this->get_my_htid($fid);
+            $htid=$this->get_my_htid($fid,$tarr);
             //该分类的产品查询--获得本分类下的所有产品
             $cp=parent::sel_more_data("crm_chanpin","cp_id","cp_yh='$fid' and cp_del='0' and cp_data like '%\"zdy6\":\"".$yjmbmore."\"%' ");
             $cpid='';
@@ -460,7 +452,7 @@ class MainController extends DBController {
         return $t;
     }
     //查询我的合同
-    public function get_my_htid($fid)
+    public function get_my_htid($fid,$tarr)
     {
         //合同查询
         $myht=parent::sel_more_data("crm_hetong","ht_id,ht_data","ht_yh='$fid' and ht_fz='".cookie('user_id')."' and ht_sp='1'");
@@ -469,11 +461,7 @@ class MainController extends DBController {
         {
             $j=json_decode($v['ht_data'],true);
             $d=$this->date_to_date($j['zdy4']);
-            if($j['zdy7']!='canshu3')
-            {
-                //判断是否为成功结束
-                continue;
-            }
+  
             if($d<$tarr['s']||$d>$tarr['e'])
             {
                 continue;
@@ -756,11 +744,7 @@ class MainController extends DBController {
             {
                 $j=json_decode($v['ht_data'],true);
                 $d=$this->date_to_date($j['zdy4']);
-                if($j['zdy7']!='canshu3')
-                {
-                    //判断是否为成功结束
-                    continue;
-                }
+
                 if($d<$tarr['s']||$d>$tarr['e'])
                 {
                     continue;
@@ -788,11 +772,7 @@ class MainController extends DBController {
             {
                 $j=json_decode($v['ht_data'],true);
                 $d=$this->date_to_date($j['zdy4']);
-                if($j['zdy7']!='canshu3')
-                {
-                    //判断是否为成功结束
-                    continue;
-                }
+         
                 if($d<$tarr['s']||$d>$tarr['e'])
                 {
                     continue;

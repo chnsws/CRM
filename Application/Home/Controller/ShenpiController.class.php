@@ -1050,9 +1050,15 @@ return $fzr_only;
 			return $sql_json3;
 		}
 		public function tongguo(){
-			$yzdl=A('DB');
-			
-			$yzdl->is_login();
+			if($_GET['from']=='app')
+			{
+				$this->appStatus($_GET);
+			}
+			else
+			{
+				$yzdl=A('DB');
+				$yzdl->is_login();
+			}
 			$id=$_GET['id'];
 	//$id=237;
 			//echo $id;exit;
@@ -1122,9 +1128,16 @@ return $fzr_only;
 
 		}
 		public function bohui(){
-			$yzdl=A('DB');
-			
-			$yzdl->is_login();
+			if($_GET['from']=='app')
+			{
+				$this->appStatus($_GET);
+			}
+			else
+			{
+				$yzdl=A('DB');
+				$yzdl->is_login();
+			}
+
 			$id=$_GET['id'];
 			//echo $id;
 			$sp_base=M('sp');
@@ -1154,9 +1167,15 @@ return $fzr_only;
 			
 		}
 		public function kp_bohui(){
-			$yzdl=A('DB');
-			
-			$yzdl->is_login();
+			if($_GET['from']=='app')
+			{
+				$this->appStatus($_GET);
+			}
+			else
+			{
+				$yzdl=A('DB');
+				$yzdl->is_login();
+			}
 			$tb=$_GET['tb'];
 
 			$id=$_GET['id'];
@@ -1192,9 +1211,15 @@ return $fzr_only;
 			//$sql_save=$sp_base->where($map_sp)->save($data);
 		}
 		public function kp_tongguo(){
-			$yzdl=A('DB');
-			
-			$yzdl->is_login();
+			if($_GET['from']=='app')
+			{
+				$this->appStatus($_GET);
+			}
+			else
+			{
+				$yzdl=A('DB');
+				$yzdl->is_login();
+			}
 			$sp_id=$_GET['id'];
 			$tb=$_GET['tb'];
 			$tongguo['sp_jg']=1;
@@ -1301,9 +1326,17 @@ return $fzr_only;
 
 		}
 		public function ht_tongguo(){
-			$yzdl=A('DB');
+			if($_GET['from']=='app')
+			{
+				$this->appStatus($_GET);
+			}
+			else
+			{
+				$yzdl=A('DB');
+				$yzdl->is_login();
+			}
 			
-			$yzdl->is_login();
+			
 			$sp_id=$_GET['id'];
 			$tb=$_GET['tb'];
 			$tongguo['sp_jg']=1;
@@ -1524,9 +1557,16 @@ return $fzr_only;
 				echo $fujian;
 			}
 			public function ht_bohui(){
+
+			if($_GET['from']=='app')
+			{
+				$this->appStatus($_GET);
+			}
+			else
+			{
 				$yzdl=A('DB');
-				
 				$yzdl->is_login();
+			}
 
 			$tb=$_GET['tb'];
 
@@ -1575,6 +1615,15 @@ return $fzr_only;
 			//$sql_save=$sp_base->where($map_sp)->save($data);
 		}
 		
+		protected function appStatus($arr)
+		{
+			$userphone=addslashes($arr['userphone']);
+			$usertoken=addslashes($arr['usertoken']);
+			$app=A("AppPublic");
+			$u=$app->isLogin($userphone,$usertoken);
+			cookie("user_id",$u['user_id'],60);
+			cookie("user_fid",$u['user_fid'],60);
+		}
 }
 
 
