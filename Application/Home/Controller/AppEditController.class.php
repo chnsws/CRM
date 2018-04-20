@@ -219,6 +219,37 @@ class AppEditController extends AppPublicController {
     }
     public function chanpinedit($u,$j,$id)
     {
-        die;
+        //查询数据库中的本条数据
+        $m=M();
+        $o=$m->query("select * from crm_chanpin where cp_id='$id' and cp_yh='$u[fid]' and cp_del='0' limit 1");
+        if(count($o)<1)
+        {
+            //如果数据不存在
+            parent::errorreturn("6");
+        }
+
+
+        //当前时间
+        $nowDateTimeUinx=time();
+        $nowDateTimeStr=date("Y-m-d H:i:s",$nowDateTimeUinx);
+        //为了兼容PC端  需要比对数据
+        $nj=$j;
+        $oj=json_decode($o[0]['cp_data'],true);
+        $allJson=array();
+        foreach($nj as $k=>$v)
+        {
+            //将移动端的数据替换到原数据中
+            $oj[$k]=$v;
+        }
+        //将数组数据转换成json格式
+        $jsonData=json_encode($oj);
+        $jsonData=str_replace("\\","\\\\",$jsonData);
+      
+        $m->query("update crm_chanpin set
+            cp_data='$jsonData',
+            cp_edit_time='$nowDateTimeStr'
+        where cp_id='$id' and cp_yh='$u[fid]' and cp_del='0' limit 1");
+        $res['code']='0';
+        echo json_encode($res);
     }
 }

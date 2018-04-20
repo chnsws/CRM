@@ -184,5 +184,38 @@ class AppListController extends AppPublicController {
 
         echo json_encode($res);
     }
+    public function xiaoxilist()
+    {
+        //$header=getallheaders();
+        //用户信息
+        //$userinfo=parent::loginStatus($header);
 
+        //$fid=$userinfo['fid'];
+
+        $userinfo['user_id']='3';
+        $fid='3';
+        $m=M();
+        $query=$m->query("select * from crm_push where push_to_user = '$userinfo[user_id]' and push_yh='$fid' order by push_id desc ");
+        //parent::rr($query);die;
+        foreach($query as $v)
+        {
+            $j=json_decode($v['push_res'],true);
+            if($j['result']!='ok')
+            {
+                //只展示推送成功的
+                continue;
+            }
+            $thistime=date("Y-m-d H:i",$v['push_datetime']);
+            $typeid=explode(':',$v['push_typeid']);
+            $data['s'.$v['push_id']]['time']=$thistime;
+            $data['s'.$v['push_id']]['type']=$typeid[0];
+            $data['s'.$v['push_id']]['id']=$typeid[1];
+            $data['s'.$v['push_id']]['push_id']=$v['push_id'];
+            $data['s'.$v['push_id']]['content']=$v['push_content'];
+            $data['s'.$v['push_id']]['act']=$v['push_act']; 
+        }
+        $res['code']='0';
+        $res['data']=$data;
+        echo json_encode($res);
+    }
 }

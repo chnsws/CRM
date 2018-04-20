@@ -27,6 +27,7 @@ class AppApiController extends AppPublicController {
     {
         $username=addslashes($_POST['username']);
         $userpwd=addslashes($_POST['md5pwd']);
+        $cid=addslashes($_POST['cid']);
         if($username==''||$userpwd=='')
         {
             parent::errorreturn("3");
@@ -52,18 +53,30 @@ class AppApiController extends AppPublicController {
             $sysbroinfo=parent::getSysBro();//一维数组 sys->系统 bro->浏览器
             $nowtime=date("Y-m-d H:i:s",time());//当前时间
             $nowip=$_SERVER['REMOTE_ADDR'];//当前登录IP地址
-            $userbase->query("update crm_user set user_pwd='$token',user_lastlogintime='$nowtime',user_lastloginbrower='".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."' where user_id='".$baseuser[0]['user_id']."'");
+            $userbase->query("update crm_user set user_lastlogintime='$nowtime',user_lastloginbrower='".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."' where user_id='".$baseuser[0]['user_id']."'");
             //添加登录日志
             if($baseuser[0]['user_fid']=='0')
                 $fid=$baseuser[0]['user_id'];//获取所属用户（所属公司）
             else 
                 $fid=$baseuser[0]['user_fid'];
             $logtime=time();
-            $addressArr=parent::getCity($nowip);
-            $address=$addressArr["country"].$addressArr["region"].$addressArr["city"];
+            //$addressArr=parent::getCity($nowip);
+            //$address=$addressArr["country"].$addressArr["region"].$addressArr["city"];
+            $address='';
             $userbase->query("insert into crm_rz values('','2','0','".$baseuser[0]['user_id']."','0','0','0','0','0','0','$nowip','$address','".$sysbroinfo['sys'].'/'.$sysbroinfo['bro']."','".$fid."','".$logtime."')");
             
-            
+            //更新app登录状态表中的token，保证网页可以和app同时登录
+            $appuser=$userbase->query("select * from crm_app_user_info where a_user_id='".$baseuser[0]['user_id']."' limit 1");
+            if(count($appuser))
+            {
+                //如果存在信息，就修改
+                $userbase->query("update crm_app_user_info set a_login_token='$token',a_cid='$cid',a_user_last_login_date='$nowtime' where a_id='".$appuser[0]['a_id']."' limit 1 ");
+            }
+            else
+            {
+                //如果不存在信息，就创建
+                $userbase->query("insert into crm_app_user_info set a_user_id='".$baseuser[0]['user_id']."',a_user_phone='".$baseuser[0]['user_phone']."',a_login_token='$token',a_cid='$cid',a_user_last_login_date='$nowtime' ");
+            }
             
             /*
             //查询该用户权限,用于展示主页模块
@@ -75,7 +88,7 @@ class AppApiController extends AppPublicController {
             $res['code']=0;
             $res['data']=$data;
             */
-
+            $res['loginusername']=$baseuser[0]['user_name'];
             $res['code']=0;
             $res['token']=$token;
             echo json_encode($res);
@@ -93,20 +106,7 @@ class AppApiController extends AppPublicController {
         $userQuanxian=$m->query("select * from crm_juesequanxian where qx_id='".$qxid."' limit 1");
         return $userQuanxian[0];
     }
-    /*判断是否登录，如果登录则返回登录用户的user信息*/
-    public function isLogin($userphone,$token)
-    {
-        $m=M();
-        $q=$m->query("select * from crm_user where user_phone='$userphone' and user_pwd='$token' limit 1");
-        if(!count($q))
-        {
-            parent::errorreturn("3");
-        }
-        else
-        {
-            return $q[0];
-        }
-    }
+    
     public function loginAuto()
     {
         $header=getallheaders();
@@ -116,7 +116,7 @@ class AppApiController extends AppPublicController {
         {
             parent::errorreturn("3");
         }
-        $this->isLogin($userphone,$token);//这里判断是否登录，原方法是获取用户信息的，因为该方法中如果判断没有登录就自动停止运行的机制，所以可以在这里判断是否已经登录，如果没有登录程序就会自动停止运行
+        parent::isLogin($userphone,$token);//这里判断是否登录，原方法是获取用户信息的，因为该方法中如果判断没有登录就自动停止运行的机制，所以可以在这里判断是否已经登录，如果没有登录程序就会自动停止运行
         //如果登录了，就返回已登录的信息
         $r['code']='0';
         echo json_encode($r);
@@ -125,14 +125,8 @@ class AppApiController extends AppPublicController {
     public function getMain()
     {
         $header=getallheaders();
-        $userphone=addslashes($header['userphone']);
-        $token=addslashes($header['token']);
-        if($userphone==''||$token=='')
-        {
-            parent::errorreturn("3");
-        }
         //用户信息
-        $userinfo=$this->isLogin($userphone,$token);
+        $userinfo=parent::loginStatus($header);
         //用户权限
         $userqx=$this->getUserQx($userinfo['user_quanxian']);
 
@@ -146,20 +140,15 @@ class AppApiController extends AppPublicController {
     public function getListData()
     {
         $header=getallheaders();
-        $userphone=addslashes($header['userphone']);
-        $token=addslashes($header['token']);
-        if($userphone==''||$token=='')
-        {
-            parent::errorreturn("3");
-        }
+        //用户信息
+        $userinfo=parent::loginStatus($header);
 
         //当前请求的模块
         $openmod=addslashes($header['openmod']);
         //当前页
         $pagenum=addslashes($header['pagenum'])?addslashes($header['pagenum']):'1';
 
-        //用户信息
-        $userinfo=$this->isLogin($userphone,$token);
+        
         //验证权限
         if(!$this->have_qx($userinfo['user_quanxian'],$this->modopenqxname($openmod)))
         {
@@ -170,16 +159,7 @@ class AppApiController extends AppPublicController {
             登录通过，权限通过。就开始查询数据
         */
 
-        if($userinfo['user_fid']==0)
-        {
-            $userinfo['admin']=1;
-            $userinfo['fid']=$userinfo['user_id'];
-        }
-        else
-        {
-            $userinfo['admin']=0;
-            $userinfo['fid']=$userinfo['user_fid'];
-        }
+        
 
         $nowlimit=addslashes($header['pagenum'])=='select'?'':($pagenum-1)*$this->pagesize;
         $listcontroller=A("AppList");
@@ -228,19 +208,7 @@ class AppApiController extends AppPublicController {
         $userQuanxian=$m->query("select * from crm_juesequanxian where qx_id='".$qxid."' limit 1");
         return $userQuanxian[0][$qxname];
     }
-    protected function modindex($mod)
-    {
-        $arr=array(
-            "xiansuo"       =>"1",
-            "kehu"          =>"2",
-            "kehugonghai"   =>"3",
-            "lianxiren"     =>"4",
-            "shangji"       =>"5",
-            "hetong"        =>"6",
-            "chanpin"       =>"7"
-        );
-        return $arr[$mod];
-    }
+    
     protected function modopenqxname($mod)
     {
         $arr=array(
@@ -258,19 +226,12 @@ class AppApiController extends AppPublicController {
     public function getInfoData()
     {
         $header=getallheaders();
-        $userphone=addslashes($header['userphone']);
-        $token=addslashes($header['token']);
-        if($userphone==''||$token=='')
-        {
-            parent::errorreturn("3");
-        }
+        //用户信息
+        $userinfo=parent::loginStatus($header);
 
         //当前请求的模块
         $openmod=addslashes($header['openmod']);
         
-
-        //用户信息
-        $userinfo=$this->isLogin($userphone,$token);
         //验证权限
         if(!$this->have_qx($userinfo['user_quanxian'],$this->modopenqxname($openmod)))
         {
@@ -282,16 +243,7 @@ class AppApiController extends AppPublicController {
             登录通过，权限通过。就开始查询数据
         */
 
-        if($userinfo['user_fid']==0)
-        {
-            $userinfo['admin']=1;
-            $userinfo['fid']=$userinfo['user_id'];
-        }
-        else
-        {
-            $userinfo['admin']=0;
-            $userinfo['fid']=$userinfo['user_fid'];
-        }
+        
 
         
         $infocontroller=A("AppInfo");
@@ -333,19 +285,13 @@ class AppApiController extends AppPublicController {
     public function getAddList()
     {
         $header=getallheaders();
-        $userphone=addslashes($header['userphone']);
-        $token=addslashes($header['token']);
-        if($userphone==''||$token=='')
-        {
-            parent::errorreturn("3");
-        }
+        //用户信息
+        $userinfo=parent::loginStatus($header);
 
         //当前请求的模块
         $openmod=addslashes($header['openmod']);
         
 
-        //用户信息
-        $userinfo=$this->isLogin($userphone,$token);
         //验证权限
         //parent::rr($openmod);
         if(!$this->have_qx($userinfo['user_quanxian'],$this->modopenqxname($openmod)))
@@ -427,14 +373,16 @@ class AppApiController extends AppPublicController {
         );
 
         //获取当前mod
-        $thismod=$this->modindex($openmod);
+        $thismod=parent::modindex($openmod);
         $fid=$userinfo['user_fid']=='0'?$userinfo['user_id']:$userinfo['user_fid'];
         $infocontroller=A("AppInfo");
         
         //是否展示关联产品字段
         $haveglcp=addslashes($header['haveglcp'])==''?'0':addslashes($header['haveglcp']);
 
-        $zdarr=$infocontroller->getZdData($fid,$thismod,'',$haveglcp);
+        $cpfl=addslashes($header['flid']);
+
+        $zdarr=$infocontroller->getZdData($fid,$thismod,$cpfl,$haveglcp);
         //遍历这些字段，对每个字段都打上type的标签
         $n=array();
         foreach($zdarr as $k=>$v)
@@ -470,6 +418,7 @@ class AppApiController extends AppPublicController {
         }
         if($thismod=='7')
         {
+            /*
             //如果是产品，就查询产品分类
             $m=M();
             $fl=$m->query("select * from crm_chanpinfenlei where cpfl_company='$fid' ");
@@ -478,6 +427,10 @@ class AppApiController extends AppPublicController {
                 $flarr[$v['cpfl_id']]=$v['cpfl_name'];
             }
             $canshu['zdy6']=$flarr;
+            */
+            unset($zdarr['zdy6']);
+            unset($zdarr['zdy7']);
+            unset($zdarr['zdy5']);
         }
         $res['code']='0';
         $res['data']['zd']=$zdarr;
@@ -490,19 +443,12 @@ class AppApiController extends AppPublicController {
     public function AddData()
     {
         $header=getallheaders();
-        $userphone=addslashes($header['userphone']);
-        $token=addslashes($header['token']);
-        if($userphone==''||$token=='')
-        {
-            parent::errorreturn("3");
-        }
+        //用户信息
+        $userinfo=parent::loginStatus($header);
 
         //当前请求的模块
         $openmod=addslashes($header['openmod']);
         
-
-        //用户信息
-        $userinfo=$this->isLogin($userphone,$token);
         //验证权限
         //parent::rr($openmod);
         if(!$this->have_qx($userinfo['user_quanxian'],$this->modopenqxname($openmod)))
@@ -513,20 +459,13 @@ class AppApiController extends AppPublicController {
             身份验证通过
         */
 
-        if($userinfo['user_fid']==0)
-        {
-            $userinfo['admin']=1;
-            $userinfo['fid']=$userinfo['user_id'];
-        }
-        else
-        {
-            $userinfo['admin']=0;
-            $userinfo['fid']=$userinfo['user_fid'];
-        }
+        
 
 
         $data=$_POST['data'];
         $jsondata=json_decode($data,true);
+
+        $flid=addslashes($header['flid']);
 
         $addcontroller=A("AppAdd");
         //添加操作分发
@@ -552,7 +491,7 @@ class AppApiController extends AppPublicController {
         }
         else if($openmod=='chanpin')
         {
-            $addcontroller->chanpinadd($userinfo,$jsondata);
+            $addcontroller->chanpinadd($userinfo,$jsondata,$flid);
         }
         else
         {
@@ -564,19 +503,13 @@ class AppApiController extends AppPublicController {
     public function deleteInfoData()
     {
         $header=getallheaders();
-        $userphone=addslashes($header['userphone']);
-        $token=addslashes($header['token']);
-        if($userphone==''||$token=='')
-        {
-            parent::errorreturn("3");
-        }
+        //用户信息
+        $userinfo=parent::loginStatus($header);
 
         //当前请求的模块
         $openmod=addslashes($header['openmod']);
         
 
-        //用户信息
-        $userinfo=$this->isLogin($userphone,$token);
         //验证权限
         //parent::rr($openmod);
         if(!$this->have_qx($userinfo['user_quanxian'],$this->modopenqxname($openmod)))
@@ -618,19 +551,10 @@ class AppApiController extends AppPublicController {
     public function EditData()
     {
         $header=getallheaders();
-        $userphone=addslashes($header['userphone']);
-        $token=addslashes($header['token']);
-        if($userphone==''||$token=='')
-        {
-            parent::errorreturn("3");
-        }
-
+        //用户信息
+        $userinfo=parent::loginStatus($header);
         //当前请求的模块
         $openmod=addslashes($header['openmod']);
-        
-
-        //用户信息
-        $userinfo=$this->isLogin($userphone,$token);
         //验证权限
         //parent::rr($openmod);
         if(!$this->have_qx($userinfo['user_quanxian'],$this->modopenqxname($openmod)))
@@ -642,16 +566,7 @@ class AppApiController extends AppPublicController {
         */
         $infoid=addslashes($header['infoid']);
 
-        if($userinfo['user_fid']==0)
-        {
-            $userinfo['admin']=1;
-            $userinfo['fid']=$userinfo['user_id'];
-        }
-        else
-        {
-            $userinfo['admin']=0;
-            $userinfo['fid']=$userinfo['user_fid'];
-        }
+        
 
 
         $data=$_POST['data'];
@@ -692,17 +607,10 @@ class AppApiController extends AppPublicController {
     public function getCPFL()
     {
         $header=getallheaders();
-        $userphone=addslashes($header['userphone']);
-        $token=addslashes($header['token']);
-        if($userphone==''||$token=='')
-        {
-            parent::errorreturn("3");
-        }
+        //用户信息
+        $userinfo=parent::loginStatus($header);
         //当前请求的模块(必须，需要根据模块判断权限)
         $openmod=addslashes($header['openmod']);
-       
-        //用户信息
-        $userinfo=$this->isLogin($userphone,$token);
         //验证权限
         //parent::rr($openmod);
         if(!$this->have_qx($userinfo['user_quanxian'],$this->modopenqxname($openmod)))
@@ -712,16 +620,7 @@ class AppApiController extends AppPublicController {
         /*
             身份验证通过
         */
-        if($userinfo['user_fid']==0)
-        {
-            $userinfo['admin']=1;
-            $userinfo['fid']=$userinfo['user_id'];
-        }
-        else
-        {
-            $userinfo['admin']=0;
-            $userinfo['fid']=$userinfo['user_fid'];
-        }
+        
 
 
         $m=M();
@@ -734,5 +633,126 @@ class AppApiController extends AppPublicController {
         $res['code']='0';
         $res['data']=$data;
         echo json_encode($res);
+    }
+    //主页信息
+    public function bench()
+    {
+        $header=getallheaders();
+        //用户信息
+        $userinfo=parent::loginStatus($header);
+
+        //当前请求的模块
+        //$openmod=addslashes($header['openmod']);
+        //验证权限
+        //parent::rr($openmod);
+        //if(!$this->have_qx($userinfo['user_quanxian'],$this->modopenqxname($openmod)))
+        //{
+        //    parent::errorreturn("4");
+        //}
+
+        /*
+            身份验证通过
+        */
+        
+        
+        $bench=A("AppBench");
+        $bench->getMain($userinfo);
+    }
+    //主页业绩目标选项卡切换事件
+    public function changemb()
+    {
+        $header=getallheaders();
+        //用户信息
+        $userinfo=parent::loginStatus($header);
+
+        //目标id
+        $mbid=addslashes($header['mbid']);
+
+        /*
+            身份验证通过
+        */
+
+        
+        $bench=A("AppBench");
+        $bench->changemb($userinfo,$mbid);
+    }
+    public function gonggaoinfo()
+    {
+        $header=getallheaders();
+        //用户信息
+        $userinfo=parent::loginStatus($header);
+
+        //目标id
+        $gonggaoid=addslashes($header['gonggaoid']);
+
+        /*
+            身份验证通过
+        */
+
+        
+
+        if($gonggaoid=='')
+        {
+            parent::errorreturn("6");
+        }
+
+        $m=M();
+        $gginfoarr=$m->query("select * from crm_ggshezhi where ggsz_id='$gonggaoid'");
+        if(!count($gginfoarr))
+        {
+            parent::errorreturn("6");
+        }
+        $username=$m->query("select user_name from crm_user where user_id='".$gginfoarr[0]['ggsz_fbr']."' limit 1");
+        $username=$username[0]['user_name'];
+
+        $res['code']='0';
+        $res['data']['title']=$gginfoarr[0]['ggsz_name'];
+        $res['data']['date']=$gginfoarr[0]['ggsz_fbsj'];
+        $res['data']['user']=$username;
+        $res['data']['content']=$gginfoarr[0]['ggsz_ggnr'];
+
+        echo json_encode($res);
+    }
+    public function shenpilist()
+    {
+        $header=getallheaders();
+        //用户信息
+        $userinfo=parent::loginStatus($header);
+        /*
+            身份验证通过
+        */
+
+        $shenpi=A("AppShenpi");
+        $shenpi->needshenpi($userinfo);
+
+    }
+    public function newVersion()
+    {
+        //echo '1.0.6';
+        $m=M();
+        $d=$m->query("select v_version from crm_app_version order by v_id desc");
+        if(count($d))
+        {
+            echo $d[0]['v_version'];
+            die;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public function newVersionFileName()
+    {
+        $m=M();
+        $d=$m->query("select v_file from crm_app_version order by v_id desc");
+        if(count($d))
+        {
+            echo $d[0]['v_file'];
+            die;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

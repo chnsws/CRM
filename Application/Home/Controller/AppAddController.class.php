@@ -222,28 +222,31 @@ class AppAddController extends AppPublicController {
         $res['code']='0';
         echo json_encode($res);
     }
-    public function chanpinadd($u,$j)
+    public function chanpinadd($u,$j,$flid)
     {
-        die;
         //获取创建人
         $createUserId=$u['user_id'];
         //当前时间
         $nowDateTimeUinx=time();
         $nowDateTimeStr=date("Y-m-d H:i:s",$nowDateTimeUinx);
+
+        //产品分类插进去
+        $j['zdy6']=$flid;
         //将数组数据转换成json格式
         $jsonData=json_encode($j);
         $jsonData=str_replace("\\","\\\\",$jsonData);
 
         $m=M();
-        $m->query("insert into crm_hetong set 
-           ht_data='$jsonData',
-           ht_fz='$fz',
-           ht_cj='$createUserId',
-           ht_cj_date='$nowDateTimeUinx',
-           ht_gx_date='$nowDateTimeStr',
-           ht_yh='$u[fid]',
-           ht_sp='0'
+        $m->query("insert into crm_chanpin set 
+           cp_data='$jsonData',
+           cp_add_time='$nowDateTimeStr',
+           cp_edit_time='$nowDateTimeStr',
+           cp_qy='1',
+           cp_del='0',
+           cp_add_user='$createUserId',
+           cp_yh='$u[fid]'
         ");
+
         $res['code']='0';
         echo json_encode($res);
     }

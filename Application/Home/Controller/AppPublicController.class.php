@@ -49,6 +49,11 @@ class AppPublicController extends Controller {
     //获取登录地点方法
     function getCity($ip = '')
     {
+        return '';die;
+
+
+
+        
         if($ip=='::1')
             $ip="127.0.0.1";
         if($ip == ''){
@@ -113,6 +118,61 @@ class AppPublicController extends Controller {
         }
         
     }
+
+    /*判断是否登录，如果登录则返回登录用户的user信息*/
+    public function isLogin($userphone,$token)
+    {
+        $m=M();
+        $q0=$m->query("select * from crm_app_user_info where a_user_phone='$userphone' and a_login_token='$token' limit 1");
+        if(!count($q0))
+        {
+            $this->errorreturn("3");
+        }
+        else
+        {
+            //604800  一周
+            $datetime=strtotime($q0[0]['a_user_last_login_date']);//最后一次操作时间
+            $nowtime=time();//当前时间
+            if(($nowtime-$datetime)>604800)
+            {
+                //超过一周，身份过期
+                $this->errorreturn("3");
+            }
+            else
+            {
+                $nowdate=date("Y-m-d H:i:s",time());
+                $aid=$q0[0]['a_id'];
+                $m->query("update crm_app_user_info set a_user_last_login_date='$nowdate' where a_id='' limit 1");
+            }
+
+            $userid=$q0[0]['a_user_id'];
+            $q=$m->query("select * from crm_user where user_id='$userid' limit 1");
+            $r=array_merge($q[0],$q0[0]);
+            return $r;
+        }
+    }
+    public function loginStatus($header)
+    {
+        $userphone=addslashes($header['userphone']);
+        $token=addslashes($header['token']);
+        if($userphone==''||$token=='')
+        {
+            $this->errorreturn("3");
+        }
+        //用户信息
+        $userinfo=$this->isLogin($userphone,$token);
+        if($userinfo['user_fid']==0)
+        {
+            $userinfo['admin']=1;
+            $userinfo['fid']=$userinfo['user_id'];
+        }
+        else
+        {
+            $userinfo['admin']=0;
+            $userinfo['fid']=$userinfo['user_fid'];
+        }
+        return $userinfo;
+    }
     public function getAreaName($areaId)
     {
         $idArr=explode(',',$areaId);
@@ -135,5 +195,33 @@ class AppPublicController extends Controller {
         }
         $res=$areaName[$idArr[0]].','.$areaName[$idArr[1]].','.$areaName[$idArr[2]];
         return $res;
+    }
+    //规范时间格式
+    public function date_to_date($str)
+    {
+        $s=explode(' ',$str);
+        $e=explode('-',$s[0]);
+        if($e[1]<10&&strlen($e[1])==1)
+        {
+            $e[1]='0'.$e[1];
+        }
+        if($e[2]<10&&strlen($e[2])==1)
+        {
+            $e[2]='0'.$e[2];
+        }
+        return implode('-',$e);
+    }
+    protected function modindex($mod)
+    {
+        $arr=array(
+            "xiansuo"       =>"1",
+            "kehu"          =>"2",
+            "kehugonghai"   =>"3",
+            "lianxiren"     =>"4",
+            "shangji"       =>"5",
+            "hetong"        =>"6",
+            "chanpin"       =>"7"
+        );
+        return $arr[$mod];
     }
 }

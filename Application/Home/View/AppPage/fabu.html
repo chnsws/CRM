@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>APP发布</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!--jquery-->
+    <script src="__PUBLIC__/jquery/jquery.js"></script>
+    <!--layUI 插件  form表单样式 table样式 -->
+    <script src="__PUBLIC__/index_js_css/plugins/layui/layui.js"> </script>
+    <link rel="stylesheet" href="__PUBLIC__/index_js_css/plugins/layui/css/layui.css" media="all">
+    <!--UIkit-->
+    <link rel="stylesheet" href="__PUBLIC__/uikit/css/uikit.almost-flat.min.css" />
+    <script src="__PUBLIC__/uikit/js/uikit.min.js"></script>
+    <style>
+        html,body{margin:0;padding:0;}
+        #box{margin:10px;}
+        #top{border-bottom:3px solid #1AA094;height:50px;line-height: 50px;font-size: 24px;color:#1AA094;font-weight: bold;margin-bottom:20px;}
+        /*form*/
+        form{width:600px;}
+        form div{height:50px;line-height:50px;}
+        .left,.right{float: left;margin-top:10px;}
+        .left{width:100px;font-weight: bold;}
+        .left:nth-child(5){height:100px;}
+        .right:nth-child(6){height:100px;}
+        .right{width:500px;}
+        #feedback_type,#feedback_mod,#versionid{height:40px;line-height: 40px;width:500px;}
+        #versioninfo{height:80px;line-height:14px;font-size: 14px;width:500px;margin-top:16px;resize:none;}
+        #versionfile{height:25px;line-height: 20px;margin-top:10px;}
+        #feedback_submit{height:40px;line-height: 40px;border-radius: 5px;color:#fff;font-weight: bold;margin-top:10px;width:100px;}
+        .btn{float: left;width:600px;border-top:1px solid #ccc;padding-top:20px;margin-top:20px;}
+        .hide{display: none;}
+    </style>
+</head>
+<body>
+<div id="box">
+    <div id="top">
+        APP发布
+    </div>
+    <div id="body">
+        <center>
+        <form class="uk-form" method="post" action="__ROOT__/index.php/Home/AppPage/fabu2" enctype="multipart/form-data" >
+            <div class="left">当前版本：</div>
+            <div class="right" style="text-align: left;">
+                {$version}
+            </div>
+            <div class="left">发布版本：</div>
+            <div class="right">
+                <input type="text" id="versionid" name="versionid" placeholder="输入新的版本号（必填）" />
+            </div>
+            <div class="left">版本描述：</div>
+            <div class="right">
+                <textarea name="versioninfo" id="versioninfo" placeholder="版本描述（可选）"></textarea>
+            </div>
+            <div class="left">选择文件：</div>
+            <div class="right">
+                <input type="file" name="versionfile" id="versionfile" style="float: left;" />
+            </div>
+            <div class="left hide">文件大小：</div>
+            <div class="right hide" id="filesize" style="text-align: left;">
+                <span>1024M</span>（当前服务器允许上传的最大值为：{$allowMax}）
+            </div>
+            <div class="btn"><center><input type="button" name="feedback_submit" id="feedback_submit" onclick="yanzheng()" class="layui-btn" value="确认发布" /></center></div>
+        </form>
+        </center>
+    </div>
+</div>
+</body>
+<script>
+//初始化
+layui.use('layer', function(){
+    window.layer = layui.layer;
+});
+//黑色半透明提示
+function tishi(neirong)
+{
+    layer.msg(neirong, {
+        time: 1000, 
+        color:"#fff"
+    });
+}
+
+
+function yanzheng()
+{
+    //window.jiazai=layer.load(2);
+    
+    //==配置
+    //var allowSize=2;//(M)   //最大允许2M
+    //var allowSize_b=parseInt(allowSize)*1048576;
+    //==判断
+    if($("#versionid").val()=='')
+    {
+        tishi("版本号不能为空");
+        return;
+    }
+
+
+    $("form").submit();
+}
+$("body").on("change","#versionfile",function(){
+    var fileInfo= $("#versionfile").prop("files");
+
+    
+    var fileSize_b=fileInfo[0].size;
+    fileSize_b=(fileSize_b/1048576).toFixed(3);
+    fileSize_b=fileSize_b=='0.000'?'>0.001':fileSize_b;
+    $("#filesize").children("span").text(fileSize_b+'M');
+    $(".hide").show();
+    //alert(fileSize_b+'M');return;
+})
+</script>
+</html>

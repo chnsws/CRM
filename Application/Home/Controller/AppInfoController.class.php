@@ -280,6 +280,7 @@ class AppInfoController extends AppPublicController {
             "最后修改时间"=>"ht_gx_date"
         );
         $res=$this->createInfo($u,$d,'6','ht_data',$canshufields,$sysfields);
+        $res['htstatus']=$d[0]['ht_sp'];
         echo json_encode($res);
     }
     //产品信息查询
@@ -301,6 +302,7 @@ class AppInfoController extends AppPublicController {
         {
             $con=$json[$k];
             $data[$k]['title']=$v;
+            $data[$k]['db']=$json[$k];
             if($k=='zdy6')
             {
                 //分类
@@ -327,7 +329,16 @@ class AppInfoController extends AppPublicController {
             }
             
         }
-        
+        //毛利率的计算
+        if($data['zdy2']['content']!=''&&$data['zdy4']['content']!='')
+        {
+            //如果销售单价和成本都存在，就计算毛利率
+            $mll=(($data['zdy2']['content']-$data['zdy4']['content'])/$data['zdy2']['content'])*100;
+            $data['zdy5']['content']=round($mll,2).'%';
+        }
+
+
+
         //系统信息
         $sysinfo=array();
         //获取本公司所有的人名
@@ -357,7 +368,7 @@ class AppInfoController extends AppPublicController {
     {
         $haveglcp=$haveglcp==''?'0':$haveglcp;
         $m=M();
-        $mod=$fenlei==''?$modcode:$modcode.','.$fenlei;
+        $mod=($modcode!='7'&&$fenlei=='')?$modcode:$modcode.','.$fenlei;
         $px=$m->query("select px_px from crm_paixu where px_yh='$fid' and px_mod='$mod' limit 1");
         $zd=$m->query("select zd_data from crm_yewuziduan where zd_yh='$fid' and zd_yewu='$mod' limit 1");
         $px=explode(',',$px[0]['px_px']);
