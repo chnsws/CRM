@@ -60,7 +60,7 @@
 			
 		.anniu{line-height:70px;height:70px;border:1px solid #ccc;margin-top:20px;} 
 			.head_title{font-size:20px;}
-			.addshangji_weizhi{margin:0px auto;margin-top:20px;margin-left:80px;}
+			.addshangji_weizhi{margin:0px auto;margin-top:20px;}
 			.addtr{line-height:25px;}
 			.addtr td{padding-top:20px;}
 			.addtr td input{width:300px;}
@@ -375,7 +375,7 @@
 					</div>
 			
 	
-  	<div id="addcp" style="display: none;border:1px">
+  	<div id="addcp" style="display: none;border:1px" class='uk-form' >
   		<form id="cp_form" method="post" >
 						<table class="addshangji_weizhi">
 						{$chanpin1}
@@ -410,10 +410,15 @@
 								</td>			
 						</tr>
 						<tr class="addtr">
+									<td>产品描述：</td>
+										<td>
+											<textarea name="cp_miaoshu" rows="4" cols="38"> </textarea>		
+										</td>			
+								</tr>
+						<tr class="addtr">
 							<td>备注：</td>
 								<td>
-									<textarea name="cp_beizhu" rows="4" cols="40">
-									</textarea>		
+									<textarea name="cp_beizhu" rows="4" cols="38"></textarea>		
 								</td>			
 						</tr>
 						</table>
@@ -453,11 +458,11 @@
 									<input type="text" class="cp_zj" name="cp_zj" disabled style='width:300px;height:26px;'>		
 								</td>			
 						</tr>
+						
 						<tr class="addtr">
 							<td>备注：</td>
 								<td>
-									<textarea name="cp_beizhu" rows="4" cols="40">
-									</textarea>		
+									<textarea name="cp_beizhu" rows="4" cols="40"></textarea>		
 								</td>			
 						</tr>
 						</table>
@@ -470,7 +475,7 @@
   		<div class='ck_spjd1' style='margin-left:20%;'></div>
 	  </div>
 	  <input type='hidden' class="ssaaa" value="{$ssaaa}">
-	  <div class="scpdf">
+	  <div class="scpdf" style="display: none">
 	  		<form>
 						<table class='uk-form' style='margin-top: 40px;margin-left:25%'>
 					
@@ -487,7 +492,7 @@
 	  	
 	  </div>
 	  <div style="display: none" class="fubi" onclick='pdf(this)'></div>
-	  <input type='text' onchange="num_format(this)" >
+	  <input type='hidden' onchange="num_format(this)" >
 	</body>
 	<script>
 
@@ -1771,7 +1776,7 @@ $("#nchangyong").click(function(){
 								offset: 't',
 								area:['630px','400px'],
 								fixed: false,
-								title: '查看审批进度',
+								title: '查看审批进度',//
 
 								content:$('.ck_spjd'),
 								btn:['返回'],
@@ -1852,6 +1857,12 @@ $(function(){
  $('#xl2').searchableSelect();
 
  });
+
+function zxyl(ss){
+	var pdfid=$(".pdfval").val();
+		var id=$(ss).prop("name");//获取到合同的ID
+	window.open("__ROOT__/index.php/Home/Hetong/zaixianpdf?htid="+id+"&pdfid="+pdfid+"&xzck=2");    
+}
 function pdf(ss){
 
 	var id=$(ss).prop("name");//获取到合同的ID

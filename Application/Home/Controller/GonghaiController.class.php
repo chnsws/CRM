@@ -40,6 +40,26 @@ class GonghaiController extends Controller {
 				
 	return $fzr_only;
 		}
+	public function ghrw(){
+		$base_gh=M("gonghaishezhi");
+		$sql_sz=$base_gh->select();
+		foreach($sql_sz as $k=>$v)
+		{
+			if($v['gh_open']==1)//自动划入公海是否开启
+			{
+				$base_kh=M("kh");
+				$kh_where["kh_yh"]=$v["gh_days"];
+				$sql_kh=$base_kh->where($gh_yh)->select();
+				foreach ($sql_kh as $ke => $va) {
+					
+				}
+				echo "<pre>";
+				var_dump($sql_kh);
+				
+			}
+		}
+		
+	}
     public function gonghai(){
 
     
@@ -56,6 +76,14 @@ class GonghaiController extends Controller {
   		$map['zd_yewu']="2";
   		$map['zd_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//这里通过查询获得
   		$sql=$a->where($map)->field('zd_data')->find();
+
+
+
+
+
+
+
+
 		$a_arr=json_decode($sql['zd_data'],true);
 		foreach($a_arr as $k=>$v)
 		{	if($v['qy']==1){
@@ -574,7 +602,7 @@ class GonghaiController extends Controller {
 		$this->assign('dijiye',$dijiye);
 		$this->assign('list_num',$list_num);
 		$this->assign('table',$table);
-		$this->assign('kehu1',$kh_biaoti1);//显示客户标题
+		$this->assign('kehu1',$kh_biaoti1);//显示客户标题 
 		$this->assign('kehu',$a_arr);//新增客户标题
         $this->display();
     }
@@ -602,7 +630,8 @@ class GonghaiController extends Controller {
 		 		$rz_map['rz_cz_type']=1;//1代表新建
 				$rz_map['rz_bz']="新增了客户".$a_arr['zdy0'];
 				$rz_map['rz_time']=time();
-				$rz_map['rz_user']=cookie('user_id');
+				$rz_map['rz_user']=cookie('user_id'); 
+				
 				$rz_map['rz_ip']=$loginIp;//ip
 				$rz_map['rz_place']=$loginDidianStr;//登录地点
 				$rz_map['rz_sb']=$sysbroinfo['sys'].'/'.$sysbroinfo['bro'];//ip

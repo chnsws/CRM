@@ -327,7 +327,11 @@
 		  	      </div>
 		  </div>
 		</div>     
-
+	<div style='display:none' id='shanchua'>
+			
+				<p style="margin-top: 40px;text-align: center ">	确认删除？？</p>
+			
+		</div>
 	</body>
 	<script>
 			for(var i=0;i<12;i++){
@@ -357,7 +361,20 @@
 		
 		}
 		function del_check(ss){
-    			var checked_str=$(".bingou").val();
+			layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'630px',
+								fixed: false,
+								title: '删除商机',
+								content:$('#shanchua'),
+								btn:['确认删除','取消'],
+						
+								btn1:function(){
+									
+									var checked_str=$(".bingou").val();
     			
     			$.get('__ROOT__/index.php/Home/Shangji/del_shangji',{"id":checked_str},
 		        		 function(html){
@@ -366,6 +383,11 @@
 		        				 				location="__ROOT__/index.php/Home/Shangji/shangji";
 		                   });
 
+								}
+							}); 
+						});  
+
+    		
     		}
 	$(function(){
 		$('.xlss').searchableSelect();

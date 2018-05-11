@@ -230,7 +230,7 @@ class LianxirenmingchengController extends Controller {
 					}
 					
 				}else{
-					$show.="<td><span style='margin-left:30px'>未填写</span></td>";
+					$show.="<td><span style='margin-left:30px'>---</span></td>";
 				}
 			$show.="</tr>";
 		}
@@ -255,7 +255,7 @@ class LianxirenmingchengController extends Controller {
 					$show1.="<td><span style='margin-left:30px'>".$sql_lianxi[$k]."</span></td>";
 					}
 				}else{
-					$show1.="<td><span style='margin-left:30px'>未填写</span></td>";
+					$show1.="<td><span style='margin-left:30px'>---</span></td>";
 				}
 			$show1.="</tr>";
 		}
@@ -327,14 +327,14 @@ class LianxirenmingchengController extends Controller {
 					
 						
 						}elseif($k=='zdy15'){
-						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd '".'})"'."  style='width:300px;height:26px;' placeholder='未填写'></td>";
+						$show3.="<td><input type='text' name='".$k."' class='required1 ui-widget-content ui-corner-all' onfocus=".'"WdatePicker({dateFmt:'."'yyyy-MM-dd '".'})"'."  style='width:300px;height:26px;' placeholder='---'></td>";
 
 					
 						}elseif($k=='zdy10'){
 
-						$show3.="<td><input type='text' name='".$k."'  class='qingyx yxyza'  onchange='yxyz(this)' style='width:300px;height:26px;' placeholder='未填写' maxlength='40'></td>";
+						$show3.="<td><input type='text' name='".$k."'  class='qingyx yxyza'  onchange='yxyz(this)' style='width:300px;height:26px;' placeholder='---' maxlength='40'></td>";
 						}elseif($k=='zdy6'){
-						$show3.="<td><input type='text' name='".$k."' style='width:300px;height:26px;'  class='qingyx1 sjyzacc'    onchange='sjyz(this)' placeholder='未填写'></td>";
+						$show3.="<td><input type='text' name='".$k."' style='width:300px;height:26px;'  class='qingyx1 sjyzacc'    onchange='sjyz(this)' placeholder='---'></td>";
 		
 						}elseif($k=='zdy5'){
 								$zuoji = explode('-',$lx_json[$k]);
@@ -346,7 +346,7 @@ class LianxirenmingchengController extends Controller {
 						}elseif($k=='zdy16'){
 						$show3.="<td><textarea name='".$k."' class='required' maxlength='400' style='width:300px' rows='2' cols='38' placeholder='最大长度400'>".$lx_json[$k]."</textarea></td>";
 						}else{
-							$show3.="<td><input type='text' name='".$k."' style='width:300px;height:26px;' placeholder='未填写' maxlength='40'></td>";
+							$show3.="<td><input type='text' name='".$k."' style='width:300px;height:26px;' placeholder='---' maxlength='40'></td>";
 						}
 				}
 			$show3.="</tr>";
@@ -595,7 +595,7 @@ return $fzr_only;
 							}
 							
 						}else{
-							$show.="<td><span style='margin-left:30px'>未填写</span></td>";
+							$show.="<td><span style='margin-left:30px'>---</span></td>";
 						}
 					$show.="</tr>";
 				}

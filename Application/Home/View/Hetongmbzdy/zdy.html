@@ -61,6 +61,7 @@
 											border-radius: 4px;'  value="{$name}" class='namea' name="name" ></td>
 											<td><span style='margin-left:30px'>	查看/修改已保存模板：{$rongqi}</span></td>
 											<td><input style='margin-left:20px' type='button' class='uk-button'  onclick='pdfpz()' name='cpgd' value='PDF配置' > </td>
+											<td><input style='margin-left:20px;' type='button' class='uk-button'  onclick='shanchumb()' id='scmb' value='删除此模板' > </td>
 										</tr>
 										</table>
 											
@@ -219,7 +220,7 @@
 	<input type='hidden' class="xiugaia" value="{$xiugaia}">
 	</body>
 	<script>
-		//
+		$("#scmb").hide();
 		layui.use('element', function(){
 		  var element = layui.element;
 		  
@@ -248,7 +249,7 @@
 
 		if(xiugaia=="xiugaia")
 		{
-
+				$("#scmb").show()
 				var ymkq=$('input:radio[name="ym"]:checked').val();
 						var ymbt=$(".ymbt").val();
 						var ymnr=$(".ymnr").val();
@@ -268,8 +269,15 @@
 			    });
 			}
 		function shaixuana(){
+
 			var sx=$(".shaixuan").val();
 			window.location='__ROOT__/index.php/Home/Hetongmbzdy/chaxun?id='+sx;
+			
+		}
+		function shanchumb(){
+
+			var sx=$(".shaixuan").val();
+			window.location='__ROOT__/index.php/Home/Hetongmbzdy/shanchu?id='+sx;
 			
 		}
 		function pdfpz(){		

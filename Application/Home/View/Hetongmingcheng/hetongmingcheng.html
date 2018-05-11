@@ -569,7 +569,7 @@ i.layui-anim{display:inline-block}
 				  			<form id="uploadform" action="__ROOT__/index.php/Home/Hetongmingcheng/fj_shangchuan/id/{$ht_id}" enctype="multipart/form-data" method="post" style="margin:20px;">
 			  					<input type="file" name="wenjian"  >
 			  					
-			  					<div class='jiu' id="shangc_top" style="margin-top:20px"><span class="top_bz">备&nbsp;&nbsp;&nbsp;&nbsp;注：</span><!-- 第一个是普通textarea -->
+			  					<div class='jiu uk-form' id="shangc_top" style="margin-top:20px"><span class="top_bz">备&nbsp;&nbsp;&nbsp;&nbsp;注：</span><!-- 第一个是普通textarea -->
 
 							<textarea name="wenbenyu" class="comments" rows="5" cols="30"> </textarea>  </div>
 								
@@ -677,7 +677,11 @@ i.layui-anim{display:inline-block}
 <div id='aaa'></div>
 
 
-
+<div style='display:none' id='shanchua'>
+			
+				<p style="margin-top: 40px;text-align: center ">	确认删除？？</p>
+			
+		</div>
 
 
 	</body>
@@ -828,8 +832,13 @@ i.layui-anim{display:inline-block}
 												 
         		 								//tishi(html)
 												$(".th_sj").html(html);
-												layer.close(win)
+												//layer.close(win)
 											});
+    			$.get('__ROOT__/index.php/Home/Shangji/lxr_get',{"id":kh_id},
+			 				function(html){
+											$(".lx_th").html(html);
+										
+							});
     		}
     		var ace=0;
 		  function add_cpp(){
@@ -1477,14 +1486,31 @@ function bjjh(thisdom){
 						});  
 	}
 	function del_check(ss){
-    			var checked_str=$(ss).prop('id');
-    			
-    			$.get('__ROOT__/index.php/Home/Hetong/del',{"id":checked_str},
-		        		 function(html){
-		        		 		tishi("删除成功")
-		        				 				location="__ROOT__/index.php/Home/Hetong/hetong";
-		                   });
+		layui.use('layer', function(){
+							var layer = layui.layer;
+							var win=layer.open({
+								type:1,
+								offset: 't',
+								area:'630px',
+								fixed: false,
+								title: '删除合同',
+								content:$('#shanchua'),
+								btn:['确认删除','取消'],
+						
+								btn1:function(){
+										var checked_str=$(ss).prop('id');
+				    			
+				    						$.get('__ROOT__/index.php/Home/Hetong/del',{"id":checked_str},
+						        		 function(html){
+						        		 		tishi("删除成功")
+						        				 				location="__ROOT__/index.php/Home/Hetong/hetong";
+						             });   
 
+								}
+							}); 
+						});  
+
+    			
     		}
     		var is_one=0;
      function change_fun(v2)

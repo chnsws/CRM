@@ -62,7 +62,7 @@ class ShangjiController extends Controller {
 	//	echo "<pre>";
 		//var_dump($ywcs_json);exit;                       //获取商机配置表参数
 		$fenye=$_GET['fenye'];
-		if($fenye==null || $fenye=='')
+		if($fenye==null || $fenye=='') 
 		{
 			$list_num=20;
 		}else{

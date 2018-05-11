@@ -101,6 +101,44 @@ $sql1=$m->where($where2)->select();
 	
 		
 	}
+	function shanchu(){
+		$where['id']=$_GET['id'];
+		
+		$m=M('zdymb');
+		$where['logo']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+		$sql=$m->where($where)->delete();
+
+	$where2['logo']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');
+$sql1=$m->where($where2)->select();
+		$rongqi.="<select onchange='shaixuana()' class='shaixuan' style='height: 30px;
+		max-width: 100%;
+		width:185px;
+		padding: 4px 6px;
+		border: 1px solid #ddd;
+		background: #fff;
+		color: #444;
+		-webkit-transition: all linear .2s;
+		transition: all linear .2s;
+		border-radius: 4px;' name='' >";
+			foreach($sql1 as $k=>$v)
+			{
+				if($v['id']==$where['id'])
+				{
+					$rongqi.="<option value=".$v['id']."  selected='true'>".$v['name']."</option>";
+				}else{
+					$rongqi.="<option value=".$v['id']." >".$v['name']."</option>";
+				}
+				
+			}
+			$rongqi.="</select  >";
+		
+			$this->assign("rongqi",$rongqi);
+		$this->display("zdy");
+		
+ 
+	
+		
+	}
 	public function pdf1(){
 		
 		/*$header =  

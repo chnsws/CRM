@@ -97,7 +97,7 @@ class ShenpiController extends Controller {
 					<table class='layui-table' >
 				  	<thead>
 				  			<tr>	
-			                		<th>操作</th>
+			                		<th style='width:120px'>操作</th>
 			                		<th>回款期次</th>
 			                		<th>合同名称</th>
 			                		<th>合同负责人</th>
@@ -116,7 +116,7 @@ class ShenpiController extends Controller {
 						 foreach($huikuan1 as $k=>$v)
 						 {
 								$hk_show.="<tr>
-										<td><span style='color:#07d;cursor:pointer' class='".$v['sp_id']."' onclick='tongguo(this)'>通过</span><span style='color:#07d;margin-left:20px;cursor:pointer'  class='".$v['sp_id']."' onclick='bohui(this)'>驳回</span></td>
+										<td><span style='color:#07d;cursor:pointer;width:120px' class='".$v['sp_id']."' onclick='tongguo(this)'>通过</span><span style='color:#07d;margin-left:20px;cursor:pointer'  class='".$v['sp_id']."' onclick='bohui(this)'>驳回</span></td>
 										<td>第".$v['hk_qici']."期</td>
 										<td><div style='width:250px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['hk_ht']]['name']."'>".$ht_name[$v['hk_ht']]['name']."</div></td>
 										<td>".$user_name[$ht_name[$v['hk_ht']]['fz']]['user_name']."</td>
@@ -145,7 +145,7 @@ class ShenpiController extends Controller {
 					<table class='layui-table' >
 				  	<thead>
 				  			<tr>	
-			                		<th>操作</th>
+			                		<th style='width:120px'>操作</th>
 			                		<th>回款期次</th>
 			                		<th>合同名称</th>
 			                		<th>合同负责人</th>
@@ -193,7 +193,7 @@ class ShenpiController extends Controller {
 					<table class='layui-table' >
 				  	<thead>
 				  			<tr>	
-			                		<th>操作</th>
+			                		<th style='width:120px'>操作</th>
 			                		<th>回款期次</th>
 			                		<th>合同名称</th>
 			                		<th>合同负责人</th>
@@ -241,7 +241,7 @@ class ShenpiController extends Controller {
 					<table class='layui-table' >
 				  	<thead>
 				  			<tr>	
-			                		<th>操作</th>
+			                		<th style='width:120px'>操作</th>
 			                		<th>回款期次</th>
 			                		<th>合同名称</th>
 			                		<th>合同负责人</th>
@@ -409,7 +409,7 @@ class ShenpiController extends Controller {
 					<table class='layui-table' >
 				  	<thead>
 				  			<tr>	
-			                		<th>操作</th>
+			                		<th style='width:120px'>操作</th>
 			                		<th>合同名称</th>
 			                		<th>合同负责人</th>
 			                		<th>对应客户</th>
@@ -435,7 +435,7 @@ class ShenpiController extends Controller {
 								$kp_show.="<tr>
 										<td>";
 									
-									$kp_show.="<span style='color:#07d;cursor:pointer' class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['kp_id']."'  onclick='kp_tongguo(this)'>通过</span><span style='color:#07d;margin-left:20px;cursor:pointer'  class='".$v['sp_id']."' id = '".$v['sp_tp']."' name='".$v['kp_id']."' onclick='kp_bohui(this)'>驳回</span>";
+									$kp_show.="<span style='color:#07d;cursor:pointer;width:120px' class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['kp_id']."'  onclick='kp_tongguo(this)'>通过</span><span style='color:#07d;margin-left:20px;cursor:pointer'  class='".$v['sp_id']."' id = '".$v['sp_tp']."' name='".$v['kp_id']."' onclick='kp_bohui(this)'>驳回</span>";
 							
 									
 									$kp_show.="</td>
@@ -478,7 +478,7 @@ class ShenpiController extends Controller {
 					<table class='layui-table' >
 				  	<thead>
 				  			<tr>	
-			                		<th>操作</th>
+			                		<th style='width:120px'>操作</th>
 			                		<th>合同名称</th>
 			                		<th>合同负责人</th>
 			                		<th>对应客户</th>
@@ -542,7 +542,7 @@ class ShenpiController extends Controller {
 					<table class='layui-table' >
 				  	<thead>
 				  			<tr>	
-			                		<th>操作</th>
+			                		<th style='width:120px'>操作</th>
 			                		<th>合同名称</th>
 			                		<th>合同负责人</th>
 			                		<th>对应客户</th>
@@ -605,7 +605,7 @@ class ShenpiController extends Controller {
 					<table class='layui-table' >
 				  	<thead>
 				  			<tr>	
-			                		<th>操作</th>
+			                		<th style='width:120px'>操作</th>
 			                		<th>合同名称</th>
 			                		<th>合同负责人</th>
 			                		<th>对应客户</th>
@@ -713,7 +713,7 @@ class ShenpiController extends Controller {
 					<table class='layui-table' >
 				  	<thead>
 				  			<tr>	
-			                		<th>操作</th>
+			                		<th style='width:120px'>操作</th>
 			                		<th>合同标题</th>
 			                		<th>对应客户</th>
 			                		<th>对应商机</th>
@@ -737,7 +737,7 @@ class ShenpiController extends Controller {
 						{
 							$ht_show.="<tr>
 										<td>";
-											$ht_show.="<div style='color:#07d;cursor:pointer;width:80px'><span class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_tongguo(this)'>通过</span><span style='color:#07d;cursor:pointer;margin-left:20px'  class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_bohui(this)'>驳回</span></div></td>";
+											$ht_show.="<div style='color:#07d;cursor:pointer;width:120px'><span class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_tongguo(this)'>通过</span><span style='color:#07d;cursor:pointer;margin-left:20px'  class='".$v['sp_id']."'  id = '".$v['sp_tp']."' name='".$v['sp_sjid']."'  onclick='ht_bohui(this)'>驳回</span></div></td>";
 							
 										$ht_show.="	<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['sp_sjid']]['name']."'>".$ht_name[$v['sp_sjid']]['name']."</div></td>
 											<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."'>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</div></td>
@@ -770,7 +770,7 @@ class ShenpiController extends Controller {
 					<table class='layui-table' >
 				  	<thead>
 				  			<tr>	
-			                		<th>操作</th>
+			                		<th style='width:120px'>操作</th>
 			                		<th>合同标题</th>
 			                		<th>对应客户</th>
 			                		<th>对应商机</th>
@@ -796,7 +796,7 @@ class ShenpiController extends Controller {
 										<td>";
 											$ht_show1.="您已通过</td>";
 							
-								$ht_show1.="	<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$ht_name[$v['sp_sjid']]['name']."'>".$ht_name[$v['sp_sjid']]['name']."</div></td>
+								$ht_show1.="	<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer;style='width:120px'' title='".$ht_name[$v['sp_sjid']]['name']."'>".$ht_name[$v['sp_sjid']]['name']."</div></td>
 											<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."'>".$kh_name[$ht_name[$v['sp_sjid']]['zdy1']]['name']."</div></td>
 											<td><div style='width:400px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;cursor:pointer ' title='".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."'>".$sj_name[$ht_name[$v['sp_sjid']]['zdy2']]['name']."</div></td>
 											<td>".$ht_name[$v['sp_sjid']]['zdy3']."</td>
@@ -827,7 +827,7 @@ class ShenpiController extends Controller {
 					<table class='layui-table' >
 				  	<thead>
 				  			<tr>	
-			                		<th>操作</th>
+			                		<th style='width:120px'>操作</th>
 			                		<th>合同标题</th>
 			                		<th>对应客户</th>
 			                		<th>对应商机</th>

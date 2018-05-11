@@ -326,7 +326,7 @@
 								<td><span style="color:red">*</span>负责人：</td>
 								 <td>
 								 	<select name="fuzeren" id='ss3'  class ="clk_fzr required xlss" style='width:300px;height:30px;'>
-								 		<option value="">请选择</option>
+								 		<option value="">请选择a</option>
 								 		<foreach name="fuzeren" item="vo">
 								 			<option value="{$vo.user_id}">{$vo.user_name}</option>
 								 		</foreach> 
@@ -393,10 +393,15 @@
 								</td>			
 						</tr>
 						<tr class="addtr">
+									<td>产品描述：</td>
+										<td>
+											<textarea name="cp_miaoshu" rows="4" cols="38"> </textarea>		
+										</td>			
+								</tr>
+						<tr class="addtr">
 							<td>备注：</td>
 								<td>
-									<textarea name="cp_beizhu" rows="4" cols="40">
-									</textarea>		
+									<textarea name="cp_beizhu" rows="4" cols="38"></textarea>		
 								</td>			
 						</tr>
 						</table>

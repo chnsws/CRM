@@ -54,6 +54,13 @@ class HetongController extends Controller {
 				
 	return $fzr_only;
 		}
+		public function dnwsb(){
+			$sac=$_POST['id'];
+			$sav_base=M("weewszdx");
+			echo "<pre>";
+			var_dump($sac);
+
+		}
 		public function user(){                 //负责人和部门
 		$xiaji= $this->get_xiashu_id();;//  查询下级ID
 		$new_xiaji=$xiaji;          
@@ -296,6 +303,7 @@ public function kehu(){
 		}
 		return implode(",",$nowzgid);
 	}
+
 	public function hetong(){
 				 
 		$ywzd=$this->ywzd();      
@@ -762,8 +770,9 @@ public function kehu(){
 					}else{
 						if($v['id']=='zdy8')
 						{
+							$addcc="HT-".date("Y").date("m").date("d").date("H").date("i").date("s");
 							$show_bt1.="<tr class='addtr '><td>".$v['name'].":</td>";
-							$show_bt1.="<td><input type='text' name='".$v['id']."' value='' class='bianhao' maxlength='40'> </td></tr>	";			
+							$show_bt1.="<td><input type='text' name='".$v['id']."' value='".$addcc."' readonly='true' class='bianhao' maxlength='40'> </td></tr>	";			
 						}else{
 							$show_bt1.="<tr class='addtr '><td>".$v['name'].":</td>";
 							$show_bt1.="<td><input type='text' name='".$v['id']."' value=''  maxlength='40'> </td></tr>	";		
@@ -916,7 +925,8 @@ public function kehu(){
 				$hetong=$hetonga;
 		}
 
-		
+	//	echo "<pre>";
+	//		var_dump($hetong);exit;
 		if($hetong=='' || $hetong==null)
 		{
 				$content.="<tr><td colspan='30'><span >亲~没有数据哟！请<span  onclick='addhetong()'style='color:#1AA094;cursor:pointer;' >新增</span>合同</td></tr>";
@@ -927,6 +937,7 @@ public function kehu(){
 					$this->assign('budong','budong');
 				}
 		}else{ 
+			//$v["zdy216"]="";
 			foreach($hetong as $k=>$v)
 			{
 					$content.="<tr id='".$v['ht_id']."'>";
@@ -965,13 +976,15 @@ public function kehu(){
 				{
 					if($v[$kbt]!="")
 					{ 
+						//echo "<pre>";
+						//var_dump($kbt);
 						if($kbt=='zdy0')
 							if($v['ht_sp']==4){//审批中
 								$content.="<td><span><img  src='".__ROOT__."/Public/pdf/a.jpg' style='width:22px;cursor:pointer' onclick='pdf(this)' name='".$v['ht_id']."'  title='生成PDF'></span><span style='color:#999;cursor:pointer' class='".$v['ht_id']."' onclick='ck_spjd(this)' title='查看审批进度'>".$v[$kbt]."</span></a></td>";
 							}elseif($v['ht_sp']==0){//刚添加可发起
 								$content.="<td><img  src='".__ROOT__."/Public/pdf/a.jpg'  style='width:22px;cursor:pointer' title='生成PDF' onclick='pdf(this)' name='".$v['ht_id']."' ><a href='".__ROOT__."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' title='".$v[$kbt]."'>".$v[$kbt]."</span></a></td>";
 							}elseif($v['ht_sp']==1){//审批通过
-								$content.="<td><img src='".__ROOT__."/Public/pdf/a.jpg'  style='width:22px;cursor:pointer' title='生成PDF' onclick='pdf(this)' name='".$v['ht_id']."' ><a href='".__ROOT__."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' title='".$v[$kbt]."'>".$v[$kbt]."</span></a></td>";
+								$content.="<td><img  src='".__ROOT__."/Public/pdf/a.jpg'  style='width:22px;cursor:pointer' title='在线查看' onclick='zxyl(this)' name='".$v['ht_id']."' ><a href='".__ROOT__."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' title='".$v[$kbt]."'>".$v[$kbt]."</span></a></td>";
 
 							}else{// 审批驳回
 								$content.="<td><img  src='".__ROOT__."/Public/pdf/a.jpg'  style='width:22px;cursor:pointer' title='生成PDF' onclick='pdf(this)' name='".$v['ht_id']."' ><a href='".__ROOT__."/index.php/Home/Hetongmingcheng/hetongmingcheng/id/".$v['ht_id']."'><span style='color:cursor:#50BBB1' title='".$v[$kbt]."'>".$v[$kbt]."</span></a></td>";
@@ -1004,20 +1017,32 @@ public function kehu(){
 									$bzhu=$v[$kbt];
 								}
 								$content.="<td> <span title='".$v[$kbt]."' style='cursor:pointer'>".$bzhu." </span></td>";
-					}
+						}
 						elseif($kbt=="zdy7"||$kbt=="zdy10"||$kbt=="zdy11")
 								$content.="<td>".$ywcs[$kbt][$v[$kbt]]."</td>";
 						elseif($kbt=='ht_fz' || $kbt=='ht_cj' ||$kbt=='ht_old_fz' ||$kbt=='zdy13')
 							$content.="<td>".$user1[$v[$kbt]]['user_name']."</td>";
 						elseif($kbt=='ht_cj_date')
 							$content.="<td>".date("Y-m-d H:i:s",$v[$kbt])."</td>";
-						else
+						elseif($kbt=='zdy261'){
+							//echo $v[$kbt];
+							$lx_base=M("lx");
+						
+						$lx_map['lx_yh']=cookie('user_fid')=='0'?cookie('user_id'):cookie('user_fid');//获取所属用户（所属公司）
+						$lx_map['lx_id']=$v[$kbt];
+						$sql_lxr=$lx_base->where($lx_map)->find();
+						$json_lx=json_decode($sql_lxr['lx_data'],true);
+					//	echo "<pre>";
+					//	var_dump($json_lx);exit;
+							$content.="<td>".$json_lx['zdy0']."</td>";
+						}else{
 							$content.="<td>".$v[$kbt]."</td>";
+						}
 					}else{
 						if($kbt=='zdy14')
 						{
 							$content.="<td  onclick='ht_fj(this)' class='".$v['ht_id']."' title='点击查看产品' style='color:#1AA094;cursor:pointer'>附件</td>";	
-						}elseif($kbt=='zdy9')
+						}elseif($kbt=='zdy9')//
 						{
 							$content.="<td onclick='ht_cp(this)' class='".$v['ht_id']."' title='点击查看附件' style='color:#1AA094;cursor:pointer'>产品</td>";	
 						}else{
@@ -1100,7 +1125,7 @@ public function kehu(){
 		
 		$this->display();
 	}
-	public function cp_ck(){
+	public function cp_ck(){//45789
 			//产品查询
 			$chanpin=$this->chanpin();
 			$cp['cp_mk']=6;
@@ -1146,7 +1171,7 @@ public function kehu(){
 		$num=1;
 		$sj_th.="<select class='bjwh'>";
 		$sj_th.="<option value=''>--请选择--</option>";
-		$sj_th.="<option value='xzsj'>新增商机(此商机对应商机)</option>";
+		//$sj_th.="<option value='xzsj'>新增商机(此商机对应商机)</option>";
 		foreach($shangji as $k => $v)
 		{	
 			if($v['zdy1']==$id)
@@ -1159,7 +1184,7 @@ public function kehu(){
 	
 		$sj_th3.="<select class='bjwh'>";
 			$sj_th3.="<option value=''>请添加对应商机 </option>";
-			$sj_th3.="<option value='xzsj'>新增商机(此商机对应商机)</option>";
+			//$sj_th3.="<option value='xzsj'>新增商机(此商机对应商机)</option>";
 		$sj_th3.="</select>";
 		if($num>1){
 			echo $sj_th;
@@ -1168,6 +1193,7 @@ public function kehu(){
 		}
 		
 	}
+	
 	public function get_bm(){
 		$id=$_GET['id'];
 		$user=$this->user();

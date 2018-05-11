@@ -241,7 +241,7 @@ return $fzr_only;
 							}
 							$show.="<td> <span title='".$ht_json[$k]."' style='cursor:pointer'>".$bzhu." </span></td>";
 					}else{
-						$show.="<td >未填写</td>";	
+						$show.="<td >---</td>";	
 					}
 					
 				}
@@ -276,7 +276,7 @@ return $fzr_only;
 						}
 							    
 				}else{
-					$show1.="<td >未填写</td>";
+					$show1.="<td >---</td>";
 				}
 				$show1.="</tr>";
 			} 
@@ -300,6 +300,8 @@ return $fzr_only;
 						{
 							if($k2==$ht_json[$k])
 							$show3.="<option value='".$v2['id']."' selected='selected'>".$v2['name']."</option>";
+							else
+							$show3.="<option value='".$v2['id']."'>".$v2['name']."</option>";
 							
 						}
 						$show3.="</select></td>";	
@@ -358,6 +360,12 @@ return $fzr_only;
 
 							}
 						$show3.="</select></td>";	
+					}elseif($k=="zdy261")
+					{
+							$show3.="<td class='lx_th' ><select name='$k'  class='bjwh htlxr' name='$k'>";
+
+							$show3.="<option value=''>".$ht_json[$k]."</option>";
+							$show3.="</select></td>";	
 					}elseif($k=='zdy17'){
 								$show3.="<td><textarea name='".$k."'  maxlength='400' style='width:300px' rows='4' cols='38' placeholder='最大长度400' >".$ht_json[$k]."</textarea></td>";
 							}else{
@@ -1181,6 +1189,7 @@ return $fzr_only;
 				<td>".$v['cp_zk']."</td>
 				<td>".$v['cp_zj']."</td>
 			
+				<td>".$v['cp_miaoshu']."</td>
 				<td>".$v['cp_beizhu']."</td>
 				<td><input type='button' name='".$v['cp_id1']."' onclick='cp_del(this)' value='删除'></td>
 				</tr>";

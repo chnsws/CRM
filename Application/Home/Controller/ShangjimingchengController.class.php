@@ -218,7 +218,7 @@ return $fzr_only;
 				$show.="<tr class='ways'><td width='30%' >".$vbt['name'].":</td>";
 				if($sql_rh[$kbt]=="")
 				{	
-					$show.="<td class='ertd'>未填写</td>";
+					$show.="<td class='ertd'>---</td>";
 				}else{
 					if($kbt=="zdy1")
 					{
@@ -294,7 +294,7 @@ return $fzr_only;
 			$show1.="<tr  class='ways'><td  width='30%' >".$v['name'].":</td>";
 			if($sql_rh[$k]=="") 
 			{
-				$show1.="<td>未填写</td>";
+				$show1.="<td>---</td>";
 			}else{
 				//echo $k;
 				if($k=="sj_fz")

@@ -10,6 +10,10 @@ class KehuController extends Controller {
 		$sl=json_encode($array,true);
 		echo $sl;
 	}
+	public function aa(){
+	//echo '1';
+		$this->display();
+	}
     public function kehu(){
     	$xiaji= $this->get_xiashu_id();//  查询下级ID\
     	//$kehuname=$this->kehuname();
@@ -345,7 +349,7 @@ class KehuController extends Controller {
 						$show_bt2.="<tr class='addtr ncy' style='display: none;border:1px'><td>".$v['name']."：</td>";
 						$show_bt2.="<td><select  name='".$v['id']."'>";
 								$show_bt2.="<option >--请选择--</option>";
-							foreach($ywcs_wysend[$v['id']] as $k=>$v)
+							foreach($ywcs_wysend[$v['id']] as $k=>$v)//志强孩子200 富强结婚300 王浩结婚888 镇远结婚600 小坤结婚 200 姐孩子1000  
 							{
 								$show_bt2.="<option value='".$k."'>".$v."</option>";
 							}
@@ -413,7 +417,7 @@ class KehuController extends Controller {
 		$conf_sql=$conf->field("config_kh_data")->find();
 		$conf_sql_json=json_decode($conf_sql['config_kh_data'],true);
 		if($sxaaa!=""){
-				foreach($kehu as  $k=>$v)
+				foreach($kehu as  $k=>$v)//
 				{
 					foreach($v as $k1 =>$v1)
 					{
@@ -730,7 +734,17 @@ class KehuController extends Controller {
 		$this->assign('kehu',$a_arr);//新增客户标题
         $this->display();
     }
+    //临时测试可删除
+    public function wangyushuai(){
+  
+  		
+    	for($i=0;$i<100;$i++)
+    	{	
+    		echo "<pre>";
+    		echo "".rand(0,0)."<br />";
+    	}
 
+    }
     public function index4(){
     	$this->display();
     }
